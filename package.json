@@ -1,4 +1,13 @@
 {
   "name": "fintopedia",
-  "packageManager": "yarn@4.2.2"
+  "packageManager": "yarn@3.6.4",
+  "private": true,
+  "author": "Ankit Singh <aks.11feb@gmail.com>",
+  "license": "MIT",
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": []
+  }
 }
