@@ -9,5 +9,21 @@
       "packages/*"
     ],
     "nohoist": []
+  },
+  "scripts": {
+    "start": "yarn workspace fintoMobile start --reset-cache",
+    "android": "yarn workspace fintoMobile android",
+    "ios": "yarn workspace fintoMobile ios",
+    "web": "yarn workspace web dev",
+    "web:build": "yarn workspace web build",
+    "pods": "yarn workspace fintoMobile pod:install",
+    "clean": "rm -rf node_modules packages/*/node_modules && yarn workspace fintoMobile pod:clean",
+    "shared:build": "yarn workspace shared build",
+    "shared:node": "yarn workspace shared install"
+  },
+  "dependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-native": "*"
   }
 }

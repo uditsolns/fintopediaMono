@@ -1,0 +1,19 @@
+{
+  "name": "shared",
+  "packageManager": "yarn@3.6.4",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "postinstall": "yarn build",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.7"
+  }
+}
