@@ -9,10 +9,6 @@
     "postinstall": "yarn build",
     "watch": "tsc --watch"
   },
-  "dependencies": {
-    "react": "*",
-    "react-native": "*"
-  },
   "devDependencies": {
     "rimraf": "^5.0.7"
   }

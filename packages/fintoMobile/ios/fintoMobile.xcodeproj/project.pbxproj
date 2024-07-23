@@ -8,12 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* fintoMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* fintoMobileTests.m */; };
+		072C0D511C07435585A15B71 /* InterTight-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 93B4AF499F1C42FFA0084E9E /* InterTight-Bold.ttf */; };
 		0C80B921A6F3F58F76C31292 /* libPods-fintoMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-fintoMobile.a */; };
+		11AF6F8387734EB4A23A383E /* InterTight-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA9B3C15698A449585432701 /* InterTight-Regular.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2B361D31CDD34C4CBA612620 /* InterTight-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F718C16839F040C1AC17B1C2 /* InterTight-SemiBold.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-fintoMobile-fintoMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-fintoMobile-fintoMobileTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		E8D44A1B23934085B07A1953 /* InterTight-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9F94C18CA9E44A287B28610 /* InterTight-Medium.ttf */; };
 		FA4804D3B0E34D32E4AC242F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A3AC34C98CAEA29898CA5A6A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -45,8 +49,12 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-fintoMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fintoMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = fintoMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-fintoMobile-fintoMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fintoMobile-fintoMobileTests.release.xcconfig"; path = "Target Support Files/Pods-fintoMobile-fintoMobileTests/Pods-fintoMobile-fintoMobileTests.release.xcconfig"; sourceTree = "<group>"; };
+		93B4AF499F1C42FFA0084E9E /* InterTight-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "InterTight-Bold.ttf"; path = "../../../node_modules/shared/src/assets/fonts/InterTight-Bold.ttf"; sourceTree = "<group>"; };
 		A3AC34C98CAEA29898CA5A6A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = fintoMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A9F94C18CA9E44A287B28610 /* InterTight-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "InterTight-Medium.ttf"; path = "../../../node_modules/shared/src/assets/fonts/InterTight-Medium.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F718C16839F040C1AC17B1C2 /* InterTight-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "InterTight-SemiBold.ttf"; path = "../../../node_modules/shared/src/assets/fonts/InterTight-SemiBold.ttf"; sourceTree = "<group>"; };
+		FA9B3C15698A449585432701 /* InterTight-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "InterTight-Regular.ttf"; path = "../../../node_modules/shared/src/assets/fonts/InterTight-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +135,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				DB1EB85D5F9940CA8095A08A /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -151,6 +160,18 @@
 				89C6BE57DB24E9ADA2F236DE /* Pods-fintoMobile-fintoMobileTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		DB1EB85D5F9940CA8095A08A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				93B4AF499F1C42FFA0084E9E /* InterTight-Bold.ttf */,
+				A9F94C18CA9E44A287B28610 /* InterTight-Medium.ttf */,
+				FA9B3C15698A449585432701 /* InterTight-Regular.ttf */,
+				F718C16839F040C1AC17B1C2 /* InterTight-SemiBold.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,6 +270,10 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				FA4804D3B0E34D32E4AC242F /* PrivacyInfo.xcprivacy in Resources */,
+				072C0D511C07435585A15B71 /* InterTight-Bold.ttf in Resources */,
+				E8D44A1B23934085B07A1953 /* InterTight-Medium.ttf in Resources */,
+				11AF6F8387734EB4A23A383E /* InterTight-Regular.ttf in Resources */,
+				2B361D31CDD34C4CBA612620 /* InterTight-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,7 +619,7 @@
 					"$(inherited)",
 					" ",
 				);
-				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
 			};
@@ -669,7 +694,7 @@
 					"$(inherited)",
 					" ",
 				);
-				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;

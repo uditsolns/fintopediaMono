@@ -22,7 +22,6 @@
     "shared:node": "yarn workspace shared install"
   },
   "dependencies": {
-    "react": "*",
     "react-dom": "*",
     "react-native": "*"
   }

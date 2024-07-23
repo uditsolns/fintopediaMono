@@ -1,0 +1,21 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "../../node_modules/shared/src/assets/fonts/InterTight-Bold.ttf",
+      "sha1": "c60ed01f368fcae1cce8ceac862452e591320da6"
+    },
+    {
+      "path": "../../node_modules/shared/src/assets/fonts/InterTight-Medium.ttf",
+      "sha1": "07cf5cdb9b660146a0935a5cc166ec2a0717a151"
+    },
+    {
+      "path": "../../node_modules/shared/src/assets/fonts/InterTight-Regular.ttf",
+      "sha1": "63ceeac81a3a036211fba29046e606752fe7ea8e"
+    },
+    {
+      "path": "../../node_modules/shared/src/assets/fonts/InterTight-SemiBold.ttf",
+      "sha1": "77db62dbddcf448fa1b633e6da3b76480f3ca559"
+    }
+  ]
+}

@@ -15,6 +15,7 @@ const path = require('path');
  */
 const config = {
   transformer: {
+    babelTransformerPath: require.resolve('react-native-svg-transformer'),
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
@@ -26,7 +27,8 @@ const config = {
     extraNodeModules: {
       shared: path.resolve(__dirname, '../shared'),
     },
-    sourceExts: [...defaultSourceExts, 'native.tsx', 'web.tsx'],
+    assetExts: defaultAssetExts.filter(ext => ext !== 'svg'),
+    sourceExts: [...defaultSourceExts, 'svg', 'native.tsx', 'web.tsx'],
   },
   watchFolders: [
     path.resolve(__dirname, '../../node_modules'),
