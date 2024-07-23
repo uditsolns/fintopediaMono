@@ -7,6 +7,11 @@ const defaultAssetExts =
 
 const path = require('path');
 
+// Find the project and workspace directories
+const projectRoot = __dirname;
+// This can be replaced with `find-yarn-workspace-root`
+const monorepoRoot = path.resolve(projectRoot, '../..');
+
 /**
  * Metro configuration
  * https://reactnative.dev/docs/metro
@@ -25,15 +30,19 @@ const config = {
   },
   resolver: {
     extraNodeModules: {
-      shared: path.resolve(__dirname, '../shared'),
+      '@shared': path.resolve(monorepoRoot, 'shared'),
     },
+    nodeModulesPaths: [
+      path.resolve(projectRoot, 'node_modules'),
+      path.resolve(monorepoRoot, 'node_modules/shared'),
+    ],
     assetExts: defaultAssetExts.filter(ext => ext !== 'svg'),
     sourceExts: [...defaultSourceExts, 'svg', 'native.tsx', 'web.tsx'],
   },
   watchFolders: [
-    path.resolve(__dirname, '../../node_modules'),
-    path.resolve(__dirname, '../../node_modules/shared'),
+    path.resolve(monorepoRoot, 'node_modules'),
+    path.resolve(monorepoRoot, 'node_modules/shared'),
   ],
 };
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+module.exports = mergeConfig(getDefaultConfig(projectRoot), config);
