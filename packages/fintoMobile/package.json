@@ -12,10 +12,13 @@
     "pod:clean": "cd ios && rm -rf Pods Podfile.lock"
   },
   "dependencies": {
+    "formik": "^2.4.6",
     "react": "18.2.0",
     "react-native": "0.74.3",
     "react-native-svg": "^15.4.0",
-    "react-native-svg-transformer": "^1.5.0"
+    "react-native-svg-transformer": "^1.5.0",
+    "shared": "1.0.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
