@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* styles/global.css */
+body {
+  min-height: 100vh;
+  background: linear-gradient(
+    245.33deg,
+    #2d303d 0%,
+    #212330 28.6%,
+    #101320 65.15%,
+    #111521 78%,
+    #0d0f1b 100%
+  );
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-family: "Arial", sans-serif;
+}
+.background-gradient {
+  background: linear-gradient(
+    245.33deg,
+    #2d303d 0%,
+    #212330 28.6%,
+    #101320 65.15%,
+    #111521 78%,
+    #0d0f1b 100%
+  ) !important;
+}
+.modal-backdrop {
+  background-color: black !important;
+}
+
+.black-background .modal-content {
+  background: linear-gradient(
+    245.33deg,
+    #2d303d 0%,
+    #212330 28.6%,
+    #101320 65.15%,
+    #111521 78%,
+    #0d0f1b 100%
+  ) !important;
+}
+h1 {
+  font-size: 30px !important;
+}
+.bgBlack {
+  background-color: #121212 !important;
+}
