@@ -1,13 +1,15 @@
-import {mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
+import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
-import {Text, View} from 'react-native';
+import {MainRoutes} from './routes/Main.routes';
+import {AuthRoutes} from './routes/Auth.routes';
 
 interface AppNavigationProps {}
 
 export const AppNavigation: React.FC<AppNavigationProps> = ({}) => {
   return (
-    <View style={{width: WINDOW_WIDTH}}>
-      <Text style={{paddingHorizontal: mScale.base}}>AppNavigation</Text>
-    </View>
+    <NavigationContainer>
+      <AuthRoutes />
+      {/* <MainRoutes /> */}
+    </NavigationContainer>
   );
 };

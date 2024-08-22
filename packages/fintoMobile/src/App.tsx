@@ -18,12 +18,14 @@ import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import {Images} from '@shared/src/assets/index';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {colorPresets} from '@shared/src/theme/color';
+import {AppNavigation} from './navigation/AppNavigation';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1,
   };
 
   return (
@@ -32,26 +34,7 @@ function App(): React.JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <Images.SVG.Home
-        width={moderateScale(100)}
-        color={colorPresets.SECONDARY}
-      />
-      <Images.SVG.Courses
-        width={moderateScale(100)}
-        color={colorPresets.SECONDARY}
-      />
-      <Images.SVG.Mock
-        width={moderateScale(100)}
-        color={colorPresets.SECONDARY}
-      />
-      <Images.SVG.Event
-        width={moderateScale(100)}
-        color={colorPresets.SECONDARY}
-      />
-      <Images.SVG.User
-        width={moderateScale(100)}
-        color={colorPresets.SECONDARY}
-      />
+      <AppNavigation />
     </SafeAreaView>
   );
 }

@@ -58,10 +58,15 @@ export const fontPresets: Record<string, TextStyle> = {
   },
   xLarge: {
     ...regular,
-    ...scaleFont(18),
+    ...scaleFont(20),
     letterSpacing: 0,
   },
   large: {
+    ...regular,
+    ...scaleFont(18),
+    letterSpacing: 0,
+  },
+  body: {
     ...regular,
     ...scaleFont(16),
     letterSpacing: 0,
