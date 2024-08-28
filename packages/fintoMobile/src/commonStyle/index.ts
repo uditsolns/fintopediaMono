@@ -1,0 +1,42 @@
+import { WINDOW_HEIGHT, WINDOW_WIDTH } from '@shared/src/theme/metrics';
+import { StyleSheet } from 'react-native';
+
+export const commonStyle = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  flexStart: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  flexEnd: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+  },
+  flexCenter: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  flexSpaceBetween: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  fullPageLoading: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    width: WINDOW_WIDTH,
+    height: WINDOW_HEIGHT,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    zIndex: 1,
+  },
+  underline: {
+    textDecorationLine: 'underline',
+  },
+});
