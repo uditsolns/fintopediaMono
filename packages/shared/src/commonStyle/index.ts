@@ -1,5 +1,6 @@
-import { WINDOW_HEIGHT, WINDOW_WIDTH } from '@shared/src/theme/metrics';
+
 import { StyleSheet } from 'react-native';
+import { WINDOW_HEIGHT, WINDOW_WIDTH } from '../theme/metrics';
 
 export const commonStyle = StyleSheet.create({
   container: {

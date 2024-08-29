@@ -2,14 +2,25 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import * as React from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { NativeScrollEvent, NativeSyntheticEvent, ScrollView } from 'react-native';
-import { WINDOW_WIDTH } from '@shared/src/theme/metrics';
+import {useNavigation} from '@react-navigation/native';
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
+import {commonStyle} from '@shared/src/commonStyle/index';
+import {colorPresets} from '@shared/src/theme/color';
+import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
+import { RouteKeys } from '@src/navigation/RouteKeys';
 
 interface OnboardingProps {
   title: string;
   description: string;
-  image: string | null;
+  image: number | string;
 }
 
 const data: OnboardingProps[] = [
@@ -17,24 +28,23 @@ const data: OnboardingProps[] = [
     title: 'Welcome to Fintopedia',
     description:
       'Unlock the secrets of finance, investing, and trading with our expert-led courses. From beginners to pros, we’ve got you covered.',
-    image: 'https://images.pexels.com/photos/210607/pexels-photo-210607.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: require('@shared/src/assets/img/piggy1.png'),
   },
   {
     title: 'Learn at Your Own Pace',
     description:
       'Whether you have 5 minutes or 5 hours, our flexible learning modules fit your schedule. Track your progress and stay motivated.',
-    image: 'https://images.pexels.com/photos/210607/pexels-photo-210607.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: require('@shared/src/assets/img/piggy2.png'),
   },
   {
     title: 'Build Real-World Skills',
     description:
       'Gain practical experience through interactive projects and real-world scenarios. Enhance your profile and become a finance expert.',
-    image: 'https://images.pexels.com/photos/210607/pexels-photo-210607.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: require('@shared/src/assets/img/piggy3.png'),
   },
 ];
 
 export const Onboarding: React.FC<OnboardingProps> = ({}) => {
-
   const navigation = useNavigation();
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const scrollViewRef = React.useRef<ScrollView>(null);
@@ -59,7 +69,141 @@ export const Onboarding: React.FC<OnboardingProps> = ({}) => {
 
   return (
     <GradientTemplate>
-      <TextAtom text='Hello' />
+      <View style={[styles.flex]}>
+        {currentIndex > 0 && (
+          <TouchableOpacity
+            style={[commonStyle.flexEnd, {padding: mScale.base}]}
+            onPress={handleSkip}>
+            <TextAtom text={'Skip'} style={styles.skipText} preset="heading4" />
+          </TouchableOpacity>
+        )}
+        <ScrollView
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onScroll={onScroll}
+          scrollEventThrottle={16}
+          ref={scrollViewRef}
+          style={styles.flex}
+          contentContainerStyle={{flexGrow: 1,justifyContent:'center'}}>
+          {data?.map((item, index) => {
+            return (
+              <View style={styles.slide} key={index}>
+                <ImageAtom
+                  sourceRequire={item?.image}
+                  imageStyle={styles.image}
+                />
+                <View style={styles.textContainer}>
+                  <TextAtom
+                    text={item.title}
+                    preset="banner"
+                    color={colorPresets.CTA}
+                    style={styles.titleText}
+                  />
+                  <TextAtom
+                    text={item.description}
+                    preset="medium"
+                    color={'#D5D5D9'}
+                    style={styles.descriptionText}
+                  />
+                </View>
+              </View>
+            );
+          })}
+        </ScrollView>
+        <View style={styles.buttonsWrapper}>
+          <View style={styles.pagination}>
+            {data.map((_, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.dot,
+                  {backgroundColor: index === currentIndex ? '#fff' : '#888'},
+                ]}
+              />
+            ))}
+          </View>
+          <View style={styles.buttonsContainer}>
+            {currentIndex < data.length - 1 ? (
+              <TouchableOpacity>
+                <TextAtom text="Next" preset="medium" />
+              </TouchableOpacity>
+            ) : (
+              <View style={styles.finalButtons}>
+                <TouchableOpacity onPress={()=>{
+                  navigation.navigate(RouteKeys.LOGINSCREEN)
+                }}>
+                  <TextAtom text="Login" preset="medium" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>{
+                  navigation.navigate(RouteKeys.SIGNUPSCREEN)
+                }}>
+                  <TextAtom
+                    text="Sign Up"
+                    preset="medium"
+                    style={styles.signUpButton}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+        </View>
+      </View>
     </GradientTemplate>
   );
 };
+
+const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+  slide: {
+    flex: 1,
+    width: WINDOW_WIDTH*0.93,
+    alignItems: 'center',
+    marginTop: moderateScale(75),
+  },
+  image: {
+    width: moderateScale(279),
+    height: moderateScale(279),
+    marginBottom: mScale.lg2,
+  },
+  textContainer: {
+    paddingHorizontal: mScale.md,
+  },
+  titleText: {
+    textAlign: 'center',
+  },
+  descriptionText: {
+    textAlign: 'center',
+    marginTop: mScale.base,
+  },
+  skipText: {
+    textDecorationLine: 'underline',
+  },
+  buttonsWrapper: {
+    rowGap: mScale.lg,
+    paddingHorizontal: mScale.base,
+    marginBottom: mScale.base,
+  },
+  pagination: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
+  dot: {
+    height: mScale.md,
+    width: mScale.md,
+    borderRadius: mScale.xs,
+    marginHorizontal: mScale.xs,
+  },
+  buttonsContainer: {
+    marginBottom: mScale.lg,
+  },
+  finalButtons: {
+    rowGap: mScale.lg,
+  },
+  signUpButton: {
+    borderWidth: 0.5,
+    borderColor: colorPresets.GRAY,
+  },
+});

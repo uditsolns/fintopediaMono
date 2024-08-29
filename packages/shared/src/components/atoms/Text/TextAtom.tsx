@@ -4,15 +4,17 @@ import { TextPresetType, TextPresets } from "./TextPresets";
 import { colorPresets } from "../../../theme/color";
 
 interface TextAtomProps extends TextProps {
-  text: string;
+  text?: string;
   translation?: string;
   preset?: TextPresetType;
   className?: string;
+  color?:string
 }
 
 export const TextAtom: React.FC<TextAtomProps> = ({
   text,
   preset = "body",
+  color,
   style,
   ...rest
 }: TextAtomProps) => {
@@ -20,7 +22,7 @@ export const TextAtom: React.FC<TextAtomProps> = ({
   return (
     <View>
       <Text
-        style={textStyle}
+        style={[textStyle,{color:color}]}
         {...rest}
         allowFontScaling={false}
         textBreakStrategy="simple"

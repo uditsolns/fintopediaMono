@@ -12,8 +12,8 @@ const Stack = createNativeStackNavigator();
 export const AuthRoutes: React.FC<AuthRoutesProps> = ({}) => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name={RouteKeys.ONBOARDINGSCREEN} component={Onboarding} />
-      <Stack.Screen name={RouteKeys.LOGINSCREEN} component={Login} />
+      <Stack.Screen name={RouteKeys.ONBOARDINGSCREEN} component={Onboarding as React.FC} />
+      <Stack.Screen name={RouteKeys.LOGINSCREEN} component={Login as React.FC} />
     </Stack.Navigator>
   );
 };
