@@ -45,7 +45,7 @@ export const Navbar = () => {
       </div>
 
       <div className="flex items-center">
-        <Link href="/search" className="mx-2 hover:text-gray-300">
+        <Link href="/search" prefetch={true} className="mx-2 hover:text-gray-300">
           <Image
             src={SearchIcon}
             alt="Search"
@@ -95,6 +95,7 @@ export const Navbar = () => {
         <div className={getMenuClasses()}>
           <Link
             href="/cart"
+            prefetch={true}
             className="mx-2 hover:text-gray-300 flex items-center"
           >
             <Image src={CartIcon} alt="Cart" className="inline-block mr-2" />
@@ -102,12 +103,14 @@ export const Navbar = () => {
           </Link>
           <Link
             href="/sign-up"
+            prefetch={true}
             className="mx-2 hover:text-gray-300 flex items-center"
           >
             Sign Up
           </Link>
           <Link
             href="/login"
+            prefetch={true}
             className="mx-2 hover:text-gray-300 flex items-center bg-white text-black py-2 px-4 rounded-md"
           >
             <Image src={UserIcon} alt="User" className="inline-block mr-2" />

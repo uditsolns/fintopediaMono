@@ -33,7 +33,7 @@ const GamesPage: React.FC = () => {
                 <CardBody style={{ flex: '1 0 60%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <CardTitle tag="h5">{game.name}</CardTitle>
                   <CardText>{game.price}</CardText>
-                  <Link href="/events" className='btn btn-sm btn-light font-bold text-black' style={{width:"80%"}}>Play Game</Link>
+                  <Link href="/events" prefetch={true} className='btn btn-sm btn-light font-bold text-black' style={{width:"80%"}}>Play Game</Link>
                  
                 </CardBody>
               </Card>

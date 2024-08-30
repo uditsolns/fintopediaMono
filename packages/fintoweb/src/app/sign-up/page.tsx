@@ -73,7 +73,6 @@ const SignUp: React.FC = () => {
       password: values.password,
       password_confirmation: values.password_confirmation,
     };
-
     // dispatch(actions.postRegister(register, () => router.push('/login')));
     setSubmitting(false);
   };

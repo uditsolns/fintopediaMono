@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { Row, Col, Button, Table } from "reactstrap";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -6,35 +8,45 @@ import SearchIcon from "@mui/icons-material/Search";
 import BuyStocks from "./BuyStocks";
 import styles from "./Event.module.css";
 import { FaArrowRotateRight } from "react-icons/fa6";
+import SellStocks from "./SellStocks";
 
-const Trade: React.FC = () => {
-
+const Portfolio: React.FC = () => {
   const dummyStockData = [
     {
+      stock_id: 1,
       stock: { name: "Dr. Reddy's Laboratories Ltd.", industry: "Technology" },
       stock_current_price: 145.3,
+      qty: 14,
+      buying_price: 141.3,
+      total_price: 2034.2, // Example: qty * buying_price
       round_level: 1,
       game_id: 101,
-      stock_id: 1, 
-      total_price: 1453.0, 
+      remark: "Test Remark", // Example remark
     },
     {
+      stock_id: 2,
       stock: { name: "Tesla", industry: "Automobile" },
       stock_current_price: 720.5,
+      qty: 25,
+      buying_price: 400.3,
+      total_price: 10007.5, // Example: qty * buying_price
       round_level: 1,
       game_id: 102,
-      stock_id: 2,
-      total_price: 7205.0,
+      remark: "Test Remark", // Example remark
     },
     {
+      stock_id: 3,
       stock: { name: "Google", industry: "Technology" },
       stock_current_price: 2720.3,
+      qty: 65,
+      buying_price: 2141.3,
+      total_price: 139184.5, // Example: qty * buying_price
       round_level: 1,
       game_id: 103,
-      stock_id: 3,
-      total_price: 27203.0,
+      remark: "Test Remark", // Example remark
     },
   ];
+  
 
   const filterRoundLevelData = { round_level: 1, game_id: 101 };
 
@@ -46,28 +58,11 @@ const Trade: React.FC = () => {
     setSearchTerm(event.target.value);
   };
 
-  const uniqueIndustries = [
-    ...Array.from(
-      new Map(
-        dummyStockData.map((item) => [item.stock.industry, item])
-      ).values()
-    ),
-  ];
-
-  const filterItem = (item: any) => {
-    const updateItems = dummyStockData.filter(
-      (curElm) => curElm.stock.industry === item.stock.industry
-    );
-    setData(updateItems);
-  };
-
   return (
     <React.Fragment>
-      
       <div className={styles["inline-row"]}>
         <TextField
           id="input-with-icon-textfield"
-          // label="Search"
           placeholder="Search..."
           className={`${styles["search-textfield"]}`}
           value={searchTerm}
@@ -95,32 +90,14 @@ const Trade: React.FC = () => {
         </Button>
       </div>
       <Row className="mt-3">
-        <Col md={3} className={styles["sector-name"]}>
-          <Button
-            className={`${styles["btn"]} ${styles["sector-btn"]}`}
-            block
-            onClick={() => setData(allData)}
-          >
-            All
-          </Button>
-
-          {uniqueIndustries.map((el, index) => (
-            <Button
-              key={index}
-              className={`${styles["btn"]} ${styles["sector-btn"]}`}
-              block
-              onClick={() => filterItem(el)}
-            >
-              {el.stock.industry}
-            </Button>
-          ))}
-        </Col>
-        <Col md={9}>
+        <Col md={12}>
           <Table className={styles["custom-table"]}>
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Avg.</th>
+                <th>Qty</th>
+                <th>Buying Price</th>
+                <th>Current Price</th>
                 <th></th>
               </tr>
             </thead>
@@ -146,11 +123,13 @@ const Trade: React.FC = () => {
                       return (
                         <tr key={index}>
                           <td>{el.stock.name}</td>
+                          <td>{el.qty}</td>
+                          <td>{el.buying_price}</td>
                           <td>
                             {Math.round(el.stock_current_price * 10) / 10}
                           </td>
                           <td>
-                            <BuyStocks data={el} />
+                            <SellStocks data={el}/>
                           </td>
                         </tr>
                       );
@@ -186,4 +165,4 @@ const Trade: React.FC = () => {
   );
 };
 
-export default Trade;
+export default Portfolio;

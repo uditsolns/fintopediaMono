@@ -39,37 +39,3 @@
   .isInvalid {
     border-color: red;
   }
-  
-/* .textfield {
-  border: 1px solid;
-  border-image-source: linear-gradient(
-    257.31deg,
-    #7a7fa2 -10.81%,
-    #141622 113.5%
-  );
-  border-image-slice: 1;
-  border-radius: 4px;
-  padding: 8px;
-  background-color: #222;
-  color: #fff;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.button {
-  background-color: #007bff;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 10px 2px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.button:hover {
-  background-color: #0056b3;
-} */
