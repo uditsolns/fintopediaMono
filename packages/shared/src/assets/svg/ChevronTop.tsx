@@ -2,20 +2,20 @@ import { Platform } from "react-native";
 import { Svg, Path } from "react-native-svg";
 import { ISVGProps } from "../../utils/types/main";
 
-export const ChevronTop = ({ width, color = "white" }: ISVGProps) => {
+export const ChevronTop = ({ width = 24, color = "white" }: ISVGProps) => {
   if (Platform.OS === "web") {
     return (
       <svg
         width={width}
-        height={width}
-        viewBox="0 0 20 20"
+        height="25"
+        viewBox="0 0 24 25"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M5 15L15 5M5 5L15 15"
-          stroke={color}
-          stroke-width="1.66667"
+          d="M5 15.5L12 8.5L19 15.5"
+          stroke="white"
+          stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
         />
@@ -23,11 +23,11 @@ export const ChevronTop = ({ width, color = "white" }: ISVGProps) => {
     );
   }
   return (
-    <Svg width={width} height={width} viewBox="0 0 20 20" fill="none">
+    <Svg width={width} height="25" viewBox="0 0 24 25" fill="none">
       <Path
-        d="M5 15L15 5M5 5L15 15"
-        stroke={color}
-        stroke-width="1.66667"
+        d="M5 15.5L12 8.5L19 15.5"
+        stroke="white"
+        stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
       />

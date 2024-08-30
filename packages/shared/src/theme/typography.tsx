@@ -91,4 +91,9 @@ export const fontPresets: Record<string, TextStyle> = {
     ...scaleFont(14),
     letterSpacing: 0,
   },
+  titleBold: {
+    ...bold,
+    ...scaleFont(14),
+    letterSpacing: 0,
+  },
 };

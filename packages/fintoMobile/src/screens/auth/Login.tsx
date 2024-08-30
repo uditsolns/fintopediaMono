@@ -1,17 +1,65 @@
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import * as React from 'react';
-import HeaderLeftMolecule from '@shared/src/components/molecules/Header/HeaderLeftMolecule';
 import {View} from 'react-native';
 import {commonStyle} from '@shared/src/commonStyle';
+import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
+import ScrollviewAtom from '@shared/src/components/atoms/Scrollview/ScrollviewAtom';
+import {Images} from '@shared/src/assets';
+import {colorPresets} from '@shared/src/theme/color';
+import {InputAtom} from '@src/components/Input/InputAtom';
+import {mScale} from '@shared/src/theme/metrics';
+import {LinkButton} from '@src/components/Button/LinkButton';
+import FollowUsMolecule from '@src/components/molecules/FollowUsMolecule/FollowUsMolecule';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {useNavigation} from '@react-navigation/native';
+import { RouteKeys } from '@src/navigation/RouteKeys';
 
 interface LoginProps {}
 
 export const Login: React.FC<LoginProps> = ({}) => {
+  const navigation = useNavigation();
   return (
     <GradientTemplate>
-        <HeaderLeftMolecule text="Welcome back"  />
-      
-      {/* <ScrollViewAtom></ScrollViewAtom> */}
+      <HeaderLeftMolecule text="Welcome back" />
+
+      <ScrollviewAtom>
+        <View style={{marginTop: mScale.base}}>
+          <View style={{marginBottom: mScale.lg}}>
+            <InputAtom
+              shape="square"
+              label="Phone number"
+              placeholder="Enter your phone number"
+              keyboardType="numeric"
+            />
+          </View>
+          <View>
+            <InputAtom
+              shape="square"
+              label="Password"
+              placeholder="Enter your password"
+              rightIcon={<Images.SVG.Eye width={20} color={colorPresets.CTA} />}
+              autoCapitalize="none"
+            />
+          </View>
+          <LinkButton text="Forgot password?" style={{marginTop: mScale.xxl}} />
+          <View style={[commonStyle.flexCenter, {marginTop: mScale.base}]}>
+            <TextAtom
+              text={`Don't have an account ? `}
+              preset="medium"
+              color={colorPresets.CTA}
+            />
+            <LinkButton
+              text="Register now"
+              onPress={() => {
+                navigation.navigate(RouteKeys.SIGNUPSCREEN);
+              }}
+            />
+          </View>
+          <View style={{marginVertical: mScale.lg}}>
+            <FollowUsMolecule />
+          </View>
+        </View>
+      </ScrollviewAtom>
     </GradientTemplate>
   );
 };

@@ -45,7 +45,7 @@ export const CircleInsta = ({ width = 28,color }: ISVGProps) => {
           width="1"
           height="1"
         >
-          <Use transform="scale(0.000833333)" />
+          <Use xlinkHref="#image0_1856_10162" transform="scale(0.000833333)" />
         </Pattern>
         <Image
           id="image0_1856_10162"

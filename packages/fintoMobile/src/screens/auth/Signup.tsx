@@ -1,12 +1,140 @@
+import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import * as React from 'react';
-import {Text, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
+import {commonStyle} from '@shared/src/commonStyle';
+import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
+import ScrollviewAtom from '@shared/src/components/atoms/Scrollview/ScrollviewAtom';
+import {Images} from '@shared/src/assets';
+import {colorPresets} from '@shared/src/theme/color';
+import {InputAtom} from '@src/components/Input/InputAtom';
+import {mScale} from '@shared/src/theme/metrics';
+import {LinkButton} from '@src/components/Button/LinkButton';
+import FollowUsMolecule from '@src/components/molecules/FollowUsMolecule/FollowUsMolecule';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {RouteKeys} from '@src/navigation/RouteKeys';
+import {useNavigation} from '@react-navigation/native';
+import Dropdown from '@src/components/Dropdown/Dropdown';
 
 interface SignupProps {}
+interface Category {
+  id: number;
+  name: string;
+}
 
-export const Signup: React.FC<SignupProps> = ({}) => {
+export const CategoriesArr: Category[] = [
+  {
+    id: 1,
+    name: 'Investment strategy',
+  },
+  {
+    id: 2,
+    name: 'Finance',
+  },
+  {
+    id: 3,
+    name: 'Mutual funds',
+  },
+  {
+    id: 4,
+    name: 'Stock trading',
+  },
+  {
+    id: 5,
+    name: 'Investment',
+  },
+  {
+    id: 6,
+    name: 'Money Market',
+  },
+];
+
+export const Signup: React.FC<SignupProps> = () => {
+  const navigation = useNavigation();
   return (
-    <View>
-      <Text>Signup</Text>
-    </View>
+    <GradientTemplate>
+      <HeaderLeftMolecule text="Create account" />
+      <ScrollviewAtom>
+        <View style={{marginTop: mScale.base}}>
+          <View style={{marginBottom: mScale.lg}}>
+            <InputAtom
+              shape="square"
+              label="Name"
+              placeholder="Enter your name"
+            />
+          </View>
+          <View style={{marginBottom: mScale.lg}}>
+            <InputAtom
+              shape="square"
+              label="Surname"
+              placeholder="Enter your surname"
+            />
+          </View>
+          <View style={{marginBottom: mScale.lg}}>
+            <InputAtom
+              shape="square"
+              label="Email"
+              placeholder="Enter your email id"
+              autoCapitalize="none"
+            />
+          </View>
+          <View style={{marginBottom: mScale.lg}}>
+            <InputAtom
+              shape="square"
+              label="Phone number"
+              placeholder="Enter your phone number"
+              keyboardType="numeric"
+            />
+          </View>
+          <View>
+            <Dropdown
+              dropdownItemArr={CategoriesArr}
+              itemLabelField="name"
+              onSelect={item => {
+                console.log(item)
+              }}
+              dropdownTitle='College/University'
+              placeholder={'Select category'}
+              dropdownBg="#121622"
+              dropdownTextColor={colorPresets.CTA}
+              textColor={colorPresets.CTA}
+            />
+          </View>
+          <View style={{marginBottom: mScale.lg}}>
+            <InputAtom
+              shape="square"
+              label="Password"
+              placeholder="Enter your password"
+              rightIcon={<Images.SVG.Eye width={20} color={colorPresets.CTA} />}
+              autoCapitalize="none"
+            />
+          </View>
+          <View>
+            <InputAtom
+              shape="square"
+              label="Confirm Password"
+              placeholder="Enter your confirm password"
+              rightIcon={<Images.SVG.Eye width={20} color={colorPresets.CTA} />}
+              autoCapitalize="none"
+            />
+          </View>
+          <View style={[commonStyle.flexStart, {marginTop: mScale.base}]}>
+            <TextAtom
+              text={`Already have an account ? `}
+              preset="medium"
+              color={colorPresets.CTA}
+            />
+            <LinkButton
+              text="Login"
+              onPress={() => {
+                navigation.navigate(RouteKeys.LOGINSCREEN);
+              }}
+            />
+          </View>
+          <View style={{marginVertical: mScale.lg}}>
+            <FollowUsMolecule />
+          </View>
+        </View>
+      </ScrollviewAtom>
+    </GradientTemplate>
   );
 };
