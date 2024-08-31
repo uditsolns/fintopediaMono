@@ -5,6 +5,9 @@ import "./globals.css";
 import BootstrapClient from "@src/components/BootstrapClient";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 
 export const metadata: Metadata = {
   title: "Finto pedia",

@@ -1,0 +1,42 @@
+/* ----slider---- */
+.sliderContainer {
+    width: 100%;
+    overflow: hidden;
+    padding: 20px;
+    background-color: #050a18;
+  }
+  
+  .stockCard {
+    background: linear-gradient(
+      90deg,
+      #050a18 0%,
+      rgba(5, 10, 24, 0) 12.01%,
+      rgba(5, 10, 24, 0) 89.01%,
+      #050a18 96.59%
+    );
+    border: 1px solid #b4b3b3;
+    color: #fff !important;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .stockCard .card-body {
+    color: #fff !important;
+  }
+  
+  .slick-slide {
+    padding: 0 10px;
+  }
+  
+  .slick-list {
+    margin: 0 -10px;
+  }
+  
+  .slick-dots {
+    display: none !important;
+  }
+  
+  .slick-arrow {
+    display: none !important;
+  }

@@ -1,0 +1,278 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background: linear-gradient(
+    245.33deg,
+    #2d303d 0%,
+    #212330 28.6%,
+    #101320 66.05%,
+    #111521 83.68%,
+    #0d0f1b 100%
+  );
+}
+.quizHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background: linear-gradient(265.31deg, #717171 -37.14%, #0d0d0c 103.52%);
+}
+.headerContents,
+.quizContents {
+  flex: 1;
+  padding: 20px;
+}
+.headerContents h2,
+.quizContents h2 {
+  font-weight: bold;
+  color: white;
+  /* font-size: max(4vw, 20px); */
+  font-size: 28px;
+}
+.headerContents p,
+.quizContents p {
+  color: white;
+  font-size: 18px;
+  margin-top: 5px;
+}
+.headerContents button,
+.quizContents button {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.headerContents button:hover,
+.quizContents button:hover {
+  background-color: #dee0e2;
+}
+
+.headerContents button svg,
+.quizContents button svg {
+  margin-left: 8px;
+}
+.imageContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageContainer img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+.quizCount {
+  background-color: #000;
+  margin-top: 10px;
+  border: 1px solid gray;
+  padding: 5px;
+  width: 300px;
+  border-radius: 8px;
+}
+.quizCount h2 {
+  font-weight: bold;
+  color: #fff;
+}
+.quizCount h6 {
+  padding: 0px;
+  color: #fff;
+}
+/* feature card and category form */
+.courseContainer {
+  padding: 50px;
+  background-color: #fff;
+  position: relative;
+}
+.card {
+  color: #fff !important;
+  overflow: hidden;
+  margin: 10px;
+  background-color: #000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.slick-slide > div {
+  margin: 0 30px;
+}
+.slick-slide > div:nth-child(1) {
+  margin-left: 0;
+}
+.cardImage {
+  height: auto;
+}
+.slick-list {
+  margin-right: -30px;
+  margin: 0 -10px;
+}
+
+.cardContent {
+  padding: 16px;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  margin: 0 0 8px;
+}
+
+.cardDescription {
+  font-size: 1rem;
+  color: #666;
+}
+.iconRow {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.iconText {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 8px;
+}
+.cardRating {
+  display: inline-flex;
+  align-items: center;
+}
+.priceContainer {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+.priceContainer {
+  font-size: 22px;
+  font-weight: bold;
+}
+.priceContainer s {
+  color: #999;
+  margin-left: 8px;
+  font-size: 1rem;
+}
+
+.addToCartButton {
+  background-color: #fff;
+  color: #000;
+  width: 180px;
+  border: none;
+  padding: 5px 10px;
+  margin-left: auto;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.addToCartButton:hover {
+  background-color: #ccc;
+}
+/* category form */
+.categoryForm {
+  background: linear-gradient(
+    245.33deg,
+    #2d303d 0%,
+    #212330 28.6%,
+    #101320 65.15%,
+    #111521 78%,
+    #0d0f1b 100%
+  );
+  border: 1px solid #7a7fa2;
+  /* border-image-source: linear-gradient(
+    257.31deg,
+    #7a7fa2 -10.81%,
+    #141622 113.5%
+  ); */
+  padding: 40px 40px;
+}
+.categoryForm p {
+  color: #ccc;
+}
+.textfield {
+  background: #2d303d;
+  border: 1px solid;
+  border-image-source: linear-gradient(
+    257.31deg,
+    #7a7fa2 -10.81%,
+    #141622 113.5%
+  );
+  border-image-slice: 1;
+  color: #fff;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.textfield::placeholder {
+  color: #7a7fa2;
+}
+
+.textfield:focus {
+  background-color: #2d303d;
+  color: #fff;
+  outline: none;
+}
+
+.textfield:focus::placeholder {
+  color: #7a7fa2;
+}
+
+.isInvalid {
+  border-color: red;
+}
+/* -------How it Works -------- */
+
+.howitWorks {
+  background-color: #0c0c0c;
+  padding: 120px;
+  margin-top: 15px;
+}
+.howitWorksImage {
+  border-radius: 50px;
+}
+
+
+@media (max-width: 768px) {
+  .header,
+  .quizHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .headerContents h2,
+  .quizContents h2 {
+    font-weight: bold;
+    color: white;
+    font-size: max(4vw, 25px);
+  }
+  .headerContents,
+  .quizContents,
+  .imageContainer {
+    flex: none;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .addToCartButton {
+    background-color: #fff;
+    color: #000;
+    width: 150px;
+    border: none;
+    padding: 4px 12px;
+    margin-left: auto;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .howitWorks {
+    background-color: #0c0c0c;
+    padding: 20px;
+    margin-top: 15px;
+  }
+}
