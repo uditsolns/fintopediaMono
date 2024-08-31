@@ -3,7 +3,6 @@ import * as React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {commonStyle} from '@shared/src/commonStyle';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
-import ScrollviewAtom from '@shared/src/components/atoms/Scrollview/ScrollviewAtom';
 import {Images} from '@shared/src/assets';
 import {colorPresets} from '@shared/src/theme/color';
 import {InputAtom} from '@src/components/Input/InputAtom';
@@ -14,6 +13,7 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {useNavigation} from '@react-navigation/native';
 import Dropdown from '@src/components/Dropdown/Dropdown';
+import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface SignupProps {}
 interface Category {
@@ -53,7 +53,7 @@ export const Signup: React.FC<SignupProps> = () => {
   return (
     <GradientTemplate>
       <HeaderLeftMolecule text="Create account" />
-      <ScrollviewAtom>
+      <ScrollViewAtom>
         <View style={{marginTop: mScale.base}}>
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
@@ -134,7 +134,7 @@ export const Signup: React.FC<SignupProps> = () => {
             <FollowUsMolecule />
           </View>
         </View>
-      </ScrollviewAtom>
+      </ScrollViewAtom>
     </GradientTemplate>
   );
 };

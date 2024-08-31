@@ -15,7 +15,8 @@ import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import {commonStyle} from '@shared/src/commonStyle/index';
 import {colorPresets} from '@shared/src/theme/color';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
+import {LinkButton} from '@src/components/Button/LinkButton';
 
 interface OnboardingProps {
   title: string;
@@ -70,12 +71,12 @@ export const Onboarding: React.FC<OnboardingProps> = ({}) => {
   return (
     <GradientTemplate>
       <View style={[styles.flex]}>
-        {currentIndex > 0 && (
-          <TouchableOpacity
+        {currentIndex == data?.length - 1 ? null : (
+          <LinkButton
+            text="Skip"
             style={[commonStyle.flexEnd, {padding: mScale.base}]}
-            onPress={handleSkip}>
-            <TextAtom text={'Skip'} style={styles.skipText} preset="heading4" />
-          </TouchableOpacity>
+            onPress={handleSkip}
+          />
         )}
         <ScrollView
           horizontal
@@ -85,7 +86,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({}) => {
           scrollEventThrottle={16}
           ref={scrollViewRef}
           style={styles.flex}
-          contentContainerStyle={{flexGrow: 1,justifyContent:'center'}}>
+          contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
           {data?.map((item, index) => {
             return (
               <View style={styles.slide} key={index}>
@@ -130,14 +131,16 @@ export const Onboarding: React.FC<OnboardingProps> = ({}) => {
               </TouchableOpacity>
             ) : (
               <View style={styles.finalButtons}>
-                <TouchableOpacity onPress={()=>{
-                  navigation.navigate(RouteKeys.LOGINSCREEN)
-                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate(RouteKeys.LOGINSCREEN);
+                  }}>
                   <TextAtom text="Login" preset="medium" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{
-                  navigation.navigate(RouteKeys.SIGNUPSCREEN)
-                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate(RouteKeys.SIGNUPSCREEN);
+                  }}>
                   <TextAtom
                     text="Sign Up"
                     preset="medium"
@@ -159,7 +162,7 @@ const styles = StyleSheet.create({
   },
   slide: {
     flex: 1,
-    width: WINDOW_WIDTH*0.93,
+    width: WINDOW_WIDTH * 0.93,
     alignItems: 'center',
     marginTop: moderateScale(75),
   },

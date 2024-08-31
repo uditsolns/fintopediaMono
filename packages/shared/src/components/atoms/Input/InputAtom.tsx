@@ -16,6 +16,7 @@ interface InputAtomProps extends TextInputProps {
   touched?: boolean;
   errorMessage?: string;
   children?: React.ReactElement;
+  placeholderTextColor?:string
 }
 
 export const InputAtom: React.FC<InputAtomProps> = ({
@@ -29,6 +30,7 @@ export const InputAtom: React.FC<InputAtomProps> = ({
   touched,
   errorMessage,
   children,
+  placeholderTextColor = colorPresets.GRAY,
   ...rest
 }) => {
   const [width, setWidth] = React.useState(WINDOW_WIDTH - mScale.lg3);
@@ -71,7 +73,7 @@ export const InputAtom: React.FC<InputAtomProps> = ({
         >
           <TextInput
             {...rest}
-            placeholderTextColor={colorPresets.GRAY}
+            placeholderTextColor={placeholderTextColor}
             style={[
               style,
               inputStyle,

@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -19,15 +19,15 @@ export default function HeaderLeftMolecule({text}: HeaderLeftMoleculeProps) {
     <View
       style={[
         commonStyle.flexStart,
-        {gap: mScale.lg1, marginVertical: mScale.lg},
+        {gap: mScale.lg1, marginVertical: mScale.lg, alignSelf: 'flex-start'},
       ]}>
-      <Images.SVG.ChevronLeft width={24} color={colorPresets.CTA} />
-      <TextAtom
-        text={text}
-        color={colorPresets.CTA}
-        preset="heading2"
-        style={{flex: 1}}
-      />
+      <Pressable
+        onPress={() => {
+          navigation.goBack();
+        }}>
+        <Images.SVG.ChevronLeft width={24} color={colorPresets.CTA} />
+      </Pressable>
+      <TextAtom text={text} color={colorPresets.CTA} preset="heading2" />
     </View>
   );
 }

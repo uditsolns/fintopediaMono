@@ -8,6 +8,11 @@ export const RouteKeys = {
   EMAILVERIFICATIONSCREEN: 'EmailVerification',
   TWOFACTORAUTHSCREEN: 'TwoFAuth',
   OTPSCREEN: 'Otp',
+  SEARCHSCREEN:'Search',
+  NOTIFICATIONSCREEN:'Notification',
+  CARTSCREEN:'Cart',
+  FILTERBYCOURSESCREEN:"FilterByCourse",
+  COURSECATEGORYSCREEN:"CourseCategory"
 };
 
 export const TabKeys = {

@@ -14,7 +14,7 @@ interface TextAtomProps extends TextProps {
 export const TextAtom: React.FC<TextAtomProps> = ({
   text,
   preset = "body",
-  color,
+  color = colorPresets.CTA,
   style,
   ...rest
 }: TextAtomProps) => {

@@ -2,7 +2,7 @@ import { Platform } from "react-native";
 import { Svg, Path } from "react-native-svg";
 import { ISVGProps } from "../../utils/types/main";
 
-export const ChevronDown = ({ width, color = "white" }: ISVGProps) => {
+export const ChevronDown = ({ width = 22, color = "white" }: ISVGProps) => {
   if (Platform.OS === "web") {
     return (
       <svg

@@ -8,8 +8,8 @@ interface AppNavigationProps {}
 export const AppNavigation: React.FC<AppNavigationProps> = ({}) => {
   return (
     <NavigationContainer>
-      <AuthRoutes />
-      {/* <MainRoutes /> */}
+      {/* <AuthRoutes /> */}
+      <MainRoutes />
     </NavigationContainer>
   );
 };
