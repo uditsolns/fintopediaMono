@@ -3,7 +3,7 @@ import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import { colorPresets } from '@shared/src/theme/color';
 import { moderateScale, mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import Svg, { Defs, LinearGradient, Stop, Rect } from 'react-native-svg';
 
 interface GetStartedInterface {
@@ -29,6 +29,7 @@ const GetStarted: React.FunctionComponent<GetStartedInterface> = ({
             <Stop offset="50%" stopColor="#101320" />
             <Stop offset="75%" stopColor="#111521" />
             <Stop offset="100%" stopColor="#0D0F1B" />
+
           </LinearGradient>
         </Defs>
         <Rect width={WINDOW_WIDTH} height="100%" fill="url(#grad)" />
@@ -55,6 +56,9 @@ const GetStarted: React.FunctionComponent<GetStartedInterface> = ({
           style={styles.button}
           onPress={onPress}
         /> */}
+        <Pressable onPress={onPress}>
+          <TextAtom text={btnTitle} />
+        </Pressable>
       </View>
     </View>
   );

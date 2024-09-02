@@ -10,10 +10,14 @@ export const TextPresets = {
   large: { ...fontPresets.large },
   body: { ...fontPresets.body },
   medium: { ...fontPresets.medium },
-  small: { ...fontPresets.small },
-  xSmall: { ...fontPresets.xSmall },
   title: { ...fontPresets.title },
-  titleBold: { ...fontPresets.titleBold }
+  titleBold: { ...fontPresets.titleBold },
+  small: { ...fontPresets.small },
+  smallBold: { ...fontPresets.smallBold },
+  smallSemiBold: { ...fontPresets.smallSemiBold },
+  xSmall: { ...fontPresets.xSmall },
+  xSmallBold: { ...fontPresets.xSmallBold },
+  xSmallSemiBold: { ...fontPresets.xSmallSemiBold },
 };
 
 export type TextPresetType = keyof typeof TextPresets;

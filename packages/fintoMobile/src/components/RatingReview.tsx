@@ -1,8 +1,9 @@
-import { commonStyle } from '@shared/src/commonStyle';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { mScale } from '@shared/src/theme/metrics';
+import {commonStyle} from '@shared/src/commonStyle';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {mScale} from '@shared/src/theme/metrics';
 import React from 'react';
 import {StyleSheet, View, ViewStyle, TextStyle} from 'react-native';
+import {RatingAtom} from './RatingAtom';
 
 interface RatingReviewProps {
   rating?: number | string;
@@ -21,18 +22,7 @@ const RatingReview: React.FC<RatingReviewProps> = ({
         commonStyle.flexSpaceBetween,
         {alignSelf: 'flex-start', flex: 1, marginBottom: mb},
       ]}>
-      {/* <ButtonIconLeftAtom
-        btnColor="transparent"
-        btnTitle={`${rating}`}
-        color={colorPresets.WHITE}
-        preset="smallBold"
-        iconName="star"
-        iconColor="#FFA11A"
-        style={{
-          paddingVertical: 0,
-          paddingHorizontal: 0,
-        }}
-      /> */}
+      <RatingAtom ratingTitle={`4.5`} preset="titleBold" />
       <TextAtom
         text={`(${review} reviews)`}
         preset="medium"

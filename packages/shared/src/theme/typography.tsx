@@ -81,8 +81,28 @@ export const fontPresets: Record<string, TextStyle> = {
     ...scaleFont(12),
     letterSpacing: 0,
   },
+  smallBold: {
+    ...bold,
+    ...scaleFont(12),
+    letterSpacing: 0,
+  },
+  smallSemiBold: {
+    ...semiBold,
+    ...scaleFont(12),
+    letterSpacing: 0,
+  },
   xSmall: {
     ...regular,
+    ...scaleFont(11),
+    letterSpacing: 0,
+  },
+  xSmallBold: {
+    ...bold,
+    ...scaleFont(11),
+    letterSpacing: 0,
+  },
+  xSmallSemiBold: {
+    ...semiBold,
     ...scaleFont(11),
     letterSpacing: 0,
   },

@@ -79,11 +79,21 @@ android {
 
     namespace "com.fintomobile"
     defaultConfig {
+        
         applicationId "com.fintomobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def variantName = variant.name
+                    def versionName = variant.versionName
+                    def formattedDate = new Date().format('dd-MM-YYYY')
+                    outputFileName = "fintopedia_${variantName}_D_${formattedDate}_V_${versionName}.apk"
+                    archivesBaseName = outputFileName
+                }
+            }
     }
     signingConfigs {
         debug {

@@ -23,7 +23,7 @@ export const ChevronLeft = ({ width = 24, color = "white" }: ISVGProps) => {
     );
   }
   return (
-    <Svg width={width} height={width} viewBox="0 0 24 24" fill="none">
+    <Svg width={width} height={width} viewBox={`0 0 ${width} ${width}`} fill="none">
       <Path
         d="M15 19L8 12L15 5"
         stroke={color}

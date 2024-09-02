@@ -23,7 +23,7 @@ export const ChevronDown = ({ width = 22, color = "white" }: ISVGProps) => {
     );
   }
   return (
-    <Svg width={width} height={width} viewBox="0 0 22 22" fill="none">
+    <Svg width={width} height={width} viewBox={`0 0 ${width} ${width}`} fill="none">
       <Path
         d="M15.5807 9.16667L10.9974 13.75L6.41406 9.16667"
         stroke={color}

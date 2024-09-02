@@ -31,6 +31,7 @@ export default function PopularCourseMolecule({
           fontWeight={'600'}
           style={{position: 'absolute', bottom: mScale.base, right: mScale.lg}}
         /> */}
+        
       </View>
       <View style={styles.content}>
         <TextAtom text={'Basics of Stock Market'} preset="heading2" />

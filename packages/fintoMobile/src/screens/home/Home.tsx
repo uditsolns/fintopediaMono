@@ -10,6 +10,7 @@ import CategoriesMolecule from '@src/components/molecules/CategoriesMolecule/Cat
 import ContinueLearningMolecule from '@src/components/molecules/ContinueLearningMolecule/ContinueLearningMolecule';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
+import { RouteKeys } from '@src/navigation/RouteKeys';
 import * as React from 'react';
 import {FlatList, ImageBackground, View} from 'react-native';
 let CategoriesArr = [
@@ -50,7 +51,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
       <ContinueLearningMolecule
         item={item}
         onPress={() => {
-          // navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILS)
+          navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN)
         }}
       />
     );
@@ -74,7 +75,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
       <PopularCourseMolecule
         item={item}
         onPress={() => {
-          // navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILS)
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN)
         }}
       />
     );
@@ -183,7 +184,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
           }}>
           <GetStarted
             onPress={() => {
-              // navigation.navigate(RouteKeys.DONTKNOWWHERETOSTART);
+              navigation.navigate(RouteKeys.DONTKNOWWHERETOSTARTSCREEN);
             }}
           />
         </View>

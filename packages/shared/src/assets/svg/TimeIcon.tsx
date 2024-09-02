@@ -35,7 +35,7 @@ export const TimeIcon = ({ width = 17 }: ISVGProps) => {
     <Svg
       width={width}
       height={width}
-      viewBox="0 0 17 17"
+      viewBox={`0 0 ${width} ${width}`}
       fill="none"
     >
       <G clip-path="url(#clip0_1796_2941)">

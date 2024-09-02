@@ -23,7 +23,7 @@ export const Cross = ({ width = 20, color = "white" }: ISVGProps) => {
     );
   }
   return (
-    <Svg width={width} height={width} viewBox="0 0 20 20" fill="none">
+    <Svg width={width} height={width} viewBox={`0 0 ${width} ${width}`} fill="none">
       <Path
         d="M5 15L15 5M5 5L15 15"
         stroke={color}
