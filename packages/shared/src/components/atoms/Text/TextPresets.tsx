@@ -9,6 +9,7 @@ export const TextPresets = {
   xLarge: { ...fontPresets.xLarge },
   large: { ...fontPresets.large },
   body: { ...fontPresets.body },
+  bodyBold: { ...fontPresets.bodyBold },
   medium: { ...fontPresets.medium },
   small: { ...fontPresets.small },
   xSmall: { ...fontPresets.xSmall },
