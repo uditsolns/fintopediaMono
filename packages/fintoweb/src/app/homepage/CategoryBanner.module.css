@@ -1,0 +1,75 @@
+.CategoryBanner {
+  padding: 10px 50px;
+}
+.mainRow {
+  border-radius: 16px;
+  padding: 30px;
+  flex-shrink: 0;
+  border: 1px solid var(--L2, #7a7fa2);
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.mainRow h1 {
+  color: #fff;
+  font-family: "Inter Tight";
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 57.6px */
+  letter-spacing: -0.48px;
+}
+.mainRow p {
+  color: #d5d5d9;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; /* 155.556% */
+  letter-spacing: -0.2px;
+}
+.textfield {
+  background: #2d303d;
+  border: 1px solid;
+  border-image-source: linear-gradient(
+    257.31deg,
+    #7a7fa2 -10.81%,
+    #141622 113.5%
+  );
+  border-image-slice: 1;
+  color: #fff;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.textfield::placeholder {
+  color: #7a7fa2;
+}
+
+.textfield:focus {
+  background-color: #2d303d;
+  color: #fff;
+  outline: none;
+}
+
+.textfield:focus::placeholder {
+  color: #7a7fa2;
+}
+
+.isInvalid {
+  border-color: red;
+}
+@media screen and (max-width: 435px) {
+  .CategoryBanner {
+    padding: 10px 10px;
+  }
+}

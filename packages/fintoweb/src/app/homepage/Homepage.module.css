@@ -89,9 +89,23 @@
   color: #fff;
 }
 /* feature card and category form */
+.viewAllCourses {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 35px;
+}
+.viewAllCourses button {
+  width: 189px;
+  padding: 16px 18px;
+  gap: 7.765px;
+  border-radius: 4px;
+  background: #fff;
+  color: #000;
+  font-weight: bold;
+}
 .courseContainer {
   padding: 50px;
-  background-color: #fff;
   position: relative;
 }
 .card {
@@ -107,6 +121,21 @@
 .slick-slide > div:nth-child(1) {
   margin-left: 0;
 }
+.progressContainer {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background-color: #333;
+  margin-top: 20px;
+}
+
+.progressBar {
+  background-color: #007bff;
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s;
+}
+
 .cardImage {
   height: auto;
 }
@@ -229,14 +258,113 @@
 /* -------How it Works -------- */
 
 .howitWorks {
-  background-color: #0c0c0c;
+  background-color: #050a18;
   padding: 120px;
   margin-top: 15px;
 }
 .howitWorksImage {
-  border-radius: 50px;
+  border-radius: 30px;
+  width: 504.757px;
+  height: 504px;
+}
+.howitWorksContent {
+  padding: 30px;
+}
+.howitWorksContent h3 {
+  color: #fff;
+  font-family: "Inter Tight";
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  padding: 10px 28px;
 }
 
+.howitWorksContentDiv {
+  display: flex;
+  padding: 22px 28px;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  opacity: 0.5;
+  background: #0c0c0c;
+}
+.howitWorksContentDiv {
+  overflow: hidden;
+  color: #d5d5d9;
+  text-overflow: ellipsis;
+  font-family: "Inter Tight";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.howitWorksContentDiv span {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  color: #000;
+  stroke-width: 1.5px;
+  stroke: var(--l3, #717171);
+  text-align: center;
+  border-radius: 50%;
+  background: #d5d5d9;
+}
+.howitWorksContentDivActive {
+  display: flex;
+  padding: 28px;
+  align-items: flex-start;
+  gap: 16px;
+  font-family: "Inter Tight";
+  font-size: 20px;
+  border-radius: 8px;
+  background: #222431;
+  box-shadow: 0px 29px 30px 0px rgba(0, 0, 0, 0.06);
+  position: relative; /* Add this to position the pseudo-element absolutely */
+}
+.howitWorksContentDivActive h6 {
+  overflow: hidden;
+  color: #fff;
+  text-overflow: ellipsis;
+  font-family: "Inter Tight";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.howitWorksContentDivActive p {
+  overflow: hidden;
+  color: #d5d5d9;
+  text-overflow: ellipsis;
+  font-family: "Inter Tight";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 138%;
+}
+.howitWorksContentDivActive span {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  color: #000;
+  stroke-width: 1.5px;
+  stroke: var(--l3, #717171);
+  text-align: center;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.howitWorksContentDivActive::after {
+  content: "";
+  border-radius: 39px;
+  background: linear-gradient(90deg, rgba(17, 84, 143, 0) 0%, #1d90f5 100%);
+  width: 250px;
+  height: var(--Spacing-s, 6px);
+  position: absolute;
+  left: -2.943px;
+  bottom: 0px;
+}
 
 @media (max-width: 768px) {
   .header,
@@ -258,8 +386,31 @@
     width: 100%;
   }
 }
-
-@media screen and (max-width: 420px) {
+/* AchiveingLearningSlider css */
+.AchiveingLearningSlider {
+  padding: 50px;
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.AchiveingLearningSlider h1 {
+  color: #fff;
+  text-align: center;
+  font-family: "Inter Tight";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 48px */
+}
+@media screen and (max-width: 435px) {
   .addToCartButton {
     background-color: #fff;
     color: #000;
@@ -274,5 +425,26 @@
     background-color: #0c0c0c;
     padding: 20px;
     margin-top: 15px;
+  }
+  .howitWorksContent {
+    padding: 15px;
+  }
+  .howitWorksContentDiv {
+    padding: 10px 16px;
+  }
+  .howitWorksContentDivActive {
+    padding: 10px 16px;
+  }
+  .howitWorksImage {
+    border-radius: 30px;
+    width: 100%;
+    height: 100%;
+  }
+  .courseContainer {
+    padding: 20px;
+    margin-top: 15px;
+  }
+  .AchiveingLearningSlider {
+    padding: 20px;
   }
 }

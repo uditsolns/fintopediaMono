@@ -10,7 +10,30 @@ const HowitWorks = () => {
         <div className="col-md-6">
           <Image src={BgImage} alt="Image" className={styles.howitWorksImage} />
         </div>
-        <div className="col-md-6"></div>
+        <div className="col-md-6">
+          <div className={styles.howitWorksContent}>
+            <h3>How it Works?</h3>
+            <div className={styles.howitWorksContentDiv}>
+              <span>1</span> Take Online Courses
+            </div>
+            <div className={styles.howitWorksContentDivActive}>
+              <span>2</span>
+              <div>
+                <h6>Get a Course Certificate</h6>
+                <p>
+                  Watching all course videos or completing all course modules.
+                  Passing quizzes, assignments, or exams with a certain score
+                </p>
+              </div>
+            </div>
+            <div className={styles.howitWorksContentDiv}>
+              <span>3</span> Advance your Career
+            </div>
+            <div className={styles.howitWorksContentDiv}>
+              <span>4</span> Land a Job
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

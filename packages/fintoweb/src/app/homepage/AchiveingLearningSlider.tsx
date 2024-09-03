@@ -62,7 +62,7 @@ const stocks = [
   },
 ];
 
-const FeaturedCourses: React.FC = () => {
+const AchiveingLearningSlider = () => {
   const [progress, setProgress] = useState(0);
   const [slideToShow, setSlideToShow] = useState(3);
 
@@ -122,59 +122,61 @@ const FeaturedCourses: React.FC = () => {
       },
     ],
   };
-
   return (
-    <div className={styles.courseContainer}>
-      <Slider {...settings}>
-        {stocks.map((stock) => (
-          <div key={stock.id}>
-            <Card className={styles.card}>
-              <CardImg
-                top
-                width="100%"
-                src={stock.imageSrc}
-                alt={stock.title}
-                className={styles.cardImage}
-              />
-              <CardBody className={styles.cardContent}>
-                <CardTitle tag="h3" className={styles.cardTitle}>
-                  {stock.title}
-                </CardTitle>
-                <div className={styles.iconRow}>
-                  <div className={styles.iconText}>
-                    <TbAntennaBars1 className={styles.icon} /> Beginner
+    <div className={styles.AchiveingLearningSlider}>
+      <h1>
+        See what others are <br />
+        achieving through learning
+      </h1>
+      <div className="mt-3">
+        <Slider {...settings}>
+          {stocks.map((stock) => (
+            <div key={stock.id}>
+              <Card className={styles.card}>
+                <CardImg
+                  top
+                  width="100%"
+                  src={stock.imageSrc}
+                  alt={stock.title}
+                  className={styles.cardImage}
+                />
+                <CardBody className={styles.cardContent}>
+                  <CardTitle tag="h3" className={styles.cardTitle}>
+                    {stock.title}
+                  </CardTitle>
+                  <div className={styles.iconRow}>
+                    <div className={styles.iconText}>
+                      <TbAntennaBars1 className={styles.icon} /> Beginner
+                    </div>
+                    <div className={styles.iconText}>
+                      <FaClock className={styles.icon} /> 20 Hours
+                    </div>
                   </div>
-                  <div className={styles.iconText}>
-                    <FaClock className={styles.icon} /> 20 Hours
+                  <div className={styles.cardRating}>
+                    {stock.rating} <FaStar className={styles.icon} /> (
+                    {stock.reviews} reviews)
                   </div>
-                </div>
-                <div className={styles.cardRating}>
-                  {stock.rating} <FaStar className={styles.icon} /> (
-                  {stock.reviews} reviews)
-                </div>
-                <div className={styles.priceContainer}>
-                  <h3>&#8377;{stock.price}</h3>{" "}
-                  <s>&#8377;{stock.originalPrice}</s>
-                  <button className={styles.addToCartButton}>
-                    Add to Cart
-                  </button>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
-        ))}
-      </Slider>
-      <div className={styles.progressContainer}>
-        <div
-          className={styles.progressBar}
-          style={{ width: `${progress}%` }}
-        ></div>
-      </div>
-      <div className={styles.viewAllCourses}>
-        <button>View all courses</button>
+                  <div className={styles.priceContainer}>
+                    <h3>&#8377;{stock.price}</h3>{" "}
+                    <s>&#8377;{stock.originalPrice}</s>
+                    <button className={styles.addToCartButton}>
+                      Add to Cart
+                    </button>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+          ))}
+        </Slider>
+        <div className={styles.progressContainer}>
+          <div
+            className={styles.progressBar}
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default FeaturedCourses;
+export default AchiveingLearningSlider;
