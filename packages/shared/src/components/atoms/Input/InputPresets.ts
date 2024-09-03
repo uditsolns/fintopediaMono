@@ -4,7 +4,7 @@ import { mScale } from "../../../theme/metrics";
 import { fontPresets } from "../../../theme/typography";
 
 const APP_BASE: TextStyle = {
-  ...fontPresets.medium,
+  ...fontPresets.body,
   padding: mScale.md,
   paddingHorizontal: mScale.lg,
   borderColor: "transparent",
