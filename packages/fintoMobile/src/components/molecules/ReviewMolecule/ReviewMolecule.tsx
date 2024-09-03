@@ -25,14 +25,12 @@ export default function ReviewMolecule({
         <TextAtom
           text={'Access to Quality Education'}
           preset="titleBold"
-          color={colorPresets.CTA}
           style={styles.boldText}
         />
         <TextAtom
           text="Online learning has completely transformed my educational experience. The flexibility to attend classes and complete assignments on my own schedule has been a game-changer for me. It's allowed me to balance my job and family commitments while pursuing my degree. I'm so grateful for the opportunity to learn this way!"
           preset="medium"
-          color={colorPresets.GRAY}
-          style={styles.boldText}
+          style={[styles.boldText,{color:colorPresets.GRAY}]}
         />
         <View style={[commonStyle.flexStart, {marginVertical: mScale.md}]}>
           <View
@@ -52,7 +50,7 @@ export default function ReviewMolecule({
             <TextAtom
               text={'Product Advisor'}
               preset="medium"
-              color={'#D5D5D9'}
+              style={{color:'#D5D5D9'}}
             />
           </View>
         </View>

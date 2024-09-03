@@ -20,11 +20,11 @@ const CoursePrice: React.FC<CoursePriceProps> = ({price, discount_price}) => {
       <TextAtom
         text={`₹ ${discount_price}`}
         preset="body"
-        color="#71717A"
         style={
           {
             marginStart: mScale.base,
             textDecorationLine: 'line-through',
+            color:"#71717A",
           } as TextStyle
         }
       />

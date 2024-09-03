@@ -27,7 +27,7 @@ export const Notification: React.FC<NotificationInterface> = () => {
         <TouchableOpacity>
           <TextAtom
             text={'Mark all as read'}
-            color={colorPresets.PRIMARY}
+            style={{color:colorPresets.PRIMARY}}
             preset="medium"
           />
         </TouchableOpacity>

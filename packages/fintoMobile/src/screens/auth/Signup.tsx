@@ -121,7 +121,6 @@ export const Signup: React.FC<SignupProps> = () => {
             <TextAtom
               text={`Already have an account ? `}
               preset="medium"
-              color={colorPresets.CTA}
             />
             <LinkButton
               text="Login"

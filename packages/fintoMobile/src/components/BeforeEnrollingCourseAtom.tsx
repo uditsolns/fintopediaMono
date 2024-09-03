@@ -54,8 +54,7 @@ export const BeforeEnrollingCourseAtom: React.FC<
             <TextAtom
               text={title}
               preset="medium"
-              color={'#CFCFD3'}
-              style={{marginStart: mScale.md}}
+              style={{marginStart: mScale.md,color:'#CFCFD3'}}
             />
           </View>
         </View>
@@ -85,7 +84,7 @@ export const BeforeEnrollingCourseAtom: React.FC<
           <TextAtom
             preset="small"
             text={'9 topics • 1 hrs'}
-            color={colorPresets.PRIMARY}
+            style={{color:colorPresets.PRIMARY}}
           />
         </View>
         {expanded ? 

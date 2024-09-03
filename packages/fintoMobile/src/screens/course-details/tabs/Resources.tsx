@@ -16,8 +16,7 @@ export const Resources: React.FunctionComponent<ResourcesProps> = () => {
         <TextAtom
           text="Upload your completed project in pdf or docx format. After submitting, mentor will give feedback in 2-3 days"
           preset="medium"
-          color={'#D5D5D9'}
-          style={{marginVertical: mScale.md}}
+          style={{marginVertical: mScale.md,color:'#D5D5D9'}}
         />
         <View style={{marginVertical: mScale.base}}>
           <FlatList

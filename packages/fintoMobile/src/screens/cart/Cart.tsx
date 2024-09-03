@@ -93,7 +93,7 @@ export const Cart: React.FC<CartProps> = () => {
             </View>
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
-              <TextAtom text={'Discount'} preset="body" color={'#B5B5B5'} />
+              <TextAtom text={'Discount'} preset="body" style={{color:'#B5B5B5'}} />
               <TextAtom
                 text={'-₹ 1,000'}
                 preset="heading4"
@@ -101,8 +101,8 @@ export const Cart: React.FC<CartProps> = () => {
               />
             </View>
             <View style={[commonStyle.flexSpaceBetween, {}]}>
-              <TextAtom text={'GST'} preset="body" color={'#B5B5B5'} />
-              <TextAtom text={'+ ₹ 100'} preset="body" color={'#B5B5B5'} />
+              <TextAtom text={'GST'} preset="body" style={{color:'#B5B5B5'}} />
+              <TextAtom text={'+ ₹ 100'} preset="body" style={{color:'#B5B5B5'}} />
             </View>
             <View
               style={{
@@ -175,8 +175,7 @@ export const Cart: React.FC<CartProps> = () => {
           <TextAtom
             text={'₹ 1,000'}
             preset="titleBold"
-            style={{marginRight: mScale.sm}}
-            color={colorPresets.SECONDARY}
+            style={{marginRight: mScale.sm,color:colorPresets.SECONDARY}}
           />
           <TextAtom text={'on this order'} preset="titleBold" />
         </View>
@@ -190,8 +189,7 @@ export const Cart: React.FC<CartProps> = () => {
           <TextAtom
             text={'Grand total'}
             preset="medium"
-            color={'#B5B5B5'}
-            style={{marginBottom: mScale.xxs}}
+            style={{marginBottom: mScale.xxs,color:'#B5B5B5'}}
           />
           <TextAtom text={'₹ 7,000'} preset="heading3" />
         </View>
@@ -207,7 +205,7 @@ export const Cart: React.FC<CartProps> = () => {
             <TextAtom
               text={'Proceed to checkout'}
               preset={'heading4'}
-              color={'#0C0C0C'}
+              style={{color:'#0C0C0C'}}
             />
           </Pressable>
         </View>

@@ -32,13 +32,11 @@ export const EmailVerification: React.FC<EmailVerificationProps> = ({}) => {
             <TextAtom
               text={`Verify your email address`}
               preset="heading1"
-              color={colorPresets.CTA}
               style={{textAlign: 'center'}}
             />
             <TextAtom
               text={`Please check your inbox and click the verification link to confirm your email address. This step helps us ensure the security of your account and allows you to access all our courses seamlessly.`}
               preset="medium"
-              color={colorPresets.CTA}
               style={{textAlign: 'center'}}
             />
           </View>
@@ -50,7 +48,6 @@ export const EmailVerification: React.FC<EmailVerificationProps> = ({}) => {
             ]}>
             <TextAtom
               text={`Didn’t get e-mail? `}
-              color={colorPresets.CTA}
               preset="medium"
               style={{textAlign: 'center'}}
             />

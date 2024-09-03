@@ -98,14 +98,12 @@ export const Onboarding: React.FC<OnboardingProps> = ({}) => {
                   <TextAtom
                     text={item.title}
                     preset="banner"
-                    color={colorPresets.CTA}
-                    style={styles.titleText}
+                    style={[styles.titleText,{}]}
                   />
                   <TextAtom
                     text={item.description}
                     preset="medium"
-                    color={'#D5D5D9'}
-                    style={styles.descriptionText}
+                    style={[styles.descriptionText,{color:'#D5D5D9'}]}
                   />
                 </View>
               </View>

@@ -33,7 +33,6 @@ export const OTP: React.FC<OTPProps> = ({}) => {
             <TextAtom
               text={`Verify your email address`}
               preset="heading1"
-              color={colorPresets.CTA}
               style={{textAlign: 'center'}}
             />
             <TextAtom
@@ -49,7 +48,6 @@ export const OTP: React.FC<OTPProps> = ({}) => {
               text={`Didn’t get email? Kindly check spam box too `}
               preset="medium"
               style={{textAlign: 'center'}}
-              color={colorPresets.CTA}
             />
             <View style={[commonStyle.flexCenter, {marginVertical: mScale.md}]}>
               <LinkButton
@@ -61,7 +59,6 @@ export const OTP: React.FC<OTPProps> = ({}) => {
                 text={'30 sec'}
                 preset="medium"
                 style={{marginStart: mScale.md}}
-                color={colorPresets.CTA}
               />
             </View>
           </View>

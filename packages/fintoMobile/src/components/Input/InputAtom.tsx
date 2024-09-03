@@ -45,7 +45,6 @@ export const InputAtom: React.FC<InputAtomProps> = ({
         <TextAtom
           text={label}
           preset="title"
-          color={colorPresets.CTA}
           style={{marginVertical: mScale.md}}
         />
       ) : null}

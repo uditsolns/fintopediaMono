@@ -95,7 +95,7 @@ export const MultilineTextInputAtom: React.FC<MultilineTextInputAtomProps> = ({
             <TextAtom
               text={'Save'}
               preset="xSmallBold"
-              color={colorPresets.BLACK}
+              style={{color:colorPresets.BLACK}}
             />
           </TouchableOpacity>
         </View>

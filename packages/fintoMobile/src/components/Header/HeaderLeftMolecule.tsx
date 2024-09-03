@@ -27,7 +27,7 @@ export default function HeaderLeftMolecule({text}: HeaderLeftMoleculeProps) {
         }}>
         <Images.SVG.ChevronLeft width={24} color={colorPresets.CTA} />
       </Pressable>
-      <TextAtom text={text} color={colorPresets.CTA} preset="heading2" />
+      <TextAtom text={text} preset="heading2" />
     </View>
   );
 }

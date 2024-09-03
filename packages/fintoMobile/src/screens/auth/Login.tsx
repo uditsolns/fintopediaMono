@@ -52,7 +52,6 @@ export const Login: React.FC<LoginProps> = ({}) => {
             <TextAtom
               text={`Don't have an account ? `}
               preset="medium"
-              color={colorPresets.CTA}
             />
             <LinkButton
               text="Register now"

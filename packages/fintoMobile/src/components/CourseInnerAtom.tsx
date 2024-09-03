@@ -62,8 +62,7 @@ export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({
             <TextAtom
               text={duration}
               preset="medium"
-              color={'#6D6E6E'}
-              style={{marginStart: mScale.sm}}
+              style={{marginStart: mScale.sm,color:'#6D6E6E'}}
             />
           </View>
         </View>

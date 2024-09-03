@@ -33,7 +33,6 @@ export const TwoFAuth: React.FC<TwoFAuthProps> = ({}) => {
             <TextAtom
               text={`Two-Factor Authentication`}
               preset="heading1"
-              color={colorPresets.CTA}
               style={{textAlign: 'center'}}
             />
             <TextAtom
@@ -61,7 +60,6 @@ export const TwoFAuth: React.FC<TwoFAuthProps> = ({}) => {
                 text={'30 sec'}
                 preset="medium"
                 style={{marginStart: mScale.md}}
-                color={colorPresets.CTA}
               />
             </View>
           </View>

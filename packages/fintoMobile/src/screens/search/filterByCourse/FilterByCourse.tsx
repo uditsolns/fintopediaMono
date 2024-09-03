@@ -37,12 +37,11 @@ export const FilterByCourse: React.FC<FilterByCourseInterface> = () => {
                 <TextAtom
                   text={'Investment Strategy '}
                   preset="large"
-                  color={colorPresets.CTA}
                 />
                 <TextAtom
                   text={'(1,203)'}
                   preset="large"
-                  color={colorPresets.GRAY}
+                  style={{color:colorPresets.GRAY}}
                 />
               </View>
             );

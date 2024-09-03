@@ -30,13 +30,11 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
             <TextAtom
               text={`Reset Password?`}
               preset="heading1"
-              color={colorPresets.CTA}
               style={{textAlign: 'center'}}
             />
             <TextAtom
               text={`Enter your new password. The password should contain 8 characters`}
               preset="medium"
-              color={colorPresets.CTA}
               style={{textAlign: 'center'}}
             />
           </View>

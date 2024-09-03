@@ -43,7 +43,7 @@ export const InputAtom: React.FC<InputAtomProps> = ({
     shape === "circle" ? mScale.xxl : shape === "square" ? mScale.md : 0;
   return (
     <View>
-      {label ? <TextAtom text={label} preset="title" color={colorPresets.CTA} /> : null}
+      {label ? <TextAtom text={label} preset="title" style={{color:colorPresets.CTA}} /> : null}
       <View
         onLayout={(event) => {
           const { width, height } = event.nativeEvent.layout;

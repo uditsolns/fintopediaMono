@@ -41,7 +41,7 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = () => {
           }}>
           <TextAtom text={'Schedule Daily Timer'} preset="heading4" />
           <TextAtom
-            color={'#D5D5D9'}
+            style={{color:'#D5D5D9'}}
             text={
               'Set up push notifications or calendar events to stay on track for your learning goals.'
             }
@@ -73,9 +73,9 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = () => {
           }}>
           <TextAtom text={'Mobile Notification'} preset="heading4" />
           <TextAtom
-            color={'#D5D5D9'}
             text={'Receive learning reminders on your mobile device.'}
             preset="medium"
+            style={{color:'#D5D5D9'}}
           />
           <InputAtom shape='square' placeholder={'Your phone number'} />
           {/* <SmallButtonAtom
@@ -86,7 +86,7 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = () => {
             }}
           /> */}
           <TextAtom
-            color={'#9D9D9D'}
+            style={{color:'#9D9D9D'}}
             preset="xSmall"
             text={`By providing your phone number, you agree to receive a one-time automated text message with a link to get app. Standard messaging rates may apply.`}
           />
@@ -149,11 +149,9 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = () => {
                   <TextAtom
                     text={el?.text}
                     preset="xSmallBold"
-                    color={
-                      selectedReminder == el?.id
-                        ? colorPresets.CTA
-                        : colorPresets.GRAY
-                    }
+                    style={{color:selectedReminder == el?.id
+                      ? colorPresets.CTA
+                      : colorPresets.GRAY}}
                   />
                 </TouchableOpacity>
               ))}

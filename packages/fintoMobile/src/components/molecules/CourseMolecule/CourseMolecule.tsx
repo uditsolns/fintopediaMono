@@ -25,7 +25,6 @@ export default function CourseMolecule({ item, onPress }: OngoingMoleculeProps) 
         <TextAtom
           text="Swing Trading Basics"
           preset="titleBold"
-          color={colorPresets.CTA}
           numberOfLines={3}
           style={{ marginTop: mScale.md }}
         />

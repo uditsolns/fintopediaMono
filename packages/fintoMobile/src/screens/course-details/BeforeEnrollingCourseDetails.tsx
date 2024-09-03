@@ -83,7 +83,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               'These concepts seem scary but are actually very easy to understand if they are taught in a practical manner'
             }
             preset="medium"
-            color={'#D5D5D9'}
+            style={{color:'#D5D5D9'}}
           />
 
           <View>
@@ -126,7 +126,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
 
                 <TextAtom
                   preset="body"
-                  color={'#F3F4F7'}
+                  style={{color:'#F3F4F7'}}
                   text={
                     'Practical learning through real-life examples.Wide range of options trading strategies'
                   }
@@ -254,7 +254,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
           <TextAtom
             preset="body"
             text={'3 sections • 24 topics • 4 hrs 38 mins content'}
-            color={'#E8EBED'}
+            style={{color:'#E8EBED'}}
           />
           <View>
             <FlatList

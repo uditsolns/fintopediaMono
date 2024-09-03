@@ -29,14 +29,12 @@ export default function ContinueLearningMolecule({
         <TextAtom
           text={'Introduction to Option Trading'}
           preset="medium"
-          color={colorPresets.GRAY}
-          style={styles.boldText}
+          style={[styles.boldText,{color:colorPresets.GRAY}]}
           numberOfLines={3}
         />
         <TextAtom
           text="Module 01. Understanding Future & Options"
           preset="titleBold"
-          color={colorPresets.CTA}
           numberOfLines={3}
           style={{ marginTop: mScale.md }}
         />
@@ -44,20 +42,17 @@ export default function ContinueLearningMolecule({
           <TextAtom
             text={'Lecture'}
             preset="medium"
-            color={colorPresets.GRAY}
-            style={styles.boldText}
+            style={[styles.boldText,{color:colorPresets.GRAY}]}
           />
           <TextAtom
             text={'\u2B24'}
             preset="titleBold"
-            color={colorPresets.GRAY}
-            style={[styles.boldText, { marginStart: mScale.md }]}
+            style={[styles.boldText, { marginStart: mScale.md,color:colorPresets.GRAY }]}
           />
           <TextAtom
             text={'12 Minutes'}
             preset="medium"
-            color={colorPresets.GRAY}
-            style={[styles.boldText, { marginStart: mScale.md }]}
+            style={[styles.boldText, { marginStart: mScale.md,color:colorPresets.GRAY }]}
           />
         </View>
       </View>

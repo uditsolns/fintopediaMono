@@ -39,7 +39,7 @@ export default function Header({
       <View style={[commonStyle.flexStart, {gap: mScale.lg1, flex: 1}]}>
         {visible ? <Images.SVG.ChevronLeft width={24} /> : null}
         {textVisible ? (
-          <TextAtom text={text} color={colorPresets.CTA} preset="heading2" />
+          <TextAtom text={text}  preset="heading2" />
         ) : null}
       </View>
       <View style={[commonStyle.flexSpaceBetween]}>

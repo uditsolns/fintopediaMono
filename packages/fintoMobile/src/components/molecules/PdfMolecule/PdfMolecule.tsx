@@ -38,15 +38,13 @@ export default function PdfMolecule({item, onPress}:{item?:any,onPress?:()=>void
         <TextAtom
           text={'Money Market.pdf'}
           preset="heading4"
-          color={colorPresets.CTA}
           style={[styles.boldText, {marginTop: mScale.base}]}
           numberOfLines={2}
         />
         <TextAtom
           text={`Sat, Apr 20  \u2B24  7.5 MB`}
           preset="medium"
-          color={colorPresets.GRAY}
-          style={{fontWeight: '400', marginVertical: mScale.md}}
+          style={{fontWeight: '400', marginVertical: mScale.md,color:colorPresets.GRAY}}
           numberOfLines={2}
         />
       </View>

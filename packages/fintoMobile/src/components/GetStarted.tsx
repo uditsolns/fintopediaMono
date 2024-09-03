@@ -45,8 +45,7 @@ const GetStarted: React.FunctionComponent<GetStartedInterface> = ({
             <TextAtom
               text={titleDesc}
               preset="xSmall"
-              color={'#D5D5D9'}
-              style={{ width: moderateScale(135) }}
+              style={{ width: moderateScale(135),color:"#D5D5D9" }}
             />
           ) : null}
         </View>

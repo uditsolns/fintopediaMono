@@ -28,15 +28,13 @@ export default function CouponMolecule({item, onPress}: CouponMoleculeProps) {
           <TextAtom
             text={'Extra 10% Off'}
             preset="heading3"
-            color={'#D5D5D9'}
-            style={{fontWeight: '500'}}
+            style={{fontWeight: '500',color:'#D5D5D9'}}
             numberOfLines={2}
           />
           <TextAtom
             text={'On all finance courses'}
             preset="small"
-            color={'#A2A2A2'}
-            style={{fontWeight: '400', marginTop: mScale.xs}}
+            style={{fontWeight: '400', marginTop: mScale.xs,color:'#A2A2A2'}}
             numberOfLines={2}
           />
         </View>

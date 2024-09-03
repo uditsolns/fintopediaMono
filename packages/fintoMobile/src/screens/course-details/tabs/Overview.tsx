@@ -18,7 +18,7 @@ export const Overview: React.FunctionComponent<OverviewProps> = () => {
                 'The most complete course available on Product Management. 13+ hours of videos, activities, interviews, &  more'
               }
               preset="body"
-              color={'#C8C8CC'}
+              style={{color:'#C8C8CC'}}
             />
           </View>
         </View>
@@ -97,7 +97,7 @@ export const Overview: React.FunctionComponent<OverviewProps> = () => {
 
 The most updated and complete Product Management course on Udemy! You'll learn the skills that make up the entire Product Management job and process: from ideation to market research, to UX wireframing to prototyping, technology, metrics, and finally to building the product with user stories, project management, scoping, and leadership. We even have interviews with real life PMs, Q&A sessions with students, and a comprehensive guide to preparing and interviewing for a Product Management job. read less`}
               preset="body"
-              color={'#C8C8CC'}
+              style={{color:'#C8C8CC'}}
             />
             
           </View>

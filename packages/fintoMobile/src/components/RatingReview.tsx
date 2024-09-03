@@ -26,8 +26,7 @@ const RatingReview: React.FC<RatingReviewProps> = ({
       <TextAtom
         text={`(${review} reviews)`}
         preset="medium"
-        color="#71717A"
-        style={{marginStart: mScale.sm} as TextStyle}
+        style={{marginStart: mScale.sm,color:'#71717A'} as TextStyle}
       />
     </View>
   );

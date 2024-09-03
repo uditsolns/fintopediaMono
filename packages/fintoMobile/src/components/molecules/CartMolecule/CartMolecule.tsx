@@ -31,7 +31,6 @@ export default function CartMolecule({
           <TextAtom
             text="Swing Trading Basics"
             preset="titleBold"
-            color={colorPresets.CTA}
             style={styles.boldText}
             numberOfLines={3}
           />
@@ -67,8 +66,7 @@ export default function CartMolecule({
               <TextAtom
                 text={'Save for later'}
                 preset="smallBold"
-                style={[commonStyle.underline]}
-                color={colorPresets.PRIMARY}
+                style={[commonStyle.underline,{color:colorPresets.PRIMARY}]}
               />
             </Pressable>
           ) : null}
@@ -76,8 +74,7 @@ export default function CartMolecule({
             <TextAtom
               text={'Remove'}
               preset="smallBold"
-              style={[commonStyle.underline]}
-              color={colorPresets.TERTIARY}
+              style={[commonStyle.underline,{color:colorPresets.TERTIARY}]}
             />
           </Pressable>
         </View>

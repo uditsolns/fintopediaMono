@@ -27,9 +27,8 @@ const SortbyAtom: React.FC<SortbyAtomInterface> = ({
       <View>
         <TextAtom
           text={sortByTitle}
-          color={'#D1D1D5'}
           preset="medium"
-          style={{fontWeight: '400'}}
+          style={{fontWeight: '400',color:'#D1D1D5'}}
         />
         <TextAtom
           numberOfLines={1}

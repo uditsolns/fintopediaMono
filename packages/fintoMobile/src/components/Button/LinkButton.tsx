@@ -23,8 +23,7 @@ export const LinkButton: React.FC<LinkButtonProps> = ({
       <TextAtom
         text={text}
         preset={preset}
-        color={linkColor}
-        style={{textDecorationLine: 'underline'}}
+        style={{textDecorationLine: 'underline',color:linkColor}}
       />
     </Pressable>
   );

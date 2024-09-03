@@ -55,8 +55,8 @@ export const Coupon: React.FunctionComponent<CouponProps> = () => {
                 }}>
                 <TextAtom
                   text={'Apply'}
-                  color={colorPresets.BLACK}
                   preset="titleBold"
+                  style={{color:colorPresets.BLACK}}
                 />
               </TouchableOpacity>
             </View>

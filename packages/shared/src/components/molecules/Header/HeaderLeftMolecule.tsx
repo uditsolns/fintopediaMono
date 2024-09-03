@@ -25,9 +25,8 @@ export default function HeaderLeftMolecule({ text }: HeaderLeftMoleculeProps) {
       <Images.SVG.ChevronLeft width={24} />
       <TextAtom
         text={text}
-        color={colorPresets.CTA}
         preset="title"
-        style={{ flex: 1 }}
+        style={{ flex: 1,color:colorPresets.CTA }}
       />
     </View>
   );

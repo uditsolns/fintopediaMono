@@ -60,8 +60,7 @@ export const Search: React.FC<SearchProps> = ({}) => {
               <TextAtom
                 preset="large"
                 text={`(1,235)`}
-                style={{marginStart: mScale.sm}}
-                color={colorPresets.GRAY}
+                style={{color:colorPresets.GRAY,marginStart: mScale.sm}}
               />
             </View>
             <View

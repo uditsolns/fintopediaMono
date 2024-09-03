@@ -74,8 +74,8 @@ const Dropdown: React.FC<DropdownProps> = ({
       onPress={() => handleOptionSelect(item)}>
       <TextAtom
         text={item[itemLabelField]}
-        color={dropdownTextColor}
         preset={dropdownTextSize}
+        style={{color:dropdownTextColor}}
       />
     </TouchableOpacity>
   );
@@ -86,8 +86,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         <TextAtom
           text={dropdownTitle}
           preset="title"
-          color={colorPresets.CTA}
-          style={{marginVertical: mScale.md}}
+          style={{marginVertical: mScale.md,color:colorPresets.CTA}}
         />
       )}
       <View
@@ -124,8 +123,8 @@ const Dropdown: React.FC<DropdownProps> = ({
             ]}>
             <TextAtom
               text={selectedOption || placeholder}
-              color={textColor || colorPresets.CTA}
               preset="medium"
+              style={{color:textColor || colorPresets.CTA}}
             />
           </View>
           {/* <TextInput

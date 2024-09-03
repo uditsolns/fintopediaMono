@@ -52,8 +52,7 @@ export default function LearningMolecule({
         <TextAtom
           text="Online learning has completely transformed my educational experience."
           preset="medium"
-          color={colorPresets.GRAY}
-          style={styles.boldText}
+          style={[styles.boldText,{color:colorPresets.GRAY}]}
         />
       </View>
     </Pressable>

@@ -3,7 +3,7 @@ import { colorPresets } from '@shared/src/theme/color';
 import { mScale, WINDOW_HEIGHT, WINDOW_WIDTH } from '@shared/src/theme/metrics';
 import React, {useRef, useState} from 'react';
 import {ImageBackground, Pressable, StyleSheet, View, ViewStyle, TextStyle, ImageStyle} from 'react-native';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
+import Carousel from 'react-native-reanimated-carousel';
 
 
 interface CarouselAtomProps {}
@@ -32,8 +32,7 @@ export default function CarouselAtom() {
           <TextAtom
             text="Explore now"
             preset="titleBold"
-            color={colorPresets.PRIMARY}
-            style={styles.exploreText}
+            style={[styles.exploreText,{color:colorPresets.PRIMARY}]}
           />
         </View>
       </ImageBackground>
@@ -51,7 +50,7 @@ export default function CarouselAtom() {
         itemWidth={WINDOW_WIDTH * 0.92}
         onSnapToItem={(index: number) => setActiveSlide(index)}
       />
-      <View style={styles.paginationContainer}>
+      {/* <View style={styles.paginationContainer}>
         <Pagination
           dotsLength={5}
           activeDotIndex={activeSlide}
@@ -61,7 +60,7 @@ export default function CarouselAtom() {
           inactiveDotOpacity={0.4}
           inactiveDotScale={0.6}
         />
-      </View>
+      </View> */}
     </View>
   );
 }

@@ -97,7 +97,7 @@ export const CheckoutStep: React.FunctionComponent<CheckoutStepProps> = ({
                     <TextAtom
                       text={String(step)}
                       preset="xSmall"
-                      color={styles.circleText.color}
+                      style={{color:styles.circleText.color}}
                     />
                   )}
                 </View>
@@ -110,8 +110,8 @@ export const CheckoutStep: React.FunctionComponent<CheckoutStepProps> = ({
                       : 'Payment'
                   }
                   preset="title"
-                  color={styles.text.color}
-                  style={{marginStart: mScale.md}}
+
+                  style={{marginStart: mScale.md,color:styles.text.color}}
                 />
               </View>
               {step < 3 && (

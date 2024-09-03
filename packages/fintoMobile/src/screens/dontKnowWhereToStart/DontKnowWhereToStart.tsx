@@ -6,7 +6,7 @@ import Dropdown from '@src/components/Dropdown/Dropdown';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, TextStyle, View } from 'react-native';
 import { CategoriesArr } from '../auth/Signup';
 import { colorPresets } from '@shared/src/theme/color';
 import GroupRadioButton from '@src/components/GroupRadioButton';
@@ -48,7 +48,7 @@ export const DontKnowWhereToStart: React.FunctionComponent<
                 textAlign: 'center',
                 marginTop: mScale.base,
                 marginBottom: mScale.lg2,
-              }}
+              } as TextStyle}
             />
             <Dropdown
               dropdownItemArr={CategoriesArr}

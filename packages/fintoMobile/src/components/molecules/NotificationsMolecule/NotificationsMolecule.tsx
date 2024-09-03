@@ -49,7 +49,7 @@ export const NotificationsMolecule: React.FC<
           <TextAtom
             text={'Create screens directly in Method.'}
             preset="xSmall"
-            color={'#C8C8CC'}
+            style={{color:'#C8C8CC'}}
             numberOfLines={2}
           />
         </View>

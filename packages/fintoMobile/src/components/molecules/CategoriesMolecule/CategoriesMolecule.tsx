@@ -37,7 +37,6 @@ export default function CategoriesMolecule({
       <TextAtom
         text={item?.name}
         preset="titleBold"
-        color={colorPresets.CTA}
         style={styles.boldText}
       />
     </Pressable>

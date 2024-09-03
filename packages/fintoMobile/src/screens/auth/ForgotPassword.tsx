@@ -30,13 +30,11 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({}) => {
             <TextAtom
               text={`Forgot Password?`}
               preset="heading1"
-              color={colorPresets.CTA}
               style={{textAlign: 'center'}}
             />
             <TextAtom
               text={`Enter your email address and we’ll send you the reset password link`}
               preset="medium"
-              color={colorPresets.CTA}
               style={{textAlign: 'center'}}
             />
           </View>
@@ -53,7 +51,6 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({}) => {
               text={`Didn’t get email? Kindly check spam box too `}
               preset="medium"
               style={{textAlign: 'center'}}
-              color={colorPresets.CTA}
             />
             <LinkButton
               text="Send it again?"

@@ -12,7 +12,6 @@ export default function FollowUsMolecule() {
       <TextAtom
         text={'Follow us on :'}
         preset="body"
-        color={colorPresets.CTA}
       />
       <View style={[commonStyle.flexCenter, {marginTop: mScale.md}]}>
         <View style={{marginRight: mScale.md}}>
