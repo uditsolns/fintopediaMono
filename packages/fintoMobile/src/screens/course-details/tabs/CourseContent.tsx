@@ -37,16 +37,29 @@ interface CourseContentProps {}
 export const CourseContent: React.FunctionComponent<
   CourseContentProps
 > = () => {
+  const [width, setWidth] = React.useState(WINDOW_WIDTH);
+  const [height, setHeight] = React.useState(WINDOW_HEIGHT);
+
   return (
-    <View style={{flex: 1,flexGrow:1, width: WINDOW_WIDTH, height: WINDOW_HEIGHT}}>
-      <FlatList
+    <View
+      // style={{flex: 1, flexGrow: 1, width: width, height: height, zIndex: 1}}
+      onLayout={event => {
+        const {width, height} = event.nativeEvent.layout;
+        setWidth(width);
+        setHeight(height);
+      }}>
+      {data.map(item => {
+        return (
+          <CourseInnerAtom section={item.section} lessons={item.lessons} />
+        );
+      })}
+      {/* <FlatList
         data={data}
         renderItem={({item}) => (
           <CourseInnerAtom section={item.section} lessons={item.lessons} />
         )}
         keyExtractor={(item, index) => index.toString()}
-        removeClippedSubviews={true}
-      />
+      /> */}
     </View>
   );
 };

@@ -3,6 +3,7 @@ import { Bell } from "./svg/Bell";
 import { Certificate } from "./svg/Certificate";
 import { CertificationIcon2 } from "./svg/CertificationIcon2";
 import { ChangePasswordIcon } from "./svg/ChangePasswordIcon";
+import { CheckBoxIcon2 } from "./svg/CheckBoxIcon2";
 import { ChevronDown } from "./svg/ChevronDown";
 import { ChevronLeft } from "./svg/ChevronLeft";
 import { ChevronRight } from "./svg/ChevronRight";
@@ -134,6 +135,7 @@ export const Images = {
     ChangePasswordIcon,
     PurchaseHistoryIcon,
     ContactIcon,
-    LogoutIcon
+    LogoutIcon,
+    CheckBoxIcon2
   },
 };

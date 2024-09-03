@@ -1,4 +1,5 @@
 import { commonStyle } from '@shared/src/commonStyle';
+import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import { colorPresets } from '@shared/src/theme/color';
 import { mScale } from '@shared/src/theme/metrics';
@@ -48,16 +49,8 @@ export const GrandTotalPrice: React.FunctionComponent<GrandTotalPriceProps> = ({
           />
         </View>
       </View>
-      {/* <SmallButtonAtom
-        btnTitle={btnTitle}
-        preset={'mediumBold'}
-        color={'#0C0C0C'}
-        style={{width: moderateScale(150)}}
-        onPress={onPress}
-      /> */}
-      <Pressable onPress={onPress}>
-        <TextAtom text={btnTitle} />
-      </Pressable>
+      <ButtonAtom title={`${btnTitle}`} onPress={onPress} />
+     
     </View>
   );
 };

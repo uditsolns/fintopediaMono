@@ -1,5 +1,6 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
@@ -46,6 +47,8 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({}) => {
               autoCapitalize="none"
             />
           </View>
+          <ButtonAtom title="Send link" />
+
           <View style={[{marginTop: mScale.base, alignSelf: 'center'}]}>
             <TextAtom
               text={`Didn’t get email? Kindly check spam box too `}

@@ -1,4 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
+import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
@@ -151,11 +152,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
               preset="medium"
               style={{textAlign: 'center', marginBottom: mScale.lg}}
             />
-            {/* <SmallButtonAtom
-              btnTitle={'Attempt quiz'}
-              preset={'titleBold'}
-              style={{width: moderateScale(169), alignSelf: 'center'}}
-            /> */}
+            <ButtonAtom title='Attempt quiz' />
           </ImageBackground>
         </View>
         <View style={{marginVertical: mScale.xl}}>

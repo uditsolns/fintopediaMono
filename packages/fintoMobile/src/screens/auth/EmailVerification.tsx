@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
@@ -40,7 +41,9 @@ export const EmailVerification: React.FC<EmailVerificationProps> = ({}) => {
               style={{textAlign: 'center'}}
             />
           </View>
-          <View style={{marginTop: mScale.lg2}}></View>
+          <View style={{marginTop: mScale.lg2}}>
+            <ButtonAtom title="Verify now" />
+          </View>
           <View
             style={[
               commonStyle.flexCenter,

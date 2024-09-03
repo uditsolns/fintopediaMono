@@ -133,16 +133,16 @@ export const PaymentSuccess: React.FunctionComponent<
             </View>
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
-              <TextAtom text={'Discount'} preset="body" style={{color:#B5B5B5}} />
+              <TextAtom text={'Discount'} preset="body" style={{color:'#B5B5B5'}} />
               <TextAtom
                 text={'-₹ 1,000'}
                 preset="heading4"
-                color={colorPresets.PRIMARY}
+                style={{color:colorPresets.PRIMARY}}
               />
             </View>
             <View style={[commonStyle.flexSpaceBetween, {}]}>
-              <TextAtom text={'GST'} preset="body" style={{color:#B5B5B5}} />
-              <TextAtom text={'+ ₹ 100'} preset="body" style={{color:#B5B5B5}} />
+              <TextAtom text={'GST'} preset="body" style={{color:'#B5B5B5'}} />
+              <TextAtom text={'+ ₹ 100'} preset="body" style={{color:'#B5B5B5'}} />
             </View>
             <View
               style={{

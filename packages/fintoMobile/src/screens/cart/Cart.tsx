@@ -14,6 +14,7 @@ import CartMolecule from '@src/components/molecules/CartMolecule/CartMolecule';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import {Images} from '@shared/src/assets';
 import {RouteKeys} from '@src/navigation/RouteKeys';
+import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
 
 interface CartProps {}
 
@@ -194,20 +195,10 @@ export const Cart: React.FC<CartProps> = () => {
           <TextAtom text={'₹ 7,000'} preset="heading3" />
         </View>
         <View>
-          <Pressable
-            style={{
-              paddingHorizontal: mScale.lg,
-              backgroundColor: colorPresets.CTA,
-            }}
-            onPress={() => {
+          <ButtonAtom title={'Proceed to checkout'} onPress={() => {
               navigation.navigate(RouteKeys.CHECKOUTSCREEN);
-            }}>
-            <TextAtom
-              text={'Proceed to checkout'}
-              preset={'heading4'}
-              style={{color:'#0C0C0C'}}
-            />
-          </Pressable>
+            }} />
+         
         </View>
       </View>
     </GradientTemplate>

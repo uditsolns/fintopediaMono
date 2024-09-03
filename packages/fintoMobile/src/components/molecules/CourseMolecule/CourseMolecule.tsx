@@ -1,4 +1,5 @@
 import { commonStyle } from '@shared/src/commonStyle';
+import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import { colorPresets } from '@shared/src/theme/color';
@@ -41,14 +42,7 @@ export default function CourseMolecule({ item, onPress }: OngoingMoleculeProps) 
         <RatingReview rating={'4.6'} review={'1,000'} />
         <View style={[commonStyle.flexSpaceBetween]}>
           <TextAtom text={`₹ 2,555`} preset="titleBold" />
-          {/* <SmallButtonAtom
-            btnTitle={'Add to cart'}
-            preset={'smallBoldTitle12'}
-            style={{
-              paddingHorizontal: mScale.base,
-              paddingVertical: mScale.sm,
-            }}
-          /> */}
+          <ButtonAtom title='Add to cart'  />
         </View>
       </View>
     </View>

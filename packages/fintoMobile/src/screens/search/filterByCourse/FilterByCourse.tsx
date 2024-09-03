@@ -1,5 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
+import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
@@ -81,11 +82,10 @@ export const FilterByCourse: React.FC<FilterByCourseInterface> = () => {
               navigation.navigate(RouteKeys.COURSECATEGORY)
             }}
           /> */}
-          <TouchableOpacity  onPress={()=>{
+          <ButtonAtom title='Save'  onPress={()=>{
               navigation.navigate(RouteKeys.COURSECATEGORYSCREEN)
-            }}>
-            <TextAtom text='Save' />
-          </TouchableOpacity>
+            }} />
+         
         </View>
       </ScrollViewAtom>
     </GradientTemplate>

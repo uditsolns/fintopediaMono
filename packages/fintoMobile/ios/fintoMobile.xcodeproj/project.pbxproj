@@ -49,12 +49,12 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-fintoMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fintoMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = fintoMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-fintoMobile-fintoMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fintoMobile-fintoMobileTests.release.xcconfig"; path = "Target Support Files/Pods-fintoMobile-fintoMobileTests/Pods-fintoMobile-fintoMobileTests.release.xcconfig"; sourceTree = "<group>"; };
-		93B4AF499F1C42FFA0084E9E /* InterTight-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "InterTight-Bold.ttf"; path = "../../../node_modules/shared/src/assets/fonts/InterTight-Bold.ttf"; sourceTree = "<group>"; };
-		A3AC34C98CAEA29898CA5A6A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = fintoMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		A9F94C18CA9E44A287B28610 /* InterTight-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "InterTight-Medium.ttf"; path = "../../../node_modules/shared/src/assets/fonts/InterTight-Medium.ttf"; sourceTree = "<group>"; };
+		93B4AF499F1C42FFA0084E9E /* InterTight-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "InterTight-Bold.ttf"; path = "../../../node_modules/shared/src/assets/fonts/InterTight-Bold.ttf"; sourceTree = "<group>"; };
+		A3AC34C98CAEA29898CA5A6A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = fintoMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A9F94C18CA9E44A287B28610 /* InterTight-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "InterTight-Medium.ttf"; path = "../../../node_modules/shared/src/assets/fonts/InterTight-Medium.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F718C16839F040C1AC17B1C2 /* InterTight-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "InterTight-SemiBold.ttf"; path = "../../../node_modules/shared/src/assets/fonts/InterTight-SemiBold.ttf"; sourceTree = "<group>"; };
-		FA9B3C15698A449585432701 /* InterTight-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "InterTight-Regular.ttf"; path = "../../../node_modules/shared/src/assets/fonts/InterTight-Regular.ttf"; sourceTree = "<group>"; };
+		F718C16839F040C1AC17B1C2 /* InterTight-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "InterTight-SemiBold.ttf"; path = "../../../node_modules/shared/src/assets/fonts/InterTight-SemiBold.ttf"; sourceTree = "<group>"; };
+		FA9B3C15698A449585432701 /* InterTight-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "InterTight-Regular.ttf"; path = "../../../node_modules/shared/src/assets/fonts/InterTight-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +171,7 @@
 				F718C16839F040C1AC17B1C2 /* InterTight-SemiBold.ttf */,
 			);
 			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -496,7 +497,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 866UZ77BT5;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = fintoMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -524,7 +524,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 866UZ77BT5;
 				INFOPLIST_FILE = fintoMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

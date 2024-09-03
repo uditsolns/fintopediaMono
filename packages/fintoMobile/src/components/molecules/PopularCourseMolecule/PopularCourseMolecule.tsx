@@ -1,3 +1,4 @@
+import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import { moderateScale, mScale } from '@shared/src/theme/metrics';
@@ -38,11 +39,7 @@ export default function PopularCourseMolecule({
         <ProgressBar level={'intermediate'} hours={36} />
         <RatingReview rating={4.6} review={1000} />
         <CoursePrice price={'2,999'} discount_price={'1,888'} />
-        {/* <SmallButtonAtom
-          btnTitle={'Add to cart'}
-          color={'#0C0C0C'}
-          preset={'smallBold'}
-        /> */}
+        <ButtonAtom title='Add to cart' />
       </View>
     </Pressable>
   );

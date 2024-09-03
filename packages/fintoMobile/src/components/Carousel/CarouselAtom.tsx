@@ -1,18 +1,26 @@
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import { colorPresets } from '@shared/src/theme/color';
 import { mScale, WINDOW_HEIGHT, WINDOW_WIDTH } from '@shared/src/theme/metrics';
-import React, {useRef, useState} from 'react';
-import {ImageBackground, Pressable, StyleSheet, View, ViewStyle, TextStyle, ImageStyle} from 'react-native';
+import React, { useState } from 'react';
+import {
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  View,
+  ViewStyle,
+  TextStyle,
+  ImageStyle,
+} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
-
 
 interface CarouselAtomProps {}
 
 export default function CarouselAtom() {
   const [activeSlide, setActiveSlide] = useState<number>(0);
-  const carouselRef = useRef<Carousel<CarouselAtomProps>>(null);
 
-  const renderCarousel = ({item}: {item: CarouselAtomProps}) => (
+  const data = [...Array(5)];
+
+  const renderCarousel = ({ item }: { item: CarouselAtomProps }) => (
     <Pressable style={styles.pressable}>
       <ImageBackground
         style={styles.imageBackground}
@@ -32,35 +40,56 @@ export default function CarouselAtom() {
           <TextAtom
             text="Explore now"
             preset="titleBold"
-            style={[styles.exploreText,{color:colorPresets.PRIMARY}]}
+            style={[styles.exploreText, { color: colorPresets.PRIMARY }]}
           />
         </View>
       </ImageBackground>
     </Pressable>
   );
 
+  const Pagination = () => {
+    return (
+      <View style={styles.paginationContainer}>
+        {data.map((_, index) => {
+          const isActive = activeSlide === index;
+
+          const dotSize = isActive ? mScale.md : mScale.sm; 
+          const dotColor = isActive ? colorPresets.PRIMARY : colorPresets.CTA; 
+          return (
+            <View
+              key={index}
+              style={[
+                styles.paginationDot,
+                {
+                  width: dotSize,
+                  height: dotSize,
+                  backgroundColor: dotColor,
+                },
+              ]}
+            />
+          );
+        })}
+      </View>
+    );
+  };
+
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1, alignSelf: 'center', marginBottom: mScale.lg2 }}>
       <Carousel
-        ref={carouselRef}
-        layout="default"
-        data={[...Array(5)]}
+        mode="parallax"
+        enabled={true}
+        data={data}
+        width={WINDOW_WIDTH * 0.92}
+        height={WINDOW_HEIGHT * 0.22}
         renderItem={renderCarousel}
-        sliderWidth={WINDOW_WIDTH}
-        itemWidth={WINDOW_WIDTH * 0.92}
         onSnapToItem={(index: number) => setActiveSlide(index)}
+        panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
+        pagingEnabled={false}
+        loop={true}
+        autoPlay={true}
+        scrollAnimationDuration={1000}
       />
-      {/* <View style={styles.paginationContainer}>
-        <Pagination
-          dotsLength={5}
-          activeDotIndex={activeSlide}
-          containerStyle={styles.pagination}
-          dotStyle={styles.paginationDot}
-          inactiveDotStyle={styles.inactivePaginationDot}
-          inactiveDotOpacity={0.4}
-          inactiveDotScale={0.6}
-        />
-      </View> */}
+      <Pagination />
     </View>
   );
 }
@@ -72,10 +101,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
     width: '100%',
+    alignSelf: 'center',
   } as ViewStyle,
   imageBackground: {
     width: '100%',
-    height: WINDOW_HEIGHT * 0.2,
+    height: WINDOW_HEIGHT * 0.21,
   } as ImageStyle,
   offerBanner: {
     backgroundColor: colorPresets.TERTIARY,
@@ -96,20 +126,11 @@ const styles = StyleSheet.create({
     marginTop: mScale.md,
   } as TextStyle,
   paginationContainer: {
-    alignItems: 'center',
-    position: 'relative',
-    width: '100%',
-    bottom: mScale.md,
+    flexDirection: 'row',
+    justifyContent: 'center',
   } as ViewStyle,
-  pagination: {} as ViewStyle,
   paginationDot: {
-    width: mScale.md,
-    height: mScale.md,
-    borderRadius: mScale.md / 2,
-    marginHorizontal: -mScale.md,
-    backgroundColor: colorPresets.PRIMARY,
-  } as ViewStyle,
-  inactivePaginationDot: {
-    backgroundColor: colorPresets.CTA,
+    borderRadius: 25,
+    marginHorizontal: 3,
   } as ViewStyle,
 });

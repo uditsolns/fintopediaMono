@@ -1,36 +1,37 @@
-import { Images } from '@shared/src/assets';
-import { commonStyle } from '@shared/src/commonStyle';
+import {Images} from '@shared/src/assets';
+import {commonStyle} from '@shared/src/commonStyle';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
-import { colorPresets } from '@shared/src/theme/color';
-import { moderateScale, mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {colorPresets} from '@shared/src/theme/color';
+import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import Header from '@src/components/Header/Header';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import ProgressBar from '@src/components/ProgressBar';
 import RatingReview from '@src/components/RatingReview';
 import React from 'react';
-import { FlatList, Pressable, View } from 'react-native';
-import { data } from './tabs/CourseContent';
-import { BeforeEnrollingCourseAtom } from '@src/components/BeforeEnrollingCourseAtom';
-import { ViewAll } from '@src/components/ViewAll/ViewAll';
+import {FlatList, Pressable, View} from 'react-native';
+import {data} from './tabs/CourseContent';
+import {BeforeEnrollingCourseAtom} from '@src/components/BeforeEnrollingCourseAtom';
+import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import LearningMolecule from '@src/components/molecules/LearningMolecule/LearningMolecule';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 
 interface BeforeEnrollingCourseDetailsProps {}
 export const BeforeEnrollingCourseDetails: React.FunctionComponent<
   BeforeEnrollingCourseDetailsProps
 > = () => {
-  const renderItem = ({item}:{item:any}) => {
+  const renderItem = ({item}: {item: any}) => {
     return <LearningMolecule item={item} itemWidth={'full-width'} />;
   };
 
-  const innerCategoriesRenderItem = ({item}:{item:any}) => {
+  const innerCategoriesRenderItem = ({item}: {item: any}) => {
     return <PopularCourseMolecule item={item} />;
   };
 
   return (
-    <GradientTemplate style={{paddingBottom: 0,paddingHorizontal:0}}>
+    <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0}}>
       <Header cartVisible={false} />
       <ScrollViewAtom>
         <View style={{paddingHorizontal: mScale.base}}>
@@ -54,7 +55,10 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
             </View>
             <ImageAtom
               sourceRequire={require('@shared/src/assets/img/courseplaceholder2.png')}
-              imageStyle={{width: WINDOW_WIDTH * 0.91, height: moderateScale(235)}}
+              imageStyle={{
+                width: WINDOW_WIDTH * 0.91,
+                height: moderateScale(235),
+              }}
               resizeMode="cover"
             />
             <View
@@ -83,20 +87,14 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               'These concepts seem scary but are actually very easy to understand if they are taught in a practical manner'
             }
             preset="medium"
-            style={{color:'#D5D5D9'}}
+            style={{color: '#D5D5D9'}}
           />
 
           <View>
             <ProgressBar level="intermediate" hours={'20'} mv={mScale.sm} />
             <RatingReview rating={4.6} review={1000} />
           </View>
-          {/* <SmallButtonAtom
-            preset={'smallBold'}
-            btnColor={colorPresets.PRIMARY}
-            color={colorPresets.WHITE}
-            btnTitle={'Course starts from  ₹ 2,999'}
-            style={{marginVertical: mScale.md}}
-          /> */}
+          <ButtonAtom title={'Course starts from  ₹ 2,999'} preset="fourthy" />
           <TextAtom
             text={'This course includes'}
             preset="heading3"
@@ -115,18 +113,13 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                     flex: 1,
                   },
                 ]}>
-                <View>
-                  <Images.SVG.RightTickIcon />
-                  </View>
-                {/* <IconButtonAtom2
-                  iconName={'checkbox'}
-                  size={mScale.lg}
-                  style={{marginEnd: mScale.md, marginTop: mScale.xxs}}
-                /> */}
+                <View style={{marginEnd: mScale.md, marginTop: mScale.xxs}}>
+                  <Images.SVG.CheckBoxIcon2 />
+                </View>
 
                 <TextAtom
                   preset="body"
-                  style={{color:'#F3F4F7'}}
+                  style={{color: '#F3F4F7'}}
                   text={
                     'Practical learning through real-life examples.Wide range of options trading strategies'
                   }
@@ -146,8 +139,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               commonStyle.flexSpaceBetween,
               {flexWrap: 'wrap', rowGap: 20},
             ]}>
-           
-           <Pressable
+            <Pressable
               style={{
                 backgroundColor: '#222431',
                 padding: mScale.base,
@@ -159,11 +151,12 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               }}>
               <ImageAtom
                 sourceRequire={require('@shared/src/assets/img/article.png')}
+                imageStyle={{width: 24, height: 24}}
               />
               <View style={{marginVertical: mScale.md}}>
                 <TextAtom text={'11 Articles'} preset="titleBold" />
                 <TextAtom
-                  preset="body"
+                  preset="small"
                   text={
                     'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
                   }
@@ -183,11 +176,12 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               }}>
               <ImageAtom
                 sourceRequire={require('@shared/src/assets/img/article.png')}
+                imageStyle={{width: 24, height: 24}}
               />
               <View style={{marginVertical: mScale.md}}>
                 <TextAtom text={'11 Articles'} preset="titleBold" />
                 <TextAtom
-                  preset="body"
+                  preset="small"
                   text={
                     'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
                   }
@@ -207,11 +201,12 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               }}>
               <ImageAtom
                 sourceRequire={require('@shared/src/assets/img/article.png')}
+                imageStyle={{width: 24, height: 24}}
               />
               <View style={{marginVertical: mScale.md}}>
                 <TextAtom text={'11 Articles'} preset="titleBold" />
                 <TextAtom
-                  preset="body"
+                  preset="small"
                   text={
                     'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
                   }
@@ -231,11 +226,12 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               }}>
               <ImageAtom
                 sourceRequire={require('@shared/src/assets/img/article.png')}
+                imageStyle={{width: 24, height: 24}}
               />
               <View style={{marginVertical: mScale.md}}>
                 <TextAtom text={'11 Articles'} preset="titleBold" />
                 <TextAtom
-                  preset="body"
+                  preset="small"
                   text={
                     'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
                   }
@@ -254,7 +250,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
           <TextAtom
             preset="body"
             text={'3 sections • 24 topics • 4 hrs 38 mins content'}
-            style={{color:'#E8EBED'}}
+            style={{color: '#E8EBED'}}
           />
           <View>
             <FlatList

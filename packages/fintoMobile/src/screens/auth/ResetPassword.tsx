@@ -1,5 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
@@ -56,6 +57,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({}) => {
               autoCapitalize="none"
             />
           </View>
+          <ButtonAtom title="Reset Password" />
         </View>
       </ScrollViewAtom>
     </GradientTemplate>

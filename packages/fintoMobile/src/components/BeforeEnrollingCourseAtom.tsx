@@ -41,16 +41,8 @@ export const BeforeEnrollingCourseAtom: React.FC<
         <View style={{flex: 1}}>
           <View style={[commonStyle.flexStart]}>
             <Pressable>
-              <Images.SVG.Play1 />
+              <Images.SVG.Play2 />
             </Pressable>
-            {/* <CustomCricleBtn
-              width={mScale.base}
-              height={mScale.base}
-              iconName="play"
-              btnBg={colorPresets.WHITE}
-              iconSize={mScale.sm}
-              iconColor={colorPresets.BLACK}
-            /> */}
             <TextAtom
               text={title}
               preset="medium"

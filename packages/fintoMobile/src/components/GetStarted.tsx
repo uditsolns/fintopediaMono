@@ -1,4 +1,5 @@
 import { commonStyle } from '@shared/src/commonStyle';
+import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import { colorPresets } from '@shared/src/theme/color';
 import { moderateScale, mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
@@ -23,7 +24,7 @@ const GetStarted: React.FunctionComponent<GetStartedInterface> = ({
     <View style={styles.container}>
       <Svg height="100%" width="100%" style={styles.svgContainer}>
         <Defs>
-          <LinearGradient id="grad" x1="0" y1="1" x2="1" y2="0">
+          <LinearGradient id="grad" x1="0" y1="1" x2="1" y2="1">
             <Stop offset="0%" stopColor="#2D303D" />
             <Stop offset="25%" stopColor="#212330" />
             <Stop offset="50%" stopColor="#101320" />
@@ -45,19 +46,11 @@ const GetStarted: React.FunctionComponent<GetStartedInterface> = ({
             <TextAtom
               text={titleDesc}
               preset="xSmall"
-              style={{ width: moderateScale(135),color:"#D5D5D9" }}
+              style={{ color:"#D5D5D9" }}
             />
           ) : null}
         </View>
-        {/* <SmallButtonAtom
-          btnTitle={btnTitle}
-          preset="smallBoldTitle12"
-          style={styles.button}
-          onPress={onPress}
-        /> */}
-        <Pressable onPress={onPress}>
-          <TextAtom text={btnTitle} />
-        </Pressable>
+        <ButtonAtom title={btnTitle} onPress={onPress}  />
       </View>
     </View>
   );
@@ -89,7 +82,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     width: '100%',
-    padding: mScale.lg,
+    padding: mScale.base,
     flex: 1,
   },
   button: {

@@ -1,25 +1,25 @@
-import { useRoute, RouteProp } from '@react-navigation/native';
-import { CourseDetailsRouteKeys } from '@src/navigation/RouteKeys';
+import {useRoute, RouteProp} from '@react-navigation/native';
+import {CourseDetailsRouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
-import { SceneMap, TabView } from 'react-native-tab-view';
-import { CourseContent } from './tabs/CourseContent';
-import { Overview } from './tabs/Overview';
-import { Notes } from './tabs/Notes';
-import { Reviews } from './tabs/Reviews';
-import { LearningMode } from './tabs/LearningMode';
-import { UploadProject } from './tabs/UploadProject';
-import { Resources } from './tabs/Resources';
+import {SceneMap, TabView} from 'react-native-tab-view';
+import {CourseContent} from './tabs/CourseContent';
+import {Overview} from './tabs/Overview';
+import {Notes} from './tabs/Notes';
+import {Reviews} from './tabs/Reviews';
+import {LearningMode} from './tabs/LearningMode';
+import {UploadProject} from './tabs/UploadProject';
+import {Resources} from './tabs/Resources';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
-import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
+import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import Header from '@src/components/Header/Header';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
-import { FlatList, View } from 'react-native';
-import { moderateScale, mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { Images } from '@shared/src/assets';
+import {FlatList, View} from 'react-native';
+import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {Images} from '@shared/src/assets';
 import ImageAtom from '@src/components/Image/ImageAtom';
-import { MyCourseTabMolecule } from '@src/components/molecules/MyCourseTabMolecule/MyCourseTabMolecule';
-import { ViewAll } from '@src/components/ViewAll/ViewAll';
+import {MyCourseTabMolecule} from '@src/components/molecules/MyCourseTabMolecule/MyCourseTabMolecule';
+import {ViewAll} from '@src/components/ViewAll/ViewAll';
 
 type RouteParams = {
   tab?: number;
@@ -30,7 +30,7 @@ interface AfterEnrollingCourseDetailsProps {}
 export const AfterEnrollingCourseDetails: React.FC<
   AfterEnrollingCourseDetailsProps
 > = () => {
-  let route = useRoute<RouteProp<{ params: RouteParams }>>();
+  let route = useRoute<RouteProp<{params: RouteParams}>>();
   const [index, setIndex] = React.useState(route.params?.tab ?? 0);
   const [routes] = React.useState(CourseDetailsRouteKeys);
 
@@ -52,12 +52,12 @@ export const AfterEnrollingCourseDetails: React.FC<
     resources: Resources,
   });
 
-  const innerCategoriesRenderItem = ({ item }: { item: any }) => {
+  const innerCategoriesRenderItem = ({item}: {item: any}) => {
     return <PopularCourseMolecule item={item} />;
   };
 
   return (
-    <GradientTemplate style={{ paddingBottom: 0, paddingHorizontal: 0 }}>
+    <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0}}>
       <Header />
       <ScrollViewAtom>
         <View
@@ -71,7 +71,7 @@ export const AfterEnrollingCourseDetails: React.FC<
             preset="heading2"
           />
         </View>
-        <View style={{ alignSelf: 'center', position: 'relative' }}>
+        <View style={{alignSelf: 'center', position: 'relative'}}>
           <View
             style={{
               position: 'absolute',
@@ -93,7 +93,7 @@ export const AfterEnrollingCourseDetails: React.FC<
           </View>
           <ImageAtom
             sourceRequire={require('@shared/src/assets/img/courseplaceholder2.png')}
-            style={{ width: WINDOW_WIDTH, height: moderateScale(235) }}
+            style={{width: WINDOW_WIDTH, height: moderateScale(235)}}
             resizeMode="cover"
           />
           <View
@@ -110,17 +110,20 @@ export const AfterEnrollingCourseDetails: React.FC<
             <Images.SVG.Play1 />
           </View>
         </View>
-        <TabView
-          navigationState={{ index, routes }}
-          renderTabBar={(props) => <MyCourseTabMolecule {...props} />}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          initialLayout={{ width: WINDOW_WIDTH }}
-          lazy={true}
-        />
-        <View style={{ marginVertical: mScale.xl }}>
+        <View style={{flex: 1}}>
+          <TabView
+            navigationState={{index, routes}}
+            renderTabBar={props => <MyCourseTabMolecule {...props} />}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={{width: WINDOW_WIDTH}}
+            lazy={true}
+            style={{flex: 1}}
+          />
+        </View>
+        <View style={{marginVertical: mScale.xl}}>
           <ViewAll title="Frequently Bought Together" visible={false} />
-          <View style={{ paddingLeft: mScale.base }}>
+          <View style={{paddingLeft: mScale.base}}>
             <FlatList
               data={[...Array(5)]}
               renderItem={innerCategoriesRenderItem}

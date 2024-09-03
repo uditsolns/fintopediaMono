@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, TextProps, View,TextStyle } from "react-native";
+import { Text, TextProps, View,TextStyle, StyleProp, ViewStyle } from "react-native";
 import { TextPresetType, TextPresets } from "./TextPresets";
 import { colorPresets } from "../../../theme/color";
 
@@ -8,7 +8,7 @@ interface TextAtomProps extends TextProps {
   translation?: string;
   preset?: TextPresetType;
   className?: string;
-  style?:TextStyle
+  style?:StyleProp<TextStyle> | StyleProp<ViewStyle>
 }
 
 export const TextAtom: React.FC<TextAtomProps> = ({

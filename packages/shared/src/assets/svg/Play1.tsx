@@ -6,8 +6,8 @@ export const Play1 = ({ width = 42 }: ISVGProps) => {
   if (Platform.OS === "web") {
     return (
       <svg
-        width={width}
-        height={width}
+        width="42"
+        height="42"
         viewBox="0 0 42 42"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ export const Play1 = ({ width = 42 }: ISVGProps) => {
     );
   }
   return (
-    <Svg width={width} height={width} viewBox="0 0 42 42" fill="none">
+    <Svg width="42" height="42" viewBox="0 0 42 42" fill="none">
       <Circle cx="21.4883" cy="20.5124" r="10.7442" fill="white" />
       <Path
         fill-rule="evenodd"

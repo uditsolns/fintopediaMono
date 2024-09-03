@@ -14,6 +14,7 @@ import {RouteKeys} from '@src/navigation/RouteKeys';
 import {useNavigation} from '@react-navigation/native';
 import Dropdown from '@src/components/Dropdown/Dropdown';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 
 interface SignupProps {}
 interface Category {
@@ -90,9 +91,9 @@ export const Signup: React.FC<SignupProps> = () => {
               dropdownItemArr={CategoriesArr}
               itemLabelField="name"
               onSelect={item => {
-                console.log(item)
+                console.log(item);
               }}
-              dropdownTitle='College/University'
+              dropdownTitle="College/University"
               placeholder={'Select category'}
               dropdownBg="#121622"
               dropdownTextColor={colorPresets.CTA}
@@ -118,10 +119,7 @@ export const Signup: React.FC<SignupProps> = () => {
             />
           </View>
           <View style={[commonStyle.flexStart, {marginTop: mScale.base}]}>
-            <TextAtom
-              text={`Already have an account ? `}
-              preset="medium"
-            />
+            <TextAtom text={`Already have an account ? `} preset="medium" />
             <LinkButton
               text="Login"
               onPress={() => {
@@ -129,6 +127,14 @@ export const Signup: React.FC<SignupProps> = () => {
               }}
             />
           </View>
+          <View style={{marginTop: mScale.base}}>
+            <ButtonAtom title="Register" />
+          </View>
+          <View style={{marginVertical: mScale.md, alignSelf: 'center'}}>
+            <TextAtom text={'or'} preset="medium" />
+          </View>
+          <ButtonAtom title="Continue as guest" preset="secondary" />
+
           <View style={{marginVertical: mScale.lg}}>
             <FollowUsMolecule />
           </View>
