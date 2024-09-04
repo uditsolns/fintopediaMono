@@ -2,13 +2,15 @@ import React from "react";
 import styles from "./Homepage.module.css";
 import Image from "next/image";
 import BgImage from "../../assets/user.png";
+import WorkImage from "../../assets/workImage.png";
 
 const HowitWorks = () => {
   return (
     <div className={styles.howitWorks}>
       <div className="row">
-        <div className="col-md-6">
-          <Image src={BgImage} alt="Image" className={styles.howitWorksImage} />
+        <div className="col-md-6 position-relative">
+          <Image src={BgImage} alt="Background Image" className={styles.howitWorksImage} />
+          <Image src={WorkImage} alt="Work Image" className={styles.worksImage} />
         </div>
         <div className="col-md-6">
           <div className={styles.howitWorksContent}>
@@ -22,7 +24,7 @@ const HowitWorks = () => {
                 <h6>Get a Course Certificate</h6>
                 <p>
                   Watching all course videos or completing all course modules.
-                  Passing quizzes, assignments, or exams with a certain score
+                  Passing quizzes, assignments, or exams with a certain score.
                 </p>
               </div>
             </div>

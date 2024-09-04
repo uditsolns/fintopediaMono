@@ -7,6 +7,9 @@ import FeaturedCourses from "./homepage/FeaturedCourses";
 import HowitWorks from "./homepage/HowitWorks";
 import CategoryBanner from "./homepage/CategoryBanner";
 import AchiveingLearningSlider from "./homepage/AchiveingLearningSlider";
+import CourseOffer from "./homepage/CourseOffer";
+import BlogsSlider from "./homepage/BlogsSlider";
+import BasicStockmarketBanner from "./homepage/BasicStockmarketBanner";
 
 // const Homepage = dynamic(() => import("./homepage/Homepage"), {
 //   ssr: false,
@@ -27,8 +30,11 @@ export default function Home() {
       <CategoryBanner/>
       <HowitWorks/>
       <AchiveingLearningSlider/>
+      <CourseOffer/>
+      <BlogsSlider/>
+      <BasicStockmarketBanner/>
       {/* game */}
-      <GamesPage />
+      {/* <GamesPage /> */}
     </div>
   );
 }

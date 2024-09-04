@@ -10,7 +10,7 @@ const StocksSlider: React.FC = () => {
     arrows: false, 
     infinite: false, 
     speed: 500,
-    slidesToShow: 4, 
+    slidesToShow: 5, 
     slidesToScroll: 1,
     draggable: true, 
     swipeToSlide: true, 
@@ -24,16 +24,16 @@ const StocksSlider: React.FC = () => {
         },
       },
       {
-        breakpoint: 768, // For screens 768px and below
+        breakpoint: 768, 
         settings: {
-          slidesToShow: 2, // Show 2 slides on smaller tablets
+          slidesToShow: 2, 
           slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 576, // For screens 576px and below (common mobile breakpoint)
+        breakpoint: 576, 
         settings: {
-          slidesToShow: 1, // Show 1 slide on mobile devices
+          slidesToShow: 1, 
           slidesToScroll: 1,
         },
       },
@@ -43,6 +43,7 @@ const StocksSlider: React.FC = () => {
 
   return (
     <div className={styles.sliderContainer}>
+      <h3>Top stocks in the market</h3>
       <Slider {...settings}>
         <div>
           <Card className={styles.stockCard}>

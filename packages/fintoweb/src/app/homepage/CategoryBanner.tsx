@@ -51,7 +51,7 @@ const CategoryBanner: React.FC = () => {
                             errors.college_id && touched.college_id
                               ? "is-invalid"
                               : ""
-                          }`}
+                          }`} 
                         >
                           <option>Select Category</option>
                         </Field>

@@ -2,9 +2,9 @@
   padding: 10px 50px;
 }
 .mainRow {
-  border-radius: 16px;
-  padding: 30px;
+  padding: 70px;
   flex-shrink: 0;
+  border-radius: 16px;
   border: 1px solid var(--L2, #7a7fa2);
   background: var(
     --BG,
@@ -20,8 +20,7 @@
 }
 .mainRow h1 {
   color: #fff;
-  font-family: "Inter Tight";
-  font-size: 48px;
+  font-size: 45px;
   font-style: normal;
   font-weight: 700;
   line-height: 120%; /* 57.6px */

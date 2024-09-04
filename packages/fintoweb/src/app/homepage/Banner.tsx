@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import styles from "./Homepage.module.css";
-import Back from "../../assets/Fintopedia logo-White.png";
+import Back from "../../assets/bannerBg.png";
 import { FaArrowRight } from "react-icons/fa";
 
 const Banner = () => {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Card, CardImg, CardBody, CardTitle } from "reactstrap";
+import { Card, CardImg, CardBody, CardTitle, CardText } from "reactstrap";
 import styles from "./Homepage.module.css";
 import { TbAntennaBars1 } from "react-icons/tb";
 import { FaClock, FaStar } from "react-icons/fa";
@@ -13,8 +13,9 @@ const stocks = [
   {
     id: 1,
     imageSrc: "https://via.placeholder.com/300x200",
-    title: "Basic of Stock Market",
-    description: "A brief description of Company A.",
+    title: "Mastering Option Trading",
+    description:
+      "Explore key strategies and concepts to enhance your option trading skills. Gain insights from expert Jyoti Budhia.Lorem ispum",
     rating: 4.6,
     reviews: 1000,
     price: 5000,
@@ -23,8 +24,9 @@ const stocks = [
   {
     id: 2,
     imageSrc: "https://via.placeholder.com/300x200",
-    title: "Mastering of Money Management",
-    description: "A brief description of Company B.",
+    title: "Decoding Market Trends",
+    description:
+      "Stay ahead with the latest market analysis and trend predictions. Learn how to make informed trading decisions.",
     rating: 4.8,
     reviews: 1500,
     price: 4500,
@@ -33,8 +35,9 @@ const stocks = [
   {
     id: 3,
     imageSrc: "https://via.placeholder.com/300x200",
-    title: "Basic of Stock Market",
-    description: "A brief description of Company C.",
+    title: "Leveraging Trading Technology",
+    description:
+      "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
     reviews: 800,
     price: 4000,
@@ -43,8 +46,9 @@ const stocks = [
   {
     id: 4,
     imageSrc: "https://via.placeholder.com/300x200",
-    title: "Basic of Stock Market",
-    description: "A brief description of Company C.",
+    title: "Fundamental Analysis for Traders",
+    description:
+      "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
     reviews: 800,
     price: 4000,
@@ -54,7 +58,8 @@ const stocks = [
     id: 5,
     imageSrc: "https://via.placeholder.com/300x200",
     title: "Basic of Stock Market",
-    description: "A brief description of Company C.",
+    description:
+      "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
     reviews: 800,
     price: 4000,
@@ -62,13 +67,13 @@ const stocks = [
   },
 ];
 
-const FeaturedCourses: React.FC = () => {
+const BlogsSlider: React.FC = () => {
   const [progress, setProgress] = useState(0);
-  const [slideToShow, setSlideToShow] = useState(3);
+  const [slideToShow, setSlideToShow] = useState(4);
 
   const setSlides = () => {
     if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
-      setSlideToShow(3);
+      setSlideToShow(4);
     } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
       setSlideToShow(2);
     } else if (window.innerWidth <= 650) {
@@ -105,7 +110,7 @@ const FeaturedCourses: React.FC = () => {
       {
         breakpoint: 1280,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
         },
       },
       {
@@ -124,41 +129,29 @@ const FeaturedCourses: React.FC = () => {
   };
 
   return (
-    <div className={styles.courseContainer}>
-      <h2 className={styles.couseHeading}>Featured Courses</h2>
+    <div className={styles.blogsContainer}>
+      <h2>Blogs</h2>
       <Slider {...settings}>
         {stocks.map((stock) => (
           <div key={stock.id}>
-            <Card className={styles.card}>
+            <Card className={styles.blogsCard}>
               <CardImg
                 top
                 width="100%"
                 src={stock.imageSrc}
                 alt={stock.title}
-                className={styles.cardImage}
+                className={styles.blogsCardImage}
               />
-              <CardBody className={styles.cardContent}>
-                <CardTitle tag="h3" className={styles.cardTitle}>
+              <CardBody className={styles.blogsCardContent}>
+                <p>Options Trading</p>
+                <CardTitle tag="h3" className={styles.blogsCardTitle}>
                   {stock.title}
                 </CardTitle>
-                <div className={styles.iconRow}>
-                  <div className={styles.iconText}>
-                    <TbAntennaBars1 className={styles.icon} /> Beginner
-                  </div>
-                  <div className={styles.iconText}>
-                    <FaClock className={styles.icon} /> 20 Hours
-                  </div>
+                <div className={styles.blogsCardText}>
+                  <p>{stock.description}</p>
                 </div>
-                <div className={styles.cardRating}>
-                  {stock.rating} <FaStar className={styles.icon} /> (
-                  {stock.reviews} reviews)
-                </div>
-                <div className={styles.priceContainer}>
-                  <h3>&#8377;{stock.price}</h3>{" "}
-                  <s>&#8377;{stock.originalPrice}</s>
-                  <button className={styles.addToCartButton}>
-                    Add to Cart
-                  </button>
+                <div className={styles.blogsFooter}>
+                  <p>28th March 2023 . 4 mins</p>
                 </div>
               </CardBody>
             </Card>
@@ -172,10 +165,10 @@ const FeaturedCourses: React.FC = () => {
         ></div>
       </div>
       <div className={styles.viewAllCourses}>
-        <button>View all courses</button>
+        <button>View all Blogs</button>
       </div>
     </div>
   );
 };
 
-export default FeaturedCourses;
+export default BlogsSlider;
