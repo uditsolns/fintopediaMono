@@ -1,17 +1,20 @@
-import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
-import { mScale } from '@shared/src/theme/metrics';
-import { MultilineTextInputAtom } from '@src/components/Input/MultilineTextInputAtom';
+import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
+import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {MultilineTextInputAtom} from '@src/components/Input/MultilineTextInputAtom';
 import ReviewMolecule from '@src/components/molecules/ReviewMolecule/ReviewMolecule';
-import { ViewAll } from '@src/components/ViewAll/ViewAll';
+import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import {FlatList, View} from 'react-native';
 interface ReviewsProps {}
 export const Reviews: React.FunctionComponent<ReviewsProps> = () => {
-  const renderItem = ({item}:{item:any}) => {
-    return <ReviewMolecule item={item} itemWidth={'full-width'} />;
+  const renderItem = ({item}: {item: any}) => {
+    return (
+        <ReviewMolecule item={item} itemWidth={'full-width'} />
+    );
   };
   return (
-    <GradientTemplate style={{paddingBottom:0,paddingHorizontal:0}} >
+    <View style={{flex: 1}}>
       <View>
         <View style={{paddingHorizontal: mScale.base}}>
           <MultilineTextInputAtom
@@ -33,12 +36,13 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = () => {
               contentContainerStyle={{
                 columnGap: mScale.base,
                 paddingBottom: mScale.lg,
+                minHeight:moderateScale(314)
               }}
               horizontal={true}
             />
           </View>
         </View>
       </View>
-    </GradientTemplate>
+    </View>
   );
 };

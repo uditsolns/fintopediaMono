@@ -37,11 +37,11 @@ export const MultilineTextInputAtom: React.FC<MultilineTextInputAtomProps> = ({
     }
   };
   return (
-    <View style={{flex: 1}}>
+    <View>
       <InputAtom
         shape="square"
         placeholder={placeholderTitle}
-        style={{height: moderateScale(250), textAlignVertical: 'top'}}
+        style={{minHeight: moderateScale(250), textAlignVertical: 'top'}}
         multiline={true}
       />
       <View
@@ -64,14 +64,8 @@ export const MultilineTextInputAtom: React.FC<MultilineTextInputAtomProps> = ({
                   onPress={() => handleRatingSelect(index + 1)}>
                   {
                     starIndex <= rating ? 
-                    <Images.SVG.Star1  /> : <Images.SVG.Star1 />
+                    <Images.SVG.Star1  /> : <Images.SVG.Star1 color={colorPresets.CTA} />
                   }
-                  {/* <IconButtonAtom2
-                    iconName={starIndex <= rating ? 'star' : 'star-outline'}
-                    size={15}
-                    color="#FFA500"
-                    style={{marginHorizontal: mScale.xxs}}
-                  /> */}
                 </TouchableOpacity>
               );
             })}

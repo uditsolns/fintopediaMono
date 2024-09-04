@@ -13,8 +13,13 @@ import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecu
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import Header from '@src/components/Header/Header';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
-import {FlatList, View} from 'react-native';
-import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
+import {FlatList, SafeAreaView, ScrollView, View} from 'react-native';
+import {
+  moderateScale,
+  mScale,
+  WINDOW_HEIGHT,
+  WINDOW_WIDTH,
+} from '@shared/src/theme/metrics';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {Images} from '@shared/src/assets';
 import ImageAtom from '@src/components/Image/ImageAtom';
@@ -33,6 +38,8 @@ export const AfterEnrollingCourseDetails: React.FC<
   let route = useRoute<RouteProp<{params: RouteParams}>>();
   const [index, setIndex] = React.useState(route.params?.tab ?? 0);
   const [routes] = React.useState(CourseDetailsRouteKeys);
+  const [width, setWidth] = React.useState(WINDOW_WIDTH);
+  const [height, setHeight] = React.useState(WINDOW_HEIGHT);
 
   React.useEffect(() => {
     if (route.params?.tab) {
@@ -59,7 +66,7 @@ export const AfterEnrollingCourseDetails: React.FC<
   return (
     <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0}}>
       <Header />
-      <ScrollViewAtom>
+      <ScrollViewAtom nestedScrollEnabled={true}>
         <View
           style={{
             paddingHorizontal: mScale.base,
@@ -81,14 +88,6 @@ export const AfterEnrollingCourseDetails: React.FC<
               alignItems: 'flex-end',
               zIndex: 1,
             }}>
-            {/* <CustomCricleBtn
-              iconName="share-social-sharp"
-              width={moderateScale(25)}
-              height={moderateScale(25)}
-              btnBg={colorPresets.WHITE}
-              iconSize={mScale.md2}
-              iconColor="#1D90F5"
-            /> */}
             <Images.SVG.ShareIcon />
           </View>
           <ImageAtom
@@ -110,7 +109,13 @@ export const AfterEnrollingCourseDetails: React.FC<
             <Images.SVG.Play1 />
           </View>
         </View>
-        <View style={{flex: 1}}>
+        <View
+          style={{flex: 1,height: height}}
+          onLayout={event => {
+            const {width, height} = event.nativeEvent.layout;
+            setWidth(width);
+            setHeight(height);
+          }}>
           <TabView
             navigationState={{index, routes}}
             renderTabBar={props => <MyCourseTabMolecule {...props} />}
@@ -118,7 +123,6 @@ export const AfterEnrollingCourseDetails: React.FC<
             onIndexChange={setIndex}
             initialLayout={{width: WINDOW_WIDTH}}
             lazy={true}
-            style={{flex: 1}}
           />
         </View>
         <View style={{marginVertical: mScale.xl}}>

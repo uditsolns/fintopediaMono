@@ -6,9 +6,10 @@ import SeparatorAtom from '@src/components/SeperatorAtom';
 import React from 'react';
 import { View } from 'react-native';
 interface OverviewProps {}
+
 export const Overview: React.FunctionComponent<OverviewProps> = () => {
   return (
-    <GradientTemplate style={{paddingBottom:0,}} >
+    <View style={{flex:1,padding:mScale.base}} >
       <View>
         <View style={{marginBottom: mScale.base}}>
           <TextAtom text={'About this course'} preset="heading3" />
@@ -28,7 +29,7 @@ export const Overview: React.FunctionComponent<OverviewProps> = () => {
             {
               alignItems: 'flex-start',
               alignSelf: 'flex-start',
-              flex: 1,
+              flexGrow: 1,
               marginBottom: mScale.base,
             },
           ]}>
@@ -49,7 +50,7 @@ export const Overview: React.FunctionComponent<OverviewProps> = () => {
             {
               alignItems: 'flex-start',
               alignSelf: 'flex-start',
-              flex: 1,
+              flexGrow: 1,
               marginBottom: mScale.base,
             },
           ]}>
@@ -103,6 +104,6 @@ The most updated and complete Product Management course on Udemy! You'll learn t
           </View>
         </View>
       </View>
-    </GradientTemplate>
+    </View>
   );
 };
