@@ -3,9 +3,15 @@ import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {LinearGradientMolecule} from '@shared/src/components/molecules/Gradient/LinearGradientMolecule';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {colorPresets} from '@shared/src/theme/color';
-import {mScale} from '@shared/src/theme/metrics';
+import {
+  moderateScale,
+  mScale,
+  WINDOW_HEIGHT,
+  WINDOW_WIDTH,
+} from '@shared/src/theme/metrics';
 import SeparatorAtom from '@src/components/SeperatorAtom';
 import React from 'react';
 import {
@@ -15,7 +21,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Svg, {Defs, LinearGradient, Rect, Stop} from 'react-native-svg';
+import {
+  Canvas,
+  RoundedRect,
+  vec,
+  LinearGradient,
+} from '@shopify/react-native-skia';
+
 let dailyReminderArr = [
   {
     id: 1,
@@ -35,8 +47,11 @@ interface LearningModeProps {}
 export const LearningMode: React.FunctionComponent<LearningModeProps> = () => {
   let [selectedReminder, setSelectedReminder] = React.useState<number>(1);
   const [visible, setVisible] = React.useState<boolean>(false);
+  const [width, setWidth] = React.useState(WINDOW_WIDTH * 0.92);
+  const [height, setHeight] = React.useState<number>(WINDOW_HEIGHT * 0.5);
+
   return (
-    <GradientTemplate style={{paddingBottom: 0}}>
+    <View style={{flex: 1, padding: mScale.base,paddingBottom:0}}>
       <View style={{marginVertical: mScale.md}}>
         <View
           style={{
@@ -98,17 +113,32 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = () => {
           setVisible(false);
         }}>
         <View style={styles.overlay}>
-          {/* <Svg height="100%" width="100%" style={styles.popup}>
-            <Defs>
-              <LinearGradient id="grad" x1="1" y1="0" x2="0" y2="1">
-                <Stop offset="0" stopColor="rgba(45, 48, 61, 1)" />
-                <Stop offset="1" stopColor="rgba(33, 35, 48, 1)" />
-              </LinearGradient>
-            </Defs>
-            <Rect width="100%" height="100%" fill="url(#grad)" />
-          </Svg> */}
-
-          <View style={styles.content}>
+          <View
+            style={{
+              alignSelf: 'center',
+              width: WINDOW_WIDTH * 0.92,
+              padding: 20,
+              borderRadius: 8,
+              overflow: 'hidden',
+            }}
+            onLayout={event => {
+              const {width, height} = event.nativeEvent.layout;
+              setWidth(width);
+              setHeight(height);
+            }}>
+            <View
+              style={{
+                ...StyleSheet.absoluteFillObject,
+                zIndex: -1,
+                alignSelf: 'center',
+              }}>
+              <LinearGradientMolecule
+                width={width}
+                height={height}
+                radius={0}
+                colors={['rgba(45, 48, 61, 1)', 'rgba(33, 35, 48, 1)']}
+              />
+            </View>
             <View style={[commonStyle.flexSpaceBetween, {width: '100%'}]}>
               <TextAtom text={'Schedule Daily Timer'} preset="heading2" />
               <Pressable
@@ -160,7 +190,7 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = () => {
               </View>
             </View>
             <View style={{marginBottom: mScale.base}}>
-              <TextAtom text={'Time'} preset="smallBold" />
+              <TextAtom text={'Time'} preset="titleBold" />
               <TouchableOpacity
                 style={[
                   commonStyle.flexSpaceBetween,
@@ -178,46 +208,21 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = () => {
               </TouchableOpacity>
             </View>
             <View>
-              <TextAtom text={'Link your Calendar'} preset="smallBold" />
-              {/* <ButtonImageLeftAtom
-              sourceRequire={require('../../../assets/images/googleIcon.png')}
-              btnTitle={'Continue with Google'}
-              btnColor={'transparent'}
-              color={colorPresets.WHITE}
-              preset={'smallBold'}
-              style={{
-                borderWidth: 1,
-                borderColor: colorPresets.BORDERCOLOR,
-                paddingVertical: mScale.md2,
-                marginVertical: mScale.md,
-              }}
-            /> */}
+              <TextAtom text={'Link your Calendar'} preset="titleBold" />
+              <ButtonAtom title={'Continue with Google'} preset={'tertiary'} />
             </View>
             <View
               style={[
                 commonStyle.flexEnd,
                 {alignItems: 'center', marginVertical: mScale.base},
               ]}>
-              {/* <SmallButtonAtom
-              btnTitle={'Cancel'}
-              btnColor={'transparent'}
-              preset={'captionBold'}
-              color={colorPresets.WHITE}
-            /> */}
-              {/* <SmallButtonAtom
-              btnTitle={'Save'}
-              preset={'captionBold'}
-              style={{
-                width: moderateScale(119),
-                height: moderateScale(36),
-                marginStart: mScale.base,
-              }}
-            /> */}
+              <ButtonAtom title={'Cancel'} preset={'secondary'} />
+              <ButtonAtom title={'Save'} preset={'primary'} />
             </View>
           </View>
         </View>
       </Modal>
-    </GradientTemplate>
+    </View>
   );
 };
 
@@ -229,7 +234,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
   },
   popup: {
-    width: '95%',
+    width: '100%',
     borderRadius: 8,
     padding: 1,
     alignSelf: 'center',
@@ -237,7 +242,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 20,
-    width: '100%',
+    alignSelf: 'center',
   },
   closeButton: {
     alignSelf: 'flex-end',

@@ -11,16 +11,19 @@ import { WINDOW_WIDTH, mScale } from "../../../theme/metrics";
 import { LinearGradientMolecule } from "../../molecules/Gradient/LinearGradientMolecule";
 import { TextAtom } from "../Text/TextAtom";
 import { ButtonPresets, Presets, ButtonText } from "./ButtonPresets";
+import { TextPresetType } from "../Text/TextPresets";
 
 interface ButtonAtomProps extends PressableProps {
   title: string;
   preset?: ButtonPresets;
   loading?: boolean;
+  textPreset?:TextPresetType,
 }
 
 export const ButtonAtom = ({
   title,
   preset = "primary",
+  textPreset = 'smallBold',
   loading,
   ...rest
 }: ButtonAtomProps) => {
@@ -58,7 +61,7 @@ export const ButtonAtom = ({
         {loading ? (
           <ActivityIndicator color={colorPresets.CTA} size={"small"} />
         ) : (
-          <TextAtom style={textStyle} preset="bodyBold" text={title} />
+          <TextAtom style={textStyle} preset={textPreset} text={title} numberOfLines={1}  />
         )}
       </Pressable>
     </View>

@@ -1,6 +1,6 @@
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
-import { mScale } from '@shared/src/theme/metrics';
+import { moderateScale, mScale } from '@shared/src/theme/metrics';
 import PdfMolecule from '@src/components/molecules/PdfMolecule/PdfMolecule';
 import React from 'react';
 import { FlatList, View } from 'react-native';
@@ -10,7 +10,7 @@ export const Resources: React.FunctionComponent<ResourcesProps> = () => {
     return <PdfMolecule item={item} />;
   };
   return (
-    <GradientTemplate style={{paddingBottom:0,}} >
+    <View style={{flex: 1,flexGrow:1, padding: mScale.base,paddingBottom:0,zIndex:1}}>
       <View>
         <TextAtom text={'Resources'} preset="heading4" />
         <TextAtom
@@ -20,16 +20,17 @@ export const Resources: React.FunctionComponent<ResourcesProps> = () => {
         />
         <View style={{marginVertical: mScale.base}}>
           <FlatList
-            data={[...Array(3)]}
+            data={[...Array(15)]}
             renderItem={renderItem}
             contentContainerStyle={{
               rowGap: mScale.base,
-              paddingBottom: mScale.base,
+              paddingBottom: moderateScale(150),
             }}
             showsVerticalScrollIndicator={false}
+            nestedScrollEnabled={true}
           />
         </View>
       </View>
-    </GradientTemplate>
+    </View>
   );
 };

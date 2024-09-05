@@ -66,7 +66,7 @@ export const AfterEnrollingCourseDetails: React.FC<
   return (
     <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0}}>
       <Header />
-      <ScrollViewAtom nestedScrollEnabled={true}>
+      <ScrollViewAtom >
         <View
           style={{
             paddingHorizontal: mScale.base,
