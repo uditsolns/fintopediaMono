@@ -3,8 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardImg, CardBody, CardTitle, CardText } from "reactstrap";
 import styles from "./Homepage.module.css";
-import { TbAntennaBars1 } from "react-icons/tb";
-import { FaClock, FaStar } from "react-icons/fa";
 import Slider from "react-slick";
 import NextArrow from "../components/NextArrow";
 import PrevArrow from "../components/PrevArrow";

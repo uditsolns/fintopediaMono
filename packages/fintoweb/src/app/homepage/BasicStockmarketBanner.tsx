@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "./Homepage.module.css";
+import Image from "next/image";
+import BasicStock from "../../assets/basic-stock-text-image.png"
 
 const BasicStockmarketBanner = () => {
   return (
@@ -21,8 +23,7 @@ const BasicStockmarketBanner = () => {
           </div>
         </div>
         <div className={styles.stockmarketBannerRightContent}>
-          <h2>BASICS OF </h2>
-          <h3>STOCK MARKET</h3>
+          <Image src={BasicStock} alt="BASICS OF STOCK MARKET"/>
         </div>
       </div>
     </div>

@@ -1,0 +1,227 @@
+.blogs {
+  padding: 80px;
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.blogsHeader {
+  border-radius: 24px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.blogsContent {
+  padding: 60px 230px;
+}
+.blogsContent h1 {
+  color: var(--Base-Base-White, #f4f5f5);
+  text-align: center;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: -0.48px;
+}
+.blogsContent p {
+  overflow: hidden;
+  color: #d5d5d9;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  margin-top: 20px;
+}
+.blogsImage img {
+  border-radius: 25px;
+  width: 100%;
+}
+/* --blogs listing---- */
+.blogsListing {
+  padding: 50px;
+}
+.blogsCard {
+  color: #fff !important;
+  margin: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #0e1323;
+}
+.blogsCardImage {
+  height: auto;
+  width: 100%;
+}
+.blogsCardContent {
+  padding: 16px;
+}
+
+.blogsCardTitle {
+  color: #fff;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 26px;
+  margin-top: 12px;
+}
+.blogsCardText p {
+  color: var(--cfcfd-3, #cfcfd3);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}
+.blogsFooter {
+  margin-top: 25px;
+}
+.readmore {
+  color: #1d90f5;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  text-decoration-line: underline;
+}
+.loadMore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 35px;
+}
+.loadMore button {
+  width: 189px;
+  padding: 16px 18px;
+  gap: 7.765px;
+  border-radius: 4px;
+  background: #fff;
+  color: #000;
+  font-weight: bold;
+}
+.blogsForm {
+  padding: 10px 100px;
+}
+.subscribeSection {
+  padding: 80px 230px;
+  background: var(--BG-2, #222431);
+}
+.subscribeContent h1 {
+  color: var(--Base-Base-White, #f4f5f5);
+  text-align: center;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: -0.48px;
+}
+.subscribeContent p {
+  overflow: hidden;
+  color: #d5d5d9;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  padding: 10px 140px;
+}
+.subscribeButton {
+  display: flex;
+  width: 197px;
+  padding: 16px 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 7.765px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.18px;
+  margin-top: 25px;
+}
+.textfieldBlog {
+  display: flex;
+  height: 51px;
+  padding: 12px 22px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  border-radius: 6px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #222431;
+}
+.textfieldBlog::placeholder {
+  color: #7a7fa2;
+}
+
+.textfieldBlog:focus {
+  background-color: #2d303d;
+  color: #fff;
+  outline: none;
+}
+
+.textfieldBlog:focus::placeholder {
+  color: #7a7fa2;
+}
+
+.isInvalid {
+  border-color: red;
+}
+.subscribeFooter {
+  margin-top: 20px;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+}
+.subscribeFooter b {
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  text-decoration-line: underline;
+}
+@media screen and (max-width: 435px) {
+  .blogs {
+    padding: 15px;
+  }
+  .blogsContent {
+    padding: 60px 30px;
+  }
+  .blogsListing {
+    padding: 15px;
+  }
+  .blogsForm {
+    padding: 10px;
+  }
+  .subscribeSection {
+    padding: 10px;
+   
+  }
+  .subscribeContent p {
+    padding: 10px;
+  }
+}

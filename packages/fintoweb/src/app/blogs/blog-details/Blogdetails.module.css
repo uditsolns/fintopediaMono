@@ -1,0 +1,157 @@
+.bannerSection {
+  background-image: url("../../../assets/blogsDetailsBanner.png");
+  background-size: cover;
+  background-position: center;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 50px;
+}
+
+.bannerSection h1 {
+  color: var(--Base-Base-White, #f4f5f5);
+  text-align: center;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: -0.48px;
+}
+
+.bannerSection p {
+  overflow: hidden;
+  color: #d5d5d9;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  margin-bottom: 20px;
+}
+.bannerSectionImage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bannerSectionImage span {
+  color: #fff;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+}
+.blogdetailsContent {
+  padding: 50px;
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.blogdetailsContent p {
+  color: var(--f-3-f-4-f-7, #f3f4f7);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px; /* 160% */
+  letter-spacing: -0.2px;
+  margin-top: 25px;
+}
+
+.blogdetailsRightContent {
+  padding: 30px;
+}
+.blogdetailsRightContent h3 {
+  color: #fff;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.56px;
+}
+.blogdetailsRightContent ol {
+  list-style-type: decimal;
+  padding-left: 20px;
+  padding: 20px;
+}
+
+.blogdetailsRightContent ol li {
+  padding: 10px;
+}
+.blogdetailsRightContent ol li:first-child {
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 26px;
+  letter-spacing: -0.36px;
+}
+
+/* Style the rest of the list items as gray */
+.blogdetailsRightContent ol li:not(:first-child) {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 26px;
+  letter-spacing: -0.36px;
+}
+.socialCard {
+    display: inline-flex;
+    padding: 38px 73px;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-radius: 24px;
+    border: 1px solid var(--Border, #7a7fa2);
+    background: var(
+      --BG,
+      linear-gradient(
+        245deg,
+        #2d303d 0%,
+        #212330 28.6%,
+        #101320 65.15%,
+        #111521 78%,
+        #0d0f1b 100%
+      )
+    );
+  }
+  .socialText {
+    color: #fff;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+  }
+.socialIcon {
+  display: flex;
+  height: 52px;
+  padding: 12px 22px;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  border-radius: 6px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #222431;
+}
+.socialIcon div {
+  display: flex;
+  padding: 10px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 100px;
+  background: #10131f;
+}

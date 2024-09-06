@@ -1,0 +1,231 @@
+.contactSection {
+  padding: 50px;
+}
+.contactHeading h1 {
+  color: var(--Base-Base-White, #f4f5f5);
+  text-align: center;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+.contactHeading p {
+  overflow: hidden;
+  color: #d5d5d9;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+.contactForm {
+  padding: 30px;
+}
+.form {
+  width: 100%;
+  padding: 20px;
+}
+.colLeft {
+  display: inline-flex;
+  padding: 25px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 24px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.contactButton {
+  color: #0c0c0c;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.18px;
+  display: flex;
+  padding: 16px 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 7.765px;
+  border-radius: 4px;
+  background: #fff;
+}
+.socialCard {
+  display: inline-flex;
+  padding: 38px 73px;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border-radius: 24px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.socialText {
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+}
+.socialIcon {
+  display: flex;
+  height: 52px;
+  padding: 12px 22px;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  border-radius: 6px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #222431;
+}
+.socialIcon div {
+  display: flex;
+  padding: 10px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 100px;
+  background: #10131f;
+}
+.socialContact {
+  display: flex;
+  padding: 24px 24px 25px 24px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 32px;
+  margin-top: 20px;
+  flex-shrink: 0;
+  border-radius: 24px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.socialContactIcon {
+  display: flex;
+  height: 56px;
+  padding: 12px 22px;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  align-self: stretch;
+  border-radius: 6px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #222431;
+}
+.contactIcon {
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 100px;
+  background: #10131f;
+}
+.contactText {
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19px;
+  letter-spacing: -0.32px;
+}
+/* accordion */
+.contactAccordion {
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+  padding: 50px 150px;
+}
+.contactAccordion h1 {
+  color: #fff;
+  text-align: center;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  margin-bottom: 20px;
+}
+.item {
+  margin: 0 0 20px 0;
+}
+
+.header {
+  display: flex;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 24px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: var(--BG-2, #222431);
+  color: #fff;
+}
+
+.icon {
+  margin-left: 10px;
+}
+
+.title {
+  flex: 1;
+  color: var(--CTA-1, #fff);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.content {
+  padding: 20px;
+  color: #fff;
+  border-radius: 12px;
+  background: var(--BG-2, #222431);
+}
+@media screen and (max-width: 435px) {
+  .contactSection {
+    padding: 10px;
+  }
+  .contactAccordion {
+    padding: 30px 30px;
+  }
+}
