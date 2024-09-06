@@ -51,6 +51,7 @@ export const ButtonAtom = ({
             width={width}
             height={height}
             radius={mScale.sm}
+            colors={[colorPresets.GRAY3, colorPresets.GRAY3]}
           />
         </View>
       ) : null}

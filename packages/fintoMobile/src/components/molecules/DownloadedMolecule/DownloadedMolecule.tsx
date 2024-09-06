@@ -27,7 +27,7 @@ const DownloadedMolecule: React.FC<DownloadedMoleculeProps> = ({ item, onPress }
           numberOfLines={2}
         />
         <ButtonAtom  title={'3 downloaded from 32 (256 MB)'}  preset='secondary' />
-        <LinkButton text='Delete download'  />
+        <LinkButton text='Delete download' style={{marginTop:mScale.base}}  />
        
       </View>
     </View>

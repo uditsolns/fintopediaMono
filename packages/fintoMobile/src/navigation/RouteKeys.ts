@@ -19,7 +19,22 @@ export const RouteKeys = {
   PAYMENTSUCCESSSCREEN:'PaymentSuccess',
   DONTKNOWWHERETOSTARTSCREEN:'DontKnowWhereToStart',
   BEFOREENROLLINGCOURSEDETAILSSCREEN:'BeforeEnrollingCourseDetails',
-  AFTERENROLLINGCOURSEDETAILSSCREEN:'AfterEnrollingCourseDetails'
+  AFTERENROLLINGCOURSEDETAILSSCREEN:'AfterEnrollingCourseDetails',
+  PROFILEDETAILSSCREEN: 'ProfileDetails',
+  CERTIFICATIONSSCREEN: 'Certifications',
+  REFERANDEARNSCREEN: 'ReferandEarn',
+  MEMBERSHIPTYPESCREEN: 'MembershipType',
+  CHANGEPASSWORDSCREEN: 'ChangePassword',
+  PURCHASEHISTORYSCREEN: 'PurchaseHistory',
+  CONTACTUSSCREEN: 'ContactUs',
+  GAMEWAITINGScreen: 'GameWaiting',
+  GAMEHOMESCREEN: 'GameHomeScreen',
+  BUYSTOCKSSCREEN: 'BuyStocks',
+  SELLSTOCKSSCREEN: 'SellStocks',
+  GAMEWINNERLOADINGSCREEN: 'GameWinnerLoading',
+  GAMEWINNERSCREEN: 'GameWinner',
+  MOCKTRADEBUYSTOCKSSCREEN: 'MockTradeBuyStocks',
+  MOCKTRADESELLSTOCKSSCREEN: 'MockTradeSellStocks',
 };
 
 export const TabKeys = {

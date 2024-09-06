@@ -8,13 +8,13 @@ const BASE_VIEW: ViewStyle = {
   alignItems: "center",
   justifyContent: "center",
   paddingHorizontal: mScale.base,
-  paddingVertical: mScale.md2,
+  paddingVertical: mScale.md3,
   marginVertical: mScale.xs,
   borderRadius: mScale.sm,
 };
 
 const BASE_TEXT: TextStyle = {
-  ...fontPresets.smallBold,
+  ...fontPresets.titleBold,
 };
 
 export const Presets = {

@@ -1,5 +1,6 @@
 import { Article } from "./svg/Article";
 import { Bell } from "./svg/Bell";
+import { CameraIcon } from "./svg/CameraIcon";
 import { Certificate } from "./svg/Certificate";
 import { CertificationIcon2 } from "./svg/CertificationIcon2";
 import { ChangePasswordIcon } from "./svg/ChangePasswordIcon";
@@ -136,6 +137,7 @@ export const Images = {
     PurchaseHistoryIcon,
     ContactIcon,
     LogoutIcon,
-    CheckBoxIcon2
+    CheckBoxIcon2,
+    CameraIcon
   },
 };
