@@ -51,7 +51,7 @@ export const Events: React.FC<EventsProps> = ({}) => {
       <EventMolecule
         item={item}
         onPress={async () => {
-          navigation.navigate(RouteKeys.GAMEWINNERLOADINGSCREEN);
+          navigation.navigate(RouteKeys.GAMEWAITINGSCREEN);
           await getGameByID(item?.id);
           playGame(item);
         }}

@@ -19,6 +19,9 @@ export const TextPresets = {
   xSmall: { ...fontPresets.xSmall },
   xSmallBold: { ...fontPresets.xSmallBold },
   xSmallSemiBold: { ...fontPresets.xSmallSemiBold },
+  xxSmall: { ...fontPresets.xxSmall },
+  xxSmallBold: { ...fontPresets.xxSmallBold },
+  xxSmallSemiBold: { ...fontPresets.xxSmallSemiBold },
 };
 
 export type TextPresetType = keyof typeof TextPresets;

@@ -11,6 +11,7 @@ import ProfileItemAtom from '@src/components/Profile/ProfileItemAtom';
 import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import {colorPresets} from '@shared/src/theme/color';
 import {Images} from '@shared/src/assets';
+import Popup from '@src/components/Popup/Popup';
 
 const avatarUrl =
   'https://st4.depositphotos.com/4329009/19956/v/450/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg';
@@ -67,8 +68,9 @@ interface LoginState {
 export const Account: React.FC<AccountProps> = ({}) => {
   const navigation = useNavigation();
   const logout = () => {};
+  const [popupVisible, setPopupVisible] = React.useState(false);
 
-  const navigateTo = (route:any) => {
+  const navigateTo = (route: any) => {
     navigation.navigate(route);
   };
 
@@ -114,6 +116,15 @@ export const Account: React.FC<AccountProps> = ({}) => {
             />
           </View>
         </View>
+        <Popup
+          visible={popupVisible}
+          title={'Logout Confirmation'}
+          desc={
+            'Are you sure you want to log out? Any unsaved changes will be lost.'
+          }
+          btnTitle1={'Logout'}
+          btnTitle2={'Back'}
+        />
       </ScrollViewAtom>
     </GradientTemplate>
   );

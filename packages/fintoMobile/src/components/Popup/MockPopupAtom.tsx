@@ -13,8 +13,9 @@ import {
   Pressable,
 } from 'react-native';
 import {LinkButton} from '../Button/LinkButton';
-import {mScale} from '@shared/src/theme/metrics';
+import {mScale, WINDOW_HEIGHT, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import SeparatorAtom from '../SeperatorAtom';
 
 interface StockItem {
   name?: string;
@@ -39,6 +40,9 @@ const MockPopupAtom: React.FC<MockPopupAtomProps> = ({
   onBuyStock,
   onSellStock,
 }) => {
+  const [width, setWidth] = React.useState<number>(WINDOW_WIDTH * 0.92);
+  const [height, setHeight] = React.useState<number>(WINDOW_HEIGHT * 0.4);
+  const gradientStart = { x: 0, y: 0 };
   return (
     <Modal
       transparent={true}
@@ -46,62 +50,74 @@ const MockPopupAtom: React.FC<MockPopupAtomProps> = ({
       animationType="slide"
       onRequestClose={onClose}>
       <View style={styles.overlay}>
-        <View
+      <View
           style={{
-            ...StyleSheet.absoluteFillObject,
-            zIndex: -1,
             alignSelf: 'center',
+            width: WINDOW_WIDTH * 0.99,
+            paddingHorizontal: 10,
+            paddingVertical: 20,
+            borderRadius: 8,
+            overflow: 'hidden',
+          }}
+          onLayout={event => {
+            const {width, height} = event.nativeEvent.layout;
+            setWidth(width);
+            setHeight(height);
           }}>
-          <LinearGradientMolecule
-            width={200}
-            height={200}
-            radius={0}
-            colors={['#7A7FA2', '#141622']}
-          />
-        </View>
+          <View
+            style={{
+              ...StyleSheet.absoluteFillObject,
+              zIndex: -1,
+              alignSelf: 'center',
+            }}>
+            <LinearGradientMolecule
+              width={width}
+              height={height}
+              radius={0}
+              colors={['#2D303D', '#212330','#101320','#111521','#0D0F1B']}
+              start={gradientStart}
+            />
+          </View>
         <View style={styles.content}>
           <View style={styles.closeButton}>
             <Pressable onPress={onClose}>
               <Images.SVG.Cross />
             </Pressable>
           </View>
-          <View style={[commonStyle.flexStart, {alignItems: 'flex-start'}]}>
+          <View style={[commonStyle.flexStart, {alignItems: 'flex-start',borderBottomWidth:1,borderColor:colorPresets.CTA,paddingBottom:20}]}>
             <View style={{flex: 1}}>
               <TextAtom
-                text={item?.stock?.name}
-                preset="heading4"
+                text={'Adani Stock'}
+                preset="bodyBold"
                 style={styles.waitingText}
                 numberOfLines={2}
               />
               <TextAtom
-                text={`₹ ${item?.stock_current_price}`}
-                preset="heading4"
-                style={[styles.waitMessage, {color: colorPresets.GRAY}]}
+                text={`₹ 20000`}
+                preset="bodyBold"
+                style={[styles.waitMessage,]}
                 numberOfLines={4}
               />
             </View>
             <View>
               <LinkButton
-                text='"View Chart"'
+                text="View Chart"
                 preset="body"
                 style={styles.waitingText}
               />
             </View>
           </View>
           <View style={[commonStyle.flexSpaceBetween, {width: '100%'}]}>
-            <ButtonAtom
-              title="Buy"
-              textPreset="titleBold"
-              onPress={onBuyStock}
-              preset="fourthy"
-            />
-            <ButtonAtom
-              title="Sell"
-              textPreset="titleBold"
-              onPress={onSellStock}
-            />
+            <Pressable style={[styles.retryButton,{backgroundColor:colorPresets.SECONDARY}]}>
+              <TextAtom text="Buy" preset='titleBold' style={{textAlign:'center',color:colorPresets.BLACK}} />
+            </Pressable>
+            <Pressable style={[styles.retryButton,{backgroundColor:colorPresets.TERTIARY}]}>
+              <TextAtom text="Buy" preset='titleBold' style={{textAlign:'center'}} />
+            </Pressable>
+           
           </View>
         </View>
+      </View>
       </View>
     </Modal>
   );
@@ -142,6 +158,8 @@ const styles = StyleSheet.create({
   retryButton: {
     width: '45%',
     marginTop: mScale.xxl,
+    padding:mScale.md2,
+    
   },
 });
 
