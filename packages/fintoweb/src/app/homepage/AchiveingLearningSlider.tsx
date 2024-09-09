@@ -8,58 +8,6 @@ import Image from "next/image";
 import User from "../../assets/userCircle.png";
 import Logo from "../../assets/meta.png";
 
-// const stocks = [
-//   {
-//     id: 1,
-//     imageSrc: "https://via.placeholder.com/300x200",
-//     title: "Basic of Stock Market",
-//     description: "A brief description of Company A.",
-//     rating: 4.6,
-//     reviews: 1000,
-//     price: 5000,
-//     originalPrice: 6000,
-//   },
-//   {
-//     id: 2,
-//     imageSrc: "https://via.placeholder.com/300x200",
-//     title: "Mastering of Money Management",
-//     description: "A brief description of Company B.",
-//     rating: 4.8,
-//     reviews: 1500,
-//     price: 4500,
-//     originalPrice: 5500,
-//   },
-//   {
-//     id: 3,
-//     imageSrc: "https://via.placeholder.com/300x200",
-//     title: "Basic of Stock Market",
-//     description: "A brief description of Company C.",
-//     rating: 4.2,
-//     reviews: 800,
-//     price: 4000,
-//     originalPrice: 5000,
-//   },
-//   {
-//     id: 4,
-//     imageSrc: "https://via.placeholder.com/300x200",
-//     title: "Basic of Stock Market",
-//     description: "A brief description of Company C.",
-//     rating: 4.2,
-//     reviews: 800,
-//     price: 4000,
-//     originalPrice: 5000,
-//   },
-//   {
-//     id: 5,
-//     imageSrc: "https://via.placeholder.com/300x200",
-//     title: "Basic of Stock Market",
-//     description: "A brief description of Company C.",
-//     rating: 4.2,
-//     reviews: 800,
-//     price: 4000,
-//     originalPrice: 5000,
-//   },
-// ];
 const stocks = new Array(9).fill({
   userName: "Priyam Sharma",
   userDesignation: "Product Advisor",

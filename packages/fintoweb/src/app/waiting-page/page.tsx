@@ -1,11 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
-
-import { Modal, ModalBody, ModalFooter, Button } from "reactstrap";
-
+import React, { useState } from "react";
+import { Modal, ModalBody, Button } from "reactstrap";
 import Image from "next/image";
-// import Waiting from "../../assets/waiting.jpg";
-import sponser from "../../assets/Fintopedia logo-White.png";
+import sponser from "../../assets/Fintopedia logo-White.png"; // Update your image path
 
 const WaitingPage: React.FC = () => {
   const [modal, setModal] = useState(true);
@@ -13,35 +10,36 @@ const WaitingPage: React.FC = () => {
   const toggle = () => setModal(!modal);
 
   return (
-    <React.Fragment>
-      {/* <div>
-      <Image src={Waiting} alt="Waiting" style={{ width: "100%", height: "100%" }} />
-    </div> */}
+    <div className={`d-flex justify-content-center align-items-center vh-100 ${modal ? "modal-open" : ""}`}>
+      {/* Blurred background */}
+      <div className="blur-background"></div>
+
+      {/* Centered Modal */}
       <Modal
         isOpen={modal}
         toggle={toggle}
         backdrop="static"
         modalClassName="black-background"
+        className="modal-dialog-centered"
       >
         <ModalBody>
           <div className="d-flex justify-content-center align-items-center">
             <Image src={sponser} alt="Sponsor" />
           </div>
-          <h3 className="font-bold text-center mt-5" style={{"fontSize":"30px"}}>Hey! You're in waiting..</h3>
+          <h3 className="font-bold text-center mt-5" style={{ fontSize: "30px" }}>
+            Hey! You're in waiting..
+          </h3>
           <p className="mt-3 text-center text-gray-300">
-            Please Wait, Next Round will begin<br/> Shortly or try again later
+            Please Wait, Next Round will begin
+            <br />
+            Shortly or try again later
           </p>
-          <Button
-            //   onClick={() => getAllRoundLevelGamesData()}
-            className="btn btn-info btn-sm btn-light font-bold text-black mt-3"
-            block
-          >
-            {/* {loading ? <CircularLoading /> : "Retry"} */}
+          <Button className="btn btn-info btn-sm btn-light font-bold text-black mt-3" block>
             Retry
           </Button>
         </ModalBody>
       </Modal>
-    </React.Fragment>
+    </div>
   );
 };
 
