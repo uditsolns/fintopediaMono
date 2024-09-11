@@ -125,7 +125,6 @@ const FeaturedCourses: React.FC = () => {
 
   return (
     <div className={styles.courseContainer}>
-      <h2 className={styles.couseHeading}>Featured Courses</h2>
       <Slider {...settings}>
         {stocks.map((stock) => (
           <div key={stock.id}>

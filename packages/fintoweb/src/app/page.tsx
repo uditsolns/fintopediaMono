@@ -26,13 +26,17 @@ export default function Home() {
       <Banner />
       <StocksSlider />
       <QuizSection />
-      <FeaturedCourses/>
-      <CategoryBanner/>
-      <HowitWorks/>
-      <AchiveingLearningSlider/>
-      <CourseOffer/>
-      <BlogsSlider/>
-      <BasicStockmarketBanner/>
+      <div>
+        <h2 className="Heading">Featured Courses</h2>
+        <FeaturedCourses />
+      </div>
+
+      <CategoryBanner />
+      <HowitWorks />
+      <AchiveingLearningSlider />
+      <CourseOffer />
+      <BlogsSlider />
+      <BasicStockmarketBanner />
       {/* game */}
       {/* <GamesPage /> */}
     </div>

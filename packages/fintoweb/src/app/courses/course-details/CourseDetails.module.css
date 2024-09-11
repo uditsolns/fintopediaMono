@@ -1,0 +1,120 @@
+.CourseDetails {
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.CourseDetailsHeader {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.links span {
+  margin-right: 5px;
+}
+.link {
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+.heading {
+  color: var(--Base-Base-White, #fcfcfc);
+  text-align: center;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+.subHeading {
+  color: var(--f-3-f-4-f-7, #f3f4f7);
+  text-align: center;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: -0.18px;
+}
+.CourseDetailsHeaderButton,
+.offerText {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  padding: 10px;
+}
+.CourseDetailsHeaderButton button {
+  padding: 14.976px 25.673px;
+  gap: 10.697px;
+  border-radius: 4.279px;
+  background: var(--1-d-90-f-5, #1d90f5);
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 17.115px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.171px;
+}
+.offerText h6 {
+  color: var(--Neutrals-Neutrals100, #e8ebed);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+.offerText span {
+  color: var(--e-54500, #e54500);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+.courseDetailImage {
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.svgWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ratingBadge {
+  position: absolute;
+  bottom: -2px; /* Places 50% of the badge outside the image */
+  left: 50%;
+  transform: translateX(-50%) translateY(50%); /* Centers the badge horizontally and moves 50% of it outside vertically */
+  background-color: #ffc107;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: bold;
+}

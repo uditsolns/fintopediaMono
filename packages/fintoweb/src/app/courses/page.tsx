@@ -349,7 +349,7 @@ const CourseFilter: React.FC = () => {
           </Row>
         </div>
       </div>
-      <AchiveingLearningSlider/>
+      <AchiveingLearningSlider />
     </>
   );
 };

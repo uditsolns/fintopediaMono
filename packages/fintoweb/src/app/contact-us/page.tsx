@@ -19,20 +19,7 @@ interface AccordionItem {
   content: string;
 }
 
-interface CustomAccordionProps {
-  items: AccordionItem[];
-}
 const Contact: React.FC = () => {
-  //   const [open, setOpen] = useState<string | null>(null);
-
-  //   // Function to toggle accordion items
-  //   const toggle = (id: string) => {
-  //     if (open === id) {
-  //       setOpen(null); // If the same accordion is clicked, close it
-  //     } else {
-  //       setOpen(id); // Open the clicked accordion
-  //     }
-  //   };
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const handleToggle = (index: number) => {
