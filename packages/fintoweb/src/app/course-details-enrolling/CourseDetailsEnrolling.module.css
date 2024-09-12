@@ -1,0 +1,137 @@
+.enrollHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+  background: #060a18;
+}
+.enrollHeader h2 {
+  color: #fff;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  margin-bottom: 10px;
+}
+.progressSection {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.progressSection span {
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.progressSection svg {
+  margin-right: 10px;
+}
+
+.shareButton {
+  display: flex;
+  width: 134px;
+  padding: 14px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  margin: 0 10px;
+}
+/* courseContent */
+.enrollCourseContent {
+  padding: 15px;
+}
+.courseContentButton {
+  display: flex;
+  width: 100%;
+  padding: 24px;
+  justify-content: space-between;
+  align-items: center;
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+/* accordion */
+
+/* .item {
+  margin: 0 0 20px 0;
+} */
+
+.accordionButton {
+  display: flex;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 24px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000;
+  color: #fff;
+}
+
+.icon {
+  margin-left: 10px;
+}
+
+.title {
+  flex: 1;
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  gap: 10px;
+}
+
+.content {
+  padding: 20px;
+  color: #fff;
+  border-radius: 12px;
+  background: var(--BG-2, #222431);
+}
+.tabsContainer {
+  padding: 10px;
+}
+.tabsContainer h3 {
+  color: #fff;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+@media screen and (max-width: 435px) {
+  .contactSection {
+    padding: 10px;
+  }
+  .contactAccordion {
+    padding: 30px 30px;
+  }
+  .tabsContainer h3 {
+    text-align: center;
+  }
+  .enrollHeader {
+    display: block;
+    padding: 10px;
+    background: #060a18;
+  }
+}

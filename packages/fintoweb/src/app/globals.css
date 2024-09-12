@@ -107,3 +107,14 @@ body {
   line-height: normal;
   letter-spacing: -0.16px;
 }
+@media screen and (max-width: 435px) {
+  .Heading {
+    color: #fff;
+    text-align: center;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    margin: 25px;
+  }
+}

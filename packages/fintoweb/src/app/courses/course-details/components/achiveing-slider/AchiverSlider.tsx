@@ -1,30 +1,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import styles from "./Homepage.module.css";
+import styles from "./AchiverSlider.module.css";
 import Slider from "react-slick";
-import NextArrow from "../components/NextArrow";
-import PrevArrow from "../components/PrevArrow";
 import Image from "next/image";
-import User from "../../assets/userCircle.png";
-import Logo from "../../assets/meta.png";
+import User from "../../../../../assets/userCircle.png";
 
-const stocks = new Array(9).fill({
+const stocks = new Array(6).fill({
   userName: "Priyam Sharma",
   userDesignation: "Product Advisor",
-  companyLogo: Logo,
   userImage: User,
   mainHeading: "Immersive Learning Experience!!",
-  subHeading: `Online learning has completely transformed my educational 
-               experience. The flexibility to attend classes and complete 
-               assignments on my own schedule has been a game-changer for me. 
-               It's allowed me to balance my job and family commitments while 
-               pursuing my degree. I'm so grateful for the opportunity to learn 
-               this way!`,
+  subHeading: `Loved the explanation by Jyoti Ma'am, explained the concept clearly.`,
   courseLink: "Basics of Stock Market",
 });
-const AchiveingLearningSlider = () => {
+const AchiverSlider = () => {
   const [progress, setProgress] = useState(0);
-  const [slideToShow, setSlideToShow] = useState(3);
+  const [slideToShow, setSlideToShow] = useState(4);
 
   const setSlides = () => {
     if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
@@ -46,21 +37,12 @@ const AchiveingLearningSlider = () => {
   }, []);
 
   const settings = {
-    arrows: true,
+    arrows: false,
     infinite: false,
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    afterChange: (current: number) => {
-      const totalSlides = stocks.length;
-      const totalSlidesToShow = slideToShow;
-      const progressPercentage =
-        (100 / (totalSlides - totalSlidesToShow + 1)) * (current + 1);
-      setProgress(progressPercentage);
-      console.log(totalSlidesToShow); // Ensure to use correct variable
-    },
+
     responsive: [
       {
         breakpoint: 1280,
@@ -85,10 +67,7 @@ const AchiveingLearningSlider = () => {
 
   return (
     <div className={styles.AchiveingLearningSlider}>
-      <h1>
-        See what others are <br />
-        achieving through learning
-      </h1>
+      <h1>See what others are achieving through learning</h1>
       <div className="mt-4">
         <Slider {...settings}>
           {stocks.map((card, index) => (
@@ -103,36 +82,20 @@ const AchiveingLearningSlider = () => {
                     />
                     <div className={styles.userDetails}>
                       <h4 className={styles.userName}>{card.userName}</h4>
-                      <p className={styles.userDesignation}>
-                        {card.userDesignation}
-                      </p>
+                      <p className={styles.userDesignation}>⭐⭐⭐⭐⭐</p>
                     </div>
                   </div>
-                  <div className={styles.companyLogo}>
-                    <Image src={card.companyLogo} alt="Company Logo" />
-                  </div>
                 </div>
-                <div className={styles.cardRating}>⭐⭐⭐⭐⭐</div>
                 <div className={styles.cardBody}>
-                  <h3 className={styles.mainHeading}>{card.mainHeading}</h3>
                   <p className={styles.subHeading}>{card.subHeading}</p>
-                </div>
-                <div className={styles.cardLink}>
-                  Enrolled in: <a href="">{card.courseLink}</a>
                 </div>
               </div>
             </div>
           ))}
         </Slider>
-        <div className={styles.progressContainer}>
-          <div
-            className={styles.progressBar}
-            style={{ width: `${progress}%` }}
-          ></div>
-        </div>
       </div>
     </div>
   );
 };
 
-export default AchiveingLearningSlider;
+export default AchiverSlider;
