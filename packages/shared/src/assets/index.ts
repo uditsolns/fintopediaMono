@@ -16,6 +16,9 @@ import { CircleInsta } from "./svg/CircleInsta";
 import { CloudUpload } from "./svg/CloudUpload";
 import { ContactIcon } from "./svg/ContactIcon";
 import { CopyIcon } from "./svg/CopyIcon";
+import { Alert } from "./svg/Alert";
+import { Check } from "./svg/Check";
+import { Close } from "./svg/Close";
 import { Courses } from "./svg/Courses";
 import { Cross } from "./svg/Cross";
 import { DialNumberIcon } from "./svg/DialNumberIcon";
@@ -40,6 +43,7 @@ import { LogoutIcon } from "./svg/LogoutIcon";
 import { LogoWhite } from "./svg/LogoWhite";
 import { MapIcon } from "./svg/MapIcon";
 import { MembershipIcon } from "./svg/MembershipIcon";
+import { Info } from "./svg/Info";
 import { Mock } from "./svg/Mock";
 import { ORIcon } from "./svg/ORIcon";
 import { OtpIcon } from "./svg/OtpIcon";
@@ -70,6 +74,10 @@ import { YearAccess } from "./svg/YearAccess";
 
 export const Images = {
   SVG: {
+    Alert,
+    Close,
+    Check,
+    Info,
     Home,
     Courses,
     Mock,
@@ -138,6 +146,6 @@ export const Images = {
     ContactIcon,
     LogoutIcon,
     CheckBoxIcon2,
-    CameraIcon
+    CameraIcon,
   },
 };

@@ -6,7 +6,7 @@ import { LinearGradientMolecule } from "../../molecules/Gradient/LinearGradientM
 import { AppInput, InputPresets } from "./InputPresets";
 import { TextAtom } from "../Text/TextAtom";
 
-interface InputAtomProps extends TextInputProps {
+export interface InputAtomProps extends TextInputProps {
   label?: string;
   shape: "square" | "circle" | "sharp";
   preset?: InputPresets;
