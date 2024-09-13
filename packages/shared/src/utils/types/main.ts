@@ -18,6 +18,15 @@ export interface ImageType {
   uri?: string;
 }
 
-export type Paramkeys = "phone" | "password";
+export type Paramkeys =
+  | "phone"
+  | "password"
+  | "first_name"
+  | "surname_name"
+  | "phone"
+  | "role"
+  | "password"
+  | "password_confirmation"
+  | "email";
 
 export type ModelParams = Record<Paramkeys, FormModel>;
