@@ -3,7 +3,12 @@ import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {LinearGradientMolecule} from '@shared/src/components/molecules/Gradient/LinearGradientMolecule';
 import {colorPresets} from '@shared/src/theme/color';
-import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {
+  moderateScale,
+  mScale,
+  WINDOW_HEIGHT,
+  WINDOW_WIDTH,
+} from '@shared/src/theme/metrics';
 import React from 'react';
 import {
   View,
@@ -33,6 +38,8 @@ const PopupAtom: React.FC<PopupAtomProps> = ({
   btnVisible = false,
   closeIconBtnVisible = true,
 }) => {
+  const [width, setWidth] = React.useState<number>(WINDOW_WIDTH * 0.92);
+  const [height, setHeight] = React.useState<number>(WINDOW_HEIGHT * 0.4);
   return (
     <Modal
       transparent={true}
@@ -42,39 +49,58 @@ const PopupAtom: React.FC<PopupAtomProps> = ({
       <View style={styles.overlay}>
         <View
           style={{
-            ...StyleSheet.absoluteFillObject,
-            zIndex: -1,
             alignSelf: 'center',
+            width: WINDOW_WIDTH * 0.92,
+            paddingHorizontal: 10,
+            paddingVertical: 20,
+            borderRadius: 8,
+            overflow: 'hidden',
+          }}
+          onLayout={event => {
+            const {width, height} = event.nativeEvent.layout;
+            setWidth(width);
+            setHeight(height);
           }}>
-          <LinearGradientMolecule
-            width={200}
-            height={200}
-            radius={0}
-            colors={['#7A7FA2', '#141622']}
-          />
-        </View>
-        <View style={styles.content}>
-          {closeIconBtnVisible && (
-            <View style={styles.closeButton}>
-              <Pressable onPress={onClose}>
-                <Images.SVG.Cross />
-              </Pressable>
-            </View>
-          )}
-          <Images.SVG.LogoWhite />
-          <TextAtom
-            text={title}
-            preset="heading2"
-            style={styles.waitingText}
-            numberOfLines={3}
-          />
-          <TextAtom
-            text={desc}
-            preset="medium"
-            style={[styles.waitMessage, {color: colorPresets.GRAY}]}
-            numberOfLines={4}
-          />
-          {btnVisible && <ButtonAtom title="Retry" onPress={onRetry} />}
+          <View
+            style={{
+              ...StyleSheet.absoluteFillObject,
+              zIndex: -1,
+              alignSelf: 'center',
+            }}>
+            <LinearGradientMolecule
+              width={width}
+              height={height}
+              radius={0}
+              colors={['#7A7FA2', '#141622']}
+            />
+          </View>
+          <View style={styles.content}>
+            {closeIconBtnVisible && (
+              <View style={styles.closeButton}>
+                <Pressable onPress={onClose}>
+                  <Images.SVG.Cross />
+                </Pressable>
+              </View>
+            )}
+            <Images.SVG.LogoWhite />
+            <TextAtom
+              text={title}
+              preset="heading2"
+              style={styles.waitingText}
+              numberOfLines={3}
+            />
+            <TextAtom
+              text={desc}
+              preset="medium"
+              style={[styles.waitMessage, {color: colorPresets.GRAY}]}
+              numberOfLines={4}
+            />
+            {btnVisible ? (
+              <View style={{marginTop:mScale.base,width:'100%'}}>
+                <ButtonAtom title="Retry" onPress={onRetry} />
+              </View>
+            ) : null}
+          </View>
         </View>
       </View>
     </Modal>
@@ -86,7 +112,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
   popup: {
     width: '95%',
@@ -96,7 +122,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   content: {
-    padding: 20,
     width: '100%',
     alignItems: 'center',
   },

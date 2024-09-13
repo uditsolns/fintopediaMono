@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import { Images } from '@shared/src/assets';
 import { commonStyle } from '@shared/src/commonStyle';
+import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
@@ -8,6 +9,7 @@ import { colorPresets } from '@shared/src/theme/color';
 import { moderateScale, mScale } from '@shared/src/theme/metrics';
 import { fontPresets } from '@shared/src/theme/typography';
 import ProgressBar from '@src/components/ProgressBar';
+import { RouteKeys } from '@src/navigation/RouteKeys';
 import React from 'react';
 import { Text, TextStyle, TouchableOpacity, View } from 'react-native';
 
@@ -80,13 +82,9 @@ export const PaymentSuccess: React.FunctionComponent<
                 {marginVertical: mScale.base},
               ]}>
               <TextAtom text={'₹ 2,999'} preset="heading3" />
-              {/* <ButtonIconLeftAtom
-                iconName={'arrow-forward'}
-                iconColor={colorPresets.BLACK}
-                btnTitle={'Start this course now'}
-                color={colorPresets.BLACK}
-                preset={'titleBold'}
-              /> */}
+              <ButtonAtom
+                title={'Start this course now'}
+              />
             </View>
           </View>
           <View
@@ -158,7 +156,6 @@ export const PaymentSuccess: React.FunctionComponent<
             </View>
             <TouchableOpacity
               style={[commonStyle.flexEnd, {marginTop: mScale.base}]}>
-              {/* <IconButtonAtom2 iconName={'download-outline'} size={25} /> */}
               <Images.SVG.DownloadIcon />
               <TextAtom
                 text={'Download invoice'}
@@ -190,20 +187,14 @@ export const PaymentSuccess: React.FunctionComponent<
           borderTopWidth: 0.5,
           borderColor: colorPresets.GRAY3,
         }}>
-        {/* <SmallButtonAtom
-          btnColor={'transparent'}
-          btnTitle={'Back to home'}
-          preset={'mediumBold'}
-          color={colorPresets.WHITE}
-          style={{
-            borderWidth: 1,
-            borderColor: colorPresets.BORDERCOLOR,
-            borderRadius: 6,
-          }}
+        <ButtonAtom
+          title={'Back to home'}
+          preset={'tertiary'}
+          textPreset='heading4'
           onPress={() => {
-            navigation.navigate(RouteKeys.HOME);
+            navigation.navigate(RouteKeys.HOMESCREEN);
           }}
-        /> */}
+        />
       </View>
     </GradientTemplate>
   );

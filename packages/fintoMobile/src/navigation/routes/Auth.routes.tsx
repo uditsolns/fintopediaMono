@@ -10,6 +10,7 @@ import {ResetPassword} from '@src/screens/auth/ResetPassword';
 import {EmailVerification} from '@src/screens/auth/EmailVerification';
 import {TwoFAuth} from '@src/screens/auth/TwoFAuth';
 import {OTP} from '@src/screens/auth/OTP';
+import Splash from '@src/screens/splash/Splash';
 
 interface AuthRoutesProps {}
 
@@ -18,6 +19,10 @@ const Stack = createNativeStackNavigator();
 export const AuthRoutes: React.FC<AuthRoutesProps> = ({}) => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen
+        name={RouteKeys.SPLASHSCREEN}
+        component={Splash as React.FC}
+      />
       <Stack.Screen
         name={RouteKeys.ONBOARDINGSCREEN}
         component={Onboarding as React.FC}
