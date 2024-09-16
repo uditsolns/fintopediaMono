@@ -4,20 +4,18 @@ import {
   Path,
   G,
   Defs,
-  ClipPath,
-  Rect,
   Mask,
   LinearGradient,
   Stop,
 } from "react-native-svg";
 import { ISVGProps } from "../../utils/types/main";
 
-export const Logo = ({ width = 258, height = 282 , color }: ISVGProps) => {
+export const Logo = ({ width = 258, height = 282, color }: ISVGProps) => {
   if (Platform.OS === "web") {
     return (
       <svg
-        width={width}
-        height={height}
+        width="258"
+        height="282"
         viewBox="0 0 258 282"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +97,12 @@ export const Logo = ({ width = 258, height = 282 , color }: ISVGProps) => {
     );
   }
   return (
-    <Svg width={width} height={height} viewBox="0 0 258 282" fill="none">
+    <Svg
+      width="258"
+      height="282"
+      viewBox="0 0 258 282"
+      fill="none"
+    >
       <Path
         fill-rule="evenodd"
         clip-rule="evenodd"
@@ -108,7 +111,7 @@ export const Logo = ({ width = 258, height = 282 , color }: ISVGProps) => {
       />
       <Mask
         id="mask0_1796_3419"
-        style="mask-type:luminance"
+        maskType="luminance"
         maskUnits="userSpaceOnUse"
         x="1"
         y="230"

@@ -1,6 +1,7 @@
 export const RouteKeys = {
   HOMESCREEN: 'Home',
   ONBOARDINGSCREEN: 'Onboarding',
+  SPLASHSCREEN: 'Splash',
   LOGINSCREEN: 'Login',
   SIGNUPSCREEN: 'Signup',
   FORGOTPASSWORDSCREEN: 'ForgotPassword',
@@ -27,8 +28,8 @@ export const RouteKeys = {
   CHANGEPASSWORDSCREEN: 'ChangePassword',
   PURCHASEHISTORYSCREEN: 'PurchaseHistory',
   CONTACTUSSCREEN: 'ContactUs',
-  GAMEWAITINGScreen: 'GameWaiting',
-  GAMEHOMESCREEN: 'GameHomeScreen',
+  GAMEWAITINGSCREEN: 'GameWaiting',
+  GAMEHOMESCREEN: 'GameHome',
   BUYSTOCKSSCREEN: 'BuyStocks',
   SELLSTOCKSSCREEN: 'SellStocks',
   GAMEWINNERLOADINGSCREEN: 'GameWinnerLoading',

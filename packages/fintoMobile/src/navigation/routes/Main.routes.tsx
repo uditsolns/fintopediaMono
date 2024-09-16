@@ -30,6 +30,10 @@ import {HeaderBar} from '../components/Header/HeaderBar';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {Images} from '@shared/src/assets';
 import {mScale} from '@shared/src/theme/metrics';
+import {GameWaiting} from '@src/screens/event/GameWaiting';
+import {GameHome} from '@src/screens/event/GameHome';
+import {MockBuyStocks} from '@src/screens/trade/MockBuyStocks';
+import {MockSellStocks} from '@src/screens/trade/MockSellStocks';
 
 interface MainRoutesProps {}
 
@@ -175,6 +179,26 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         options={{headerShown: false}}
         name={RouteKeys.GAMEWINNERSCREEN}
         component={GameWinner as React.FC}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name={RouteKeys.GAMEWAITINGSCREEN}
+        component={GameWaiting as React.FC}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name={RouteKeys.GAMEHOMESCREEN}
+        component={GameHome as React.FC}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name={RouteKeys.MOCKTRADEBUYSTOCKSSCREEN}
+        component={MockBuyStocks as React.FC}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name={RouteKeys.MOCKTRADESELLSTOCKSSCREEN}
+        component={MockSellStocks as React.FC}
       />
     </Stack.Navigator>
   );
