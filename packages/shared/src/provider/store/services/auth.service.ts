@@ -31,7 +31,7 @@ export const signUp = createAsyncThunk<
   AuthResponse,
   SignupParams,
   { state: RootState }
->("auth/signin", async (params, thunkApi) => {
+>("auth/signup", async (params, thunkApi) => {
   try {
     const response = await fetch(apiUrl.AUTH.SIGNUP, {
       method: "POST",
@@ -50,7 +50,7 @@ export const forgotPassword = createAsyncThunk<
   AuthResponse,
   { email: string },
   { state: RootState }
->("auth/signin", async (params, thunkApi) => {
+>("auth/forgotpassord", async (params, thunkApi) => {
   try {
     const response = await fetch(apiUrl.AUTH.FORGOT, {
       method: "POST",
@@ -69,7 +69,7 @@ export const confirmPassword = createAsyncThunk<
   AuthResponse,
   UpdatePasswordParams,
   { state: RootState }
->("auth/signin", async (params, thunkApi) => {
+>("auth/confirmpassword", async (params, thunkApi) => {
   try {
     const response = await fetch(apiUrl.AUTH.FORGOTCONFIRM, {
       method: "POST",

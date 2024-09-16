@@ -14,11 +14,27 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {useNavigation} from '@react-navigation/native';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {useAuthHelper} from '@shared/src/components/structures/login/login.helper';
+import {authField} from '@shared/src/components/structures/login/loginModel';
+import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
+import {Toast} from 'react-native-toast-notifications';
 
 interface LoginProps {}
 
 export const Login: React.FC<LoginProps> = ({}) => {
   const navigation = useNavigation();
+  const {auth, loading} = useAppSelector(state => state.auth);
+
+  const {authFormik, authInputProps} = useAuthHelper();
+
+  const {handleSubmit} = authFormik;
+
+  React.useEffect(() => {
+    if (auth?.token) {
+      Toast.show('');
+    }
+  }, [auth]);
+
   return (
     <GradientTemplate>
       <HeaderLeftMolecule text="Welcome back" />
@@ -27,17 +43,19 @@ export const Login: React.FC<LoginProps> = ({}) => {
         <View style={{marginTop: mScale.base}}>
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
+              {...authInputProps(authField.phone.name)}
+              label={authField.phone.label}
+              placeholder={authField.phone.placeHolder}
               shape="square"
-              label="Phone number"
-              placeholder="Enter your phone number"
               keyboardType="numeric"
             />
           </View>
           <View>
             <InputAtom
               shape="square"
-              label="Password"
-              placeholder="Enter your password"
+              {...authInputProps(authField.password.name)}
+              label={authField.password.label}
+              placeholder={authField.password.placeHolder}
               rightIcon={<Images.SVG.Eye width={20} color={colorPresets.CTA} />}
               autoCapitalize="none"
             />
@@ -50,7 +68,7 @@ export const Login: React.FC<LoginProps> = ({}) => {
             }}
           />
           <View style={{marginTop: mScale.base}}>
-            <ButtonAtom title="Login" />
+            <ButtonAtom onPress={() => handleSubmit()} title="Login" />
           </View>
           <ButtonAtom
             title="Login with OTP"
