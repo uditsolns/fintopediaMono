@@ -4,7 +4,7 @@ import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import { colorPresets } from '@shared/src/theme/color';
+import {colorPresets} from '@shared/src/theme/color';
 import {mScale} from '@shared/src/theme/metrics';
 import {LinkButton} from '@src/components/Button/LinkButton';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
@@ -61,7 +61,6 @@ export const MembershipType: React.FC<MembershipTypeProps> = ({}) => {
               preset="titleBold"
               linkColor={colorPresets.CTA}
             />
-           
           </View>
           <View style={{marginVertical: mScale.base}}>
             <TextAtom text={'Membership plans available'} preset="heading3" />
@@ -75,43 +74,52 @@ export const MembershipType: React.FC<MembershipTypeProps> = ({}) => {
               <TextAtom
                 text={`New opportunities await. Sign up for Personal Plan to get all this and more:`}
                 preset="medium"
-                style={{color:'#C8C8CC'}}
+                style={{color: '#C8C8CC'}}
               />
               <View
                 style={{
                   paddingStart: mScale.md,
                 }}>
                 <View style={[commonStyle.flexStart]}>
-                  <TextAtom text={`\u2B24`} preset="xSmall" style={{color:'#C8C8CC'}} />
+                  <TextAtom
+                    text={`\u2B24`}
+                    preset="xSmall"
+                    style={{color: '#C8C8CC'}}
+                  />
                   <TextAtom
                     text={`Access to 11,000+ top courses`}
                     preset="medium"
-                    style={{color:'#C8C8CC',marginStart: mScale.md}}
+                    style={{color: '#C8C8CC', marginStart: mScale.md}}
                   />
                 </View>
                 <View style={[commonStyle.flexStart]}>
-                  <TextAtom text={`\u2B24`} preset="xSmall" style={{color:'#C8C8CC'}} />
+                  <TextAtom
+                    text={`\u2B24`}
+                    preset="xSmall"
+                    style={{color: '#C8C8CC'}}
+                  />
                   <TextAtom
                     text={`Access to 11,000+ top courses`}
                     preset="medium"
-                    style={{color:'#C8C8CC',marginStart: mScale.md}}
+                    style={{color: '#C8C8CC', marginStart: mScale.md}}
                   />
                 </View>
                 <View style={[commonStyle.flexStart]}>
-                  <TextAtom text={`\u2B24`} preset="xSmall" style={{color:'#C8C8CC'}} />
+                  <TextAtom
+                    text={`\u2B24`}
+                    preset="xSmall"
+                    style={{color: '#C8C8CC'}}
+                  />
                   <TextAtom
                     text={`Access to 11,000+ top courses`}
                     preset="medium"
-                    style={{color:'#C8C8CC',marginStart: mScale.md}}
+                    style={{color: '#C8C8CC', marginStart: mScale.md}}
                   />
                 </View>
               </View>
               <View
                 style={[commonStyle.flexStart, {marginVertical: mScale.base}]}>
-                <ButtonAtom
-                  title={'Upgrade'}
-                  textPreset={'titleBold'}
-                />
+                <ButtonAtom title={'Upgrade'} textPreset={'titleBold'} />
                 <TouchableOpacity
                   style={[
                     {marginHorizontal: mScale.base, alignSelf: 'center'},
@@ -125,7 +133,7 @@ export const MembershipType: React.FC<MembershipTypeProps> = ({}) => {
               </View>
             </View>
             <View style={styles.activePlanDetails}>
-            <ImageAtom
+              <ImageAtom
                 sourceRequire={require('@shared/src/assets/img/membershipPlan.png')}
               />
               <View style={{marginVertical: mScale.md}}>
@@ -134,43 +142,52 @@ export const MembershipType: React.FC<MembershipTypeProps> = ({}) => {
               <TextAtom
                 text={`New opportunities await. Sign up for Personal Plan to get all this and more:`}
                 preset="medium"
-                style={{color:'#C8C8CC'}}
+                style={{color: '#C8C8CC'}}
               />
               <View
                 style={{
                   paddingStart: mScale.md,
                 }}>
                 <View style={[commonStyle.flexStart]}>
-                  <TextAtom text={`\u2B24`} preset="xSmall" style={{color:'#C8C8CC'}}  />
+                  <TextAtom
+                    text={`\u2B24`}
+                    preset="xSmall"
+                    style={{color: '#C8C8CC'}}
+                  />
                   <TextAtom
                     text={`Access to 11,000+ top courses`}
                     preset="medium"
-                    style={{color:'#C8C8CC',marginStart: mScale.md}}
+                    style={{color: '#C8C8CC', marginStart: mScale.md}}
                   />
                 </View>
                 <View style={[commonStyle.flexStart]}>
-                  <TextAtom text={`\u2B24`} preset="xSmall" style={{color:'#C8C8CC'}} />
+                  <TextAtom
+                    text={`\u2B24`}
+                    preset="xSmall"
+                    style={{color: '#C8C8CC'}}
+                  />
                   <TextAtom
                     text={`Access to 11,000+ top courses`}
                     preset="medium"
-                    style={{color:'#C8C8CC',marginStart: mScale.md}}
+                    style={{color: '#C8C8CC', marginStart: mScale.md}}
                   />
                 </View>
                 <View style={[commonStyle.flexStart]}>
-                  <TextAtom text={`\u2B24`} preset="xSmall" style={{color:'#C8C8CC'}} />
+                  <TextAtom
+                    text={`\u2B24`}
+                    preset="xSmall"
+                    style={{color: '#C8C8CC'}}
+                  />
                   <TextAtom
                     text={`Access to 11,000+ top courses`}
                     preset="medium"
-                    style={{color:'#C8C8CC',marginStart: mScale.md}}
+                    style={{color: '#C8C8CC', marginStart: mScale.md}}
                   />
                 </View>
               </View>
               <View
                 style={[commonStyle.flexStart, {marginVertical: mScale.base}]}>
-                <ButtonAtom
-                  title={'Upgrade'}
-                  textPreset={'titleBold'}
-                />
+                <ButtonAtom title={'Upgrade'} textPreset={'titleBold'} />
                 <TouchableOpacity
                   style={[
                     {marginHorizontal: mScale.base, alignSelf: 'center'},

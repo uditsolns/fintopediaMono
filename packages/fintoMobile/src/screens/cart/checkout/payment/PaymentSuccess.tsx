@@ -1,15 +1,15 @@
 import {useNavigation} from '@react-navigation/native';
-import { Images } from '@shared/src/assets';
-import { commonStyle } from '@shared/src/commonStyle';
+import {Images} from '@shared/src/assets';
+import {commonStyle} from '@shared/src/commonStyle';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import { colorPresets } from '@shared/src/theme/color';
-import { moderateScale, mScale } from '@shared/src/theme/metrics';
-import { fontPresets } from '@shared/src/theme/typography';
+import {colorPresets} from '@shared/src/theme/color';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {fontPresets} from '@shared/src/theme/typography';
 import ProgressBar from '@src/components/ProgressBar';
 import React from 'react';
-import { Text, TextStyle, TouchableOpacity, View } from 'react-native';
+import {Text, TextStyle, TouchableOpacity, View} from 'react-native';
 
 interface PaymentSuccessProps {}
 
@@ -31,24 +31,28 @@ export const PaymentSuccess: React.FunctionComponent<
               alignItems: 'center',
               alignSelf: 'center',
             }}>
-            <Images.SVG.SuccessIcon  />
+            <Images.SVG.SuccessIcon />
             <TextAtom
               text={
                 'Thank you for enrolling in the Comprehensive Finance Course!'
               }
               preset="heading2"
-              style={{marginVertical: mScale.base, textAlign: 'center'} as TextStyle}
+              style={
+                {marginVertical: mScale.base, textAlign: 'center'} as TextStyle
+              }
             />
             <TextAtom
               text={
                 'We look forward to helping you achieve your financial goals!'
               }
               preset="medium"
-              style={{
-                marginBottom: mScale.md,
-                textAlign: 'center',
-                fontWeight: '400',
-              } as TextStyle}  
+              style={
+                {
+                  marginBottom: mScale.md,
+                  textAlign: 'center',
+                  fontWeight: '400',
+                } as TextStyle
+              }
             />
           </View>
           <View
@@ -71,7 +75,7 @@ export const PaymentSuccess: React.FunctionComponent<
                 'This course provides an introduction to the principles of finance and their application in the business world.'
               }
               preset="medium"
-              style={{color:colorPresets.GRAY}}
+              style={{color: colorPresets.GRAY}}
             />
             <ProgressBar hours={'20'} level="intermediate" />
             <View
@@ -133,16 +137,24 @@ export const PaymentSuccess: React.FunctionComponent<
             </View>
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
-              <TextAtom text={'Discount'} preset="body" style={{color:'#B5B5B5'}} />
+              <TextAtom
+                text={'Discount'}
+                preset="body"
+                style={{color: '#B5B5B5'}}
+              />
               <TextAtom
                 text={'-₹ 1,000'}
                 preset="heading4"
-                style={{color:colorPresets.PRIMARY}}
+                style={{color: colorPresets.PRIMARY}}
               />
             </View>
             <View style={[commonStyle.flexSpaceBetween, {}]}>
-              <TextAtom text={'GST'} preset="body" style={{color:'#B5B5B5'}} />
-              <TextAtom text={'+ ₹ 100'} preset="body" style={{color:'#B5B5B5'}} />
+              <TextAtom text={'GST'} preset="body" style={{color: '#B5B5B5'}} />
+              <TextAtom
+                text={'+ ₹ 100'}
+                preset="body"
+                style={{color: '#B5B5B5'}}
+              />
             </View>
             <View
               style={{

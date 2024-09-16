@@ -66,7 +66,7 @@ export const AfterEnrollingCourseDetails: React.FC<
   return (
     <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0}}>
       <Header />
-      <ScrollViewAtom >
+      <ScrollViewAtom>
         <View
           style={{
             paddingHorizontal: mScale.base,
@@ -110,7 +110,7 @@ export const AfterEnrollingCourseDetails: React.FC<
           </View>
         </View>
         <View
-          style={{flex: 1,height: height}}
+          style={{flex: 1, height: height}}
           onLayout={event => {
             const {width, height} = event.nativeEvent.layout;
             setWidth(width);

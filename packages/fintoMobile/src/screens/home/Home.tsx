@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
@@ -11,7 +11,7 @@ import CategoriesMolecule from '@src/components/molecules/CategoriesMolecule/Cat
 import ContinueLearningMolecule from '@src/components/molecules/ContinueLearningMolecule/ContinueLearningMolecule';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import * as React from 'react';
 import {FlatList, ImageBackground, View} from 'react-native';
 let CategoriesArr = [
@@ -52,7 +52,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
       <ContinueLearningMolecule
         item={item}
         onPress={() => {
-          navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN)
+          navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN);
         }}
       />
     );
@@ -76,15 +76,15 @@ export const Home: React.FC<HomeProps> = ({}) => {
       <PopularCourseMolecule
         item={item}
         onPress={() => {
-          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN)
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN);
         }}
       />
     );
   };
 
   return (
-    <GradientTemplate style={{paddingHorizontal: 0,paddingBottom:0}}>
-      <Header text={'Good Morning'} visible={false} />
+    <GradientTemplate style={{paddingHorizontal: 0, paddingBottom: 0}}>
+      {/* <Header text={'Good Morning'} visible={false} /> */}
       <ScrollViewAtom
         nestedScrollEnabled={true}
         style={{paddingBottom: moderateScale(100)}}>
@@ -152,7 +152,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
               preset="medium"
               style={{textAlign: 'center', marginBottom: mScale.lg}}
             />
-            <ButtonAtom title='Attempt quiz' />
+            <ButtonAtom title="Attempt quiz" />
           </ImageBackground>
         </View>
         <View style={{marginVertical: mScale.xl}}>
@@ -172,19 +172,19 @@ export const Home: React.FC<HomeProps> = ({}) => {
           </View>
         </View>
       </ScrollViewAtom>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 20,
-            paddingHorizontal: mScale.base,
-            width: '100%',
-          }}>
-          <GetStarted
-            onPress={() => {
-              navigation.navigate(RouteKeys.DONTKNOWWHERETOSTARTSCREEN);
-            }}
-          />
-        </View>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 20,
+          paddingHorizontal: mScale.base,
+          width: '100%',
+        }}>
+        <GetStarted
+          onPress={() => {
+            navigation.navigate(RouteKeys.DONTKNOWWHERETOSTARTSCREEN);
+          }}
+        />
+      </View>
     </GradientTemplate>
   );
 };

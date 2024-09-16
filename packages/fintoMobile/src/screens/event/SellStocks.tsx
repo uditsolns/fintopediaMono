@@ -20,27 +20,17 @@ export const SellStocks: React.FC<SellStocksProps> = () => {
   const [totalPrice, setTotalPrice] = React.useState('');
   const [remarks, setRemarks] = React.useState('');
 
-  const onEndEditing = (value: string) => {
-   
-  };
+  const onEndEditing = (value: string) => {};
 
-  const sellStocks = async () => {
-    
-  };
+  const sellStocks = async () => {};
 
-  const checkSingleGameFinish = () => {
-   
-  };
+  const checkSingleGameFinish = () => {};
 
-  const getAllRoundLevelGamesData = () => {
-   
-  };
+  const getAllRoundLevelGamesData = () => {};
 
   useFocusEffect(
     React.useCallback(() => {
-      let interval = setInterval(() => {
-       
-      }, 10000);
+      let interval = setInterval(() => {}, 10000);
       return () => {
         clearInterval(interval);
       };
@@ -102,7 +92,7 @@ export const SellStocks: React.FC<SellStocksProps> = () => {
             onPress={sellStocks}
           />
 
-          <View style={{marginTop:mScale.xxl}}>
+          <View style={{marginTop: mScale.xxl}}>
             <TextAtom
               text={'Catch up with latest news'}
               preset="heading2"

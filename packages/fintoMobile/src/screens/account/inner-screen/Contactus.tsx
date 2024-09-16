@@ -1,10 +1,10 @@
-import { Images } from '@shared/src/assets';
-import { commonStyle } from '@shared/src/commonStyle';
+import {Images} from '@shared/src/assets';
+import {commonStyle} from '@shared/src/commonStyle';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
-import { colorPresets } from '@shared/src/theme/color';
-import { mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {colorPresets} from '@shared/src/theme/color';
+import {mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import FrequentlyAskMolecule from '@src/components/molecules/FrequentlyAskMolecule/FrequentlyAskMolecule';
 import SeparatorAtom from '@src/components/SeperatorAtom';
@@ -14,9 +14,9 @@ import {FlatList, Pressable, StyleSheet, View} from 'react-native';
 interface ContactusProps {}
 
 export const Contactus: React.FC<ContactusProps> = ({}) => {
-  const renderItem = ({item}:{item:any}) => <FrequentlyAskMolecule />;
+  const renderItem = ({item}: {item: any}) => <FrequentlyAskMolecule />;
 
-  const InfoCard = ({icon, text}:{icon?:JSX.Element,text?:string}) => (
+  const InfoCard = ({icon, text}: {icon?: JSX.Element; text?: string}) => (
     <View style={styles.infoCard}>
       {icon}
       <TextAtom text={text} preset="medium" style={styles.textMargin} />
@@ -33,7 +33,7 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
               <TextAtom text="Get in touch with us" preset="heading3" />
               <TextAtom
                 text="Reach out to us for inquiries, collaborations, or just to say hello. We're here to listen."
-                style={{color:"#D5D5D9"}}
+                style={{color: '#D5D5D9'}}
                 preset="medium"
               />
             </View>
@@ -50,7 +50,7 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
             text="+91 12345 67890"
           />
           <InfoCard
-          icon={<Images.SVG.MapIcon />}
+            icon={<Images.SVG.MapIcon />}
             text="Somewhere in the World"
           />
           <View style={styles.socialMediaSection}>
@@ -65,7 +65,6 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
               <Pressable style={styles.iconMargin}>
                 <Images.SVG.LinkedIn2 />
               </Pressable>
-             
             </View>
           </View>
           <View style={styles.faqSection}>
@@ -76,7 +75,7 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
             />
             <View style={styles.faqContainer}>
               <FlatList
-                data={[...Array(5).keys()]} 
+                data={[...Array(5).keys()]}
                 renderItem={renderItem}
                 keyExtractor={item => item.toString()}
                 ItemSeparatorComponent={() => (

@@ -10,9 +10,16 @@ import * as React from 'react';
 import {Platform, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-interface HeaderBarProps extends NativeStackHeaderProps {}
+interface HeaderBarProps extends NativeStackHeaderProps {
+  scrollY?: number;
+  topInset?: boolean;
+}
 
-export const HeaderBar: React.FC<HeaderBarProps> = ({options}) => {
+export const HeaderBar: React.FC<HeaderBarProps> = ({
+  options,
+  scrollY = 0,
+  topInset = true,
+}) => {
   const insets = useSafeAreaInsets();
 
   const hasNotch = insets.top > 20;
@@ -30,20 +37,22 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({options}) => {
     <View
       style={{
         flex: 1,
-        paddingTop: hasNotch
-          ? insets.top - mScale.sm
-          : Platform.OS === 'ios'
-          ? mScale.md
+        paddingTop: topInset
+          ? hasNotch
+            ? insets.top - mScale.sm
+            : Platform.OS === 'ios'
+            ? mScale.md
+            : mScale.base
           : 0,
         backgroundColor: colorPresets.TRANSPARENT,
       }}>
       <View style={styles.container}>
-        <View style={styles.left}>{headerLeft}</View>
+        {headerLeft ? <View style={styles.left}>{headerLeft}</View> : null}
         <View style={styles.title}>
           <TextAtom
-            preset="body"
+            preset="heading2"
             numberOfLines={1}
-            style={{lineHeight: mScale.xl}}
+            style={{lineHeight: mScale.xl, textAlign: 'left'}}
             text={headerTitle as string}
           />
         </View>
@@ -72,6 +81,6 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 2,
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
 });

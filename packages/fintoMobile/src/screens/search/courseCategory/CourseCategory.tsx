@@ -1,20 +1,15 @@
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
-import { colorPresets } from '@shared/src/theme/color';
-import { mScale } from '@shared/src/theme/metrics';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {colorPresets} from '@shared/src/theme/color';
+import {mScale} from '@shared/src/theme/metrics';
 import Dropdown from '@src/components/Dropdown/Dropdown';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import TagsAtom from '@src/components/TagsAtom';
-import { ViewAll } from '@src/components/ViewAll/ViewAll';
+import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import * as React from 'react';
-import {
-  FlatList,
-  StyleSheet,
-  View,
-  ListRenderItem,
-} from 'react-native';
+import {FlatList, StyleSheet, View, ListRenderItem} from 'react-native';
 
 interface Category {
   id: number;
@@ -59,10 +54,10 @@ export default function CourseCategory() {
         <HeaderLeftMolecule />
       </View>
       <ScrollViewAtom nestedScrollEnabled={true}>
-      <View style={{marginBottom: mScale.xs}}>
+        <View style={{marginBottom: mScale.xs}}>
           <ViewAll title="All Categories" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
-          <View
+            <View
               style={{flexDirection: 'row', flexWrap: 'wrap', gap: mScale.md}}>
               {CategoriesArr.map((data, index) => (
                 <TagsAtom title={data?.name} key={index} />
@@ -94,12 +89,12 @@ export default function CourseCategory() {
               preset="medium"
               style={{textAlign: 'center', marginBottom: mScale.lg}}
             />
-           
-             <Dropdown
+
+            <Dropdown
               dropdownItemArr={CategoriesArr}
               itemLabelField="name"
               onSelect={item => {
-                console.log(item)
+                console.log(item);
               }}
               placeholder={'Select category'}
               dropdownBg="#121622"

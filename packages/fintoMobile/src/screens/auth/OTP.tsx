@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
-import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
@@ -44,7 +44,7 @@ export const OTP: React.FC<OTPProps> = ({}) => {
           </View>
           <TextInputBox />
           <View style={{marginTop: mScale.base}}>
-          <ButtonAtom title="Send link" />
+            <ButtonAtom title="Send link" />
           </View>
           <View style={[{marginTop: mScale.base, alignSelf: 'center'}]}>
             <TextAtom
@@ -56,7 +56,9 @@ export const OTP: React.FC<OTPProps> = ({}) => {
               <LinkButton
                 text="Send it again?"
                 style={{marginVertical: mScale.md}}
-                onPress={() => {navigation.navigate(RouteKeys.TWOFACTORAUTHSCREEN)}}
+                onPress={() => {
+                  navigation.navigate(RouteKeys.TWOFACTORAUTHSCREEN);
+                }}
               />
               <TextAtom
                 text={'30 sec'}

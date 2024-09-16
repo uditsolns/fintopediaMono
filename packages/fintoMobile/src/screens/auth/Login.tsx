@@ -52,13 +52,17 @@ export const Login: React.FC<LoginProps> = ({}) => {
           <View style={{marginTop: mScale.base}}>
             <ButtonAtom title="Login" />
           </View>
-          <ButtonAtom title="Login with OTP" preset='secondary' onPress={() => {
+          <ButtonAtom
+            title="Login with OTP"
+            preset="secondary"
+            onPress={() => {
               navigation.navigate(RouteKeys.EMAILVERIFICATIONSCREEN);
-            }} />
+            }}
+          />
           <View style={{marginVertical: mScale.md, alignSelf: 'center'}}>
-          <TextAtom text={'or'} preset="medium" />
-        </View>
-          <ButtonAtom title="Continue as guest" preset='secondary' />
+            <TextAtom text={'or'} preset="medium" />
+          </View>
+          <ButtonAtom title="Continue as guest" preset="secondary" />
           <View style={[commonStyle.flexCenter, {marginTop: mScale.base}]}>
             <TextAtom text={`Don't have an account ? `} preset="medium" />
             <LinkButton

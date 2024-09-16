@@ -13,6 +13,8 @@ import {Account} from '@src/screens/account/Account';
 import {fontPresets} from '@shared/src/theme/typography';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {NavTabBar} from '../components/Navbar/NavTabBar';
+import {colorPresets} from '@shared/src/theme/color';
+import {HeaderBar} from '../components/Header/HeaderBar';
 
 interface TabsRoutesProps {}
 
@@ -34,26 +36,30 @@ export const TabsRoutes: React.FC<TabsRoutesProps> = ({}) => {
         tabBarIconStyle: {
           padding: mScale.xxs,
         },
+        headerTransparent: true,
+        headerStyle: {backgroundColor: colorPresets.TRANSPARENT},
+        headerTintColor: colorPresets.CTA,
+        header: props => <HeaderBar {...props} />,
       }}
       backBehavior="initialRoute">
       <Tabs.Screen
         options={{
-          headerShown: false,
           tabBarIcon: props => (
             <Images.SVG.Home width={props.size} color={props.color} />
           ),
           tabBarLabel: 'Home',
+          headerTitle: 'Good morning',
         }}
         name={TabKeys.HOMETABSCREEN}
         component={Home as React.FC}
       />
       <Tabs.Screen
         options={{
-          headerShown: false,
           tabBarIcon: props => (
             <Images.SVG.Courses width={props.size} color={props.color} />
           ),
           tabBarLabel: 'My Courses',
+          headerTitle: 'My Courses',
         }}
         name={TabKeys.MYCOURSESSCREEN}
         component={MyCourses as React.FC}

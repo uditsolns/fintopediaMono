@@ -6,19 +6,14 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  useColorScheme,
-} from 'react-native';
+import {ScrollView, StatusBar, StyleSheet, useColorScheme} from 'react-native';
 
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import {Images} from '@shared/src/assets/index';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {colorPresets} from '@shared/src/theme/color';
 import {AppNavigation} from './navigation/AppNavigation';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,13 +24,19 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <AppNavigation />
-    </SafeAreaView>
+    <SafeAreaProvider
+      initialMetrics={{
+        frame: {x: 0, y: 0, width: 0, height: 0},
+        insets: {top: 0, left: 0, right: 0, bottom: 0},
+      }}>
+      <SafeAreaView edges={['left', 'right']} style={backgroundStyle}>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <AppNavigation />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 

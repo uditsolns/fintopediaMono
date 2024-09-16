@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
-import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
@@ -44,15 +44,19 @@ export const TwoFAuth: React.FC<TwoFAuthProps> = ({}) => {
           </View>
           <TextInputBox />
           <View style={{marginTop: mScale.xxl2}}>
-          <ButtonAtom title="Verify" />
-          <ButtonAtom title="Canecl" preset='secondary' />
+            <ButtonAtom title="Verify" />
+            <ButtonAtom title="Canecl" preset="secondary" />
           </View>
-          <View style={[commonStyle.flexCenter,{marginTop: mScale.base, alignSelf: 'center'}]}>
-              <TextAtom
-                text={`Didn’t get the code ?`}
-                preset="medium"
-                style={{textAlign: 'center'}}
-              />
+          <View
+            style={[
+              commonStyle.flexCenter,
+              {marginTop: mScale.base, alignSelf: 'center'},
+            ]}>
+            <TextAtom
+              text={`Didn’t get the code ?`}
+              preset="medium"
+              style={{textAlign: 'center'}}
+            />
             <View style={[commonStyle.flexCenter, {marginStart: mScale.md}]}>
               <LinkButton
                 text="Send it again?"

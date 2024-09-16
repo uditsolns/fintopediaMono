@@ -10,7 +10,7 @@ import {mScale} from '@shared/src/theme/metrics';
 import {CheckoutStep} from '@src/components/CheckoutStep';
 import {GrandTotalPrice} from '@src/components/GrandTotalPrice';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
 import {View} from 'react-native';
 interface BillingProps {}
@@ -80,7 +80,7 @@ export const Billing: React.FunctionComponent<BillingProps> = () => {
                   'Note: You need to fill all the optional details within 24 hours of checkout'
                 }
                 preset="medium"
-                style={{flex:1,padding:mScale.md}}
+                style={{flex: 1, padding: mScale.md}}
               />
             </View>
           </View>
@@ -91,8 +91,8 @@ export const Billing: React.FunctionComponent<BillingProps> = () => {
         itemCount={5}
         price={'7,000'}
         discount_price={'5,00'}
-        onPress={()=>{
-          navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN)
+        onPress={() => {
+          navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN);
         }}
       />
     </GradientTemplate>

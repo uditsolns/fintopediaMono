@@ -1,14 +1,14 @@
 import {useNavigation} from '@react-navigation/native';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import { mScale } from '@shared/src/theme/metrics';
-import { CheckoutStep } from '@src/components/CheckoutStep';
-import { GrandTotalPrice } from '@src/components/GrandTotalPrice';
+import {mScale} from '@shared/src/theme/metrics';
+import {CheckoutStep} from '@src/components/CheckoutStep';
+import {GrandTotalPrice} from '@src/components/GrandTotalPrice';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import CartMolecule from '@src/components/molecules/CartMolecule/CartMolecule';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import {FlatList, View} from 'react-native';
 
 interface CheckoutProps {}
 

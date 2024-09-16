@@ -68,7 +68,7 @@ export const Account: React.FC<AccountProps> = ({}) => {
   const navigation = useNavigation();
   const logout = () => {};
 
-  const navigateTo = (route:any) => {
+  const navigateTo = (route: any) => {
     navigation.navigate(route);
   };
 
