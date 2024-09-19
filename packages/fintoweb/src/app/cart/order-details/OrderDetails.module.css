@@ -1,0 +1,246 @@
+.container {
+  min-height: 100vh;
+  color: white;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.billingButton {
+  display: inline-flex;
+  padding: 12px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #545664;
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%; /* 24px */
+}
+.buttonGhost {
+  display: flex;
+  width: 48.741px;
+  height: 47px;
+  justify-content: center;
+  align-items: center;
+  gap: 6.963px;
+  flex-shrink: 0;
+  border-radius: 24.37px;
+  background: var(--45454-a, #45454a);
+  box-shadow: 0px 6.963px 13.926px 0px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.steps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.orderButton {
+  display: flex;
+  padding: 12px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid #76d651;
+  background: rgba(118, 214, 81, 0.3);
+  color: #76d651;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+}
+.paymentButton {
+  display: inline-flex;
+  padding: 12px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--Border, #7a7fa2);
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  background-color: transparent;
+}
+
+.stepLine {
+  width: 48px;
+  height: 2px;
+  background-color: #718096;
+  margin: 0 12px;
+}
+
+.heading {
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+.form {
+  flex-grow: 1;
+  padding: 10px 250px;
+}
+
+.formGroup {
+  margin-bottom: 24px;
+}
+
+.errorMessage {
+  color: #f56565;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+.note {
+  display: inline-flex;
+  padding: 12px;
+  align-items: center;
+  gap: 7px;
+  border-radius: 8px;
+  border: 1px solid var(--Border, #7a7fa2);
+  margin-top: 30px;
+  margin-bottom: 70px;
+}
+.note span {
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: -0.32px;
+}
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+.cartCount {
+  color: #cdcdd0;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+}
+.cartCount b {
+  color: #fff;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+.footerInfo {
+  margin-bottom: 16px;
+}
+
+.totalPrice {
+  color: #fff;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.originalPrice {
+  color: #6d6d75;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  text-decoration: line-through;
+  margin-left: 10px;
+}
+
+.submitButton {
+  display: flex;
+  width: 230px;
+  padding: 14px 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 7.765px;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.18px;
+}
+.textField {
+  display: flex;
+  height: 51px;
+  padding: 12px 22px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  border-radius: 6px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #222431;
+}
+
+.textField::placeholder {
+  color: #a4a4a4;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+}
+
+.textField:focus {
+  background-color: #2d303d;
+  color: #fff;
+  outline: none;
+}
+
+.textField:focus::placeholder {
+  color: #7a7fa2;
+}
+
+.isInvalid {
+  border-color: red;
+}
+@media screen and (max-width: 435px) {
+  .form {
+    padding: 10px;
+  }
+  .billingButton {
+    padding: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .orderButton {
+    padding: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .paymentButton {
+    padding: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
