@@ -8,34 +8,33 @@
 import React from 'react';
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   useColorScheme,
 } from 'react-native';
 
-import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
-import {Images} from '@shared/src/assets/index';
-import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {colorPresets} from '@shared/src/theme/color';
 import {AppNavigation} from './navigation/AppNavigation';
+import {AppProvider} from '@shared/src/provider/AppProvider';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: colorPresets.TRANSPARENT,
     flex: 1,
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <AppNavigation />
-    </SafeAreaView>
+    <AppProvider>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <AppNavigation />
+      </SafeAreaView>
+    </AppProvider>
   );
 }
 

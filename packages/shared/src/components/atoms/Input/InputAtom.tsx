@@ -6,7 +6,7 @@ import { LinearGradientMolecule } from "../../molecules/Gradient/LinearGradientM
 import { AppInput, InputPresets } from "./InputPresets";
 import { TextAtom } from "../Text/TextAtom";
 
-interface InputAtomProps extends TextInputProps {
+export interface InputAtomProps extends TextInputProps {
   label?: string;
   shape: "square" | "circle" | "sharp";
   preset?: InputPresets;
@@ -16,7 +16,7 @@ interface InputAtomProps extends TextInputProps {
   touched?: boolean;
   errorMessage?: string;
   children?: React.ReactElement;
-  placeholderTextColor?:string
+  placeholderTextColor?: string;
 }
 
 export const InputAtom: React.FC<InputAtomProps> = ({
@@ -43,7 +43,13 @@ export const InputAtom: React.FC<InputAtomProps> = ({
     shape === "circle" ? mScale.xxl : shape === "square" ? mScale.md : 0;
   return (
     <View>
-      {label ? <TextAtom text={label} preset="title" style={{color:colorPresets.CTA}} /> : null}
+      {label ? (
+        <TextAtom
+          text={label}
+          preset="title"
+          style={{ color: colorPresets.CTA }}
+        />
+      ) : null}
       <View
         onLayout={(event) => {
           const { width, height } = event.nativeEvent.layout;
@@ -52,7 +58,7 @@ export const InputAtom: React.FC<InputAtomProps> = ({
         }}
         style={{
           borderRadius: radius,
-          marginVertical:10
+          marginVertical: 10,
         }}
       >
         <View style={{ ...StyleSheet.absoluteFillObject, zIndex: -1 }}>

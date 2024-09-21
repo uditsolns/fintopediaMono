@@ -1,6 +1,6 @@
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import * as React from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {View} from 'react-native';
 import {commonStyle} from '@shared/src/commonStyle';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import {Images} from '@shared/src/assets';
@@ -11,12 +11,12 @@ import {LinkButton} from '@src/components/Button/LinkButton';
 import FollowUsMolecule from '@src/components/molecules/FollowUsMolecule/FollowUsMolecule';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
-import {useNavigation} from '@react-navigation/native';
 import Dropdown from '@src/components/Dropdown/Dropdown';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {NavType} from '@src/navigation/types';
 
-interface SignupProps {}
+interface SignupProps extends NavType<'Singup'> {}
 interface Category {
   id: number;
   name: string;
@@ -49,8 +49,7 @@ export const CategoriesArr: Category[] = [
   },
 ];
 
-export const Signup: React.FC<SignupProps> = () => {
-  const navigation = useNavigation();
+export const Signup: React.FC<SignupProps> = ({navigation}) => {
   return (
     <GradientTemplate>
       <HeaderLeftMolecule text="Create account" />
