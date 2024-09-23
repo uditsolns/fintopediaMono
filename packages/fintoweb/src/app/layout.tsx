@@ -3,6 +3,11 @@ import { interTight } from "shared/src/theme/typography.web";
 import "bootstrap/dist/css/bootstrap.css";
 import "./globals.css";
 import BootstrapClient from "@src/components/BootstrapClient";
+import { Navbar } from "./components/Navbar";
+import { Footer } from "./components/Footer";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 
 export const metadata: Metadata = {
   title: "Finto pedia",
@@ -17,8 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${interTight.variable}`}>
+        <Navbar />
         {children}
-        <BootstrapClient />
+        <Footer />
+        {/* <BootstrapClient /> */}
       </body>
     </html>
   );

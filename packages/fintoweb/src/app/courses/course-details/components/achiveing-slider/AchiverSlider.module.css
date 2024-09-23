@@ -1,0 +1,85 @@
+.AchiveingLearningSlider {
+  padding: 20px;
+  background: #0d0f1c;
+}
+.AchiveingLearningSlider h1 {
+  color: #fff;
+  text-align: center;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+.profileCard {
+  /* border-radius: 12px;
+  border: 1px solid #7a7fa2;
+  background: #0d0f1c;
+  backdrop-filter: blur(19.5px);
+  padding: 18px;
+  margin: 0 20px;
+  margin-top: 10px; */
+
+  display: flex;
+  padding: 16px 24px 22px 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 10px;
+  border-radius: 12px;
+  border: 1px solid #7a7fa2;
+  background: var(--BG-2, #222431);
+  backdrop-filter: blur(19.5px);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.userImage {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 12px;
+  border: 2px solid #ddd;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.userDesignation {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+.cardBody {
+  margin-top: 12px;
+}
+.subHeading {
+  overflow: hidden;
+  color: var(--f-3-f-4-f-7, #f3f4f7);
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+@media screen and (max-width: 435px) {
+  .AchiveingLearningSlider {
+    padding: 20px;
+  }
+}

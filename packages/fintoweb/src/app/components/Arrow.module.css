@@ -1,0 +1,30 @@
+.arrow-container {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #72727a;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10; /* Ensure arrows are above the slider content */
+  }
+  
+  .arrow-container.left-0 {
+    left: 15px; /* Adjust left position */
+  }
+  
+  .arrow-container.right-0 {
+    right: 15px; /* Adjust right position */
+  }
+  
+  .arrow-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+  }
