@@ -1,0 +1,340 @@
+.twofactorContainer {
+  padding: 50px;
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.twofactorHeading {
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+  text-align: center;
+}
+.twofactorSubHeading {
+  overflow: hidden;
+  color: #cbcbcf;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  text-overflow: ellipsis;
+  margin-top: 10px;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+}
+.textfield {
+  width: 81px;
+  height: 83.492px;
+  border-radius: 8px;
+  border: 1.246px solid var(--Border, #7a7fa2);
+  background: #121622;
+  color: #fff;
+  font-size: 25px;
+  font-weight: bold;
+}
+.textfield::placeholder {
+  color: white;
+  font-weight: bold;
+}
+
+.textfield:focus {
+  background-color: #2d303d;
+  border-color: #2d303d;
+  outline: none;
+  color: #fff;
+}
+.twofactorResendlink {
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: -0.32px;
+  padding: 30px;
+  margin-top: 30px;
+}
+.twofactorResendlink u {
+  color: #1d90f5;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19px;
+  letter-spacing: -0.32px;
+  text-decoration-line: underline;
+}
+.factorButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+.twofactorCancleBtn {
+  display: flex;
+  width: 100%;
+  padding: 16px 25.673px;
+  justify-content: center;
+  align-items: center;
+  gap: 10.697px;
+  border-radius: 4px;
+  background-color: #0c0c0c;
+  border: 1.07px solid var(--Border, #7a7fa2);
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.18px;
+}
+.twofactorVerifyBtn {
+  color: #0c0c0c;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.18px;
+  padding: 16px 18px;
+  border-radius: 4px;
+  background: #fff;
+  width: 100%;
+}
+/* ---logout modal ------ */
+.modal-content {
+  border-radius: 12px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+  box-shadow: 0px 44px 49.9px rgba(0, 0, 0, 0.25);
+}
+.blur-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  z-index: 1;
+}
+
+.black-background .modal-content {
+  color: #fff; /* Optional: make text white for contrast */
+}
+
+.logoutModalContent {
+  text-align: center;
+  padding: 60px 20px;
+}
+.logoutModalContent h3 {
+  color: #fff;
+  text-align: center;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.logoutModalContent p {
+  color: #a4a4a4;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.logoutModalButton {
+  display: flex;
+  margin-top: 40px;
+  padding: 12px 14px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 4px;
+  background: #ff4d00;
+}
+.logoutModalContent h6,
+.passwordChangeContent h6 {
+  color: #fff;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 15px;
+}
+/* ---forgot password ---- */
+.forgotLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 20px;
+}
+.forgotLogo svg {
+  padding: 10px;
+  border-radius: 50%;
+  border: 1px solid #7a7fa2;
+  background-color: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.forgotContainer h1 {
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+  text-align: center;
+  margin-top: 20px;
+}
+.forgotContainer h6 {
+  overflow: hidden;
+  color: #cbcbcf;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  text-overflow: ellipsis;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+  margin-top: 15px;
+}
+.forgotTextfield {
+  display: flex;
+  height: 51px;
+  padding: 12px 22px;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  align-self: stretch;
+  border-radius: 6px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #222431;
+}
+.forgotTextfield::placeholder {
+  color: #a4a4a4;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.forgotTextfield:focus {
+  background-color: #2d303d;
+  border-color: #2d303d;
+  outline: none;
+  color: #a4a4a4;
+}
+.sendLinkButton {
+  display: flex;
+  padding: 16px 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 7.765px;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.18px;
+  margin-bottom: 50px;
+}
+.forgotFooterText h6 {
+  overflow: hidden;
+  color: #cbcbcf;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  margin-top: 20px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+.forgotFooterText p {
+  overflow: hidden;
+  color: #1d90f5;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  margin-top: 10px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+/* password change successfullya modal */
+.passwordChangeContent {
+  text-align: center;
+  padding: 70px 80px;
+}
+.passwordChangeContent h3 {
+  color: #fff;
+  text-align: center;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.passwordChangeContent p {
+  color: #a4a4a4;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.okeyModalButton {
+  display: flex;
+  height: 42px;
+  padding: 12px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-feature-settings: "liga" off, "clig" off;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  margin-top: 20px;
+}

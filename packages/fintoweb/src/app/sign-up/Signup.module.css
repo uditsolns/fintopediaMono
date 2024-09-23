@@ -11,29 +11,28 @@
   );
 }
 /* Register.module.css */
-
 .textfield {
     background: #2D303D;
     border: 1px solid;
     border-image-source: linear-gradient(257.31deg, #7A7FA2 -10.81%, #141622 113.5%);
     border-image-slice: 1;
     color: #fff;
-    border-radius: 4px; /* Optional: add border radius */
+    border-radius: 4px; 
     transition: background-color 0.3s ease, border-color 0.3s ease;
   }
   
   .textfield::placeholder {
-    color: #7A7FA2; /* Border color for the placeholder */
+    color: #7A7FA2;
   }
   
   .textfield:focus {
-    background-color: #2D303D; /* Keep background same on focus */
-    color: #fff; /* Keep text color white on focus */
-    outline: none; /* Remove default focus outline */
+    background-color: #2D303D; 
+    color: #fff; 
+    outline: none; 
   }
   
   .textfield:focus::placeholder {
-    color: #7A7FA2; /* Change placeholder color to border color on focus */
+    color: #7A7FA2;
   }
   
   .isInvalid {
