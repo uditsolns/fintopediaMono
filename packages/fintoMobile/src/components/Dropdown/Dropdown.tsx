@@ -62,9 +62,9 @@ const Dropdown: React.FC<DropdownProps> = ({
     setDropdownVisible(!isDropdownVisible);
   };
 
-  const handleOptionSelect = (option: any) => {
+  const handleOptionSelect = (option: {id: number; name: string}) => {
     setSelectedOption(option[itemLabelField]);
-    onSelect(option);
+    onSelect(option.id);
     setDropdownVisible(false);
   };
 
@@ -75,7 +75,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       <TextAtom
         text={item[itemLabelField]}
         preset={dropdownTextSize}
-        style={{color:dropdownTextColor}}
+        style={{color: dropdownTextColor}}
       />
     </TouchableOpacity>
   );
@@ -86,7 +86,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         <TextAtom
           text={dropdownTitle}
           preset="title"
-          style={{marginVertical: mScale.md,color:colorPresets.CTA}}
+          style={{marginVertical: mScale.md, color: colorPresets.CTA}}
         />
       )}
       <View
@@ -118,13 +118,13 @@ const Dropdown: React.FC<DropdownProps> = ({
                 backgroundColor: colorPresets.BG,
                 borderRadius: 6,
                 paddingHorizontal: mScale.base,
-                justifyContent:'center'
+                justifyContent: 'center',
               },
             ]}>
             <TextAtom
               text={selectedOption || placeholder}
               preset="medium"
-              style={{color:textColor || colorPresets.CTA}}
+              style={{color: textColor || colorPresets.CTA}}
             />
           </View>
           {/* <TextInput
