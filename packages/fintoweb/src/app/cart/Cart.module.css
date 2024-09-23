@@ -1,0 +1,304 @@
+.container {
+  min-height: 100vh;
+  padding: 50px;
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+  color: #fff;
+}
+
+.heading {
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+  margin-left: 20px;
+  margin-bottom: 1.5rem;
+}
+.title {
+  display: flex;
+  justify-content: space-between;
+  color: var(--CTA-1, #fff);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+/*   
+  .gridContainer {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 2rem;
+  } */
+
+/* @media (min-width: 768px) {
+    .gridContainer {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  } */
+
+.cardList {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  padding-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card {
+  margin: 15px;
+  border-radius: 12px;
+  border: 1px solid var(--BG, #2d303d);
+  background: var(--BG-2, #222431);
+}
+
+.cardBody {
+  padding: 1rem;
+}
+
+.image {
+  border-radius: 0.25rem; /* rounded */
+  width: 200px;
+  height: 120px;
+}
+
+.courseTitle {
+  font-weight: 600;
+}
+
+.courseDetails {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 5px;
+}
+
+.star {
+  width: 1rem;
+  height: 1rem;
+  color: #fbbf24;
+}
+
+.textGray {
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+
+.actions {
+  margin-top: 25px;
+  gap: 20px;
+  font-size: 0.875rem;
+}
+
+.saveLater {
+  color: #1d90f5;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  text-decoration-line: underline;
+}
+
+.remove {
+  color: var(--Secondary-2-Secondary-2600, #f54900);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  text-decoration-line: underline;
+  margin-left: 15px;
+}
+/* summary details */
+.summary {
+  border-radius: 12px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #121622;
+}
+.summaryHeading {
+  color: #b5b5b5;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  margin-bottom: 15px;
+}
+.summaryHeading b {
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+.summaryBody {
+  padding: 0px !important;
+}
+.summaryFirst {
+  padding: 15px;
+}
+.couponButton {
+  width: 100%;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid #7a7fa2;
+  background: #121622;
+  gap: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19px;
+}
+.subtotalText {
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+}
+.subtotalPrice {
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+}
+.summaryText {
+  font-size: 0.875rem;
+}
+
+.discount h6 {
+  color: #1d90f5;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+}
+.textLightGray {
+  color: #b5b5b5;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+}
+
+.separator {
+  display: flex;
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: var(--BG-2, #222431);
+}
+.separator p {
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.separatorPrice {
+  color: #76d651;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 15px;
+}
+.totalRow h4 {
+  color: #fff;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.totalRow h5 {
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+}
+.buttons {
+  padding: 10px;
+  margin-top: 15px;
+}
+.checkoutButton {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  display: flex;
+  padding: 14px 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 7.765px;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.16px;
+}
+.shoppingButton {
+  display: flex;
+  width: 100%;
+  padding: 14px 25.673px;
+  justify-content: center;
+  align-items: center;
+  gap: 10.697px;
+  border-radius: 4px;
+  background: #121622;
+  border: 1.07px solid var(--Border, #7a7fa2);
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.16px;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .imageCol {
+    order: -1; /* Image comes first on mobile */
+  }
+
+  .cardBody {
+    flex-direction: column;
+  }
+
+  .price {
+    margin-top: 0.5rem;
+  }
+}
+/* like courses */
+.likeCourses h2 {
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
