@@ -41,7 +41,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({options}) => {
         <View style={styles.left}>{headerLeft}</View>
         <View style={styles.title}>
           <TextAtom
-            preset="body"
+            preset="heading2"
             numberOfLines={1}
             style={{lineHeight: mScale.xl}}
             text={headerTitle as string}

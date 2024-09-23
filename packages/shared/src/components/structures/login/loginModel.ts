@@ -6,15 +6,15 @@ type AuthField = Pick<ModelParams, "phone" | "password">;
 export const authField: AuthField = {
   phone: {
     name: "phone",
-    label: "phone",
-    placeHolder: "phone",
-    requiredErr: "phone is required",
+    label: "Phone number",
+    placeHolder: "Enter your phone number",
+    requiredErr: "Phone is required",
   },
   password: {
     name: "password",
-    label: "password",
-    placeHolder: "password",
-    requiredErr: "password is required",
+    label: "Password",
+    placeHolder: "Enter your password",
+    requiredErr: "Password is required",
   },
 };
 

@@ -17,6 +17,7 @@ import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {Toast} from 'react-native-toast-notifications';
 import {useAuthHelper} from '@shared/src/components/structures/login/login.helper';
 import {NavType} from '@src/navigation/types';
+import { authField } from '@shared/src/components/structures/login/loginModel';
 
 interface LoginProps extends NavType<'Login'> {}
 
@@ -28,6 +29,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
   const {handleSubmit} = authFormik;
 
   React.useEffect(() => {
+    console.log(auth)
     if (auth?.token) {
       Toast.show('');
     }
@@ -41,16 +43,18 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               shape="square"
-              label="Phone number"
-              placeholder="Enter your phone number"
+              {...authInputProps(authField.phone.name)}
+              label={authField.phone.label}
+              placeholder={authField.phone.placeHolder}
               keyboardType="numeric"
             />
           </View>
           <View>
             <InputAtom
               shape="square"
-              label="Password"
-              placeholder="Enter your password"
+              {...authInputProps(authField.password.name)}
+              label={authField.password.label}
+              placeholder={authField.password.placeHolder}
               rightIcon={<Images.SVG.Eye width={20} color={colorPresets.CTA} />}
               autoCapitalize="none"
             />
@@ -63,7 +67,9 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
             }}
           />
           <View style={{marginTop: mScale.base}}>
-            <ButtonAtom title="Login" />
+            <ButtonAtom title="Login" onPress={()=>{
+              handleSubmit()
+            }} />
           </View>
           <ButtonAtom
             title="Login with OTP"
