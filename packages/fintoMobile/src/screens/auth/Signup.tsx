@@ -15,6 +15,8 @@ import Dropdown from '@src/components/Dropdown/Dropdown';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {NavType} from '@src/navigation/types';
+import {useSignupHelper} from '@shared/src/components/structures/signup/signup.helper';
+import {signupField} from '@shared/src/components/structures/signup/signupModel';
 
 interface SignupProps extends NavType<'Singup'> {}
 interface Category {
@@ -50,6 +52,16 @@ export const CategoriesArr: Category[] = [
 ];
 
 export const Signup: React.FC<SignupProps> = ({navigation}) => {
+  const {signupFormik, signupInputProps} = useSignupHelper();
+
+  const {handleSubmit, setFieldValue} = signupFormik;
+
+  React.useEffect(() => {
+    if (edit) {
+      setFieldValue(signupField.first_name.name, data?.first_name);
+    }
+  }, [edit]);
+
   return (
     <GradientTemplate>
       <HeaderLeftMolecule text="Create account" />
@@ -57,9 +69,10 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
         <View style={{marginTop: mScale.base}}>
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
+              {...signupInputProps(signupField.first_name.name)}
+              label={signupField.first_name.label}
+              placeholder={signupField.first_name.placeHolder}
               shape="square"
-              label="Name"
-              placeholder="Enter your name"
             />
           </View>
           <View style={{marginBottom: mScale.lg}}>
@@ -90,7 +103,7 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
               dropdownItemArr={CategoriesArr}
               itemLabelField="name"
               onSelect={item => {
-                console.log(item);
+                setFieldValue(signupField.college.name, item);
               }}
               dropdownTitle="College/University"
               placeholder={'Select category'}

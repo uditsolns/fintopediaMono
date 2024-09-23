@@ -17,7 +17,7 @@ export const useSignupHelper = () => {
       let data: SignupParams = {
         phone: values.phone,
         password: values.password,
-        college_id: "",
+        college_id: values.college,
         email: values.email,
         first_name: values.first_name,
         password_confirmation: values.password_confirmation,
