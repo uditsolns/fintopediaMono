@@ -56,11 +56,11 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
 
   const {handleSubmit, setFieldValue} = signupFormik;
 
-  React.useEffect(() => {
-    if (edit) {
-      setFieldValue(signupField.first_name.name, data?.first_name);
-    }
-  }, [edit]);
+  // React.useEffect(() => {
+  //   if (edit) {
+  //     setFieldValue(signupField.first_name.name, data?.first_name);
+  //   }
+  // }, [edit]);
 
   return (
     <GradientTemplate>

@@ -26,7 +26,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
 
   const {authFormik, authInputProps} = useAuthHelper();
 
-  const {handleSubmit} = authFormik;
+  const {handleSubmit,setFieldValue} = authFormik;
 
   React.useEffect(() => {
     console.log(auth)
@@ -36,8 +36,6 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
   }, [auth]);
   return (
     <GradientTemplate>
-      {/* <HeaderLeftMolecule text="Welcome back" /> */}
-
       <ScrollViewAtom>
         <View style={{marginTop: mScale.base}}>
           <View style={{marginBottom: mScale.lg}}>
