@@ -34,7 +34,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
   }, [auth]);
   return (
     <GradientTemplate>
-      <HeaderLeftMolecule text="Welcome back" />
+      {/* <HeaderLeftMolecule text="Welcome back" /> */}
 
       <ScrollViewAtom>
         <View style={{marginTop: mScale.base}}>

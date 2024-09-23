@@ -10,25 +10,26 @@ import CourseCategory from '@src/screens/search/courseCategory/CourseCategory';
 import {Coupon} from '@src/screens/cart/coupon/Coupon';
 import {Checkout} from '@src/screens/cart/checkout/Checkout';
 import {Billing} from '@src/screens/cart/checkout/Billing';
-import { PaymentSuccess } from '@src/screens/cart/checkout/payment/PaymentSuccess';
-import { DontKnowWhereToStart } from '@src/screens/dontKnowWhereToStart/DontKnowWhereToStart';
-import { BeforeEnrollingCourseDetails } from '@src/screens/course-details/BeforeEnrollingCourseDetails';
-import { AfterEnrollingCourseDetails } from '@src/screens/course-details/AfterEnrollingCourseDetails';
-import { ProfileDetails } from '@src/screens/account/inner-screen/ProfileDetails';
-import { Certifications } from '@src/screens/account/inner-screen/Certifications';
-import { ReferFriends } from '@src/screens/account/inner-screen/ReferFriends';
-import { MembershipType } from '@src/screens/account/inner-screen/MembershipType';
-import { ChangePassword } from '@src/screens/account/inner-screen/ChangePassword';
-import { PurchaseHistory } from '@src/screens/account/inner-screen/PurchaseHistory';
-import { Contactus } from '@src/screens/account/inner-screen/Contactus';
-import { BuyStocks } from '@src/screens/event/BuyStocks';
-import { SellStocks } from '@src/screens/event/SellStocks';
-import { GameWinnerLoading } from '@src/screens/event/GameWinnerLoading';
-import { GameWinner } from '@src/screens/event/GameWinner';
-import { GameWaiting } from '@src/screens/event/GameWaiting';
-import { GameHome } from '@src/screens/event/GameHome';
-import { MockBuyStocks } from '@src/screens/trade/MockBuyStocks';
-import { MockSellStocks } from '@src/screens/trade/MockSellStocks';
+import {PaymentSuccess} from '@src/screens/cart/checkout/payment/PaymentSuccess';
+import {DontKnowWhereToStart} from '@src/screens/dontKnowWhereToStart/DontKnowWhereToStart';
+import {BeforeEnrollingCourseDetails} from '@src/screens/course-details/BeforeEnrollingCourseDetails';
+import {AfterEnrollingCourseDetails} from '@src/screens/course-details/AfterEnrollingCourseDetails';
+import {ProfileDetails} from '@src/screens/account/inner-screen/ProfileDetails';
+import {Certifications} from '@src/screens/account/inner-screen/Certifications';
+import {ReferFriends} from '@src/screens/account/inner-screen/ReferFriends';
+import {MembershipType} from '@src/screens/account/inner-screen/MembershipType';
+import {ChangePassword} from '@src/screens/account/inner-screen/ChangePassword';
+import {PurchaseHistory} from '@src/screens/account/inner-screen/PurchaseHistory';
+import {Contactus} from '@src/screens/account/inner-screen/Contactus';
+import {BuyStocks} from '@src/screens/event/BuyStocks';
+import {SellStocks} from '@src/screens/event/SellStocks';
+import {GameWinnerLoading} from '@src/screens/event/GameWinnerLoading';
+import {GameWinner} from '@src/screens/event/GameWinner';
+import {GameWaiting} from '@src/screens/event/GameWaiting';
+import {GameHome} from '@src/screens/event/GameHome';
+import {MockBuyStocks} from '@src/screens/trade/MockBuyStocks';
+import {MockSellStocks} from '@src/screens/trade/MockSellStocks';
+import {HeaderBar} from '../components/Header/HeaderBar';
 
 interface MainRoutesProps {}
 
@@ -36,12 +37,12 @@ const Stack = createNativeStackNavigator();
 
 export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        options={{headerShown: false}}
-        name={RouteKeys.HOMESCREEN}
-        component={TabsRoutes}
-      />
+    <Stack.Navigator
+      screenOptions={{
+        headerTransparent: true,
+        header: props => <HeaderBar {...props} />,
+      }}>
+      <Stack.Screen name={RouteKeys.HOMESCREEN} component={TabsRoutes} />
       <Stack.Screen
         options={{headerShown: false}}
         name={RouteKeys.SEARCHSCREEN}
@@ -83,12 +84,12 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         name={RouteKeys.BILLINGSCREEN}
         component={Billing as React.FC}
       />
-       <Stack.Screen
+      <Stack.Screen
         options={{headerShown: false}}
         name={RouteKeys.PAYMENTSUCCESSSCREEN}
         component={PaymentSuccess as React.FC}
       />
-       <Stack.Screen
+      <Stack.Screen
         options={{headerShown: false}}
         name={RouteKeys.DONTKNOWWHERETOSTARTSCREEN}
         component={DontKnowWhereToStart as React.FC}
@@ -118,7 +119,7 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         name={RouteKeys.REFERANDEARNSCREEN}
         component={ReferFriends as React.FC}
       />
-        <Stack.Screen
+      <Stack.Screen
         options={{headerShown: false}}
         name={RouteKeys.MEMBERSHIPTYPESCREEN}
         component={MembershipType as React.FC}
@@ -128,7 +129,7 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         name={RouteKeys.CHANGEPASSWORDSCREEN}
         component={ChangePassword as React.FC}
       />
-        <Stack.Screen
+      <Stack.Screen
         options={{headerShown: false}}
         name={RouteKeys.PURCHASEHISTORYSCREEN}
         component={PurchaseHistory as React.FC}
@@ -148,7 +149,7 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         name={RouteKeys.SELLSTOCKSSCREEN}
         component={SellStocks as React.FC}
       />
-       <Stack.Screen
+      <Stack.Screen
         options={{headerShown: false}}
         name={RouteKeys.GAMEWINNERLOADINGSCREEN}
         component={GameWinnerLoading as React.FC}
@@ -158,7 +159,7 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         name={RouteKeys.GAMEWINNERSCREEN}
         component={GameWinner as React.FC}
       />
-       <Stack.Screen
+      <Stack.Screen
         options={{headerShown: false}}
         name={RouteKeys.GAMEWAITINGSCREEN}
         component={GameWaiting as React.FC}
@@ -168,7 +169,7 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         name={RouteKeys.GAMEHOMESCREEN}
         component={GameHome as React.FC}
       />
-       <Stack.Screen
+      <Stack.Screen
         options={{headerShown: false}}
         name={RouteKeys.MOCKTRADEBUYSTOCKSSCREEN}
         component={MockBuyStocks as React.FC}

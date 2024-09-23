@@ -1,6 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as React from 'react';
-import {Text, View} from 'react-native';
+import {Pressable, Text, View} from 'react-native';
 import {RouteKeys} from '../RouteKeys';
 import {Login} from '@src/screens/auth/Login';
 import {Onboarding} from '@src/screens/onboarding/Onboarding';
@@ -11,23 +11,41 @@ import {EmailVerification} from '@src/screens/auth/EmailVerification';
 import {TwoFAuth} from '@src/screens/auth/TwoFAuth';
 import {OTP} from '@src/screens/auth/OTP';
 import Splash from '@src/screens/splash/Splash';
+import {HeaderBar} from '../components/Header/HeaderBar';
+import {Images} from '@shared/src/assets';
+import {mScale} from '@shared/src/theme/metrics';
 
 interface AuthRoutesProps {}
 
 const Stack = createNativeStackNavigator();
 
 export const AuthRoutes: React.FC<AuthRoutesProps> = ({}) => {
+  const headerBack = (onBackPress: () => void) => (
+    <Pressable onPress={onBackPress}>
+      <Images.SVG.ChevronLeft width={mScale.lg3} />
+    </Pressable>
+  );
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator
+      screenOptions={{
+        headerTransparent: true,
+        header: props => <HeaderBar {...props} />,
+      }}>
       <Stack.Screen
+        options={{headerShown: false}}
         name={RouteKeys.SPLASHSCREEN}
         component={Splash as React.FC}
       />
       <Stack.Screen
+        options={{headerShown: false}}
         name={RouteKeys.ONBOARDINGSCREEN}
         component={Onboarding as React.FC}
       />
       <Stack.Screen
+        options={({navigation}) => ({
+          headerTitle: 'Welcome back',
+          headerLeft: () => headerBack(navigation.goBack()),
+        })}
         name={RouteKeys.LOGINSCREEN}
         component={Login as React.FC}
       />

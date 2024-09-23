@@ -78,18 +78,22 @@ export const signupValidation = Yup.object().shape({
   [signupField.surname_name.name]: Yup.string().required(
     `${signupField.surname_name.requiredErr}`
   ),
-  [signupField.phone.name]: Yup.number().required(
-    `${signupField.phone.requiredErr}`
-  ),
+  [signupField.phone.name]: Yup.number()
+    .min(10, "Cannot be less than 10 digits")
+    .max(10, "Cannot be more than 10 digits")
+    .required(`${signupField.phone.requiredErr}`),
   [signupField.role.name]: Yup.string().required(
     `${signupField.role.requiredErr}`
   ),
   [signupField.password.name]: Yup.string().required(
     `${signupField.password.requiredErr}`
   ),
-  [signupField.password_confirmation.name]: Yup.string().required(
-    `${signupField.password_confirmation.requiredErr}`
-  ),
+  [signupField.password_confirmation.name]: Yup.string()
+    .required(`${signupField.password_confirmation.requiredErr}`)
+    .oneOf(
+      [Yup.ref(`${signupField.password.name}`), ""],
+      "Passwords must match"
+    ),
   [signupField.email.name]: Yup.string()
     .email("Invalid email")
     .required(`${signupField.email.requiredErr}`),
