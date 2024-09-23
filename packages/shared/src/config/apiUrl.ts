@@ -1,4 +1,4 @@
-const baseUrl = "http://thezivagroup.com/game/public/api/";
+const baseUrl = "https://thezivagroup.com/game/public/api/";
 const version = "v1/";
 
 const buildUrl = (endpoint: string) => {

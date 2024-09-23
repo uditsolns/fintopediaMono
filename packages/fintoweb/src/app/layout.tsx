@@ -5,9 +5,9 @@ import "./globals.css";
 import BootstrapClient from "@src/components/BootstrapClient";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { AppProvider } from "shared/src/provider/AppProvider";
 
 export const metadata: Metadata = {
   title: "Finto pedia",
@@ -22,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${interTight.variable}`}>
-        <Navbar />
-        {children}
-        <Footer />
+        <AppProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </AppProvider>
         {/* <BootstrapClient /> */}
       </body>
     </html>
