@@ -86,8 +86,7 @@ export const signupValidation = Yup.object().shape({
     `${signupField.surname_name.requiredErr}`
   ),
   [signupField.phone.name]: Yup.number()
-    .min(10, "Cannot be less than 10 digits")
-    .max(10, "Cannot be more than 10 digits")
+    
     .required(`${signupField.phone.requiredErr}`),
   [signupField.role.name]: Yup.string().required(
     `${signupField.role.requiredErr}`

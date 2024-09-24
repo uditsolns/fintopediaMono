@@ -8,6 +8,8 @@ import { Footer } from "./components/Footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AppProvider } from "shared/src/provider/AppProvider";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const metadata: Metadata = {
   title: "Finto pedia",

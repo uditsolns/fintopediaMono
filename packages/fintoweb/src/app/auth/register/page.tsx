@@ -16,13 +16,21 @@ import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import { signupField } from "shared/src/components/structures/signup/signupModel";
 import { useSignupHelper } from "shared/src/components/structures/signup/signup.helper";
 import { SelectAtom } from "@src/components/atoms/select/SelectAtom";
+import { useRouter } from "next/navigation"; 
+import { toast } from "react-toastify"; 
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
-const SignUp: React.FC = () => {
+const Register: React.FC = () => {
+  const { auth, loading } = useAppSelector((state) => state.auth);
+
   const { signupFormik, signupInputProps } = useSignupHelper();
   const { handleSubmit, isSubmitting } = signupFormik;
 
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
   const [isRevealPwd1, setIsRevealPwd1] = useState<boolean>(false);
+
+  // const router = useRouter();
+
 
   return (
     <div className={styles.container}>
@@ -34,7 +42,7 @@ const SignUp: React.FC = () => {
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
-                      label={signupField.first_name.name}
+                      label={signupField.first_name.label}
                       placeholder={signupField.first_name.placeHolder}
                       {...signupInputProps(signupField.first_name.name)}
                     />
@@ -43,7 +51,7 @@ const SignUp: React.FC = () => {
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
-                      label={signupField.surname_name.name}
+                      label={signupField.surname_name.label}
                       placeholder={signupField.surname_name.placeHolder}
                       {...signupInputProps(signupField.surname_name.name)}
                     />
@@ -52,7 +60,7 @@ const SignUp: React.FC = () => {
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
-                      label={signupField.email.name}
+                      label={signupField.email.label}
                       placeholder={signupField.email.placeHolder}
                       {...signupInputProps(signupField.email.name)}
                     />
@@ -61,7 +69,7 @@ const SignUp: React.FC = () => {
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
-                      label={signupField.phone.name}
+                      label={signupField.phone.label}
                       placeholder={signupField.phone.placeHolder}
                       {...signupInputProps(signupField.phone.name)}
                     />
@@ -70,7 +78,7 @@ const SignUp: React.FC = () => {
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <SelectAtom
-                      label={signupField.role.name}
+                      label={signupField.role.label}
                       placeholder={signupField.role.placeHolder}
                       {...signupInputProps(signupField.role.name)}
                       options={[
@@ -84,7 +92,7 @@ const SignUp: React.FC = () => {
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <SelectAtom
-                      label={signupField.college.name}
+                      label={signupField.college.label}
                       placeholder={signupField.college.placeHolder}
                       {...signupInputProps(signupField.college.name)}
                       options={[
@@ -98,7 +106,7 @@ const SignUp: React.FC = () => {
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
-                      label={signupField.password.name}
+                      label={signupField.password.label}
                       placeholder={signupField.password.placeHolder}
                       {...signupInputProps(signupField.password.name)}
                       type={isRevealPwd ? "text" : "password"}
@@ -123,7 +131,7 @@ const SignUp: React.FC = () => {
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
-                      label={signupField.password_confirmation.name}
+                      label={signupField.password_confirmation.label}
                       placeholder={
                         signupField.password_confirmation.placeHolder
                       }
@@ -157,7 +165,10 @@ const SignUp: React.FC = () => {
                       size="md"
                       block
                       disabled={isSubmitting}
-                      onClick={() => handleSubmit()}
+                      onClick={() => {
+                        handleSubmit()
+                        
+                      }}
                     >
                       {/* {isLoading ? <CircularLoading /> : "Register"} */}
                       Register
@@ -166,7 +177,7 @@ const SignUp: React.FC = () => {
                 </Row>
                 <div className="mt-3 text-white">
                   Already have an account?{" "}
-                  <a href="/login" className="text-blue-500">
+                  <a href="/auth/login" className="text-blue-500">
                     <u>Login</u>
                   </a>
                 </div>
@@ -198,4 +209,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default Register;
