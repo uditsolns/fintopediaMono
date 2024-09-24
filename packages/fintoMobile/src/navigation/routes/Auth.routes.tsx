@@ -1,6 +1,5 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as React from 'react';
-import {Pressable, Text, View} from 'react-native';
 import {RouteKeys} from '../RouteKeys';
 import {Login} from '@src/screens/auth/Login';
 import {Onboarding} from '@src/screens/onboarding/Onboarding';
@@ -23,7 +22,7 @@ const Stack = createNativeStackNavigator();
 
 export const AuthRoutes: React.FC<AuthRoutesProps> = ({}) => {
   const headerBack = (onBackPress?: () => void, color?: string) => (
-    <PressableAtom  hitSlop={mScale.md} onPress={onBackPress}>
+    <PressableAtom hitSlop={mScale.md} onPress={onBackPress}>
       <Images.SVG.ChevronLeft width={mScale.lg3} color={colorPresets.CTA} />
     </PressableAtom>
   );
@@ -55,26 +54,59 @@ export const AuthRoutes: React.FC<AuthRoutesProps> = ({}) => {
         component={Login as React.FC}
       />
       <Stack.Screen
+        options={({navigation}) => ({
+          headerTitle: 'Create account',
+          headerShown: true,
+          headerLeft: () => headerBack(() => navigation.goBack()),
+        })}
         name={RouteKeys.SIGNUPSCREEN}
         component={Signup as React.FC}
       />
       <Stack.Screen
+        options={({navigation}) => ({
+          headerTitle: '',
+          headerShown: true,
+          headerLeft: () => headerBack(() => navigation.goBack()),
+        })}
         name={RouteKeys.FORGOTPASSWORDSCREEN}
         component={ForgotPassword as React.FC}
       />
       <Stack.Screen
+        options={({navigation}) => ({
+          headerTitle: '',
+          headerShown: true,
+          headerLeft: () => headerBack(() => navigation.goBack()),
+        })}
         name={RouteKeys.RESETPASSWORDSCREEN}
         component={ResetPassword as React.FC}
       />
       <Stack.Screen
+        options={({navigation}) => ({
+          headerTitle: '',
+          headerShown: true,
+          headerLeft: () => headerBack(() => navigation.goBack()),
+        })}
         name={RouteKeys.EMAILVERIFICATIONSCREEN}
         component={EmailVerification as React.FC}
       />
       <Stack.Screen
+        options={({navigation}) => ({
+          headerTitle: '',
+          headerShown: true,
+          headerLeft: () => headerBack(() => navigation.goBack()),
+        })}
         name={RouteKeys.TWOFACTORAUTHSCREEN}
         component={TwoFAuth as React.FC}
       />
-      <Stack.Screen name={RouteKeys.OTPSCREEN} component={OTP as React.FC} />
+      <Stack.Screen
+        options={({navigation}) => ({
+          headerTitle: '',
+          headerShown: true,
+          headerLeft: () => headerBack(() => navigation.goBack()),
+        })}
+        name={RouteKeys.OTPSCREEN}
+        component={OTP as React.FC}
+      />
     </Stack.Navigator>
   );
 };

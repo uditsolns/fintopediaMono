@@ -2,7 +2,6 @@ import {GradientTemplate} from '@shared/src/components/templates/GradientTemplat
 import * as React from 'react';
 import {View} from 'react-native';
 import {commonStyle} from '@shared/src/commonStyle';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import {Images} from '@shared/src/assets';
 import {colorPresets} from '@shared/src/theme/color';
 import {InputAtom} from '@src/components/Input/InputAtom';
@@ -17,6 +16,8 @@ import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {NavType} from '@src/navigation/types';
 import {useSignupHelper} from '@shared/src/components/structures/signup/signup.helper';
 import {signupField} from '@shared/src/components/structures/signup/signupModel';
+import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
+import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 
 interface SignupProps extends NavType<'Singup'> {}
 interface Category {
@@ -53,20 +54,26 @@ export const CategoriesArr: Category[] = [
 
 export const Signup: React.FC<SignupProps> = ({navigation}) => {
   const {signupFormik, signupInputProps} = useSignupHelper();
-
   const {handleSubmit, setFieldValue} = signupFormik;
+  const {signup, loading} = useAppSelector(state => state.auth);
+  const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);
 
-  // React.useEffect(() => {
-  //   if (edit) {
-  //     setFieldValue(signupField.first_name.name, data?.first_name);
-  //   }
-  // }, [edit]);
+  const togglePassword = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
+  React.useEffect(() => {
+    setFieldValue(signupField.role.name, 'app-user');
+  }, []);
+  React.useEffect(() => {
+    if (signup?.token) {
+      
+    }
+  }, [signup]);
   return (
     <GradientTemplate>
-      <HeaderLeftMolecule text="Create account" />
-      <ScrollViewAtom>
-        <View style={{marginTop: mScale.base}}>
+      <ScrollViewAtom contentContainerStyle={{marginTop: mScale.base}}>
+        <View style={{marginTop: mScale.xxl1}}>
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               {...signupInputProps(signupField.first_name.name)}
@@ -78,23 +85,26 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               shape="square"
-              label="Surname"
-              placeholder="Enter your surname"
+              {...signupInputProps(signupField.surname_name.name)}
+              label={signupField.surname_name.label}
+              placeholder={signupField.surname_name.placeHolder}
             />
           </View>
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               shape="square"
-              label="Email"
-              placeholder="Enter your email id"
+              {...signupInputProps(signupField.email.name)}
+              label={signupField.email.label}
+              placeholder={signupField.email.placeHolder}
               autoCapitalize="none"
             />
           </View>
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               shape="square"
-              label="Phone number"
-              placeholder="Enter your phone number"
+              {...signupInputProps(signupField.phone.name)}
+              label={signupField.phone.label}
+              placeholder={signupField.phone.placeHolder}
               keyboardType="numeric"
             />
           </View>
@@ -103,10 +113,10 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
               dropdownItemArr={CategoriesArr}
               itemLabelField="name"
               onSelect={item => {
-                setFieldValue(signupField.college.name, item);
+                setFieldValue(signupField.college.name, item?.id?.toString());
               }}
               dropdownTitle="College/University"
-              placeholder={'Select category'}
+              placeholder={'Select College/University'}
               dropdownBg="#121622"
               dropdownTextColor={colorPresets.CTA}
               textColor={colorPresets.CTA}
@@ -115,18 +125,38 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               shape="square"
-              label="Password"
-              placeholder="Enter your password"
-              rightIcon={<Images.SVG.Eye width={20} color={colorPresets.CTA} />}
+              {...signupInputProps(signupField.password.name)}
+              label={signupField.password.label}
+              placeholder={signupField.password.placeHolder}
+              rightIcon={
+                <PressableAtom onPress={togglePassword}>
+                  {passwordVisible ? (
+                    <Images.SVG.Eye width={20} color={colorPresets.CTA} />
+                  ) : (
+                    <Images.SVG.EyeOff width={20} color={colorPresets.CTA} />
+                  )}
+                </PressableAtom>
+              }
+              secureTextEntry={passwordVisible ? true : false}
               autoCapitalize="none"
             />
           </View>
           <View>
             <InputAtom
               shape="square"
-              label="Confirm Password"
-              placeholder="Enter your confirm password"
-              rightIcon={<Images.SVG.Eye width={20} color={colorPresets.CTA} />}
+              {...signupInputProps(signupField.password_confirmation.name)}
+              label={signupField.password_confirmation.label}
+              placeholder={signupField.password_confirmation.placeHolder}
+              rightIcon={
+                <PressableAtom onPress={togglePassword}>
+                  {passwordVisible ? (
+                    <Images.SVG.Eye width={20} color={colorPresets.CTA} />
+                  ) : (
+                    <Images.SVG.EyeOff width={20} color={colorPresets.CTA} />
+                  )}
+                </PressableAtom>
+              }
+              secureTextEntry={passwordVisible ? true : false}
               autoCapitalize="none"
             />
           </View>
@@ -140,7 +170,13 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
             />
           </View>
           <View style={{marginTop: mScale.base}}>
-            <ButtonAtom title="Register" />
+            <ButtonAtom
+              title="Register"
+              onPress={() => {
+                handleSubmit();
+              }}
+              loading={loading?.signup}
+            />
           </View>
           <View style={{marginVertical: mScale.md, alignSelf: 'center'}}>
             <TextAtom text={'or'} preset="medium" />

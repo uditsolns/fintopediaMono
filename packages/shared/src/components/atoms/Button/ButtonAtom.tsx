@@ -18,6 +18,7 @@ interface ButtonAtomProps extends PressableProps {
   preset?: ButtonPresets;
   loading?: boolean;
   textPreset?:TextPresetType,
+  loadingColor?:string
 }
 
 export const ButtonAtom = ({
@@ -25,6 +26,7 @@ export const ButtonAtom = ({
   preset = "primary",
   textPreset = 'smallBold',
   loading,
+  loadingColor = colorPresets.BLACK,
   ...rest
 }: ButtonAtomProps) => {
   const [width, setWidth] = React.useState(WINDOW_WIDTH - mScale.lg3);
@@ -60,7 +62,7 @@ export const ButtonAtom = ({
         {...rest}
       >
         {loading ? (
-          <ActivityIndicator color={colorPresets.CTA} size={"small"} />
+          <ActivityIndicator color={loadingColor} size={"small"} />
         ) : (
           <TextAtom style={textStyle} preset={textPreset} text={title} numberOfLines={1}  />
         )}

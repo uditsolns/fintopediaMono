@@ -13,11 +13,11 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
-import {Toast} from 'react-native-toast-notifications';
 import {useAuthHelper} from '@shared/src/components/structures/login/login.helper';
 import {NavType} from '@src/navigation/types';
 import {authField} from '@shared/src/components/structures/login/loginModel';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
+import {useToast} from 'react-native-toast-notifications';
 
 interface LoginProps extends NavType<'Login'> {}
 
@@ -25,12 +25,11 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
   const {auth, loading} = useAppSelector(state => state.auth);
   const {authFormik, authInputProps} = useAuthHelper();
   const {handleSubmit, setFieldValue} = authFormik;
-  const [passwordVisible, setPasswordVisible] = React.useState(true);
+  const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);
 
-  console.log(auth);
   React.useEffect(() => {
     if (auth?.token) {
-      Toast.show('');
+      
     }
   }, [auth]);
 
@@ -66,8 +65,8 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
                   )}
                 </PressableAtom>
               }
-              autoCapitalize="none"
               secureTextEntry={passwordVisible ? true : false}
+              autoCapitalize="none"
             />
           </View>
           <LinkButton
@@ -83,6 +82,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
               onPress={() => {
                 handleSubmit();
               }}
+              loading={loading?.login}
             />
           </View>
           <ButtonAtom
@@ -95,6 +95,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
           <View style={{marginVertical: mScale.md, alignSelf: 'center'}}>
             <TextAtom text={'or'} preset="medium" />
           </View>
+          <ButtonAtom title="Continue with google" preset="tertiary" />
           <ButtonAtom title="Continue as guest" preset="secondary" />
           <View style={[commonStyle.flexCenter, {marginTop: mScale.base}]}>
             <TextAtom text={`Don't have an account ? `} preset="medium" />
