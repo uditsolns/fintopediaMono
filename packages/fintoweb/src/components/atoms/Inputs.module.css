@@ -1,16 +1,5 @@
-.container {
-  margin: auto;
-  padding: 20px;
-  background: linear-gradient(
-    245.33deg,
-    #2d303d 0%,
-    #212330 28.6%,
-    #101320 65.15%,
-    #111521 78%,
-    #0d0f1b 100%
-  );
-}
 .textfield {
+  width: 100%;
   height: 51px;
   padding: 12px 22px;
   align-items: center;
@@ -39,4 +28,3 @@
 .isInvalid {
   border-color: red;
 }
-
