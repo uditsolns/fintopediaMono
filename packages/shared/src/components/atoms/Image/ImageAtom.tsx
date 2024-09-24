@@ -11,7 +11,7 @@ import {
 interface ImageAtomProps {
   containerStyle?: StyleProp<ViewStyle>;
   imageStyle?: StyleProp<ImageStyle>;
-  sourceRequire?: number | ImageSourcePropType;
+  sourceRequire?: number | ImageSourcePropType | string;
   resizeMode?: "cover" | "contain" | "stretch" | "repeat" | "center";
   tintColor?: string;
 }

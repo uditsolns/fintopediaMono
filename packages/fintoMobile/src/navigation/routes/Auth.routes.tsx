@@ -14,21 +14,25 @@ import Splash from '@src/screens/splash/Splash';
 import {HeaderBar} from '../components/Header/HeaderBar';
 import {Images} from '@shared/src/assets';
 import {mScale} from '@shared/src/theme/metrics';
+import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
+import {colorPresets} from '@shared/src/theme/color';
 
 interface AuthRoutesProps {}
 
 const Stack = createNativeStackNavigator();
 
 export const AuthRoutes: React.FC<AuthRoutesProps> = ({}) => {
-  const headerBack = (onBackPress: () => void) => (
-    <Pressable onPress={onBackPress}>
-      <Images.SVG.ChevronLeft width={mScale.lg3} />
-    </Pressable>
+  const headerBack = (onBackPress?: () => void, color?: string) => (
+    <PressableAtom  hitSlop={mScale.md} onPress={onBackPress}>
+      <Images.SVG.ChevronLeft width={mScale.lg3} color={colorPresets.CTA} />
+    </PressableAtom>
   );
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerTransparent: true,
+        headerStyle: {backgroundColor: colorPresets.TRANSPARENT},
         header: props => <HeaderBar {...props} />,
       }}>
       <Stack.Screen
@@ -44,7 +48,8 @@ export const AuthRoutes: React.FC<AuthRoutesProps> = ({}) => {
       <Stack.Screen
         options={({navigation}) => ({
           headerTitle: 'Welcome back',
-          headerLeft: () => headerBack(navigation.goBack()),
+          headerShown: true,
+          headerLeft: () => headerBack(() => navigation.goBack()),
         })}
         name={RouteKeys.LOGINSCREEN}
         component={Login as React.FC}

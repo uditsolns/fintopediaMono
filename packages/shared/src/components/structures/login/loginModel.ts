@@ -28,9 +28,9 @@ export const LOGIN_VALUES = {
 };
 
 export const loginValidation = Yup.object().shape({
-  [authField.phone.name]: Yup.number()
-    .min(10, "Cannot be less than 10 digits")
-    .required(`${authField.phone.requiredErr}`),
+  [authField.phone.name]: Yup.number().required(
+    `${authField.phone.requiredErr}`
+  ),
   [authField.password.name]: Yup.string().required(
     `${authField.password.requiredErr}`
   ),
