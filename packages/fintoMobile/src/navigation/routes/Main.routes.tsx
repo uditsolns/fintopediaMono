@@ -30,18 +30,39 @@ import {GameHome} from '@src/screens/event/GameHome';
 import {MockBuyStocks} from '@src/screens/trade/MockBuyStocks';
 import {MockSellStocks} from '@src/screens/trade/MockSellStocks';
 import {HeaderBar} from '../components/Header/HeaderBar';
+import {colorPresets} from '@shared/src/theme/color';
+import {mScale} from '@shared/src/theme/metrics';
+import {Images} from '@shared/src/assets';
+import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom'
 
 interface MainRoutesProps {}
 
 const Stack = createNativeStackNavigator();
+ const headerBack = (onBackPress: () => void, color?: string) => (
+  <PressableAtom hitSlop={mScale.md} onPress={onBackPress}>
+    <Images.SVG.ChevronLeft width={mScale.lg3} color={colorPresets.CTA} />
+  </PressableAtom>
+);
 
 export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
+  const [scrollY, setScrollY] = React.useState(0);
+
   return (
     <Stack.Navigator
-      screenOptions={{
+      screenOptions={({navigation}) => ({
         headerTransparent: true,
-        header: props => <HeaderBar {...props} />,
-      }}>
+        headerStyle: {backgroundColor: colorPresets.TRANSPARENT},
+        headerBackVisible: false,
+        headerTintColor: colorPresets.CTA,
+        header: props => {
+          navigation.addListener('blur', () => {
+            setScrollY(0);
+          });
+          return <HeaderBar {...props} scrollY={scrollY} />;
+        },
+        animation: 'slide_from_right',
+        headerLeft: () => headerBack(() => navigation.goBack()),
+      })}>
       <Stack.Screen name={RouteKeys.HOMESCREEN} component={TabsRoutes} />
       <Stack.Screen
         options={{headerShown: false}}

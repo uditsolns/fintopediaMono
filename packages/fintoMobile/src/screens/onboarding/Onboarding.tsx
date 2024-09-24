@@ -1,30 +1,33 @@
-import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
-import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
+import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
 import * as React from 'react';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   ScrollView,
   StyleSheet,
   TextStyle,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
-import {commonStyle} from '@shared/src/commonStyle/index';
-import {colorPresets} from '@shared/src/theme/color';
+import { moderateScale, mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
+import { commonStyle } from '@shared/src/commonStyle/index';
+import { colorPresets } from '@shared/src/theme/color';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
-import {RouteKeys} from '@src/navigation/RouteKeys';
-import {LinkButton} from '@src/components/Button/LinkButton';
-import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-interface OnboardingProps {
+import { RouteKeys } from '@src/navigation/RouteKeys';
+import { LinkButton } from '@src/components/Button/LinkButton';
+import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
+import { NavType } from '@src/navigation/types';
+
+interface OnboardingProps extends NavType<'Onboarding'> {}
+
+interface OnboardingData {
   title: string;
   description: string;
   image: number | string;
 }
 
-const data: OnboardingProps[] = [
+const data: OnboardingData[] = [
   {
     title: 'Welcome to Fintopedia',
     description:
@@ -45,8 +48,7 @@ const data: OnboardingProps[] = [
   },
 ];
 
-export const Onboarding: React.FC<OnboardingProps> = ({}) => {
-  const navigation = useNavigation();
+export const Onboarding: React.FC<OnboardingProps> = ({ navigation }) => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const scrollViewRef = React.useRef<ScrollView>(null);
 
@@ -65,16 +67,16 @@ export const Onboarding: React.FC<OnboardingProps> = ({}) => {
   };
 
   const handleSkip = () => {
-    scrollViewRef.current?.scrollToEnd({animated: true});
+    scrollViewRef.current?.scrollToEnd({ animated: true });
   };
 
   return (
     <GradientTemplate>
-      <View style={[styles.flex]}>
-        {currentIndex == data?.length - 1 ? null : (
+      <View style={styles.flex}>
+        {currentIndex === data.length - 1 ? null : (
           <LinkButton
             text="Skip"
-            style={[commonStyle.flexEnd, {padding: mScale.base}]}
+            style={[commonStyle.flexEnd, { padding: mScale.base }]}
             onPress={handleSkip}
           />
         )}
@@ -86,29 +88,27 @@ export const Onboarding: React.FC<OnboardingProps> = ({}) => {
           scrollEventThrottle={16}
           ref={scrollViewRef}
           style={styles.flex}
-          contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
-          {data?.map((item, index) => {
-            return (
-              <View style={styles.slide} key={index}>
-                <ImageAtom
-                  sourceRequire={item?.image}
-                  imageStyle={styles.image}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
+          {data.map((item, index) => (
+            <View style={styles.slide} key={index}>
+              <ImageAtom
+                sourceRequire={item.image}
+                imageStyle={styles.image}
+              />
+              <View style={styles.textContainer}>
+                <TextAtom
+                  text={item.title}
+                  preset="banner"
+                  style={styles.titleText as TextStyle}
                 />
-                <View style={styles.textContainer}>
-                  <TextAtom
-                    text={item.title}
-                    preset="banner"
-                    style={[styles.titleText,{}] as TextStyle}
-                  />
-                  <TextAtom
-                    text={item.description}
-                    preset="medium"
-                    style={[styles.descriptionText,{color:'#D5D5D9'} as TextStyle]}
-                  />
-                </View>
+                <TextAtom
+                  text={item.description}
+                  preset="medium"
+                  style={styles.descriptionText as TextStyle}
+                />
               </View>
-            );
-          })}
+            </View>
+          ))}
         </ScrollView>
         <View style={styles.buttonsWrapper}>
           <View style={styles.pagination}>
@@ -117,23 +117,25 @@ export const Onboarding: React.FC<OnboardingProps> = ({}) => {
                 key={index}
                 style={[
                   styles.dot,
-                  {backgroundColor: index === currentIndex ? '#fff' : '#888'},
+                  { backgroundColor: index === currentIndex ? '#fff' : '#888' },
                 ]}
               />
             ))}
           </View>
           <View style={styles.buttonsContainer}>
             {currentIndex < data.length - 1 ? (
-              <ButtonAtom title='Next' onPress={handleNext} />
-             
+              <ButtonAtom title="Next" onPress={handleNext} />
             ) : (
               <View style={styles.finalButtons}>
-                <ButtonAtom title='Login' onPress={() => {
-                    navigation.navigate(RouteKeys.LOGINSCREEN);
-                  }} />
-                  <ButtonAtom preset='tertiary' title='Sign Up' onPress={() => {
-                    navigation.navigate(RouteKeys.SIGNUPSCREEN);
-                  }} />
+                <ButtonAtom
+                  title="Login"
+                  onPress={() => navigation.navigate(RouteKeys.LOGINSCREEN)}
+                />
+                <ButtonAtom
+                  preset="tertiary"
+                  title="Sign Up"
+                  onPress={() => navigation.navigate(RouteKeys.SIGNUPSCREEN)}
+                />
               </View>
             )}
           </View>
@@ -167,9 +169,7 @@ const styles = StyleSheet.create({
   descriptionText: {
     textAlign: 'center',
     marginTop: mScale.base,
-  },
-  skipText: {
-    textDecorationLine: 'underline',
+    color: '#D5D5D9',
   },
   buttonsWrapper: {
     rowGap: mScale.lg,
@@ -191,9 +191,5 @@ const styles = StyleSheet.create({
   },
   finalButtons: {
     rowGap: mScale.lg,
-  },
-  signUpButton: {
-    borderWidth: 0.5,
-    borderColor: colorPresets.GRAY,
   },
 });

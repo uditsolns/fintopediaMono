@@ -6,15 +6,15 @@ type AuthField = Pick<ModelParams, "phone" | "password">;
 export const authField: AuthField = {
   phone: {
     name: "phone",
-    label: "phone",
-    placeHolder: "phone",
-    requiredErr: "phone is required",
+    label: "Phone number",
+    placeHolder: "Enter your phone number",
+    requiredErr: "Phone is required",
   },
   password: {
     name: "password",
-    label: "password",
-    placeHolder: "password",
-    requiredErr: "password is required",
+    label: "Password",
+    placeHolder: "Enter your password",
+    requiredErr: "Password is required",
   },
 };
 
@@ -28,9 +28,9 @@ export const LOGIN_VALUES = {
 };
 
 export const loginValidation = Yup.object().shape({
-  [authField.phone.name]: Yup.number()
-    .min(10, "Cannot be less than 10 digits")
-    .required(`${authField.phone.requiredErr}`),
+  [authField.phone.name]: Yup.number().required(
+    `${authField.phone.requiredErr}`
+  ),
   [authField.password.name]: Yup.string().required(
     `${authField.password.requiredErr}`
   ),

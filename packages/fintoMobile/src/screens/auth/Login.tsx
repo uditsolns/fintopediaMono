@@ -2,7 +2,6 @@ import {GradientTemplate} from '@shared/src/components/templates/GradientTemplat
 import * as React from 'react';
 import {View} from 'react-native';
 import {commonStyle} from '@shared/src/commonStyle';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {Images} from '@shared/src/assets';
 import {colorPresets} from '@shared/src/theme/color';
@@ -17,42 +16,58 @@ import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {Toast} from 'react-native-toast-notifications';
 import {useAuthHelper} from '@shared/src/components/structures/login/login.helper';
 import {NavType} from '@src/navigation/types';
+import {authField} from '@shared/src/components/structures/login/loginModel';
+import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 
 interface LoginProps extends NavType<'Login'> {}
 
 export const Login: React.FC<LoginProps> = ({navigation}) => {
   const {auth, loading} = useAppSelector(state => state.auth);
-
   const {authFormik, authInputProps} = useAuthHelper();
+  const {handleSubmit, setFieldValue} = authFormik;
+  const [passwordVisible, setPasswordVisible] = React.useState(true);
 
-  const {handleSubmit} = authFormik;
-
+  console.log(auth);
   React.useEffect(() => {
     if (auth?.token) {
       Toast.show('');
     }
   }, [auth]);
+
   return (
     <GradientTemplate>
-      {/* <HeaderLeftMolecule text="Welcome back" /> */}
-
-      <ScrollViewAtom>
-        <View style={{marginTop: mScale.base}}>
+      <ScrollViewAtom contentContainerStyle={{marginTop: mScale.base}}>
+        <View style={{marginTop: mScale.xxl1}}>
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               shape="square"
-              label="Phone number"
-              placeholder="Enter your phone number"
+              {...authInputProps(authField.phone.name)}
+              label={authField.phone.label}
+              placeholder={authField.phone.placeHolder}
               keyboardType="numeric"
+              maxLength={10}
             />
           </View>
           <View>
             <InputAtom
               shape="square"
-              label="Password"
-              placeholder="Enter your password"
-              rightIcon={<Images.SVG.Eye width={20} color={colorPresets.CTA} />}
+              {...authInputProps(authField.password.name)}
+              label={authField.password.label}
+              placeholder={authField.password.placeHolder}
+              rightIcon={
+                <PressableAtom
+                  onPress={() => {
+                    setPasswordVisible(!passwordVisible);
+                  }}>
+                  {passwordVisible ? (
+                    <Images.SVG.Eye width={20} color={colorPresets.CTA} />
+                  ) : (
+                    <Images.SVG.EyeOff width={20} color={colorPresets.CTA} />
+                  )}
+                </PressableAtom>
+              }
               autoCapitalize="none"
+              secureTextEntry={passwordVisible ? true : false}
             />
           </View>
           <LinkButton
@@ -63,7 +78,12 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
             }}
           />
           <View style={{marginTop: mScale.base}}>
-            <ButtonAtom title="Login" />
+            <ButtonAtom
+              title="Login"
+              onPress={() => {
+                handleSubmit();
+              }}
+            />
           </View>
           <ButtonAtom
             title="Login with OTP"
