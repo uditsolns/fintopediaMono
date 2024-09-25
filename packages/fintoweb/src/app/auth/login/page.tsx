@@ -10,21 +10,23 @@ import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import CircularLoading from "@src/components/loader/CircularLoading";
 
 interface LoginProps {}
 
 const Login: React.FC<LoginProps> = () => {
+  const router = useRouter();
+
   const { auth, loading } = useAppSelector((state) => state.auth);
   const { authFormik, authInputProps } = useAuthHelper();
   const { handleSubmit, isSubmitting } = authFormik;
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
 
-  const router = useRouter();
-
   useEffect(() => {
     if (auth?.token) {
       toast.success("Login successful!", {
-        position: "top-center",
+        position: "top-right",
+        theme: "dark",
       });
       router.push("/");
     }
@@ -82,12 +84,12 @@ const Login: React.FC<LoginProps> = () => {
                     <Button
                       type="submit"
                       className="btn btn-light font-bold text-black"
-                      size="md"
+                      size="lg"
                       block
-                      disabled={isSubmitting}
+                      // disabled={isSubmitting}
                       onClick={() => handleSubmit()}
                     >
-                      Login
+                      {loading?.login ? <CircularLoading /> : "Login"}
                     </Button>
                   </div>
                   <div className="mt-3 text-white text-center">
