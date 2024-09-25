@@ -1,5 +1,4 @@
 "use client";
-
 import dynamic from "next/dynamic";
 import Banner from "./homepage/Banner";
 import GamesPage from "./games/page";
@@ -26,6 +25,7 @@ import Login from "./auth/login/page";
 
 export default function Home() {
   const { auth } = useAppSelector((state) => state.auth);
+
   const token = auth?.token;
 
   if (token) {

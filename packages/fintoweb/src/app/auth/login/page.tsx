@@ -86,10 +86,10 @@ const Login: React.FC<LoginProps> = () => {
                       className="btn btn-light font-bold text-black"
                       size="lg"
                       block
-                      // disabled={isSubmitting}
+                      disabled={loading?.login}
                       onClick={() => handleSubmit()}
                     >
-                      {loading?.login ? <CircularLoading /> : "Login"}
+                      {loading.login ? <CircularLoading /> : "Login"}
                     </Button>
                   </div>
                   <div className="mt-3 text-white text-center">

@@ -179,7 +179,7 @@ const Register: React.FC = () => {
                         handleSubmit();
                       }}
                     >
-                      {loading?.signup ? <CircularLoading /> : "Register"}
+                      {loading.signup ? <CircularLoading /> : "Register"}
                     </Button>
                   </div>
                 </Row>
