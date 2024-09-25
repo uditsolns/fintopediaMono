@@ -10,6 +10,7 @@ import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import CircularLoading from "@src/components/loader/CircularLoading";
 
 interface LoginProps {}
 
@@ -84,10 +85,10 @@ const Login: React.FC<LoginProps> = () => {
                       className="btn btn-light font-bold text-black"
                       size="md"
                       block
-                      disabled={isSubmitting}
+                      disabled={loading?.login}
                       onClick={() => handleSubmit()}
                     >
-                      Login
+                      {loading.login ? <CircularLoading /> : "Login"}
                     </Button>
                   </div>
                   <div className="mt-3 text-white text-center">

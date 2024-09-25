@@ -2,7 +2,6 @@ const baseUrl = "http://nivada.in/hiring-management-backend/public/api/";
 const version = "v1/";
 
 const buildUrl = (endpoint: string) => {
-  
   return `${baseUrl}${version}${endpoint}`;
 };
 
@@ -13,5 +12,10 @@ export default {
     FORGOT: buildUrl("forget-password"),
     FORGOTCONFIRM: buildUrl("update-password"),
     GOOGLE: buildUrl("google-login"),
+  },
+  USER: {
+    GET: buildUrl("users"),
+    UPDATE: buildUrl("users/"),
+    DELETE: buildUrl("users/"),
   },
 };

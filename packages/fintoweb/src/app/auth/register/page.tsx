@@ -22,7 +22,7 @@ import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import CircularLoading from "@src/components/loader/CircularLoading";
 
 const Register: React.FC = () => {
-  const { auth, loading } = useAppSelector((state) => state.auth);
+  const { auth, loading, signup } = useAppSelector((state) => state.auth);
 
   const { signupFormik, signupInputProps } = useSignupHelper();
   const { handleSubmit, isSubmitting } = signupFormik;
@@ -31,6 +31,11 @@ const Register: React.FC = () => {
   const [isRevealPwd1, setIsRevealPwd1] = useState<boolean>(false);
 
   // const router = useRouter();
+
+  useEffect(() => {
+    if (signup) {
+    }
+  }, [signup]);
 
   return (
     <div className={styles.container}>
@@ -169,7 +174,7 @@ const Register: React.FC = () => {
                         handleSubmit();
                       }}
                     >
-                      {loading ? <CircularLoading /> : "Register"}
+                      {loading.signup ? <CircularLoading /> : "Register"}
                     </Button>
                   </div>
                 </Row>
