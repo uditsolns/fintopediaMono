@@ -64,7 +64,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const handleOptionSelect = (option: {id: number; name: string}) => {
     setSelectedOption(option[itemLabelField]);
-    onSelect(option.id);
+    onSelect(option);
     setDropdownVisible(false);
   };
 

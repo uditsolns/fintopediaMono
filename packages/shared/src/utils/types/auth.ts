@@ -80,8 +80,12 @@ export interface SignupParams {
   college_id: string;
 }
 
+export interface ForgotPasswordParams {
+  email: string;
+}
+
 export interface UpdatePasswordParams {
-  token: string;
-  password: string;
-  confirmation_password: string;
+  token?: string;
+  password?: string;
+  confirmation_password?: string;
 }

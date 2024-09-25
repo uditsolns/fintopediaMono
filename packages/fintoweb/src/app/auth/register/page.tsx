@@ -16,9 +16,10 @@ import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import { signupField } from "shared/src/components/structures/signup/signupModel";
 import { useSignupHelper } from "shared/src/components/structures/signup/signup.helper";
 import { SelectAtom } from "@src/components/atoms/select/SelectAtom";
-import { useRouter } from "next/navigation"; 
-import { toast } from "react-toastify"; 
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import CircularLoading from "@src/components/loader/CircularLoading";
 
 const Register: React.FC = () => {
   const { auth, loading } = useAppSelector((state) => state.auth);
@@ -30,7 +31,6 @@ const Register: React.FC = () => {
   const [isRevealPwd1, setIsRevealPwd1] = useState<boolean>(false);
 
   // const router = useRouter();
-
 
   return (
     <div className={styles.container}>
@@ -166,12 +166,10 @@ const Register: React.FC = () => {
                       block
                       disabled={isSubmitting}
                       onClick={() => {
-                        handleSubmit()
-                        
+                        handleSubmit();
                       }}
                     >
-                      {/* {isLoading ? <CircularLoading /> : "Register"} */}
-                      Register
+                      {loading ? <CircularLoading /> : "Register"}
                     </Button>
                   </div>
                 </Row>
@@ -208,5 +206,4 @@ const Register: React.FC = () => {
     </div>
   );
 };
-
 export default Register;

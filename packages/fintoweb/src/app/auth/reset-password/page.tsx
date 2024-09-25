@@ -16,30 +16,20 @@ import CustomSelect from "../../../custom/CustomSelect";
 import * as Yup from "yup";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import { InputAtom } from "@src/components/atoms/Input/InputAtom";
+import { resetField } from "shared/src/components/structures/reset/resetModel";
+import { useResetHelper } from "shared/src/components/structures/reset/reset.helper";
 
 interface LoginFormValues {
   password: string;
   confirm_password: string;
 }
 const ResetPassword: React.FC = () => {
+  const { resetFormik, resetInputProps } = useResetHelper();
+  const { handleSubmit, isSubmitting } = resetFormik;
+
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
   const [isRevealPwd1, setIsRevealPwd1] = useState<boolean>(false);
-
-  const phoneRegExp =
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
-  const handleSubmit = (
-    values: LoginFormValues,
-    { setSubmitting }: FormikHelpers<LoginFormValues>
-  ) => {
-    const login = {
-      password: values.password,
-      confirm_password: values.confirm_password,
-    };
-
-    // dispatch(actions.postRegister(register, () => router.push('/login')));
-    setSubmitting(false);
-  };
 
   return (
     <div className={styles.forgotContainer}>
@@ -79,121 +69,72 @@ const ResetPassword: React.FC = () => {
             </h6>
             <div className={styles.forgotForm}>
               <div className="p-3">
-                <Formik
-                  initialValues={{
-                    password: "",
-                    confirm_password: "",
-                  }}
-                  onSubmit={handleSubmit}
-                  validationSchema={Yup.object().shape({
-                    email: Yup.string()
-                      .required("Enter Your Email")
-                      .email("Invalid Email address"),
-                  })}
-                >
-                  {({ errors, touched, isSubmitting }) => (
-                    <Form className="mt-3">
-                      <Row className="form-group mt-3">
-                        <Row className="form-group mt-3">
-                          <Col md={12}>
-                            <Label className="text-white">
-                              Enter new password
-                            </Label>
-                            <InputGroup>
-                              <Field
-                                component={CustomInput}
-                                type={isRevealPwd ? "text" : "password"}
-                                name="password"
-                                id="password"
-                                placeholder="Type new password"
-                                className={`${
-                                  styles.forgotTextfield
-                                } form-control ${
-                                  errors.password && touched.password
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                              />
-                              <ErrorMessage
-                                name="password"
-                                component="div"
-                                className="invalid-feedback"
-                              />
-                              <InputGroupText
-                                onClick={() =>
-                                  setIsRevealPwd((prevState) => !prevState)
-                                }
-                                style={{ cursor: "pointer" }}
-                                className={styles.forgotTextfield}
-                              >
-                                {isRevealPwd ? (
-                                  <AiOutlineEyeInvisible />
-                                ) : (
-                                  <AiOutlineEye />
-                                )}
-                              </InputGroupText>
-                            </InputGroup>
-                          </Col>
-                        </Row>
-                        <Row className="form-group mt-3">
-                          <Col md={12}>
-                            <Label className="text-white">
-                              Confirm password
-                            </Label>
-                            <InputGroup>
-                              <Field
-                                component={CustomInput}
-                                type={isRevealPwd ? "text" : "password"}
-                                name="password"
-                                id="password"
-                                placeholder="Re-enter your new password"
-                                className={`${
-                                  styles.forgotTextfield
-                                } form-control ${
-                                  errors.password && touched.password
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                              />
-                              <ErrorMessage
-                                name="password"
-                                component="div"
-                                className="invalid-feedback"
-                              />
-                              <InputGroupText
-                                onClick={() =>
-                                  setIsRevealPwd((prevState) => !prevState)
-                                }
-                                style={{ cursor: "pointer" }}
-                                className={styles.forgotTextfield}
-                              >
-                                {isRevealPwd ? (
-                                  <AiOutlineEyeInvisible />
-                                ) : (
-                                  <AiOutlineEye />
-                                )}
-                              </InputGroupText>
-                            </InputGroup>
-                          </Col>
-                        </Row>
-                      </Row>
-                      <div className="mt-5 mb-3 row">
-                        <div className="col-12">
-                          <Button
-                            type="submit"
-                            className={styles.sendLinkButton}
-                            size="md"
-                            block
-                            disabled={isSubmitting}
-                          >
-                            {/* {isLoading ? <CircularLoading /> : "Register"} */}
-                            Reset password
-                          </Button>
-                        </div>
-                      </div>
-                    </Form>
-                  )}
-                </Formik>
+                <Row className="form-group mt-3">
+                  <Col md={12}>
+                    <InputAtom
+                      label={resetField.password.label}
+                      placeholder={resetField.password.placeHolder}
+                      {...resetInputProps(resetField.password.name)}
+                      type={isRevealPwd ? "text" : "password"}
+                      rightIcon={
+                        <InputGroupText
+                          onClick={() =>
+                            setIsRevealPwd((prevState) => !prevState)
+                          }
+                          style={{ cursor: "pointer" }}
+                          className={styles.textfield}
+                        >
+                          {isRevealPwd ? (
+                            <AiOutlineEyeInvisible />
+                          ) : (
+                            <AiOutlineEye />
+                          )}
+                        </InputGroupText>
+                      }
+                    />
+                  </Col>
+                </Row>
+                <Row className="form-group mt-3">
+                  <Col md={12}>
+                    <InputAtom
+                      label={resetField.password_confirmation.label}
+                      placeholder={resetField.password_confirmation.placeHolder}
+                      {...resetInputProps(
+                        resetField.password_confirmation.name
+                      )}
+                      type={isRevealPwd1 ? "text" : "password"}
+                      rightIcon={
+                        <InputGroupText
+                          onClick={() =>
+                            setIsRevealPwd1((prevState) => !prevState)
+                          }
+                          style={{ cursor: "pointer" }}
+                          className={styles.textfield}
+                        >
+                          {isRevealPwd1 ? (
+                            <AiOutlineEyeInvisible />
+                          ) : (
+                            <AiOutlineEye />
+                          )}
+                        </InputGroupText>
+                      }
+                    />
+                  </Col>
+                </Row>
+
+                <div className="mt-5 mb-3 row">
+                  <div className="col-12">
+                    <Button
+                      type="submit"
+                      className={styles.sendLinkButton}
+                      size="md"
+                      block
+                    >
+                      {/* {isLoading ? <CircularLoading /> : "Register"} */}
+                      Reset password
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

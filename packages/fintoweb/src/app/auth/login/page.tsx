@@ -73,7 +73,7 @@ const Login: React.FC<LoginProps> = () => {
                   </Col>
                 </Row>
                 <div className="mt-3 text-white">
-                  <a href="/sign-up">
+                  <a href="/auth/forgot-password">
                     <u>Forgot Password?</u>
                   </a>
                 </div>

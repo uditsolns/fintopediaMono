@@ -1,18 +1,16 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import {colorPresets} from '@shared/src/theme/color';
 import {mScale} from '@shared/src/theme/metrics';
 import {LinkButton} from '@src/components/Button/LinkButton';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import {InputAtom} from '@src/components/Input/InputAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import * as React from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 
 interface ForgotPasswordProps {}
 
