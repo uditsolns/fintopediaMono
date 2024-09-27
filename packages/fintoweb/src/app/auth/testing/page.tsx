@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import styles from "../register/Signup.module.css";
 import { Button, Col, InputGroupText, Row } from "reactstrap";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { useAuthHelper } from "shared/src/components/structures/login/login.helper";
 import { authField } from "shared/src/components/structures/login/loginModel";
 import { InputAtom } from "@src/components/atoms/Input/InputAtom";
@@ -14,7 +13,7 @@ import CircularLoading from "@src/components/loader/CircularLoading";
 
 interface LoginProps {}
 
-const Login: React.FC<LoginProps> = () => {
+const Testing: React.FC<LoginProps> = () => {
   const router = useRouter();
 
   const { auth, loading } = useAppSelector((state) => state.auth);
@@ -74,11 +73,7 @@ const Login: React.FC<LoginProps> = () => {
                     />
                   </Col>
                 </Row>
-                <div className="mt-3 text-white">
-                  <a href="/auth/forgot-password">
-                    <u>Forgot Password?</u>
-                  </a>
-                </div>
+                
                 <div className="mt-3 mb-3 row">
                   <div className="col-12">
                     <Button
@@ -92,33 +87,10 @@ const Login: React.FC<LoginProps> = () => {
                       {loading.login ? <CircularLoading /> : "Login"}
                     </Button>
                   </div>
-                  <div className="mt-3 text-white text-center">
-                    Don't have an account?{" "}
-                    <a href="/auth/register" className="text-blue-500">
-                      <u>Register Now</u>
-                    </a>
-                  </div>
+           
                 </div>
               </div>
-              <div className="mt-1 mb-3 p-3">
-                <h3 className="text-center font-bold text-white mb-3">
-                  Follow us on:
-                </h3>
-                <div className="d-flex justify-content-center align-items-center">
-                  <a
-                    href="https://www.facebook.com/people/Fintopedia/61551172396495/"
-                    className="p-2"
-                  >
-                    <FaFacebookF color="#1877F2" size="30px" />
-                  </a>
-                  <a
-                    href="https://www.instagram.com/fintopedia_official/"
-                    className="p-2"
-                  >
-                    <FaInstagram color="#E4405F" size="30px" />
-                  </a>
-                </div>
-              </div>
+           
             </div>
           </div>
         </div>
@@ -127,4 +99,4 @@ const Login: React.FC<LoginProps> = () => {
   );
 };
 
-export default Login;
+export default Testing;

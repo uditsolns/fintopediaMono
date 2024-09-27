@@ -37,7 +37,7 @@ const Register: React.FC = () => {
     if (signup?.token) {
       toast.success("Successfully Register !", {
         position: "top-right",
-        theme: "dark",
+        theme: "light",
       });
       router.push("/auth/login");
     }

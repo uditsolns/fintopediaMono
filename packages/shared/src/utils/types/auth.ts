@@ -13,6 +13,7 @@ export interface AuthState {
     forgotErr: any;
     confirmErr: any;
   };
+  token: string | null;
   auth: AuthResponse | null;
   signup: AuthResponse | null;
   forgot: null;
@@ -92,3 +93,6 @@ export interface UpdatePasswordParams {
   password?: string;
   confirmation_password?: string;
 }
+
+
+
