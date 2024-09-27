@@ -1,6 +1,6 @@
 import React from "react";
 import { Input, InputGroup, Label } from "reactstrap";
-import styles from "../../../app/sign-up/Signup.module.css";
+import styles from "../Inputs.module.css";
 
 interface InputAtomProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;

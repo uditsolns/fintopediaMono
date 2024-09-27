@@ -1,43 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import styles from "../Auth.module.css";
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
-import {
-  Button,
-  Col,
-  InputGroup,
-  InputGroupText,
-  Label,
-  Row,
-} from "reactstrap";
-import CustomInput from "../../../custom/CustomInput";
-import CustomSelect from "../../../custom/CustomSelect";
-import * as Yup from "yup";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import { Button, Col, Row } from "reactstrap";
+
+import { InputAtom } from "@src/components/atoms/Input/InputAtom";
+import { forgotField } from "shared/src/components/structures/forgot/forgotModel";
+import { useForgotHelper } from "shared/src/components/structures/forgot/forgot.helper";
 
 interface LoginFormValues {
   email: string;
 }
-const ForgotPassword: React.FC = () => {
-  const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
-  const [isRevealPwd1, setIsRevealPwd1] = useState<boolean>(false);
-
-  const phoneRegExp =
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
-  const handleSubmit = (
-    values: LoginFormValues,
-    { setSubmitting }: FormikHelpers<LoginFormValues>
-  ) => {
-    const login = {
-      email: values.email,
-    };
-
-    // dispatch(actions.postRegister(register, () => router.push('/login')));
-    setSubmitting(false);
-  };
+const ForgotPassword: React.FC<LoginFormValues> = () => {
+  const { forgotFormik, forgotInputProps } = useForgotHelper();
+  const { handleSubmit, isSubmitting } = forgotFormik;
 
   return (
     <div className={styles.forgotContainer}>
@@ -77,68 +53,33 @@ const ForgotPassword: React.FC = () => {
             </h6>
             <div className={styles.forgotForm}>
               <div className="p-3">
-                <Formik
-                  initialValues={{
-                    email: "",
-                  }}
-                  onSubmit={handleSubmit}
-                  validationSchema={Yup.object().shape({
-                    email: Yup.string()
-                      .required("Enter Your Email")
-                      .email("Invalid Email address"),
-                  })}
-                >
-                  {({ errors, touched, isSubmitting }) => (
-                    <Form className="mt-3">
-                      <Row className="form-group mt-3">
-                        <Col md={12}>
-                          <Label className="text-white">Enter Your Email</Label>
-                          <InputGroup>
-                            <Field
-                              component={CustomInput}
-                              type="text"
-                              name="email"
-                              id="email"
-                              placeholder="Enter Your Email"
-                              className={`${
-                                styles.forgotTextfield
-                              } form-control ${
-                                errors.email && touched.email
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                            />
-                            <ErrorMessage
-                              name="email"
-                              component="div"
-                              className="invalid-feedback"
-                            />
-                          </InputGroup>
-                        </Col>
-                      </Row>
-                      <div className="mt-5 mb-3 row">
-                        <div className="col-12">
-                          <Button
-                            type="submit"
-                            className={styles.sendLinkButton}
-                            size="md"
-                            block
-                            disabled={isSubmitting}
-                          >
-                            {/* {isLoading ? <CircularLoading /> : "Register"} */}
-                           Send Link
-                          </Button>
-                        </div>
-                        <div className={styles.forgotFooterText}>
-                          <h6>Didn’t get email? Kindly check spam box too</h6>
-                          <p> Send it again?</p>
-                        </div>
-                      </div>
-                    </Form>
-                  )}
-                </Formik>
+                <Row className="form-group mt-3">
+                  <Col md={12}>
+                    <InputAtom
+                      label={forgotField.email.label}
+                      placeholder={forgotField.email.placeHolder}
+                      {...forgotInputProps(forgotField.email.name)}
+                    />
+                  </Col>
+                </Row>
+                <div className="mt-5 mb-3 row">
+                  <div className="col-12">
+                    <Button
+                      type="submit"
+                      className={styles.sendLinkButton}
+                      size="md"
+                      block
+                    >
+                      {/* {isLoading ? <CircularLoading /> : "Register"} */}
+                      Send Link
+                    </Button>
+                  </div>
+                  <div className={styles.forgotFooterText}>
+                    <h6>Didn’t get email? Kindly check spam box too</h6>
+                    <p> Send it again?</p>
+                  </div>
+                </div>
               </div>
-           
             </div>
           </div>
         </div>

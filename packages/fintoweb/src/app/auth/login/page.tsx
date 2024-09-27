@@ -1,18 +1,36 @@
 "use client";
-import React, { useState } from "react";
-import styles from "../sign-up/Signup.module.css";
+import React, { useState, useEffect } from "react";
+import styles from "../register/Signup.module.css";
 import { Button, Col, InputGroupText, Row } from "reactstrap";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { useAuthHelper } from "shared/src/components/structures/login/login.helper";
 import { authField } from "shared/src/components/structures/login/loginModel";
 import { InputAtom } from "@src/components/atoms/Input/InputAtom";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import CircularLoading from "@src/components/loader/CircularLoading";
 
-const Login: React.FC = () => {
+interface LoginProps {}
+
+const Login: React.FC<LoginProps> = () => {
+  const router = useRouter();
+
+  const { auth, loading } = useAppSelector((state) => state.auth);
   const { authFormik, authInputProps } = useAuthHelper();
   const { handleSubmit, isSubmitting } = authFormik;
-
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (auth?.token) {
+      toast.success("Login successful!", {
+        position: "top-right",
+        theme: "light",
+      });
+      router.push("/");
+    }
+  }, [auth, router]);
 
   return (
     <div className={styles.container}>
@@ -25,7 +43,7 @@ const Login: React.FC = () => {
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
-                      label={authField.phone.name}
+                      label={authField.phone.label}
                       placeholder={authField.phone.placeHolder}
                       {...authInputProps(authField.phone.name)}
                     />
@@ -34,7 +52,7 @@ const Login: React.FC = () => {
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
-                      label={authField.password.name}
+                      label={authField.password.label}
                       placeholder={authField.password.placeHolder}
                       {...authInputProps(authField.password.name)}
                       type={isRevealPwd ? "text" : "password"}
@@ -57,7 +75,7 @@ const Login: React.FC = () => {
                   </Col>
                 </Row>
                 <div className="mt-3 text-white">
-                  <a href="/sign-up">
+                  <a href="/auth/forgot-password">
                     <u>Forgot Password?</u>
                   </a>
                 </div>
@@ -66,18 +84,17 @@ const Login: React.FC = () => {
                     <Button
                       type="submit"
                       className="btn btn-light font-bold text-black"
-                      size="md"
+                      size="lg"
                       block
-                      disabled={isSubmitting}
+                      disabled={loading?.login}
                       onClick={() => handleSubmit()}
                     >
-                      {/* {isLoading ? <CircularLoading /> : "Register"} */}
-                      Login
+                      {loading.login ? <CircularLoading /> : "Login"}
                     </Button>
                   </div>
                   <div className="mt-3 text-white text-center">
-                    Dont't have an account?{" "}
-                    <a href="/sign-up" className="text-blue-500">
+                    Don't have an account?{" "}
+                    <a href="/auth/register" className="text-blue-500">
                       <u>Register Now</u>
                     </a>
                   </div>

@@ -5,6 +5,7 @@ import { Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { errorMiddleware } from "./middleware/error.middleware";
 import authReducer from "./reducers/auth.reducer";
+import storage from "redux-persist/lib/storage";
 
 // let storage;
 
@@ -18,7 +19,7 @@ import authReducer from "./reducers/auth.reducer";
 
 const persistConfig: any = {
   key: "fintopedia",
-  storage: AsyncStorage,
+  storage,
   timeout: null,
 };
 

@@ -7,9 +7,12 @@ import Arrow from "../../assets/Arrow - Down Circle.png";
 import SearchIcon from "../../assets/iconamoon_search-light.png";
 import CartIcon from "../../assets/Shopping-Cart-2.png";
 import UserIcon from "../../assets/mingcute_user-4-fill.png";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
 export const Navbar = () => {
+  const { auth, loading } = useAppSelector((state) => state.auth);
   const [isOpen, setIsOpen] = useState(false);
+
 
   function getMenuClasses() {
     let menuClasses = [];
@@ -45,7 +48,11 @@ export const Navbar = () => {
       </div>
 
       <div className="flex items-center">
-        <Link href="/search" prefetch={true} className="mx-2 hover:text-gray-300">
+        <Link
+          href="/search"
+          prefetch={true}
+          className="mx-2 hover:text-gray-300"
+        >
           <Image
             src={SearchIcon}
             alt="Search"
@@ -101,21 +108,66 @@ export const Navbar = () => {
             <Image src={CartIcon} alt="Cart" className="inline-block mr-2" />
             Cart
           </Link>
-          <Link
-            href="/sign-up"
+          {/* <Link
+            href="/auth/register"
             prefetch={true}
             className="mx-2 hover:text-gray-300 flex items-center"
           >
             Sign Up
           </Link>
           <Link
-            href="/login"
+            href="/auth/login"
             prefetch={true}
             className="mx-2 hover:text-gray-300 flex items-center bg-white text-black py-2 px-4 rounded-md"
           >
             <Image src={UserIcon} alt="User" className="inline-block mr-2" />
             Login
-          </Link>
+          </Link> */}
+          {loading && auth?.token ? (
+            <>
+              <Link
+                href="/profile"
+                prefetch={true}
+                className="mx-2 hover:text-gray-300 flex items-center"
+              >
+                <Image
+                  src={UserIcon}
+                  alt="User"
+                  className="inline-block mr-2"
+                />
+                Profile
+              </Link>
+              <Link
+                href="/auth/logout"
+                prefetch={true}
+                className="mx-2 hover:text-gray-300 flex items-center"
+              >
+                Logout
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/auth/register"
+                prefetch={true}
+                className="mx-2 hover:text-gray-300 flex items-center"
+              >
+                Sign Up
+              </Link>
+              <Link
+                href="/auth/login"
+                prefetch={true}
+                className="mx-2 hover:text-gray-300 flex items-center bg-white text-black py-2 px-4 rounded-md"
+              >
+                <Image
+                  src={UserIcon}
+                  alt="User"
+                  className="inline-block mr-2"
+                />
+                Login
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

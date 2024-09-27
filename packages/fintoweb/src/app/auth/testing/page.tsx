@@ -1,0 +1,102 @@
+"use client";
+import React, { useState, useEffect } from "react";
+import styles from "../register/Signup.module.css";
+import { Button, Col, InputGroupText, Row } from "reactstrap";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useAuthHelper } from "shared/src/components/structures/login/login.helper";
+import { authField } from "shared/src/components/structures/login/loginModel";
+import { InputAtom } from "@src/components/atoms/Input/InputAtom";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import CircularLoading from "@src/components/loader/CircularLoading";
+
+interface LoginProps {}
+
+const Testing: React.FC<LoginProps> = () => {
+  const router = useRouter();
+
+  const { auth, loading } = useAppSelector((state) => state.auth);
+  const { authFormik, authInputProps } = useAuthHelper();
+  const { handleSubmit, isSubmitting } = authFormik;
+  const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (auth?.token) {
+      toast.success("Login successful!", {
+        position: "top-right",
+        theme: "light",
+      });
+      router.push("/");
+    }
+  }, [auth, router]);
+
+  return (
+    <div className={styles.container}>
+      <div className="container main-login-div">
+        <div className="no-gutters justify-content-center row">
+          <div className="col-md-6 col-lg-6 login-card">
+            <h1 className="font-bold text-white">Welcome Back</h1>
+            <div className="main-content">
+              <div className="p-3">
+                <Row className="form-group mt-3">
+                  <Col md={12}>
+                    <InputAtom
+                      label={authField.phone.label}
+                      placeholder={authField.phone.placeHolder}
+                      {...authInputProps(authField.phone.name)}
+                    />
+                  </Col>
+                </Row>
+                <Row className="form-group mt-3">
+                  <Col md={12}>
+                    <InputAtom
+                      label={authField.password.label}
+                      placeholder={authField.password.placeHolder}
+                      {...authInputProps(authField.password.name)}
+                      type={isRevealPwd ? "text" : "password"}
+                      rightIcon={
+                        <InputGroupText
+                          onClick={() =>
+                            setIsRevealPwd((prevState) => !prevState)
+                          }
+                          style={{ cursor: "pointer" }}
+                          className={styles.textfield}
+                        >
+                          {isRevealPwd ? (
+                            <AiOutlineEyeInvisible />
+                          ) : (
+                            <AiOutlineEye />
+                          )}
+                        </InputGroupText>
+                      }
+                    />
+                  </Col>
+                </Row>
+                
+                <div className="mt-3 mb-3 row">
+                  <div className="col-12">
+                    <Button
+                      type="submit"
+                      className="btn btn-light font-bold text-black"
+                      size="lg"
+                      block
+                      disabled={loading?.login}
+                      onClick={() => handleSubmit()}
+                    >
+                      {loading.login ? <CircularLoading /> : "Login"}
+                    </Button>
+                  </div>
+           
+                </div>
+              </div>
+           
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Testing;

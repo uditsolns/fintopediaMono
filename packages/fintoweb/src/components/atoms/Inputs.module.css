@@ -1,0 +1,30 @@
+.textfield {
+  width: 100%;
+  height: 51px;
+  padding: 12px 22px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  border-radius: 6px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #222431;
+  color: #fff;
+}
+
+.textfield::placeholder {
+  color: #7a7fa2;
+}
+
+.textfield:focus {
+  background-color: #2d303d;
+  color: #fff;
+  outline: none;
+}
+
+.textfield:focus::placeholder {
+  color: #7a7fa2;
+}
+
+.isInvalid {
+  border-color: red;
+}
