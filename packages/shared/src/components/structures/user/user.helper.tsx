@@ -1,29 +1,32 @@
 import { useFormik } from "formik";
 import { useAppDispatch } from "../../../provider/store/types/storeTypes";
-import { confirmPassword } from "../../../provider/store/services/auth.service";
 import { InputAtomProps } from "../../atoms/Input/InputAtom";
-import { RESET_VALUES, resetValidation } from "./resetModel";
-import { ResetPasswordParams } from "../../../utils/types/auth";
+import { USER_VALUES, userValidation } from "./userModel";
+import { UserUpdateParams } from "../../../utils/types/auth";
+import { updateUser } from "../../../provider/store/services/user.service";
 
-export const useResetHelper = () => {
-  type dataType = keyof typeof RESET_VALUES;
+export const useUserHelper = () => {
+  type dataType = keyof typeof USER_VALUES;
 
   const dispatch = useAppDispatch();
 
-  const resetFormik = useFormik({
-    initialValues: RESET_VALUES,
-    validationSchema: resetValidation,
+  const userFormik = useFormik({
+    initialValues: USER_VALUES,
+    validationSchema: userValidation,
     onSubmit: (values) => {
-      let data: ResetPasswordParams = {
-        token: values.token,
-        password: values.password,
-        confirmation_password: values.confirmation_password,
+      let data: UserUpdateParams = {
+        first_name: values.first_name,
+        phone: values.phone,
+        email: values.email,
+        surname_name: values.surname_name,
+        age: values.age,
+        gender: values.gender,
+        dob: values.dob,
       };
-      // dispatch(confirmPassword(data));
     },
   });
 
-  const { setFieldTouched, values, touched, errors, handleChange } = resetFormik;
+  const { setFieldTouched, values, touched, errors, handleChange } = userFormik;
 
   const _onBlur = (key: string) => {
     setFieldTouched(key);
@@ -32,7 +35,7 @@ export const useResetHelper = () => {
     return touched[key] && errors[key] ? errors[key] : "";
   };
 
-  const resetInputProps = (
+  const userInputProps = (
     key: dataType
   ): Partial<Record<keyof InputAtomProps, any>> => {
     return {
@@ -49,7 +52,7 @@ export const useResetHelper = () => {
   };
 
   return {
-    resetFormik,
-    resetInputProps,
+    userFormik,
+    userInputProps,
   };
 };
