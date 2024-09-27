@@ -3,6 +3,7 @@ import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import { useAppDispatch, useAppSelector } from '@shared/src/provider/store/types/storeTypes';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import CarouselAtom from '@src/components/Carousel/CarouselAtom';
 import GetStarted from '@src/components/GetStarted';
@@ -45,6 +46,8 @@ let CategoriesArr = [
 interface HomeProps extends NavType<'Home'> {}
 
 export const Home: React.FC<HomeProps> = ({navigation}) => {
+  const dispatch = useAppDispatch()
+  const {auth} = useAppSelector(state => state.auth);
   const [categoriesSelected, setCategoriesSelected] = React.useState<number>(0);
 
   const continueRenderItem = ({item}) => {
