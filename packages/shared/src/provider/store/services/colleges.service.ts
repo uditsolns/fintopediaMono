@@ -1,26 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { CoursesInfo } from "../../../utils/types/courses";
+import { CollegeInfo } from "../../../utils/types/college";
 
-export const getCourses = createAsyncThunk<
-  CoursesInfo[],
+export const getCollege = createAsyncThunk<
+  CollegeInfo[],
   void,
   { state: RootState }
->("courses/get", async (_, thunkApi) => {
+>("college/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth.token;
 
-    const response = await fetch(apiUrl.COURSES.GET, {
+    const response = await fetch(apiUrl.COLLEGES.GET, {
       method: "GET",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
 
-    const data = (await response.json()) as CoursesInfo[];
+    const data = (await response.json()) as CollegeInfo[];
 
     return data;
   } catch (error) {
@@ -28,24 +28,24 @@ export const getCourses = createAsyncThunk<
   }
 });
 
-export const createCourses = createAsyncThunk<
-  CoursesInfo,
-  CoursesInfo,
+export const createCollege = createAsyncThunk<
+  CollegeInfo,
+  CollegeInfo,
   { state: RootState }
->("courses/post", async (params, thunkApi) => {
+>("college/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth.token;
-    const response = await fetch(apiUrl.COURSES.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.COLLEGES.POST + "/" + params.id, {
       method: "POST",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CoursesInfo;
+    const data = (await response.json()) as CollegeInfo;
 
     return data;
   } catch (error) {
@@ -53,22 +53,22 @@ export const createCourses = createAsyncThunk<
   }
 });
 
-export const updateCourses = createAsyncThunk<
-  CoursesInfo,
-  CoursesInfo & { token: string },
+export const updateCollege = createAsyncThunk<
+  CollegeInfo,
+  CollegeInfo & { token: string },
   { state: RootState }
->("courses/update", async (params, thunkApi) => {
+>("college/update", async (params, thunkApi) => {
   try {
-    const response = await fetch(apiUrl.COURSES.UPDATE + "/" + params.id, {
+    const response = await fetch(apiUrl.COLLEGES.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${params.token}`,
       },
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CoursesInfo;
+    const data = (await response.json()) as CollegeInfo;
 
     return data;
   } catch (error) {
@@ -76,18 +76,18 @@ export const updateCourses = createAsyncThunk<
   }
 });
 
-export const deleteCourses = createAsyncThunk<
+export const deleteCollege = createAsyncThunk<
   string,
   string,
   { state: RootState }
->("courses/delete", async (params, thunkApi) => {
+>("college/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth.token;
-    const response = await fetch(apiUrl.COURSES.DELETE + "/" + params, {
+    const response = await fetch(apiUrl.COLLEGES.DELETE + "/" + params, {
       method: "DELETE",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
