@@ -10,7 +10,7 @@ export const getCollege = createAsyncThunk<
 >("college/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.COLLEGES.GET, {
       method: "GET",
@@ -35,7 +35,7 @@ export const createCollege = createAsyncThunk<
 >("college/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COLLEGES.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -59,11 +59,13 @@ export const updateCollege = createAsyncThunk<
   { state: RootState }
 >("college/update", async (params, thunkApi) => {
   try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COLLEGES.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${params.token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(params),
     });
@@ -83,7 +85,7 @@ export const deleteCollege = createAsyncThunk<
 >("college/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COLLEGES.DELETE + "/" + params, {
       method: "DELETE",
       headers: {

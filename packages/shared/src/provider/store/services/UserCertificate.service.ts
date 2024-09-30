@@ -10,7 +10,7 @@ export const getUserCertificate = createAsyncThunk<
 >("userCertificate/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.USER_CERTIFICATE.GET, {
       method: "GET",
@@ -35,7 +35,7 @@ export const createUserCertificate = createAsyncThunk<
 >("userCertificate/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(
       apiUrl.USER_CERTIFICATE.POST + "/" + params.id,
       {
@@ -63,7 +63,7 @@ export const updateUserCertificate = createAsyncThunk<
 >("userCertificate/update", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(
       apiUrl.USER_CERTIFICATE.UPDATE + "/" + params.id,
       {
@@ -91,7 +91,7 @@ export const deleteUserCertificate = createAsyncThunk<
 >("userCertificate/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(
       apiUrl.USER_CERTIFICATE.DELETE + "/" + params,
       {

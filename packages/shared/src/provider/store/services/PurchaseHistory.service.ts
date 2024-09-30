@@ -10,7 +10,7 @@ export const getPurchaseHistory = createAsyncThunk<
 >("purchaseHistory/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.PURCHASE_HISTORY.GET, {
       method: "GET",
@@ -35,7 +35,7 @@ export const createPurchaseHistory = createAsyncThunk<
 >("purchaseHistory/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.PURCHASE_HISTORY.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -60,7 +60,7 @@ export const updatePurchaseHistory = createAsyncThunk<
 >("purchaseHistory/update", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.PURCHASE_HISTORY.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
@@ -85,7 +85,7 @@ export const deletePurchaseHistory = createAsyncThunk<
 >("purchaseHistory/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.PURCHASE_HISTORY.DELETE + "/" + params, {
       method: "DELETE",
       headers: {

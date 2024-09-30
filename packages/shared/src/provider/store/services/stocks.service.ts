@@ -10,7 +10,7 @@ export const getStocks = createAsyncThunk<
 >("stocks/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.STOCKS.GET, {
       method: "GET",
@@ -35,7 +35,7 @@ export const createStocks = createAsyncThunk<
 >("stocks/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.STOCKS.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -60,7 +60,7 @@ export const updateStocks = createAsyncThunk<
 >("stocks/update", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.STOCKS.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
@@ -85,7 +85,7 @@ export const deleteStocks = createAsyncThunk<
 >("stocks/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.STOCKS.DELETE + "/" + params, {
       method: "DELETE",
       headers: {

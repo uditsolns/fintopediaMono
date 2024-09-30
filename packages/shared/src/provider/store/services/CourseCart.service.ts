@@ -10,7 +10,7 @@ export const getCourseCart = createAsyncThunk<
 >("courseCart/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.COURSE_ADD_TO_CART.GET, {
       method: "GET",
@@ -35,7 +35,7 @@ export const createCourseCart = createAsyncThunk<
 >("courseCart/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COURSE_ADD_TO_CART.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -60,7 +60,7 @@ export const updateCourseCart = createAsyncThunk<
 >("courseCart/update", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COURSE_ADD_TO_CART.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
@@ -85,7 +85,7 @@ export const deleteCourseCart = createAsyncThunk<
 >("courseCart/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COURSE_ADD_TO_CART.DELETE + "/" + params, {
       method: "DELETE",
       headers: {

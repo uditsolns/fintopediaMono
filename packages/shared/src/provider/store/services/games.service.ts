@@ -10,7 +10,7 @@ export const getGames = createAsyncThunk<
 >("games/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.GAMES.GET, {
       method: "GET",
@@ -28,6 +28,31 @@ export const getGames = createAsyncThunk<
   }
 });
 
+export const getGamesById = createAsyncThunk<
+  GamesInfo,
+  GamesInfo,
+  { state: RootState }
+>("singleGame/get", async (params, thunkApi) => {
+  try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
+
+    const response = await fetch(apiUrl.GAMES.GET + "/" + params.id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = (await response.json()) as GamesInfo;
+
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
 export const createGames = createAsyncThunk<
   GamesInfo,
   GamesInfo,
@@ -35,7 +60,7 @@ export const createGames = createAsyncThunk<
 >("games/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.GAMES.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -60,7 +85,7 @@ export const updateGames = createAsyncThunk<
 >("games/update", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.GAMES.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
@@ -85,11 +110,11 @@ export const deleteGames = createAsyncThunk<
 >("games/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.GAMES.DELETE + "/" + params, {
       method: "DELETE",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });

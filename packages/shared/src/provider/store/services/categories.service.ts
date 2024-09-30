@@ -10,7 +10,7 @@ export const getCategories = createAsyncThunk<
 >("categories/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.CATEGORIES.GET, {
       method: "GET",
@@ -35,7 +35,7 @@ export const createCategories = createAsyncThunk<
 >("categories/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.CATEGORIES.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -60,7 +60,7 @@ export const updateCategories = createAsyncThunk<
 >("categories/update", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.CATEGORIES.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
@@ -85,7 +85,7 @@ export const deleteCategories = createAsyncThunk<
 >("categories/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.CATEGORIES.DELETE + "/" + params, {
       method: "DELETE",
       headers: {

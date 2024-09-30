@@ -10,7 +10,7 @@ export const getStopGame = createAsyncThunk<
 >("stopGame/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.STOP_GAME.GET, {
       method: "GET",
@@ -35,7 +35,7 @@ export const createStopGame = createAsyncThunk<
 >("stopGame/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.STOP_GAME.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -59,11 +59,13 @@ export const updateStopGame = createAsyncThunk<
   { state: RootState }
 >("stopGame/update", async (params, thunkApi) => {
   try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.STOP_GAME.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${params.token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(params),
     });
@@ -83,7 +85,7 @@ export const deleteStopGame = createAsyncThunk<
 >("stopGame/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.STOP_GAME.DELETE + "/" + params, {
       method: "DELETE",
       headers: {

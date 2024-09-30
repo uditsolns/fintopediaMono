@@ -10,7 +10,7 @@ export const getUserCourseHistory = createAsyncThunk<
 >("userCourseHistory/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.USER_COURSE_HISTORY.GET, {
       method: "GET",
@@ -35,15 +35,18 @@ export const createUserCourseHistory = createAsyncThunk<
 >("userCourseHistory/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
-    const response = await fetch(apiUrl.USER_COURSE_HISTORY.POST + "/" + params.id, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(params),
-    });
+    const token = state.auth?.auth?.token;
+    const response = await fetch(
+      apiUrl.USER_COURSE_HISTORY.POST + "/" + params.id,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+      }
+    );
 
     const data = (await response.json()) as UserCourseHistoryInfo;
 
@@ -60,15 +63,18 @@ export const updateUserCourseHistory = createAsyncThunk<
 >("userCourseHistory/update", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
-    const response = await fetch(apiUrl.USER_COURSE_HISTORY.UPDATE + "/" + params.id, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(params),
-    });
+    const token = state.auth?.auth?.token;
+    const response = await fetch(
+      apiUrl.USER_COURSE_HISTORY.UPDATE + "/" + params.id,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+      }
+    );
 
     const data = (await response.json()) as UserCourseHistoryInfo;
 
@@ -85,14 +91,17 @@ export const deleteUserCourseHistory = createAsyncThunk<
 >("userCourseHistory/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
-    const response = await fetch(apiUrl.USER_COURSE_HISTORY.DELETE + "/" + params, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const token = state.auth?.auth?.token;
+    const response = await fetch(
+      apiUrl.USER_COURSE_HISTORY.DELETE + "/" + params,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = (await response.json()) as string;
 

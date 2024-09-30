@@ -10,7 +10,7 @@ export const getTransactions = createAsyncThunk<
 >("transactions/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.TRANSACTIONS.GET, {
       method: "GET",
@@ -35,7 +35,7 @@ export const createTransactions = createAsyncThunk<
 >("transactions/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.TRANSACTIONS.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -59,11 +59,13 @@ export const updateTransactions = createAsyncThunk<
   { state: RootState }
 >("transactions/update", async (params, thunkApi) => {
   try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.TRANSACTIONS.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${params.token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(params),
     });
@@ -83,7 +85,7 @@ export const deleteTransactions = createAsyncThunk<
 >("transactions/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.TRANSACTIONS.DELETE + "/" + params, {
       method: "DELETE",
       headers: {
