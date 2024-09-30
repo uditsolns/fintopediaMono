@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { StartGameInfo } from "../../../utils/types/startgame";
+import { StartGameInfo, StartGameInfo2 } from "../../../utils/types/startgame";
 
 export const getStartGame = createAsyncThunk<
   StartGameInfo[],
@@ -29,14 +29,14 @@ export const getStartGame = createAsyncThunk<
 });
 
 export const createStartGame = createAsyncThunk<
-  StartGameInfo,
+  StartGameInfo2,
   StartGameInfo,
   { state: RootState }
 >("startGame/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.START_GAME.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.START_GAME.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,17 +45,18 @@ export const createStartGame = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as StartGameInfo;
-
+    const data = (await response.json()) as StartGameInfo2;
+    console.log("create -",data)
     return data;
   } catch (error) {
+    console.log("create error  -",error)
     return thunkApi.rejectWithValue(error);
   }
 });
 
 export const updateStartGame = createAsyncThunk<
   StartGameInfo,
-  StartGameInfo & { token: string },
+  StartGameInfo,
   { state: RootState }
 >("startGame/update", async (params, thunkApi) => {
   try {

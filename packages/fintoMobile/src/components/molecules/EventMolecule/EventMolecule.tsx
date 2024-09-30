@@ -16,7 +16,6 @@ export default function EventMolecule({
   item: GamesInfo;
   onPress: () => void;
 }) {
-  console.log(item);
   return (
     <View style={[commonStyle.flexStart, styles.container]}>
       <ImageAtom
@@ -44,7 +43,6 @@ export default function EventMolecule({
           <ButtonAtom
             title="Play game"
             onPress={onPress}
-            disabled={item?.is_active == '1' ? false : true}
           />
         </View>
       </View>
