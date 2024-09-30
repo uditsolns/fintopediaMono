@@ -6,26 +6,33 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {GamesInfo} from '@shared/src/utils/types/games';
+import {imageUrl} from 'shared/src/config/imageUrl';
 
 export default function EventMolecule({
   item,
   onPress,
 }: {
-  item: any;
+  item: GamesInfo;
   onPress: () => void;
 }) {
+  console.log(item);
   return (
     <View style={[commonStyle.flexStart, styles.container]}>
       <ImageAtom
-        sourceRequire={require('@shared/src/assets/img/gameImage.png')}
+        sourceRequire={
+          item?.image
+            ? {uri: `${imageUrl}/GameImages/${item.image}`}
+            : require('@shared/src/assets/img/gameImage.png')
+        }
         style={styles.image}
       />
       <View style={styles.content}>
         <TextAtom
-          text={'NSB Academy PGDM'}
+          text={item?.name}
           preset="heading4"
           style={styles.boldText}
-          numberOfLines={3}
+          numberOfLines={2}
         />
         <TextAtom
           text="Build your financial through Build your financial through project-driven skills "
@@ -33,9 +40,12 @@ export default function EventMolecule({
           style={[styles.boldText, {color: colorPresets.GRAY}]}
           numberOfLines={3}
         />
-        <View style={{marginTop:mScale.xl}}>
-
-        <ButtonAtom title="Play game" onPress={onPress} />
+        <View style={{marginTop: mScale.xl}}>
+          <ButtonAtom
+            title="Play game"
+            onPress={onPress}
+            disabled={item?.is_active == '1' ? false : true}
+          />
         </View>
       </View>
     </View>
@@ -62,6 +72,7 @@ const styles = StyleSheet.create({
   content: {flex: 1, paddingVertical: mScale.md},
   boldText: {
     fontWeight: '600',
+    textTransform: 'capitalize',
   },
   button: {
     width: moderateScale(94),
