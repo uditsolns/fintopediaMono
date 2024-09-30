@@ -12,6 +12,8 @@ import {
 } from "reactstrap";
 import Link from "next/link";
 import { getGames } from "shared/src/provider/store/services/games.service";
+import { createStartGame } from "shared/src/provider/store/services/startgame.service";
+
 import {
   useAppDispatch,
   useAppSelector,
@@ -21,7 +23,7 @@ import LightLoading from "@src/components/loader/LightLoading";
 import { capitalizeAndTruncate } from "@src/components/capitalizeAndTruncate/capitalizeAndTruncate";
 
 const GamesPage: React.FC = () => {
-  const { games, loading } = useAppSelector((state) => state.games); // Assuming games state has loading
+  const { games, loading } = useAppSelector((state) => state.games);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -41,46 +43,55 @@ const GamesPage: React.FC = () => {
               No games available at the moment.
             </div>
           ) : (
-            games.map((game) => (
-              <Col key={game.id} md={4} className="mb-4">
-                <Card
-                  className="h-100 d-flex flex-row"
-                  style={{ backgroundColor: "black", color: "#FFF" }}
-                >
-                  <div style={{ flex: "0 0 40%", overflow: "hidden" }}>
-                    <CardImg
-                      src={
-                        !game.image
-                          ? "https://spiderimg.amarujala.com/assets/images/2021/09/02/share-market-business_1630576834.jpeg"
-                          : `${imageUrl}/GameImages/${game.image}`
-                      }
-                      alt="Game Image"
-                      style={{ height: "100%", objectFit: "cover" }}
-                    />
-                  </div>
-                  <CardBody
-                    style={{
-                      flex: "1 0 60%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                    }}
+            games
+              .filter((game) => game?.is_active == "1")
+              .map((game) => (
+                <Col key={game.id} md={4} className="mb-4">
+                  <Card
+                    className="h-100 d-flex flex-row"
+                    style={{ backgroundColor: "black", color: "#FFF" }}
                   >
-                    <CardTitle tag="h5">
-                      {capitalizeAndTruncate(game.name, 50)}
-                    </CardTitle>
-                    <Link
-                      href="/events/"
-                      prefetch={true}
-                      className="btn btn-sm btn-light font-bold text-black"
-                      style={{ width: "80%" }}
+                    <div style={{ flex: "0 0 40%", overflow: "hidden" }}>
+                      <CardImg
+                        src={
+                          !game.image
+                            ? "https://spiderimg.amarujala.com/assets/images/2021/09/02/share-market-business_1630576834.jpeg"
+                            : `${imageUrl}/GameImages/${game.image}`
+                        }
+                        alt="Game Image"
+                        style={{ height: "100%", objectFit: "cover" }}
+                      />
+                    </div>
+                    <CardBody
+                      style={{
+                        flex: "1 0 60%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                      }}
                     >
-                      Play Game
-                    </Link>
-                  </CardBody>
-                </Card>
-              </Col>
-            ))
+                      <CardTitle tag="h5">
+                        {capitalizeAndTruncate(game.name, 25)}
+                      </CardTitle>
+                      <Link
+                        href="/events/"
+                        prefetch={true}
+                        className="btn btn-sm btn-light font-bold text-black"
+                        style={{ width: "80%" }}
+                        onClick={() => {
+                          const startGameInfo = {
+                            id: game?.id,
+                            game_id: game?.id,
+                          };
+                          dispatch(createStartGame(startGameInfo));
+                        }}
+                      >
+                        Play Game
+                      </Link>
+                    </CardBody>
+                  </Card>
+                </Col>
+              ))
           )}
         </Row>
       </Container>

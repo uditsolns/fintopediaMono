@@ -36,7 +36,7 @@ export const createStartGame = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.START_GAME.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.START_GAME.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,11 +44,10 @@ export const createStartGame = createAsyncThunk<
       },
       body: JSON.stringify(params),
     });
-
     const data = (await response.json()) as StartGameInfo;
-
     return data;
   } catch (error) {
+    console.log('error', error)
     return thunkApi.rejectWithValue(error);
   }
 });

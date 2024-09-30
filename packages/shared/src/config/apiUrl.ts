@@ -134,13 +134,13 @@ export default {
   },
   STOP_GAME: {
     GET: buildUrl("stop-game"),
-    POST: buildUrl("stop-game/"),
+    POST: buildUrl("stop-game"),
     UPDATE: buildUrl("stop-game/"),
     DELETE: buildUrl("stop-game/"),
   },
   START_GAME: {
     GET: buildUrl("start-game"),
-    POST: buildUrl("start-game/"),
+    POST: buildUrl("start-game"),
     UPDATE: buildUrl("start-game/"),
     DELETE: buildUrl("start-game/"),
   },
