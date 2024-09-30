@@ -1,88 +1,88 @@
-import { CategoriesState } from "../../../utils/types/categories";
+import { CoursesState } from "../../../utils/types/courses";
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  deleteCategories,
-  getCategories,
-  updateCategories,
-  createCategories,
-} from "../services/categories.service";
+  deleteCourses,
+  getCourses,
+  updateCourses,
+  createCourses,
+} from "../services/courses.service";
 
-const initialState: CategoriesState = {
+const initialState: CoursesState = {
   loading: {
     create: false,
     delete: false,
     update: false,
-    categories: false,
+    courses: false,
   },
   err: {
     createErr: null,
     deleteErr: null,
     updateErr: null,
-    categoriesErr: null,
+    coursesErr: null,
   },
   create: null,
   delete: null,
   update: null,
-  categories: [],
+  courses: [],
 };
 
-const categoriesSlice = createSlice({
-  name: "categories",
+const coursesSlice = createSlice({
+  name: "courses",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getCategories.pending, (state) => {
-        state.loading.categories = true;
+      .addCase(getCourses.pending, (state) => {
+        state.loading.courses = true;
       })
-      .addCase(getCategories.fulfilled, (state, action) => {
-        state.loading.categories = false;
-        state.categories = action.payload;
-        state.err.categoriesErr = null;
+      .addCase(getCourses.fulfilled, (state, action) => {
+        state.loading.courses = false;
+        state.courses = action.payload;
+        state.err.coursesErr = null;
       })
-      .addCase(getCategories.rejected, (state, action) => {
-        state.loading.categories = false;
-        state.err.categoriesErr = action?.payload;
+      .addCase(getCourses.rejected, (state, action) => {
+        state.loading.courses = false;
+        state.err.coursesErr = action?.payload;
       })
       //   create
-      .addCase(createCategories.pending, (state) => {
+      .addCase(createCourses.pending, (state) => {
         state.loading.create = true;
       })
-      .addCase(createCategories.fulfilled, (state, action) => {
+      .addCase(createCourses.fulfilled, (state, action) => {
         state.loading.create = false;
         state.create = action.payload;
         state.err.updateErr = null;
       })
-      .addCase(createCategories.rejected, (state, action) => {
+      .addCase(createCourses.rejected, (state, action) => {
         state.loading.create = false;
         state.err.updateErr = action?.payload;
       })
       //  update
-      .addCase(updateCategories.pending, (state) => {
+      .addCase(updateCourses.pending, (state) => {
         state.loading.update = true;
       })
-      .addCase(updateCategories.fulfilled, (state, action) => {
+      .addCase(updateCourses.fulfilled, (state, action) => {
         state.loading.update = false;
         state.update = action.payload;
         state.err.updateErr = null;
       })
-      .addCase(updateCategories.rejected, (state, action) => {
+      .addCase(updateCourses.rejected, (state, action) => {
         state.loading.update = false;
         state.err.updateErr = action?.payload;
       })
-      .addCase(deleteCategories.pending, (state) => {
+      .addCase(deleteCourses.pending, (state) => {
         state.loading.delete = true;
       })
-      .addCase(deleteCategories.fulfilled, (state, action) => {
+      .addCase(deleteCourses.fulfilled, (state, action) => {
         state.loading.delete = false;
         state.delete = action.payload;
         state.err.deleteErr = null;
       })
-      .addCase(deleteCategories.rejected, (state, action) => {
+      .addCase(deleteCourses.rejected, (state, action) => {
         state.loading.delete = false;
         state.err.deleteErr = action?.payload;
       });
   },
 });
 
-export default categoriesSlice.reducer;
+export default coursesSlice.reducer;

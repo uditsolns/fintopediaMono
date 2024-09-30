@@ -28,7 +28,7 @@ export interface CoursesState {
     deleteErr: any;
   };
   courses: CoursesInfo[];
-  create: null;
+  create: CoursesInfo | null;
   update: CoursesInfo | null;
   delete: string | null;
 }
