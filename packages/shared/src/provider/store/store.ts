@@ -30,7 +30,7 @@ const chosenStorage = isNative ? AsyncStorage : storage;
 
 const persistConfig: any = {
   key: "fintopedia",
-  storage: chosenStorage,
+  storage: AsyncStorage,
   timeout: null,
   whitelist: ['auth']
 };
