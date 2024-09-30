@@ -26,7 +26,7 @@ const initialState: AuthState = {
   signup: null,
   forgot: null,
   confirm: null,
-  token: null,
+  current_user: null,
 };
 
 const authSlice = createSlice({
@@ -36,8 +36,8 @@ const authSlice = createSlice({
     logout: () => {
       return initialState;
     },
-    storeToken: (state, action) => {
-      state.token = action.payload;
+    storeCurrentUser: (state, action) => {
+      state.current_user = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -93,5 +93,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, storeToken } = authSlice.actions;
+export const { logout, storeCurrentUser } = authSlice.actions;
 export default authSlice.reducer;

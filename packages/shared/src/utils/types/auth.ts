@@ -13,11 +13,12 @@ export interface AuthState {
     forgotErr: any;
     confirmErr: any;
   };
-  token: string | null;
+  token?: string | null;
   auth: AuthResponse | null;
   signup: AuthResponse | null;
   forgot: null;
   confirm: null;
+  current_user: null;
 }
 
 export interface AuthParams {
