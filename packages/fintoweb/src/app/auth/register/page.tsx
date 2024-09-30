@@ -18,13 +18,17 @@ import { useSignupHelper } from "shared/src/components/structures/signup/signup.
 import { SelectAtom } from "@src/components/atoms/select/SelectAtom";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import { useAppDispatch, useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import CircularLoading from "@src/components/loader/CircularLoading";
+import {getCollege} from "shared/src/provider/store/services/colleges.service"
 
 const Register: React.FC = () => {
   const router = useRouter();
 
   const { auth, loading, signup } = useAppSelector((state) => state.auth);
+
+  // const { college } = useAppSelector((state) => state.college);
+
 
   const { signupFormik, signupInputProps } = useSignupHelper();
   const { handleSubmit, isSubmitting } = signupFormik;
@@ -32,6 +36,9 @@ const Register: React.FC = () => {
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
   const [isRevealPwd1, setIsRevealPwd1] = useState<boolean>(false);
 
+  // useEffect(()=>{
+  //   useAppDispatch(getCollege())
+  // },[])
   // const router = useRouter();
   useEffect(() => {
     if (signup?.token) {
