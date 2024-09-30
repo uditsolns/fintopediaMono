@@ -11,11 +11,10 @@ export const getBanner = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth.token;
-
     const response = await fetch(apiUrl.BANNERS.GET, {
       method: "GET",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });

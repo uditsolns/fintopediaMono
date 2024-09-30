@@ -1,7 +1,6 @@
 import {StyleSheet, View, ViewStyle, TextStyle, ImageStyle} from 'react-native';
 import React from 'react';
 import {RouteKeys} from '@src/navigation/RouteKeys';
-import {useNavigation} from '@react-navigation/native';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import ProfileIcon from '@src/components/Profile/ProfileIcon';

@@ -15,7 +15,7 @@ export const getGames = createAsyncThunk<
     const response = await fetch(apiUrl.GAMES.GET, {
       method: "GET",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
