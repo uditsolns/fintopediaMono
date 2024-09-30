@@ -138,4 +138,10 @@ export default {
     UPDATE: buildUrl("stop-game/"),
     DELETE: buildUrl("stop-game/"),
   },
+  START_GAME: {
+    GET: buildUrl("start-game"),
+    POST: buildUrl("start-game/"),
+    UPDATE: buildUrl("start-game/"),
+    DELETE: buildUrl("start-game/"),
+  },
 };
