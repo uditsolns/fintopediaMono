@@ -24,6 +24,9 @@ import coursesRatingReviewsReducer from "./reducers/CoursesRatingReviews.reducer
 import purchaseHistoryReducer from "./reducers/PurchaseHistory.reducer";
 import userCertificateReducer from "./reducers/UserCertificate.reducer";
 import userCourseHistoryReducer from "./reducers/UserCourseHistory.reducer";
+import startGameReducer from "./reducers/startgame.reducer";
+import stopGameReducer from "./reducers/stopgame.reducer";
+
 
 // let storage;
 
@@ -60,6 +63,9 @@ const reducers = combineReducers({
   purchaseHistory: purchaseHistoryReducer,
   userCertificate: userCertificateReducer,
   userCourseHistory: userCourseHistoryReducer,
+  startGame: startGameReducer,
+  stopGame: stopGameReducer,
+
 });
 
 export const store = configureStore({
