@@ -1,26 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { CoursesInfo } from "../../../utils/types/courses";
+import { StopGameInfo } from "../../../utils/types/stopgame";
 
-export const getCourses = createAsyncThunk<
-  CoursesInfo[],
+export const getStopGame = createAsyncThunk<
+  StopGameInfo[],
   void,
   { state: RootState }
->("courses/get", async (_, thunkApi) => {
+>("stopGame/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth.token;
 
-    const response = await fetch(apiUrl.COURSES.GET, {
+    const response = await fetch(apiUrl.STOP_GAME.GET, {
       method: "GET",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
 
-    const data = (await response.json()) as CoursesInfo[];
+    const data = (await response.json()) as StopGameInfo[];
 
     return data;
   } catch (error) {
@@ -28,24 +28,24 @@ export const getCourses = createAsyncThunk<
   }
 });
 
-export const createCourses = createAsyncThunk<
-  CoursesInfo,
-  CoursesInfo,
+export const createStopGame = createAsyncThunk<
+  StopGameInfo,
+  StopGameInfo,
   { state: RootState }
->("courses/post", async (params, thunkApi) => {
+>("stopGame/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth.token;
-    const response = await fetch(apiUrl.COURSES.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.STOP_GAME.POST + "/" + params.id, {
       method: "POST",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CoursesInfo;
+    const data = (await response.json()) as StopGameInfo;
 
     return data;
   } catch (error) {
@@ -53,22 +53,22 @@ export const createCourses = createAsyncThunk<
   }
 });
 
-export const updateCourses = createAsyncThunk<
-  CoursesInfo,
-  CoursesInfo & { token: string },
+export const updateStopGame = createAsyncThunk<
+  StopGameInfo,
+  StopGameInfo & { token: string },
   { state: RootState }
->("courses/update", async (params, thunkApi) => {
+>("stopGame/update", async (params, thunkApi) => {
   try {
-    const response = await fetch(apiUrl.COURSES.UPDATE + "/" + params.id, {
+    const response = await fetch(apiUrl.STOP_GAME.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${params.token}`,
       },
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CoursesInfo;
+    const data = (await response.json()) as StopGameInfo;
 
     return data;
   } catch (error) {
@@ -76,18 +76,18 @@ export const updateCourses = createAsyncThunk<
   }
 });
 
-export const deleteCourses = createAsyncThunk<
+export const deleteStopGame = createAsyncThunk<
   string,
   string,
   { state: RootState }
->("courses/delete", async (params, thunkApi) => {
+>("stopGame/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth.token;
-    const response = await fetch(apiUrl.COURSES.DELETE + "/" + params, {
+    const response = await fetch(apiUrl.STOP_GAME.DELETE + "/" + params, {
       method: "DELETE",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
