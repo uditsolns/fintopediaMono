@@ -10,7 +10,7 @@ export const getCoursesRatingReviews = createAsyncThunk<
 >("coursesRatingReviews/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.COURSES_RATING_REVIEWS.GET, {
       method: "GET",
@@ -35,7 +35,7 @@ export const createCoursesRatingReviews = createAsyncThunk<
 >("coursesRatingReviews/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COURSES_RATING_REVIEWS.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -60,7 +60,7 @@ export const updateCoursesRatingReviews = createAsyncThunk<
 >("coursesRatingReviews/update", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COURSES_RATING_REVIEWS.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
@@ -85,7 +85,7 @@ export const deleteCoursesRatingReviews = createAsyncThunk<
 >("coursesRatingReviews/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COURSES_RATING_REVIEWS.DELETE + "/" + params, {
       method: "DELETE",
       headers: {

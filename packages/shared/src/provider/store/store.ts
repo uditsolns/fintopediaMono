@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import { Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import logger from "redux-logger";
 import { errorMiddleware } from "./middleware/error.middleware";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./reducers/auth.reducer";
@@ -66,7 +67,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(errorMiddleware),
+    }).concat(errorMiddleware,logger),
 });
 
 export const persistor = persistStore(store);

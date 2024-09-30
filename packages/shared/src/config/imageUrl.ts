@@ -1,0 +1,1 @@
+export const baseUrl = "http://nivada.in/hiring-management-backend/storage/app/public";

@@ -15,15 +15,19 @@ export interface GamesState {
     create: boolean;
     update: boolean;
     delete: boolean;
+    singleGame: boolean,
   };
   err: {
     gamesErr: any;
     createErr: any;
     updateErr: any;
     deleteErr: any;
+    singleGameErr: any,
+
   };
   games: GamesInfo[];
   create: GamesInfo | null;
   update: GamesInfo | null;
   delete: string | null;
+  singleGame: GamesInfo | null;
 }

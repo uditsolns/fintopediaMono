@@ -5,6 +5,7 @@ import {
   getGames,
   updateGames,
   createGames,
+  getGamesById
 } from "../services/games.service";
 
 const initialState: GamesState = {
@@ -13,17 +14,20 @@ const initialState: GamesState = {
     delete: false,
     update: false,
     games: false,
+    singleGame: false,
   },
   err: {
     createErr: null,
     deleteErr: null,
     updateErr: null,
     gamesErr: null,
+    singleGameErr:null,
   },
   create: null,
   delete: null,
   update: null,
   games: [],
+  singleGame:null
 };
 
 const gamesSlice = createSlice({
@@ -32,6 +36,7 @@ const gamesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+    // all
       .addCase(getGames.pending, (state) => {
         state.loading.games = true;
       })
@@ -43,6 +48,19 @@ const gamesSlice = createSlice({
       .addCase(getGames.rejected, (state, action) => {
         state.loading.games = false;
         state.err.gamesErr = action?.payload;
+      })
+      // single
+      .addCase(getGamesById.pending, (state) => {
+        state.loading.singleGame = true;
+      })
+      .addCase(getGamesById.fulfilled, (state, action) => {
+        state.loading.singleGame = false;
+        state.singleGame = action.payload;
+        state.err.singleGameErr = null;
+      })
+      .addCase(getGamesById.rejected, (state, action) => {
+        state.loading.singleGame = false;
+        state.err.singleGameErr = action?.payload;
       })
       //   create
       .addCase(createGames.pending, (state) => {

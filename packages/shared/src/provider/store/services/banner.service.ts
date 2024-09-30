@@ -10,12 +10,12 @@ export const getBanner = createAsyncThunk<
 >("banner/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.BANNERS.GET, {
       method: "GET",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -35,7 +35,7 @@ export const createBanner = createAsyncThunk<
 >("banner/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.BANNERS.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -83,11 +83,11 @@ export const deleteBanner = createAsyncThunk<
 >("banner/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.BANNERS.DELETE + "/" + params, {
       method: "DELETE",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });

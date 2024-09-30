@@ -10,12 +10,12 @@ export const getCourses = createAsyncThunk<
 >("courses/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.COURSES.GET, {
       method: "GET",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -35,7 +35,7 @@ export const createCourses = createAsyncThunk<
 >("courses/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COURSES.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -59,11 +59,13 @@ export const updateCourses = createAsyncThunk<
   { state: RootState }
 >("courses/update", async (params, thunkApi) => {
   try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COURSES.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${params.token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(params),
     });
@@ -83,11 +85,11 @@ export const deleteCourses = createAsyncThunk<
 >("courses/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COURSES.DELETE + "/" + params, {
       method: "DELETE",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });

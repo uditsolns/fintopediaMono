@@ -8,7 +8,7 @@ export const getNews = createAsyncThunk<NewsInfo[], void, { state: RootState }>(
   async (_, thunkApi) => {
     try {
       const state = thunkApi.getState();
-      const token = state.auth.token;
+      const token = state.auth?.auth?.token;
 
       const response = await fetch(apiUrl.NEWS.GET, {
         method: "GET",
@@ -34,7 +34,7 @@ export const createNews = createAsyncThunk<
 >("news/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.NEWS.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -58,11 +58,13 @@ export const updateNews = createAsyncThunk<
   { state: RootState }
 >("news/update", async (params, thunkApi) => {
   try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.NEWS.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${params.token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(params),
     });
@@ -82,7 +84,7 @@ export const deleteNews = createAsyncThunk<
 >("news/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.NEWS.DELETE + "/" + params, {
       method: "DELETE",
       headers: {

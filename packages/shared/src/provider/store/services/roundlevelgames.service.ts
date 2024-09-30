@@ -10,7 +10,7 @@ export const getRoundLevel = createAsyncThunk<
 >("roundLevel/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.ROUND_LEVEL_GAMES.GET, {
       method: "GET",
@@ -35,7 +35,7 @@ export const createRoundLevel = createAsyncThunk<
 >("roundLevel/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.ROUND_LEVEL_GAMES.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -60,7 +60,7 @@ export const updateRoundLevel = createAsyncThunk<
 >("roundLevel/update", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.ROUND_LEVEL_GAMES.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
@@ -85,7 +85,7 @@ export const deleteRoundLevel = createAsyncThunk<
 >("roundLevel/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.ROUND_LEVEL_GAMES.DELETE + "/" + params, {
       method: "DELETE",
       headers: {

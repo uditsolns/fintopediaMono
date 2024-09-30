@@ -8,7 +8,7 @@ export const getGameUsers = createAsyncThunk<GameUsersInfo[], void, { state: Roo
   async (_, thunkApi) => {
     try {
       const state = thunkApi.getState();
-      const token = state.auth.token;
+      const token = state.auth?.auth?.token;
 
       const response = await fetch(apiUrl.GAME_USERS.GET, {
         method: "GET",
@@ -34,7 +34,7 @@ export const createGameUsers = createAsyncThunk<
 >("gameUsers/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.GAME_USERS.POST + "/" + params.id, {
       method: "POST",
       headers: {
@@ -58,11 +58,13 @@ export const updateGameUsers = createAsyncThunk<
   { state: RootState }
 >("gameUsers/update", async (params, thunkApi) => {
   try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.GAME_USERS.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${params.token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(params),
     });
@@ -82,7 +84,7 @@ export const deleteGameUsers = createAsyncThunk<
 >("gameUsers/delete", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
-    const token = state.auth.token;
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.GAME_USERS.DELETE + "/" + params, {
       method: "DELETE",
       headers: {
