@@ -9,22 +9,24 @@ import {
   CardBody,
   CardImg,
   CardTitle,
+  Button,
 } from "reactstrap";
 import Link from "next/link";
 import { getGames } from "shared/src/provider/store/services/games.service";
 import { createStartGame } from "shared/src/provider/store/services/startgame.service";
-
 import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import { imageUrl } from "shared/src/config/imageUrl";
 import LightLoading from "@src/components/loader/LightLoading";
+import { useRouter } from "next/navigation";
 import { capitalizeAndTruncate } from "@src/components/capitalizeAndTruncate/capitalizeAndTruncate";
 
 const GamesPage: React.FC = () => {
-  const { games, loading } = useAppSelector((state) => state.games);
+  const router = useRouter();
   const dispatch = useAppDispatch();
+  const { games, loading } = useAppSelector((state) => state.games);
 
   useEffect(() => {
     dispatch(getGames());
@@ -73,8 +75,7 @@ const GamesPage: React.FC = () => {
                       <CardTitle tag="h5">
                         {capitalizeAndTruncate(game.name, 25)}
                       </CardTitle>
-                      <Link
-                        href="/events/"
+                      <Button
                         prefetch={true}
                         className="btn btn-sm btn-light font-bold text-black"
                         style={{ width: "80%" }}
@@ -83,11 +84,17 @@ const GamesPage: React.FC = () => {
                             id: game?.id,
                             game_id: game?.id,
                           };
-                          dispatch(createStartGame(startGameInfo));
+                          dispatch(
+                            createStartGame({
+                              params: startGameInfo,
+                              navigate: router.push,
+                              game_id: game.id,
+                            })
+                          );
                         }}
                       >
                         Play Game
-                      </Link>
+                      </Button>
                     </CardBody>
                   </Card>
                 </Col>

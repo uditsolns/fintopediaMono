@@ -2,19 +2,25 @@
 import React, { useState } from "react";
 import { Modal, ModalBody, Button } from "reactstrap";
 import Image from "next/image";
-import sponser from "../../assets/Fintopedia logo-White.png"; // Update your image path
+import sponser from "../../assets/Fintopedia logo-White.png";
 
-const WaitingPage: React.FC = () => {
+interface WaitingPageProps {
+  id?: string;
+}
+
+const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
   const [modal, setModal] = useState(true);
 
   const toggle = () => setModal(!modal);
 
   return (
-    <div className={`d-flex justify-content-center align-items-center vh-100 ${modal ? "modal-open" : ""}`}>
-      {/* Blurred background */}
+    <div
+      className={`d-flex justify-content-center align-items-center vh-100 ${
+        modal ? "modal-open" : ""
+      }`}
+    >
       <div className="blur-background"></div>
 
-      {/* Centered Modal */}
       <Modal
         isOpen={modal}
         toggle={toggle}
@@ -26,7 +32,10 @@ const WaitingPage: React.FC = () => {
           <div className="d-flex justify-content-center align-items-center">
             <Image src={sponser} alt="Sponsor" />
           </div>
-          <h3 className="font-bold text-center mt-5" style={{ fontSize: "30px" }}>
+          <h3
+            className="font-bold text-center mt-5"
+            style={{ fontSize: "30px" }}
+          >
             Hey! You're in waiting..
           </h3>
           <p className="mt-3 text-center text-gray-300">
@@ -34,7 +43,10 @@ const WaitingPage: React.FC = () => {
             <br />
             Shortly or try again later
           </p>
-          <Button className="btn btn-info btn-sm btn-light font-bold text-black mt-3" block>
+          <Button
+            className="btn btn-info btn-sm btn-light font-bold text-black mt-3"
+            block
+          >
             Retry
           </Button>
         </ModalBody>

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { GamesInfo } from "../../../utils/types/games";
+import { GamesInfo, GetGameByIdParams } from "../../../utils/types/games";
 
 export const getGames = createAsyncThunk<
   GamesInfo[],
@@ -30,14 +30,14 @@ export const getGames = createAsyncThunk<
 
 export const getGamesById = createAsyncThunk<
   GamesInfo,
-  GamesInfo,
+  GetGameByIdParams,
   { state: RootState }
 >("singleGame/get", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(apiUrl.GAMES.GET + "/" + params.id, {
+    const response = await fetch(`${apiUrl.GAMES.GET}/${params.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

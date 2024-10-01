@@ -1,3 +1,6 @@
+export interface GetGameByIdParams {
+  id: number;
+}
 export interface GamesInfo {
   id: number;
   college_id: number;

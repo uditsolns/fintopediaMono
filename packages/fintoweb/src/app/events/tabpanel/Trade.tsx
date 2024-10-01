@@ -6,70 +6,61 @@ import SearchIcon from "@mui/icons-material/Search";
 import BuyStocks from "./BuyStocks";
 import styles from "./Event.module.css";
 import { FaArrowRotateRight } from "react-icons/fa6";
+import { getStocks } from "shared/src/provider/store/services/stocks.service";
+import { getStockData } from "shared/src/provider/store/services/stockdatas.service";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
+import LightLoading from "@src/components/loader/LightLoading";
 
 const Trade: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { stocks } = useAppSelector((state) => state.stocks);
+  const { stockData, loading } = useAppSelector((state) => state.stockData);
 
-  const dummyStockData = [
-    {
-      stock: { name: "Dr. Reddy's Laboratories Ltd.", industry: "Technology" },
-      stock_current_price: 145.3,
-      round_level: 1,
-      game_id: 101,
-      stock_id: 1, 
-      total_price: 1453.0, 
-    },
-    {
-      stock: { name: "Tesla", industry: "Automobile" },
-      stock_current_price: 720.5,
-      round_level: 1,
-      game_id: 102,
-      stock_id: 2,
-      total_price: 7205.0,
-    },
-    {
-      stock: { name: "Google", industry: "Technology" },
-      stock_current_price: 2720.3,
-      round_level: 1,
-      game_id: 103,
-      stock_id: 3,
-      total_price: 27203.0,
-    },
-  ];
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [data, setData] = useState(stockData);
+  const [allData, setAllData] = useState(stockData);
+  const [activeIndustry, setActiveIndustry] = useState<string | null>(null);
 
-  const filterRoundLevelData = { round_level: 1, game_id: 101 };
+  useEffect(() => {
+    dispatch(getStocks());
+    dispatch(getStockData());
+  }, [dispatch]);
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [data, setData] = useState(dummyStockData);
-  const [allData, setAllData] = useState(dummyStockData);
+  useEffect(() => {
+    setAllData(stockData);
+    setData(stockData);
+  }, [stockData]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
-  const uniqueIndustries = [
-    ...Array.from(
-      new Map(
-        dummyStockData.map((item) => [item.stock.industry, item])
-      ).values()
-    ),
-  ];
+  const uniqueIndustries = Array.from(
+    new Set(stockData.map((item) => item.stock.industry))
+  ).map((industry) => {
+    return stockData.find((item) => item.stock.industry === industry)!;
+  });
 
-  const filterItem = (item: any) => {
-    const updateItems = dummyStockData.filter(
-      (curElm) => curElm.stock.industry === item.stock.industry
+  const filterItem = (industry: string) => {
+    const updatedItems = stockData.filter(
+      (curElm) => curElm.stock.industry === industry
     );
-    setData(updateItems);
+    setData(updatedItems);
+    setActiveIndustry(industry);
   };
+
+  const filterRoundLevelData = { round_level: 5, game_id: 174 };
 
   return (
     <React.Fragment>
-      
       <div className={styles["inline-row"]}>
         <TextField
           id="input-with-icon-textfield"
-          // label="Search"
           placeholder="Search..."
-          className={`${styles["search-textfield"]}`}
+          className={styles["search-textfield"]}
           value={searchTerm}
           onChange={handleChange}
           InputProps={{
@@ -78,28 +69,30 @@ const Trade: React.FC = () => {
                 <SearchIcon className={styles["search-icon"]} />
               </InputAdornment>
             ),
-            classes: {
-              input: styles["search-input"],
-            },
-          }}
-          InputLabelProps={{
-            className: styles["search-placeholder"],
           }}
           variant="outlined"
         />
         <Button
           onClick={() => setData(allData)}
-          className={`${styles["search-button"]}`}
+          className={styles["search-button"]}
         >
           <FaArrowRotateRight />
         </Button>
       </div>
+
       <Row className="mt-3">
         <Col md={3} className={styles["sector-name"]}>
           <Button
-            className={`${styles["btn"]} ${styles["sector-btn"]}`}
+            // className={styles["btn"] + " " + styles["sector-btn"] }
+            className={`${styles["btn"]} ${styles["sector-btn"]} ${
+              activeIndustry === null ? styles.active : ""
+            }`}
             block
-            onClick={() => setData(allData)}
+            onClick={() => {
+              setData(allData)
+              setActiveIndustry(null)
+            }}
+
           >
             All
           </Button>
@@ -107,14 +100,18 @@ const Trade: React.FC = () => {
           {uniqueIndustries.map((el, index) => (
             <Button
               key={index}
-              className={`${styles["btn"]} ${styles["sector-btn"]}`}
+              // className={styles["btn"] + " " + styles["sector-btn"]}
+              className={`${styles["btn"]} ${styles["sector-btn"]} ${
+                activeIndustry === el.stock.industry ? styles.active : ""
+              }`}
               block
-              onClick={() => filterItem(el)}
+              onClick={() => filterItem(el.stock.industry)}
             >
               {el.stock.industry}
             </Button>
           ))}
         </Col>
+
         <Col md={9}>
           <Table className={styles["custom-table"]}>
             <thead>
@@ -125,24 +122,24 @@ const Trade: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {data.filter((user) =>
-                user.stock.name
-                  .trim()
-                  .toLowerCase()
-                  .includes(searchTerm.trim().toLowerCase())
-              ).length > 0 ? (
+              {loading?.stockData ? (
+                <tr>
+                  <td colSpan={3} style={{ textAlign: "center" }}>
+                    <LightLoading />
+                  </td>
+                </tr>
+              ) : data.length > 0 ? (
                 data
-                  ?.filter((user) =>
-                    user.stock.name
-                      .trim()
+                  .filter((item) =>
+                    item.stock.name
                       .toLowerCase()
-                      .includes(searchTerm.trim().toLowerCase())
+                      .includes(searchTerm.toLowerCase())
                   )
                   .map((el, index) => {
                     if (
-                      el.round_level === filterRoundLevelData.round_level &&
-                      el.game_id === filterRoundLevelData.game_id
-                    )
+                      el.round_level == filterRoundLevelData.round_level &&
+                      el.game_id == filterRoundLevelData.game_id
+                    ) {
                       return (
                         <tr key={index}>
                           <td>{el.stock.name}</td>
@@ -154,26 +151,15 @@ const Trade: React.FC = () => {
                           </td>
                         </tr>
                       );
+                    }
+                    return null;
                   })
               ) : (
                 <tr>
                   <td colSpan={3}>
-                    <div className="row mt-3">
-                      <div
-                        className="p-1"
-                        style={{
-                          width: "100%",
-                          backgroundColor: "lightblue",
-                        }}
-                      >
-                        <div
-                          className="alert alert-warning mt-3 text-center"
-                          role="alert"
-                        >
-                          <i className="fas fa-exclamation-triangle" /> No Data
-                          Found... :(
-                        </div>
-                      </div>
+                    <div className="alert alert-warning mt-3 text-center">
+                      <i className="fas fa-exclamation-triangle" /> No Data
+                      Found... :(
                     </div>
                   </td>
                 </tr>
