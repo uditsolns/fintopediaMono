@@ -29,7 +29,11 @@ const initialState: StartGameState = {
 const startGameSlice = createSlice({
   name: "startGame",
   initialState,
-  reducers: {},
+  reducers: {
+    clearStartGames: () => {
+      return initialState;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getStartGame.pending, (state) => {
@@ -85,4 +89,5 @@ const startGameSlice = createSlice({
   },
 });
 
+export const {clearStartGames} = startGameSlice.actions;
 export default startGameSlice.reducer;

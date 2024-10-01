@@ -12,16 +12,21 @@ import FollowUsMolecule from '@src/components/molecules/FollowUsMolecule/FollowU
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
-import {useAuthHelper} from '@shared/src/components/structures/login/login.helper';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
 import {NavType} from '@src/navigation/types';
+import {useAuthHelper} from '@shared/src/components/structures/login/login.helper';
 import {authField} from '@shared/src/components/structures/login/loginModel';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {useToast} from 'react-native-toast-notifications';
+import {logout} from '@shared/src/provider/store/reducers/auth.reducer';
 
 interface LoginProps extends NavType<'Login'> {}
 
 export const Login: React.FC<LoginProps> = ({navigation}) => {
+  const dispatch = useAppDispatch();
   const {auth, loading} = useAppSelector(state => state.auth);
   const {authFormik, authInputProps} = useAuthHelper();
   const {handleSubmit, setFieldValue} = authFormik;
@@ -29,7 +34,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
 
   React.useEffect(() => {
     if (auth?.token) {
-      
+      navigation.navigate(RouteKeys.HOMESCREEN);
     }
   }, [auth]);
 
@@ -102,6 +107,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
             <LinkButton
               text="Register now"
               onPress={() => {
+                dispatch(logout());
                 navigation.navigate(RouteKeys.SIGNUPSCREEN);
               }}
             />

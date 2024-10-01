@@ -1,4 +1,4 @@
-"use client";
+
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import { Platform } from "react-native";
@@ -28,20 +28,14 @@ import startGameReducer from "./reducers/startgame.reducer";
 import stopGameReducer from "./reducers/stopgame.reducer";
 
 
-// let storage;
-
-// if (typeof window !== "undefined") {
-//   // We are in the browser environment
-//   storage = require("redux-persist/lib/storage").default;
-// } else {
-//   // We are in the React Native environment
-//   storage = require("@react-native-async-storage/async-storage").default;
-// }
+const isNative = Platform.OS !== 'web';
+const chosenStorage = isNative ? AsyncStorage : storage;
 
 const persistConfig: any = {
   key: "fintopedia",
-  storage,
+  storage: AsyncStorage,
   timeout: null,
+  whitelist: ['auth']
 };
 
 const reducers = combineReducers({
@@ -73,7 +67,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(errorMiddleware,logger),
+    }).concat(errorMiddleware),
 });
 
 export const persistor = persistStore(store);

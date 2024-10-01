@@ -4,16 +4,16 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import PopupAtom from '@src/components/Popup/PopupAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
+import {NavType} from '@src/navigation/types';
 
-interface GameWaitingProps {}
-export const GameWaiting: React.FC<GameWaitingProps> = () => {
-  const navigation = useNavigation();
+interface GameWaitingProps extends NavType<'GameWaiting'> {}
+export const GameWaiting: React.FC<GameWaitingProps> = ({navigation}) => {
   const [popupVisible, setPopupVisible] = React.useState(true);
 
   React.useEffect(() => {
     setTimeout(() => {
       navigation.navigate(RouteKeys.GAMEHOMESCREEN);
-    }, 1000);
+    }, 100);
   }, []);
 
   useFocusEffect(
@@ -27,7 +27,9 @@ export const GameWaiting: React.FC<GameWaitingProps> = () => {
           },
           {
             text: 'YES',
-            onPress: () => {},
+            onPress: () => {
+              navigation.goBack();
+            },
           },
         ]);
         return true;

@@ -67,7 +67,6 @@ export const createStartGame = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-
     const response = await fetch(apiUrl.START_GAME.POST, {
       method: "POST",
       headers: {
@@ -103,7 +102,7 @@ export const createStartGame = createAsyncThunk<
 
 export const updateStartGame = createAsyncThunk<
   StartGameInfo,
-  StartGameInfo & { token: string },
+  StartGameInfo,
   { state: RootState }
 >("startGame/update", async (params, thunkApi) => {
   try {

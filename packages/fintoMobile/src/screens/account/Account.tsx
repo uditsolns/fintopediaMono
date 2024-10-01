@@ -1,7 +1,6 @@
 import {StyleSheet, View, ViewStyle, TextStyle, ImageStyle} from 'react-native';
 import React from 'react';
 import {RouteKeys} from '@src/navigation/RouteKeys';
-import {useNavigation} from '@react-navigation/native';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import ProfileIcon from '@src/components/Profile/ProfileIcon';
@@ -12,6 +11,12 @@ import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import {colorPresets} from '@shared/src/theme/color';
 import {Images} from '@shared/src/assets';
 import Popup from '@src/components/Popup/Popup';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
+import {NavType} from '@src/navigation/types';
+import {logout} from '@shared/src/provider/store/reducers/auth.reducer';
 
 const avatarUrl =
   'https://st4.depositphotos.com/4329009/19956/v/450/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg';
@@ -54,7 +59,7 @@ const profileItems = [
   },
 ];
 
-interface AccountProps {}
+interface AccountProps extends NavType<'Account'> {}
 
 interface LoginState {
   user: {
@@ -65,9 +70,13 @@ interface LoginState {
   };
 }
 
-export const Account: React.FC<AccountProps> = ({}) => {
-  const navigation = useNavigation();
-  const logout = () => {};
+export const Account: React.FC<AccountProps> = ({navigation}) => {
+  const dispatch = useAppDispatch();
+  const {auth} = useAppSelector(state => state.auth);
+  const logoutUser = () => {
+    dispatch(logout());
+    navigation.replace(RouteKeys.LOGINSCREEN);
+  };
   const [popupVisible, setPopupVisible] = React.useState(false);
 
   const navigateTo = (route: any) => {
@@ -76,21 +85,21 @@ export const Account: React.FC<AccountProps> = ({}) => {
 
   return (
     <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0}}>
-      <ScrollViewAtom>
+      <ScrollViewAtom contentContainerStyle={{marginTop: mScale.xxl1}}>
         <View style={styles.centeredView}>
           <ProfileIcon avatarUrl={avatarUrl} />
           <TextAtom
-            text={`Sujeet Chauhan`}
+            text={`${auth?.user?.first_name} ${auth?.user?.surname_name}`}
             preset="heading3"
             style={styles.nameText}
           />
           <TextAtom
-            text={'sujeet@gmail.com'}
+            text={auth?.user?.email}
             preset="medium"
             style={styles.emailText}
           />
           <TextAtom
-            text={`+919076049013`}
+            text={`+91${auth?.user?.phone}`}
             preset="small"
             style={[styles.phoneText, {color: '#C8C8CC', marginTop: mScale.xs}]}
           />
@@ -112,7 +121,7 @@ export const Account: React.FC<AccountProps> = ({}) => {
             <ProfileItemAtom
               component={<Images.SVG.LogoutIcon />}
               name="Logout"
-              onPress={logout}
+              onPress={logoutUser}
             />
           </View>
         </View>

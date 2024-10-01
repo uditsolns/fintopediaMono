@@ -13,11 +13,12 @@ export interface AuthState {
     forgotErr: any;
     confirmErr: any;
   };
-  token: string | null;
+  token?: string | null;
   auth: AuthResponse | null;
   signup: AuthResponse | null;
   forgot: null;
   confirm: null;
+  current_user: null;
 }
 
 export interface AuthParams {
@@ -88,11 +89,54 @@ export interface ForgotPasswordParams {
   email: string;
 }
 
-export interface UpdatePasswordParams {
+export interface ResetPasswordParams {
   token?: string;
   password?: string;
   confirmation_password?: string;
 }
+export interface UpdatePasswordParams {
+  old_password?: string;
+  new_password?: string;
+  new_password_confirmation?: string;
+}
+export interface UserUpdateParams {
+  first_name: string;
+  email: string;
+  phone: string;
+  father_name?: string;
+  surname_name?: string;
+  dob?: string;
+  qualification?: string;
+  degree?: string;
+  "10th_result"?: string;
+  "12th_result"?: string;
+  "12th_college_name"?: string;
+  "10th_school_name"?: string;
+  grad_result?: string;
+  grad_school?: string;
+  postgrad_result?: string;
+  postgrad_school?: string;
+  extra_courses?: string;
+  job_preference?: string;
+  location?: string;
+  adhaar_num?: string;
+  pan_num?: string;
+  adhaar_file_upload?: string;
+  work_experience?: string;
+  age?: string;
+  res_address?: string;
+  gender?: string;
+  cv?: string;
+  feedback?: null | string;
+}
 
-
-
+export interface BuySellParams {
+  game_id?: number;
+  user_id: number;
+  stock_id: number;
+  order_type: string;
+  order_qty: number;
+  total_price: number;
+  stock_current_price: number;
+  round_level: number;
+}

@@ -1,8 +1,11 @@
-import {useNavigation} from '@react-navigation/native';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import CarouselAtom from '@src/components/Carousel/CarouselAtom';
 import GetStarted from '@src/components/GetStarted';
@@ -15,6 +18,7 @@ import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import * as React from 'react';
 import {FlatList, ImageBackground, View} from 'react-native';
+import {getBanner} from 'shared/src/provider/store/services/banner.service';
 let CategoriesArr = [
   {
     id: 1,
@@ -45,7 +49,20 @@ let CategoriesArr = [
 interface HomeProps extends NavType<'Home'> {}
 
 export const Home: React.FC<HomeProps> = ({navigation}) => {
+  const dispatch = useAppDispatch();
+  const {auth} = useAppSelector(state => state.auth);
+  const {banner, loading: bannerLoading} = useAppSelector(
+    state => state.banner,
+  );
   const [categoriesSelected, setCategoriesSelected] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    onRefresh();
+  }, []);
+
+  const onRefresh = () => {
+    dispatch(getBanner());
+  };
 
   const continueRenderItem = ({item}) => {
     return (
@@ -82,11 +99,11 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     );
   };
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <View style={{flexDirection: 'row'}}></View>,
-    });
-  });
+  // React.useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => <View style={{flexDirection: 'row'}}></View>,
+  //   });
+  // });
 
   return (
     <GradientTemplate style={{paddingHorizontal: 0, paddingBottom: 0}}>
