@@ -21,6 +21,7 @@ import {
 import { imageUrl } from "shared/src/config/imageUrl";
 import LightLoading from "@src/components/loader/LightLoading";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import { capitalizeAndTruncate } from "@src/components/capitalizeAndTruncate/capitalizeAndTruncate";
 
 const GamesPage: React.FC = () => {
@@ -81,14 +82,31 @@ const GamesPage: React.FC = () => {
                         style={{ width: "80%" }}
                         onClick={() => {
                           const startGameInfo = {
-                            id: game?.id,
                             game_id: game?.id,
                           };
                           dispatch(
                             createStartGame({
-                              params: startGameInfo,
-                              navigate: router.push,
-                              game_id: game.id,
+                              startGameInfo,
+                              onSuccess: (res) => {
+                                console.log(res);
+                                if (res.error) {
+                                  toast.error(res.error, {
+                                    position: "top-right",
+                                    theme: "light",
+                                  });
+                                  return;
+                                }
+                                router.push(`/waiting-page/${game?.id}`);
+                              },
+                              onError: (err) => {
+                                console.log("onerror", err);
+                                const errorMessage =
+                                  err.error || "An unknown error occurred";
+                                toast.error(errorMessage, {
+                                  position: "top-right",
+                                  theme: "light",
+                                });
+                              },
                             })
                           );
                         }}

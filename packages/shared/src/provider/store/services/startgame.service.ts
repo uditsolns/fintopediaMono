@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { StartGameInfo } from "../../../utils/types/startgame";
+import { StartGameInfo, StartGameInfo2,CreateStartGame } from "../../../utils/types/startgame";
 import { toast } from "react-toastify";
 
 export const getStartGame = createAsyncThunk<
@@ -29,41 +29,11 @@ export const getStartGame = createAsyncThunk<
   }
 });
 
-// export const createStartGame = createAsyncThunk<
-//   StartGameInfo,
-//   StartGameInfo,
-//   { state: RootState }
-// >("startGame/post", async (params, thunkApi) => {
-//   try {
-//     const state = thunkApi.getState();
-//     const token = state.auth?.auth?.token;
-//     const response = await fetch(apiUrl.START_GAME.POST, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${token}`,
-//       },
-//       body: JSON.stringify(params),
-//     });
-//     const data = (await response.json()) as StartGameInfo;
-//     if(data?.error){
-//       return thunkApi.rejectWithValue(data?.error);
-//       toast.error("Successfully Register !", {
-//         position: "top-right",
-//         theme: "light",
-//       });
-//     }
-//     return data;
-//   } catch (error) {
-//     console.log('error', error)
-//     return thunkApi.rejectWithValue(error);
-//   }
-// });
 export const createStartGame = createAsyncThunk<
-  StartGameInfo,
-  { params: StartGameInfo; navigate: (path: string) => void; game_id: number },
+  StartGameInfo2,
+  CreateStartGame,
   { state: RootState }
->("startGame/post", async ({ params, navigate, game_id }, thunkApi) => {
+>("startGame/post", async ({ startGameInfo, onSuccess, onError }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
@@ -73,30 +43,14 @@ export const createStartGame = createAsyncThunk<
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(params),
+      body: JSON.stringify(startGameInfo),
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      const errorMessage = data.error || "An unknown error occurred";
-      toast.error(errorMessage, {
-        position: "top-right",
-        theme: "light",
-      });
-      navigate("/games");
-      return thunkApi.rejectWithValue(errorMessage);
-    }
-    navigate(`/waiting-page/${game_id}`);
+    const data = (await response.json()) as StartGameInfo2;
+    onSuccess(data);
     return data;
   } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : "An unknown error occurred";
-    toast.error(errorMessage, {
-      position: "top-right",
-      theme: "light",
-    });
-    return thunkApi.rejectWithValue(errorMessage);
+    onError(error);
+    return thunkApi.rejectWithValue(error);
   }
 });
 
