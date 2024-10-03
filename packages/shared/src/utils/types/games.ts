@@ -1,5 +1,5 @@
 export interface GetGameByIdParams {
-  id: number;
+  id: number | string;
 }
 export interface GamesInfo {
   id: number;
