@@ -13,14 +13,18 @@ export interface RoundLevelState {
     create: boolean;
     update: boolean;
     delete: boolean;
+    singleRoundLevel: boolean;
   };
   err: {
     roundLevelErr: any;
     createErr: any;
     updateErr: any;
     deleteErr: any;
+    singleRoundLevelErr: any;
   };
   roundLevel: RoundLevelInfo[];
+  filterRoundLevelData: RoundLevelInfo | null;
+  singleRoundLevel: RoundLevelInfo | null;
   create: RoundLevelInfo | null;
   update: RoundLevelInfo | null;
   delete: string | null;

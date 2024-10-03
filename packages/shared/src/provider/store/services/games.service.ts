@@ -33,6 +33,7 @@ export const getGamesById = createAsyncThunk<
   GetGameByIdParams,
   { state: RootState }
 >("singleGame/get", async (params, thunkApi) => {
+  console.log("Params",params)
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
