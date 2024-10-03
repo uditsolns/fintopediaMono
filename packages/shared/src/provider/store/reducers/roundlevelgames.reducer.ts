@@ -5,6 +5,7 @@ import {
   getRoundLevel,
   updateRoundLevel,
   createRoundLevel,
+  getRoundLevelById
 } from "../services/roundlevelgames.service";
 
 const initialState: RoundLevelState = {
@@ -13,25 +14,46 @@ const initialState: RoundLevelState = {
     delete: false,
     update: false,
     roundLevel: false,
+    singleRoundLevel: false,
   },
   err: {
     createErr: null,
     deleteErr: null,
     updateErr: null,
     roundLevelErr: null,
+    singleRoundLevelErr: null,
   },
   create: null,
   delete: null,
   update: null,
   roundLevel: [],
+  filterRoundLevelData: null,
+  singleRoundLevel: null,
 };
 
 const roundLevelSlice = createSlice({
   name: "roundLevel",
   initialState,
-  reducers: {},
+  reducers: {
+    storeFilterRoundLevelData: (state, action) => {
+      state.filterRoundLevelData = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
+      .addCase(getRoundLevelById.pending, (state) => {
+        state.loading.singleRoundLevel = true;
+      })
+      .addCase(getRoundLevelById.fulfilled, (state, action) => {
+        state.loading.singleRoundLevel = false;
+        state.singleRoundLevel = action.payload;
+        state.err.singleRoundLevelErr = null;
+      })
+      .addCase(getRoundLevelById.rejected, (state, action) => {
+        state.loading.singleRoundLevel = false;
+        state.err.singleRoundLevelErr = action?.payload;
+      })
+      // single
       .addCase(getRoundLevel.pending, (state) => {
         state.loading.roundLevel = true;
       })
@@ -84,5 +106,5 @@ const roundLevelSlice = createSlice({
       });
   },
 });
-
+export const { storeFilterRoundLevelData } = roundLevelSlice.actions;
 export default roundLevelSlice.reducer;

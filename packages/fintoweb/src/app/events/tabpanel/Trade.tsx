@@ -24,10 +24,7 @@ const Trade: React.FC = () => {
   const [allData, setAllData] = useState(stockData);
   const [activeIndustry, setActiveIndustry] = useState<string | null>(null);
 
-  useEffect(() => {
-    dispatch(getStocks());
-    dispatch(getStockData());
-  }, [dispatch]);
+  
 
   useEffect(() => {
     setAllData(stockData);

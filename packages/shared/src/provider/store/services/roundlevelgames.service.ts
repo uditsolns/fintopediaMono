@@ -28,6 +28,31 @@ export const getRoundLevel = createAsyncThunk<
   }
 });
 
+
+export const getRoundLevelById = createAsyncThunk<
+  RoundLevelInfo,
+  {id:number},
+  { state: RootState }
+>("singleRoundLevel/get", async (params, thunkApi) => {
+  try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
+
+    const response = await fetch(`${apiUrl.ROUND_LEVEL_GAMES.GET}/${params.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = (await response.json()) as RoundLevelInfo;
+
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
 export const createRoundLevel = createAsyncThunk<
   RoundLevelInfo,
   RoundLevelInfo,
