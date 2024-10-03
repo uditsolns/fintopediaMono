@@ -6,6 +6,7 @@ import {
   AuthResponse,
   SignupParams,
   UpdatePasswordParams,
+  UserInfo,
 } from "../../../utils/types/auth";
 import { storeCurrentUser } from "../reducers/auth.reducer";
 
@@ -23,7 +24,7 @@ export const signIn = createAsyncThunk<
       body: JSON.stringify(params),
     });
     const data = (await response.json()) as AuthResponse;
-    thunkApi.dispatch(storeCurrentUser(data?.user))
+    thunkApi.dispatch(storeCurrentUser(data?.user as UserInfo))
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);

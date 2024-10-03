@@ -7,6 +7,13 @@ export interface RoundLevelInfo {
   set_id: number;
   is_active: number;
 }
+
+export interface OnSuccessInterface {
+  onSuccess?: (data: any) => void;
+}
+export interface OnErrorInterface {
+  onError?: (error: any) => void;
+}
 export interface RoundLevelState {
   loading: {
     roundLevel: boolean;

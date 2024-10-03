@@ -1,5 +1,9 @@
+import { OnErrorInterface, OnSuccessInterface } from "./roundLevel";
+
 export interface GetGameByIdParams {
   id: number | string;
+  onSuccess?: (data:any)=>void;
+  onError?: (error:any)=>void;
 }
 export interface GamesInfo {
   id: number;
@@ -18,15 +22,14 @@ export interface GamesState {
     create: boolean;
     update: boolean;
     delete: boolean;
-    singleGame: boolean,
+    singleGame: boolean;
   };
   err: {
     gamesErr: any;
     createErr: any;
     updateErr: any;
     deleteErr: any;
-    singleGameErr: any,
-
+    singleGameErr: any;
   };
   games: GamesInfo[];
   create: GamesInfo | null;

@@ -26,7 +26,7 @@ import userCertificateReducer from "./reducers/UserCertificate.reducer";
 import userCourseHistoryReducer from "./reducers/UserCourseHistory.reducer";
 import startGameReducer from "./reducers/startgame.reducer";
 import stopGameReducer from "./reducers/stopgame.reducer";
-
+import checkNavigateReducer from './reducers/checknavigate.reducer'
 
 const isNative = Platform.OS !== 'web';
 const chosenStorage = isNative ? AsyncStorage : storage;
@@ -35,7 +35,7 @@ const persistConfig: any = {
   key: "fintopedia",
   storage: AsyncStorage,
   timeout: null,
-  whitelist: ['auth']
+  whitelist: ['auth',]
 };
 
 const reducers = combineReducers({
@@ -59,7 +59,8 @@ const reducers = combineReducers({
   userCourseHistory: userCourseHistoryReducer,
   startGame: startGameReducer,
   stopGame: stopGameReducer,
-
+  checkNavigate:checkNavigateReducer
+  
 });
 
 export const store = configureStore({

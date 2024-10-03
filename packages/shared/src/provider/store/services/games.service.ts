@@ -32,13 +32,12 @@ export const getGamesById = createAsyncThunk<
   GamesInfo,
   GetGameByIdParams,
   { state: RootState }
->("singleGame/get", async (params, thunkApi) => {
-  console.log("Params",params)
+>("singleGame/get", async ({ id, onSuccess, onError }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(`${apiUrl.GAMES.GET}/${params.id}`, {
+    const response = await fetch(`${apiUrl.GAMES.GET}/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -47,9 +46,14 @@ export const getGamesById = createAsyncThunk<
     });
 
     const data = (await response.json()) as GamesInfo;
-
+    if (onSuccess) {
+      onSuccess(data);
+    }
     return data;
   } catch (error) {
+    if (onError) {
+      onError(error);
+    }
     return thunkApi.rejectWithValue(error);
   }
 });
