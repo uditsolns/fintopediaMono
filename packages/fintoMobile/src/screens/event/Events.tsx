@@ -18,27 +18,21 @@ import {
 } from '@shared/src/provider/store/services/games.service';
 import {GamesInfo} from '@shared/src/utils/types/games';
 import {createStartGame} from '@shared/src/provider/store/services/startgame.service';
+import {Toast} from 'react-native-toast-notifications';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 
 interface EventsProps extends NavType<'Events'> {}
 
 export const Events: React.FC<EventsProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
   const {games, loading} = useAppSelector(state => state.games);
-  const {
-    create,
-    loading: startGameLoading,
-    err,
-  } = useAppSelector(state => state.startGame);
+  const {loading: startGameLoading} = useAppSelector(state => state.startGame);
   const [refreshLoading, setRefreshLoading] = React.useState(false);
   const [popupVisible, setPopupVisible] = React.useState(false);
 
   React.useEffect(() => {
     onRefresh();
   }, []);
-
-  React.useEffect(() => {
-    console.log("----------",err.createErr,startGameLoading.create);
-  }, [create]);
 
   const onRefresh = () => {
     setRefreshLoading(true);
@@ -48,11 +42,31 @@ export const Events: React.FC<EventsProps> = ({navigation}) => {
 
   const playGame = async (item: GamesInfo) => {
     const id = item?.id;
-    const params = {
+    const startGameInfo = {
       game_id: id,
     };
     if (item?.is_active == '1') {
-      dispatch(createStartGame(params));
+      dispatch(
+        createStartGame({
+          startGameInfo,
+          onSuccess: res => {
+            console.log(res);
+            if (res.error) {
+              Toast.show(res.error, {
+                type: 'danger',
+              });
+              return;
+            }
+            navigation.navigate(RouteKeys.GAMEWAITINGSCREEN);
+          },
+          onError: err => {
+            console.log(err);
+            Toast.show('Something went wrong,please try again.', {
+              type: 'danger',
+            });
+          },
+        }),
+      );
       setPopupVisible(false);
     } else {
       setPopupVisible(true);
@@ -60,7 +74,10 @@ export const Events: React.FC<EventsProps> = ({navigation}) => {
   };
 
   const getGameByID = async (item: GamesInfo) => {
-    dispatch(getGamesById(item));
+    let body = {
+      id: item?.id,
+    };
+    dispatch(getGamesById(body));
   };
 
   const renderItem = ({item}: {item: GamesInfo}) => {
@@ -86,7 +103,7 @@ export const Events: React.FC<EventsProps> = ({navigation}) => {
         </View>
       ) : null}
       <FlatList
-        data={games?.length ? games : []}
+        data={games?.length ? games?.filter((el):any => el?.is_active == '1') : []}
         renderItem={renderItem}
         keyExtractor={item => item?.id?.toString()}
         refreshControl={

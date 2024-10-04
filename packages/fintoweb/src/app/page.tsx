@@ -25,6 +25,7 @@ import Login from "./auth/login/page";
 
 export default function Home() {
   const { auth } = useAppSelector((state) => state.auth);
+  const { current_user } = useAppSelector((state) => state.auth);
 
   const token = auth?.token;
 

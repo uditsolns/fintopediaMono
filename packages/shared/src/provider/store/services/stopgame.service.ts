@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
 import { StopGameInfo } from "../../../utils/types/stopgame";
+import { CreateStartGame } from "../../../utils/types/startgame";
 
 export const getStopGame = createAsyncThunk<
   StopGameInfo[],
@@ -29,10 +30,10 @@ export const getStopGame = createAsyncThunk<
 });
 
 export const createStopGame = createAsyncThunk<
-  StopGameInfo,
-  StopGameInfo,
+  number,
+  CreateStartGame,
   { state: RootState }
->("stopGame/post", async (params, thunkApi) => {
+>("stopGame/post", async ({ startGameInfo, onSuccess, onError }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
@@ -42,13 +43,15 @@ export const createStopGame = createAsyncThunk<
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(params),
+      body: JSON.stringify(startGameInfo),
     });
 
-    const data = (await response.json()) as StopGameInfo;
+    const data = (await response.json()) as number;
 
+    onSuccess(data);
     return data;
   } catch (error) {
+    onError(error);
     return thunkApi.rejectWithValue(error);
   }
 });
@@ -70,7 +73,7 @@ export const updateStopGame = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as StopGameInfo;
+    const data = await response.json();
 
     return data;
   } catch (error) {

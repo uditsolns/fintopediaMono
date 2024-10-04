@@ -5,6 +5,7 @@ import {
   getGameUsers,
   updateGameUsers,
   createGameUsers,
+  getGameUserByLoginIDGameID,
 } from "../services/gameusers.service";
 
 const initialState: GameUsersState = {
@@ -13,17 +14,20 @@ const initialState: GameUsersState = {
     delete: false,
     update: false,
     gameUsers: false,
+    gameUserByLoginIDGameID: false,
   },
   err: {
     createErr: null,
     deleteErr: null,
     updateErr: null,
     gameUsersErr: null,
+    gameUserByLoginIDGameIDErr: null,
   },
   create: null,
   delete: null,
   update: null,
   gameUsers: [],
+  gameUserByLoginIDGameID: null,
 };
 
 const gameUsersSlice = createSlice({
@@ -32,6 +36,19 @@ const gameUsersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // get game user by login id and game id
+      .addCase(getGameUserByLoginIDGameID.pending, (state) => {
+        state.loading.gameUserByLoginIDGameID = true;
+      })
+      .addCase(getGameUserByLoginIDGameID.fulfilled, (state, action) => {
+        state.loading.gameUserByLoginIDGameID = false;
+        state.gameUserByLoginIDGameID = action.payload;
+        state.err.gameUserByLoginIDGameIDErr = null;
+      })
+      .addCase(getGameUserByLoginIDGameID.rejected, (state, action) => {
+        state.loading.gameUserByLoginIDGameID = false;
+        state.err.gameUserByLoginIDGameIDErr = action?.payload;
+      })
       .addCase(getGameUsers.pending, (state) => {
         state.loading.gameUsers = true;
       })

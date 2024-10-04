@@ -1,13 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { RoundLevelInfo } from "../../../utils/types/roundLevel";
+import {
+  OnSuccessInterface,
+  RoundLevelInfo,
+} from "../../../utils/types/roundLevel";
+import { GetGameByIdParams } from "../../../utils/types/games";
 
 export const getRoundLevel = createAsyncThunk<
   RoundLevelInfo[],
-  void,
+  OnSuccessInterface,
   { state: RootState }
->("roundLevel/get", async (_, thunkApi) => {
+>("roundLevel/get", async ({ onSuccess }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
@@ -21,35 +25,38 @@ export const getRoundLevel = createAsyncThunk<
     });
 
     const data = (await response.json()) as RoundLevelInfo[];
-
+    onSuccess(data);
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);
   }
 });
 
-
 export const getRoundLevelById = createAsyncThunk<
   RoundLevelInfo,
-  {id:number},
+  GetGameByIdParams,
   { state: RootState }
->("singleRoundLevel/get", async (params, thunkApi) => {
+>("singleRoundLevel/get", async ({id,onSuccess,onError}, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(`${apiUrl.ROUND_LEVEL_GAMES.GET}/${params.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${apiUrl.ROUND_LEVEL_GAMES.GET}/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = (await response.json()) as RoundLevelInfo;
-
+    onSuccess(data)
     return data;
   } catch (error) {
+    onError(error)
     return thunkApi.rejectWithValue(error);
   }
 });
@@ -61,14 +68,17 @@ export const createRoundLevel = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.ROUND_LEVEL_GAMES.POST + "/" + params.id, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(params),
-    });
+    const response = await fetch(
+      apiUrl.ROUND_LEVEL_GAMES.POST + "/" + params.id,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+      }
+    );
 
     const data = (await response.json()) as RoundLevelInfo;
 
@@ -86,14 +96,17 @@ export const updateRoundLevel = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.ROUND_LEVEL_GAMES.UPDATE + "/" + params.id, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(params),
-    });
+    const response = await fetch(
+      apiUrl.ROUND_LEVEL_GAMES.UPDATE + "/" + params.id,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+      }
+    );
 
     const data = (await response.json()) as RoundLevelInfo;
 
@@ -111,13 +124,16 @@ export const deleteRoundLevel = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.ROUND_LEVEL_GAMES.DELETE + "/" + params, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      apiUrl.ROUND_LEVEL_GAMES.DELETE + "/" + params,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = (await response.json()) as string;
 

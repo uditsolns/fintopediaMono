@@ -120,6 +120,9 @@ export default {
     UPDATE: buildUrl("stocks/"),
     DELETE: buildUrl("stocks/"),
   },
+  GAME_USER: {
+    GET: buildUrl("game-user"),
+  },
   GAME_USERS: {
     GET: buildUrl("game-users"),
     POST: buildUrl("game-users/"),

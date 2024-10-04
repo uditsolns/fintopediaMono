@@ -27,7 +27,7 @@ import startGameReducer from "./reducers/startgame.reducer";
 import stopGameReducer from "./reducers/stopgame.reducer";
 
 const isNative = Platform.OS !== "web";
-const chosenStorage = isNative ? AsyncStorage : storage;
+import checkNavigateReducer from './reducers/checknavigate.reducer'
 
 const persistConfig: any = {
   key: "fintopedia",
@@ -57,6 +57,7 @@ const reducers = combineReducers({
   userCourseHistory: userCourseHistoryReducer,
   startGame: startGameReducer,
   stopGame: stopGameReducer,
+  checkNavigate:checkNavigateReducer
 });
 
 export const store = configureStore({

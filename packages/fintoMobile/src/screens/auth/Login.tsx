@@ -20,7 +20,6 @@ import {NavType} from '@src/navigation/types';
 import {useAuthHelper} from '@shared/src/components/structures/login/login.helper';
 import {authField} from '@shared/src/components/structures/login/loginModel';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
-import {useToast} from 'react-native-toast-notifications';
 import {logout} from '@shared/src/provider/store/reducers/auth.reducer';
 
 interface LoginProps extends NavType<'Login'> {}

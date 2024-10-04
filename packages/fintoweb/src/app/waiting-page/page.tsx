@@ -14,12 +14,16 @@ import { getGamesById } from "shared/src/provider/store/services/games.service";
 import { getRoundLevel } from "shared/src/provider/store/services/roundlevelgames.service";
 import { useRouter } from "next/navigation";
 import { storeFilterRoundLevelData } from "shared/src/provider/store/reducers/roundlevelgames.reducer";
+import { storeCheckNavigate } from "shared/src/provider/store/reducers/checknavigate.reducer";
+import { RoundLevelInfo } from "shared/src/utils/types/roundLevel";
 
 interface WaitingPageProps {
   id?: number;
 }
 
 const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
+  const gameId = id;
+
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [modal, setModal] = useState(false);
@@ -27,7 +31,7 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
   const toggleModal = () => setModal(!modal);
 
   const { singleGame } = useAppSelector((state) => state.games);
-  const { roundLevel } = useAppSelector((state) => state.roundLevel);
+  const { check_navigate } = useAppSelector((state) => state.checkNavigate);
 
   useEffect(() => {
     dispatch(getNews());
@@ -36,49 +40,61 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (id) {
+    if (gameId) {
       const interval = setInterval(() => {
         checkSingleGameFinish();
         getAllRoundLevelGamesData();
       }, 10000);
       return () => clearInterval(interval);
     }
-  }, [id, dispatch]);
+  }, [gameId, dispatch]);
 
-  const checkSingleGameFinish = () => {
-    dispatch(getGamesById({ id }));
-  };
-
-  const getAllRoundLevelGamesData = () => {
-    dispatch(getRoundLevel());
-  };
-
-  useEffect(() => {
-    if (singleGame && singleGame.is_active === "0") {
-      router.push("/winners-loading");
-    }
-  }, [singleGame, router]);
-
-  useEffect(() => {
-    if (roundLevel) {
-      handleRoundLevel();
-    }
-  }, [roundLevel, id, router]);
-
-  const handleRoundLevel = () => {
-    const activeRounds = roundLevel?.filter(
-      (e) => e.game_id === id && e.is_active === 1
+  const checkSingleGameFinish = async () => {
+    let id = gameId;
+    dispatch(
+      getGamesById({
+        id,
+        onSuccess: (data) => {
+          if (data?.is_active == 0) {
+            if (check_navigate == false) {
+              router.push("/game-ended");
+            }
+            dispatch(storeCheckNavigate(true));
+          }
+        },
+      })
     );
+  };
+  const getAllRoundLevelGamesData = async () => {
+    dispatch(
+      getRoundLevel({
+        onSuccess: (data) => {
+          roundLevelFunction(data);
+        },
+      })
+    );
+  };
 
-    if (activeRounds && activeRounds.length > 0) {
-      pushFilterData(activeRounds[0]);
-      router.push(`/events/${id}`);
-    } else {
+  const roundLevelFunction = async (roundLevel: RoundLevelInfo[]) => {
+    const filterRound = roundLevel?.filter((e1) => {
+      return e1?.game_id == gameId;
+    });
+    let obj = filterRound?.find((o) => o.is_active == 1);
+    if (obj == undefined) {
       setModal(true);
+    } else {
+      for (let i = 0; i < filterRound.length; i++) {
+        if (filterRound[i].is_active == 1) {
+          await pushFilterData(filterRound[i]);
+          setModal(false);
+          router.push(`/events/${gameId}`);
+          break;
+        }
+      }
     }
   };
 
-  const pushFilterData = (filterRound) => {
+  const pushFilterData = async (filterRound: RoundLevelInfo) => {
     dispatch(storeFilterRoundLevelData(filterRound));
   };
 
