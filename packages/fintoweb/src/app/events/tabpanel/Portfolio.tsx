@@ -9,50 +9,56 @@ import BuyStocks from "./BuyStocks";
 import styles from "./Event.module.css";
 import { FaArrowRotateRight } from "react-icons/fa6";
 import SellStocks from "./SellStocks";
+import {
+  useAppSelector,
+  useAppDispatch,
+} from "shared/src/provider/store/types/storeTypes";
 
+type Transaction = {
+  stock_id: string | number;
+};
 const Portfolio: React.FC = () => {
-  const dummyStockData = [
-    {
-      stock_id: 1,
-      stock: { name: "Dr. Reddy's Laboratories Ltd.", industry: "Technology" },
-      stock_current_price: 145.3,
-      qty: 14,
-      buying_price: 141.3,
-      total_price: 2034.2, // Example: qty * buying_price
-      round_level: 1,
-      game_id: 101,
-      remark: "Test Remark", // Example remark
-    },
-    {
-      stock_id: 2,
-      stock: { name: "Tesla", industry: "Automobile" },
-      stock_current_price: 720.5,
-      qty: 25,
-      buying_price: 400.3,
-      total_price: 10007.5, // Example: qty * buying_price
-      round_level: 1,
-      game_id: 102,
-      remark: "Test Remark", // Example remark
-    },
-    {
-      stock_id: 3,
-      stock: { name: "Google", industry: "Technology" },
-      stock_current_price: 2720.3,
-      qty: 65,
-      buying_price: 2141.3,
-      total_price: 139184.5, // Example: qty * buying_price
-      round_level: 1,
-      game_id: 103,
-      remark: "Test Remark", // Example remark
-    },
-  ];
-  
-
-  const filterRoundLevelData = { round_level: 1, game_id: 101 };
+  const dispatch = useAppDispatch();
+  const { transactions, loading } = useAppSelector(
+    (state) => state.transactions
+  );
+  const { auth } = useAppSelector((state) => state.auth);
+  const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [data, setData] = useState(dummyStockData);
-  const [allData, setAllData] = useState(dummyStockData);
+  const [filterData, setFilterData] = useState<any[]>([]);
+  const [data, setData] = useState<any[]>([]);
+
+  console.log("transactions", transactions);
+  console.log("filterRoundLevelData", filterRoundLevelData);
+  console.log("data", data);
+
+  console.log("filterData", filterData);
+
+  const key: keyof (typeof transactions)[number] = "stock_id";
+
+  useEffect(() => {
+    if (transactions) {
+      const filteredData = transactions.filter((item) => {
+        const userTransaction = item.user?.user_transactions?.find(
+          (el) => el.stock_id === item.stock_id
+        );
+        return (
+          item.user_id === auth?.user?.id &&
+          item.order_type === "Buy" &&
+          userTransaction?.order_qty > 0
+        );
+      });
+
+      const reverseData = [...filteredData].reverse();
+      const uniqueMap = new Map(reverseData.map((item) => [item[key], item]));
+      const uniqueFilteredData = Array.from(uniqueMap.values()); // Convert Map values to an array
+      console.log("uniqueFilteredData", uniqueFilteredData);
+
+      setFilterData(uniqueFilteredData);
+      setData(uniqueFilteredData);
+    }
+  }, [transactions, auth]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -83,7 +89,7 @@ const Portfolio: React.FC = () => {
           variant="outlined"
         />
         <Button
-          onClick={() => setData(allData)}
+          // onClick={() => setData(allData)}
           className={`${styles["search-button"]}`}
         >
           <FaArrowRotateRight />
@@ -129,7 +135,7 @@ const Portfolio: React.FC = () => {
                             {Math.round(el.stock_current_price * 10) / 10}
                           </td>
                           <td>
-                            <SellStocks data={el}/>
+                            <SellStocks data={el} />
                           </td>
                         </tr>
                       );

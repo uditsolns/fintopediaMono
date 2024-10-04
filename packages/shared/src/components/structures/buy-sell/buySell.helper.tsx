@@ -2,7 +2,8 @@ import { useFormik } from "formik";
 import { useAppDispatch } from "../../../provider/store/types/storeTypes";
 import { InputAtomProps } from "../../atoms/Input/InputAtom";
 import { BUY_SELL_VALUES, buySellValidation } from "./buySellModel";
-import { BuySellParams } from "../../../utils/types/auth";
+import { TransactionsInfo } from "../../../utils/types/transactions";
+import { createTransactions } from "../../../provider/store/services/transactions.service";
 
 export const useBuySellHelper = () => {
   type dataType = keyof typeof BUY_SELL_VALUES;
@@ -13,7 +14,8 @@ export const useBuySellHelper = () => {
     initialValues: BUY_SELL_VALUES,
     validationSchema: buySellValidation,
     onSubmit: (values) => {
-      let data: BuySellParams = {
+      let data: TransactionsInfo = {
+        id:values.id,
         game_id: +values.game_id,
         user_id: +values.user_id,
         stock_id: +values.stock_id,
@@ -23,6 +25,8 @@ export const useBuySellHelper = () => {
         stock_current_price: +values.stock_current_price,
         round_level: +values.round_level,
       };
+      console.log("signup data ", data);
+      dispatch(createTransactions(data));
     },
   });
 

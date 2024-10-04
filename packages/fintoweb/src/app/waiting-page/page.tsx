@@ -26,7 +26,7 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
 
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(true);
 
   const toggleModal = () => setModal(!modal);
 

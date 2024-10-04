@@ -36,7 +36,7 @@ export const createTransactions = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.TRANSACTIONS.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.TRANSACTIONS.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -7,6 +7,7 @@ import {
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import { getStockData } from "shared/src/provider/store/services/stockdatas.service";
+import { getStocks } from "shared/src/provider/store/services/stocks.service";
 import { useRouter } from "next/navigation";
 import { getGamesById } from "shared/src/provider/store/services/games.service";
 import { getRoundLevelById } from "shared/src/provider/store/services/roundlevelgames.service";
@@ -21,7 +22,7 @@ const Events: React.FC<EventPageProps> = ({ id }) => {
   const gameId = id;
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { current_user,auth } = useAppSelector((state) => state.auth);
+  const { current_user, auth } = useAppSelector((state) => state.auth);
   const { singleGame } = useAppSelector((state) => state.games);
   const { filterRoundLevelData, singleRoundLevel } = useAppSelector(
     (state) => state.roundLevel
@@ -79,6 +80,8 @@ const Events: React.FC<EventPageProps> = ({ id }) => {
   const seconds = Math.floor(time % 60);
 
   React.useEffect(() => {
+    dispatch(getStockData());
+    dispatch(getStocks());
     dispatch(storeCheckNavigateHome(false));
   }, []),
     React.useEffect(() => {
@@ -124,7 +127,6 @@ const Events: React.FC<EventPageProps> = ({ id }) => {
   const getAllRoundLevelGamesData = async () => {
     let id = Number(filterRoundLevelData?.id);
     console.log("filterRoundLevelData", filterRoundLevelData);
-
     dispatch(
       getRoundLevelById({
         id,

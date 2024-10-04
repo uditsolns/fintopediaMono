@@ -131,7 +131,7 @@ export default {
   },
   TRANSACTIONS: {
     GET: buildUrl("transactions"),
-    POST: buildUrl("transactions/"),
+    POST: buildUrl("transactions"),
     UPDATE: buildUrl("transactions/"),
     DELETE: buildUrl("transactions/"),
   },

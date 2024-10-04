@@ -1,5 +1,5 @@
 export interface TransactionsInfo {
-  id: number;
+  id: string;
   game_id: number;
   user_id: number;
   stock_id: number;

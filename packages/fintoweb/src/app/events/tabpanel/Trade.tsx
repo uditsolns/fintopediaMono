@@ -18,13 +18,13 @@ const Trade: React.FC = () => {
   const dispatch = useAppDispatch();
   const { stocks } = useAppSelector((state) => state.stocks);
   const { stockData, loading } = useAppSelector((state) => state.stockData);
-
+  const { filterRoundLevelData, singleRoundLevel } = useAppSelector(
+    (state) => state.roundLevel
+  );
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [data, setData] = useState(stockData);
   const [allData, setAllData] = useState(stockData);
   const [activeIndustry, setActiveIndustry] = useState<string | null>(null);
-
-  
 
   useEffect(() => {
     setAllData(stockData);
@@ -49,15 +49,13 @@ const Trade: React.FC = () => {
     setActiveIndustry(industry);
   };
 
-  const filterRoundLevelData = { round_level: 5, game_id: 174 };
-
   return (
     <React.Fragment>
       <div className={styles["inline-row"]}>
         <TextField
           id="input-with-icon-textfield"
           placeholder="Search..."
-          className={styles["search-textfield"]}
+          className={`${styles["search-textfield"]}`}
           value={searchTerm}
           onChange={handleChange}
           InputProps={{
@@ -66,12 +64,18 @@ const Trade: React.FC = () => {
                 <SearchIcon className={styles["search-icon"]} />
               </InputAdornment>
             ),
+            classes: {
+              input: styles["search-input"],
+            },
+          }}
+          InputLabelProps={{
+            className: styles["search-placeholder"],
           }}
           variant="outlined"
         />
         <Button
           onClick={() => setData(allData)}
-          className={styles["search-button"]}
+          className={`${styles["search-button"]}`}
         >
           <FaArrowRotateRight />
         </Button>
@@ -86,10 +90,9 @@ const Trade: React.FC = () => {
             }`}
             block
             onClick={() => {
-              setData(allData)
-              setActiveIndustry(null)
+              setData(allData);
+              setActiveIndustry(null);
             }}
-
           >
             All
           </Button>
