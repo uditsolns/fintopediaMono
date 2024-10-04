@@ -7,9 +7,9 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "shared/src/provider/store/types/storeTypes";
-import { getNews } from "shared/src/provider/store/services/news.service";
-import { getStocks} from "shared/src/provider/store/services/stocks.service";
+import { getStocks } from "shared/src/provider/store/services/stocks.service";
 import { getStockData } from "shared/src/provider/store/services/stockdatas.service";
+import { getNews } from "shared/src/provider/store/services/news.service";
 import { getGamesById } from "shared/src/provider/store/services/games.service";
 import { getRoundLevel } from "shared/src/provider/store/services/roundlevelgames.service";
 import { useRouter } from "next/navigation";
@@ -24,77 +24,64 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
   const dispatch = useAppDispatch();
   const [modal, setModal] = useState(false);
 
-  const toggle = () => setModal(!modal);
+  const toggleModal = () => setModal(!modal);
 
-  const { singleGame, loading } = useAppSelector((state) => state.games);
-  const { roundLevel, loading: roundLevelLoading } = useAppSelector(
-    (state) => state.roundLevel
-  );
+  const { singleGame } = useAppSelector((state) => state.games);
+  const { roundLevel } = useAppSelector((state) => state.roundLevel);
 
   useEffect(() => {
     dispatch(getNews());
     dispatch(getStocks());
     dispatch(getStockData());
-  }, []);
+  }, [dispatch]);
 
-  useEffect(
-    React.useCallback(() => {
-      if (id) {
-        let interval = setInterval(() => {
-          checkSingleGameFinish();
-          getAllRoundLevelGamesData();
-        }, 10000);
-        return () => {
-          clearInterval(interval);
-        };
-      }
-    }, [id])
-  );
+  useEffect(() => {
+    if (id) {
+      const interval = setInterval(() => {
+        checkSingleGameFinish();
+        getAllRoundLevelGamesData();
+      }, 10000);
+      return () => clearInterval(interval);
+    }
+  }, [id, dispatch]);
 
-  const checkSingleGameFinish = async () => {
-    let body = {
-      id: id,
-    };
-    dispatch(getGamesById(body));
+  const checkSingleGameFinish = () => {
+    dispatch(getGamesById({ id }));
   };
-  const getAllRoundLevelGamesData = async () => {
+
+  const getAllRoundLevelGamesData = () => {
     dispatch(getRoundLevel());
   };
-  React.useEffect(() => {
-    if (singleGame) {
-      if (singleGame?.is_active == "0") {
-        router.push("/winners-loading");
-      }
-    }
-  }, [singleGame]);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (singleGame && singleGame.is_active === "0") {
+      router.push("/winners-loading");
+    }
+  }, [singleGame, router]);
+
+  useEffect(() => {
     if (roundLevel) {
-      roundLevelFunction();
+      handleRoundLevel();
     }
-  }, [roundLevel]);
+  }, [roundLevel, id, router]);
 
-  const roundLevelFunction = async () => {
-    const filterRound = roundLevel?.filter((e1) => {
-      return e1.game_id == id;
-    });
-    let obj = filterRound?.find((o) => o.is_active == 1);
-    if (obj == undefined) {
-      setModal(true);
+  const handleRoundLevel = () => {
+    const activeRounds = roundLevel?.filter(
+      (e) => e.game_id === id && e.is_active === 1
+    );
+
+    if (activeRounds && activeRounds.length > 0) {
+      pushFilterData(activeRounds[0]);
+      router.push(`/events/${id}`);
     } else {
-      for (let i = 0; i < filterRound.length; i++) {
-        if (filterRound[i].is_active == 1) {
-          await pushFilterData(filterRound[i]);
-          router.push(`/events/${id}`);
-          break;
-        }
-      }
+      setModal(true);
     }
   };
 
-  const pushFilterData = async (filterRound) => {
+  const pushFilterData = (filterRound) => {
     dispatch(storeFilterRoundLevelData(filterRound));
   };
+
   return (
     <div
       className={`d-flex justify-content-center align-items-center vh-100 ${
@@ -102,10 +89,9 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
       }`}
     >
       <div className="blur-background"></div>
-
       <Modal
         isOpen={modal}
-        toggle={toggle}
+        toggle={toggleModal}
         backdrop="static"
         modalClassName="black-background"
         className="modal-dialog-centered"
@@ -121,13 +107,12 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
             Hey! You're in waiting..
           </h3>
           <p className="mt-3 text-center text-gray-300">
-            Please Wait, Next Round will begin
-            <br />
-            Shortly or try again later
+            Please wait, the next round will begin shortly or try again later.
           </p>
           <Button
             className="btn btn-info btn-sm btn-light font-bold text-black mt-3"
             block
+            onClick={toggleModal}
           >
             Retry
           </Button>

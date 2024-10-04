@@ -9,7 +9,7 @@ const GameEnded: React.FC = () => {
       <Container
         fluid
         className="d-flex flex-column justify-content-center align-items-center vh-100"
-      >
+      > 
         <Image
           src={gameEndedImage}
           alt="Game Over"
