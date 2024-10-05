@@ -72,6 +72,7 @@ export interface UserInfo {
   is_google_login: string;
   feedback: null;
   college: null;
+  user_transactions:[]
 }
 
 export interface SignupParams {

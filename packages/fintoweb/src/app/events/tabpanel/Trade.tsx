@@ -84,7 +84,6 @@ const Trade: React.FC = () => {
       <Row className="mt-3">
         <Col md={3} className={styles["sector-name"]}>
           <Button
-            // className={styles["btn"] + " " + styles["sector-btn"] }
             className={`${styles["btn"]} ${styles["sector-btn"]} ${
               activeIndustry === null ? styles.active : ""
             }`}
@@ -100,7 +99,6 @@ const Trade: React.FC = () => {
           {uniqueIndustries.map((el, index) => (
             <Button
               key={index}
-              // className={styles["btn"] + " " + styles["sector-btn"]}
               className={`${styles["btn"]} ${styles["sector-btn"]} ${
                 activeIndustry === el.stock.industry ? styles.active : ""
               }`}
@@ -137,8 +135,8 @@ const Trade: React.FC = () => {
                   )
                   .map((el, index) => {
                     if (
-                      el.round_level == filterRoundLevelData.round_level &&
-                      el.game_id == filterRoundLevelData.game_id
+                      el.round_level == filterRoundLevelData?.round_level &&
+                      el.game_id == filterRoundLevelData?.game_id
                     ) {
                       return (
                         <tr key={index}>

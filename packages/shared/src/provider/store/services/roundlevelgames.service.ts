@@ -99,7 +99,7 @@ export const updateRoundLevel = createAsyncThunk<
     const response = await fetch(
       apiUrl.ROUND_LEVEL_GAMES.UPDATE + "/" + params.id,
       {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

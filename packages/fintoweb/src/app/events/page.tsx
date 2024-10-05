@@ -13,13 +13,17 @@ import { getGamesById } from "shared/src/provider/store/services/games.service";
 import { getRoundLevelById } from "shared/src/provider/store/services/roundlevelgames.service";
 import { storeCheckNavigateHome } from "shared/src/provider/store/reducers/checknavigate.reducer";
 import { getGameUserByLoginIDGameID } from "shared/src/provider/store/services/gameusers.service";
+import { storeFilterRoundLevelData } from "shared/src/provider/store/reducers/roundlevelgames.reducer";
+import { updateRoundLevel } from "shared/src/provider/store/services/roundlevelgames.service";
 
 interface EventPageProps {
   id: number;
+  round: number;
 }
 
-const Events: React.FC<EventPageProps> = ({ id }) => {
+const Events: React.FC<EventPageProps> = ({ id, round }) => {
   const gameId = id;
+  const roundId = round;
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { current_user, auth } = useAppSelector((state) => state.auth);
@@ -31,12 +35,20 @@ const Events: React.FC<EventPageProps> = ({ id }) => {
     (state) => state.checkNavigate
   );
   const [hasNavigated, setHasNavigated] = React.useState<boolean>(false);
+  const [endTime, setEndTime] = React.useState<string>(
+    filterRoundLevelData ? `${filterRoundLevelData.end_datetime}` : "00:00:00"
+  );
+
   // const currentTime = new Date().toLocaleTimeString();
+  const currentTime = new Date().toLocaleTimeString([], { hour12: false });
+
   // const endTime = `${filterRoundLevelData.end_datetime}`;
-  const currentTime = "20:55:50";
-  const endTime = "21:20:50";
-  // console.log("currentTime",currentTime)
-  // console.log("endTime",endTime)
+
+  React.useEffect(() => {
+    if (filterRoundLevelData) {
+      setEndTime(`${filterRoundLevelData.end_datetime}`);
+    }
+  }, [filterRoundLevelData]);
 
   const getTimeDifferenceInSeconds = (start: string, end: string): number => {
     const [startHours, startMinutes, startSeconds] = start
@@ -56,25 +68,32 @@ const Events: React.FC<EventPageProps> = ({ id }) => {
   const [time, setTime] = React.useState<number>(
     getTimeDifferenceInSeconds(currentTime, endTime)
   );
-  const timerRef = React.useRef<NodeJS.Timeout | null>(null);
   React.useEffect(() => {
-    timerRef.current = setInterval(() => {
+    if (time === 0) {
+      const body = {
+        id: roundId,
+        game_id: gameId,
+        round_level: filterRoundLevelData
+          ? filterRoundLevelData.round_level
+          : null,
+        start_datetime: filterRoundLevelData
+          ? filterRoundLevelData.start_datetime
+          : null,
+        end_datetime: filterRoundLevelData
+          ? filterRoundLevelData.end_datetime
+          : null,
+        set_id: filterRoundLevelData ? filterRoundLevelData.set_id : null,
+        is_active: 0,
+      };
+      dispatch(updateRoundLevel(body));
+    }
+    const timer = setInterval(() => {
       setTime((prevTime) => Math.max(prevTime - 1, 0));
     }, 1000);
-    // console.log("==", timerRef.current, time);
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
+      clearInterval(timer);
     };
-  }, []);
-
-  // React.useEffect(() => {
-  //   if (time === 0 && !hasNavigated) {
-  //     clearInterval(timerRef.current!);
-  //     timerRef.current = null;
-  //     navigation.navigate(RouteKeys.GAMEWAITINGSCREEN);
-  //     setHasNavigated(true);
-  //   }
-  // }, [time,hasNavigated,navigation]);
+  }, [time]);
 
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
@@ -121,21 +140,23 @@ const Events: React.FC<EventPageProps> = ({ id }) => {
             dispatch(storeCheckNavigateHome(true));
           }
         },
+        onError: () => {},
       })
     );
   };
   const getAllRoundLevelGamesData = async () => {
-    let id = Number(filterRoundLevelData?.id);
-    console.log("filterRoundLevelData", filterRoundLevelData);
+    let id = roundId ? roundId : Number(filterRoundLevelData?.id);
+
     dispatch(
       getRoundLevelById({
         id,
         onSuccess: (data) => {
-          console.log("data", data);
+          dispatch(storeFilterRoundLevelData(data));
           if (data?.is_active == 0) {
             router.push(`/waiting-page/${gameId}`);
           }
         },
+        onError: () => {},
       })
     );
   };

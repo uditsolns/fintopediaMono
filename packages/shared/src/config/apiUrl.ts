@@ -104,9 +104,9 @@ export default {
   },
   ROUND_LEVEL_GAMES: {
     GET: buildUrl("round-level-games"),
-    POST: buildUrl("round-level-games/"),
-    UPDATE: buildUrl("round-level-games/"),
-    DELETE: buildUrl("round-level-games/"),
+    POST: buildUrl("round-level-games"),
+    UPDATE: buildUrl("round-level-games"),
+    DELETE: buildUrl("round-level-games"),
   },
   STOCK_DATAS: {
     GET: buildUrl("stock-datas"),

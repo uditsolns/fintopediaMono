@@ -13,10 +13,8 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "shared/src/provider/store/types/storeTypes";
+import { getTransactions } from "shared/src/provider/store/services/transactions.service";
 
-type Transaction = {
-  stock_id: string | number;
-};
 const Portfolio: React.FC = () => {
   const dispatch = useAppDispatch();
   const { transactions, loading } = useAppSelector(
@@ -29,6 +27,9 @@ const Portfolio: React.FC = () => {
   const [filterData, setFilterData] = useState<any[]>([]);
   const [data, setData] = useState<any[]>([]);
 
+  useEffect(() => {
+    dispatch(getTransactions());
+  }, []);
   console.log("transactions", transactions);
   console.log("filterRoundLevelData", filterRoundLevelData);
   console.log("data", data);
@@ -49,7 +50,7 @@ const Portfolio: React.FC = () => {
           userTransaction?.order_qty > 0
         );
       });
-
+      console.log("filteredData", filteredData);
       const reverseData = [...filteredData].reverse();
       const uniqueMap = new Map(reverseData.map((item) => [item[key], item]));
       const uniqueFilteredData = Array.from(uniqueMap.values()); // Convert Map values to an array

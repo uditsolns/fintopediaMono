@@ -9,10 +9,10 @@ export interface RoundLevelInfo {
 }
 
 export interface OnSuccessInterface {
-  onSuccess?: (data: any) => void;
+  onSuccess: (data: any) => void;
 }
 export interface OnErrorInterface {
-  onError?: (error: any) => void;
+  onError: (error: any) => void;
 }
 export interface RoundLevelState {
   loading: {

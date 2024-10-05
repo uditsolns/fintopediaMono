@@ -62,6 +62,7 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
             dispatch(storeCheckNavigate(true));
           }
         },
+        onError: () => {},
       })
     );
   };
@@ -75,7 +76,7 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
     );
   };
 
-  const roundLevelFunction = async (roundLevel: RoundLevelInfo[]) => {
+  const roundLevelFunction = async (roundLevel: RoundLevelInfo[]) => { 
     const filterRound = roundLevel?.filter((e1) => {
       return e1?.game_id == gameId;
     });
@@ -87,7 +88,7 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
         if (filterRound[i].is_active == 1) {
           await pushFilterData(filterRound[i]);
           setModal(false);
-          router.push(`/events/${gameId}`);
+          router.push(`/events/${gameId}/${filterRound[i]?.id}`);
           break;
         }
       }

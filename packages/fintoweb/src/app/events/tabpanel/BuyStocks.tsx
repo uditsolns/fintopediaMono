@@ -19,24 +19,14 @@ import { useBuySellHelper } from "shared/src/components/structures/buy-sell/buyS
 import { buySellField } from "shared/src/components/structures/buy-sell/buySellModel";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import CircularLoading from "@src/components/loader/CircularLoading";
+import { StockDataInfo } from "shared/src/utils/types/stockDatas";
+import { toast } from "react-toastify";
 
 interface Props {
-  data: {
-    id: number;
-    game_id: number;
-    user_id: number;
-    stock_id: number;
-    order_type: string;
-    order_qty: number;
-    total_price: number;
-    stock_current_price: number;
-    round_level: number;
-    stock: {
-      name: string;
-    };
-  };
+  data: StockDataInfo;
 }
 const BuyStocks: React.FC<Props> = (props) => {
+  // console.log("props", props);
   const { auth } = useAppSelector((state) => state.auth);
   const { news } = useAppSelector((state) => state.news);
   const { transactions, loading } = useAppSelector(
@@ -49,14 +39,45 @@ const BuyStocks: React.FC<Props> = (props) => {
   };
 
   const { buySellFormik, buySellInputProps } = useBuySellHelper();
-  const { handleSubmit, isSubmitting, setFieldValue } = buySellFormik;
+  const { handleSubmit, isSubmitting, setFieldValue, values } = buySellFormik;
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  React.useEffect(() => {
+    const currentPrice = parseFloat(values.stock_current_price?.trim() || "0");
+    const orderQty = parseFloat(values.order_qty?.trim() || "0");
+
+    // console.log("Current Price:", currentPrice, "Order Quantity:", orderQty);
+
+    if (!isNaN(currentPrice) && !isNaN(orderQty)) {
+      const calculatedTotalPrice = currentPrice * orderQty;
+      setTotalPrice(calculatedTotalPrice);
+    } else {
+      setTotalPrice(0);
+    }
+  }, [values.order_qty, values.stock_current_price]);
+
   React.useEffect(() => {
     setFieldValue(buySellField.game_id.name, props.data.game_id);
+    setFieldValue(
+      buySellField.stock_current_price.name,
+      props.data.stock_current_price
+    );
     setFieldValue(buySellField.user_id.name, auth?.user?.id);
     setFieldValue(buySellField.stock_id.name, props.data?.stock_id);
     setFieldValue(buySellField.order_type.name, "buy");
     setFieldValue(buySellField.round_level.name, props.data?.round_level);
-  }, []);
+    setFieldValue(buySellField.order_qty.name, values.order_qty);
+    setFieldValue(buySellField.total_price.name, totalPrice);
+  }, [values.order_qty, values.stock_current_price, totalPrice]);
+
+  // React.useEffect(() => {
+  //   // if (transactions.create) {
+  //     toast.success("Buy successfully !", {
+  //       position: "top-right",
+  //       theme: "light",
+  //     });
+  //   // }
+  // }, []);
   return (
     <div>
       <Button className="btn-success p-1" onClick={toggle} block>
@@ -77,6 +98,7 @@ const BuyStocks: React.FC<Props> = (props) => {
                 label={buySellField.stock_current_price.label}
                 placeholder={buySellField.stock_current_price.placeHolder}
                 {...buySellInputProps(buySellField.stock_current_price.name)}
+                disabled
               />
             </Col>
           </Row>
@@ -108,6 +130,7 @@ const BuyStocks: React.FC<Props> = (props) => {
                 // disabled={isSubmitting}
                 onClick={() => {
                   handleSubmit();
+                  setModal(false);
                 }}
               >
                 {loading.create ? <CircularLoading /> : "Buy"}

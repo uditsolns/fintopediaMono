@@ -1,3 +1,5 @@
+import { UserInfo } from "./auth";
+
 export interface TransactionsInfo {
   id: string;
   game_id: number;
@@ -8,6 +10,7 @@ export interface TransactionsInfo {
   total_price: number;
   stock_current_price: number;
   round_level: number;
+  user:UserInfo;
 }
 export interface TransactionsState {
   loading: {
