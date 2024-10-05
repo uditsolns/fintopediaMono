@@ -19,6 +19,7 @@ import {storeFilterRoundLevelData} from '@shared/src/provider/store/reducers/rou
 import {RoundLevelInfo} from '@shared/src/utils/types/roundLevel';
 
 interface GameWaitingProps extends NavType<'GameWaiting'> {}
+
 export const GameWaiting: React.FC<GameWaitingProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
   const [popupVisible, setPopupVisible] = React.useState(true);
@@ -85,6 +86,7 @@ export const GameWaiting: React.FC<GameWaitingProps> = ({navigation}) => {
             dispatch(storeCheckNavigate(true));
           }
         },
+        onError: () => {},
       }),
     );
   };
@@ -97,8 +99,7 @@ export const GameWaiting: React.FC<GameWaitingProps> = ({navigation}) => {
       }),
     );
   };
-
-  const roundLevelFunction = async (roundLevel:RoundLevelInfo[]) => {
+  const roundLevelFunction = async (roundLevel: RoundLevelInfo[]) => {
     const filterRound = roundLevel?.filter(e1 => {
       return e1?.game_id == singleGame?.id;
     });
@@ -116,11 +117,10 @@ export const GameWaiting: React.FC<GameWaitingProps> = ({navigation}) => {
       }
     }
   };
-
   const pushFilterData = async (filterRound: RoundLevelInfo) => {
     dispatch(storeFilterRoundLevelData(filterRound));
   };
-
+  
   return (
     <GradientTemplate>
       <PopupAtom

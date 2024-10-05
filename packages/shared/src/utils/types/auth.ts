@@ -18,7 +18,7 @@ export interface AuthState {
   signup: AuthResponse | null;
   forgot: null;
   confirm: null;
-  current_user: null;
+  current_user: UserInfo | null;
 }
 
 export interface AuthParams {

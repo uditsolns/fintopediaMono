@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { BannerInfo } from "../../../utils/types/banner";
+import { BannerPararms, BannerResponse } from "../../../utils/types/banner";
 
 export const getBanner = createAsyncThunk<
-  BannerInfo[],
+  BannerResponse[],
   void,
   { state: RootState }
 >("banner/get", async (_, thunkApi) => {
@@ -20,7 +20,7 @@ export const getBanner = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as BannerInfo[];
+    const data = (await response.json()) as BannerResponse[];
 
     return data;
   } catch (error) {
@@ -29,14 +29,14 @@ export const getBanner = createAsyncThunk<
 });
 
 export const createBanner = createAsyncThunk<
-  BannerInfo,
-  BannerInfo,
+  BannerResponse,
+  BannerPararms,
   { state: RootState }
 >("banner/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.BANNERS.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.BANNERS.POST, {
       method: "POST",
       headers: {
         "Content-Type": "multipart/form-data",
@@ -45,8 +45,7 @@ export const createBanner = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as BannerInfo;
-
+    const data = (await response.json()) as BannerResponse;
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);
@@ -54,22 +53,23 @@ export const createBanner = createAsyncThunk<
 });
 
 export const updateBanner = createAsyncThunk<
-  BannerInfo,
-  BannerInfo & { token: string },
+  BannerResponse,
+  BannerPararms,
   { state: RootState }
 >("banner/update", async (params, thunkApi) => {
   try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.BANNERS.UPDATE + "/" + params.id, {
       method: "POST",
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${params.token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as BannerInfo;
-
+    const data = (await response.json()) as BannerResponse;
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);

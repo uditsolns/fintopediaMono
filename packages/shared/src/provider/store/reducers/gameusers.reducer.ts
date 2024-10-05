@@ -28,12 +28,17 @@ const initialState: GameUsersState = {
   update: null,
   gameUsers: [],
   gameUserByLoginIDGameID: null,
+  user_game_amount: 0,
 };
 
 const gameUsersSlice = createSlice({
   name: "gameUsers",
   initialState,
-  reducers: {},
+  reducers: {
+    storeUserGameAmount:(state,action)=>{
+      state.user_game_amount = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       // get game user by login id and game id
@@ -102,4 +107,5 @@ const gameUsersSlice = createSlice({
   },
 });
 
+export const {storeUserGameAmount} = gameUsersSlice.actions;
 export default gameUsersSlice.reducer;

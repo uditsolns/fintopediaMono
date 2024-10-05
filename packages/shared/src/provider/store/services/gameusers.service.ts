@@ -41,7 +41,6 @@ export const getGameUserByLoginIDGameID = createAsyncThunk<
     try {
       const state = thunkApi.getState();
       const token = state.auth?.auth?.token;
-
       const response = await fetch(
         `${apiUrl.GAME_USER.GET}/${user_id}/${game_id}`,
         {

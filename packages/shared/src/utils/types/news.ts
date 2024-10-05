@@ -1,7 +1,21 @@
-export interface NewsInfo {
+import { GamesInfo } from "./games";
+
+export interface NewsParams {
+  id?: number;
+  game_id: number;
+  name: number;
+  round_level: number | string;
+  set_id?: number | string;
+}
+export interface NewResponse {
   id: number;
+  game_id: number;
   name: string;
+  round_level: string | number;
+  created_at: string;
+  updated_at: string;
   set_id: number;
+  game?: GamesInfo;
 }
 export interface NewsState {
   loading: {

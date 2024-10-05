@@ -29,6 +29,8 @@ import {getGamesById} from '@shared/src/provider/store/services/games.service';
 import {getRoundLevelById} from '@shared/src/provider/store/services/roundlevelgames.service';
 import {getGameUserByLoginIDGameID} from '@shared/src/provider/store/services/gameusers.service';
 import {commonStyle} from '@shared/src/commonStyle';
+import {storeUserGameAmount} from '@shared/src/provider/store/reducers/gameusers.reducer';
+import {getStockData} from '@shared/src/provider/store/services/stockdatas.service';
 
 type RouteParams = {
   tab?: number;
@@ -41,17 +43,20 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
   const route = useRoute<RouteProp<{params: RouteParams}>>();
   const [index, setIndex] = React.useState<number>(route.params?.tab ?? 0);
   const [routes] = React.useState(GameRouteKeys);
-  const {current_user} = useAppSelector(state => state.auth);
+  const {current_user, auth} = useAppSelector(state => state.auth);
   const {singleGame} = useAppSelector(state => state.games);
   const {filterRoundLevelData, singleRoundLevel} = useAppSelector(
     state => state.roundLevel,
   );
   const {check_naviagte_home} = useAppSelector(state => state.checkNavigate);
+  const {gameUserByLoginIDGameID, user_game_amount} = useAppSelector(
+    state => state.gameUsers,
+  );
   const [hasNavigated, setHasNavigated] = React.useState<boolean>(false);
-  const currentTime = new Date().toLocaleTimeString();
-  const endTime = `${filterRoundLevelData?.end_datetime}`;
-  // const currentTime = '20:55:50';
-  // const endTime = '21:20:50';
+  // const currentTime = new Date().toLocaleTimeString();
+  // const endTime = `${filterRoundLevelData?.end_datetime}`;
+  const currentTime = '10:55:50';
+  const endTime = '10:20:50';
 
   const getTimeDifferenceInSeconds = (start: string, end: string): number => {
     const [startHours, startMinutes, startSeconds] = start
@@ -71,44 +76,23 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
   const [time, setTime] = React.useState<number>(
     getTimeDifferenceInSeconds(currentTime, endTime),
   );
-  const timerRef = React.useRef<NodeJS.Timeout | null>(null);
-  // React.useEffect(() => {
-  //   timerRef.current = setInterval(() => {
-  //     setTime(prevTime => Math.max(prevTime - 1, 0));
-  //   }, 1000);
-  //   console.log('==', timerRef.current, time);
-  //   return () => {
-  //     if (timerRef.current) clearInterval(timerRef.current);
-  //   };
-  // }, []);
+  
+  React.useEffect(() => {
+    dispatch(getStockData());
+  }, []);
 
-  // React.useEffect(() => {
-  //   if (time === 0 && !hasNavigated) {
-  //     clearInterval(timerRef.current!);
-  //     timerRef.current = null;
-  //     navigation.navigate(RouteKeys.GAMEWAITINGSCREEN);
-  //     setHasNavigated(true);
-  //   }
-  // }, [time,hasNavigated,navigation]);
+  React.useEffect(() => {
+    if (time === 0) {
+      navigation.navigate(RouteKeys.GAMEWAITINGSCREEN);
+    }
+    const timer = setInterval(() => {
+      setTime(prevTime => Math.max(prevTime - 1, 0));
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [time]);
 
-  // React.useEffect(() => {
-  //   timerRef.current = setInterval(() => {
-  //     setTime(prevTime => {
-  //       const newTime = Math.max(prevTime - 1, 0);
-  //       if (newTime === 0 && !hasNavigated) {
-  //         clearInterval(timerRef.current!);
-  //         timerRef.current = null;
-  //         navigation.navigate(RouteKeys.GAMEWAITINGSCREEN);
-  //         setHasNavigated(true);
-  //       }
-  //       return newTime;
-  //     });
-  //   }, 1000);
-
-  //   return () => {
-  //     if (timerRef.current) clearInterval(timerRef.current);
-  //   };
-  // }, [hasNavigated, navigation]);
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
 
@@ -140,36 +124,20 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
     }, [navigation]),
   );
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     const timerId = setInterval(() => {
-  //       timerRef.current -= 1;
-  //       if (timerRef.current < 0) {
-  //         if (timerRef.current === -1) {
-  //           navigation.navigate(RouteKeys.GAMEWAITINGSCREEN);
-  //         }
-  //         clearInterval(timerId);
-  //       } else {
-  //         setTime(timerRef.current);
-  //       }
-  //     }, 1000);
-  //     return () => {
-  //       clearInterval(timerId);
-  //     };
-  //   }, [navigation]),
-  // );
   useFocusEffect(
     React.useCallback(() => {
-      let user_id = Number(current_user?.id);
+      let user_id = Number(auth?.user?.id);
       let game_id = Number(singleGame?.id);
       dispatch(
         getGameUserByLoginIDGameID({
           user_id,
           game_id,
           onSuccess: data => {
-            console.log('game user ', data);
+            if (user_game_amount == 0) {
+              dispatch(storeUserGameAmount(data?.amount));
+            }
           },
-          onError:()=>{}
+          onError: () => {},
         }),
       );
     }, []),
@@ -215,6 +183,7 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
             dispatch(storeCheckNavigateHome(true));
           }
         },
+        onError: () => {},
       }),
     );
   };
@@ -228,6 +197,7 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
             navigation.navigate(RouteKeys.GAMEWAITINGSCREEN);
           }
         },
+        onError: () => {},
       }),
     );
   };
@@ -261,8 +231,26 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
                   '0',
                 )}`
           }
-          balance={'2,00000'}
-          totalAmount={'5,65650'}
+          balance={
+            gameUserByLoginIDGameID
+              ? gameUserByLoginIDGameID?.amount
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+              : '0'
+          }
+          totalAmount={
+            gameUserByLoginIDGameID
+              ? (
+                  Math.round(
+                    (user_game_amount -
+                      Number(gameUserByLoginIDGameID.amount)) *
+                      10,
+                  ) / 10
+                )
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+              : '0'
+          }
         />
       </View>
       <TabView
