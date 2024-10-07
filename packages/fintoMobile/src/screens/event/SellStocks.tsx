@@ -1,6 +1,5 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {commonStyle} from '@shared/src/commonStyle';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
@@ -11,50 +10,74 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import {mScale} from '@shared/src/theme/metrics';
 import LatestNewsMolecule from '@src/components/molecules/LatestNewsMolecule/LatestNewsMolecule';
+import {NavType} from '@src/navigation/types';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
+import {useBuySellHelper} from '@shared/src/components/structures/buy-sell/buySell.helper';
+import {buySellField} from '@shared/src/components/structures/buy-sell/buySellModel';
+import {NewsResponse} from '@shared/src/utils/types/news';
 
-interface SellStocksProps {}
+interface SellStocksProps extends NavType<'SellStocks'> {}
 
-export const SellStocks: React.FC<SellStocksProps> = () => {
-  const navigation = useNavigation();
-  const [quantity, setQuantity] = React.useState('');
-  const [totalPrice, setTotalPrice] = React.useState('');
-  const [remarks, setRemarks] = React.useState('');
+export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
+  const dispatch = useAppDispatch();
+  const {auth} = useAppSelector(state => state.auth);
+  const {singleStockData} = useAppSelector(state => state.stockData);
+  const {singleGame} = useAppSelector(state => state.games);
+  const {filterRoundLevelData, singleRoundLevel} = useAppSelector(
+    state => state.roundLevel,
+  );
+  const {news} = useAppSelector(state => state.news);
+  const {create, loading} = useAppSelector(state => state.transactions);
 
-  const onEndEditing = (value: string) => {
-   
-  };
+  const {buySellFormik, buySellInputProps} = useBuySellHelper();
+  const {handleSubmit, isSubmitting, setFieldValue, values, resetForm} =
+    buySellFormik;
+
+  React.useEffect(() => {
+    setFieldValue(buySellField.game_id.name, singleStockData?.game_id);
+    setFieldValue(buySellField.user_id.name, auth?.user?.id);
+    setFieldValue(buySellField.stock_id.name, singleStockData?.stock_id);
+    setFieldValue(buySellField.order_type.name, 'Sell');
+    setFieldValue(
+      buySellField.stock_current_price.name,
+      singleStockData?.stock_current_price,
+    );
+    setFieldValue(buySellField.round_level.name, singleStockData?.round_level);
+  }, [singleStockData]);
 
   const sellStocks = async () => {
-    
+    handleSubmit();
   };
 
-  const checkSingleGameFinish = () => {
-   
-  };
+  React.useEffect(() => {
+    const stock_filter_amount = singleStockData?.stock?.stock_datas!.find(
+      e3 => {
+        return (
+          e3.game_id == filterRoundLevelData?.game_id &&
+          e3.round_level == filterRoundLevelData?.round_level
+        );
+      },
+    );
+    let current_price: string =
+      stock_filter_amount?.stock_current_price?.toString() || '0';
+    let quantity: string = values.order_qty?.trim()?.toString() || '0';
+    const cleanCurrentPrice = parseFloat(current_price.replace(/,/g, '')) || 0;
+    const cleanQuantity = parseFloat(quantity.replace(/,/g, '')) || 0;
+    const totalPrice = (cleanQuantity * cleanCurrentPrice).toString();
+    setFieldValue(buySellField.total_price.name, totalPrice);
+  }, [singleRoundLevel, values.order_qty, values.stock_current_price]);
 
-  const getAllRoundLevelGamesData = () => {
-   
-  };
-
-  useFocusEffect(
-    React.useCallback(() => {
-      let interval = setInterval(() => {
-       
-      }, 10000);
-      return () => {
-        clearInterval(interval);
-      };
-    }, []),
-  );
-
-  const renderItem = ({item}: {item: any}) => (
+  const renderItem = ({item}: {item: NewsResponse}) => (
     <LatestNewsMolecule item={item} itemWidth={'fullWidth'} />
   );
 
   return (
     <GradientTemplate>
       <>
-        {false ? (
+        {loading.create ? (
           <View style={commonStyle.fullPageLoading}>
             <LoaderAtom size={'large'} />
           </View>
@@ -64,25 +87,27 @@ export const SellStocks: React.FC<SellStocksProps> = () => {
           <View style={{marginBottom: mScale.base}}>
             <InputAtom
               shape="square"
-              label={'Stock Current Price'}
-              placeholder={'Stock Current Price'}
-              value={`₹ 2,998`}
+              label={buySellField.stock_current_price.label}
+              placeholder={buySellField.stock_current_price.placeHolder}
+              {...buySellInputProps(buySellField.stock_current_price.name)}
               editable={false}
             />
           </View>
           <View style={{marginBottom: mScale.base}}>
             <InputAtom
               shape="square"
-              label={'Quantity'}
-              placeholder={'Enter Quantity'}
+              label={buySellField.order_qty.label}
+              placeholder={buySellField.order_qty.placeHolder}
+              {...buySellInputProps(buySellField.order_qty.name)}
               keyboardType="numeric"
             />
           </View>
           <View style={{marginBottom: mScale.base}}>
             <InputAtom
               shape="square"
-              label={'Total Price'}
-              placeholder={'Total Price'}
+              label={buySellField.total_price.label}
+              placeholder={buySellField.total_price.placeHolder}
+              {...buySellInputProps(buySellField.total_price.name)}
               keyboardType="numeric"
               editable={false}
             />
@@ -95,21 +120,24 @@ export const SellStocks: React.FC<SellStocksProps> = () => {
               multiline={true}
             />
           </View>
-
           <ButtonAtom
             title={'Sell'}
             textPreset={'heading4'}
             onPress={sellStocks}
           />
 
-          <View style={{marginTop:mScale.xxl}}>
+          <View style={{marginTop: mScale.xxl}}>
             <TextAtom
               text={'Catch up with latest news'}
               preset="heading2"
               style={{marginVertical: mScale.md}}
             />
             <FlatList
-              data={[...Array(5)]}
+              data={
+                news?.length
+                  ? news.filter(e3 => e3.set_id == filterRoundLevelData?.set_id)
+                  : []
+              }
               renderItem={renderItem}
               keyExtractor={item => item?.id?.toString()}
               showsVerticalScrollIndicator={false}

@@ -34,6 +34,11 @@ export interface StackParams extends ParamListBase {
   ContactUs: undefined;
   GameWaiting: undefined;
   GameHome: undefined;
+  Trade:undefined,
+  LatestNews:undefined,
+  Portfolio:undefined,
+  History:undefined,
+  PreviousRoundPrice:undefined,
   BuyStocks: undefined;
   SellStocks: undefined;
   GameWinnerLoading: undefined;
