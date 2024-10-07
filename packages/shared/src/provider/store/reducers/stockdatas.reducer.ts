@@ -5,6 +5,7 @@ import {
   getStockData,
   updateStockData,
   createStockData,
+  getStockDataById,
 } from "../services/stockdatas.service";
 
 const initialState: StockDataState = {
@@ -39,6 +40,18 @@ const stockDataSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(getStockDataById.pending, (state) => {
+        state.loading.singleStockData = true;
+      })
+      .addCase(getStockDataById.fulfilled, (state, action) => {
+        state.loading.singleStockData = false;
+        state.singleStockData = action.payload;
+        state.err.singleStockDataErr = null;
+      })
+      .addCase(getStockDataById.rejected, (state, action) => {
+        state.loading.singleStockData = false;
+        state.err.singleStockDataErr = action?.payload;
+      })
       .addCase(getStockData.pending, (state) => {
         state.loading.stockData = true;
       })
@@ -92,4 +105,5 @@ const stockDataSlice = createSlice({
   },
 });
 
+export const {storeSingleStockData} = stockDataSlice.actions;
 export default stockDataSlice.reducer;

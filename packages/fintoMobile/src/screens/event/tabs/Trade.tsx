@@ -8,45 +8,123 @@ import {useNavigation} from '@react-navigation/native';
 import TradeMolecule from '@src/components/molecules/TradeMolecule/TradeMolecule';
 import StocksMolecule from '@src/components/molecules/StocksMolecule/StocksMolecule';
 import SearchInputAtom from '@src/components/SearchInputAtom';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
+import {StocksResponse} from '@shared/src/utils/types/stocks';
+import {StockDatasResponse} from '@shared/src/utils/types/stockDatas';
+import {getStocks} from '@shared/src/provider/store/services/stocks.service';
+import {getStockData} from '@shared/src/provider/store/services/stockdatas.service';
 
 export default function Trade() {
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const {stocks, loading: stockLoading} = useAppSelector(state => state.stocks);
+  const {
+    stockData,
+    loading: stockDataLoading,
+    singleStockData,
+  } = useAppSelector(state => state.stockData);
+  const {filterRoundLevelData, singleRoundLevel} = useAppSelector(
+    state => state.roundLevel,
+  );
+
+  const [uniqueStocks, setUniqueStocks] = React.useState<StocksResponse[]>(
+    stocks || [],
+  );
+  const [selectedStockId, setSelectedStockId] = React.useState<number | string>(
+    'all',
+  );
+  const [searchStocksData, setSearchStocksData] = React.useState<
+    StockDatasResponse[]
+  >(stockData || []);
+  const [search, setSearch] = React.useState<string>('');
 
   React.useEffect(() => {
-    onRefresh();
-  }, []);
+    if (stockData) {
+      const unique = [
+        ...new Map(stocks?.map(item => [item?.industry, item])).values(),
+      ];
+      setUniqueStocks(unique);
+    }
+  }, [stocks]);
+  React.useEffect(() => {
+    if (stockData) {
+      setSearchStocksData(stockData);
+    }
+  }, [stockData]);
 
-  const onRefresh = () => {};
+  const onRefresh = () => {
+    dispatch(getStocks());
+    dispatch(getStockData());
+    setSearchStocksData(stockData);
+  };
 
-  const stockRenderItem = ({item}: {item: any}) => {
-    const handlePress = () => {
-     
+  const stockRenderItem = ({item}: {item: StocksResponse}) => {
+    const handlePress = (id: number) => {
+      setSelectedStockId(item.id);
+      let filterStockDataRes = stockData?.filter(e1 => {
+        return (
+          e1?.stock?.industry?.toLowerCase() == item?.industry?.toLowerCase()
+        );
+      });
+      setSearchStocksData(filterStockDataRes);
     };
-    return <StocksMolecule item={item} onPress={handlePress} />;
+
+    return (
+      <StocksMolecule
+        item={item}
+        onPress={handlePress}
+        selectedStockId={selectedStockId}
+      />
+    );
   };
 
-  const stockDataRenderItem = ({item}: {item: any}) => {
-    return <TradeMolecule item={item} onBuyStcok={()=>{
-      navigation.navigate(RouteKeys.BUYSTOCKSSCREEN)
-    }} />;
+  const stockDataRenderItem = ({item}: {item: StockDatasResponse}) => {
+    return (
+      <TradeMolecule
+        item={item}
+        onBuyStcok={() => {
+          // navigation.navigate(RouteKeys.BUYSTOCKSSCREEN);
+          console.log(item)
+          // dispatch(storeSingleStockData)
+        }}
+      />
+    );
   };
 
-  const onSearch = () => {};
+  const filterSearchByStockName = (searchText: string) => {
+    if (searchText) {
+      const filtered = stockData?.filter(item => {
+        const matchesName = item?.stock?.name
+          ?.toLowerCase()
+          .includes(searchText.toLowerCase());
+        return matchesName;
+      });
+      setSearch(searchText);
+      setSearchStocksData(filtered);
+    } else {
+      setSearchStocksData(stockData);
+      setSearch(searchText);
+    }
+  };
   return (
-    <View style={[commonStyle.container,{marginTop:mScale.base}]}>
-      
+    <View style={[commonStyle.container, {marginTop: mScale.base}]}>
       <View style={{width: '100%'}}>
         <SearchInputAtom
           isRefreshIconVisible={true}
-          onPress={() => {
-            console.log('hello refresh');
+          onPress={onRefresh}
+          value={search}
+          onChangeText={text => {
+            filterSearchByStockName(text);
           }}
         />
       </View>
       <View>
         <FlatList
-          data={[...Array(10)]}
+          data={uniqueStocks?.length ? uniqueStocks : []}
           renderItem={stockRenderItem}
           keyExtractor={item => item?.id?.toString()}
           horizontal={true}
@@ -57,14 +135,20 @@ export default function Trade() {
                 style={[
                   styles.content,
                   {
-                    backgroundColor: true ? '#545664' : 'transparent',
-                    borderRadius: true ? 4 : 0,
-                    borderWidth: true ? 1 : 0,
-                    borderColor: true ? '#B8BCCB' : 'transparent',
-                    paddingHorizontal: true ? mScale.base : 0,
+                    backgroundColor:
+                      selectedStockId == 'all' ? '#545664' : 'transparent',
+                    borderRadius: selectedStockId == 'all' ? 4 : 0,
+                    borderWidth: selectedStockId == 'all' ? 1 : 0,
+                    borderColor:
+                      selectedStockId == 'all' ? '#B8BCCB' : 'transparent',
+                    paddingHorizontal:
+                      selectedStockId == 'all' ? mScale.base : 0,
                   },
                 ]}
-                onPress={() => {}}>
+                onPress={() => {
+                  setSelectedStockId('all');
+                  setSearchStocksData(stockData);
+                }}>
                 <TextAtom
                   text={'All'}
                   preset="bodyBold"
@@ -108,7 +192,15 @@ export default function Trade() {
       </View>
       <View>
         <FlatList
-          data={[...Array(10)]}
+          data={
+            searchStocksData?.length
+              ? searchStocksData?.filter(
+                  e3 =>
+                    e3.game_id == filterRoundLevelData?.game_id &&
+                    e3.round_level == filterRoundLevelData?.round_level,
+                )
+              : []
+          }
           renderItem={stockDataRenderItem}
           keyExtractor={item => item?.id?.toString()}
           contentContainerStyle={{rowGap: 10}}

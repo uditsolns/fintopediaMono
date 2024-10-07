@@ -24,12 +24,17 @@ const initialState: TransactionsState = {
   delete: null,
   update: null,
   transactions: [],
+  single_transactions: null,
 };
 
 const transactionsSlice = createSlice({
   name: "transactions",
   initialState,
-  reducers: {},
+  reducers: {
+    storeSingleTransaction:(state,action)=>{
+      state.single_transactions = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getTransactions.pending, (state) => {
@@ -85,4 +90,5 @@ const transactionsSlice = createSlice({
   },
 });
 
+export const {storeSingleTransaction} = transactionsSlice.actions;
 export default transactionsSlice.reducer;

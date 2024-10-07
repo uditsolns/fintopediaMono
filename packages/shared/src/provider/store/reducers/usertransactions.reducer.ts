@@ -25,12 +25,17 @@ const initialState: UserTransactionsState = {
   delete: null,
   update: null,
   user_transactions: [],
+  single_user_transactions: null,
 };
 
 const userTransactionsSlice = createSlice({
   name: "userTansactions",
   initialState,
-  reducers: {},
+  reducers: {
+    storeSingleUserTransaction:(state,action)=>{
+      state.single_user_transactions = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUserTransactions.pending, (state) => {
@@ -86,4 +91,5 @@ const userTransactionsSlice = createSlice({
   },
 });
 
+export const {storeSingleUserTransaction} = userTransactionsSlice.actions;
 export default userTransactionsSlice.reducer;
