@@ -30,11 +30,6 @@ const Portfolio: React.FC = () => {
   useEffect(() => {
     dispatch(getTransactions());
   }, []);
-  console.log("transactions", transactions);
-  console.log("filterRoundLevelData", filterRoundLevelData);
-  console.log("data", data);
-
-  console.log("filterData", filterData);
 
   const key: keyof (typeof transactions)[number] = "stock_id";
 
@@ -44,17 +39,18 @@ const Portfolio: React.FC = () => {
         const userTransaction = item.user?.user_transactions?.find(
           (el) => el.stock_id === item.stock_id
         );
+        const orderQty = userTransaction?.order_qty;
         return (
           item.user_id === auth?.user?.id &&
           item.order_type === "Buy" &&
-          userTransaction?.order_qty > 0
+          orderQty !== undefined &&
+          parseInt(orderQty) > 0
         );
       });
-      console.log("filteredData", filteredData);
+
       const reverseData = [...filteredData].reverse();
       const uniqueMap = new Map(reverseData.map((item) => [item[key], item]));
-      const uniqueFilteredData = Array.from(uniqueMap.values()); // Convert Map values to an array
-      console.log("uniqueFilteredData", uniqueFilteredData);
+      const uniqueFilteredData = Array.from(uniqueMap.values());
 
       setFilterData(uniqueFilteredData);
       setData(uniqueFilteredData);
@@ -123,17 +119,32 @@ const Portfolio: React.FC = () => {
                       .includes(searchTerm.trim().toLowerCase())
                   )
                   .map((el, index) => {
-                    if (
-                      el.round_level === filterRoundLevelData.round_level &&
-                      el.game_id === filterRoundLevelData.game_id
-                    )
+                    if (el.order_type == "Buy")
                       return (
                         <tr key={index}>
                           <td>{el.stock.name}</td>
-                          <td>{el.qty}</td>
-                          <td>{el.buying_price}</td>
+                          <td>
+                            {el?.user?.user_transactions
+                              .filter((i) => i.stock_id == el.stock_id)
+                              .map((itm) => itm.order_qty)}
+                          </td>
+
                           <td>
                             {Math.round(el.stock_current_price * 10) / 10}
+                          </td>
+                          <td>
+                            {el?.stock?.stock_datas
+                              .filter(
+                                (i) =>
+                                  i.game_id == el.game_id &&
+                                  i.round_level ==
+                                    filterRoundLevelData.round_level
+                              )
+                              .map((itm) => {
+                                return (
+                                  Math.round(itm.stock_current_price * 10) / 10
+                                );
+                              })}
                           </td>
                           <td>
                             <SellStocks data={el} />
@@ -144,22 +155,9 @@ const Portfolio: React.FC = () => {
               ) : (
                 <tr>
                   <td colSpan={3}>
-                    <div className="row mt-3">
-                      <div
-                        className="p-1"
-                        style={{
-                          width: "100%",
-                          backgroundColor: "lightblue",
-                        }}
-                      >
-                        <div
-                          className="alert alert-warning mt-3 text-center"
-                          role="alert"
-                        >
-                          <i className="fas fa-exclamation-triangle" /> No Data
-                          Found... :(
-                        </div>
-                      </div>
+                    <div className="alert alert-warning mt-3 text-center">
+                      <i className="fas fa-exclamation-triangle" /> No Data
+                      Found... :(
                     </div>
                   </td>
                 </tr>

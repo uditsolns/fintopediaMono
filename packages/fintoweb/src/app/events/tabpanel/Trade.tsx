@@ -13,6 +13,8 @@ import {
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import LightLoading from "@src/components/loader/LightLoading";
+import { resetTransaction } from "shared/src/provider/store/reducers/transactions.reducer";
+import { toast } from "react-toastify";
 
 const Trade: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -20,6 +22,9 @@ const Trade: React.FC = () => {
   const { stockData, loading } = useAppSelector((state) => state.stockData);
   const { filterRoundLevelData, singleRoundLevel } = useAppSelector(
     (state) => state.roundLevel
+  );
+  const { transactions, create } = useAppSelector(
+    (state) => state.transactions
   );
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [data, setData] = useState(stockData);
@@ -48,7 +53,15 @@ const Trade: React.FC = () => {
     setData(updatedItems);
     setActiveIndustry(industry);
   };
-
+  React.useEffect(() => {
+    if (create?.id) {
+      toast.success("Buy successfully !", {
+        position: "top-right",
+        theme: "light",
+      });
+      dispatch(resetTransaction());
+    }
+  }, [create]);
   return (
     <React.Fragment>
       <div className={styles["inline-row"]}>
@@ -142,7 +155,11 @@ const Trade: React.FC = () => {
                         <tr key={index}>
                           <td>{el.stock.name}</td>
                           <td>
-                            {Math.round(el.stock_current_price * 10) / 10}
+                            {el.stock_current_price
+                              ? Math.round(
+                                  parseFloat(el.stock_current_price) * 10
+                                ) / 10
+                              : "N/A"}
                           </td>
                           <td>
                             <BuyStocks data={el} />

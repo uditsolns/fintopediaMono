@@ -29,7 +29,13 @@ const initialState: TransactionsState = {
 const transactionsSlice = createSlice({
   name: "transactions",
   initialState,
-  reducers: {},
+  reducers: {
+    resetTransaction: (state) => {
+      state.create = null;
+      state.update = null;
+      state.delete = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getTransactions.pending, (state) => {
@@ -84,5 +90,5 @@ const transactionsSlice = createSlice({
       });
   },
 });
-
+export const { resetTransaction } = transactionsSlice.actions;
 export default transactionsSlice.reducer;

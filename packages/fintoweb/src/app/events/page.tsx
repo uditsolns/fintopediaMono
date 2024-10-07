@@ -15,6 +15,7 @@ import { storeCheckNavigateHome } from "shared/src/provider/store/reducers/check
 import { getGameUserByLoginIDGameID } from "shared/src/provider/store/services/gameusers.service";
 import { storeFilterRoundLevelData } from "shared/src/provider/store/reducers/roundlevelgames.reducer";
 import { updateRoundLevel } from "shared/src/provider/store/services/roundlevelgames.service";
+import { storeUserGameAmount } from "shared/src/provider/store/reducers/gameusers.reducer";
 
 interface EventPageProps {
   id: number;
@@ -31,6 +32,10 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
   const { filterRoundLevelData, singleRoundLevel } = useAppSelector(
     (state) => state.roundLevel
   );
+  const { gameUserByLoginIDGameID, user_game_amount } = useAppSelector(
+    (state) => state.gameUsers
+  );
+
   const { check_naviagte_home } = useAppSelector(
     (state) => state.checkNavigate
   );
@@ -102,21 +107,24 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
     dispatch(getStockData());
     dispatch(getStocks());
     dispatch(storeCheckNavigateHome(false));
-  }, []),
-    React.useEffect(() => {
-      let user_id = Number(auth?.user?.id);
-      let game_id = Number(gameId);
-      dispatch(
-        getGameUserByLoginIDGameID({
-          user_id,
-          game_id,
-          onSuccess: (data) => {
-            console.log("game user ", data);
-          },
-          onError: () => {},
-        })
-      );
-    }, []);
+  }, []);
+
+  React.useEffect(() => {
+    let user_id = Number(auth?.user?.id);
+    let game_id = Number(gameId);
+    dispatch(
+      getGameUserByLoginIDGameID({
+        user_id,
+        game_id,
+        onSuccess: (data) => {
+          if (user_game_amount == 0) {
+            dispatch(storeUserGameAmount(data?.amount));
+          }
+        },
+        onError: () => {},
+      })
+    );
+  }, []);
 
   React.useEffect(() => {
     let interval = setInterval(() => {
@@ -160,6 +168,8 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
       })
     );
   };
+  
+
   return (
     <section className="background-gradient p-0">
       <div className="container-fluid p-3">
@@ -180,13 +190,32 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
             <Col xs="3">
               <h5 className="text-center text-gray-300">
                 V.Balance <br />
-                <span className="font-bold text-light">1,000.00</span>
+                <span className="font-bold text-light">
+                  &#8377; &nbsp;
+                  {gameUserByLoginIDGameID
+                    ? gameUserByLoginIDGameID?.amount
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    : "0"}
+                </span>
               </h5>
             </Col>
             <Col xs="6" md="6" lg="6">
               <h5 className="text-right text-gray-300">
                 Total Portfolio Value <br />
-                <span className="font-bold text-light">2,000.00</span>
+                <span className="font-bold text-light">
+                  {gameUserByLoginIDGameID
+                    ? (
+                        Math.round(
+                          (user_game_amount -
+                            Number(gameUserByLoginIDGameID.amount)) *
+                            10
+                        ) / 10
+                      )
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    : "0"}
+                </span>
               </h5>
             </Col>
           </Row>

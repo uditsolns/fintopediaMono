@@ -44,6 +44,8 @@ const SellStocks: React.FC<Props> = (props) => {
   const { transactions, loading } = useAppSelector(
     (state) => state.transactions
   );
+  const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const [modal, setModal] = useState(false);
   const toggle = () => {
@@ -51,26 +53,41 @@ const SellStocks: React.FC<Props> = (props) => {
   };
 
   const { buySellFormik, buySellInputProps } = useBuySellHelper();
-  const { handleSubmit, isSubmitting, setFieldValue } = buySellFormik;
-  React.useEffect(() => {
+  const { handleSubmit, isSubmitting, setFieldValue, values } = buySellFormik;
+
+  const stockFilterAmount = props.data.stock.stock_datas.find(
+    (stock) =>
+      stock.game_id === props.data.game_id &&
+      stock.round_level === props.data.round_level
+  );
+
+  const currentPrice = parseFloat(
+    stockFilterAmount?.stock_current_price?.toString() || "0"
+  );
+
+  
+  useEffect(() => {
+    const orderQty = parseFloat(values.order_qty?.toString() || "0");
+    if (!isNaN(currentPrice) && !isNaN(orderQty)) {
+      setTotalPrice(currentPrice * orderQty);
+    } else {
+      setTotalPrice(0);
+    }
+  }, [currentPrice, values.order_qty]);
+
+  useEffect(() => {
     setFieldValue(buySellField.game_id.name, props.data.game_id);
     setFieldValue(buySellField.user_id.name, auth?.user?.id);
     setFieldValue(buySellField.stock_id.name, props.data?.stock_id);
     setFieldValue(buySellField.order_type.name, "Sell");
+    setFieldValue(buySellField.order_qty.name, values.order_qty);
+    setFieldValue(buySellField.total_price.name, totalPrice);
+    setFieldValue(
+      buySellField.stock_current_price.name,
+      stockFilterAmount?.stock_current_price
+    );
     setFieldValue(buySellField.round_level.name, props.data?.round_level);
-  }, []);
-
-  // {
-  //   game_id: "",
-  //   user_id: "",
-  //   stock_id: "",
-  //   order_type: "Sell",
-  //   order_qty: "",
-  //   total_price: "",
-  //   stock_current_price: "",
-  //   round_level: "",
-  //   remark: "",
-  // }
+  }, [totalPrice, values.order_qty]); 
   return (
     <div>
       <Button className="btn-warning p-1" onClick={toggle} block>
