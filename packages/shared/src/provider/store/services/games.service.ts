@@ -1,10 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { GamesInfo, GetGameByIdParams } from "../../../utils/types/games";
+import {
+  GamesParams,
+  GamesResponse,
+  GetGameByIdParams,
+} from "../../../utils/types/games";
 
 export const getGames = createAsyncThunk<
-  GamesInfo[],
+  GamesResponse[],
   void,
   { state: RootState }
 >("games/get", async (_, thunkApi) => {
@@ -20,7 +24,7 @@ export const getGames = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as GamesInfo[];
+    const data = (await response.json()) as GamesResponse[];
 
     return data;
   } catch (error) {
@@ -29,7 +33,7 @@ export const getGames = createAsyncThunk<
 });
 
 export const getGamesById = createAsyncThunk<
-  GamesInfo,
+  GamesResponse,
   GetGameByIdParams,
   { state: RootState }
 >("singleGame/get", async ({ id, onSuccess, onError }, thunkApi) => {
@@ -45,7 +49,7 @@ export const getGamesById = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as GamesInfo;
+    const data = (await response.json()) as GamesResponse;
     if (onSuccess) {
       onSuccess(data);
     }
@@ -59,14 +63,14 @@ export const getGamesById = createAsyncThunk<
 });
 
 export const createGames = createAsyncThunk<
-  GamesInfo,
-  GamesInfo,
+  GamesResponse,
+  GamesParams,
   { state: RootState }
 >("games/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.GAMES.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.GAMES.POST, {
       method: "POST",
       headers: {
         "Content-Type": "multipart/form-data",
@@ -75,7 +79,7 @@ export const createGames = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as GamesInfo;
+    const data = (await response.json()) as GamesResponse;
 
     return data;
   } catch (error) {
@@ -84,8 +88,8 @@ export const createGames = createAsyncThunk<
 });
 
 export const updateGames = createAsyncThunk<
-  GamesInfo,
-  GamesInfo,
+  GamesResponse,
+  GamesParams,
   { state: RootState }
 >("games/update", async (params, thunkApi) => {
   try {
@@ -100,7 +104,7 @@ export const updateGames = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as GamesInfo;
+    const data = (await response.json()) as GamesResponse;
 
     return data;
   } catch (error) {

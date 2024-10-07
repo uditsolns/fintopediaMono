@@ -1,13 +1,8 @@
-export interface StocksInfo {
-  id: number;
-  name: string;
-  industry: string;
-}
 
 export interface StocksParams {
   id?: number;
-  name: string;
-  industry: string;
+  name?: string;
+  industry?: string;
 }
 
 export interface StocksResponse {
@@ -30,8 +25,8 @@ export interface StocksState {
     updateErr: any;
     deleteErr: any;
   };
-  stocks: StocksInfo[];
-  create: StocksInfo | null;
-  update: StocksInfo | null;
+  stocks: StocksResponse[];
+  create: StocksResponse | null;
+  update: StocksResponse | null;
   delete: string | null;
 }

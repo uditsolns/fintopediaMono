@@ -1,10 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { TransactionsInfo } from "../../../utils/types/transactions";
+import {
+  TransactionsParams,
+  TransactionsResponse,
+} from "../../../utils/types/transactions";
 
 export const getTransactions = createAsyncThunk<
-  TransactionsInfo[],
+  TransactionsResponse[],
   void,
   { state: RootState }
 >("transactions/get", async (_, thunkApi) => {
@@ -20,7 +23,7 @@ export const getTransactions = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as TransactionsInfo[];
+    const data = (await response.json()) as TransactionsResponse[];
 
     return data;
   } catch (error) {
@@ -29,14 +32,14 @@ export const getTransactions = createAsyncThunk<
 });
 
 export const createTransactions = createAsyncThunk<
-  TransactionsInfo,
-  TransactionsInfo,
+  TransactionsResponse,
+  TransactionsParams,
   { state: RootState }
 >("transactions/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.TRANSACTIONS.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.TRANSACTIONS.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +48,7 @@ export const createTransactions = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as TransactionsInfo;
+    const data = (await response.json()) as TransactionsResponse;
 
     return data;
   } catch (error) {
@@ -54,8 +57,8 @@ export const createTransactions = createAsyncThunk<
 });
 
 export const updateTransactions = createAsyncThunk<
-  TransactionsInfo,
-  TransactionsInfo & { token: string },
+  TransactionsResponse,
+  TransactionsParams,
   { state: RootState }
 >("transactions/update", async (params, thunkApi) => {
   try {
@@ -70,7 +73,7 @@ export const updateTransactions = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as TransactionsInfo;
+    const data = (await response.json()) as TransactionsResponse;
 
     return data;
   } catch (error) {

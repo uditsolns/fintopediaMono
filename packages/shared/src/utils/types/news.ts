@@ -1,13 +1,13 @@
-import { GamesInfo } from "./games";
+import { GamesResponse } from "./games";
 
 export interface NewsParams {
   id?: number;
   game_id: number;
-  name: number;
-  round_level: number | string;
+  name?: number;
+  round_level?: number | string;
   set_id?: number | string;
 }
-export interface NewResponse {
+export interface NewsResponse {
   id: number;
   game_id: number;
   name: string;
@@ -15,7 +15,7 @@ export interface NewResponse {
   created_at: string;
   updated_at: string;
   set_id: number;
-  game?: GamesInfo;
+  game?: GamesResponse;
 }
 export interface NewsState {
   loading: {
@@ -30,8 +30,8 @@ export interface NewsState {
     updateErr: any;
     deleteErr: any;
   };
-  news: NewsInfo[];
-  create: NewsInfo | null;
-  update: NewsInfo | null;
+  news: NewsResponse[];
+  create: NewsResponse | null;
+  update: NewsResponse | null;
   delete: string | null;
 }

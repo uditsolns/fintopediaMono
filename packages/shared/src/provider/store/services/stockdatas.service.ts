@@ -1,10 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { StockDataInfo } from "../../../utils/types/stockDatas";
+import {
+  StockDatasParams,
+  StockDatasResponse,
+} from "../../../utils/types/stockDatas";
 
 export const getStockData = createAsyncThunk<
-  StockDataInfo[],
+  StockDatasResponse[],
   void,
   { state: RootState }
 >("stockData/get", async (_, thunkApi) => {
@@ -20,7 +23,7 @@ export const getStockData = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as StockDataInfo[];
+    const data = (await response.json()) as StockDatasResponse[];
 
     return data;
   } catch (error) {
@@ -29,14 +32,14 @@ export const getStockData = createAsyncThunk<
 });
 
 export const createStockData = createAsyncThunk<
-  StockDataInfo,
-  StockDataInfo,
+  StockDatasResponse,
+  StockDatasParams,
   { state: RootState }
 >("stockData/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.STOCK_DATAS.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.STOCK_DATAS.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +48,7 @@ export const createStockData = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as StockDataInfo;
+    const data = (await response.json()) as StockDatasResponse;
 
     return data;
   } catch (error) {
@@ -54,8 +57,8 @@ export const createStockData = createAsyncThunk<
 });
 
 export const updateStockData = createAsyncThunk<
-  StockDataInfo,
-  StockDataInfo & { token: string },
+  StockDatasResponse,
+  StockDatasParams,
   { state: RootState }
 >("stockData/update", async (params, thunkApi) => {
   try {
@@ -70,7 +73,7 @@ export const updateStockData = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as StockDataInfo;
+    const data = (await response.json()) as StockDatasResponse;
 
     return data;
   } catch (error) {

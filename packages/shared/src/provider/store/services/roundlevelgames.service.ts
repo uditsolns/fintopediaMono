@@ -3,12 +3,13 @@ import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
 import {
   OnSuccessInterface,
-  RoundLevelInfo,
+  RoundLevelParams,
+  RoundLevelResponse,
 } from "../../../utils/types/roundLevel";
 import { GetGameByIdParams } from "../../../utils/types/games";
 
 export const getRoundLevel = createAsyncThunk<
-  RoundLevelInfo[],
+  RoundLevelResponse[],
   OnSuccessInterface,
   { state: RootState }
 >("roundLevel/get", async ({ onSuccess }, thunkApi) => {
@@ -24,7 +25,7 @@ export const getRoundLevel = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as RoundLevelInfo[];
+    const data = (await response.json()) as RoundLevelResponse[];
     onSuccess(data);
     return data;
   } catch (error) {
@@ -33,54 +34,48 @@ export const getRoundLevel = createAsyncThunk<
 });
 
 export const getRoundLevelById = createAsyncThunk<
-  RoundLevelInfo,
+  RoundLevelResponse,
   GetGameByIdParams,
   { state: RootState }
->("singleRoundLevel/get", async ({id,onSuccess,onError}, thunkApi) => {
+>("singleRoundLevel/get", async ({ id, onSuccess, onError }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(
-      `${apiUrl.ROUND_LEVEL_GAMES.GET}/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`${apiUrl.ROUND_LEVEL_GAMES.GET}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    const data = (await response.json()) as RoundLevelInfo;
-    onSuccess(data)
+    const data = (await response.json()) as RoundLevelResponse;
+    onSuccess(data);
     return data;
   } catch (error) {
-    onError(error)
+    onError(error);
     return thunkApi.rejectWithValue(error);
   }
 });
 export const createRoundLevel = createAsyncThunk<
-  RoundLevelInfo,
-  RoundLevelInfo,
+  RoundLevelResponse,
+  RoundLevelParams,
   { state: RootState }
 >("roundLevel/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(
-      apiUrl.ROUND_LEVEL_GAMES.POST + "/" + params.id,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(params),
-      }
-    );
+    const response = await fetch(apiUrl.ROUND_LEVEL_GAMES.POST, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(params),
+    });
 
-    const data = (await response.json()) as RoundLevelInfo;
+    const data = (await response.json()) as RoundLevelResponse;
 
     return data;
   } catch (error) {
@@ -89,8 +84,8 @@ export const createRoundLevel = createAsyncThunk<
 });
 
 export const updateRoundLevel = createAsyncThunk<
-  RoundLevelInfo,
-  RoundLevelInfo,
+  RoundLevelResponse,
+  RoundLevelParams,
   { state: RootState }
 >("roundLevel/update", async (params, thunkApi) => {
   try {
@@ -108,7 +103,7 @@ export const updateRoundLevel = createAsyncThunk<
       }
     );
 
-    const data = (await response.json()) as RoundLevelInfo;
+    const data = (await response.json()) as RoundLevelResponse;
 
     return data;
   } catch (error) {

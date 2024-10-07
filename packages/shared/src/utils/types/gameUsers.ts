@@ -1,3 +1,6 @@
+import { UserInfo } from "./auth";
+import { GamesResponse } from "./games";
+
 export interface GameUsersInfo {
   id: number;
   name: string;
@@ -14,8 +17,6 @@ export interface GameUserLoginIDGameIDResponse {
   updated_at: string;
 }
 
-
-
 export interface GameUserLoginIDGameIDPayload {
   user_id: number;
   game_id: number;
@@ -23,15 +24,15 @@ export interface GameUserLoginIDGameIDPayload {
   onError: (error: any) => void;
 }
 
-export interface GameUserParams {
+export interface GameUsersParams {
   id?: number;
-  game_id: number;
-  user_id: number;
-  amount: number | string;
-  is_active: number;
+  game_id?: number;
+  user_id?: number;
+  amount?: number | string;
+  is_active?: number;
 }
 
-export interface GameUserResponse {
+export interface GameUsersResponse {
   id: number;
   game_id: number;
   user_id: number;
@@ -40,6 +41,8 @@ export interface GameUserResponse {
   deleted_at?: null | string;
   created_at?: string;
   updated_at?: string;
+  user?: UserInfo | null;
+  game?: GamesResponse | null;
 }
 
 export interface GameUsersState {
@@ -57,10 +60,10 @@ export interface GameUsersState {
     deleteErr: any;
     gameUserByLoginIDGameIDErr: any;
   };
-  gameUsers: GameUsersInfo[];
-  create: GameUsersInfo | null;
-  update: GameUsersInfo | null;
+  gameUsers: GameUsersResponse[];
+  create: GameUsersResponse | null;
+  update: GameUsersResponse | null;
   delete: string | null;
   gameUserByLoginIDGameID: GameUserLoginIDGameIDResponse | null;
-  user_game_amount:number
+  user_game_amount: number;
 }

@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { StocksInfo } from "../../../utils/types/stocks";
+import { StocksParams, StocksResponse } from "../../../utils/types/stocks";
 
 export const getStocks = createAsyncThunk<
-  StocksInfo[],
+  StocksResponse[],
   void,
   { state: RootState }
 >("stocks/get", async (_, thunkApi) => {
@@ -20,7 +20,7 @@ export const getStocks = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as StocksInfo[];
+    const data = (await response.json()) as StocksResponse[];
 
     return data;
   } catch (error) {
@@ -29,14 +29,14 @@ export const getStocks = createAsyncThunk<
 });
 
 export const createStocks = createAsyncThunk<
-  StocksInfo,
-  StocksInfo,
+StocksResponse,
+  StocksParams,
   { state: RootState }
 >("stocks/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.STOCKS.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.STOCKS.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export const createStocks = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as StocksInfo;
+    const data = (await response.json()) as StocksResponse;
 
     return data;
   } catch (error) {
@@ -54,8 +54,8 @@ export const createStocks = createAsyncThunk<
 });
 
 export const updateStocks = createAsyncThunk<
-  StocksInfo,
-  StocksInfo,
+StocksResponse,
+  StocksParams,
   { state: RootState }
 >("stocks/update", async (params, thunkApi) => {
   try {
@@ -70,7 +70,7 @@ export const updateStocks = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as StocksInfo;
+    const data = (await response.json()) as StocksResponse;
 
     return data;
   } catch (error) {

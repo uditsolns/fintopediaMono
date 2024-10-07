@@ -1,17 +1,25 @@
 import { CollegeResponse } from "./college";
-import { GameUserResponse } from "./gameUsers";
-import { NewResponse } from "./news";
-import { OnErrorInterface, OnSuccessInterface } from "./roundLevel";
+import { GameUsersResponse } from "./gameUsers";
+import { NewsResponse } from "./news";
 import { StockDatasResponse } from "./stockDatas";
 
 export interface GetGameByIdParams {
   id: number | string;
-  onSuccess?: (data: any) => void;
-  onError?: (error: any) => void;
+  onSuccess: (data: any) => void;
+  onError: (error: any) => void;
 }
 
-export interface GamesParams{
-  
+export interface GamesParams {
+  id?: number;
+  college_id?: number;
+  name?: string;
+  image?: null | string;
+  start_time?: string;
+  end_time?: string;
+  prize_money?: string | number;
+  game_code?: string | null;
+  is_active?: number;
+  to_publish_result?: number;
 }
 export interface GamesResponse {
   id: number;
@@ -27,10 +35,10 @@ export interface GamesResponse {
   created_at?: string;
   updated_at?: string;
   to_publish_result: number;
-  news?: NewResponse[] | null;
+  news?: NewsResponse[] | null;
   stock_datas?: StockDatasResponse[] | null;
   college?: CollegeResponse | null;
-  game_users?: GameUserResponse[];
+  game_users?: GameUsersResponse[];
 }
 export interface GamesState {
   loading: {
@@ -47,9 +55,9 @@ export interface GamesState {
     deleteErr: any;
     singleGameErr: any;
   };
-  games: GamesInfo[];
-  create: GamesInfo | null;
-  update: GamesInfo | null;
+  games: GamesResponse[];
+  create: GamesResponse | null;
+  update: GamesResponse | null;
   delete: string | null;
-  singleGame: GamesInfo | null;
+  singleGame: GamesResponse | null;
 }

@@ -1,7 +1,7 @@
 export interface BannerResponse {
   id: number;
   college_id: number;
-  name: string;
+  name: string | null | File;
   created_at: string;
   updated_at: string;
   bannername: string;
@@ -10,7 +10,7 @@ export interface BannerPararms {
   id?: number;
   college_id?: number;
   name?: string;
-  bannername: string;
+  bannername?: string;
 }
 export interface BannerState {
   loading: {

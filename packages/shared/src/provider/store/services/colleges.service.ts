@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { CollegeInfo } from "../../../utils/types/college";
+import { CollegeInfo, CollegeParams, CollegeResponse } from "../../../utils/types/college";
 
 export const getCollege = createAsyncThunk<
-  CollegeInfo[],
+  CollegeResponse[],
   void,
   { state: RootState }
 >("college/get", async (_, thunkApi) => {
@@ -20,7 +20,7 @@ export const getCollege = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as CollegeInfo[];
+    const data = (await response.json()) as CollegeResponse[];
 
     return data;
   } catch (error) {
@@ -29,14 +29,14 @@ export const getCollege = createAsyncThunk<
 });
 
 export const createCollege = createAsyncThunk<
-  CollegeInfo,
-  CollegeInfo,
+  CollegeResponse,
+  CollegeParams,
   { state: RootState }
 >("college/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.COLLEGES.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.COLLEGES.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export const createCollege = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CollegeInfo;
+    const data = (await response.json()) as CollegeResponse;
 
     return data;
   } catch (error) {
@@ -54,8 +54,8 @@ export const createCollege = createAsyncThunk<
 });
 
 export const updateCollege = createAsyncThunk<
-  CollegeInfo,
-  CollegeInfo & { token: string },
+CollegeResponse,
+  CollegeParams,
   { state: RootState }
 >("college/update", async (params, thunkApi) => {
   try {
@@ -70,7 +70,7 @@ export const updateCollege = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CollegeInfo;
+    const data = (await response.json()) as CollegeResponse;
 
     return data;
   } catch (error) {
