@@ -33,7 +33,12 @@ const transactionsSlice = createSlice({
   reducers: {
     storeSingleTransaction:(state,action)=>{
       state.single_transactions = action.payload
-    }
+    },
+    resetTransaction: (state) => {
+      state.create = null;
+      state.update = null;
+      state.delete = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -90,5 +95,5 @@ const transactionsSlice = createSlice({
   },
 });
 
-export const {storeSingleTransaction} = transactionsSlice.actions;
+export const {storeSingleTransaction,resetTransaction} = transactionsSlice.actions;
 export default transactionsSlice.reducer;
