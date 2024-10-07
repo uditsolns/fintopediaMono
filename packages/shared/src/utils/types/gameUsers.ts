@@ -10,7 +10,7 @@ export interface GameUserLoginIDGameIDResponse {
   id: number;
   game_id: number;
   user_id: number;
-  amount: number | string;
+  amount: number;
   is_active: number;
   deleted_at: null | string;
   created_at: string;

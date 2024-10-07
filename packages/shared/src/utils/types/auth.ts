@@ -134,6 +134,7 @@ export interface UserUpdateParams {
 }
 
 export interface BuySellParams {
+  id?:number ;
   game_id?: number;
   user_id: number;
   stock_id: number;

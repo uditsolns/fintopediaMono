@@ -20,6 +20,7 @@ import LightLoading from "@src/components/loader/LightLoading";
 const LatestNews: React.FC = () => {
   const dispatch = useAppDispatch();
   const { news, loading } = useAppSelector((state) => state.news);
+  const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
 
   useEffect(() => {
     dispatch(getNews());
@@ -37,26 +38,28 @@ const LatestNews: React.FC = () => {
               No news available at the moment.
             </div>
           ) : (
-            news.map((item) => {
-              return (
-                <Col key={item.id} xs={12} sm={6} md={4} className="mb-4">
-                  <Card
-                    style={{
-                      border: "none",
-                      backgroundColor: "#121622",
-                      color: "#fff",
-                      height:"120px"
-                    }}
-                  > 
-                    <CardBody>
-                      <CardTitle tag="h5" className="font-weight-bold">
-                        {item.name}
-                      </CardTitle>
-                    </CardBody>
-                  </Card>
-                </Col>
-              );
-            })
+            news
+              ?.filter((item) => item.set_id == filterRoundLevelData?.set_id)
+              .map((item) => {
+                return (
+                  <Col key={item.id} xs={12} sm={6} md={4} className="mb-4">
+                    <Card
+                      style={{
+                        border: "none",
+                        backgroundColor: "#121622",
+                        color: "#fff",
+                        height: "120px",
+                      }}
+                    >
+                      <CardBody>
+                        <CardTitle tag="h5" className="font-weight-bold">
+                          {item.name}
+                        </CardTitle>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                );
+              })
           )}
         </Row>
       </Container>

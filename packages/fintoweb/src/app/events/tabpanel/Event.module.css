@@ -38,6 +38,7 @@
   background-color: #545664;
   color: white;
 }
+
 .search-textfield {
   gap: 8px;
   border-radius: 8px;
@@ -51,8 +52,8 @@
 }
 
 .search-placeholder::placeholder {
-  color: #a4a4a4;
-  opacity: 1;
+  color: #a4a4a4 !important;
+  opacity: 1 !important;
 }
 .search-input {
   color: #a4a4a4;

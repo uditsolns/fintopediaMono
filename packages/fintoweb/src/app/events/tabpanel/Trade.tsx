@@ -13,18 +13,23 @@ import {
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import LightLoading from "@src/components/loader/LightLoading";
+import { resetTransaction } from "shared/src/provider/store/reducers/transactions.reducer";
+import { toast } from "react-toastify";
 
 const Trade: React.FC = () => {
   const dispatch = useAppDispatch();
   const { stocks } = useAppSelector((state) => state.stocks);
   const { stockData, loading } = useAppSelector((state) => state.stockData);
-
+  const { filterRoundLevelData, singleRoundLevel } = useAppSelector(
+    (state) => state.roundLevel
+  );
+  const { transactions, create } = useAppSelector(
+    (state) => state.transactions
+  );
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [data, setData] = useState(stockData);
   const [allData, setAllData] = useState(stockData);
   const [activeIndustry, setActiveIndustry] = useState<string | null>(null);
-
-  
 
   useEffect(() => {
     setAllData(stockData);
@@ -48,16 +53,22 @@ const Trade: React.FC = () => {
     setData(updatedItems);
     setActiveIndustry(industry);
   };
-
-  const filterRoundLevelData = { round_level: 5, game_id: 174 };
-
+  React.useEffect(() => {
+    if (create?.id) {
+      toast.success("Buy successfully !", {
+        position: "top-right",
+        theme: "light",
+      });
+      dispatch(resetTransaction());
+    }
+  }, [create]);
   return (
     <React.Fragment>
       <div className={styles["inline-row"]}>
         <TextField
           id="input-with-icon-textfield"
           placeholder="Search..."
-          className={styles["search-textfield"]}
+          className={`${styles["search-textfield"]}`}
           value={searchTerm}
           onChange={handleChange}
           InputProps={{
@@ -66,12 +77,18 @@ const Trade: React.FC = () => {
                 <SearchIcon className={styles["search-icon"]} />
               </InputAdornment>
             ),
+            classes: {
+              input: styles["search-input"],
+            },
+          }}
+          InputLabelProps={{
+            className: styles["search-placeholder"],
           }}
           variant="outlined"
         />
         <Button
           onClick={() => setData(allData)}
-          className={styles["search-button"]}
+          className={`${styles["search-button"]}`}
         >
           <FaArrowRotateRight />
         </Button>
@@ -80,16 +97,14 @@ const Trade: React.FC = () => {
       <Row className="mt-3">
         <Col md={3} className={styles["sector-name"]}>
           <Button
-            // className={styles["btn"] + " " + styles["sector-btn"] }
             className={`${styles["btn"]} ${styles["sector-btn"]} ${
               activeIndustry === null ? styles.active : ""
             }`}
             block
             onClick={() => {
-              setData(allData)
-              setActiveIndustry(null)
+              setData(allData);
+              setActiveIndustry(null);
             }}
-
           >
             All
           </Button>
@@ -97,7 +112,6 @@ const Trade: React.FC = () => {
           {uniqueIndustries.map((el, index) => (
             <Button
               key={index}
-              // className={styles["btn"] + " " + styles["sector-btn"]}
               className={`${styles["btn"]} ${styles["sector-btn"]} ${
                 activeIndustry === el.stock.industry ? styles.active : ""
               }`}
@@ -134,14 +148,18 @@ const Trade: React.FC = () => {
                   )
                   .map((el, index) => {
                     if (
-                      el.round_level == filterRoundLevelData.round_level &&
-                      el.game_id == filterRoundLevelData.game_id
+                      el.round_level == filterRoundLevelData?.round_level &&
+                      el.game_id == filterRoundLevelData?.game_id
                     ) {
                       return (
                         <tr key={index}>
                           <td>{el.stock.name}</td>
                           <td>
-                            {Math.round(el.stock_current_price * 10) / 10}
+                            {el.stock_current_price
+                              ? Math.round(
+                                  parseFloat(el.stock_current_price) * 10
+                                ) / 10
+                              : "N/A"}
                           </td>
                           <td>
                             <BuyStocks data={el} />

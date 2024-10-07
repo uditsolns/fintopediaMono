@@ -1,129 +1,174 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Card, Row, Col } from "reactstrap";
 import TabPanel from "./tabpanel/TabPanel";
 import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
-import { getStocks } from "shared/src/provider/store/services/stocks.service";
 import { getStockData } from "shared/src/provider/store/services/stockdatas.service";
-import { getGameUsers } from "shared/src/provider/store/services/gameusers.service";
-
+import { getStocks } from "shared/src/provider/store/services/stocks.service";
 import { useRouter } from "next/navigation";
 import { getGamesById } from "shared/src/provider/store/services/games.service";
-import {
-  getRoundLevel,
-  getRoundLevelById,
-} from "shared/src/provider/store/services/roundlevelgames.service";
+import { getRoundLevelById } from "shared/src/provider/store/services/roundlevelgames.service";
+import { storeCheckNavigateHome } from "shared/src/provider/store/reducers/checknavigate.reducer";
+import { getGameUserByLoginIDGameID } from "shared/src/provider/store/services/gameusers.service";
+import { storeFilterRoundLevelData } from "shared/src/provider/store/reducers/roundlevelgames.reducer";
+import { updateRoundLevel } from "shared/src/provider/store/services/roundlevelgames.service";
+import { storeUserGameAmount } from "shared/src/provider/store/reducers/gameusers.reducer";
 
 interface EventPageProps {
   id: number;
+  round: number;
 }
-const Events: React.FC<EventPageProps> = ({ id }) => {
+
+const Events: React.FC<EventPageProps> = ({ id, round }) => {
+  const gameId = id;
+  const roundId = round;
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { singleGame, loading } = useAppSelector((state) => state.games);
-  const {
-    roundLevel,
-    loading: roundLevelLoading,
-    filterRoundLevelData,
-    singleRoundLevel,
-  } = useAppSelector((state) => state.roundLevel);
-  
+  const { current_user, auth } = useAppSelector((state) => state.auth);
+  const { singleGame } = useAppSelector((state) => state.games);
+  const { filterRoundLevelData, singleRoundLevel } = useAppSelector(
+    (state) => state.roundLevel
+  );
+  const { gameUserByLoginIDGameID, user_game_amount } = useAppSelector(
+    (state) => state.gameUsers
+  );
 
-  useEffect(() => {
+  const { check_naviagte_home } = useAppSelector(
+    (state) => state.checkNavigate
+  );
+  const [hasNavigated, setHasNavigated] = React.useState<boolean>(false);
+  const [endTime, setEndTime] = React.useState<string>(
+    filterRoundLevelData ? `${filterRoundLevelData.end_datetime}` : "00:00:00"
+  );
+
+  // const currentTime = new Date().toLocaleTimeString();
+  const currentTime = new Date().toLocaleTimeString([], { hour12: false });
+
+  // const endTime = `${filterRoundLevelData.end_datetime}`;
+
+  React.useEffect(() => {
+    if (filterRoundLevelData) {
+      setEndTime(`${filterRoundLevelData.end_datetime}`);
+    }
+  }, [filterRoundLevelData]);
+
+  const getTimeDifferenceInSeconds = (start: string, end: string): number => {
+    const [startHours, startMinutes, startSeconds] = start
+      .split(":")
+      .map(Number);
+    const [endHours, endMinutes, endSeconds] = end.split(":").map(Number);
+    const timeStart = new Date();
+    const timeEnd = new Date();
+    timeStart.setHours(startHours, startMinutes, startSeconds, 0);
+    timeEnd.setHours(endHours, endMinutes, endSeconds, 0);
+    const differenceInSeconds =
+      (timeEnd.getTime() - timeStart.getTime()) / 1000;
+
+    return Math.max(differenceInSeconds, 0);
+  };
+
+  const [time, setTime] = React.useState<number>(
+    getTimeDifferenceInSeconds(currentTime, endTime)
+  );
+  React.useEffect(() => {
+    if (time === 0) {
+      const body = {
+        id: roundId,
+        game_id: gameId,
+        round_level: filterRoundLevelData
+          ? filterRoundLevelData.round_level
+          : null,
+        start_datetime: filterRoundLevelData
+          ? filterRoundLevelData.start_datetime
+          : null,
+        end_datetime: filterRoundLevelData
+          ? filterRoundLevelData.end_datetime
+          : null,
+        set_id: filterRoundLevelData ? filterRoundLevelData.set_id : null,
+        is_active: 0,
+      };
+      dispatch(updateRoundLevel(body));
+    }
+    const timer = setInterval(() => {
+      setTime((prevTime) => Math.max(prevTime - 1, 0));
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [time]);
+
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+
+  React.useEffect(() => {
     dispatch(getStockData());
-  }, [dispatch]);
+    dispatch(getStocks());
+    dispatch(storeCheckNavigateHome(false));
+  }, []);
 
-  // const currentTime1 = new Date().toLocaleTimeString();
-  // const currentTime = currentTime1?.split(/(\s+)/);
-  // const endTime = filterRoundLevelData?.end_datetime;
+  React.useEffect(() => {
+    let user_id = Number(auth?.user?.id);
+    let game_id = Number(gameId);
+    dispatch(
+      getGameUserByLoginIDGameID({
+        user_id,
+        game_id,
+        onSuccess: (data) => {
+          if (user_game_amount == 0) {
+            dispatch(storeUserGameAmount(data?.amount));
+          }
+        },
+        onError: () => {},
+      })
+    );
+  }, []);
 
-  // let time_start = new Date();
-  // let time_end = new Date();
-  // let value_start = currentTime[0]?.split(":");
-  // let value_end = endTime?.split(":");
-
-  // time_start?.setHours(value_start[0], value_start[1], value_start[2], 0);
-  // time_end?.setHours(value_end[0], value_end[1], value_end[2], 0);
-
-  // const value = time_end - time_start;
-
-  // const sec = value / 1000;
-  // const [time, setTime] = React.useState(sec);
-  // const timerRef = React.useRef(time);
-
-  // useEffect(() => {
-  //   const timerId = setInterval(() => {
-  //     timerRef.current -= 1;
-  //     if (timerRef.current < 0) {
-  //       if (timerRef.current == -1) {
-  //         setTimeout(() => {
-  //           router.push(`/waiting-page/${id}`);
-  //         }, 5000);
-  //       }
-
-  //       dispatch(getStockData());
-  //       clearInterval(timerId);
-  //     } else {
-  //       setTime(timerRef.current);
-  //     }
-  //   }, 1000);
-  //   return () => {
-  //     clearInterval(timerId);
-  //   };
-  // }, []);
-
-  useEffect(() => {
+  React.useEffect(() => {
     let interval = setInterval(() => {
       checkSingleGameFinish();
       getAllRoundLevelGamesData();
-    }, 20000);
+    }, 10000);
     return () => {
       clearInterval(interval);
     };
   }, []);
 
   const checkSingleGameFinish = async () => {
-    let body = {
-      id: id,
-    };
-    dispatch(getGamesById(body));
-    console.log("checkSingleGameFinish")
-
+    dispatch(
+      getGamesById({
+        id,
+        onSuccess: (data) => {
+          if (data?.is_active == 0) {
+            if (check_naviagte_home == false) {
+              router.push("/game-ended");
+            }
+            dispatch(storeCheckNavigateHome(true));
+          }
+        },
+        onError: () => {},
+      })
+    );
   };
   const getAllRoundLevelGamesData = async () => {
-    let body = {
-      id:filterRoundLevelData?.id
-    }
-    dispatch(getRoundLevelById(body));
-    console.log("hello")
+    let id = roundId ? roundId : Number(filterRoundLevelData?.id);
+
+    dispatch(
+      getRoundLevelById({
+        id,
+        onSuccess: (data) => {
+          dispatch(storeFilterRoundLevelData(data));
+          if (data?.is_active == 0) {
+            router.push(`/waiting-page/${gameId}`);
+          }
+        },
+        onError: () => {},
+      })
+    );
   };
-  React.useEffect(() => {
-    if (singleGame) {
-      if (singleGame?.is_active == "0") {
-        router.push("/winners-loading");
-      }
-    }
-  }, [singleGame]);
-
-  React.useEffect(() => {
-    console.log("singleRoundLevel",singleRoundLevel)
-    if (singleRoundLevel) {
-      roundLevelFunction();
-    }
-  }, [singleRoundLevel]);
-
-  const roundLevelFunction = async () => {
-    if (singleRoundLevel?.is_active == 0) {
-      router.push(`/waiting-page/${id}`);
-    }
-  };
-
-  // useEffect(() => {
-  //   dispatch(getGameUsers(data, login?.user?.id));
-  // }, []);
+  
 
   return (
     <section className="background-gradient p-0">
@@ -132,20 +177,45 @@ const Events: React.FC<EventPageProps> = ({ id }) => {
           <Row className="portfolio-header d-flex justify-content-between align-items-center text-center">
             <Col xs="3">
               <h5 className="text-left text-gray-300">
-                Timing :<br />{" "}
-                <span className="font-bold text-light">05:00:00</span>
+                Timing :<br />
+                <span className="font-bold text-light">
+                  {time < 0
+                    ? "00:00"
+                    : `${String(minutes).padStart(2, "0")}:${String(
+                        seconds
+                      ).padStart(2, "0")}`}
+                </span>
               </h5>
             </Col>
             <Col xs="3">
               <h5 className="text-center text-gray-300">
-                V.Balance <br />{" "}
-                <span className="font-bold text-light">1,000.00</span>
+                V.Balance <br />
+                <span className="font-bold text-light">
+                  &#8377; &nbsp;
+                  {gameUserByLoginIDGameID
+                    ? gameUserByLoginIDGameID?.amount
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    : "0"}
+                </span>
               </h5>
             </Col>
             <Col xs="6" md="6" lg="6">
               <h5 className="text-right text-gray-300">
-                Total Portfolio Value <br />{" "}
-                <span className="font-bold text-light">2,000.00</span>
+                Total Portfolio Value <br />
+                <span className="font-bold text-light">
+                  {gameUserByLoginIDGameID
+                    ? (
+                        Math.round(
+                          (user_game_amount -
+                            Number(gameUserByLoginIDGameID.amount)) *
+                            10
+                        ) / 10
+                      )
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    : "0"}
+                </span>
               </h5>
             </Col>
           </Row>
@@ -157,4 +227,5 @@ const Events: React.FC<EventPageProps> = ({ id }) => {
     </section>
   );
 };
+
 export default Events;

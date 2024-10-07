@@ -1,4 +1,3 @@
-
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import { Platform } from "react-native";
@@ -27,16 +26,15 @@ import userCertificateReducer from "./reducers/UserCertificate.reducer";
 import userCourseHistoryReducer from "./reducers/UserCourseHistory.reducer";
 import startGameReducer from "./reducers/startgame.reducer";
 import stopGameReducer from "./reducers/stopgame.reducer";
-import checkNavigateReducer from './reducers/checknavigate.reducer'
 
-const isNative = Platform.OS !== 'web';
-const chosenStorage = isNative ? AsyncStorage : storage;
+const isNative = Platform.OS !== "web";
+import checkNavigateReducer from './reducers/checknavigate.reducer'
 
 const persistConfig: any = {
   key: "fintopedia",
   storage: AsyncStorage,
   timeout: null,
-  whitelist: ['auth',]
+  whitelist: ["auth"],
 };
 
 const reducers = combineReducers({
@@ -49,7 +47,7 @@ const reducers = combineReducers({
   games: gamesReducer,
   gameUsers: gameusersReducer,
   news: newsReducer,
-  roundLevel: roundLevelReducer,
+  roundLevel: persistReducer(persistConfig, roundLevelReducer),
   stockData: stockdatasReducer,
   stocks: stocksReducer,
   transactions: transactionsReducer,
@@ -62,7 +60,6 @@ const reducers = combineReducers({
   startGame: startGameReducer,
   stopGame: stopGameReducer,
   checkNavigate:checkNavigateReducer
-  
 });
 
 export const store = configureStore({
@@ -70,7 +67,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(errorMiddleware),
+    }).concat(errorMiddleware, logger),
 });
 
 export const persistor = persistStore(store);

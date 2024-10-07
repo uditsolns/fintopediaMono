@@ -10,7 +10,7 @@ export interface TransactionsParams {
   order_qty?: number;
   total_price?: number;
   stock_current_price?: number;
-  round_level?: number;
+  round_level?: string;
 }
 
 export interface TransactionsResponse {
