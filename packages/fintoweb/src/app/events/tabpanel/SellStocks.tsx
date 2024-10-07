@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-
 import {
   Button,
   Col,
@@ -12,7 +11,6 @@ import {
   Card,
   CardBody,
   CardTitle,
-  CardText,
 } from "reactstrap";
 import styles from "./Event.module.css";
 import { InputAtom } from "@src/components/atoms/Input/InputAtom";
@@ -20,22 +18,10 @@ import { useBuySellHelper } from "shared/src/components/structures/buy-sell/buyS
 import { buySellField } from "shared/src/components/structures/buy-sell/buySellModel";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import CircularLoading from "@src/components/loader/CircularLoading";
+import { StockDatasResponse } from "shared/src/utils/types/stockDatas";
 
 interface Props {
-  data: {
-    id: number;
-    game_id: number;
-    user_id: number;
-    stock_id: number;
-    order_type: string;
-    order_qty: number;
-    total_price: number;
-    stock_current_price: number;
-    round_level: number;
-    stock: {
-      name: string;
-    };
-  };
+  data: StockDatasResponse;
 }
 
 const SellStocks: React.FC<Props> = (props) => {
@@ -46,29 +32,24 @@ const SellStocks: React.FC<Props> = (props) => {
   );
   const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
   const [totalPrice, setTotalPrice] = useState(0);
-
   const [modal, setModal] = useState(false);
-  const toggle = () => {
-    setModal(!modal);
-  };
+  
+  const toggle = () => setModal(!modal);
 
   const { buySellFormik, buySellInputProps } = useBuySellHelper();
-  const { handleSubmit, isSubmitting, setFieldValue, values } = buySellFormik;
+  const { handleSubmit, isSubmitting, setFieldValue, values, resetForm } = buySellFormik;
 
-  const stockFilterAmount = props.data.stock.stock_datas.find(
+  const stockFilterAmount = props.data?.stock?.stock_datas.find(
     (stock) =>
       stock.game_id === props.data.game_id &&
       stock.round_level === props.data.round_level
   );
 
-  const currentPrice = parseFloat(
-    stockFilterAmount?.stock_current_price?.toString() || "0"
-  );
+  const currentPrice = parseFloat(stockFilterAmount?.stock_current_price?.toString() || "0");
 
-  
   useEffect(() => {
     const orderQty = parseFloat(values.order_qty?.toString() || "0");
-    if (!isNaN(currentPrice) && !isNaN(orderQty)) {
+    if (!isNaN(currentPrice) && !isNaN(orderQty) && orderQty > 0) {
       setTotalPrice(currentPrice * orderQty);
     } else {
       setTotalPrice(0);
@@ -76,18 +57,18 @@ const SellStocks: React.FC<Props> = (props) => {
   }, [currentPrice, values.order_qty]);
 
   useEffect(() => {
-    setFieldValue(buySellField.game_id.name, props.data.game_id);
-    setFieldValue(buySellField.user_id.name, auth?.user?.id);
-    setFieldValue(buySellField.stock_id.name, props.data?.stock_id);
-    setFieldValue(buySellField.order_type.name, "Sell");
-    setFieldValue(buySellField.order_qty.name, values.order_qty);
-    setFieldValue(buySellField.total_price.name, totalPrice);
-    setFieldValue(
-      buySellField.stock_current_price.name,
-      stockFilterAmount?.stock_current_price
-    );
-    setFieldValue(buySellField.round_level.name, props.data?.round_level);
-  }, [totalPrice, values.order_qty]); 
+    if (modal) {
+      setFieldValue(buySellField.game_id.name, props.data.game_id);
+      setFieldValue(buySellField.user_id.name, auth?.user?.id);
+      setFieldValue(buySellField.stock_id.name, props.data?.stock_id);
+      setFieldValue(buySellField.order_type.name, "Sell");
+      setFieldValue(buySellField.order_qty.name, values.order_qty || 0);
+      setFieldValue(buySellField.total_price.name, totalPrice);
+      setFieldValue(buySellField.stock_current_price.name, stockFilterAmount?.stock_current_price);
+      setFieldValue(buySellField.round_level.name, props.data?.round_level);
+    }
+  }, [modal, totalPrice, values.order_qty, props.data, auth, stockFilterAmount]);
+
   return (
     <div>
       <Button className="btn-warning p-1" onClick={toggle} block>
@@ -136,12 +117,13 @@ const SellStocks: React.FC<Props> = (props) => {
                 className="btn btn-light font-bold text-black"
                 size="lg"
                 block
-                // disabled={isSubmitting}
                 onClick={() => {
                   handleSubmit();
+                  setModal(false);
+                  resetForm();
                 }}
               >
-                {loading.create ? <CircularLoading /> : "Buy"}
+                {loading.create ? <CircularLoading /> : "Sell"}
               </Button>
             </Col>
           </Row>
@@ -149,17 +131,13 @@ const SellStocks: React.FC<Props> = (props) => {
             Catch up with latest news
           </h2>
           <div className={styles["news-scroll-container"]}>
-            {news.length > 0 && (
-              <>
-                {news.map((el, i) => (
-                  <Card key={i} className={`${styles["news-card"]} m-2 p-2`}>
-                    <CardBody>
-                      <CardTitle tag="h6">{el.name}</CardTitle>
-                    </CardBody>
-                  </Card>
-                ))}
-              </>
-            )}
+            {news.length > 0 && news.map((el, i) => (
+              <Card key={i} className={`${styles["news-card"]} m-2 p-2`}>
+                <CardBody>
+                  <CardTitle tag="h6">{el.name}</CardTitle>
+                </CardBody>
+              </Card>
+            ))}
           </div>
         </ModalBody>
       </Modal>

@@ -5,47 +5,25 @@ import { Row, Col, Button, Table } from "reactstrap";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import BuyStocks from "./BuyStocks";
 import styles from "./Event.module.css";
 import { FaArrowRotateRight } from "react-icons/fa6";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
+import LightLoading from "@src/components/loader/LightLoading";
+
 
 const History: React.FC = () => {
-  const dummyStockData = [
-    {
-      stock: { name: "Dr. Reddy's Laboratries Ltd.", industry: "Technology" },
-      stock_current_price: 145.3,
-      qty: 14,
-      order_type: "Buy",
-      buying_price: 141.3,
-      round_level: 1,
-      game_id: 101,
-    },
-    {
-      stock: { name: "Tesla", industry: "Automobile" },
-      stock_current_price: 720.5,
-      qty: 25,
-      order_type: "Sell",
-      buying_price: 400.3,
-      round_level: 1,
-      game_id: 102,
-    },
-    {
-      stock: { name: "Google", industry: "Technology" },
-      stock_current_price: 2720.3,
-      qty: 65,
-      order_type: "Sell",
-      buying_price: 2141.3,
-      round_level: 1,
-      game_id: 103,
-    },
-    // Add more dummy data as needed
-  ];
+  const dispatch = useAppDispatch();
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const filterRoundLevelData = { round_level: 1, game_id: 101 };
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [data, setData] = useState(dummyStockData);
-  const [allData, setAllData] = useState(dummyStockData);
+  const { transactions, loading } = useAppSelector(
+    (state) => state.transactions
+  );
+  const { auth } = useAppSelector((state) => state.auth);
+  const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
+  const { singleGame } = useAppSelector((state) => state.games);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -76,7 +54,7 @@ const History: React.FC = () => {
           variant="outlined"
         />
         <Button
-          onClick={() => setData(allData)}
+          // onClick={() => setData(allData)}
           className={`${styles["search-button"]}`}
         >
           <FaArrowRotateRight />
@@ -87,46 +65,53 @@ const History: React.FC = () => {
           <Table className={styles["custom-table"]}>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Qty</th>
-                <th>Total Price</th>
-                <th>Order Type</th>
+                <th scope="col">Name</th>
+                <th scope="col">Qty</th>
+                {/* <th scope="col">Avg. Price</th> */}
+                <th scope="col">Total Price</th>
+                <th scope="col">Order Type</th>
               </tr>
             </thead>
             <tbody>
-              {data.filter((user) =>
-                user.stock.name
-                  .trim()
-                  .toLowerCase()
-                  .includes(searchTerm.trim().toLowerCase())
-              ).length > 0 ? (
-                data
+              {loading ? (
+                <tr>
+                  <td colSpan={3} style={{ textAlign: "center" }}>
+                    <LightLoading />
+                  </td>
+                </tr>
+              ) : transactions.filter((user) =>
+                  user.stock?.name
+                    .trim()
+                    .toLowerCase()
+                    .includes(searchTerm.trim().toLowerCase())
+                ).length > 0 ? (
+                transactions
                   ?.filter((user) =>
-                    user.stock.name
+                    user.stock?.name
                       .trim()
                       .toLowerCase()
                       .includes(searchTerm.trim().toLowerCase())
                   )
+                  .filter(
+                    (i) =>
+                      i.user_id == auth?.user?.id &&
+                      i.game_id == singleGame.id
+                  )
+                  .sort((a, b) => a.stock?.name.localeCompare(b.stock?.name))
                   .map((el, index) => {
-                    if (
-                      el.round_level === filterRoundLevelData.round_level &&
-                      el.game_id === filterRoundLevelData.game_id
-                    )
-                      return (
-                        <tr key={index}>
-                          <td>{el.stock.name}</td>
-                          <td>{el.qty}</td>
-
-                          <td>
-                            {Math.round(el.stock_current_price * 10) / 10}
-                          </td>
-                          <td>{el.order_type}</td>
-                        </tr>
-                      );
+                    return (
+                      <tr key={index}>
+                        <th>{el.stock?.name}</th>
+                        <td>{el.order_qty}</td>
+                        {/* <td>{Math.round(el.stock_current_price * 10) / 10}</td> */}
+                        <td>{Math.round(el.total_price * 10) / 10}</td>
+                        <td>{el.order_type}</td>
+                      </tr>
+                    );
                   })
               ) : (
                 <tr>
-                  <td colSpan={3}>
+                  <td colSpan={6}>
                     <div className="row mt-3">
                       <div
                         className="p-1"

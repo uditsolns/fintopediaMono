@@ -41,21 +41,9 @@ const BuyStocks: React.FC<Props> = (props) => {
   };
 
   const { buySellFormik, buySellInputProps } = useBuySellHelper();
-  const { handleSubmit, isSubmitting, setFieldValue, values, resetForm } =
-    buySellFormik;
-  const [totalPrice, setTotalPrice] = useState(0);
-
-  React.useEffect(() => {
-    const currentPrice = parseFloat(values.stock_current_price?.trim() || "0");
-    const orderQty = parseFloat(values.order_qty?.trim() || "0");
-
-    if (!isNaN(currentPrice) && !isNaN(orderQty)) {
-      const calculatedTotalPrice = currentPrice * orderQty;
-      setTotalPrice(calculatedTotalPrice);
-    } else {
-      setTotalPrice(0);
-    }
-  }, [values.order_qty, values.stock_current_price]);
+  const { handleSubmit, isSubmitting, setFieldValue, values } = buySellFormik;
+  // const [totalPrice, setTotalPrice] = useState(0);
+  // console.log("totalPrice", totalPrice);
 
   React.useEffect(() => {
     setFieldValue(buySellField.game_id.name, props.data.game_id);
@@ -67,9 +55,19 @@ const BuyStocks: React.FC<Props> = (props) => {
     setFieldValue(buySellField.stock_id.name, props.data?.stock_id);
     setFieldValue(buySellField.order_type.name, "Buy");
     setFieldValue(buySellField.round_level.name, props.data?.round_level);
-    setFieldValue(buySellField.order_qty.name, values.order_qty);
-    setFieldValue(buySellField.total_price.name, totalPrice);
-  }, [values.order_qty, values.stock_current_price, totalPrice]);
+  }, [props.data, auth, setFieldValue]);
+
+  React.useEffect(() => {
+    const currentPrice = parseFloat(values.stock_current_price?.trim() || "0");
+    const orderQty = parseFloat(values.order_qty?.trim() || "0");
+
+    if (!isNaN(currentPrice) && !isNaN(orderQty) && orderQty > 0) {
+      const calculatedTotalPrice = currentPrice * orderQty;
+      setFieldValue(buySellField.total_price.name, calculatedTotalPrice); 
+    } else {
+      setFieldValue(buySellField.total_price.name, 0);
+    }
+  }, [values.order_qty, values.stock_current_price, setFieldValue]);
 
   return (
     <div>
@@ -123,7 +121,7 @@ const BuyStocks: React.FC<Props> = (props) => {
                 onClick={() => {
                   handleSubmit();
                   setModal(false);
-                  resetForm();
+                  // resetForm();
                 }}
               >
                 {loading.create ? <CircularLoading /> : "Buy"}

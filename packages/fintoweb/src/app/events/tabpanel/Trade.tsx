@@ -6,8 +6,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import BuyStocks from "./BuyStocks";
 import styles from "./Event.module.css";
 import { FaArrowRotateRight } from "react-icons/fa6";
-import { getStocks } from "shared/src/provider/store/services/stocks.service";
-import { getStockData } from "shared/src/provider/store/services/stockdatas.service";
 import {
   useAppDispatch,
   useAppSelector,
@@ -15,13 +13,23 @@ import {
 import LightLoading from "@src/components/loader/LightLoading";
 import { resetTransaction } from "shared/src/provider/store/reducers/transactions.reducer";
 import { toast } from "react-toastify";
+import { getGameUserByLoginIDGameID } from "shared/src/provider/store/services/gameusers.service";
+import { storeUserGameAmount } from "shared/src/provider/store/reducers/gameusers.reducer";
 
-const Trade: React.FC = () => {
+interface TradeProps {
+  gameId: number;
+  roundId: number;
+}
+const Trade: React.FC<TradeProps> = (props) => {
+  const gameId = props.gameId;
+
   const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((state) => state.auth);
   const { stocks } = useAppSelector((state) => state.stocks);
   const { stockData, loading } = useAppSelector((state) => state.stockData);
-  const { filterRoundLevelData, singleRoundLevel } = useAppSelector(
-    (state) => state.roundLevel
+  const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
+  const { gameUserByLoginIDGameID, user_game_amount } = useAppSelector(
+    (state) => state.gameUsers
   );
   const { transactions, create } = useAppSelector(
     (state) => state.transactions
@@ -60,6 +68,20 @@ const Trade: React.FC = () => {
         theme: "light",
       });
       dispatch(resetTransaction());
+      let user_id = Number(auth?.user?.id);
+      let game_id = Number(gameId);
+      dispatch(
+        getGameUserByLoginIDGameID({
+          user_id,
+          game_id,
+          onSuccess: (data) => {
+            if (user_game_amount == 0) {
+              dispatch(storeUserGameAmount(data?.amount));
+            }
+          },
+          onError: () => {},
+        })
+      );
     }
   }, [create]);
   return (

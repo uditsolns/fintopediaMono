@@ -5,7 +5,6 @@ import { Row, Col, Button, Table } from "reactstrap";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import BuyStocks from "./BuyStocks";
 import styles from "./Event.module.css";
 import { FaArrowRotateRight } from "react-icons/fa6";
 import SellStocks from "./SellStocks";
@@ -14,10 +13,12 @@ import {
   useAppDispatch,
 } from "shared/src/provider/store/types/storeTypes";
 import { getTransactions } from "shared/src/provider/store/services/transactions.service";
+import { toast } from "react-toastify";
+import { resetTransaction } from "shared/src/provider/store/reducers/transactions.reducer";
 
 const Portfolio: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { transactions, loading } = useAppSelector(
+  const { transactions, loading, create } = useAppSelector(
     (state) => state.transactions
   );
   const { auth } = useAppSelector((state) => state.auth);
@@ -26,7 +27,7 @@ const Portfolio: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterData, setFilterData] = useState<any[]>([]);
   const [data, setData] = useState<any[]>([]);
-
+  console.log("data", data);
   useEffect(() => {
     dispatch(getTransactions());
   }, []);
@@ -39,6 +40,8 @@ const Portfolio: React.FC = () => {
         const userTransaction = item.user?.user_transactions?.find(
           (el) => el.stock_id === item.stock_id
         );
+        console.log("userTransaction", userTransaction);
+
         const orderQty = userTransaction?.order_qty;
         return (
           item.user_id === auth?.user?.id &&
@@ -60,7 +63,15 @@ const Portfolio: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
-
+  React.useEffect(() => {
+    if (create?.id) {
+      toast.success("Sell successfully !", {
+        position: "top-right",
+        theme: "light",
+      });
+      dispatch(resetTransaction());
+    }
+  }, [create]);
   return (
     <React.Fragment>
       <div className={styles["inline-row"]}>

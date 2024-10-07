@@ -65,8 +65,11 @@ function a11yProps(index: number) {
   };
 }
 
-// Main BasicTabs component
-const BasicTabs: React.FC = () => {
+interface BasicTabsProps {
+  gameId: number;
+  roundId: number;
+}
+const BasicTabs: React.FC<BasicTabsProps> = ({ gameId, roundId }) => {
   const [value, setValue] = React.useState<number>(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -98,10 +101,10 @@ const BasicTabs: React.FC = () => {
         <LatestNews />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Trade />
+        <Trade gameId={gameId} roundId={roundId} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Portfolio />
+        <Portfolio gameId={gameId} roundId={roundId}/>
       </TabPanel>
       <TabPanel value={value} index={3}>
         <History />

@@ -16,6 +16,7 @@ import { getGameUserByLoginIDGameID } from "shared/src/provider/store/services/g
 import { storeFilterRoundLevelData } from "shared/src/provider/store/reducers/roundlevelgames.reducer";
 import { updateRoundLevel } from "shared/src/provider/store/services/roundlevelgames.service";
 import { storeUserGameAmount } from "shared/src/provider/store/reducers/gameusers.reducer";
+import { RoundLevelParams } from "shared/src/utils/types/roundLevel";
 
 interface EventPageProps {
   id: number;
@@ -75,11 +76,11 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
   );
   React.useEffect(() => {
     if (time === 0) {
-      const body = {
+      const body: RoundLevelParams = {
         id: roundId,
         game_id: gameId,
         round_level: filterRoundLevelData
-          ? filterRoundLevelData.round_level
+          ? +filterRoundLevelData.round_level
           : null,
         start_datetime: filterRoundLevelData
           ? filterRoundLevelData.start_datetime
@@ -168,7 +169,6 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
       })
     );
   };
-  
 
   return (
     <section className="background-gradient p-0">
@@ -222,7 +222,7 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
         </Card>
       </div>
       <div className="container-fluid p-3">
-        <TabPanel />
+        <TabPanel gameId={gameId} roundId={roundId} />
       </div>
     </section>
   );
