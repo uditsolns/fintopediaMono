@@ -1,42 +1,41 @@
-import {FlatList, RefreshControl, StyleSheet, Text, View} from 'react-native';
+import {FlatList, RefreshControl, View} from 'react-native';
 import * as React from 'react';
-import {useNavigation} from '@react-navigation/native';
 import LatestNewsMolecule from '@src/components/molecules/LatestNewsMolecule/LatestNewsMolecule';
 import LoaderAtom from '@src/components/LoaderAtom';
-import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {mScale} from '@shared/src/theme/metrics';
 import {commonStyle} from '@shared/src/commonStyle';
 import {
   useAppDispatch,
   useAppSelector,
 } from '@shared/src/provider/store/types/storeTypes';
+import {getNews} from '@shared/src/provider/store/services/news.service';
+import {NewsResponse} from '@shared/src/utils/types/news';
 
 export default function LatestNews() {
   const dispatch = useAppDispatch();
-
   const {news, loading} = useAppSelector(state => state.news);
-  const navigation = useNavigation();
-  const {filterRoundLevelData} = useAppSelector(
+  const {filterRoundLevelData, singleRoundLevel} = useAppSelector(
     state => state.roundLevel,
   );
   const [refreshLoading, setRefreshLoading] = React.useState(false);
-  const onRefresh = () => {};
+  const onRefresh = () => {
+    setRefreshLoading(true);
+    dispatch(getNews());
+    setRefreshLoading(false);
+  };
 
-  const renderItem = ({item}: {item: any}) => (
+  const renderItem = ({item}: {item: NewsResponse}) => (
     <LatestNewsMolecule item={item} itemWidth={undefined} />
   );
-  const renderFooter = () => (false ? <LoaderAtom size="large" /> : null);
+  const renderFooter = () =>
+    loading.news ? <LoaderAtom size="large" /> : null;
 
   return (
     <View style={[commonStyle.container, {marginTop: mScale.base}]}>
       <FlatList
         data={
           news?.length
-            ? news.filter(
-                e3 =>
-                  e3.game_id == filterRoundLevelData?.game_id &&
-                  e3.round_level == filterRoundLevelData?.round_level,
-              )
+            ? news.filter(e3 => e3.set_id == filterRoundLevelData?.set_id)
             : []
         }
         renderItem={renderItem}

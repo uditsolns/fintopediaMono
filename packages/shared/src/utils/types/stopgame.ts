@@ -1,6 +1,6 @@
 export interface StopGameInfo {
-    id: number;
-    game_id: number;
+    id?: number;
+    game_id?: number;
   }
   export interface StopGameState {
     loading: {

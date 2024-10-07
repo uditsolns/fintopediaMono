@@ -2,10 +2,11 @@ import {Pressable, StyleSheet} from 'react-native';
 import React from 'react';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {StocksResponse} from '@shared/src/utils/types/stocks';
 interface StocksMoleculeProps {
-  item?: any;
+  item?: StocksResponse;
   selectedStockId?: string | number;
-  onPress: (id: string) => void;
+  onPress: (id: number) => void;
 }
 export default function StocksMolecule({
   item,
@@ -25,9 +26,11 @@ export default function StocksMolecule({
           paddingHorizontal: mScale.base,
         },
       ]}
-      onPress={() => onPress(item?.id)}>
+      onPress={() => {
+        onPress(item?.id);
+      }}>
       <TextAtom
-        text={'Information Technology'}
+        text={item?.industry}
         preset="bodyBold"
         style={styles.boldText}
       />

@@ -24,12 +24,16 @@ const initialState: TransactionsState = {
   delete: null,
   update: null,
   transactions: [],
+  single_transactions: null,
 };
 
 const transactionsSlice = createSlice({
   name: "transactions",
   initialState,
   reducers: {
+    storeSingleTransaction:(state,action)=>{
+      state.single_transactions = action.payload
+    },
     resetTransaction: (state) => {
       state.create = null;
       state.update = null;
@@ -90,5 +94,6 @@ const transactionsSlice = createSlice({
       });
   },
 });
-export const { resetTransaction } = transactionsSlice.actions;
+
+export const {storeSingleTransaction,resetTransaction} = transactionsSlice.actions;
 export default transactionsSlice.reducer;

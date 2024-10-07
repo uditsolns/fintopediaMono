@@ -1,9 +1,4 @@
-import {
-  RouteProp,
-  useFocusEffect,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import {RouteProp, useFocusEffect, useRoute} from '@react-navigation/native';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
@@ -31,6 +26,7 @@ import {getGameUserByLoginIDGameID} from '@shared/src/provider/store/services/ga
 import {commonStyle} from '@shared/src/commonStyle';
 import {storeUserGameAmount} from '@shared/src/provider/store/reducers/gameusers.reducer';
 import {getStockData} from '@shared/src/provider/store/services/stockdatas.service';
+import {getTransactions} from '@shared/src/provider/store/services/transactions.service';
 
 type RouteParams = {
   tab?: number;
@@ -52,11 +48,10 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
   const {gameUserByLoginIDGameID, user_game_amount} = useAppSelector(
     state => state.gameUsers,
   );
-  const [hasNavigated, setHasNavigated] = React.useState<boolean>(false);
   // const currentTime = new Date().toLocaleTimeString();
   // const endTime = `${filterRoundLevelData?.end_datetime}`;
-  const currentTime = '10:55:50';
-  const endTime = '10:20:50';
+  const currentTime = '10:20:50';
+  const endTime = '10:55:50';
 
   const getTimeDifferenceInSeconds = (start: string, end: string): number => {
     const [startHours, startMinutes, startSeconds] = start
@@ -76,9 +71,10 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
   const [time, setTime] = React.useState<number>(
     getTimeDifferenceInSeconds(currentTime, endTime),
   );
-  
+
   React.useEffect(() => {
     dispatch(getStockData());
+    dispatch(getTransactions());
   }, []);
 
   React.useEffect(() => {
@@ -159,17 +155,18 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
     previousRoundPrice: PreviousRoundPrice,
   });
 
-  useFocusEffect(
-    React.useCallback(() => {
-      let interval = setInterval(() => {
-        checkSingleGameFinish();
-        getAllRoundLevelGamesData();
-      }, 10000);
-      return () => {
-        clearInterval(interval);
-      };
-    }, []),
-  );
+  React.useEffect(() => {
+    let interval = setInterval(() => {
+      console.log(
+        'checkSingleGameFinish and getAllRoundLevelGamesData called in game home screen ',
+      );
+      checkSingleGameFinish();
+      getAllRoundLevelGamesData();
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
   const checkSingleGameFinish = async () => {
     let id = Number(singleGame?.id);
     dispatch(

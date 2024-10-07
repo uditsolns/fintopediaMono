@@ -31,6 +31,31 @@ export const getStockData = createAsyncThunk<
   }
 });
 
+export const getStockDataById = createAsyncThunk<
+  StockDatasResponse,
+  StockDatasParams,
+  { state: RootState }
+>("singleStockData/get", async (params, thunkApi) => {
+  try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
+
+    const response = await fetch(apiUrl.STOCK_DATAS.GET + '/'+params?.id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = (await response.json()) as StockDatasResponse;
+
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
 export const createStockData = createAsyncThunk<
   StockDatasResponse,
   StockDatasParams,

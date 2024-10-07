@@ -1,27 +1,66 @@
 import {FlatList, StyleSheet, View} from 'react-native';
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import HistoryMolecule from '@src/components/molecules/HistoryMolecule/HistoryMolecule';
-import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
-import {Images} from '@shared/src/assets';
 import GameHeaderMolecule from '@src/components/molecules/GameHeaderMolecule/GameHeaderMolecule';
 import SearchInputAtom from '@src/components/SearchInputAtom';
-import { commonStyle } from '@shared/src/commonStyle';
-import { mScale } from '@shared/src/theme/metrics';
+import {commonStyle} from '@shared/src/commonStyle';
+import {mScale} from '@shared/src/theme/metrics';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
+import {TransactionsResponse} from '@shared/src/utils/types/transactions';
+import {getTransactions} from '@shared/src/provider/store/services/transactions.service';
 
 export default function History() {
-  const navigation = useNavigation();
-  const historyRenderItem = ({item}: {item: any}) => (
+  const dispatch = useAppDispatch();
+  const {transactions, single_transactions} = useAppSelector(
+    state => state.transactions,
+  );
+
+  const [searchResultTransactions, setSearchResultTransactions] =
+    React.useState<TransactionsResponse[]>(transactions || []);
+
+    const [search, setSearch] = React.useState<string>('');
+
+  React.useEffect(() => {
+    if (transactions) {
+      setSearchResultTransactions(transactions);
+    }
+  }, [transactions]);
+
+  const filterSearchByStockName = (searchText: string) => {
+    if (searchText) {
+      const filtered = transactions?.filter(item => {
+        const matchesName = item?.stock?.name
+          ?.toLowerCase()
+          .includes(searchText.toLowerCase());
+        return matchesName;
+      });
+      setSearch(searchText);
+      setSearchResultTransactions(filtered);
+    } else {
+      setSearchResultTransactions(transactions);
+      setSearch(searchText);
+    }
+  };
+
+  const onRefresh = () => {
+    dispatch(getTransactions());
+  };
+
+  const historyRenderItem = ({item}: {item: TransactionsResponse}) => (
     <HistoryMolecule item={item} />
   );
   return (
-    <View style={[commonStyle.container,{marginTop:mScale.base}]}>
+    <View style={[commonStyle.container, {marginTop: mScale.base}]}>
       <View style={{width: '100%'}}>
         <SearchInputAtom
           isRefreshIconVisible={true}
-          onPress={() => {
-            console.log('hello refresh');
+          onPress={onRefresh}
+          value={search}
+          onChangeText={text => {
+            filterSearchByStockName(text);
           }}
         />
       </View>
@@ -33,7 +72,7 @@ export default function History() {
       />
       <View>
         <FlatList
-          data={[...Array(7)]}
+          data={searchResultTransactions?.length ? searchResultTransactions : []}
           renderItem={historyRenderItem}
           keyExtractor={item => item?.id?.toString()}
           contentContainerStyle={{rowGap: 10}}

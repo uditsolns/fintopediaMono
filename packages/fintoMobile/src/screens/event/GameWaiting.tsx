@@ -1,6 +1,6 @@
 import React from 'react';
 import {Alert, BackHandler} from 'react-native';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import PopupAtom from '@src/components/Popup/PopupAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
@@ -16,14 +16,14 @@ import {getGamesById} from '@shared/src/provider/store/services/games.service';
 import {storeCheckNavigate} from '@shared/src/provider/store/reducers/checknavigate.reducer';
 import {getStocks} from '@shared/src/provider/store/services/stocks.service';
 import {storeFilterRoundLevelData} from '@shared/src/provider/store/reducers/roundlevelgames.reducer';
-import {RoundLevelInfo} from '@shared/src/utils/types/roundLevel';
+import { RoundLevelResponse } from '@shared/src/utils/types/roundLevel';
 
 interface GameWaitingProps extends NavType<'GameWaiting'> {}
 
 export const GameWaiting: React.FC<GameWaitingProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
   const [popupVisible, setPopupVisible] = React.useState(true);
-  const {singleGame, loading} = useAppSelector(state => state.games);
+  const {singleGame} = useAppSelector(state => state.games);
   const {check_navigate} = useAppSelector(state => state.checkNavigate);
 
   useFocusEffect(
@@ -63,6 +63,7 @@ export const GameWaiting: React.FC<GameWaitingProps> = ({navigation}) => {
     React.useCallback(() => {
       if (singleGame) {
         let interval = setInterval(() => {
+          console.log("checkSingleGameFinish and getAllRoundLevelGamesData called in waiting screen")
           checkSingleGameFinish();
           getAllRoundLevelGamesData();
         }, 10000);
@@ -99,7 +100,8 @@ export const GameWaiting: React.FC<GameWaitingProps> = ({navigation}) => {
       }),
     );
   };
-  const roundLevelFunction = async (roundLevel: RoundLevelInfo[]) => {
+  const roundLevelFunction = async (roundLevel: RoundLevelResponse[]) => {
+    
     const filterRound = roundLevel?.filter(e1 => {
       return e1?.game_id == singleGame?.id;
     });
@@ -117,7 +119,7 @@ export const GameWaiting: React.FC<GameWaitingProps> = ({navigation}) => {
       }
     }
   };
-  const pushFilterData = async (filterRound: RoundLevelInfo) => {
+  const pushFilterData = async (filterRound: RoundLevelResponse) => {
     dispatch(storeFilterRoundLevelData(filterRound));
   };
   

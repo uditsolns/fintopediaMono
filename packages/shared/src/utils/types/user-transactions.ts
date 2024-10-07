@@ -37,6 +37,7 @@ export interface UserTransactionsState {
     deleteErr: any;
   };
   user_transactions: UserTransactionsResponse[];
+  single_user_transactions: UserTransactionsResponse | null;
   create: UserTransactionsResponse | null;
   update: UserTransactionsResponse | null;
   delete: string | null;

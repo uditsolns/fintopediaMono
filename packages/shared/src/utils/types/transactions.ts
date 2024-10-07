@@ -43,6 +43,7 @@ export interface TransactionsState {
     deleteErr: any;
   };
   transactions: TransactionsResponse[];
+  single_transactions: TransactionsResponse | null;
   create: TransactionsResponse | null;
   update: TransactionsResponse | null;
   delete: string | null;

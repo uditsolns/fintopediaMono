@@ -1,3 +1,4 @@
+import { StockDatasResponse } from "./stockDatas";
 
 export interface StocksParams {
   id?: number;
@@ -11,6 +12,7 @@ export interface StocksResponse {
   industry: string;
   created_at: string;
   updated_at: string;
+  stock_datas?:StockDatasResponse[] | null
 }
 export interface StocksState {
   loading: {
