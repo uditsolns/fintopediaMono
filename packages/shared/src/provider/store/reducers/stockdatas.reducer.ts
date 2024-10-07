@@ -13,23 +13,30 @@ const initialState: StockDataState = {
     delete: false,
     update: false,
     stockData: false,
+    singleStockData:false
   },
   err: {
     createErr: null,
     deleteErr: null,
     updateErr: null,
     stockDataErr: null,
+    singleStockDataErr:null
   },
   create: null,
   delete: null,
   update: null,
   stockData: [],
+  singleStockData:null
 };
 
 const stockDataSlice = createSlice({
   name: "stockData",
   initialState,
-  reducers: {},
+  reducers: {
+    storeSingleStockData:(state,action)=>{
+      state.singleStockData = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getStockData.pending, (state) => {

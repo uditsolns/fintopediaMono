@@ -1,41 +1,42 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { NewsInfo } from "../../../utils/types/news";
+import { NewsParams, NewsResponse } from "../../../utils/types/news";
 
-export const getNews = createAsyncThunk<NewsInfo[], void, { state: RootState }>(
-  "news/get",
-  async (_, thunkApi) => {
-    try {
-      const state = thunkApi.getState();
-      const token = state.auth?.auth?.token;
+export const getNews = createAsyncThunk<
+  NewsResponse[],
+  void,
+  { state: RootState }
+>("news/get", async (_, thunkApi) => {
+  try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
 
-      const response = await fetch(apiUrl.NEWS.GET, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const response = await fetch(apiUrl.NEWS.GET, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      const data = (await response.json()) as NewsInfo[];
+    const data = (await response.json()) as NewsResponse[];
 
-      return data;
-    } catch (error) {
-      return thunkApi.rejectWithValue(error);
-    }
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
   }
-);
+});
 
 export const createNews = createAsyncThunk<
-  NewsInfo,
-  NewsInfo,
+  NewsResponse,
+  NewsParams,
   { state: RootState }
 >("news/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.NEWS.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.NEWS.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +45,7 @@ export const createNews = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as NewsInfo;
+    const data = (await response.json()) as NewsResponse;
 
     return data;
   } catch (error) {
@@ -53,8 +54,8 @@ export const createNews = createAsyncThunk<
 });
 
 export const updateNews = createAsyncThunk<
-  NewsInfo,
-  NewsInfo & { token: string },
+  NewsResponse,
+  NewsParams,
   { state: RootState }
 >("news/update", async (params, thunkApi) => {
   try {
@@ -69,7 +70,7 @@ export const updateNews = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as NewsInfo;
+    const data = (await response.json()) as NewsResponse;
 
     return data;
   } catch (error) {
@@ -78,14 +79,14 @@ export const updateNews = createAsyncThunk<
 });
 
 export const deleteNews = createAsyncThunk<
-  string,
-  string,
+  string | number,
+  number,
   { state: RootState }
->("news/delete", async (params, thunkApi) => {
+>("news/delete", async (id, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.NEWS.DELETE + "/" + params, {
+    const response = await fetch(apiUrl.NEWS.DELETE + "/" + id, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +94,7 @@ export const deleteNews = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as string;
+    const data = (await response.json()) as string | number;
 
     return data;
   } catch (error) {

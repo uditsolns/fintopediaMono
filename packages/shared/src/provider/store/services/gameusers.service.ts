@@ -4,11 +4,12 @@ import apiUrl from "../../../config/apiUrl";
 import {
   GameUserLoginIDGameIDPayload,
   GameUserLoginIDGameIDResponse,
-  GameUsersInfo,
+  GameUsersParams,
+  GameUsersResponse,
 } from "../../../utils/types/gameUsers";
 
 export const getGameUsers = createAsyncThunk<
-  GameUsersInfo[],
+  GameUsersResponse[],
   void,
   { state: RootState }
 >("gameUsers/get", async (_, thunkApi) => {
@@ -24,7 +25,7 @@ export const getGameUsers = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as GameUsersInfo[];
+    const data = (await response.json()) as GameUsersResponse[];
 
     return data;
   } catch (error) {
@@ -41,7 +42,6 @@ export const getGameUserByLoginIDGameID = createAsyncThunk<
     try {
       const state = thunkApi.getState();
       const token = state.auth?.auth?.token;
-
       const response = await fetch(
         `${apiUrl.GAME_USER.GET}/${user_id}/${game_id}`,
         {
@@ -64,14 +64,14 @@ export const getGameUserByLoginIDGameID = createAsyncThunk<
 );
 
 export const createGameUsers = createAsyncThunk<
-  GameUsersInfo,
-  GameUsersInfo,
+  GameUsersResponse,
+  GameUsersParams,
   { state: RootState }
 >("gameUsers/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.GAME_USERS.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.GAME_USERS.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export const createGameUsers = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as GameUsersInfo;
+    const data = (await response.json()) as GameUsersResponse;
 
     return data;
   } catch (error) {
@@ -89,8 +89,8 @@ export const createGameUsers = createAsyncThunk<
 });
 
 export const updateGameUsers = createAsyncThunk<
-  GameUsersInfo,
-  GameUsersInfo & { token: string },
+  GameUsersResponse,
+  GameUsersParams,
   { state: RootState }
 >("gameUsers/update", async (params, thunkApi) => {
   try {
@@ -105,7 +105,7 @@ export const updateGameUsers = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as GameUsersInfo;
+    const data = (await response.json()) as GameUsersResponse;
 
     return data;
   } catch (error) {

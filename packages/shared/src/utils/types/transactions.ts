@@ -1,16 +1,33 @@
 import { UserInfo } from "./auth";
+import { StocksResponse } from "./stocks";
 
-export interface TransactionsInfo {
-  id: string;
+export interface TransactionsParams {
+  id?: number;
+  game_id?: number;
+  user_id?: number;
+  stock_id?: number;
+  order_type?: string;
+  order_qty?: number;
+  total_price?: number;
+  stock_current_price?: number;
+  round_level?: number;
+}
+
+export interface TransactionsResponse {
+  id: number;
   game_id: number;
   user_id: number;
   stock_id: number;
+  stock_current_price: number | string;
+  order_qty: null | number | string;
   order_type: string;
-  order_qty: number;
-  total_price: number;
-  stock_current_price: number;
-  round_level: number;
-  user:UserInfo;
+  total_price: null | number | string;
+  round_level: string;
+  deleted_at?: null | string;
+  created_at: string | null;
+  updated_at: string | number;
+  user?: UserInfo;
+  stock?: StocksResponse;
 }
 export interface TransactionsState {
   loading: {
@@ -25,8 +42,8 @@ export interface TransactionsState {
     updateErr: any;
     deleteErr: any;
   };
-  transactions: TransactionsInfo[];
-  create: TransactionsInfo | null;
-  update: TransactionsInfo | null;
+  transactions: TransactionsResponse[];
+  create: TransactionsResponse | null;
+  update: TransactionsResponse | null;
   delete: string | null;
 }

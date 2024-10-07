@@ -1,7 +1,16 @@
-export interface StocksInfo {
+
+export interface StocksParams {
+  id?: number;
+  name?: string;
+  industry?: string;
+}
+
+export interface StocksResponse {
   id: number;
-  name: string;
+  name:string;
   industry: string;
+  created_at: string;
+  updated_at: string;
 }
 export interface StocksState {
   loading: {
@@ -16,8 +25,8 @@ export interface StocksState {
     updateErr: any;
     deleteErr: any;
   };
-  stocks: StocksInfo[];
-  create: StocksInfo | null;
-  update: StocksInfo | null;
+  stocks: StocksResponse[];
+  create: StocksResponse | null;
+  update: StocksResponse | null;
   delete: string | null;
 }

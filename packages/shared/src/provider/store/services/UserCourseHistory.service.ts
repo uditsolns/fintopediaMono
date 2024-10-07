@@ -37,7 +37,7 @@ export const createUserCourseHistory = createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
     const response = await fetch(
-      apiUrl.USER_COURSE_HISTORY.POST + "/" + params.id,
+      apiUrl.USER_COURSE_HISTORY.POST,
       {
         method: "POST",
         headers: {

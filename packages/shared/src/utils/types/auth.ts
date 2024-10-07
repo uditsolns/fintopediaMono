@@ -1,3 +1,5 @@
+import { UserTransactionsResponse } from "./user-transactions";
+
 export interface AuthState {
   loading: {
     login: boolean;
@@ -18,7 +20,7 @@ export interface AuthState {
   signup: AuthResponse | null;
   forgot: null;
   confirm: null;
-  current_user: null;
+  current_user: UserInfo | null;
 }
 
 export interface AuthParams {
@@ -72,7 +74,7 @@ export interface UserInfo {
   is_google_login: string;
   feedback: null;
   college: null;
-  user_transactions:[]
+  user_transactions?:UserTransactionsResponse[] | null
 }
 
 export interface SignupParams {

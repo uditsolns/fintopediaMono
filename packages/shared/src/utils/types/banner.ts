@@ -1,8 +1,16 @@
-export interface BannerInfo {
+export interface BannerResponse {
   id: number;
   college_id: number;
-  name: string;
-  bannername: File;
+  name: string | null | File;
+  created_at: string;
+  updated_at: string;
+  bannername: string;
+}
+export interface BannerPararms {
+  id?: number;
+  college_id?: number;
+  name?: string;
+  bannername?: string;
 }
 export interface BannerState {
   loading: {
@@ -17,8 +25,8 @@ export interface BannerState {
     updateErr: any;
     deleteErr: any;
   };
-  banner: BannerInfo[];
-  create: BannerInfo | null;
-  update: BannerInfo | null;
+  banner: BannerResponse[];
+  create: BannerResponse | null;
+  update: BannerResponse | null;
   delete: string | null;
 }
