@@ -5,24 +5,23 @@ import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
-import { TransactionsResponse } from '@shared/src/utils/types/transactions';
-import { RoundLevelResponse } from '@shared/src/utils/types/roundLevel';
+import {TransactionsResponse} from '@shared/src/utils/types/transactions';
+import {RoundLevelResponse} from '@shared/src/utils/types/roundLevel';
 
 interface PortfolioMoleculeProps {
   item?: TransactionsResponse;
   onSellStcok?: () => void;
-  filterRoundLevel?:RoundLevelResponse | null
+  filterRoundLevel?: RoundLevelResponse | null;
 }
 export default function PortfolioMolecule({
   item,
   onSellStcok,
-  filterRoundLevel
+  filterRoundLevel,
 }: PortfolioMoleculeProps) {
-
   const filterOrderQty = item?.user?.user_transactions?.find(
     el => el?.stock_id == item?.stock_id,
   );
-  const stock_filter_amount = item?.stock?.stock_datas.find(e3 => {
+  const stock_filter_amount = item?.stock?.stock_datas!.find(e3 => {
     return (
       e3?.game_id == filterRoundLevel?.game_id &&
       e3?.round_level == filterRoundLevel?.round_level
@@ -57,13 +56,17 @@ export default function PortfolioMolecule({
           numberOfLines={1}
         />
         <TextAtom
-          text={`₹ ${item?.stock_current_price ? item?.stock_current_price : 0}`}
+          text={`₹ ${
+            item?.stock_current_price ? item?.stock_current_price : 0
+          }`}
           preset="smallBold"
           style={{fontWeight: '500', width: moderateScale(70)}}
           numberOfLines={1}
         />
         <TextAtom
-          text={`₹ ${stock_filter_amount ? stock_filter_amount?.stock_current_price : 0}`}
+          text={`₹ ${
+            stock_filter_amount ? stock_filter_amount?.stock_current_price : 0
+          }`}
           preset="smallBold"
           style={{fontWeight: '500', width: moderateScale(70)}}
           numberOfLines={1}

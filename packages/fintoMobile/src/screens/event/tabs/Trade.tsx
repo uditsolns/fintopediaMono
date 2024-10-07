@@ -17,6 +17,9 @@ import {StocksResponse} from '@shared/src/utils/types/stocks';
 import {StockDatasResponse} from '@shared/src/utils/types/stockDatas';
 import {getStocks} from '@shared/src/provider/store/services/stocks.service';
 import {getStockData} from '@shared/src/provider/store/services/stockdatas.service';
+import {storeSingleStockData} from '@shared/src/provider/store/reducers/stockdatas.reducer';
+
+interface TradeProps {}
 
 export default function Trade() {
   const navigation = useNavigation();
@@ -87,9 +90,8 @@ export default function Trade() {
       <TradeMolecule
         item={item}
         onBuyStcok={() => {
-          // navigation.navigate(RouteKeys.BUYSTOCKSSCREEN);
-          console.log(item)
-          // dispatch(storeSingleStockData)
+          dispatch(storeSingleStockData(item));
+          navigation.navigate(RouteKeys.BUYSTOCKSSCREEN);
         }}
       />
     );
