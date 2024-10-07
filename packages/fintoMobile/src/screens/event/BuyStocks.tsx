@@ -1,6 +1,5 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {commonStyle} from '@shared/src/commonStyle';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
@@ -31,9 +30,7 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
     state => state.roundLevel,
   );
   const {news} = useAppSelector(state => state.news);
-  const {create,loading} = useAppSelector(
-    state => state.transactions,
-  );
+  const {create, loading} = useAppSelector(state => state.transactions);
 
   const {buySellFormik, buySellInputProps} = useBuySellHelper();
   const {handleSubmit, isSubmitting, setFieldValue, values, resetForm} =
@@ -53,7 +50,6 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
 
   const buyStocks = async () => {
     handleSubmit();
-    
   };
 
   React.useEffect(() => {

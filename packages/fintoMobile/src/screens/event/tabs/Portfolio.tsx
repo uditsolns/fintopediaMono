@@ -13,6 +13,7 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {getTransactions} from '@shared/src/provider/store/services/transactions.service';
 import {TransactionsResponse} from '@shared/src/utils/types/transactions';
+import { storeSingleStockData } from '@shared/src/provider/store/reducers/stockdatas.reducer';
 
 export default function Portfolio() {
   const navigation = useNavigation();
@@ -78,8 +79,8 @@ export default function Portfolio() {
 
   const portfolioRenderItem = ({item}: {item: TransactionsResponse}) => {
     const onSellStcok = () => {
-      let id = item?.id;
-      // navigation.navigate(RouteKeys.SELLSTOCKSSCREEN)
+       dispatch(storeSingleStockData(item))
+      navigation.navigate(RouteKeys.SELLSTOCKSSCREEN)
     };
 
     return (

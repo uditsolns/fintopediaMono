@@ -26,9 +26,9 @@ import userCertificateReducer from "./reducers/UserCertificate.reducer";
 import userCourseHistoryReducer from "./reducers/UserCourseHistory.reducer";
 import startGameReducer from "./reducers/startgame.reducer";
 import stopGameReducer from "./reducers/stopgame.reducer";
+import checkNavigateReducer from './reducers/checknavigate.reducer'
 
 const isNative = Platform.OS !== "web";
-import checkNavigateReducer from './reducers/checknavigate.reducer'
 
 const persistConfig: any = {
   key: "fintopedia",
@@ -67,7 +67,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(errorMiddleware, logger),
+    }).concat(errorMiddleware),
 });
 
 export const persistor = persistStore(store);
