@@ -24,7 +24,7 @@ export interface GamesParams {
 export interface GamesResponse {
   id: number;
   college_id: number;
-  name: number;
+  name: string;
   image: null | string;
   start_time: string;
   end_time: string;

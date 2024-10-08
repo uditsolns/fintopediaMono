@@ -15,7 +15,6 @@ export const useBuySellHelper = () => {
     validationSchema: buySellValidation,
     onSubmit: (values) => {
       let data: TransactionsParams = {
-        id:+values.id,
         game_id: +values.game_id,
         user_id: +values.user_id,
         stock_id: +values.stock_id,
@@ -25,9 +24,7 @@ export const useBuySellHelper = () => {
         stock_current_price: +values.stock_current_price,
         round_level: values.round_level,
       };
-      console.log("transaction data ", data);
       dispatch(createTransactions(data));
-      
     },
   });
 

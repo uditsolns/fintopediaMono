@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {Alert, FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {commonStyle} from '@shared/src/commonStyle';
@@ -25,7 +25,6 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
   const {auth} = useAppSelector(state => state.auth);
   const {singleStockData} = useAppSelector(state => state.stockData);
-  const {singleGame} = useAppSelector(state => state.games);
   const {filterRoundLevelData, singleRoundLevel} = useAppSelector(
     state => state.roundLevel,
   );
@@ -41,16 +40,8 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
     setFieldValue(buySellField.user_id.name, auth?.user?.id);
     setFieldValue(buySellField.stock_id.name, singleStockData?.stock_id);
     setFieldValue(buySellField.order_type.name, 'Sell');
-    setFieldValue(
-      buySellField.stock_current_price.name,
-      singleStockData?.stock_current_price,
-    );
     setFieldValue(buySellField.round_level.name, singleStockData?.round_level);
   }, [singleStockData]);
-
-  const sellStocks = async () => {
-    handleSubmit();
-  };
 
   React.useEffect(() => {
     const stock_filter_amount = singleStockData?.stock?.stock_datas!.find(
@@ -61,6 +52,7 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
         );
       },
     );
+
     let current_price: string =
       stock_filter_amount?.stock_current_price?.toString() || '0';
     let quantity: string = values.order_qty?.trim()?.toString() || '0';
@@ -68,7 +60,13 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
     const cleanQuantity = parseFloat(quantity.replace(/,/g, '')) || 0;
     const totalPrice = (cleanQuantity * cleanCurrentPrice).toString();
     setFieldValue(buySellField.total_price.name, totalPrice);
-  }, [singleRoundLevel, values.order_qty, values.stock_current_price]);
+    setFieldValue(buySellField.stock_current_price.name, current_price);
+  }, [singleStockData, values.order_qty, values.stock_current_price]);
+
+  const sellStocks = async () => {
+    await handleSubmit();
+    navigation.goBack()
+  };
 
   const renderItem = ({item}: {item: NewsResponse}) => (
     <LatestNewsMolecule item={item} itemWidth={'fullWidth'} />

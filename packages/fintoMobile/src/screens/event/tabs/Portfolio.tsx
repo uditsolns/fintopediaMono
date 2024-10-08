@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, View} from 'react-native';
+import {Alert, FlatList, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import GameHeaderMolecule from '@src/components/molecules/GameHeaderMolecule/GameHeaderMolecule';
@@ -13,24 +13,21 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {getTransactions} from '@shared/src/provider/store/services/transactions.service';
 import {TransactionsResponse} from '@shared/src/utils/types/transactions';
-import { storeSingleStockData } from '@shared/src/provider/store/reducers/stockdatas.reducer';
+import {storeSingleStockData} from '@shared/src/provider/store/reducers/stockdatas.reducer';
+import {getGameUserByLoginIDGameID} from '@shared/src/provider/store/services/gameusers.service';
+import {storeUserGameAmount} from '@shared/src/provider/store/reducers/gameusers.reducer';
+import { NavType } from '@src/navigation/types';
 
+interface PortfolioProps extends NavType<'GameHome'>{}
 export default function Portfolio() {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const {auth} = useAppSelector(state => state.auth);
   const {singleGame} = useAppSelector(state => state.games);
-  const {transactions, single_transactions} = useAppSelector(
-    state => state.transactions,
-  );
-  const {filterRoundLevelData, singleRoundLevel} = useAppSelector(
-    state => state.roundLevel,
-  );
+  const {transactions, create} = useAppSelector(state => state.transactions);
+  const {filterRoundLevelData} = useAppSelector(state => state.roundLevel);
+  const {user_game_amount} = useAppSelector(state => state.gameUsers);
   const [search, setSearch] = React.useState<string>('');
-
-  const onRefresh = () => {
-    dispatch(getTransactions());
-  };
 
   const [filterTransactions, setFilterTransactions] = React.useState<
     TransactionsResponse[]
@@ -45,7 +42,7 @@ export default function Portfolio() {
           el => el.stock_id == item.stock_id,
         );
         return (
-          // item?.user_id == auth?.user?.id &&
+          item?.user_id == auth?.user?.id &&
           item?.order_type?.toLowerCase() == 'buy' &&
           item?.game_id == singleGame?.id &&
           Number(data_stock_filter?.order_qty) > 0
@@ -77,10 +74,41 @@ export default function Portfolio() {
     }
   };
 
+  const onRefresh = () => {
+    dispatch(getTransactions());
+  };
+
+  React.useEffect(() => {
+    if (create?.id) {
+      Alert.alert('Sell Succeessfully');
+      let user_id = Number(auth?.user?.id);
+      let game_id = Number(singleGame?.id);
+      dispatch(
+        getGameUserByLoginIDGameID({
+          user_id,
+          game_id,
+          onSuccess: data => {
+            if (user_game_amount == 0) {
+              dispatch(storeUserGameAmount(data?.amount));
+            }
+          },
+          onError: () => {},
+        }),
+      );
+    }
+  }, [create]);
+
   const portfolioRenderItem = ({item}: {item: TransactionsResponse}) => {
     const onSellStcok = () => {
-       dispatch(storeSingleStockData(item))
-      navigation.navigate(RouteKeys.SELLSTOCKSSCREEN)
+      let res = {
+        stock_id: item?.stock_id,
+        game_id: item?.game_id,
+        stock_current_price: item?.stock_current_price,
+        round_level: item?.round_level,
+        stock: item?.stock,
+      };
+      dispatch(storeSingleStockData(res));
+      navigation.navigate(RouteKeys.SELLSTOCKSSCREEN);
     };
 
     return (
