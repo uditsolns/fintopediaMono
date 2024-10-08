@@ -49,7 +49,8 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
   }, [singleStockData]);
 
   const buyStocks = async () => {
-    handleSubmit();
+    await handleSubmit();
+    navigation.goBack()
   };
 
   React.useEffect(() => {

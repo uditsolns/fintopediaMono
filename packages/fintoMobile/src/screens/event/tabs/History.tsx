@@ -14,24 +14,34 @@ import {getTransactions} from '@shared/src/provider/store/services/transactions.
 
 export default function History() {
   const dispatch = useAppDispatch();
-  const {transactions, single_transactions} = useAppSelector(
-    state => state.transactions,
-  );
+  const {transactions} = useAppSelector(state => state.transactions);
 
+  const {auth} = useAppSelector(state => state.auth);
+  const {singleGame} = useAppSelector(state => state.games);
+
+  const [filterTransactions, setFilterTransactions] = React.useState<
+    TransactionsResponse[]
+  >(transactions || []);
   const [searchResultTransactions, setSearchResultTransactions] =
     React.useState<TransactionsResponse[]>(transactions || []);
 
-    const [search, setSearch] = React.useState<string>('');
+  const [search, setSearch] = React.useState<string>('');
 
   React.useEffect(() => {
     if (transactions) {
-      setSearchResultTransactions(transactions);
+      const data = transactions?.filter(item => {
+        return (
+          item?.user_id == auth?.user?.id && item?.game_id == singleGame?.id
+        );
+      });
+      setFilterTransactions(data);
+      setSearchResultTransactions(data);
     }
   }, [transactions]);
 
   const filterSearchByStockName = (searchText: string) => {
     if (searchText) {
-      const filtered = transactions?.filter(item => {
+      const filtered = filterTransactions?.filter(item => {
         const matchesName = item?.stock?.name
           ?.toLowerCase()
           .includes(searchText.toLowerCase());
@@ -72,7 +82,9 @@ export default function History() {
       />
       <View>
         <FlatList
-          data={searchResultTransactions?.length ? searchResultTransactions : []}
+          data={
+            searchResultTransactions?.length ? searchResultTransactions : []
+          }
           renderItem={historyRenderItem}
           keyExtractor={item => item?.id?.toString()}
           contentContainerStyle={{rowGap: 10}}

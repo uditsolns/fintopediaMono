@@ -24,9 +24,7 @@ export const useBuySellHelper = () => {
         stock_current_price: +values.stock_current_price,
         round_level: values.round_level,
       };
-      console.log("transaction data ", data);
       dispatch(createTransactions(data));
-
     },
   });
 

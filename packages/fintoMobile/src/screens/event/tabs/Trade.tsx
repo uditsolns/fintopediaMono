@@ -1,4 +1,4 @@
-import {FlatList, Pressable, StyleSheet, View} from 'react-native';
+import {Alert, FlatList, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
@@ -18,22 +18,28 @@ import {StockDatasResponse} from '@shared/src/utils/types/stockDatas';
 import {getStocks} from '@shared/src/provider/store/services/stocks.service';
 import {getStockData} from '@shared/src/provider/store/services/stockdatas.service';
 import {storeSingleStockData} from '@shared/src/provider/store/reducers/stockdatas.reducer';
+import { getGameUserByLoginIDGameID } from '@shared/src/provider/store/services/gameusers.service';
+import { storeUserGameAmount } from '@shared/src/provider/store/reducers/gameusers.reducer';
 
 interface TradeProps {}
 
 export default function Trade() {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-  const {stocks, loading: stockLoading} = useAppSelector(state => state.stocks);
+  const {auth} = useAppSelector(state => state.auth);
+  const {stocks} = useAppSelector(state => state.stocks);
   const {
     stockData,
-    loading: stockDataLoading,
-    singleStockData,
   } = useAppSelector(state => state.stockData);
-  const {filterRoundLevelData, singleRoundLevel} = useAppSelector(
+  const {filterRoundLevelData} = useAppSelector(
     state => state.roundLevel,
   );
+  const {user_game_amount} = useAppSelector(
+    state => state.gameUsers,
+  );
+  const {singleGame} = useAppSelector(state => state.games);
 
+  const {create} = useAppSelector(state => state.transactions);
   const [uniqueStocks, setUniqueStocks] = React.useState<StocksResponse[]>(
     stocks || [],
   );
@@ -45,8 +51,10 @@ export default function Trade() {
   >(stockData || []);
   const [search, setSearch] = React.useState<string>('');
 
+ 
+
   React.useEffect(() => {
-    if (stockData) {
+    if (stocks) {
       const unique = [
         ...new Map(stocks?.map(item => [item?.industry, item])).values(),
       ];
@@ -64,6 +72,25 @@ export default function Trade() {
     dispatch(getStockData());
     setSearchStocksData(stockData);
   };
+  React.useEffect(() => {
+    if (create?.id) {
+      Alert.alert('Buy Succeessfully');
+      let user_id = Number(auth?.user?.id);
+      let game_id = Number(singleGame?.id);
+      dispatch(
+        getGameUserByLoginIDGameID({
+          user_id,
+          game_id,
+          onSuccess: data => {
+            if (user_game_amount == 0) {
+              dispatch(storeUserGameAmount(data?.amount));
+            }
+          },
+          onError: () => {},
+        }),
+      );
+    }
+  }, [create]);
 
   const stockRenderItem = ({item}: {item: StocksResponse}) => {
     const handlePress = (id: number) => {

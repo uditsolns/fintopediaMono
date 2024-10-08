@@ -16,10 +16,10 @@ import {
   getGames,
   getGamesById,
 } from '@shared/src/provider/store/services/games.service';
-import {GamesInfo} from '@shared/src/utils/types/games';
 import {createStartGame} from '@shared/src/provider/store/services/startgame.service';
 import {Toast} from 'react-native-toast-notifications';
 import {RouteKeys} from '@src/navigation/RouteKeys';
+import {GamesResponse} from '@shared/src/utils/types/games';
 
 interface EventsProps extends NavType<'Events'> {}
 
@@ -40,12 +40,12 @@ export const Events: React.FC<EventsProps> = ({navigation}) => {
     setRefreshLoading(false);
   };
 
-  const playGame = async (item: GamesInfo) => {
+  const playGame = async (item: GamesResponse) => {
     const id = item?.id;
     const startGameInfo = {
       game_id: id,
     };
-    if (item?.is_active == '1') {
+    if (item?.is_active == 1) {
       dispatch(
         createStartGame({
           startGameInfo,
@@ -73,14 +73,18 @@ export const Events: React.FC<EventsProps> = ({navigation}) => {
     }
   };
 
-  const getGameByID = async (item: GamesInfo) => {
-    let body = {
-      id: item?.id,
-    };
-    dispatch(getGamesById(body));
+  const getGameByID = async (item: GamesResponse) => {
+    let id = Number(item?.id);
+    dispatch(
+      getGamesById({
+        id,
+        onSuccess: data => {},
+        onError: () => {},
+      }),
+    );
   };
 
-  const renderItem = ({item}: {item: GamesInfo}) => {
+  const renderItem = ({item}: {item: GamesResponse}) => {
     return (
       <EventMolecule
         item={item}
@@ -103,7 +107,9 @@ export const Events: React.FC<EventsProps> = ({navigation}) => {
         </View>
       ) : null}
       <FlatList
-        data={games?.length ? games?.filter((el):any => el?.is_active == '1') : []}
+        data={
+          games?.length ? games?.filter((el): any => el?.is_active == 1) : []
+        }
         renderItem={renderItem}
         keyExtractor={item => item?.id?.toString()}
         refreshControl={

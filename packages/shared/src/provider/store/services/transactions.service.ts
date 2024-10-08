@@ -5,6 +5,7 @@ import {
   TransactionsParams,
   TransactionsResponse,
 } from "../../../utils/types/transactions";
+import { resetTransaction } from "../reducers/transactions.reducer";
 
 export const getTransactions = createAsyncThunk<
   TransactionsResponse[],
@@ -49,6 +50,7 @@ export const createTransactions = createAsyncThunk<
     });
 
     const data = (await response.json()) as TransactionsResponse;
+    thunkApi.dispatch(resetTransaction());
     thunkApi.dispatch(getTransactions());
 
     return data;

@@ -6,14 +6,14 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
-import {GamesInfo} from '@shared/src/utils/types/games';
+import {GamesResponse} from '@shared/src/utils/types/games';
 import {imageUrl} from 'shared/src/config/imageUrl';
 
 export default function EventMolecule({
   item,
   onPress,
 }: {
-  item: GamesInfo;
+  item: GamesResponse;
   onPress: () => void;
 }) {
   return (

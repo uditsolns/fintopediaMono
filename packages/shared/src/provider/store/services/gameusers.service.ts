@@ -7,12 +7,13 @@ import {
   GameUsersParams,
   GameUsersResponse,
 } from "../../../utils/types/gameUsers";
+import { OnSuccessInterface } from "../../../utils/types/roundLevel";
 
 export const getGameUsers = createAsyncThunk<
   GameUsersResponse[],
-  void,
+  OnSuccessInterface,
   { state: RootState }
->("gameUsers/get", async (_, thunkApi) => {
+>("gameUsers/get", async ({ onSuccess }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
@@ -26,7 +27,7 @@ export const getGameUsers = createAsyncThunk<
     });
 
     const data = (await response.json()) as GameUsersResponse[];
-
+    onSuccess(data);
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);
