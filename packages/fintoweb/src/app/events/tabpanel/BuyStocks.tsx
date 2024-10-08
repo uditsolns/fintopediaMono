@@ -31,6 +31,7 @@ const BuyStocks: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
   const { news } = useAppSelector((state) => state.news);
+  const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
   const { transactions, loading, create } = useAppSelector(
     (state) => state.transactions
   );
@@ -132,13 +133,17 @@ const BuyStocks: React.FC<Props> = (props) => {
           <div className={styles["news-scroll-container"]}>
             {news.length > 0 && (
               <>
-                {news.map((el, i) => (
-                  <Card key={i} className={`${styles["news-card"]} m-2 p-2`}>
-                    <CardBody>
-                      <CardTitle tag="h6">{el.name}</CardTitle>
-                    </CardBody>
-                  </Card>
-                ))}
+                {news
+                  ?.filter(
+                    (item) => item.set_id == filterRoundLevelData?.set_id
+                  )
+                  .map((el, i) => (
+                    <Card key={i} className={`${styles["news-card"]} m-2 p-2`}>
+                      <CardBody>
+                        <CardTitle tag="h6">{el.name}</CardTitle>
+                      </CardBody>
+                    </Card>
+                  ))}
               </>
             )}
           </div>

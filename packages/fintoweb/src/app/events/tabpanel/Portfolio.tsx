@@ -17,16 +17,14 @@ import { toast } from "react-toastify";
 import { resetTransaction } from "shared/src/provider/store/reducers/transactions.reducer";
 import { getGameUserByLoginIDGameID } from "shared/src/provider/store/services/gameusers.service";
 import { storeUserGameAmount } from "shared/src/provider/store/reducers/gameusers.reducer";
-import PortfolioMolecule from "./PortfolioMolecule";
 
 interface PortfolioProps {
   gameId: number;
-  roundLevel:number;
+  roundLevel: number;
   roundId: number;
 }
 const Portfolio: React.FC<PortfolioProps> = (props) => {
   const gameId = props.gameId;
-
 
   const dispatch = useAppDispatch();
   const { transactions, loading, create } = useAppSelector(
@@ -41,7 +39,7 @@ const Portfolio: React.FC<PortfolioProps> = (props) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterData, setFilterData] = useState<any[]>([]);
   const [data, setData] = useState<any[]>([]);
-  console.log("data", data);
+
   useEffect(() => {
     dispatch(getTransactions());
   }, []);
@@ -54,7 +52,6 @@ const Portfolio: React.FC<PortfolioProps> = (props) => {
         const userTransaction = item.user?.user_transactions?.find(
           (el) => el.stock_id === item.stock_id
         );
-        console.log("userTransaction", userTransaction);
 
         const orderQty = userTransaction?.order_qty;
         return (
@@ -126,10 +123,7 @@ const Portfolio: React.FC<PortfolioProps> = (props) => {
           }}
           variant="outlined"
         />
-        <Button
-          // onClick={() => setData(allData)}
-          className={`${styles["search-button"]}`}
-        >
+        <Button className={`${styles["search-button"]}`}>
           <FaArrowRotateRight />
         </Button>
       </div>
@@ -163,7 +157,8 @@ const Portfolio: React.FC<PortfolioProps> = (props) => {
                     let stock_filter_amount = el?.stock?.stock_datas!.find(
                       (e3) => {
                         return (
-                          e3?.game_id == gameId && e3?.round_level == props?.roundLevel
+                          e3?.game_id == gameId &&
+                          e3?.round_level == props?.roundLevel
                         );
                       }
                     );

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { Row, Col, Button, Table } from "reactstrap";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -18,7 +20,7 @@ import { storeUserGameAmount } from "shared/src/provider/store/reducers/gameuser
 
 interface TradeProps {
   gameId: number;
-  roundLevel:number;
+  roundLevel: number;
   roundId: number;
 }
 const Trade: React.FC<TradeProps> = (props) => {

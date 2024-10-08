@@ -30,17 +30,13 @@ const SellStocks: React.FC<Props> = (props) => {
   const { transactions, loading } = useAppSelector(
     (state) => state.transactions
   );
-  const { filterRoundLevelData, singleRoundLevel } = useAppSelector(
-    (state) => state.roundLevel
-  );
-  const [totalPrice, setTotalPrice] = useState(0);
+  const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
 
   const { buySellFormik, buySellInputProps } = useBuySellHelper();
-  const { handleSubmit, setFieldValue, values } =
-    buySellFormik;
+  const { handleSubmit, setFieldValue, values } = buySellFormik;
 
   React.useEffect(() => {
     setFieldValue(buySellField.game_id.name, props.data?.game_id);
@@ -131,7 +127,7 @@ const SellStocks: React.FC<Props> = (props) => {
           </h2>
           <div className={styles["news-scroll-container"]}>
             {news.length > 0 &&
-              news.map((el, i) => (
+              news?.filter((item) => item.set_id == filterRoundLevelData?.set_id).map((el, i) => (
                 <Card key={i} className={`${styles["news-card"]} m-2 p-2`}>
                   <CardBody>
                     <CardTitle tag="h6">{el.name}</CardTitle>

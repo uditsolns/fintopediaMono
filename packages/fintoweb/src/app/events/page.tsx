@@ -14,9 +14,8 @@ import { getRoundLevelById } from "shared/src/provider/store/services/roundlevel
 import { storeCheckNavigateHome } from "shared/src/provider/store/reducers/checknavigate.reducer";
 import { getGameUserByLoginIDGameID } from "shared/src/provider/store/services/gameusers.service";
 import { storeFilterRoundLevelData } from "shared/src/provider/store/reducers/roundlevelgames.reducer";
-import { updateRoundLevel } from "shared/src/provider/store/services/roundlevelgames.service";
+//import { updateRoundLevel } from "shared/src/provider/store/services/roundlevelgames.service";
 import { storeUserGameAmount } from "shared/src/provider/store/reducers/gameusers.reducer";
-import { RoundLevelParams } from "shared/src/utils/types/roundLevel";
 
 export interface EventPageProps {
   id: number;
@@ -25,7 +24,6 @@ export interface EventPageProps {
 }
 
 const Events: React.FC<EventPageProps> = ({ id, roundLevel, roundId }) => {
-  console.log("roundLevel test", id, roundLevel, roundId);
   const gameId = id;
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -45,11 +43,7 @@ const Events: React.FC<EventPageProps> = ({ id, roundLevel, roundId }) => {
   const [endTime, setEndTime] = React.useState<string>(
     filterRoundLevelData ? `${filterRoundLevelData.end_datetime}` : "00:00:00"
   );
-
-  // const currentTime = new Date().toLocaleTimeString();
   const currentTime = new Date().toLocaleTimeString([], { hour12: false });
-
-  // const endTime = `${filterRoundLevelData.end_datetime}`;
 
   React.useEffect(() => {
     if (filterRoundLevelData) {
@@ -93,7 +87,6 @@ const Events: React.FC<EventPageProps> = ({ id, roundLevel, roundId }) => {
       //   is_active: 0,
       // };
       // dispatch(updateRoundLevel(body));
-      console.log("timer");
     }
     const timer = setInterval(() => {
       setTime((prevTime) => Math.max(prevTime - 1, 0));

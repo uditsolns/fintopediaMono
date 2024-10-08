@@ -75,7 +75,6 @@ const BasicTabs: React.FC<BasicTabsProps> = ({
   roundLevel,
   roundId,
 }) => {
-
   const [value, setValue] = React.useState<number>(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -113,10 +112,14 @@ const BasicTabs: React.FC<BasicTabsProps> = ({
         <Portfolio gameId={gameId} roundLevel={roundLevel} roundId={roundId} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <History gameId={gameId} roundLevel={roundLevel} roundId={roundId}/>
+        <History gameId={gameId} roundLevel={roundLevel} roundId={roundId} />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <PreviousData gameId={gameId} roundLevel={roundLevel} roundId={roundId}/>
+        <PreviousData
+          gameId={gameId}
+          roundLevel={roundLevel}
+          roundId={roundId}
+        />
       </TabPanel>
     </Box>
   );

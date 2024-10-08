@@ -14,7 +14,12 @@ import {
 import LightLoading from "@src/components/loader/LightLoading";
 import { getTransactions } from "shared/src/provider/store/services/transactions.service";
 
-const History: React.FC = ({ gameId, roundLevel, roundId }) => {
+interface HistoryProps {
+  gameId: number;
+  roundLevel: number;
+  roundId: number;
+}
+const History: React.FC<HistoryProps> = ({ gameId, roundLevel, roundId }) => {
   const dispatch = useAppDispatch();
   const [searchTerm, setSearchTerm] = useState<string>("");
 
@@ -70,7 +75,7 @@ const History: React.FC = ({ gameId, roundLevel, roundId }) => {
               <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Qty</th>
-                {/* <th scope="col">Avg. Price</th> */}
+
                 <th scope="col">Total Price</th>
                 <th scope="col">Order Type</th>
               </tr>
@@ -104,7 +109,6 @@ const History: React.FC = ({ gameId, roundLevel, roundId }) => {
                       <tr key={index}>
                         <th>{el.stock?.name}</th>
                         <td>{el.order_qty}</td>
-                        {/* <td>{Math.round(el.stock_current_price * 10) / 10}</td> */}
                         <td>{Math.round(el.total_price * 10) / 10}</td>
                         <td>{el.order_type}</td>
                       </tr>

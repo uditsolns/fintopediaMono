@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import Winner from "../../assets/user.jpg";
@@ -41,7 +43,7 @@ const Winners: React.FC<WinnerProps> = () => {
             style={{ width: "80px", height: "80px" }}
           >
             <Image
-              src="#"
+              src={Winner}
               alt={"Second"}
               layout="fill"
               objectFit="cover"
@@ -51,7 +53,7 @@ const Winners: React.FC<WinnerProps> = () => {
               className="badge bg-primary position-absolute top-0 start-50 translate-middle"
               style={{ fontSize: "1rem" }}
             >
-              1
+              2
             </span>
           </div>
           <p className="mt-2 mb-0 text-white" style={{ fontSize: "0.9rem" }}>
@@ -66,7 +68,7 @@ const Winners: React.FC<WinnerProps> = () => {
           </p>
         </div>
         <div
-          className="text-center position-relative"
+          className="text-center position-relative m-5"
           style={{ width: "100px" }}
         >
           <div
@@ -74,8 +76,8 @@ const Winners: React.FC<WinnerProps> = () => {
             style={{ width: "80px", height: "80px" }}
           >
             <Image
-              src="#"
-              alt={"Second"}
+              src={Winner}
+              alt={"First"}
               layout="fill"
               objectFit="cover"
               className="rounded-circle"
@@ -107,8 +109,8 @@ const Winners: React.FC<WinnerProps> = () => {
             style={{ width: "80px", height: "80px" }}
           >
             <Image
-              src="#"
-              alt={"Second"}
+              src={Winner}
+              alt={"Third"}
               layout="fill"
               objectFit="cover"
               className="rounded-circle"
@@ -150,7 +152,7 @@ const Winners: React.FC<WinnerProps> = () => {
                     style={{ width: "40px", height: "40px" }}
                   >
                     <Image
-                      src="#"
+                      src={Winner}
                       alt={person?.user?.first_name}
                       layout="fill"
                       objectFit="cover"

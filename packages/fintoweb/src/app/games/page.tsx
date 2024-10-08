@@ -11,7 +11,6 @@ import {
   CardTitle,
   Button,
 } from "reactstrap";
-import Link from "next/link";
 import { getGames } from "shared/src/provider/store/services/games.service";
 import { createStartGame } from "shared/src/provider/store/services/startgame.service";
 import {
@@ -23,11 +22,15 @@ import LightLoading from "@src/components/loader/LightLoading";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { capitalizeAndTruncate } from "@src/components/capitalizeAndTruncate/capitalizeAndTruncate";
+import { clearGameUsers } from "shared/src/provider/store/reducers/gameusers.reducer";
 
 const GamesPage: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { games, loading } = useAppSelector((state) => state.games);
+  const { startGame, loading: startGameLoading } = useAppSelector(
+    (state) => state.startGame
+  );
 
   useEffect(() => {
     dispatch(getGames());
@@ -47,7 +50,7 @@ const GamesPage: React.FC = () => {
             </div>
           ) : (
             games
-              .filter((game) => game?.is_active == "1")
+              .filter((game) => game?.is_active == 1)
               .map((game) => (
                 <Col key={game.id} md={4} className="mb-4">
                   <Card
@@ -84,11 +87,11 @@ const GamesPage: React.FC = () => {
                           const startGameInfo = {
                             game_id: game?.id,
                           };
+                          dispatch(clearGameUsers());
                           dispatch(
                             createStartGame({
                               startGameInfo,
                               onSuccess: (res) => {
-                                console.log(res);
                                 if (res.error) {
                                   toast.error(res.error, {
                                     position: "top-right",
@@ -99,7 +102,6 @@ const GamesPage: React.FC = () => {
                                 router.push(`/waiting-page/${game?.id}`);
                               },
                               onError: (err) => {
-                                console.log("onerror", err);
                                 const errorMessage =
                                   err.error || "An unknown error occurred";
                                 toast.error(errorMessage, {
@@ -111,7 +113,11 @@ const GamesPage: React.FC = () => {
                           );
                         }}
                       >
-                        Play Game
+                        {startGameLoading.create ? (
+                          <LightLoading size="sm" color="dark" />
+                        ) : (
+                          "Play Game"
+                        )}
                       </Button>
                     </CardBody>
                   </Card>
