@@ -1,8 +1,13 @@
 import Image from "next/image";
 import React from "react";
 import Winner from "../../assets/user.jpg";
+import { useAppDispatch, useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
 const Winners = () => {
+  const dispatch = useAppDispatch();
+  const { topgameuser, isStockLoading } = useAppSelector(
+    (state) => state.topgameuser
+  );
   const leaders = [
     { name: "Aishwarya", amount: "₹10,093", img: Winner },
     { name: "Karan Joshi", amount: "₹9,093", img: Winner },

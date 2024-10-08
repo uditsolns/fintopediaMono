@@ -8,12 +8,20 @@ import SearchIcon from "@mui/icons-material/Search";
 import { FaArrowRotateRight } from "react-icons/fa6";
 import LightLoading from "@src/components/loader/LightLoading";
 import styles from "./Event.module.css";
-import { useAppDispatch, useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
 import { StockDatasResponse } from "shared/src/utils/types/stockDatas";
 
-const PreviousData: React.FC = () => {
+interface PreviousProps {
+  gameId: number;
+  roundLevel:number;
+  roundId: number;
+}
+const PreviousData: React.FC<PreviousProps> = ({ gameId, roundLevel, roundId }) => {
   const dispatch = useAppDispatch();
-  
+
   const { auth } = useAppSelector((state) => state.auth);
   const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
   const { stockData, loading } = useAppSelector((state) => state.stockData);
@@ -21,26 +29,23 @@ const PreviousData: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [data, setData] = useState<StockDatasResponse[]>([]);
 
-  useEffect(() => {
-    const previousRound = filterRoundLevelData?.round_level as number; // Type assertion to ensure it's a number
-    if (previousRound > 1) {
-      const stock_filter = stockData.filter((e3: StockDatasResponse) => {
-        return (
-          e3.game_id === filterRoundLevelData?.game_id &&
-          e3.round_level === previousRound - 1
-        );
-      });
-      setData(stock_filter);
-    } else {
-      const stock_filter = stockData.filter((e3: StockDatasResponse) => {
-        return (
-          e3.game_id === filterRoundLevelData?.game_id &&
-          e3.round_level === previousRound
-        );
-      });
-      setData(stock_filter);
+  const [searchStocksData, setSearchStocksData] = React.useState<
+    StockDatasResponse[]
+  >(stockData || []);
+  const [rounds, setRounds] = React.useState<number | string>(roundLevel!);
+
+  React.useEffect(() => {
+    if (stockData) {
+      let filterData = searchStocksData?.length
+        ? searchStocksData?.filter(
+            (e3) =>
+              e3.game_id == gameId &&
+              e3.round_level == (roundLevel > 1 ? roundLevel - 1 : 1)
+          )
+        : [];
+      setSearchStocksData(filterData);
     }
-  }, [filterRoundLevelData, stockData]);
+  }, [stockData]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -84,19 +89,19 @@ const PreviousData: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {loading ? (
+              {loading.stockData ? (
                 <tr>
                   <td colSpan={2} style={{ textAlign: "center" }}>
                     <LightLoading />
                   </td>
                 </tr>
-              ) : data.filter((user) =>
+              ) : searchStocksData.filter((user) =>
                   user.stock?.name
                     .trim()
                     .toLowerCase()
                     .includes(searchTerm.trim().toLowerCase())
                 ).length > 0 ? (
-                data
+                searchStocksData
                   .filter((user) =>
                     user.stock?.name
                       .trim()

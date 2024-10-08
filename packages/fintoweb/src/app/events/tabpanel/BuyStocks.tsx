@@ -42,8 +42,6 @@ const BuyStocks: React.FC<Props> = (props) => {
 
   const { buySellFormik, buySellInputProps } = useBuySellHelper();
   const { handleSubmit, isSubmitting, setFieldValue, values } = buySellFormik;
-  // const [totalPrice, setTotalPrice] = useState(0);
-  // console.log("totalPrice", totalPrice);
 
   React.useEffect(() => {
     setFieldValue(buySellField.game_id.name, props.data.game_id);
@@ -63,7 +61,7 @@ const BuyStocks: React.FC<Props> = (props) => {
 
     if (!isNaN(currentPrice) && !isNaN(orderQty) && orderQty > 0) {
       const calculatedTotalPrice = currentPrice * orderQty;
-      setFieldValue(buySellField.total_price.name, calculatedTotalPrice); 
+      setFieldValue(buySellField.total_price.name, calculatedTotalPrice);
     } else {
       setFieldValue(buySellField.total_price.name, 0);
     }

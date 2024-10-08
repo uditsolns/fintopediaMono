@@ -49,6 +49,7 @@ export const createTransactions = createAsyncThunk<
     });
 
     const data = (await response.json()) as TransactionsResponse;
+    thunkApi.dispatch(getTransactions());
 
     return data;
   } catch (error) {

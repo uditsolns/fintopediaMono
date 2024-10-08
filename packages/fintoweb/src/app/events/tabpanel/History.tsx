@@ -12,9 +12,9 @@ import {
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import LightLoading from "@src/components/loader/LightLoading";
+import { getTransactions } from "shared/src/provider/store/services/transactions.service";
 
-
-const History: React.FC = () => {
+const History: React.FC = ({ gameId, roundLevel, roundId }) => {
   const dispatch = useAppDispatch();
   const [searchTerm, setSearchTerm] = useState<string>("");
 
@@ -25,6 +25,9 @@ const History: React.FC = () => {
   const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
   const { singleGame } = useAppSelector((state) => state.games);
 
+  React.useEffect(() => {
+    dispatch(getTransactions());
+  }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
@@ -73,7 +76,7 @@ const History: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {loading ? (
+              {loading.transactions ? (
                 <tr>
                   <td colSpan={3} style={{ textAlign: "center" }}>
                     <LightLoading />
@@ -93,9 +96,7 @@ const History: React.FC = () => {
                       .includes(searchTerm.trim().toLowerCase())
                   )
                   .filter(
-                    (i) =>
-                      i.user_id == auth?.user?.id &&
-                      i.game_id == singleGame.id
+                    (i) => i.user_id == auth?.user?.id && i.game_id == gameId
                   )
                   .sort((a, b) => a.stock?.name.localeCompare(b.stock?.name))
                   .map((el, index) => {

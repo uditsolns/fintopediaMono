@@ -15,7 +15,6 @@ export const useBuySellHelper = () => {
     validationSchema: buySellValidation,
     onSubmit: (values) => {
       let data: TransactionsParams = {
-        id:+values.id,
         game_id: +values.game_id,
         user_id: +values.user_id,
         stock_id: +values.stock_id,

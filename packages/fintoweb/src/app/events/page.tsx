@@ -18,14 +18,15 @@ import { updateRoundLevel } from "shared/src/provider/store/services/roundlevelg
 import { storeUserGameAmount } from "shared/src/provider/store/reducers/gameusers.reducer";
 import { RoundLevelParams } from "shared/src/utils/types/roundLevel";
 
-interface EventPageProps {
+export interface EventPageProps {
   id: number;
-  round: number;
+  roundLevel: number;
+  roundId: number;
 }
 
-const Events: React.FC<EventPageProps> = ({ id, round }) => {
+const Events: React.FC<EventPageProps> = ({ id, roundLevel, roundId }) => {
+  console.log("roundLevel test", id, roundLevel, roundId);
   const gameId = id;
-  const roundId = round;
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { current_user, auth } = useAppSelector((state) => state.auth);
@@ -76,22 +77,23 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
   );
   React.useEffect(() => {
     if (time === 0) {
-      const body: RoundLevelParams = {
-        id: roundId,
-        game_id: gameId,
-        round_level: filterRoundLevelData
-          ? +filterRoundLevelData.round_level
-          : null,
-        start_datetime: filterRoundLevelData
-          ? filterRoundLevelData.start_datetime
-          : null,
-        end_datetime: filterRoundLevelData
-          ? filterRoundLevelData.end_datetime
-          : null,
-        set_id: filterRoundLevelData ? filterRoundLevelData.set_id : null,
-        is_active: 0,
-      };
-      dispatch(updateRoundLevel(body));
+      // const body: RoundLevelParams = {
+      //   id: roundId,
+      //   game_id: gameId,
+      //   round_level: filterRoundLevelData
+      //     ? +filterRoundLevelData.round_level
+      //     : null,
+      //   start_datetime: filterRoundLevelData
+      //     ? filterRoundLevelData.start_datetime
+      //     : null,
+      //   end_datetime: filterRoundLevelData
+      //     ? filterRoundLevelData.end_datetime
+      //     : null,
+      //   set_id: filterRoundLevelData ? filterRoundLevelData.set_id : null,
+      //   is_active: 0,
+      // };
+      // dispatch(updateRoundLevel(body));
+      console.log("timer");
     }
     const timer = setInterval(() => {
       setTime((prevTime) => Math.max(prevTime - 1, 0));
@@ -222,7 +224,7 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
         </Card>
       </div>
       <div className="container-fluid p-3">
-        <TabPanel gameId={gameId} roundId={roundId} />
+        <TabPanel gameId={gameId} roundLevel={roundLevel} roundId={roundId} />
       </div>
     </section>
   );

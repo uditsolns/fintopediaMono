@@ -18,6 +18,7 @@ import { storeUserGameAmount } from "shared/src/provider/store/reducers/gameuser
 
 interface TradeProps {
   gameId: number;
+  roundLevel:number;
   roundId: number;
 }
 const Trade: React.FC<TradeProps> = (props) => {

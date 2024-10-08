@@ -15,14 +15,28 @@ import {
 import { getTransactions } from "shared/src/provider/store/services/transactions.service";
 import { toast } from "react-toastify";
 import { resetTransaction } from "shared/src/provider/store/reducers/transactions.reducer";
+import { getGameUserByLoginIDGameID } from "shared/src/provider/store/services/gameusers.service";
+import { storeUserGameAmount } from "shared/src/provider/store/reducers/gameusers.reducer";
+import PortfolioMolecule from "./PortfolioMolecule";
 
-const Portfolio: React.FC = () => {
+interface PortfolioProps {
+  gameId: number;
+  roundLevel:number;
+  roundId: number;
+}
+const Portfolio: React.FC<PortfolioProps> = (props) => {
+  const gameId = props.gameId;
+
+
   const dispatch = useAppDispatch();
   const { transactions, loading, create } = useAppSelector(
     (state) => state.transactions
   );
   const { auth } = useAppSelector((state) => state.auth);
   const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
+  const { gameUserByLoginIDGameID, user_game_amount } = useAppSelector(
+    (state) => state.gameUsers
+  );
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filterData, setFilterData] = useState<any[]>([]);
@@ -63,6 +77,7 @@ const Portfolio: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
+
   React.useEffect(() => {
     if (create?.id) {
       toast.success("Sell successfully !", {
@@ -70,8 +85,23 @@ const Portfolio: React.FC = () => {
         theme: "light",
       });
       dispatch(resetTransaction());
+      let user_id = Number(auth?.user?.id);
+      let game_id = Number(gameId);
+      dispatch(
+        getGameUserByLoginIDGameID({
+          user_id,
+          game_id,
+          onSuccess: (data) => {
+            if (user_game_amount == 0) {
+              dispatch(storeUserGameAmount(data?.amount));
+            }
+          },
+          onError: () => {},
+        })
+      );
     }
   }, [create]);
+
   return (
     <React.Fragment>
       <div className={styles["inline-row"]}>
@@ -130,38 +160,33 @@ const Portfolio: React.FC = () => {
                       .includes(searchTerm.trim().toLowerCase())
                   )
                   .map((el, index) => {
-                    if (el.order_type == "Buy")
-                      return (
-                        <tr key={index}>
-                          <td>{el.stock.name}</td>
-                          <td>
-                            {el?.user?.user_transactions
-                              .filter((i) => i.stock_id == el.stock_id)
-                              .map((itm) => itm.order_qty)}
-                          </td>
+                    let stock_filter_amount = el?.stock?.stock_datas!.find(
+                      (e3) => {
+                        return (
+                          e3?.game_id == gameId && e3?.round_level == props?.roundLevel
+                        );
+                      }
+                    );
 
-                          <td>
-                            {Math.round(el.stock_current_price * 10) / 10}
-                          </td>
-                          <td>
-                            {el?.stock?.stock_datas
-                              .filter(
-                                (i) =>
-                                  i.game_id == el.game_id &&
-                                  i.round_level ==
-                                    filterRoundLevelData.round_level
-                              )
-                              .map((itm) => {
-                                return (
-                                  Math.round(itm.stock_current_price * 10) / 10
-                                );
-                              })}
-                          </td>
-                          <td>
-                            <SellStocks data={el} />
-                          </td>
-                        </tr>
-                      );
+                    return (
+                      <tr key={index}>
+                        <td>{el?.stock?.name}</td>
+                        <td>
+                          {el?.user?.user_transactions
+                            .filter((i) => i.stock_id == el.stock_id)
+                            .map((itm) => itm.order_qty)}
+                        </td>
+                        <td>{el?.stock_current_price}</td>
+                        <td>
+                          {stock_filter_amount
+                            ? stock_filter_amount?.stock_current_price
+                            : 0}
+                        </td>
+                        <td>
+                          <SellStocks data={el} />
+                        </td>
+                      </tr>
+                    );
                   })
               ) : (
                 <tr>

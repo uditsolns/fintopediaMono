@@ -30,44 +30,42 @@ const SellStocks: React.FC<Props> = (props) => {
   const { transactions, loading } = useAppSelector(
     (state) => state.transactions
   );
-  const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
+  const { filterRoundLevelData, singleRoundLevel } = useAppSelector(
+    (state) => state.roundLevel
+  );
   const [totalPrice, setTotalPrice] = useState(0);
   const [modal, setModal] = useState(false);
-  
+
   const toggle = () => setModal(!modal);
 
   const { buySellFormik, buySellInputProps } = useBuySellHelper();
-  const { handleSubmit, isSubmitting, setFieldValue, values, resetForm } = buySellFormik;
+  const { handleSubmit, setFieldValue, values } =
+    buySellFormik;
 
-  const stockFilterAmount = props.data?.stock?.stock_datas.find(
-    (stock) =>
-      stock.game_id === props.data.game_id &&
-      stock.round_level === props.data.round_level
-  );
+  React.useEffect(() => {
+    setFieldValue(buySellField.game_id.name, props.data?.game_id);
+    setFieldValue(buySellField.user_id.name, auth?.user?.id);
+    setFieldValue(buySellField.stock_id.name, props.data?.stock_id);
+    setFieldValue(buySellField.order_type.name, "Sell");
+    setFieldValue(buySellField.round_level.name, props.data?.round_level);
+  }, [props.data]);
 
-  const currentPrice = parseFloat(stockFilterAmount?.stock_current_price?.toString() || "0");
-
-  useEffect(() => {
-    const orderQty = parseFloat(values.order_qty?.toString() || "0");
-    if (!isNaN(currentPrice) && !isNaN(orderQty) && orderQty > 0) {
-      setTotalPrice(currentPrice * orderQty);
-    } else {
-      setTotalPrice(0);
-    }
-  }, [currentPrice, values.order_qty]);
-
-  useEffect(() => {
-    if (modal) {
-      setFieldValue(buySellField.game_id.name, props.data.game_id);
-      setFieldValue(buySellField.user_id.name, auth?.user?.id);
-      setFieldValue(buySellField.stock_id.name, props.data?.stock_id);
-      setFieldValue(buySellField.order_type.name, "Sell");
-      setFieldValue(buySellField.order_qty.name, values.order_qty || 0);
-      setFieldValue(buySellField.total_price.name, totalPrice);
-      setFieldValue(buySellField.stock_current_price.name, stockFilterAmount?.stock_current_price);
-      setFieldValue(buySellField.round_level.name, props.data?.round_level);
-    }
-  }, [modal, totalPrice, values.order_qty, props.data, auth, stockFilterAmount]);
+  React.useEffect(() => {
+    const stock_filter_amount = props.data?.stock?.stock_datas!.find((e3) => {
+      return (
+        e3.game_id == filterRoundLevelData?.game_id &&
+        e3.round_level == filterRoundLevelData?.round_level
+      );
+    });
+    let current_price: string =
+      stock_filter_amount?.stock_current_price?.toString() || "0";
+    let quantity: string = values.order_qty?.trim()?.toString() || "0";
+    const cleanCurrentPrice = parseFloat(current_price.replace(/,/g, "")) || 0;
+    const cleanQuantity = parseFloat(quantity.replace(/,/g, "")) || 0;
+    const totalPrice = (cleanQuantity * cleanCurrentPrice).toString();
+    setFieldValue(buySellField.total_price.name, totalPrice);
+    setFieldValue(buySellField.stock_current_price.name, cleanCurrentPrice);
+  }, [props.data, values.order_qty, values.stock_current_price]);
 
   return (
     <div>
@@ -89,6 +87,7 @@ const SellStocks: React.FC<Props> = (props) => {
                 label={buySellField.stock_current_price.label}
                 placeholder={buySellField.stock_current_price.placeHolder}
                 {...buySellInputProps(buySellField.stock_current_price.name)}
+                disabled
               />
             </Col>
           </Row>
@@ -120,7 +119,7 @@ const SellStocks: React.FC<Props> = (props) => {
                 onClick={() => {
                   handleSubmit();
                   setModal(false);
-                  resetForm();
+                  // resetForm();
                 }}
               >
                 {loading.create ? <CircularLoading /> : "Sell"}
@@ -131,13 +130,14 @@ const SellStocks: React.FC<Props> = (props) => {
             Catch up with latest news
           </h2>
           <div className={styles["news-scroll-container"]}>
-            {news.length > 0 && news.map((el, i) => (
-              <Card key={i} className={`${styles["news-card"]} m-2 p-2`}>
-                <CardBody>
-                  <CardTitle tag="h6">{el.name}</CardTitle>
-                </CardBody>
-              </Card>
-            ))}
+            {news.length > 0 &&
+              news.map((el, i) => (
+                <Card key={i} className={`${styles["news-card"]} m-2 p-2`}>
+                  <CardBody>
+                    <CardTitle tag="h6">{el.name}</CardTitle>
+                  </CardBody>
+                </Card>
+              ))}
           </div>
         </ModalBody>
       </Modal>
