@@ -80,7 +80,7 @@ export const GameWinnerLoading: React.FC<GameWinnerLoadingProps> = ({
       createStopGame({
         startGameInfo,
         onSuccess: async res => {
-          console.log(res);
+          console.log("stop game ",res);
           await getUsergames();
         },
         onError: err => {},
@@ -95,9 +95,11 @@ export const GameWinnerLoading: React.FC<GameWinnerLoadingProps> = ({
         onSuccess: data => {
           if (data?.is_active == 0) {
             if (data?.to_publish_result == 1) {
+              console.log("onsucess :",data)
               dispatch(
                 getGameUsers({
                   onSuccess: data => {
+                    console.log('onSuccess of game users', data);
                     navigation.navigate(RouteKeys.GAMEWINNERSCREEN);
                   },
                 }),

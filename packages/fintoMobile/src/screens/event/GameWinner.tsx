@@ -1,5 +1,9 @@
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {
   moderateScale,
@@ -15,16 +19,30 @@ import {View, StyleSheet} from 'react-native';
 
 interface GameWinnerProps {}
 export const GameWinner: React.FC<GameWinnerProps> = () => {
+  const nameShorter = (name: string) => {
+    if (name?.length > 10) {
+      return name.slice(0, 15) + '...';
+    }
+    return name;
+  };
+  const dispatch = useAppDispatch();
+  const {gameUsers} = useAppSelector(state => state.gameUsers);
+  const [firstWinner, secondWinner, thirdWinner] = gameUsers;
   return (
     <GradientTemplate style={{paddingBottom: 0}}>
-      <HeaderLeftMolecule text={'Leaderboard'} />
       <ScrollViewAtom>
         <View style={styles.topThreeContainer}>
           <WinnerIcon
             profilePhoto={require('@shared/src/assets/img/gameWinnerLoading.png')}
             rank={2}
-            name={'Sujeet Chauhan'}
-            winnerAmount={`200,000`}
+            name={
+              secondWinner?.user
+                ? nameShorter(
+                    `${secondWinner?.user?.first_name} ${secondWinner?.user?.surname_name}`,
+                  )
+                : ''
+            }
+            winnerAmount={`${secondWinner?.amount || 0}`}
             style={styles.secondPlace}
             style2={{
               width: moderateScale(56),
@@ -35,8 +53,14 @@ export const GameWinner: React.FC<GameWinnerProps> = () => {
           <WinnerIcon
             profilePhoto={require('@shared/src/assets/img/gameWinnerLoading.png')}
             rank={1}
-            name={'Vikas Shahu'}
-            winnerAmount={`2000`}
+            name={
+              firstWinner?.user
+                ? nameShorter(
+                    `${firstWinner?.user?.first_name} ${firstWinner?.user?.surname_name}`,
+                  )
+                : ''
+            }
+            winnerAmount={`${firstWinner?.amount || 0}`}
             style={styles.firstPlace}
             style2={{
               width: moderateScale(72),
@@ -47,8 +71,14 @@ export const GameWinner: React.FC<GameWinnerProps> = () => {
           <WinnerIcon
             profilePhoto={require('@shared/src/assets/img/gameWinnerLoading.png')}
             rank={3}
-            name={'Sujeet Rajput'}
-            winnerAmount={`200`}
+            name={
+              thirdWinner?.user
+                ? nameShorter(
+                    `${thirdWinner?.user?.first_name} ${thirdWinner?.user?.surname_name}`,
+                  )
+                : ''
+            }
+            winnerAmount={`${thirdWinner?.amount || 0}`}
             style={styles.thirdPlace}
             style2={{
               width: moderateScale(56),
@@ -59,16 +89,22 @@ export const GameWinner: React.FC<GameWinnerProps> = () => {
         </View>
         <View style={styles.divider} />
         <View style={styles.winnerListContainer}>
-          {[...Array(50)].map((_, index) => (
+          {gameUsers?.length > 3 ? gameUsers?.slice(3).map((el, index) => (
             <WinnerListAtom
               profilePhoto={require('@shared/src/assets/img/gameWinnerLoading.png')}
               rank={index + 4}
-              name={'Vikas Shahu'}
-              winnerAmount={`2000`}
+              name={
+                el?.user
+                  ? nameShorter(
+                      `${el?.user?.first_name} ${el?.user?.surname_name}`,
+                    )
+                  : ''
+              }
+              winnerAmount={`${el?.amount}`}
               key={index}
               style={styles.winnerListItem}
             />
-          ))}
+          )) : null}
         </View>
       </ScrollViewAtom>
     </GradientTemplate>
