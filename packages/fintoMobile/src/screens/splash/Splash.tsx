@@ -13,7 +13,7 @@ export default function Splash({navigation}: SplashProps) {
   const {auth} = useAppSelector(state => state.auth);
   React.useEffect(() => {
     setTimeout(() => {
-      if (auth) {
+      if (auth?.token) {
         navigation.navigate(RouteKeys.HOMESCREEN);
       } else {
         navigation.navigate(RouteKeys.ONBOARDINGSCREEN);

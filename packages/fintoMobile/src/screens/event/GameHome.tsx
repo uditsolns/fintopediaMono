@@ -239,7 +239,7 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
             gameUserByLoginIDGameID
               ? (
                   Math.round(
-                    (user_game_amount -
+                    (Number(user_game_amount) -
                       Number(gameUserByLoginIDGameID.amount)) *
                       10,
                   ) / 10

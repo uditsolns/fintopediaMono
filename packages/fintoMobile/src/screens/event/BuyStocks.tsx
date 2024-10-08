@@ -21,6 +21,7 @@ import {NewsResponse} from '@shared/src/utils/types/news';
 import {getGameUserByLoginIDGameID} from '@shared/src/provider/store/services/gameusers.service';
 import {storeUserGameAmount} from '@shared/src/provider/store/reducers/gameusers.reducer';
 import {resetTransaction} from '@shared/src/provider/store/reducers/transactions.reducer';
+import {Toast} from 'react-native-toast-notifications';
 
 interface BuyStocksProps extends NavType<'BuyStocks'> {}
 
@@ -56,24 +57,35 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
 
   const buyStocks = async () => {
     await handleSubmit();
-    if (create?.id) {
-      Alert.alert('Buy Succeessfully');
-      let user_id = Number(auth?.user?.id);
-      let game_id = Number(singleGame?.id);
-      dispatch(
-        getGameUserByLoginIDGameID({
-          user_id,
-          game_id,
-          onSuccess: data => {
-            console.log("succes of getGameUserByLoginIDGameID of buy screen",data,user_game_amount)
-            if (user_game_amount == 0) {
-              dispatch(storeUserGameAmount(data?.amount));
-            }
-          },
-          onError: () => {},
-        }),
-      );
-      navigation.goBack();
+    if (create) {
+      if (create.id) {
+        Alert.alert('Buy Succeessfully');
+        let user_id = Number(auth?.user?.id);
+        let game_id = Number(singleGame?.id);
+        dispatch(
+          getGameUserByLoginIDGameID({
+            user_id,
+            game_id,
+            onSuccess: data => {
+              console.log(
+                'succes of getGameUserByLoginIDGameID of buy screen',
+                data,
+                user_game_amount,
+              );
+              if (user_game_amount == 0) {
+                dispatch(storeUserGameAmount(data?.amount));
+              }
+            },
+            onError: () => {},
+          }),
+        );
+        navigation.goBack();
+      }
+      if (create?.error) {
+        Toast.show(create?.error, {
+          type: 'error',
+        });
+      }
     }
   };
 
@@ -86,7 +98,6 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
     const totalPrice = (cleanQuantity * cleanCurrentPrice).toString();
     setFieldValue(buySellField.total_price.name, totalPrice);
   }, [values.order_qty, values.stock_current_price]);
-
 
   const renderItem = ({item}: {item: NewsResponse}) => (
     <LatestNewsMolecule item={item} itemWidth={'fullWidth'} />
