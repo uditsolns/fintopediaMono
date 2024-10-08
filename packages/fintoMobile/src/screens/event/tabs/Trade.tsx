@@ -72,25 +72,7 @@ export default function Trade() {
     dispatch(getStockData());
     setSearchStocksData(stockData);
   };
-  React.useEffect(() => {
-    if (create?.id) {
-      Alert.alert('Buy Succeessfully');
-      let user_id = Number(auth?.user?.id);
-      let game_id = Number(singleGame?.id);
-      dispatch(
-        getGameUserByLoginIDGameID({
-          user_id,
-          game_id,
-          onSuccess: data => {
-            if (user_game_amount == 0) {
-              dispatch(storeUserGameAmount(data?.amount));
-            }
-          },
-          onError: () => {},
-        }),
-      );
-    }
-  }, [create]);
+  
 
   const stockRenderItem = ({item}: {item: StocksResponse}) => {
     const handlePress = (id: number) => {

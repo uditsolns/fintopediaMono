@@ -18,6 +18,8 @@ import {
 import {useBuySellHelper} from '@shared/src/components/structures/buy-sell/buySell.helper';
 import {buySellField} from '@shared/src/components/structures/buy-sell/buySellModel';
 import {NewsResponse} from '@shared/src/utils/types/news';
+import {getGameUserByLoginIDGameID} from '@shared/src/provider/store/services/gameusers.service';
+import {storeUserGameAmount} from '@shared/src/provider/store/reducers/gameusers.reducer';
 
 interface SellStocksProps extends NavType<'SellStocks'> {}
 
@@ -28,8 +30,10 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
   const {filterRoundLevelData, singleRoundLevel} = useAppSelector(
     state => state.roundLevel,
   );
+  const {singleGame} = useAppSelector(state => state.games);
   const {news} = useAppSelector(state => state.news);
   const {create, loading} = useAppSelector(state => state.transactions);
+  const {user_game_amount} = useAppSelector(state => state.gameUsers);
 
   const {buySellFormik, buySellInputProps} = useBuySellHelper();
   const {handleSubmit, isSubmitting, setFieldValue, values, resetForm} =
@@ -65,7 +69,29 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
 
   const sellStocks = async () => {
     await handleSubmit();
-    navigation.goBack()
+    if (create?.id) {
+      Alert.alert('Sell Succeessfully');
+      let user_id = Number(auth?.user?.id);
+      let game_id = Number(singleGame?.id);
+      dispatch(
+        getGameUserByLoginIDGameID({
+          user_id,
+          game_id,
+          onSuccess: data => {
+            console.log(
+              'succes of getGameUserByLoginIDGameID of sell screen',
+              data,
+              user_game_amount,
+            );
+            if (user_game_amount == 0) {
+              dispatch(storeUserGameAmount(data?.amount));
+            }
+          },
+          onError: () => {},
+        }),
+      );
+      navigation.goBack();
+    }
   };
 
   const renderItem = ({item}: {item: NewsResponse}) => (
