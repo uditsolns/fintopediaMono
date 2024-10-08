@@ -14,20 +14,25 @@ import {
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import WinnerIcon from '@src/components/Winner/WinnerIcon';
 import WinnerListAtom from '@src/components/Winner/WinnerListAtom';
+import {NavType} from '@src/navigation/types';
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 
-interface GameWinnerProps {}
-export const GameWinner: React.FC<GameWinnerProps> = () => {
+interface GameWinnerProps extends NavType<'GameWinner'> {}
+
+export const GameWinner: React.FC<GameWinnerProps> = ({navigation}) => {
+  const dispatch = useAppDispatch();
+  const {gameUsers} = useAppSelector(state => state.gameUsers);
+  const [firstWinner, secondWinner, thirdWinner] = gameUsers;
+
+
   const nameShorter = (name: string) => {
     if (name?.length > 10) {
       return name.slice(0, 15) + '...';
     }
     return name;
   };
-  const dispatch = useAppDispatch();
-  const {gameUsers} = useAppSelector(state => state.gameUsers);
-  const [firstWinner, secondWinner, thirdWinner] = gameUsers;
+ 
   return (
     <GradientTemplate style={{paddingBottom: 0}}>
       <ScrollViewAtom>
@@ -89,22 +94,26 @@ export const GameWinner: React.FC<GameWinnerProps> = () => {
         </View>
         <View style={styles.divider} />
         <View style={styles.winnerListContainer}>
-          {gameUsers?.length > 3 ? gameUsers?.slice(3).map((el, index) => (
-            <WinnerListAtom
-              profilePhoto={require('@shared/src/assets/img/gameWinnerLoading.png')}
-              rank={index + 4}
-              name={
-                el?.user
-                  ? nameShorter(
-                      `${el?.user?.first_name} ${el?.user?.surname_name}`,
-                    )
-                  : ''
-              }
-              winnerAmount={`${el?.amount}`}
-              key={index}
-              style={styles.winnerListItem}
-            />
-          )) : null}
+          {gameUsers?.length > 3
+            ? gameUsers
+                ?.slice(3)
+                .map((el, index) => (
+                  <WinnerListAtom
+                    profilePhoto={require('@shared/src/assets/img/gameWinnerLoading.png')}
+                    rank={index + 1}
+                    name={
+                      el?.user
+                        ? nameShorter(
+                            `${el?.user?.first_name} ${el?.user?.surname_name}`,
+                          )
+                        : ''
+                    }
+                    winnerAmount={`${el?.amount}`}
+                    key={index}
+                    style={styles.winnerListItem}
+                  />
+                ))
+            : null}
         </View>
       </ScrollViewAtom>
     </GradientTemplate>

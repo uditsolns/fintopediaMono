@@ -20,6 +20,7 @@ import {createStartGame} from '@shared/src/provider/store/services/startgame.ser
 import {Toast} from 'react-native-toast-notifications';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {GamesResponse} from '@shared/src/utils/types/games';
+import {clearGameUsers} from '@shared/src/provider/store/reducers/gameusers.reducer';
 
 interface EventsProps extends NavType<'Events'> {}
 
@@ -89,6 +90,7 @@ export const Events: React.FC<EventsProps> = ({navigation}) => {
       <EventMolecule
         item={item}
         onPress={async () => {
+          dispatch(clearGameUsers());
           await getGameByID(item);
           playGame(item);
         }}

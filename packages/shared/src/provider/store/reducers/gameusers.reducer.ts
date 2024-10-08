@@ -37,7 +37,10 @@ const gameUsersSlice = createSlice({
   reducers: {
     storeUserGameAmount:(state,action)=>{
       state.user_game_amount = action.payload
-    }
+    },
+    clearGameUsers: () => {
+      return initialState;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -107,5 +110,5 @@ const gameUsersSlice = createSlice({
   },
 });
 
-export const {storeUserGameAmount} = gameUsersSlice.actions;
+export const {storeUserGameAmount,clearGameUsers} = gameUsersSlice.actions;
 export default gameUsersSlice.reducer;
