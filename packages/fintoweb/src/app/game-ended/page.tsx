@@ -8,61 +8,75 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
+import { useRouter } from "next/navigation";
+import { getGameUsers } from "shared/src/provider/store/services/gameusers.service";
+import { getGamesById } from "shared/src/provider/store/services/games.service";
+import { createStopGame } from "shared/src/provider/store/services/stopgame.service";
 
 const GameEnded: React.FC = () => {
+  const router = useRouter();
   const [modal, setModal] = React.useState(false);
   const toggle = () => setModal(!modal);
 
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
-  const [roundLevelGameState, setRoundLevelGameState] = useState();
-  const [visible, setVisible] = useState(false);
   const { singleGame } = useAppSelector((state) => state.games);
 
-  useEffect(() => {
+  React.useEffect(() => {
     checkSingleGameFinish();
   }, []);
 
-  const checkSingleGameFinish = () => {
-    fetch(`${baseUrl}/games/${singlegames?.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${login?.token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.is_active == 0) {
-          const stop = {
-            game_id: singlegames.id,
-          };
-          dispatch(stopGames(login?.token, stop));
-          getUsergames();
-        }
+  const checkSingleGameFinish = async () => {
+    let id = Number(singleGame?.id);
+    dispatch(
+      getGamesById({
+        id,
+        onSuccess: async (data) => {
+          if (data?.is_active == 0) {
+            await stopGames();
+          }
+        },
+        onError: () => {},
       })
-      .catch((error) => {
-        console.log("errror in get user game data api :", error);
-      });
+    );
   };
 
-  const getUsergames = () => {
-    fetch(`${baseUrl}/games/${singlegames.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${login?.token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data?.to_publish_result == 1) {
-          dispatch(actions.topgameuserGetData(login.token, navigate));
-        }
+  const stopGames = async () => {
+    const startGameInfo = {
+      game_id: singleGame?.id,
+    };
+    dispatch(
+      createStopGame({
+        startGameInfo,
+        onSuccess: async (res) => {
+          console.log(res);
+          await getUsergames();
+        },
+        onError: (err) => {},
       })
-      .catch((error) => {
-        console.log("error in get user game data api :", error);
-      });
+    );
+  };
+  const getUsergames = async () => {
+    let id = Number(singleGame?.id);
+    dispatch(
+      getGamesById({
+        id,
+        onSuccess: (data) => {
+          if (data?.is_active == 0) {
+            if (data?.to_publish_result == 1) {
+              dispatch(
+                getGameUsers({
+                  onSuccess: (data) => {
+                    router.push("/winners");
+                  },
+                })
+              );
+            }
+          }
+        },
+        onError: () => {},
+      })
+    );
   };
 
   return (

@@ -1,13 +1,15 @@
 import Image from "next/image";
 import React from "react";
 import Winner from "../../assets/user.jpg";
-import { useAppDispatch, useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
 
 const Winners = () => {
   const dispatch = useAppDispatch();
-  const { topgameuser, isStockLoading } = useAppSelector(
-    (state) => state.topgameuser
-  );
+  const { gameUsers, loading } = useAppSelector((state) => state.gameUsers);
+  console.log("gameUsers", gameUsers);
   const leaders = [
     { name: "Aishwarya", amount: "₹10,093", img: Winner },
     { name: "Karan Joshi", amount: "₹9,093", img: Winner },
@@ -74,7 +76,6 @@ const Winners = () => {
             key={index}
             className="list-group-item background-gradient d-flex justify-content-between align-items-center"
             style={{
-              
               borderColor: "#444444",
               color: "white",
             }}
