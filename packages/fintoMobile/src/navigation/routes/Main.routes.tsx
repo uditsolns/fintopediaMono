@@ -33,12 +33,12 @@ import {HeaderBar} from '../components/Header/HeaderBar';
 import {colorPresets} from '@shared/src/theme/color';
 import {mScale} from '@shared/src/theme/metrics';
 import {Images} from '@shared/src/assets';
-import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom'
+import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 
 interface MainRoutesProps {}
 
 const Stack = createNativeStackNavigator();
- const headerBack = (onBackPress: () => void, color?: string) => (
+const headerBack = (onBackPress: () => void, color?: string) => (
   <PressableAtom hitSlop={mScale.md} onPress={onBackPress}>
     <Images.SVG.ChevronLeft width={mScale.lg3} color={colorPresets.CTA} />
   </PressableAtom>
@@ -63,7 +63,11 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         animation: 'slide_from_right',
         headerLeft: () => headerBack(() => navigation.goBack()),
       })}>
-      <Stack.Screen name={RouteKeys.HOMESCREEN} component={TabsRoutes} />
+      <Stack.Screen
+        name={RouteKeys.HOMESCREEN}
+        component={TabsRoutes}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         options={{headerShown: false}}
         name={RouteKeys.SEARCHSCREEN}
@@ -161,12 +165,12 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={Contactus as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={{headerShown: true}}
         name={RouteKeys.BUYSTOCKSSCREEN}
         component={BuyStocks as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={{headerShown: true}}
         name={RouteKeys.SELLSTOCKSSCREEN}
         component={SellStocks as React.FC}
       />
@@ -176,7 +180,12 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={GameWinnerLoading as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={({navigation}) => ({
+          headerTitle: 'Leaderboard',
+          headerShown: true,
+          headerLeft: () =>
+            headerBack(() => navigation.navigate(RouteKeys.HOMESCREEN)),
+        })}
         name={RouteKeys.GAMEWINNERSCREEN}
         component={GameWinner as React.FC}
       />

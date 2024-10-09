@@ -34,6 +34,7 @@ export default function Header({
           gap: mScale.lg1,
           marginVertical: mScale.lg,
           paddingHorizontal: ph,
+          backgroundColor:colorPresets.TRANSPARENT
         },
       ]}>
       <View style={[commonStyle.flexStart, {gap: mScale.lg1, flex: 1}]}>

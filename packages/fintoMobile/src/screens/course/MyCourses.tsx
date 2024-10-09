@@ -37,8 +37,7 @@ export const MyCourses: React.FC<MyCoursesProps> = () => {
   });
 
   return (
-    <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0}}>
-      <Header text={'My Courses'} visible={false} />
+    <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0,paddingTop:60}}>
       <TabView
         navigationState={{index, routes}}
         renderTabBar={props => <MyCourseTabMolecule {...props} />}

@@ -8,7 +8,7 @@ import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAt
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
-import {mScale} from '@shared/src/theme/metrics';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import LatestNewsMolecule from '@src/components/molecules/LatestNewsMolecule/LatestNewsMolecule';
 import {NavType} from '@src/navigation/types';
 import {
@@ -39,6 +39,12 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
   const {buySellFormik, buySellInputProps} = useBuySellHelper();
   const {handleSubmit, isSubmitting, setFieldValue, values, resetForm} =
     buySellFormik;
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: singleStockData?.stock?.name,
+    });
+  }, []);
 
   React.useEffect(() => {
     setFieldValue(buySellField.game_id.name, singleStockData?.game_id);
@@ -109,14 +115,13 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
   );
 
   return (
-    <GradientTemplate>
+    <GradientTemplate style={{paddingTop: moderateScale(75)}}>
       <>
         {loading.create ? (
           <View style={commonStyle.fullPageLoading}>
             <LoaderAtom size={'large'} />
           </View>
         ) : null}
-        <HeaderLeftMolecule text={'Adani Stock'} />
         <ScrollViewAtom>
           <View style={{marginBottom: mScale.base}}>
             <InputAtom
@@ -161,11 +166,15 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
           />
 
           <View style={{marginTop: mScale.xxl}}>
-            <TextAtom
-              text={'Catch up with latest news'}
-              preset="heading2"
-              style={{marginVertical: mScale.md}}
-            />
+          {news?.length &&
+            news?.filter(e3 => e3.set_id == filterRoundLevelData?.set_id)
+              ?.length ? (
+              <TextAtom
+                text={'Catch up with latest news'}
+                preset="heading2"
+                style={{marginVertical: mScale.md}}
+              />
+            ) : null}
             <FlatList
               data={
                 news?.length

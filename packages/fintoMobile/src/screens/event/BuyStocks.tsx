@@ -1,14 +1,13 @@
-import {Alert, FlatList, StyleSheet, Text, View} from 'react-native';
+import {Alert, FlatList, StyleSheet, View} from 'react-native';
 import React from 'react';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {commonStyle} from '@shared/src/commonStyle';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
-import {mScale} from '@shared/src/theme/metrics';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import LatestNewsMolecule from '@src/components/molecules/LatestNewsMolecule/LatestNewsMolecule';
 import {NavType} from '@src/navigation/types';
 import {
@@ -20,7 +19,6 @@ import {buySellField} from '@shared/src/components/structures/buy-sell/buySellMo
 import {NewsResponse} from '@shared/src/utils/types/news';
 import {getGameUserByLoginIDGameID} from '@shared/src/provider/store/services/gameusers.service';
 import {storeUserGameAmount} from '@shared/src/provider/store/reducers/gameusers.reducer';
-import {resetTransaction} from '@shared/src/provider/store/reducers/transactions.reducer';
 import {Toast} from 'react-native-toast-notifications';
 
 interface BuyStocksProps extends NavType<'BuyStocks'> {}
@@ -38,10 +36,15 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
     state => state.transactions,
   );
   const {user_game_amount} = useAppSelector(state => state.gameUsers);
-
   const {buySellFormik, buySellInputProps} = useBuySellHelper();
-  const {handleSubmit, isSubmitting, setFieldValue, values, resetForm} =
-    buySellFormik;
+  const {handleSubmit, setFieldValue, values, resetForm} = buySellFormik;
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: singleStockData?.stock?.name,
+    });
+    setFieldValue(buySellField.order_qty.name, '');
+  }, []);
 
   React.useEffect(() => {
     setFieldValue(buySellField.game_id.name, singleStockData?.game_id);
@@ -55,37 +58,39 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
     setFieldValue(buySellField.round_level.name, singleStockData?.round_level);
   }, [singleStockData]);
 
+  React.useEffect(() => {
+    if (create) {
+      showMessgae();
+    }
+  }, [create]);
+
   const buyStocks = async () => {
     await handleSubmit();
-    if (create) {
-      if (create.id) {
-        Alert.alert('Buy Succeessfully');
-        let user_id = Number(auth?.user?.id);
-        let game_id = Number(singleGame?.id);
-        dispatch(
-          getGameUserByLoginIDGameID({
-            user_id,
-            game_id,
-            onSuccess: data => {
-              console.log(
-                'succes of getGameUserByLoginIDGameID of buy screen',
-                data,
-                user_game_amount,
-              );
-              if (user_game_amount == 0) {
-                dispatch(storeUserGameAmount(data?.amount));
-              }
-            },
-            onError: () => {},
-          }),
-        );
-        navigation.goBack();
-      }
-      if (create?.error) {
-        Toast.show(create?.error, {
-          type: 'error',
-        });
-      }
+  };
+
+  const showMessgae = () => {
+    if (create && create.id) {
+      Alert.alert('Buy Succeessfully');
+      let user_id = Number(auth?.user?.id);
+      let game_id = Number(singleGame?.id);
+      dispatch(
+        getGameUserByLoginIDGameID({
+          user_id,
+          game_id,
+          onSuccess: data => {
+            if (user_game_amount == 0) {
+              dispatch(storeUserGameAmount(data?.amount));
+            }
+          },
+          onError: () => {},
+        }),
+      );
+      navigation.goBack();
+    }
+    if (create?.error) {
+      Toast.show(create?.error, {
+        type: 'error',
+      });
     }
   };
 
@@ -104,14 +109,13 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
   );
 
   return (
-    <GradientTemplate>
+    <GradientTemplate style={{paddingTop: moderateScale(75)}}>
       <>
         {loading.create ? (
           <View style={commonStyle.fullPageLoading}>
             <LoaderAtom size={'large'} />
           </View>
         ) : null}
-        <HeaderLeftMolecule text={'Adani Stock'} />
         <ScrollViewAtom>
           <View style={{marginBottom: mScale.base}}>
             <InputAtom
@@ -156,11 +160,15 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
           />
 
           <View style={{marginTop: mScale.xxl}}>
-            <TextAtom
-              text={'Catch up with latest news'}
-              preset="heading2"
-              style={{marginVertical: mScale.md}}
-            />
+            {news?.length &&
+            news?.filter(e3 => e3.set_id == filterRoundLevelData?.set_id)
+              ?.length ? (
+              <TextAtom
+                text={'Catch up with latest news'}
+                preset="heading2"
+                style={{marginVertical: mScale.md}}
+              />
+            ) : null}
             <FlatList
               data={
                 news?.length

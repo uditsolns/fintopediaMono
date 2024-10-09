@@ -34,7 +34,7 @@ export const GameWinner: React.FC<GameWinnerProps> = ({navigation}) => {
   };
  
   return (
-    <GradientTemplate style={{paddingBottom: 0}}>
+    <GradientTemplate style={{paddingBottom: 0,paddingTop: moderateScale(75)}}>
       <ScrollViewAtom>
         <View style={styles.topThreeContainer}>
           <WinnerIcon

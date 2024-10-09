@@ -106,8 +106,8 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   // });
 
   return (
-    <GradientTemplate style={{paddingHorizontal: 0, paddingBottom: 0}}>
-      <Header text={'Good Morning'} visible={false} />
+    <GradientTemplate
+      style={{paddingHorizontal: 0, paddingBottom: 0, paddingTop: 60}}>
       <ScrollViewAtom
         nestedScrollEnabled={true}
         style={{paddingBottom: moderateScale(100)}}>

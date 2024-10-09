@@ -61,21 +61,11 @@ const profileItems = [
 
 interface AccountProps extends NavType<'Account'> {}
 
-interface LoginState {
-  user: {
-    first_name: string;
-    surname_name: string;
-    email: string;
-    phone: string;
-  };
-}
-
 export const Account: React.FC<AccountProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
   const {auth} = useAppSelector(state => state.auth);
   const logoutUser = () => {
-    dispatch(logout());
-    navigation.replace(RouteKeys.LOGINSCREEN);
+    setPopupVisible(true);
   };
   const [popupVisible, setPopupVisible] = React.useState(false);
 
@@ -84,8 +74,9 @@ export const Account: React.FC<AccountProps> = ({navigation}) => {
   };
 
   return (
-    <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0}}>
-      <ScrollViewAtom contentContainerStyle={{marginTop: mScale.xxl1}}>
+    <GradientTemplate
+      style={{paddingBottom: 0, paddingHorizontal: 0, paddingTop: 0}}>
+      <ScrollViewAtom contentContainerStyle={{paddingTop: mScale.xxl1}}>
         <View style={styles.centeredView}>
           <ProfileIcon avatarUrl={avatarUrl} />
           <TextAtom
@@ -125,16 +116,24 @@ export const Account: React.FC<AccountProps> = ({navigation}) => {
             />
           </View>
         </View>
-        <Popup
-          visible={popupVisible}
-          title={'Logout Confirmation'}
-          desc={
-            'Are you sure you want to log out? Any unsaved changes will be lost.'
-          }
-          btnTitle1={'Logout'}
-          btnTitle2={'Back'}
-        />
       </ScrollViewAtom>
+      <Popup
+        visible={popupVisible}
+        title={'Logout Confirmation'}
+        desc={
+          'Are you sure you want to log out? Any unsaved changes will be lost.'
+        }
+        btnTitle1={'Logout'}
+        btnTitle2={'Back'}
+        onClose={() => {
+          setPopupVisible(false);
+        }}
+        onRetry={() => {
+          dispatch(logout());
+          // navigation.navigate('AuthRoutes', { screen: RouteKeys.LOGINSCREEN });
+          // navigation.navigate(RouteKeys.LOGINSCREEN);
+        }}
+      />
     </GradientTemplate>
   );
 };

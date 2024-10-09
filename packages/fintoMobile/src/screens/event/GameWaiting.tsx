@@ -63,7 +63,6 @@ export const GameWaiting: React.FC<GameWaitingProps> = ({navigation}) => {
     React.useCallback(() => {
       if (singleGame) {
         let interval = setInterval(() => {
-          console.log("checkSingleGameFinish and getAllRoundLevelGamesData called in waiting screen")
           checkSingleGameFinish();
           getAllRoundLevelGamesData();
         }, 10000);

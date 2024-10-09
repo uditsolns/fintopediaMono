@@ -81,7 +81,7 @@ export const GameWinnerLoading: React.FC<GameWinnerLoadingProps> = ({
         startGameInfo,
         onSuccess: async res => {
           console.log("stop game ",res);
-          await getUsergames();
+          getUsergames();
         },
         onError: err => {},
       }),
@@ -89,6 +89,7 @@ export const GameWinnerLoading: React.FC<GameWinnerLoadingProps> = ({
   };
   const getUsergames = async () => {
     let id = Number(singleGame?.id);
+    console.log(id)
     dispatch(
       getGamesById({
         id,
@@ -112,6 +113,7 @@ export const GameWinnerLoading: React.FC<GameWinnerLoadingProps> = ({
     );
   };
 
+  
   return (
     <GradientTemplate>
       <View style={[commonStyle.container, styles.centeredContainer]}>

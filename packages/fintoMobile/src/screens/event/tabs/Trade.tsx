@@ -20,6 +20,8 @@ import {getStockData} from '@shared/src/provider/store/services/stockdatas.servi
 import {storeSingleStockData} from '@shared/src/provider/store/reducers/stockdatas.reducer';
 import { getGameUserByLoginIDGameID } from '@shared/src/provider/store/services/gameusers.service';
 import { storeUserGameAmount } from '@shared/src/provider/store/reducers/gameusers.reducer';
+import { Toast } from 'react-native-toast-notifications';
+import { resetTransaction } from '@shared/src/provider/store/reducers/transactions.reducer';
 
 interface TradeProps {}
 
@@ -50,8 +52,6 @@ export default function Trade() {
     StockDatasResponse[]
   >(stockData || []);
   const [search, setSearch] = React.useState<string>('');
-
- 
 
   React.useEffect(() => {
     if (stocks) {
@@ -100,6 +100,7 @@ export default function Trade() {
         item={item}
         onBuyStcok={() => {
           dispatch(storeSingleStockData(item));
+          dispatch(resetTransaction())
           navigation.navigate(RouteKeys.BUYSTOCKSSCREEN);
         }}
       />

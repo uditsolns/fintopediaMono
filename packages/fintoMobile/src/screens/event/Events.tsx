@@ -51,7 +51,6 @@ export const Events: React.FC<EventsProps> = ({navigation}) => {
         createStartGame({
           startGameInfo,
           onSuccess: res => {
-            console.log(res);
             if (res.error) {
               Toast.show(res.error, {
                 type: 'danger',
@@ -61,7 +60,6 @@ export const Events: React.FC<EventsProps> = ({navigation}) => {
             navigation.navigate(RouteKeys.GAMEWAITINGSCREEN);
           },
           onError: err => {
-            console.log(err);
             Toast.show('Something went wrong,please try again.', {
               type: 'danger',
             });

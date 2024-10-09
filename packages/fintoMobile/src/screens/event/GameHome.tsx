@@ -1,6 +1,6 @@
 import {RouteProp, useFocusEffect, useRoute} from '@react-navigation/native';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
-import {WINDOW_WIDTH} from '@shared/src/theme/metrics';
+import {mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import {GameRouteKeys, RouteKeys} from '@src/navigation/RouteKeys';
 import * as React from 'react';
@@ -27,6 +27,9 @@ import {commonStyle} from '@shared/src/commonStyle';
 import {storeUserGameAmount} from '@shared/src/provider/store/reducers/gameusers.reducer';
 import {getStockData} from '@shared/src/provider/store/services/stockdatas.service';
 import {getTransactions} from '@shared/src/provider/store/services/transactions.service';
+import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
+import {Images} from '@shared/src/assets';
+import {colorPresets} from '@shared/src/theme/color';
 
 type RouteParams = {
   tab?: number;
@@ -51,7 +54,7 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
   // const currentTime = new Date().toLocaleTimeString();
   // const endTime = `${filterRoundLevelData?.end_datetime}`;
   const currentTime = '10:20:50';
-  const endTime = '10:55:50';
+  const endTime = '10:50:50';
 
   const getTimeDifferenceInSeconds = (start: string, end: string): number => {
     const [startHours, startMinutes, startSeconds] = start
@@ -95,22 +98,6 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
   useFocusEffect(
     React.useCallback(() => {
       dispatch(storeCheckNavigateHome(false));
-      const onBackPress = () => {
-        Alert.alert('Hold on!', 'Are you sure you want to exit the game?', [
-          {
-            text: 'Cancel',
-            onPress: () => null,
-            style: 'cancel',
-          },
-          {
-            text: 'YES',
-            onPress: () => {
-              navigation.navigate(RouteKeys.HOMESCREEN);
-            },
-          },
-        ]);
-        return true;
-      };
 
       BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
@@ -119,6 +106,22 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
       };
     }, [navigation]),
   );
+  const onBackPress = () => {
+    Alert.alert('Hold on!', 'Are you sure you want to exit the game?', [
+      {
+        text: 'Cancel',
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {
+        text: 'YES',
+        onPress: () => {
+          navigation.navigate(RouteKeys.HOMESCREEN);
+        },
+      },
+    ]);
+    return true;
+  };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -157,9 +160,6 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
 
   React.useEffect(() => {
     let interval = setInterval(() => {
-      console.log(
-        'checkSingleGameFinish and getAllRoundLevelGamesData called in game home screen ',
-      );
       checkSingleGameFinish();
       getAllRoundLevelGamesData();
     }, 10000);
@@ -201,7 +201,12 @@ export const GameHome: React.FC<GameHomeProps> = ({navigation}) => {
 
   return (
     <GradientTemplate style={{paddingBottom: 0}}>
-      <HeaderLeftMolecule />
+      <PressableAtom
+        hitSlop={mScale.md}
+        onPress={onBackPress}
+        style={{marginVertical: mScale.lg}}>
+        <Images.SVG.ChevronLeft width={mScale.lg3} color={colorPresets.CTA} />
+      </PressableAtom>
       <View>
         <View style={[commonStyle.flexSpaceBetween]}>
           <TextAtom
