@@ -40,7 +40,7 @@ const GamesPage: React.FC = () => {
     <div className="background-gradient">
       <Container>
         <Row className="mt-5">
-          {loading?.games ? (
+          {loading?.games || startGameLoading.create ? (
             <div className="d-flex justify-content-center align-items-center p-5">
               <LightLoading />
             </div>
@@ -113,11 +113,7 @@ const GamesPage: React.FC = () => {
                           );
                         }}
                       >
-                        {startGameLoading.create ? (
-                          <LightLoading size="sm" color="dark" />
-                        ) : (
-                          "Play Game"
-                        )}
+                        Play Game
                       </Button>
                     </CardBody>
                   </Card>

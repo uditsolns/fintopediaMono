@@ -19,6 +19,7 @@ import { buySellField } from "shared/src/components/structures/buy-sell/buySellM
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import CircularLoading from "@src/components/loader/CircularLoading";
 import { StockDatasResponse } from "shared/src/utils/types/stockDatas";
+import { toast } from "react-toastify";
 
 interface Props {
   data: StockDatasResponse;
@@ -27,9 +28,7 @@ interface Props {
 const SellStocks: React.FC<Props> = (props) => {
   const { auth } = useAppSelector((state) => state.auth);
   const { news } = useAppSelector((state) => state.news);
-  const { transactions, loading } = useAppSelector(
-    (state) => state.transactions
-  );
+  const { create, loading } = useAppSelector((state) => state.transactions);
   const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
   const [modal, setModal] = useState(false);
 
@@ -44,7 +43,7 @@ const SellStocks: React.FC<Props> = (props) => {
     setFieldValue(buySellField.stock_id.name, props.data?.stock_id);
     setFieldValue(buySellField.order_type.name, "Sell");
     setFieldValue(buySellField.round_level.name, props.data?.round_level);
-  }, [props.data]);
+  }, [props.data, modal]);
 
   React.useEffect(() => {
     const stock_filter_amount = props.data?.stock?.stock_datas!.find((e3) => {
@@ -61,8 +60,25 @@ const SellStocks: React.FC<Props> = (props) => {
     const totalPrice = (cleanQuantity * cleanCurrentPrice).toString();
     setFieldValue(buySellField.total_price.name, totalPrice);
     setFieldValue(buySellField.stock_current_price.name, cleanCurrentPrice);
-  }, [props.data, values.order_qty, values.stock_current_price]);
+  }, [props.data, values.order_qty, values.stock_current_price, modal]);
 
+  const sellStock = () => {
+    const filterOrderQty = props.data?.user?.user_transactions?.find(
+      (el) => el?.stock_id == props.data?.stock_id
+    );
+    if (Number(values.order_qty) > filterOrderQty?.order_qty) {
+      toast.warning("Quantity is less than equal to total quantity", {
+        type: "error",
+      });
+    } else {
+      handleSubmit();
+    }
+  };
+  React.useEffect(() => {
+    if (create && create?.id) {
+      setModal(false);
+    }
+  }, [create]);
   return (
     <div>
       <Button className="btn-warning p-1" onClick={toggle} block>
@@ -112,11 +128,7 @@ const SellStocks: React.FC<Props> = (props) => {
                 className="btn btn-light font-bold text-black"
                 size="lg"
                 block
-                onClick={() => {
-                  handleSubmit();
-                  setModal(false);
-                  // resetForm();
-                }}
+                onClick={sellStock}
               >
                 {loading.create ? <CircularLoading /> : "Sell"}
               </Button>
@@ -127,13 +139,15 @@ const SellStocks: React.FC<Props> = (props) => {
           </h2>
           <div className={styles["news-scroll-container"]}>
             {news.length > 0 &&
-              news?.filter((item) => item.set_id == filterRoundLevelData?.set_id).map((el, i) => (
-                <Card key={i} className={`${styles["news-card"]} m-2 p-2`}>
-                  <CardBody>
-                    <CardTitle tag="h6">{el.name}</CardTitle>
-                  </CardBody>
-                </Card>
-              ))}
+              news
+                ?.filter((item) => item.set_id == filterRoundLevelData?.set_id)
+                .map((el, i) => (
+                  <Card key={i} className={`${styles["news-card"]} m-2 p-2`}>
+                    <CardBody>
+                      <CardTitle tag="h6">{el.name}</CardTitle>
+                    </CardBody>
+                  </Card>
+                ))}
           </div>
         </ModalBody>
       </Modal>

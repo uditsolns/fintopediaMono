@@ -185,7 +185,7 @@ const Portfolio: React.FC<PortfolioProps> = (props) => {
                   })
               ) : (
                 <tr>
-                  <td colSpan={3}>
+                  <td colSpan={5}>
                     <div className="alert alert-warning mt-3 text-center">
                       <i className="fas fa-exclamation-triangle" /> No Data
                       Found... :(

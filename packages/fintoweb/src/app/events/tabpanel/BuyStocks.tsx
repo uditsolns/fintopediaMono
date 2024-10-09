@@ -17,10 +17,7 @@ import styles from "./Event.module.css";
 import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import { useBuySellHelper } from "shared/src/components/structures/buy-sell/buySell.helper";
 import { buySellField } from "shared/src/components/structures/buy-sell/buySellModel";
-import {
-  useAppSelector,
-  useAppDispatch,
-} from "shared/src/provider/store/types/storeTypes";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import CircularLoading from "@src/components/loader/CircularLoading";
 import { StockDatasResponse } from "shared/src/utils/types/stockDatas";
 
@@ -28,13 +25,10 @@ interface Props {
   data: StockDatasResponse;
 }
 const BuyStocks: React.FC<Props> = (props) => {
-  const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
   const { news } = useAppSelector((state) => state.news);
   const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
-  const { transactions, loading, create } = useAppSelector(
-    (state) => state.transactions
-  );
+  const { loading, create } = useAppSelector((state) => state.transactions);
 
   const [modal, setModal] = useState(false);
   const toggle = () => {
@@ -42,7 +36,7 @@ const BuyStocks: React.FC<Props> = (props) => {
   };
 
   const { buySellFormik, buySellInputProps } = useBuySellHelper();
-  const { handleSubmit, isSubmitting, setFieldValue, values } = buySellFormik;
+  const { handleSubmit, setFieldValue, values } = buySellFormik;
 
   React.useEffect(() => {
     setFieldValue(buySellField.game_id.name, props.data.game_id);
@@ -54,7 +48,7 @@ const BuyStocks: React.FC<Props> = (props) => {
     setFieldValue(buySellField.stock_id.name, props.data?.stock_id);
     setFieldValue(buySellField.order_type.name, "Buy");
     setFieldValue(buySellField.round_level.name, props.data?.round_level);
-  }, [props.data, auth, setFieldValue]);
+  }, [props.data, auth, setFieldValue, modal]);
 
   React.useEffect(() => {
     const currentPrice = parseFloat(values.stock_current_price?.trim() || "0");
@@ -66,8 +60,12 @@ const BuyStocks: React.FC<Props> = (props) => {
     } else {
       setFieldValue(buySellField.total_price.name, 0);
     }
-  }, [values.order_qty, values.stock_current_price, setFieldValue]);
-
+  }, [values.order_qty, values.stock_current_price, setFieldValue, modal]);
+  React.useEffect(() => {
+    if (create && create?.id) {
+      setModal(false);
+    }
+  }, [create]);
   return (
     <div>
       <Button className="btn-success p-1" onClick={toggle} block>
@@ -119,8 +117,6 @@ const BuyStocks: React.FC<Props> = (props) => {
                 block
                 onClick={() => {
                   handleSubmit();
-                  setModal(false);
-                  // resetForm();
                 }}
               >
                 {loading.create ? <CircularLoading /> : "Buy"}

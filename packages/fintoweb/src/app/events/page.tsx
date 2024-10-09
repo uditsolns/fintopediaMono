@@ -1,5 +1,6 @@
 "use client";
 import React, { useCallback, useEffect } from "react";
+import styles from "./tabpanel/Event.module.css";
 import { Card, Row, Col } from "reactstrap";
 import TabPanel from "./tabpanel/TabPanel";
 import {
@@ -167,6 +168,10 @@ const Events: React.FC<EventPageProps> = ({ id, roundLevel, roundId }) => {
 
   return (
     <section className="background-gradient p-0">
+      <div className={styles.overview}>
+        <h3>Portfolio Overview</h3>
+        <h3>Round : {roundLevel}</h3>
+      </div>
       <div className="container-fluid p-3">
         <Card body className="p-2 bgBlack">
           <Row className="portfolio-header d-flex justify-content-between align-items-center text-center">

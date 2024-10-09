@@ -76,7 +76,7 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
       Toast.show('Quantity is less than equal to total quantity', {
         type: 'error',
       });
-    } else {
+    } else { 
       await handleSubmit();
       if (create?.id) {
         Alert.alert('Sell Succeessfully');

@@ -18,17 +18,20 @@ import { useSignupHelper } from "shared/src/components/structures/signup/signup.
 import { SelectAtom } from "@src/components/atoms/select/SelectAtom";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { useAppDispatch, useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
 import CircularLoading from "@src/components/loader/CircularLoading";
-import {getCollege} from "shared/src/provider/store/services/colleges.service"
+import { getCollege } from "shared/src/provider/store/services/colleges.service";
 
 const Register: React.FC = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const { auth, loading, signup } = useAppSelector((state) => state.auth);
 
-  // const { college } = useAppSelector((state) => state.college);
-
+  const { college } = useAppSelector((state) => state.college);
 
   const { signupFormik, signupInputProps } = useSignupHelper();
   const { handleSubmit, isSubmitting } = signupFormik;
@@ -36,10 +39,10 @@ const Register: React.FC = () => {
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
   const [isRevealPwd1, setIsRevealPwd1] = useState<boolean>(false);
 
-  // useEffect(()=>{
-  //   useAppDispatch(getCollege())
-  // },[])
-  // const router = useRouter();
+  useEffect(() => {
+    dispatch(getCollege());
+  }, []);
+
   useEffect(() => {
     if (signup?.token) {
       toast.success("Successfully Register !", {
@@ -98,11 +101,7 @@ const Register: React.FC = () => {
                       label={signupField.role.label}
                       placeholder={signupField.role.placeHolder}
                       {...signupInputProps(signupField.role.name)}
-                      options={[
-                        { value: "1", label: "Option 1" },
-                        { value: "2", label: "Option 2" },
-                        { value: "3", label: "Option 3" },
-                      ]}
+                      options={[{ value: "User", label: "User" }]}
                     />
                   </Col>
                 </Row>
@@ -112,11 +111,7 @@ const Register: React.FC = () => {
                       label={signupField.college.label}
                       placeholder={signupField.college.placeHolder}
                       {...signupInputProps(signupField.college.name)}
-                      options={[
-                        { value: "1", label: "Option 1" },
-                        { value: "2", label: "Option 2" },
-                        { value: "3", label: "Option 3" },
-                      ]}
+                      options={college}
                     />
                   </Col>
                 </Row>

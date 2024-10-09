@@ -83,7 +83,7 @@ const History: React.FC<HistoryProps> = ({ gameId, roundLevel, roundId }) => {
             <tbody>
               {loading.transactions ? (
                 <tr>
-                  <td colSpan={3} style={{ textAlign: "center" }}>
+                  <td colSpan={5} style={{ textAlign: "center" }}>
                     <LightLoading />
                   </td>
                 </tr>

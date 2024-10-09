@@ -28,15 +28,10 @@ const Trade: React.FC<TradeProps> = (props) => {
 
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
-  const { stocks } = useAppSelector((state) => state.stocks);
   const { stockData, loading } = useAppSelector((state) => state.stockData);
   const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
-  const { gameUserByLoginIDGameID, user_game_amount } = useAppSelector(
-    (state) => state.gameUsers
-  );
-  const { transactions, create } = useAppSelector(
-    (state) => state.transactions
-  );
+  const { user_game_amount } = useAppSelector((state) => state.gameUsers);
+  const { create } = useAppSelector((state) => state.transactions);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [data, setData] = useState(stockData);
   const [allData, setAllData] = useState(stockData);
@@ -65,28 +60,36 @@ const Trade: React.FC<TradeProps> = (props) => {
     setActiveIndustry(industry);
   };
   React.useEffect(() => {
-    if (create?.id) {
-      toast.success("Buy successfully !", {
-        position: "top-right",
-        theme: "light",
-      });
-      dispatch(resetTransaction());
-      let user_id = Number(auth?.user?.id);
-      let game_id = Number(gameId);
-      dispatch(
-        getGameUserByLoginIDGameID({
-          user_id,
-          game_id,
-          onSuccess: (data) => {
-            if (user_game_amount == 0) {
-              dispatch(storeUserGameAmount(data?.amount));
-            }
-          },
-          onError: () => {},
-        })
-      );
+    if (create) {
+      if (create?.id) {
+        toast.success("Buy successfully !", {
+          position: "top-right",
+          theme: "light",
+        });
+        dispatch(resetTransaction());
+        let user_id = Number(auth?.user?.id);
+        let game_id = Number(gameId);
+        dispatch(
+          getGameUserByLoginIDGameID({
+            user_id,
+            game_id,
+            onSuccess: (data) => {
+              if (user_game_amount == 0) {
+                dispatch(storeUserGameAmount(data?.amount));
+              }
+            },
+            onError: () => {},
+          })
+        );
+      }
+      if (create?.error) {
+        toast.error(create?.error, {
+          type: "error",
+        });
+      }
     }
   }, [create]);
+
   return (
     <React.Fragment>
       <div className={styles["inline-row"]}>
