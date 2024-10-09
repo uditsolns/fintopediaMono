@@ -88,6 +88,7 @@ export interface SignupParams {
   college_id: string;
 }
 
+
 export interface ForgotPasswordParams {
   email: string;
 }

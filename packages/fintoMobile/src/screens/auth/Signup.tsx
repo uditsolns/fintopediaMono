@@ -18,6 +18,7 @@ import {useSignupHelper} from '@shared/src/components/structures/signup/signup.h
 import {signupField} from '@shared/src/components/structures/signup/signupModel';
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
+import {Toast} from 'react-native-toast-notifications';
 
 interface SignupProps extends NavType<'Singup'> {}
 interface Category {
@@ -65,9 +66,28 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
   React.useEffect(() => {
     setFieldValue(signupField.role.name, 'app-user');
   }, []);
+
   React.useEffect(() => {
-    if (signup?.token) {
-      
+    if (signup) {
+      if (signup.token) {
+        Toast.show('Succeessfully register', {
+          type: 'success',
+        });
+        navigation.navigate(RouteKeys.LOGINSCREEN);
+      }
+      if (signup?.error) {
+        const errors = signup?.error;
+        if (errors.email) {
+          Toast.show(errors.email[0], {
+            type: 'error',
+          });
+        }
+        if (errors.phone) {
+          Toast.show(errors.phone[0], {
+            type: 'error',
+          });
+        }
+      }
     }
   }, [signup]);
   return (

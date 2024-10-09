@@ -4,6 +4,7 @@ import apiUrl from "../../../config/apiUrl";
 import {
   AuthParams,
   AuthResponse,
+  ForgotPasswordParams,
   SignupParams,
   UpdatePasswordParams,
   UserInfo,
@@ -24,7 +25,28 @@ export const signIn = createAsyncThunk<
       body: JSON.stringify(params),
     });
     const data = (await response.json()) as AuthResponse;
-    thunkApi.dispatch(storeCurrentUser(data?.user as UserInfo))
+    thunkApi.dispatch(storeCurrentUser(data?.user as UserInfo));
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
+export const googleSignIn = createAsyncThunk<
+  AuthResponse,
+  ForgotPasswordParams,
+  { state: RootState }
+>("auth/signin", async (params, thunkApi) => {
+  try {
+    const response = await fetch(apiUrl.AUTH.GOOGLE, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    });
+    const data = (await response.json()) as AuthResponse;
+    thunkApi.dispatch(storeCurrentUser(data?.user as UserInfo));
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);

@@ -22,6 +22,12 @@ import {authField} from '@shared/src/components/structures/login/loginModel';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {logout} from '@shared/src/provider/store/reducers/auth.reducer';
 import {Toast} from 'react-native-toast-notifications';
+import {
+  GoogleSignin,
+  isErrorWithCode,
+  isSuccessResponse,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 interface LoginProps extends NavType<'Login'> {}
 
@@ -32,8 +38,13 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
   const {handleSubmit, setFieldValue} = authFormik;
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);
 
+  React. useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: "1086429717269-pqt2o5l783a0dadn2gqjolrksdjanghj.apps.googleusercontent.com", 
+      offlineAccess: true
+    });
+  }, []);
   React.useEffect(() => {
-    console.log(auth);
     if (auth) {
       if (auth.token) {
         navigation.navigate(RouteKeys.HOMESCREEN);
@@ -45,6 +56,35 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
       }
     }
   }, [auth]);
+
+  const userGogleLogin = async() => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const response = await GoogleSignin.signIn();
+      if (isSuccessResponse(response)) {
+        console.log(response?.data)
+        GoogleSignin.signOut();
+      } else {
+        // sign in was cancelled by user
+      }
+    } catch (error) {
+      if (isErrorWithCode(error)) {
+        switch (error.code) {
+          case statusCodes.IN_PROGRESS:
+            console.log("operation (eg. sign in) already in progress",error.code)
+            break;
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            console.log("Android only, play services not available or outdated",error.code)
+            break;
+          default:
+          console.log("some other error happened",error)
+        }
+      } else {
+        console.log("an error that's not related to google sign in occurred")
+      }
+    }
+  
+  }
 
   return (
     <GradientTemplate>
@@ -108,7 +148,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
           <View style={{marginVertical: mScale.md, alignSelf: 'center'}}>
             <TextAtom text={'or'} preset="medium" />
           </View>
-          <ButtonAtom title="Continue with google" preset="tertiary" />
+          <ButtonAtom title="Continue with google" preset="tertiary" onPress={userGogleLogin} />
           <ButtonAtom title="Continue as guest" preset="secondary" />
           <View style={[commonStyle.flexCenter, {marginTop: mScale.base}]}>
             <TextAtom text={`Don't have an account ? `} preset="medium" />
