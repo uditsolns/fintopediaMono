@@ -14,7 +14,7 @@ import {mScale} from '@shared/src/theme/metrics';
 import ImageAtom from '@src/components/Image/ImageAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, StyleSheet, ViewStyle, BackHandler, Alert} from 'react-native';
 
 interface GameWinnerLoadingProps extends NavType<'GameWinnerLoading'> {}

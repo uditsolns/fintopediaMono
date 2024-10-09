@@ -10,7 +10,7 @@ export const AppNavigation: React.FC<AppNavigationProps> = ({}) => {
   const {auth} = useAppSelector(state => state.auth);
   return (
     <NavigationContainer>
-      {auth ? <MainRoutes /> : <AuthRoutes />}
+      {auth?.token ? <MainRoutes /> : <AuthRoutes />}
     </NavigationContainer>
   );
 };

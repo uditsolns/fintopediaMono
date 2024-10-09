@@ -36,7 +36,9 @@ const gameUsersSlice = createSlice({
   initialState,
   reducers: {
     storeUserGameAmount:(state,action)=>{
-      state.user_game_amount = action.payload
+      if (state.user_game_amount === 0) {
+        state.user_game_amount = action.payload;
+      }
     },
     clearGameUsers: () => {
       return initialState;

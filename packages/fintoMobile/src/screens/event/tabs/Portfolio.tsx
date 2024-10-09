@@ -5,7 +5,7 @@ import GameHeaderMolecule from '@src/components/molecules/GameHeaderMolecule/Gam
 import PortfolioMolecule from '@src/components/molecules/PortfolioMolecule/PortfolioMolecule';
 import SearchInputAtom from '@src/components/SearchInputAtom';
 import {commonStyle} from '@shared/src/commonStyle';
-import {mScale} from '@shared/src/theme/metrics';
+import {mScale, WINDOW_HEIGHT} from '@shared/src/theme/metrics';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {
   useAppDispatch,
@@ -78,36 +78,10 @@ export default function Portfolio() {
     dispatch(getTransactions());
   };
 
-  React.useEffect(() => {
-    if (create?.id) {
-      Alert.alert('Sell Succeessfully');
-      let user_id = Number(auth?.user?.id);
-      let game_id = Number(singleGame?.id);
-      dispatch(
-        getGameUserByLoginIDGameID({
-          user_id,
-          game_id,
-          onSuccess: data => {
-            if (user_game_amount == 0) {
-              dispatch(storeUserGameAmount(data?.amount));
-            }
-          },
-          onError: () => {},
-        }),
-      );
-    }
-  }, [create]);
-
+  
   const portfolioRenderItem = ({item}: {item: TransactionsResponse}) => {
     const onSellStcok = () => {
-      let res = {
-        stock_id: item?.stock_id,
-        game_id: item?.game_id,
-        stock_current_price: item?.stock_current_price,
-        round_level: item?.round_level,
-        stock: item?.stock,
-      };
-      dispatch(storeSingleStockData(res));
+      dispatch(storeSingleStockData(item));
       navigation.navigate(RouteKeys.SELLSTOCKSSCREEN);
     };
 
@@ -144,9 +118,10 @@ export default function Portfolio() {
           }
           renderItem={portfolioRenderItem}
           keyExtractor={item => item?.id?.toString()}
-          contentContainerStyle={{rowGap: 10}}
+          contentContainerStyle={{rowGap: 10,paddingBottom:WINDOW_HEIGHT*0.2}}
           initialNumToRender={10}
           showsVerticalScrollIndicator={false}
+          
         />
       </View>
     </View>

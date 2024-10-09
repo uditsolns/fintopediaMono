@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {Alert, FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {commonStyle} from '@shared/src/commonStyle';
@@ -18,6 +18,10 @@ import {
 import {useBuySellHelper} from '@shared/src/components/structures/buy-sell/buySell.helper';
 import {buySellField} from '@shared/src/components/structures/buy-sell/buySellModel';
 import {NewsResponse} from '@shared/src/utils/types/news';
+import {getGameUserByLoginIDGameID} from '@shared/src/provider/store/services/gameusers.service';
+import {storeUserGameAmount} from '@shared/src/provider/store/reducers/gameusers.reducer';
+import {resetTransaction} from '@shared/src/provider/store/reducers/transactions.reducer';
+import {Toast} from 'react-native-toast-notifications';
 
 interface BuyStocksProps extends NavType<'BuyStocks'> {}
 
@@ -30,7 +34,10 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
     state => state.roundLevel,
   );
   const {news} = useAppSelector(state => state.news);
-  const {create, loading} = useAppSelector(state => state.transactions);
+  const {create, loading, transactions} = useAppSelector(
+    state => state.transactions,
+  );
+  const {user_game_amount} = useAppSelector(state => state.gameUsers);
 
   const {buySellFormik, buySellInputProps} = useBuySellHelper();
   const {handleSubmit, isSubmitting, setFieldValue, values, resetForm} =
@@ -50,7 +57,36 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
 
   const buyStocks = async () => {
     await handleSubmit();
-    navigation.goBack()
+    if (create) {
+      if (create.id) {
+        Alert.alert('Buy Succeessfully');
+        let user_id = Number(auth?.user?.id);
+        let game_id = Number(singleGame?.id);
+        dispatch(
+          getGameUserByLoginIDGameID({
+            user_id,
+            game_id,
+            onSuccess: data => {
+              console.log(
+                'succes of getGameUserByLoginIDGameID of buy screen',
+                data,
+                user_game_amount,
+              );
+              if (user_game_amount == 0) {
+                dispatch(storeUserGameAmount(data?.amount));
+              }
+            },
+            onError: () => {},
+          }),
+        );
+        navigation.goBack();
+      }
+      if (create?.error) {
+        Toast.show(create?.error, {
+          type: 'error',
+        });
+      }
+    }
   };
 
   React.useEffect(() => {

@@ -1,6 +1,6 @@
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import * as React from 'react';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 import {commonStyle} from '@shared/src/commonStyle';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {Images} from '@shared/src/assets';
@@ -21,6 +21,7 @@ import {useAuthHelper} from '@shared/src/components/structures/login/login.helpe
 import {authField} from '@shared/src/components/structures/login/loginModel';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {logout} from '@shared/src/provider/store/reducers/auth.reducer';
+import {Toast} from 'react-native-toast-notifications';
 
 interface LoginProps extends NavType<'Login'> {}
 
@@ -32,8 +33,16 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    if (auth?.token) {
-      navigation.navigate(RouteKeys.HOMESCREEN);
+    console.log(auth);
+    if (auth) {
+      if (auth.token) {
+        navigation.navigate(RouteKeys.HOMESCREEN);
+      }
+      if (auth?.message) {
+        Toast.show(auth?.message, {
+          type: 'error',
+        });
+      }
     }
   }, [auth]);
 

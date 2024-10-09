@@ -2,7 +2,7 @@ import {FlatList, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
-import {mScale} from '@shared/src/theme/metrics';
+import {mScale, WINDOW_HEIGHT} from '@shared/src/theme/metrics';
 import {colorPresets} from '@shared/src/theme/color';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import PreviousRoundMolecule from '@src/components/molecules/PreviousRoundMolecule/PreviousRoundMolecule';
@@ -114,7 +114,7 @@ export default function PreviousRoundPrice() {
           }
           renderItem={previousRoundRenderItem}
           keyExtractor={item => item?.id?.toString()}
-          contentContainerStyle={{rowGap: 10}}
+          contentContainerStyle={{rowGap: 10,paddingBottom:WINDOW_HEIGHT*0.2}}
           initialNumToRender={10}
           showsVerticalScrollIndicator={false}
         />

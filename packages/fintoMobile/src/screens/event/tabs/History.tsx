@@ -4,7 +4,7 @@ import HistoryMolecule from '@src/components/molecules/HistoryMolecule/HistoryMo
 import GameHeaderMolecule from '@src/components/molecules/GameHeaderMolecule/GameHeaderMolecule';
 import SearchInputAtom from '@src/components/SearchInputAtom';
 import {commonStyle} from '@shared/src/commonStyle';
-import {mScale} from '@shared/src/theme/metrics';
+import {mScale, WINDOW_HEIGHT} from '@shared/src/theme/metrics';
 import {
   useAppDispatch,
   useAppSelector,
@@ -87,7 +87,7 @@ export default function History() {
           }
           renderItem={historyRenderItem}
           keyExtractor={item => item?.id?.toString()}
-          contentContainerStyle={{rowGap: 10}}
+          contentContainerStyle={{rowGap: 10,paddingBottom:WINDOW_HEIGHT*0.2}}
           initialNumToRender={10}
           showsVerticalScrollIndicator={false}
         />

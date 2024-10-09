@@ -18,6 +18,9 @@ import {
 import {useBuySellHelper} from '@shared/src/components/structures/buy-sell/buySell.helper';
 import {buySellField} from '@shared/src/components/structures/buy-sell/buySellModel';
 import {NewsResponse} from '@shared/src/utils/types/news';
+import {getGameUserByLoginIDGameID} from '@shared/src/provider/store/services/gameusers.service';
+import {storeUserGameAmount} from '@shared/src/provider/store/reducers/gameusers.reducer';
+import {Toast} from 'react-native-toast-notifications';
 
 interface SellStocksProps extends NavType<'SellStocks'> {}
 
@@ -28,8 +31,10 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
   const {filterRoundLevelData, singleRoundLevel} = useAppSelector(
     state => state.roundLevel,
   );
+  const {singleGame} = useAppSelector(state => state.games);
   const {news} = useAppSelector(state => state.news);
   const {create, loading} = useAppSelector(state => state.transactions);
+  const {user_game_amount} = useAppSelector(state => state.gameUsers);
 
   const {buySellFormik, buySellInputProps} = useBuySellHelper();
   const {handleSubmit, isSubmitting, setFieldValue, values, resetForm} =
@@ -64,8 +69,39 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
   }, [singleStockData, values.order_qty, values.stock_current_price]);
 
   const sellStocks = async () => {
-    await handleSubmit();
-    navigation.goBack()
+    const filterOrderQty = singleStockData?.user?.user_transactions?.find(
+      el => el?.stock_id == singleStockData?.stock_id,
+    );
+    if (Number(values.order_qty) > filterOrderQty?.order_qty) {
+      Toast.show('Quantity is less than equal to total quantity', {
+        type: 'error',
+      });
+    } else {
+      await handleSubmit();
+      if (create?.id) {
+        Alert.alert('Sell Succeessfully');
+        let user_id = Number(auth?.user?.id);
+        let game_id = Number(singleGame?.id);
+        dispatch(
+          getGameUserByLoginIDGameID({
+            user_id,
+            game_id,
+            onSuccess: data => {
+              console.log(
+                'succes of getGameUserByLoginIDGameID of sell screen',
+                data,
+                user_game_amount,
+              );
+              if (user_game_amount == 0) {
+                dispatch(storeUserGameAmount(data?.amount));
+              }
+            },
+            onError: () => {},
+          }),
+        );
+        navigation.goBack();
+      }
+    }
   };
 
   const renderItem = ({item}: {item: NewsResponse}) => (

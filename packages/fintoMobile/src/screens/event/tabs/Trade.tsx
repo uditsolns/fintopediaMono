@@ -1,6 +1,6 @@
 import {Alert, FlatList, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
-import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {moderateScale, mScale, WINDOW_HEIGHT} from '@shared/src/theme/metrics';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {commonStyle} from '@shared/src/commonStyle';
 import {colorPresets} from '@shared/src/theme/color';
@@ -72,25 +72,7 @@ export default function Trade() {
     dispatch(getStockData());
     setSearchStocksData(stockData);
   };
-  React.useEffect(() => {
-    if (create?.id) {
-      Alert.alert('Buy Succeessfully');
-      let user_id = Number(auth?.user?.id);
-      let game_id = Number(singleGame?.id);
-      dispatch(
-        getGameUserByLoginIDGameID({
-          user_id,
-          game_id,
-          onSuccess: data => {
-            if (user_game_amount == 0) {
-              dispatch(storeUserGameAmount(data?.amount));
-            }
-          },
-          onError: () => {},
-        }),
-      );
-    }
-  }, [create]);
+  
 
   const stockRenderItem = ({item}: {item: StocksResponse}) => {
     const handlePress = (id: number) => {
@@ -232,7 +214,7 @@ export default function Trade() {
           }
           renderItem={stockDataRenderItem}
           keyExtractor={item => item?.id?.toString()}
-          contentContainerStyle={{rowGap: 10}}
+          contentContainerStyle={{rowGap: 10,paddingBottom:WINDOW_HEIGHT*0.25}}
           initialNumToRender={10}
           showsVerticalScrollIndicator={false}
         />
