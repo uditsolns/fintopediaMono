@@ -1,3 +1,4 @@
+import { useFocusEffect } from '@react-navigation/native';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {
@@ -14,9 +15,10 @@ import {
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import WinnerIcon from '@src/components/Winner/WinnerIcon';
 import WinnerListAtom from '@src/components/Winner/WinnerListAtom';
+import { RouteKeys } from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, BackHandler, Alert} from 'react-native';
 
 interface GameWinnerProps extends NavType<'GameWinner'> {}
 
@@ -33,6 +35,33 @@ export const GameWinner: React.FC<GameWinnerProps> = ({navigation}) => {
     return name;
   };
  
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        Alert.alert('Hold on!', 'Are you sure you want to exit the game?', [
+          {
+            text: 'Cancel',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          {
+            text: 'YES',
+            onPress: () => {
+              navigation.navigate(RouteKeys.HOMESCREEN);
+            },
+          },
+        ]);
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      };
+    }, []),
+  );
+
   return (
     <GradientTemplate style={{paddingBottom: 0,paddingTop: moderateScale(75)}}>
       <ScrollViewAtom>

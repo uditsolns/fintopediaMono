@@ -59,7 +59,7 @@ export const GameWinnerLoading: React.FC<GameWinnerLoadingProps> = ({
 
   const checkSingleGameFinish = async () => {
     let id = Number(singleGame?.id);
-    dispatch(
+    await dispatch(
       getGamesById({
         id,
         onSuccess: async data => {
@@ -67,7 +67,9 @@ export const GameWinnerLoading: React.FC<GameWinnerLoadingProps> = ({
             await stopGames();
           }
         },
-        onError: () => {},
+        onError: err => {
+          console.log('Error in checkSingleGameFinish getGamesById:', err);
+        },
       }),
     );
   };
@@ -76,44 +78,47 @@ export const GameWinnerLoading: React.FC<GameWinnerLoadingProps> = ({
     const startGameInfo = {
       game_id: singleGame?.id,
     };
-    dispatch(
+    await dispatch(
       createStopGame({
         startGameInfo,
         onSuccess: async res => {
-          console.log("stop game ",res);
-          getUsergames();
+          await getUsergames();
         },
-        onError: err => {},
+        onError: err => {
+          console.log('Error in stopGames createStopGame:', err);
+        },
       }),
     );
   };
+
   const getUsergames = async () => {
     let id = Number(singleGame?.id);
-    console.log(id)
-    dispatch(
+    await dispatch(
       getGamesById({
         id,
-        onSuccess: data => {
+        onSuccess: async data => {
           if (data?.is_active == 0) {
             if (data?.to_publish_result == 1) {
-              console.log("onsucess :",data)
               dispatch(
                 getGameUsers({
-                  onSuccess: data => {
-                    console.log('onSuccess of game users', data);
+                  onSuccess: gameUsersData => {
                     navigation.navigate(RouteKeys.GAMEWINNERSCREEN);
                   },
                 }),
               );
             }
+            if (data?.to_publish_result == 0) {
+              await getUsergames();
+            }
           }
         },
-        onError: () => {},
+        onError: err => {
+          console.log('Error in getUsergames getGamesById:', err);
+        },
       }),
     );
   };
 
-  
   return (
     <GradientTemplate>
       <View style={[commonStyle.container, styles.centeredContainer]}>

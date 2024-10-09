@@ -25,6 +25,7 @@ export default function EventMolecule({
             : require('@shared/src/assets/img/gameImage.png')
         }
         style={styles.image}
+        resizeMode='contain'
       />
       <View style={styles.content}>
         <TextAtom
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
   image: {
     width: moderateScale(139),
     height: moderateScale(156),
+    overflow:"hidden"
   },
   content: {flex: 1, paddingVertical: mScale.md},
   boldText: {

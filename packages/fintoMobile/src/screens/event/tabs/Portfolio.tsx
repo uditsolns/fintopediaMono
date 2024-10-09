@@ -17,6 +17,7 @@ import {storeSingleStockData} from '@shared/src/provider/store/reducers/stockdat
 import {getGameUserByLoginIDGameID} from '@shared/src/provider/store/services/gameusers.service';
 import {storeUserGameAmount} from '@shared/src/provider/store/reducers/gameusers.reducer';
 import { NavType } from '@src/navigation/types';
+import { resetTransaction } from '@shared/src/provider/store/reducers/transactions.reducer';
 
 interface PortfolioProps extends NavType<'GameHome'>{}
 export default function Portfolio() {
@@ -82,6 +83,7 @@ export default function Portfolio() {
   const portfolioRenderItem = ({item}: {item: TransactionsResponse}) => {
     const onSellStcok = () => {
       dispatch(storeSingleStockData(item));
+      dispatch(resetTransaction())
       navigation.navigate(RouteKeys.SELLSTOCKSSCREEN);
     };
 
