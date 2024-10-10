@@ -1,18 +1,23 @@
 "use client";
+import React from "react";
 import dynamic from "next/dynamic";
 import Banner from "./homepage/Banner";
-import GamesPage from "./games/page";
 import StocksSlider from "./homepage/StocksSlider";
 import QuizSection from "./homepage/QuizSection";
-import FeaturedCourses from "./homepage/FeaturedCourses";
+import FeaturedCourses from "./homepage/components/featured-courses/FeaturedCourses";
 import HowitWorks from "./homepage/HowitWorks";
 import CategoryBanner from "./homepage/CategoryBanner";
 import AchiveingLearningSlider from "./homepage/AchiveingLearningSlider";
 import CourseOffer from "./homepage/CourseOffer";
 import BlogsSlider from "./homepage/BlogsSlider";
 import BasicStockmarketBanner from "./homepage/BasicStockmarketBanner";
-import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
 import Login from "./auth/login/page";
+import { getCourses } from "shared/src/provider/store/services/courses.service";
+import { getCategories } from "shared/src/provider/store/services/categories.service";
 
 // const Homepage = dynamic(() => import("./homepage/Homepage"), {
 //   ssr: false,
@@ -24,10 +29,19 @@ import Login from "./auth/login/page";
 // });
 
 export default function Home() {
+  const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
-  const { current_user } = useAppSelector((state) => state.auth);
+  const { courses } = useAppSelector((state) => state.courses);
+  const { categories } = useAppSelector((state) => state.categories);
 
   const token = auth?.token;
+
+  React.useEffect(() => {
+    if (token) {
+      dispatch(getCourses());
+      dispatch(getCategories());
+    }
+  }, [token, dispatch]);
 
   if (token) {
     return (
@@ -36,18 +50,14 @@ export default function Home() {
         <StocksSlider />
         <QuizSection />
         <div>
-          <h2 className="Heading">Featured Courses</h2>
-          <FeaturedCourses />
+          <FeaturedCourses courses={courses} categories={categories} />
         </div>
-
         <CategoryBanner />
         <HowitWorks />
         <AchiveingLearningSlider />
         <CourseOffer />
         <BlogsSlider />
         <BasicStockmarketBanner />
-        {/* game */}
-        {/* <GamesPage /> */}
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import { CategoriesInfo } from "./categories";
+import { CategoriesResponse } from "./categories";
 
 export interface CoursesParams {
   id?: number;
@@ -31,7 +31,7 @@ export interface CoursesResponse {
   resources: string;
   created_at: string;
   updated_at: string;
-  category: CategoriesInfo;
+  category?: CategoriesResponse;
 }
 export interface CoursesState {
   loading: {

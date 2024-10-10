@@ -61,7 +61,7 @@ const GameEnded: React.FC = () => {
     dispatch(
       getGamesById({
         id,
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
           if (data?.is_active == 0) {
             if (data?.to_publish_result == 1) {
               dispatch(
@@ -71,6 +71,9 @@ const GameEnded: React.FC = () => {
                   },
                 })
               );
+            }
+            if (data?.to_publish_result == 0) {
+              await getUsergames();
             }
           }
         },

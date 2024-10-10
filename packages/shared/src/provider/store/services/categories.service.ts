@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { CategoriesInfo } from "../../../utils/types/categories";
+import { CategoriesResponse } from "../../../utils/types/categories";
 
 export const getCategories = createAsyncThunk<
-  CategoriesInfo[],
+  CategoriesResponse[],
   void,
   { state: RootState }
 >("categories/get", async (_, thunkApi) => {
@@ -20,7 +20,7 @@ export const getCategories = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as CategoriesInfo[];
+    const data = (await response.json()) as CategoriesResponse[];
 
     return data;
   } catch (error) {
@@ -29,8 +29,8 @@ export const getCategories = createAsyncThunk<
 });
 
 export const createCategories = createAsyncThunk<
-  CategoriesInfo,
-  CategoriesInfo,
+  CategoriesResponse,
+  CategoriesResponse,
   { state: RootState }
 >("categories/post", async (params, thunkApi) => {
   try {
@@ -45,7 +45,7 @@ export const createCategories = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CategoriesInfo;
+    const data = (await response.json()) as CategoriesResponse;
 
     return data;
   } catch (error) {
@@ -54,8 +54,8 @@ export const createCategories = createAsyncThunk<
 });
 
 export const updateCategories = createAsyncThunk<
-  CategoriesInfo,
-  CategoriesInfo,
+  CategoriesResponse,
+  CategoriesResponse,
   { state: RootState }
 >("categories/update", async (params, thunkApi) => {
   try {
@@ -70,7 +70,7 @@ export const updateCategories = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CategoriesInfo;
+    const data = (await response.json()) as CategoriesResponse;
 
     return data;
   } catch (error) {

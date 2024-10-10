@@ -1,7 +1,7 @@
-export interface CategoriesInfo {
-  id: number;
-  category_name: string;
-  user_id: number;
+export interface CategoriesResponse {
+  id?: number;
+  category_name?: string;
+  user_id?: number;
 } 
 export interface CategoriesState {
   loading: {
@@ -16,8 +16,8 @@ export interface CategoriesState {
     updateErr: any;
     deleteErr: any;
   };
-  categories: CategoriesInfo[];
-  create: CategoriesInfo | null;
-  update: CategoriesInfo | null;
+  categories: CategoriesResponse[];
+  create: CategoriesResponse | null;
+  update: CategoriesResponse | null;
   delete: string | null;
 }
