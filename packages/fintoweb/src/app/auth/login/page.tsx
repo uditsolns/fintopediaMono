@@ -22,13 +22,21 @@ const Login: React.FC<LoginProps> = () => {
   const { handleSubmit, isSubmitting } = authFormik;
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (auth?.token) {
-      toast.success("Login successful!", {
-        position: "top-right",
-        theme: "light",
-      });
-      router.push("/");
+  React.useEffect(() => {
+    if (auth) {
+      if (auth?.token) {
+        toast.success("Login successful!", {
+          position: "top-right",
+          theme: "light",
+        });
+        router.push("/");
+      }
+      if (auth?.message) {
+        toast.error(auth?.message, {
+          position: "top-right",
+          theme: "light",
+        });
+      }
     }
   }, [auth, router]);
 

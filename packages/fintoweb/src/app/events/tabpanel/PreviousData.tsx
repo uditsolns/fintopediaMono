@@ -5,47 +5,47 @@ import { Row, Col, Button, Table } from "reactstrap";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import BuyStocks from "./BuyStocks";
-import styles from "./Event.module.css";
 import { FaArrowRotateRight } from "react-icons/fa6";
+import LightLoading from "@src/components/loader/LightLoading";
+import styles from "./Event.module.css";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
+import { StockDatasResponse } from "shared/src/utils/types/stockDatas";
 
-const PreviousData: React.FC = () => {
-  const dummyStockData = [
-    {
-      stock: { name: "Dr. Reddy's Laboratries Ltd.", industry: "Technology" },
-      stock_current_price: 145.3,
-      qty: 14,
-      order_type: "Buy",
-      buying_price: 141.3,
-      round_level: 1,
-      game_id: 101,
-    },
-    {
-      stock: { name: "Tesla", industry: "Automobile" },
-      stock_current_price: 720.5,
-      qty: 25,
-      order_type: "Sell",
-      buying_price: 400.3,
-      round_level: 1,
-      game_id: 102,
-    },
-    {
-      stock: { name: "Google", industry: "Technology" },
-      stock_current_price: 2720.3,
-      qty: 65,
-      order_type: "Sell",
-      buying_price: 2141.3,
-      round_level: 1,
-      game_id: 103,
-    },
-    // Add more dummy data as needed
-  ];
+interface PreviousProps {
+  gameId: number;
+  roundLevel:number;
+  roundId: number;
+}
+const PreviousData: React.FC<PreviousProps> = ({ gameId, roundLevel, roundId }) => {
+  const dispatch = useAppDispatch();
 
-  const filterRoundLevelData = { round_level: 1, game_id: 101 };
+  const { auth } = useAppSelector((state) => state.auth);
+  const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
+  const { stockData, loading } = useAppSelector((state) => state.stockData);
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [data, setData] = useState(dummyStockData);
-  const [allData, setAllData] = useState(dummyStockData);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [data, setData] = useState<StockDatasResponse[]>([]);
+
+  const [searchStocksData, setSearchStocksData] = React.useState<
+    StockDatasResponse[]
+  >(stockData || []);
+  const [rounds, setRounds] = React.useState<number | string>(roundLevel!);
+
+  React.useEffect(() => {
+    if (stockData) {
+      let filterData = searchStocksData?.length
+        ? searchStocksData?.filter(
+            (e3) =>
+              e3.game_id == gameId &&
+              e3.round_level == (roundLevel > 1 ? roundLevel - 1 : 1)
+          )
+        : [];
+      setSearchStocksData(filterData);
+    }
+  }, [stockData]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -57,7 +57,7 @@ const PreviousData: React.FC = () => {
         <TextField
           id="input-with-icon-textfield"
           placeholder="Search..."
-          className={`${styles["search-textfield"]}`}
+          className={styles["search-textfield"]}
           value={searchTerm}
           onChange={handleChange}
           InputProps={{
@@ -75,10 +75,7 @@ const PreviousData: React.FC = () => {
           }}
           variant="outlined"
         />
-        <Button
-          onClick={() => setData(allData)}
-          className={`${styles["search-button"]}`}
-        >
+        <Button className={styles["search-button"]}>
           <FaArrowRotateRight />
         </Button>
       </div>
@@ -87,41 +84,39 @@ const PreviousData: React.FC = () => {
           <Table className={styles["custom-table"]}>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Round 1 Price</th>
+                <th scope="col">Name</th>
+                <th scope="col">Current Price</th>
               </tr>
             </thead>
             <tbody>
-              {data.filter((user) =>
-                user.stock.name
-                  .trim()
-                  .toLowerCase()
-                  .includes(searchTerm.trim().toLowerCase())
-              ).length > 0 ? (
-                data
-                  ?.filter((user) =>
-                    user.stock.name
+              {loading.stockData ? (
+                <tr>
+                  <td colSpan={2} style={{ textAlign: "center" }}>
+                    <LightLoading />
+                  </td>
+                </tr>
+              ) : searchStocksData.filter((user) =>
+                  user.stock?.name
+                    .trim()
+                    .toLowerCase()
+                    .includes(searchTerm.trim().toLowerCase())
+                ).length > 0 ? (
+                searchStocksData
+                  .filter((user) =>
+                    user.stock?.name
                       .trim()
                       .toLowerCase()
                       .includes(searchTerm.trim().toLowerCase())
                   )
-                  .map((el, index) => {
-                    if (
-                      el.round_level === filterRoundLevelData.round_level &&
-                      el.game_id === filterRoundLevelData.game_id
-                    )
-                      return (
-                        <tr key={index}>
-                          <td>{el.stock.name}</td>
-                          <td>
-                            {Math.round(el.stock_current_price * 10) / 10}
-                          </td>
-                        </tr>
-                      );
-                  })
+                  .map((el, index) => (
+                    <tr key={index}>
+                      <th>{el.stock?.name}</th>
+                      <td>{Math.round(el.stock_current_price * 10) / 10}</td>
+                    </tr>
+                  ))
               ) : (
                 <tr>
-                  <td colSpan={3}>
+                  <td colSpan={2}>
                     <div className="row mt-3">
                       <div
                         className="p-1"

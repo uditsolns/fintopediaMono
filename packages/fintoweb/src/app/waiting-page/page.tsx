@@ -15,7 +15,7 @@ import { getRoundLevel } from "shared/src/provider/store/services/roundlevelgame
 import { useRouter } from "next/navigation";
 import { storeFilterRoundLevelData } from "shared/src/provider/store/reducers/roundlevelgames.reducer";
 import { storeCheckNavigate } from "shared/src/provider/store/reducers/checknavigate.reducer";
-import { RoundLevelInfo } from "shared/src/utils/types/roundLevel";
+import { RoundLevelResponse } from "shared/src/utils/types/roundLevel";
 
 interface WaitingPageProps {
   id?: number;
@@ -76,7 +76,7 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
     );
   };
 
-  const roundLevelFunction = async (roundLevel: RoundLevelInfo[]) => { 
+  const roundLevelFunction = async (roundLevel: RoundLevelResponse[]) => {
     const filterRound = roundLevel?.filter((e1) => {
       return e1?.game_id == gameId;
     });
@@ -88,14 +88,18 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
         if (filterRound[i].is_active == 1) {
           await pushFilterData(filterRound[i]);
           setModal(false);
-          router.push(`/events/${gameId}/${filterRound[i]?.id}`);
+          let roundLevel = filterRound[i]?.round_level;
+          let roundId = filterRound[i]?.id;
+          console.log("roundLevel-----------", roundLevel, roundId);
+
+          router.push(`/events/${gameId}/${roundLevel}/${roundId}`);
           break;
         }
       }
     }
   };
 
-  const pushFilterData = async (filterRound: RoundLevelInfo) => {
+  const pushFilterData = async (filterRound: RoundLevelResponse) => {
     dispatch(storeFilterRoundLevelData(filterRound));
   };
 

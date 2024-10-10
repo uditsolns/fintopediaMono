@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { CoursesInfo } from "../../../utils/types/courses";
+import { CoursesParams, CoursesResponse } from "../../../utils/types/courses";
 
 export const getCourses = createAsyncThunk<
-  CoursesInfo[],
+  CoursesResponse[],
   void,
   { state: RootState }
 >("courses/get", async (_, thunkApi) => {
@@ -20,7 +20,7 @@ export const getCourses = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as CoursesInfo[];
+    const data = (await response.json()) as CoursesResponse[];
 
     return data;
   } catch (error) {
@@ -29,14 +29,14 @@ export const getCourses = createAsyncThunk<
 });
 
 export const createCourses = createAsyncThunk<
-  CoursesInfo,
-  CoursesInfo,
+  CoursesResponse,
+  CoursesParams,
   { state: RootState }
 >("courses/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.COURSES.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.COURSES.POST, {
       method: "POST",
       headers: {
         "Content-Type": "multipart/form-data",
@@ -45,7 +45,7 @@ export const createCourses = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CoursesInfo;
+    const data = (await response.json()) as CoursesResponse;
 
     return data;
   } catch (error) {
@@ -54,8 +54,8 @@ export const createCourses = createAsyncThunk<
 });
 
 export const updateCourses = createAsyncThunk<
-  CoursesInfo,
-  CoursesInfo & { token: string },
+  CoursesResponse,
+  CoursesParams,
   { state: RootState }
 >("courses/update", async (params, thunkApi) => {
   try {
@@ -70,7 +70,7 @@ export const updateCourses = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CoursesInfo;
+    const data = (await response.json()) as CoursesResponse;
 
     return data;
   } catch (error) {

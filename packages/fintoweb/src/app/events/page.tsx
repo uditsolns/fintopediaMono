@@ -1,5 +1,6 @@
 "use client";
 import React, { useCallback, useEffect } from "react";
+import styles from "./tabpanel/Event.module.css";
 import { Card, Row, Col } from "reactstrap";
 import TabPanel from "./tabpanel/TabPanel";
 import {
@@ -14,17 +15,17 @@ import { getRoundLevelById } from "shared/src/provider/store/services/roundlevel
 import { storeCheckNavigateHome } from "shared/src/provider/store/reducers/checknavigate.reducer";
 import { getGameUserByLoginIDGameID } from "shared/src/provider/store/services/gameusers.service";
 import { storeFilterRoundLevelData } from "shared/src/provider/store/reducers/roundlevelgames.reducer";
-import { updateRoundLevel } from "shared/src/provider/store/services/roundlevelgames.service";
+//import { updateRoundLevel } from "shared/src/provider/store/services/roundlevelgames.service";
 import { storeUserGameAmount } from "shared/src/provider/store/reducers/gameusers.reducer";
 
-interface EventPageProps {
+export interface EventPageProps {
   id: number;
-  round: number;
+  roundLevel: number;
+  roundId: number;
 }
 
-const Events: React.FC<EventPageProps> = ({ id, round }) => {
+const Events: React.FC<EventPageProps> = ({ id, roundLevel, roundId }) => {
   const gameId = id;
-  const roundId = round;
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { current_user, auth } = useAppSelector((state) => state.auth);
@@ -43,11 +44,7 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
   const [endTime, setEndTime] = React.useState<string>(
     filterRoundLevelData ? `${filterRoundLevelData.end_datetime}` : "00:00:00"
   );
-
-  // const currentTime = new Date().toLocaleTimeString();
   const currentTime = new Date().toLocaleTimeString([], { hour12: false });
-
-  // const endTime = `${filterRoundLevelData.end_datetime}`;
 
   React.useEffect(() => {
     if (filterRoundLevelData) {
@@ -75,22 +72,22 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
   );
   React.useEffect(() => {
     if (time === 0) {
-      const body = {
-        id: roundId,
-        game_id: gameId,
-        round_level: filterRoundLevelData
-          ? filterRoundLevelData.round_level
-          : null,
-        start_datetime: filterRoundLevelData
-          ? filterRoundLevelData.start_datetime
-          : null,
-        end_datetime: filterRoundLevelData
-          ? filterRoundLevelData.end_datetime
-          : null,
-        set_id: filterRoundLevelData ? filterRoundLevelData.set_id : null,
-        is_active: 0,
-      };
-      dispatch(updateRoundLevel(body));
+      // const body: RoundLevelParams = {
+      //   id: roundId,
+      //   game_id: gameId,
+      //   round_level: filterRoundLevelData
+      //     ? +filterRoundLevelData.round_level
+      //     : null,
+      //   start_datetime: filterRoundLevelData
+      //     ? filterRoundLevelData.start_datetime
+      //     : null,
+      //   end_datetime: filterRoundLevelData
+      //     ? filterRoundLevelData.end_datetime
+      //     : null,
+      //   set_id: filterRoundLevelData ? filterRoundLevelData.set_id : null,
+      //   is_active: 0,
+      // };
+      // dispatch(updateRoundLevel(body));
     }
     const timer = setInterval(() => {
       setTime((prevTime) => Math.max(prevTime - 1, 0));
@@ -168,10 +165,13 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
       })
     );
   };
-  
 
   return (
     <section className="background-gradient p-0">
+      <div className={styles.overview}>
+        <h3>Portfolio Overview</h3>
+        <h3>Round : {roundLevel}</h3>
+      </div>
       <div className="container-fluid p-3">
         <Card body className="p-2 bgBlack">
           <Row className="portfolio-header d-flex justify-content-between align-items-center text-center">
@@ -222,7 +222,7 @@ const Events: React.FC<EventPageProps> = ({ id, round }) => {
         </Card>
       </div>
       <div className="container-fluid p-3">
-        <TabPanel />
+        <TabPanel gameId={gameId} roundLevel={roundLevel} roundId={roundId} />
       </div>
     </section>
   );

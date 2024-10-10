@@ -11,7 +11,7 @@ export const getGames = createAsyncThunk<
   GamesResponse[],
   void,
   { state: RootState }
->("games/get", async (_, thunkApi) => {
+>("games/get", async (_, thunkApi) => { 
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;

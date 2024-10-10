@@ -82,7 +82,7 @@ export const GameWinner: React.FC<GameWinnerProps> = ({navigation}) => {
               width: moderateScale(56),
               height: moderateScale(56),
               borderRadius: moderateScale(56 / 2),
-            }}
+            }} 
           />
           <WinnerIcon
             profilePhoto={require('@shared/src/assets/img/gameWinnerLoading.png')}

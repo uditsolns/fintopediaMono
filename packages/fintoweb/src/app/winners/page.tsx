@@ -1,21 +1,25 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import Winner from "../../assets/user.jpg";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
 
-const Winners = () => {
-  const leaders = [
-    { name: "Aishwarya", amount: "₹10,093", img: Winner },
-    { name: "Karan Joshi", amount: "₹9,093", img: Winner },
-    { name: "Aditya Iyer", amount: "₹7,093", img: Winner },
-  ];
-
-  const others = [
-    { rank: 4, name: "Anil Deshmukh", amount: "₹6,093", img: Winner },
-    { rank: 5, name: "Priya Kapoor", amount: "₹6,077", img: Winner },
-    { rank: 6, name: "Suraj Reddy", amount: "₹6,010", img: Winner },
-    { rank: 7, name: "Rohan Gupta", amount: "₹5,999", img: Winner },
-    { rank: 8, name: "Kavya Mehta", amount: "₹5,999", img: Winner },
-  ];
+interface WinnerProps {}
+const Winners: React.FC<WinnerProps> = () => {
+  const nameShorter = (name: string) => {
+    if (name?.length > 10) {
+      return name.slice(0, 15) + "...";
+    }
+    return name;
+  };
+  const dispatch = useAppDispatch();
+  const { gameUsers } = useAppSelector((state) => state.gameUsers);
+  console.log("gameUsers", gameUsers);
+  const [firstWinner, secondWinner, thirdWinner] = gameUsers;
 
   return (
     <div
@@ -30,72 +34,143 @@ const Winners = () => {
         <h1>Leaderboard</h1>
       </div>
       <div className="d-flex justify-content-around align-items-end my-4">
-        {leaders.map((leader, index) => (
+        <div
+          className="text-center position-relative"
+          style={{ width: "100px" }}
+        >
           <div
-            key={index}
-            className="text-center position-relative"
-            style={{ width: "100px" }}
+            className="position-relative"
+            style={{ width: "80px", height: "80px" }}
           >
-            <div
-              className="position-relative"
-              style={{ width: "80px", height: "80px" }}
+            <Image
+              src={Winner}
+              alt={"Second"}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-circle"
+            />
+            <span
+              className="badge bg-primary position-absolute top-0 start-50 translate-middle"
+              style={{ fontSize: "1rem" }}
             >
-              <Image
-                src={leader.img}
-                alt={leader.name}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-circle"
-              />
-              <span
-                className="badge bg-primary position-absolute top-0 start-50 translate-middle"
-                style={{ fontSize: "1rem" }}
-              >
-                {index + 1}
-              </span>
-            </div>
-            <p className="mt-2 mb-0 text-white" style={{ fontSize: "0.9rem" }}>
-              {leader.name}
-            </p>
-            <p className="text-success" style={{ fontSize: "0.9rem" }}>
-              {leader.amount}
-            </p>
+              2
+            </span>
           </div>
-        ))}
+          <p className="mt-2 mb-0 text-white" style={{ fontSize: "0.9rem" }}>
+            {secondWinner?.user
+              ? nameShorter(
+                  `${secondWinner?.user?.first_name} ${secondWinner?.user?.surname_name}`
+                )
+              : ""}
+          </p>
+          <p className="text-success" style={{ fontSize: "0.9rem" }}>
+            {`${secondWinner?.amount || 0}`}
+          </p>
+        </div>
+        <div
+          className="text-center position-relative m-5"
+          style={{ width: "100px" }}
+        >
+          <div
+            className="position-relative"
+            style={{ width: "80px", height: "80px" }}
+          >
+            <Image
+              src={Winner}
+              alt={"First"}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-circle"
+            />
+            <span
+              className="badge bg-primary position-absolute top-0 start-50 translate-middle"
+              style={{ fontSize: "1rem" }}
+            >
+              1
+            </span>
+          </div>
+          <p className="mt-2 mb-0 text-white" style={{ fontSize: "0.9rem" }}>
+            {firstWinner?.user
+              ? nameShorter(
+                  `${firstWinner?.user?.first_name} ${firstWinner?.user?.surname_name}`
+                )
+              : ""}
+          </p>
+          <p className="text-success" style={{ fontSize: "0.9rem" }}>
+            {`${firstWinner?.amount || 0}`}
+          </p>
+        </div>
+        <div
+          className="text-center position-relative"
+          style={{ width: "100px" }}
+        >
+          <div
+            className="position-relative"
+            style={{ width: "80px", height: "80px" }}
+          >
+            <Image
+              src={Winner}
+              alt={"Third"}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-circle"
+            />
+            <span
+              className="badge bg-primary position-absolute top-0 start-50 translate-middle"
+              style={{ fontSize: "1rem" }}
+            >
+              3
+            </span>
+          </div>
+          <p className="mt-2 mb-0 text-white" style={{ fontSize: "0.9rem" }}>
+            {thirdWinner?.user
+              ? nameShorter(
+                  `${thirdWinner?.user?.first_name} ${thirdWinner?.user?.surname_name}`
+                )
+              : ""}
+          </p>
+          <p className="text-success" style={{ fontSize: "0.9rem" }}>
+            {`${thirdWinner?.amount || 0}`}
+          </p>
+        </div>
       </div>
       <ul className="list-group">
-        {others.map((person, index) => (
-          <li
-            key={index}
-            className="list-group-item background-gradient d-flex justify-content-between align-items-center"
-            style={{
-              
-              borderColor: "#444444",
-              color: "white",
-            }}
-          >
-            <div className="d-flex align-items-center">
-              <div
-                className="position-relative"
-                style={{ width: "40px", height: "40px" }}
+        {gameUsers?.length > 3 &&
+          gameUsers?.slice(3).map((person, index) => {
+            return (
+              <li
+                key={index}
+                className="list-group-item background-gradient d-flex justify-content-between align-items-center"
+                style={{
+                  borderColor: "#444444",
+                  color: "white",
+                }}
               >
-                <Image
-                  src={person.img}
-                  alt={person.name}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-circle me-3"
-                />
-              </div>
-              <div>
-                <strong>
-                  {person.rank}. {person.name}
-                </strong>
-              </div>
-            </div>
-            <span className="text-success">{person.amount}</span>
-          </li>
-        ))}
+                <div className="d-flex align-items-center">
+                  <div
+                    className="position-relative"
+                    style={{ width: "40px", height: "40px" }}
+                  >
+                    <Image
+                      src={Winner}
+                      alt={person?.user?.first_name}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-circle me-3"
+                    />
+                  </div>
+                  <div>
+                    <strong>
+                      {index + 1}
+                      {"."}
+                      {person?.user?.first_name}
+                    </strong>
+                  </div>
+                </div>
+                <span className="text-success">{person.amount}</span>
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

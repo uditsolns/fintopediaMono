@@ -1,12 +1,18 @@
 import React from "react";
 import { Spinner } from "reactstrap";
 
-const CircularLoading: React.FC = () => {
+interface CircularLoadingProps {
+  size?: string;  
+  color?: string; 
+}
+
+const CircularLoading: React.FC<CircularLoadingProps> = ({ size = "lg", color = "light" }) => {
   return (
     <React.Fragment>
-      <Spinner color="light" />
+      <Spinner size={size} color={color} />
     </React.Fragment>
   );
 };
 
 export default CircularLoading;
+
