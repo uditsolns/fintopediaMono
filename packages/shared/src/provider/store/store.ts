@@ -26,7 +26,9 @@ import userCertificateReducer from "./reducers/UserCertificate.reducer";
 import userCourseHistoryReducer from "./reducers/UserCourseHistory.reducer";
 import startGameReducer from "./reducers/startgame.reducer";
 import stopGameReducer from "./reducers/stopgame.reducer";
-import checkNavigateReducer from './reducers/checknavigate.reducer'
+import checkNavigateReducer from './reducers/checknavigate.reducer';
+import coursesSaveLaterReducer from './reducers/coursessavelater.reducer';
+import notificationsReducer from './reducers/notifications.reducer';
 
 const isNative = Platform.OS !== "web";
 
@@ -59,7 +61,9 @@ const reducers = combineReducers({
   userCourseHistory: userCourseHistoryReducer,
   startGame: startGameReducer,
   stopGame: stopGameReducer,
-  checkNavigate:checkNavigateReducer
+  checkNavigate:checkNavigateReducer,
+  coursesSaveLater:coursesSaveLaterReducer,
+  notifications:notificationsReducer
 });
 
 export const store = configureStore({

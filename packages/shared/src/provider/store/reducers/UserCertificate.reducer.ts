@@ -1,11 +1,13 @@
-import { UserCertificateState } from "../../../utils/types/UserCertificate";
+
 import { createSlice } from "@reduxjs/toolkit";
 import {
   deleteUserCertificate,
   getUserCertificate,
   updateUserCertificate,
   createUserCertificate,
+  getUserCertificateById,
 } from "../services/UserCertificate.service";
+import { UserCertificateState } from "../../../utils/types/UserCertificate";
 
 const initialState: UserCertificateState = {
   loading: {
@@ -13,23 +15,35 @@ const initialState: UserCertificateState = {
     delete: false,
     update: false,
     userCertificate: false,
+    singleUserCertificate:false
   },
   err: {
     createErr: null,
     deleteErr: null,
     updateErr: null,
     userCertificateErr: null,
+    singleUserCertificateErr: null,
   },
   create: null,
   delete: null,
   update: null,
   userCertificate: [],
+  singleUserCertificate: null,
 };
 
 const userCertificateSlice = createSlice({
   name: "userCertificate",
   initialState,
-  reducers: {},
+  reducers: {
+    storeSingleUserCertificate: (state, action) => {
+      state.singleUserCertificate = action.payload;
+    },
+    clearUserCertificate: (state) => {
+      state.create = null;
+      state.update = null;
+      state.delete = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUserCertificate.pending, (state) => {
@@ -43,6 +57,20 @@ const userCertificateSlice = createSlice({
       .addCase(getUserCertificate.rejected, (state, action) => {
         state.loading.userCertificate = false;
         state.err.userCertificateErr = action?.payload;
+      })
+
+      // single user certificate
+      .addCase(getUserCertificateById.pending, (state) => {
+        state.loading.singleUserCertificate = true;
+      })
+      .addCase(getUserCertificateById.fulfilled, (state, action) => {
+        state.loading.singleUserCertificate = false;
+        state.singleUserCertificate = action.payload;
+        state.err.singleUserCertificateErr = null;
+      })
+      .addCase(getUserCertificateById.rejected, (state, action) => {
+        state.loading.singleUserCertificate = false;
+        state.err.singleUserCertificateErr = action?.payload;
       })
       //   create
       .addCase(createUserCertificate.pending, (state) => {
@@ -84,5 +112,8 @@ const userCertificateSlice = createSlice({
       });
   },
 });
+
+export const { storeSingleUserCertificate, clearUserCertificate } =
+userCertificateSlice.actions;
 
 export default userCertificateSlice.reducer;

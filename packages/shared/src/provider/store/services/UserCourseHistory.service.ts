@@ -1,10 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { UserCourseHistoryInfo } from "../../../utils/types/UserCourseHistory";
+import {
+  UserCourseHistoryParams,
+  UserCourseHistoryResponse,
+} from "../../../utils/types/UserCourseHistory";
 
 export const getUserCourseHistory = createAsyncThunk<
-  UserCourseHistoryInfo[],
+  UserCourseHistoryResponse[],
   void,
   { state: RootState }
 >("userCourseHistory/get", async (_, thunkApi) => {
@@ -20,7 +23,35 @@ export const getUserCourseHistory = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as UserCourseHistoryInfo[];
+    const data = (await response.json()) as UserCourseHistoryResponse[];
+
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
+export const getUserCourseHistoryById = createAsyncThunk<
+  UserCourseHistoryResponse,
+  UserCourseHistoryParams,
+  { state: RootState }
+>("getUserCourseHistoryById/get", async (params, thunkApi) => {
+  try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
+
+    const response = await fetch(
+      `${apiUrl.USER_COURSE_HISTORY.GET}/${params?.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = (await response.json()) as UserCourseHistoryResponse;
 
     return data;
   } catch (error) {
@@ -29,26 +60,23 @@ export const getUserCourseHistory = createAsyncThunk<
 });
 
 export const createUserCourseHistory = createAsyncThunk<
-  UserCourseHistoryInfo,
-  UserCourseHistoryInfo,
+  UserCourseHistoryResponse,
+  UserCourseHistoryParams,
   { state: RootState }
 >("userCourseHistory/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(
-      apiUrl.USER_COURSE_HISTORY.POST,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(params),
-      }
-    );
+    const response = await fetch(apiUrl.USER_COURSE_HISTORY.POST, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(params),
+    });
 
-    const data = (await response.json()) as UserCourseHistoryInfo;
+    const data = (await response.json()) as UserCourseHistoryResponse;
 
     return data;
   } catch (error) {
@@ -57,8 +85,8 @@ export const createUserCourseHistory = createAsyncThunk<
 });
 
 export const updateUserCourseHistory = createAsyncThunk<
-  UserCourseHistoryInfo,
-  UserCourseHistoryInfo,
+UserCourseHistoryResponse,
+  UserCourseHistoryParams,
   { state: RootState }
 >("userCourseHistory/update", async (params, thunkApi) => {
   try {
@@ -76,7 +104,7 @@ export const updateUserCourseHistory = createAsyncThunk<
       }
     );
 
-    const data = (await response.json()) as UserCourseHistoryInfo;
+    const data = (await response.json()) as UserCourseHistoryResponse;
 
     return data;
   } catch (error) {

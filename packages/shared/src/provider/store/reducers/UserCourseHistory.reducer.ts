@@ -1,10 +1,11 @@
 import { UserCourseHistoryState } from "../../../utils/types/UserCourseHistory";
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  createUserCourseHistory,
   deleteUserCourseHistory,
   getUserCourseHistory,
+  getUserCourseHistoryById,
   updateUserCourseHistory,
-  createUserCourseHistory,
 } from "../services/UserCourseHistory.service";
 
 const initialState: UserCourseHistoryState = {
@@ -12,37 +13,63 @@ const initialState: UserCourseHistoryState = {
     create: false,
     delete: false,
     update: false,
-    userCourseHistory: false,
+    user_course_history: false,
+    single_user_course_history: false,
   },
   err: {
     createErr: null,
     deleteErr: null,
     updateErr: null,
-    userCourseHistoryErr: null,
+    user_course_history_err: null,
+    single_user_course_history_err: null,
   },
   create: null,
   delete: null,
   update: null,
-  userCourseHistory: [],
+  user_course_history: [],
+  single_user_course_history: null,
 };
 
 const userCourseHistorySlice = createSlice({
   name: "userCourseHistory",
   initialState,
-  reducers: {},
+  reducers: {
+    storeSingleUserCourseHistory: (state, action) => {
+      state.single_user_course_history = action.payload;
+    },
+    clearUserCourseHistory: (state) => {
+      state.create = null;
+      state.update = null;
+      state.delete = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUserCourseHistory.pending, (state) => {
-        state.loading.userCourseHistory = true;
+        state.loading.user_course_history = true;
       })
       .addCase(getUserCourseHistory.fulfilled, (state, action) => {
-        state.loading.userCourseHistory = false;
-        state.userCourseHistory = action.payload;
-        state.err.userCourseHistoryErr = null;
+        state.loading.user_course_history = false;
+        state.user_course_history = action.payload;
+        state.err.user_course_history_err = null;
       })
       .addCase(getUserCourseHistory.rejected, (state, action) => {
-        state.loading.userCourseHistory = false;
-        state.err.userCourseHistoryErr = action?.payload;
+        state.loading.user_course_history = false;
+        state.err.user_course_history_err = action?.payload;
+      })
+
+      // single user course history
+      .addCase(getUserCourseHistoryById.pending, (state) => {
+        state.loading.single_user_course_history = true;
+      })
+      .addCase(getUserCourseHistoryById.fulfilled, (state, action) => {
+        state.loading.single_user_course_history = false;
+        state.single_user_course_history = action.payload;
+        state.err.single_user_course_history_err = null;
+      })
+      .addCase(getUserCourseHistoryById.rejected, (state, action) => {
+        state.loading.single_user_course_history = false;
+        state.err.single_user_course_history_err = action?.payload;
       })
       //   create
       .addCase(createUserCourseHistory.pending, (state) => {
@@ -84,5 +111,6 @@ const userCourseHistorySlice = createSlice({
       });
   },
 });
-
+export const { storeSingleUserCourseHistory, clearUserCourseHistory } =
+  userCourseHistorySlice.actions;
 export default userCourseHistorySlice.reducer;

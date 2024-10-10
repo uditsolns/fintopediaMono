@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { UserCertificateInfo } from "../../../utils/types/UserCertificate";
+import { UserCertificateParams, UserCertificateResponse } from "../../../utils/types/UserCertificate";
 
 export const getUserCertificate = createAsyncThunk<
-  UserCertificateInfo[],
+  UserCertificateResponse[],
   void,
   { state: RootState }
 >("userCertificate/get", async (_, thunkApi) => {
@@ -20,7 +20,32 @@ export const getUserCertificate = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as UserCertificateInfo[];
+    const data = (await response.json()) as UserCertificateResponse[];
+
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
+export const getUserCertificateById = createAsyncThunk<
+  UserCertificateResponse,
+  UserCertificateParams,
+  { state: RootState }
+>("getUserCertificateById/get", async (params, thunkApi) => {
+  try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
+
+    const response = await fetch(`${apiUrl.USER_CERTIFICATE.GET}/${params?.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = (await response.json()) as UserCertificateResponse;
 
     return data;
   } catch (error) {
@@ -29,15 +54,15 @@ export const getUserCertificate = createAsyncThunk<
 });
 
 export const createUserCertificate = createAsyncThunk<
-  UserCertificateInfo,
-  UserCertificateInfo,
+  UserCertificateResponse,
+  UserCertificateParams,
   { state: RootState }
 >("userCertificate/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
     const response = await fetch(
-      apiUrl.USER_CERTIFICATE.POST + "/" + params.id,
+      apiUrl.USER_CERTIFICATE.POST,
       {
         method: "POST",
         headers: {
@@ -48,7 +73,7 @@ export const createUserCertificate = createAsyncThunk<
       }
     );
 
-    const data = (await response.json()) as UserCertificateInfo;
+    const data = (await response.json()) as UserCertificateResponse;
 
     return data;
   } catch (error) {
@@ -57,8 +82,8 @@ export const createUserCertificate = createAsyncThunk<
 });
 
 export const updateUserCertificate = createAsyncThunk<
-  UserCertificateInfo,
-  UserCertificateInfo,
+  UserCertificateResponse,
+  UserCertificateParams,
   { state: RootState }
 >("userCertificate/update", async (params, thunkApi) => {
   try {
@@ -76,7 +101,7 @@ export const updateUserCertificate = createAsyncThunk<
       }
     );
 
-    const data = (await response.json()) as UserCertificateInfo;
+    const data = (await response.json()) as UserCertificateResponse;
 
     return data;
   } catch (error) {
