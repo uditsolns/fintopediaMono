@@ -25,7 +25,7 @@ export const useBuySellHelper = () => {
         round_level: values.round_level,
       };
       dispatch(createTransactions(data));
-      buySellFormik.resetForm()
+      buySellFormik.resetForm();
     },
   });
 
