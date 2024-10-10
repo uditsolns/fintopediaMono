@@ -1,7 +1,10 @@
 import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
+import { imageUrl } from '@shared/src/config/imageUrl';
+import { colorPresets } from '@shared/src/theme/color';
 import { moderateScale, mScale } from '@shared/src/theme/metrics';
+import { CoursesResponse } from '@shared/src/utils/types/courses';
 import CoursePrice from '@src/components/CoursePrice';
 import ProgressBar from '@src/components/ProgressBar';
 import RatingReview from '@src/components/RatingReview';
@@ -9,18 +12,22 @@ import React from 'react';
 import {Pressable, StyleSheet, View, ViewStyle, ImageStyle} from 'react-native';
 
 interface PopularCourseMoleculeProps {
-  item?:any;
+  item: CoursesResponse;
   onPress?: () => void;
 }
 
 export default function PopularCourseMolecule({
+  item,
   onPress,
 }: PopularCourseMoleculeProps) {
   return (
     <Pressable style={styles.activePlanDetails} onPress={onPress}>
       <View>
         <ImageAtom
-          sourceRequire={require('@shared/src/assets/img/coursePlaceHolder.png')}
+          sourceRequire={
+            item?.course_image
+              ? {uri: `${imageUrl}/uploads/course_images/${item.course_image}`}
+              : require('@shared/src/assets/img/coursePlaceHolder.png')}
           imageStyle={styles.image}
           resizeMode="contain"
         />
@@ -32,13 +39,12 @@ export default function PopularCourseMolecule({
           fontWeight={'600'}
           style={{position: 'absolute', bottom: mScale.base, right: mScale.lg}}
         /> */}
-        
       </View>
       <View style={styles.content}>
-        <TextAtom text={'Basics of Stock Market'} preset="heading2" />
+        <TextAtom text={item?.name} preset="heading2" />
         <ProgressBar level={'intermediate'} hours={36} />
         <RatingReview rating={4.6} review={1000} />
-        <CoursePrice price={'2,999'} discount_price={'1,888'} />
+        <CoursePrice price={item?.sale_price} discount_price={item?.actual_price} />
         <ButtonAtom title='Add to cart' />
       </View>
     </Pressable>

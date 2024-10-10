@@ -2,8 +2,9 @@ import { commonStyle } from '@shared/src/commonStyle';
 import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { colorPresets } from '@shared/src/theme/color';
+import { imageUrl } from '@shared/src/config/imageUrl';
 import { moderateScale, mScale } from '@shared/src/theme/metrics';
+import { CoursesResponse } from '@shared/src/utils/types/courses';
 import ProgressBar from '@src/components/ProgressBar';
 import RatingReview from '@src/components/RatingReview';
 import React from 'react';
@@ -11,7 +12,7 @@ import { StyleSheet, View, ViewStyle, ImageStyle } from 'react-native';
 
 
 interface OngoingMoleculeProps {
-  item?: any;
+  item?: CoursesResponse;
   onPress?: () => void;
 }
 
@@ -19,12 +20,15 @@ export default function CourseMolecule({ item, onPress }: OngoingMoleculeProps) 
   return (
     <View style={[commonStyle.flexStart, styles.container]}>
       <ImageAtom
-        sourceRequire={require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')}
+        sourceRequire={ item?.course_image
+          ? {uri: `${imageUrl}/uploads/course_images/${item.course_image}`}
+          : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')}
         imageStyle={styles.image}
+        resizeMode='stretch'
       />
       <View style={styles.content}>
         <TextAtom
-          text="Swing Trading Basics"
+          text={item?.name}
           preset="titleBold"
           numberOfLines={3}
           style={{ marginTop: mScale.md }}
@@ -41,7 +45,7 @@ export default function CourseMolecule({ item, onPress }: OngoingMoleculeProps) 
         />
         <RatingReview rating={'4.6'} review={'1,000'} />
         <View style={[commonStyle.flexSpaceBetween]}>
-          <TextAtom text={`₹ 2,555`} preset="titleBold" />
+          <TextAtom text={`₹ ${item?.sale_price}`} preset="titleBold" />
           <ButtonAtom title='Add to cart'  />
         </View>
       </View>

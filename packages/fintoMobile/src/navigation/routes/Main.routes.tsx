@@ -69,7 +69,10 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerLeft: () => headerBack(() => navigation.goBack())
+        })}
         name={RouteKeys.SEARCHSCREEN}
         component={Search as React.FC}
       />
@@ -115,7 +118,10 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={PaymentSuccess as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerLeft: () => headerBack(() => navigation.goBack()),
+        })}
         name={RouteKeys.DONTKNOWWHERETOSTARTSCREEN}
         component={DontKnowWhereToStart as React.FC}
       />
