@@ -1,8 +1,19 @@
-export interface CourseCartInfo {
+import { UserInfo } from "./auth";
+import { CoursesResponse } from "./courses";
+
+export interface CourseCartParams {
+  id?: number;
+  user_id?: number;
+  cources_id?: number;
+  status?: number;
+}
+export interface CourseCartResponse {
   id: number;
   user_id: number;
   cources_id: number;
   status: number;
+  course?: CoursesResponse | null;
+  user?: UserInfo | null;
 }
 export interface CourseCartState {
   loading: {
@@ -17,8 +28,8 @@ export interface CourseCartState {
     updateErr: any;
     deleteErr: any;
   };
-  courseCart: CourseCartInfo[];
-  create: CourseCartInfo | null;
-  update: CourseCartInfo | null;
+  courseCart: CourseCartResponse[];
+  create: CourseCartResponse | null;
+  update: CourseCartResponse | null;
   delete: string | null;
 }

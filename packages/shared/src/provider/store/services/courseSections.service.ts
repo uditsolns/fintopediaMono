@@ -1,10 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { CoursesSectionInfo } from "../../../utils/types/coursesSections";
+import {
+  CoursesSectionResponse,
+  CoursesSectionParams,
+} from "../../../utils/types/coursesSections";
 
 export const getCoursesSections = createAsyncThunk<
-  CoursesSectionInfo[],
+  CoursesSectionResponse[],
   void,
   { state: RootState }
 >("coursesSections/get", async (_, thunkApi) => {
@@ -20,7 +23,7 @@ export const getCoursesSections = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as CoursesSectionInfo[];
+    const data = (await response.json()) as CoursesSectionResponse[];
 
     return data;
   } catch (error) {
@@ -29,26 +32,23 @@ export const getCoursesSections = createAsyncThunk<
 });
 
 export const createCoursesSections = createAsyncThunk<
-  CoursesSectionInfo,
-  CoursesSectionInfo,
+  CoursesSectionResponse,
+  CoursesSectionParams,
   { state: RootState }
 >("coursesSections/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(
-      apiUrl.COURSE_SECTIONS.POST + "/" + params.id,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(params),
-      }
-    );
+    const response = await fetch(apiUrl.COURSE_SECTIONS.POST, {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(params),
+    });
 
-    const data = (await response.json()) as CoursesSectionInfo;
+    const data = (await response.json()) as CoursesSectionResponse;
 
     return data;
   } catch (error) {
@@ -57,8 +57,8 @@ export const createCoursesSections = createAsyncThunk<
 });
 
 export const updateCoursesSections = createAsyncThunk<
-  CoursesSectionInfo,
-  CoursesSectionInfo,
+  CoursesSectionResponse,
+  CoursesSectionParams,
   { state: RootState }
 >("coursesSections/update", async (params, thunkApi) => {
   try {
@@ -76,7 +76,7 @@ export const updateCoursesSections = createAsyncThunk<
       }
     );
 
-    const data = (await response.json()) as CoursesSectionInfo;
+    const data = (await response.json()) as CoursesSectionResponse;
 
     return data;
   } catch (error) {

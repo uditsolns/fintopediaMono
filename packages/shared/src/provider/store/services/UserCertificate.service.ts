@@ -36,17 +36,14 @@ export const createUserCertificate = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(
-      apiUrl.USER_CERTIFICATE.POST + "/" + params.id,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(params),
-      }
-    );
+    const response = await fetch(apiUrl.USER_CERTIFICATE.POST, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(params),
+    });
 
     const data = (await response.json()) as UserCertificateInfo;
 

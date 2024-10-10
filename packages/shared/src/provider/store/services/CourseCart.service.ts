@@ -1,10 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { CourseCartInfo } from "../../../utils/types/CourseCart";
+import {
+  CourseCartParams,
+  CourseCartResponse,
+} from "../../../utils/types/CourseCart";
 
 export const getCourseCart = createAsyncThunk<
-  CourseCartInfo[],
+  CourseCartResponse[],
   void,
   { state: RootState }
 >("courseCart/get", async (_, thunkApi) => {
@@ -20,7 +23,7 @@ export const getCourseCart = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as CourseCartInfo[];
+    const data = (await response.json()) as CourseCartResponse[];
 
     return data;
   } catch (error) {
@@ -29,14 +32,14 @@ export const getCourseCart = createAsyncThunk<
 });
 
 export const createCourseCart = createAsyncThunk<
-  CourseCartInfo,
-  CourseCartInfo,
+  CourseCartResponse,
+  CourseCartParams,
   { state: RootState }
 >("courseCart/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.COURSE_ADD_TO_CART.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.COURSE_ADD_TO_CART.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +48,7 @@ export const createCourseCart = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CourseCartInfo;
+    const data = (await response.json()) as CourseCartResponse;
 
     return data;
   } catch (error) {
@@ -54,23 +57,26 @@ export const createCourseCart = createAsyncThunk<
 });
 
 export const updateCourseCart = createAsyncThunk<
-  CourseCartInfo,
-  CourseCartInfo,
+  CourseCartResponse,
+  CourseCartParams,
   { state: RootState }
 >("courseCart/update", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.COURSE_ADD_TO_CART.UPDATE + "/" + params.id, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(params),
-    });
+    const response = await fetch(
+      apiUrl.COURSE_ADD_TO_CART.UPDATE + "/" + params.id,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+      }
+    );
 
-    const data = (await response.json()) as CourseCartInfo;
+    const data = (await response.json()) as CourseCartResponse;
 
     return data;
   } catch (error) {
@@ -86,13 +92,16 @@ export const deleteCourseCart = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.COURSE_ADD_TO_CART.DELETE + "/" + params, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      apiUrl.COURSE_ADD_TO_CART.DELETE + "/" + params,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = (await response.json()) as string;
 

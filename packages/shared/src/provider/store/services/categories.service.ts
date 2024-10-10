@@ -36,7 +36,7 @@ export const createCategories = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.CATEGORIES.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.CATEGORIES.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

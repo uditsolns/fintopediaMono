@@ -1,9 +1,21 @@
-export interface CoursesRatingReviewsInfo {
+import { UserInfo } from "./auth";
+import { CoursesResponse } from "./courses";
+
+export interface CoursesRatingReviewsParams {
+  id?: number;
+  course_id?: number;
+  user_id?: number;
+  rating_star?: string;
+  review_description?: string;
+}
+export interface CoursesRatingReviewsResponse {
   id: number;
   course_id: number;
   user_id: number;
-  rating_star: number;
+  rating_star: string;
   review_description: string;
+  course?: CoursesResponse | null;
+  user?: UserInfo | null;
 }
 export interface CoursesRatingReviewsState {
   loading: {
@@ -18,8 +30,8 @@ export interface CoursesRatingReviewsState {
     updateErr: any;
     deleteErr: any;
   };
-  coursesRatingReviews: CoursesRatingReviewsInfo[];
-  create: CoursesRatingReviewsInfo | null;
-  update: CoursesRatingReviewsInfo | null;
+  coursesRatingReviews: CoursesRatingReviewsResponse[];
+  create: CoursesRatingReviewsResponse | null;
+  update: CoursesRatingReviewsResponse | null;
   delete: string | null;
 }

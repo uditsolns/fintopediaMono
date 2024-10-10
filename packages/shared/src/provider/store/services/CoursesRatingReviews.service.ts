@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { CoursesRatingReviewsInfo } from "../../../utils/types/CoursesRatingReviews";
+import { CoursesRatingReviewsResponse,CoursesRatingReviewsParams } from "../../../utils/types/CoursesRatingReviews";
 
 export const getCoursesRatingReviews = createAsyncThunk<
-  CoursesRatingReviewsInfo[],
+  CoursesRatingReviewsResponse[],
   void,
   { state: RootState }
 >("coursesRatingReviews/get", async (_, thunkApi) => {
@@ -20,7 +20,7 @@ export const getCoursesRatingReviews = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as CoursesRatingReviewsInfo[];
+    const data = (await response.json()) as CoursesRatingReviewsResponse[];
 
     return data;
   } catch (error) {
@@ -29,14 +29,14 @@ export const getCoursesRatingReviews = createAsyncThunk<
 });
 
 export const createCoursesRatingReviews = createAsyncThunk<
-  CoursesRatingReviewsInfo,
-  CoursesRatingReviewsInfo,
+  CoursesRatingReviewsResponse,
+  CoursesRatingReviewsParams,
   { state: RootState }
 >("coursesRatingReviews/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.COURSES_RATING_REVIEWS.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.COURSES_RATING_REVIEWS.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export const createCoursesRatingReviews = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CoursesRatingReviewsInfo;
+    const data = (await response.json()) as CoursesRatingReviewsResponse;
 
     return data;
   } catch (error) {
@@ -54,8 +54,8 @@ export const createCoursesRatingReviews = createAsyncThunk<
 });
 
 export const updateCoursesRatingReviews = createAsyncThunk<
-  CoursesRatingReviewsInfo,
-  CoursesRatingReviewsInfo,
+  CoursesRatingReviewsResponse,
+  CoursesRatingReviewsParams,
   { state: RootState }
 >("coursesRatingReviews/update", async (params, thunkApi) => {
   try {
@@ -70,7 +70,7 @@ export const updateCoursesRatingReviews = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as CoursesRatingReviewsInfo;
+    const data = (await response.json()) as CoursesRatingReviewsResponse;
 
     return data;
   } catch (error) {

@@ -1,4 +1,17 @@
-export interface CoursesSectionInfo {
+import { CoursesResponse } from "./courses";
+
+export interface CoursesSectionParams {
+  id?: number;
+  course_id?: number;
+  section_number?: number;
+  section_heading?: string;
+  section_topics?: string;
+  section_time?: number;
+  video?: File;
+  text?: string;
+  notes?: string;
+}
+export interface CoursesSectionResponse {
   id: number;
   course_id: number;
   section_number: number;
@@ -8,8 +21,8 @@ export interface CoursesSectionInfo {
   video: File;
   text: string;
   notes: string;
+  course?: CoursesResponse | null;
 }
-
 export interface CoursesSectionState {
   loading: {
     coursesSection: boolean;
@@ -23,8 +36,8 @@ export interface CoursesSectionState {
     updateErr: any;
     deleteErr: any;
   };
-  coursesSection: CoursesSectionInfo[];
-  create: CoursesSectionInfo | null;
-  update: CoursesSectionInfo | null;
+  coursesSection: CoursesSectionResponse[];
+  create: CoursesSectionResponse | null;
+  update: CoursesSectionResponse | null;
   delete: string | null;
 }

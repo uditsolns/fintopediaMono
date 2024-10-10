@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { PurchaseHistoryInfo } from "../../../utils/types/PurchaseHistory";
+import { PurchaseHistoryParams, PurchaseHistoryResponse } from "../../../utils/types/PurchaseHistory";
 
 export const getPurchaseHistory = createAsyncThunk<
-  PurchaseHistoryInfo[],
+  PurchaseHistoryResponse[],
   void,
   { state: RootState }
 >("purchaseHistory/get", async (_, thunkApi) => {
@@ -20,7 +20,7 @@ export const getPurchaseHistory = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as PurchaseHistoryInfo[];
+    const data = (await response.json()) as PurchaseHistoryResponse[];
 
     return data;
   } catch (error) {
@@ -29,14 +29,14 @@ export const getPurchaseHistory = createAsyncThunk<
 });
 
 export const createPurchaseHistory = createAsyncThunk<
-  PurchaseHistoryInfo,
-  PurchaseHistoryInfo,
+  PurchaseHistoryResponse,
+  PurchaseHistoryParams,
   { state: RootState }
 >("purchaseHistory/post", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.PURCHASE_HISTORY.POST + "/" + params.id, {
+    const response = await fetch(apiUrl.PURCHASE_HISTORY.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export const createPurchaseHistory = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as PurchaseHistoryInfo;
+    const data = (await response.json()) as PurchaseHistoryResponse;
 
     return data;
   } catch (error) {
@@ -54,8 +54,8 @@ export const createPurchaseHistory = createAsyncThunk<
 });
 
 export const updatePurchaseHistory = createAsyncThunk<
-  PurchaseHistoryInfo,
-  PurchaseHistoryInfo,
+PurchaseHistoryResponse,
+  PurchaseHistoryParams,
   { state: RootState }
 >("purchaseHistory/update", async (params, thunkApi) => {
   try {
@@ -70,7 +70,7 @@ export const updatePurchaseHistory = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as PurchaseHistoryInfo;
+    const data = (await response.json()) as PurchaseHistoryResponse;
 
     return data;
   } catch (error) {

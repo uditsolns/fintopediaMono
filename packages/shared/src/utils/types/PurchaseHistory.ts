@@ -1,4 +1,22 @@
-export interface PurchaseHistoryInfo {
+import { UserInfo } from "./auth";
+
+export interface PurchaseHistoryParams {
+  id?: number;
+  user_id?: number;
+  purchase_date?: number;
+  status?: number;
+  payment_status?: number;
+  phone_pe_payment_id?: number;
+  payment_type?: string;
+  utr?: string;
+  upiTransactionId?: string;
+  accountHolderName?: string;
+  accountType?: string;
+  pgTransactionId?: string;
+  pgServiceTransactionId?: string;
+  cardType?: string;
+}
+export interface PurchaseHistoryResponse {
   id: number;
   user_id: number;
   purchase_date: number;
@@ -13,6 +31,7 @@ export interface PurchaseHistoryInfo {
   pgTransactionId: string;
   pgServiceTransactionId: string;
   cardType: string;
+  user?: UserInfo | null;
 }
 export interface PurchaseHistoryState {
   loading: {
@@ -27,8 +46,8 @@ export interface PurchaseHistoryState {
     updateErr: any;
     deleteErr: any;
   };
-  purchaseHistory: PurchaseHistoryInfo[];
-  create: PurchaseHistoryInfo | null;
-  update: PurchaseHistoryInfo | null;
+  purchaseHistory: PurchaseHistoryResponse[];
+  create: PurchaseHistoryResponse | null;
+  update: PurchaseHistoryResponse | null;
   delete: string | null;
 }
