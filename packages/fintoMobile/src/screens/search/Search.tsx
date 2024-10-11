@@ -1,66 +1,87 @@
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {colorPresets} from '@shared/src/theme/color';
-import {mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
+import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import CourseMolecule from '@src/components/molecules/CourseMolecule/CourseMolecule';
 import TagsAtom from '@src/components/TagsAtom';
-import { ViewAll } from '@src/components/ViewAll/ViewAll';
+import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import * as React from 'react';
 import {FlatList, Text, View} from 'react-native';
-import { CategoriesArr } from '../auth/Signup';
+import {CategoriesArr} from '../auth/Signup';
 import SortbyAtom from '@src/components/SortbyAtom';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
+import { CoursesResponse } from '@shared/src/utils/types/courses';
+import { NavType } from '@src/navigation/types';
+import { useAppDispatch, useAppSelector } from '@shared/src/provider/store/types/storeTypes';
 
-interface SearchProps {}
+interface SearchProps extends NavType<'Search'> {}
 
-export const Search: React.FC<SearchProps> = ({}) => {
-  const navigation = useNavigation();
-  const renderItem = ({item}) => {
+export const Search: React.FC<SearchProps> = ({navigation}) => {
+  const dispatch = useAppDispatch();
+  const {courses, loading: coursesLoading} = useAppSelector(
+    state => state.courses,
+  );
+  const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
+    courses?.length ? courses : [],
+  );
+
+  React.useEffect(() => {
+    if (courses?.length) {
+      setFilterCourses(courses);
+    }
+  }, [courses]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <View style={{width: WINDOW_WIDTH * 0.8,}}>
+            <InputAtom
+              shape="square"
+              placeholder="Search courses"
+              rightIcon={
+                <Images.SVG.Search width={22} color={colorPresets.GRAY} />
+              }
+              autoCapitalize="none"
+              style={{width: WINDOW_WIDTH}}
+            />
+          </View>
+        );
+      },
+    });
+  }, []);
+
+  const renderItem = ({item}:{item:CoursesResponse}) => {
     return (
-      <View style={{paddingLeft: mScale.base,paddingRight:mScale.md}}>
+      <View style={{paddingLeft: mScale.base, paddingRight: mScale.md}}>
         <CourseMolecule item={item} />
       </View>
     );
   };
   return (
-    <GradientTemplate style={{paddingHorizontal: 0, paddingBottom: 0}}>
-      <View
-        style={[
-          commonStyle.flexSpaceBetween,
-          {paddingHorizontal: mScale.base},
-        ]}>
-        <View>
-          <HeaderLeftMolecule />
-        </View>
-        <View style={{width: WINDOW_WIDTH * 0.8}}>
-          <InputAtom
-            shape="square"
-            placeholder="Search courses"
-            rightIcon={
-              <Images.SVG.Search width={22} color={colorPresets.GRAY} />
-            }
-            autoCapitalize="none"
-            style={{width: WINDOW_WIDTH}}
-          />
-        </View>
-      </View>
+    <GradientTemplate style={{paddingHorizontal: 0, paddingBottom: 0,paddingTop:moderateScale(75)}}>
       <FlatList
-        data={[...Array(5)]}
+        data={filterCourses?.length ? filterCourses : []}
         renderItem={renderItem}
         contentContainerStyle={{rowGap: mScale.base, paddingBottom: mScale.lg}}
         ListHeaderComponent={
-          <View style={{marginTop: mScale.md,paddingLeft: mScale.base,paddingRight:mScale.md}}>
+          <View
+            style={{
+              marginTop: mScale.md,
+              paddingLeft: mScale.base,
+              paddingRight: mScale.md,
+            }}>
             <View style={[commonStyle.flexStart]}>
               <TextAtom preset="heading3" text={'Finance Course'} />
               <TextAtom
                 preset="large"
                 text={`(1,235)`}
-                style={{color:colorPresets.GRAY,marginStart: mScale.sm}}
+                style={{color: colorPresets.GRAY, marginStart: mScale.sm}}
               />
             </View>
             <View
@@ -88,7 +109,12 @@ export const Search: React.FC<SearchProps> = ({}) => {
           </View>
         }
         ListFooterComponent={
-          <View style={{marginTop: mScale.md, paddingLeft: mScale.base,paddingRight:mScale.md}}>
+          <View
+            style={{
+              marginTop: mScale.md,
+              paddingLeft: mScale.base,
+              paddingRight: mScale.md,
+            }}>
             <ViewAll
               title="Top Searches"
               visible={false}
@@ -97,9 +123,7 @@ export const Search: React.FC<SearchProps> = ({}) => {
             <View
               style={{flexDirection: 'row', flexWrap: 'wrap', gap: mScale.md}}>
               {CategoriesArr.map((data, index) => {
-                return(
-                  <TagsAtom title={data?.name} key={index} />
-                )
+                return <TagsAtom title={data?.name} key={index} />;
               })}
             </View>
           </View>

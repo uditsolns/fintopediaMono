@@ -1,15 +1,21 @@
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
-import { mScale } from '@shared/src/theme/metrics';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import Dropdown from '@src/components/Dropdown/Dropdown';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import React from 'react';
-import { FlatList, TextStyle, View } from 'react-native';
-import { CategoriesArr } from '../auth/Signup';
-import { colorPresets } from '@shared/src/theme/color';
+import {FlatList, TextStyle, View} from 'react-native';
+import {CategoriesArr} from '../auth/Signup';
+import {colorPresets} from '@shared/src/theme/color';
 import GroupRadioButton from '@src/components/GroupRadioButton';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
+import {NavType} from '@src/navigation/types';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
 
 const options = [
   {label: 'Beginner', value: 'beginner'},
@@ -17,20 +23,43 @@ const options = [
   {label: 'Pro', value: 'pro'},
 ];
 
-interface DontKnowWhereToStartProps {}
+interface DontKnowWhereToStartProps extends NavType<'DontKnowWhereToStart'> {}
 export const DontKnowWhereToStart: React.FunctionComponent<
   DontKnowWhereToStartProps
-> = () => {
+> = ({navigation}) => {
+  const dispatch = useAppDispatch();
 
-    const innerCategoriesRenderItem = ({item}) =>{
-        return <PopularCourseMolecule item={item} />
-      }
+  const {categories, loading: categoriesLoading} = useAppSelector(
+    state => state.categories,
+  );
+  const {courses, loading: coursesLoading} = useAppSelector(
+    state => state.courses,
+  );
+  const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
+    courses?.length ? courses : [],
+  );
+
+  React.useEffect(() => {
+    if (courses?.length) {
+      setFilterCourses(courses);
+    }
+  }, [courses]);
+
+  const innerCategoriesCoursesRenderItem = ({
+    item,
+  }: {
+    item: CoursesResponse;
+  }) => {
+    return <PopularCourseMolecule item={item} />;
+  };
 
   return (
-    <GradientTemplate style={{paddingBottom: 0,paddingHorizontal:0}}>
-      <View style={{paddingHorizontal: mScale.base}}>
-        <HeaderLeftMolecule />
-      </View>
+    <GradientTemplate
+      style={{
+        paddingBottom: 0,
+        paddingHorizontal: 0,
+        paddingTop: moderateScale(75),
+      }}>
       <ScrollViewAtom>
         <View>
           <View style={{paddingHorizontal: mScale.base}}>
@@ -44,22 +73,30 @@ export const DontKnowWhereToStart: React.FunctionComponent<
                 'Create screens directly in Method or add your images from Sketch or Figma. You can even sync designs from your cloud storage!'
               }
               preset="medium"
-              style={{
-                textAlign: 'center',
-                marginTop: mScale.base,
-                marginBottom: mScale.lg2,
-              } as TextStyle}
+              style={
+                {
+                  textAlign: 'center',
+                  marginTop: mScale.base,
+                  marginBottom: mScale.lg2,
+                } as TextStyle
+              }
             />
             <Dropdown
-              dropdownItemArr={CategoriesArr}
-              itemLabelField="name"
+              dropdownItemArr={categories?.length ? categories : []}
+              itemLabelField="category_name"
               onSelect={item => {
-                console.log(item)
+                let filterCourseRes = courses?.filter(
+                  el => el?.category_id == item?.id,
+                );
+                setFilterCourses(filterCourseRes);
               }}
               placeholder={'Select category'}
               dropdownBg="#121622"
               dropdownTextColor={colorPresets.CTA}
               textColor={colorPresets.CTA}
+              onClear={() => {
+                setFilterCourses(courses);
+              }}
             />
             <View style={{marginVertical: mScale.base}}>
               <GroupRadioButton
@@ -67,22 +104,23 @@ export const DontKnowWhereToStart: React.FunctionComponent<
                 onSelect={item => {
                   console.log(item);
                 }}
-                selectedValue='beginner'
+                selectedValue="beginner"
               />
             </View>
             {/* <SmallButtonAtom btnTitle={'Let’s go'} preset={'mediumBold'} /> */}
-            <View style={{marginTop:mScale.xxl}}>
-            <TextAtom
-              text={`Become a Finance Manager\n in 3 months`}
-              preset="heading2"
-              style={{textAlign: 'center'}}
-            />
+            <View style={{marginTop: mScale.xxl}}>
+              <TextAtom
+                text={`Become a Finance Manager\n in 3 months`}
+                preset="heading2"
+                style={{textAlign: 'center'}}
+              />
             </View>
           </View>
-          <View style={{paddingLeft:mScale.base,paddingVertical:mScale.base}}>
+          <View
+            style={{paddingLeft: mScale.base, paddingVertical: mScale.base}}>
             <FlatList
-              data={[...Array(5)]}
-              renderItem={innerCategoriesRenderItem}
+              data={filterCourses?.length ? filterCourses : []}
+              renderItem={innerCategoriesCoursesRenderItem}
               horizontal={true}
               contentContainerStyle={{
                 columnGap: 20,

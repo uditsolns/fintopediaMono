@@ -1,4 +1,5 @@
 import { commonStyle } from '@shared/src/commonStyle';
+import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import { TextPresetType } from '@shared/src/components/atoms/Text/TextPresets';
 import { colorPresets } from '@shared/src/theme/color';

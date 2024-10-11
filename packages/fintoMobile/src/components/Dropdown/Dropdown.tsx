@@ -1,5 +1,4 @@
 import {Images} from '@shared/src/assets';
-import {commonStyle} from '@shared/src/commonStyle';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {TextPresetType} from '@shared/src/components/atoms/Text/TextPresets';
 import {LinearGradientMolecule} from '@shared/src/components/molecules/Gradient/LinearGradientMolecule';
@@ -18,16 +17,15 @@ import {
   Modal,
   FlatList,
   Platform,
-  ViewStyle,
-  TextInput,
   Pressable,
 } from 'react-native';
 
 interface DropdownProps {
   dropdownTitle?: string;
-  dropdownItemArr?: Array<any>; // Ideally, replace `any` with the specific type for dropdown items
+  dropdownItemArr?: Array<any>;
   itemLabelField?: string;
-  onSelect: (option: any) => void; // Replace `any` with specific type if needed
+  onSelect: (option: any) => void;
+  onClear?: () => void;
   defaultText?: string;
   placeholder?: string;
   textColor?: string;
@@ -42,6 +40,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   dropdownItemArr = [],
   itemLabelField = 'label',
   onSelect,
+  onClear,
   defaultText,
   placeholder,
   textColor,
@@ -127,23 +126,6 @@ const Dropdown: React.FC<DropdownProps> = ({
               style={{color: textColor || colorPresets.CTA}}
             />
           </View>
-          {/* <TextInput
-            {...rest}
-            placeholder={selectedOption || placeholder}
-            value={selectedOption || placeholder}
-            placeholderTextColor={textColor || colorPresets.CTA}
-            style={[
-              {
-                flex: 1,
-                height: moderateScale(50),
-                backgroundColor: colorPresets.BG,
-                borderRadius: 6,
-                paddingHorizontal: mScale.base,
-              },
-            ]}
-            editable={false}
-            
-          /> */}
           {true ? (
             <View
               style={{
@@ -169,6 +151,15 @@ const Dropdown: React.FC<DropdownProps> = ({
                 height: moderateScale(maxHeight),
               },
             ]}>
+            {onClear ? (
+              <Pressable
+                onPress={() => {
+                  setDropdownVisible(false);
+                  onClear();
+                }}>
+                <TextAtom text="Clear" style={{textAlign: 'right'}} />
+              </Pressable>
+            ) : null}
             <FlatList
               data={dropdownItemArr}
               renderItem={renderOption}
