@@ -6695,6 +6695,7 @@ __metadata:
     next: "*"
     react-dom: "*"
     react-native: "*"
+    react-native-web: "*"
   languageName: unknown
   linkType: soft
 
@@ -10630,7 +10631,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-web@npm:^0.19.12":
+"react-native-web@npm:*, react-native-web@npm:^0.19.12":
   version: 0.19.12
   resolution: "react-native-web@npm:0.19.12"
   dependencies:
