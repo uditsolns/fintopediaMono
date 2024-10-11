@@ -26,7 +26,7 @@ export default function PopularCourseMolecule({
         <ImageAtom
           sourceRequire={
             item?.course_image
-              ? {uri: `${imageUrl}/uploads/course_images/${item.course_image}`}
+              ? {uri: `${imageUrl}/uploads/course_images/${item?.course_image}`}
               : require('@shared/src/assets/img/coursePlaceHolder.png')}
           imageStyle={styles.image}
           resizeMode="contain"

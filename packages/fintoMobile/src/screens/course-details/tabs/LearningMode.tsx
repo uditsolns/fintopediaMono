@@ -21,12 +21,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  Canvas,
-  RoundedRect,
-  vec,
-  LinearGradient,
-} from '@shopify/react-native-skia';
 
 let dailyReminderArr = [
   {

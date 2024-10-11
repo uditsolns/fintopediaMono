@@ -1,19 +1,32 @@
-import { mScale } from '@shared/src/theme/metrics';
+import {useNavigation} from '@react-navigation/native';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
+import {mScale} from '@shared/src/theme/metrics';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
 import GetStarted from '@src/components/GetStarted';
 import OngoingMolecule from '@src/components/molecules/OngoingMolecule/OngoingMolecule';
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import {FlatList, View} from 'react-native';
 interface OngoingInterface {}
 
 const Ongoing: React.FunctionComponent<OngoingInterface> = () => {
-  const renderItem = ({item}:{item:any}) => {
+  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const {courses, loading: coursesLoading} = useAppSelector(
+    state => state.courses,
+  );
+
+  React.useEffect(() => {}, []);
+  const renderItem = ({item}: {item: CoursesResponse}) => {
     return <OngoingMolecule item={item} />;
   };
   return (
-    <View style={{flex:1,paddingTop:mScale.base}}>
+    <View style={{flex: 1, paddingTop: mScale.base}}>
       <View style={{alignSelf: 'center', paddingLeft: mScale.base}}>
         <FlatList
-          data={[...Array(10)]}
+          data={courses?.length ? courses : []}
           renderItem={renderItem}
           contentContainerStyle={{
             rowGap: mScale.base,
