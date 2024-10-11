@@ -25,40 +25,40 @@
 
 .link {
   color: white;
-  font-size: 0.875rem; 
+  font-size: 0.875rem;
   text-decoration: underline;
   cursor: pointer;
 }
 
 .title {
-  font-size: 1.5rem; 
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
 .select {
-  background-color: #2d3748; 
+  background-color: #2d3748;
   color: white;
-  font-size: 0.875rem; 
-  border: 1px solid #4a5568; 
+  font-size: 0.875rem;
+  border: 1px solid #4a5568;
   border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem; 
+  padding: 0.25rem 0.5rem;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 1.5rem; 
+  gap: 1.5rem;
 }
 
 @media (min-width: 768px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr); 
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
