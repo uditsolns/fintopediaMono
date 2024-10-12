@@ -42,7 +42,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   const {auth} = useAppSelector(state => state.auth);
   const {banner, loading: bannerLoading} = useAppSelector(
     state => state.banner,
-  );
+  ); 
 
   const {categories, loading: categoriesLoading} = useAppSelector(
     state => state.categories,
@@ -130,7 +130,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       coursesLoading?.courses ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
-        </View>
+        </View> 
       ) : null}
       <ScrollViewAtom
         nestedScrollEnabled={true}

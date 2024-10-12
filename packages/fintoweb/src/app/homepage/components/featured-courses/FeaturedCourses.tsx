@@ -9,6 +9,8 @@ import { useAppDispatch } from "shared/src/provider/store/types/storeTypes";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import { CategoriesResponse } from "shared/src/utils/types/categories";
 import CoursesMolecule from "@src/components/molecules/CoursesMolecule/CoursesMolecule";
+import ButtonWithIcons from "@src/components/button/ButtonWithIcons";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 interface FeaturedCoursesProps {
   courses: CoursesResponse[];
@@ -22,14 +24,14 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
   const dispatch = useAppDispatch();
   const [progress, setProgress] = React.useState(0);
   const [slideToShow, setSlideToShow] = React.useState(3);
-  const [selectedCategory, setSelectedCategory] = React.useState<number | null>(
-    null
+  const [categoriesSelected, setCategoriesSelected] = React.useState<
+    number | string
+  >("all");
+
+  const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
+    courses?.length ? courses : []
   );
   const [currentSlide, setCurrentSlide] = React.useState(0);
-
-  const filteredCourses = selectedCategory
-    ? courses.filter((course) => course.category_id === selectedCategory)
-    : courses;
 
   const setSlides = () => {
     if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
@@ -60,7 +62,7 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
     prevArrow: <PrevArrow />,
     afterChange: (current: number) => {
       setCurrentSlide(current);
-      const totalSlides = filteredCourses.length;
+      const totalSlides = filterCourses.length;
       const progressPercentage =
         (100 / (totalSlides - slideToShow + 1)) * (current + 1);
       setProgress(progressPercentage);
@@ -86,19 +88,26 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
       },
     ],
   };
-  const handleCategoryChange = (categoryId: number | null) => {
-    setSelectedCategory(categoryId);
-    setCurrentSlide(0); 
-  };
+  React.useEffect(() => {
+    if (courses?.length) {
+      setFilterCourses(courses);
+    }
+  }, [courses]);
+
   return (
     <div className={styles.courseContainer}>
       <h1 className={styles.courseContainerHeading}>Featured Courses</h1>
       <div className={styles.categories}>
         <button
           className={`${styles.categoryButton} ${
-            selectedCategory === null ? styles.active : ""
+            categoriesSelected === "all" ? styles.active : ""
           }`}
-          onClick={() => handleCategoryChange(null)}
+          onClick={() => {
+            setCategoriesSelected("all");
+            setFilterCourses(courses);
+            setCurrentSlide(0);
+            setProgress(0);
+          }}
         >
           All
         </button>
@@ -106,19 +115,31 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
           <button
             key={cat.id}
             className={`${styles.categoryButton} ${
-              selectedCategory === cat.id ? styles.active : ""
+              categoriesSelected === cat.id ? styles.active : ""
             }`}
-            onClick={() =>
-              setSelectedCategory(selectedCategory === cat.id ? null : cat.id)
-            }
+            onClick={() => {
+              setCategoriesSelected(cat.id);
+              let filterCourseRes = courses?.filter(
+                (el) => el?.category_id == cat.id
+              );
+              setFilterCourses(filterCourseRes);
+              setCurrentSlide(0);
+              setProgress(0);
+            }}
           >
             {cat.category_name}
           </button>
         ))}
       </div>
-      <Slider {...settings}>
-        {filteredCourses.map((course, index) => {
-          return <CoursesMolecule course={course} onClick={() => {}} />;
+      <Slider key={categoriesSelected} {...settings}>
+        {filterCourses?.map((course, index) => {
+          return (
+            <CoursesMolecule
+              key={course.id}
+              course={course}
+              onClick={() => {}}
+            />
+          );
         })}
       </Slider>
       <div className={styles.progressContainer}>
@@ -127,8 +148,8 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
           style={{ width: `${progress}%` }}
         ></div>
       </div>
-      <div className="buttonStyles">
-        <button>View all courses</button>
+      <div className="buttonLink">
+        <ButtonWithIcons label="View all courses" path="/courses" />
       </div>
     </div>
   );

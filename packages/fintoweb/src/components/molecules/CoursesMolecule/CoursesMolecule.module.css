@@ -67,6 +67,7 @@
   backdrop-filter: blur(12.5px);
   border-radius: 0.5rem;
   overflow: hidden;
+  margin: 15px !important;
 }
 
 .cardImage {
@@ -75,7 +76,7 @@
 
 .cardImage img {
   width: 100%;
-  height: auto;
+  height: 200px;
 }
 
 .languageBadge {

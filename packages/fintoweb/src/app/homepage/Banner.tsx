@@ -9,7 +9,7 @@ const Banner = () => {
     <div className={styles.header}>
       <div className={styles.headerContents}>
         <h2>
-          India's top experts
+          India&apos;s top experts
           <br /> courses on Investing
         </h2>
         <p>
