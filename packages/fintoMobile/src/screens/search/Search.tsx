@@ -14,9 +14,12 @@ import {FlatList, Text, View} from 'react-native';
 import {CategoriesArr} from '../auth/Signup';
 import SortbyAtom from '@src/components/SortbyAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
-import { CoursesResponse } from '@shared/src/utils/types/courses';
-import { NavType } from '@src/navigation/types';
-import { useAppDispatch, useAppSelector } from '@shared/src/provider/store/types/storeTypes';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
+import {NavType} from '@src/navigation/types';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
 
 interface SearchProps extends NavType<'Search'> {}
 
@@ -42,7 +45,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <View style={{width: WINDOW_WIDTH * 0.8,}}>
+          <View style={{width: WINDOW_WIDTH * 0.8}}>
             <InputAtom
               shape="square"
               placeholder="Search courses"
@@ -52,8 +55,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
               autoCapitalize="none"
               style={{width: WINDOW_WIDTH}}
               value={search}
-              onChangeText={text=>filterSearchByStockName(text)}
-              
+              onChangeText={text => filterSearchByStockName(text)}
             />
           </View>
         );
@@ -77,7 +79,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
     }
   };
 
-  const renderItem = ({item}:{item:CoursesResponse}) => {
+  const renderItem = ({item}: {item: CoursesResponse}) => {
     return (
       <View style={{paddingLeft: mScale.base, paddingRight: mScale.md}}>
         <CourseMolecule item={item} />
@@ -85,7 +87,12 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
     );
   };
   return (
-    <GradientTemplate style={{paddingHorizontal: 0, paddingBottom: 0,paddingTop:moderateScale(75)}}>
+    <GradientTemplate
+      style={{
+        paddingHorizontal: 0,
+        paddingBottom: 0,
+        paddingTop: moderateScale(75),
+      }}>
       <FlatList
         data={filterCourses?.length ? filterCourses : []}
         renderItem={renderItem}
@@ -130,24 +137,32 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
           </View>
         }
         ListFooterComponent={
-          <View
-            style={{
-              marginTop: mScale.md,
-              paddingLeft: mScale.base,
-              paddingRight: mScale.md,
-            }}>
-            <ViewAll
-              title="Top Searches"
-              visible={false}
-              paddingHorizontal={0}
-            />
-            <View
-              style={{flexDirection: 'row', flexWrap: 'wrap', gap: mScale.md}}>
-              {categories?.map((data, index) => {
-                return <TagsAtom title={data?.category_name} key={index} />;
-              })}
-            </View>
-          </View>
+          <>
+            {false && (
+              <View
+                style={{
+                  marginTop: mScale.md,
+                  paddingLeft: mScale.base,
+                  paddingRight: mScale.md,
+                }}>
+                <ViewAll
+                  title="Top Searches"
+                  visible={false}
+                  paddingHorizontal={0}
+                />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    gap: mScale.md,
+                  }}>
+                  {categories?.map((data, index) => {
+                    return <TagsAtom title={data?.category_name} key={index} />;
+                  })}
+                </View>
+              </View>
+            )}
+          </>
         }
       />
     </GradientTemplate>

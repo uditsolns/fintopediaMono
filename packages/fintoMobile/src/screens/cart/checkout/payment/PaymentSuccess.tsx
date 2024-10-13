@@ -4,9 +4,17 @@ import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {fontPresets} from '@shared/src/theme/typography';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
+import {
+  addTwoNumber,
+  subtractTwoNumber,
+  sumCalculate,
+} from '@src/components/Calculate';
+import LoaderAtom from '@src/components/LoaderAtom';
 import ProgressBar from '@src/components/ProgressBar';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
@@ -18,12 +26,36 @@ interface PaymentSuccessProps extends NavType<'PaymentSuccess'> {}
 export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
   navigation,
 }) => {
+  const {courses, loading: coursesLoading} = useAppSelector(
+    state => state.courses,
+  );
+  const [subtotal, setSubtotal] = React.useState<number>(0);
+  const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
+  const [totalPay, setTotalPay] = React.useState<number>(0);
+  const [gst, setGst] = React.useState<number>(100);
+
+  React.useEffect(() => {
+    if (courses?.length) {
+      let sale_price = sumCalculate(courses, 'sale_price');
+      let actual_price = sumCalculate(courses, 'actual_price');
+      let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
+      let totalPayAmount = addTwoNumber(sale_price, gst);
+      setSubtotal(sale_price);
+      setTotalDiscount(totalDiscountAmount);
+      setTotalPay(totalPayAmount);
+    }
+  }, [courses]);
   return (
     <GradientTemplate
       style={{
         paddingBottom: 0,
         paddingHorizontal: 0,
       }}>
+      {coursesLoading?.courses ? (
+        <View style={commonStyle.fullPageLoading}>
+          <LoaderAtom size="large" />
+        </View>
+      ) : null}
       <ScrollViewAtom>
         <View style={{paddingHorizontal: mScale.base}}>
           <View
@@ -56,38 +88,10 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
               }
             />
           </View>
-          <View
-            style={[
-              {
-                padding: mScale.lg,
-                borderWidth: 1,
-                borderColor: colorPresets.GRAY3,
-                borderRadius: 12,
-                backgroundColor: '#121622',
-                marginVertical: mScale.base,
-              },
-            ]}>
-            <TextAtom
-              text={'Comprehensive Finance Masterclass'}
-              preset="heading4"
-            />
-            <TextAtom
-              text={
-                'This course provides an introduction to the principles of finance and their application in the business world.'
-              }
-              preset="medium"
-              style={{color: colorPresets.GRAY}}
-            />
-            <ProgressBar hours={'20'} level="intermediate" />
-            <View
-              style={[
-                commonStyle.flexSpaceBetween,
-                {marginVertical: mScale.base},
-              ]}>
-              <TextAtom text={'₹ 2,999'} preset="heading3" />
-              <ButtonAtom title={'Start this course now'} />
-            </View>
-          </View>
+          {courses?.slice(0, 3)?.map((el, index) => {
+            return <PurchaseCourse el={el} />;
+          })}
+
           <View
             style={[
               {
@@ -105,18 +109,9 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
                 preset="medium"
                 style={{marginBottom: mScale.md}}
               />
-              <View
-                style={[
-                  commonStyle.flexSpaceBetween,
-                  {flex: 1, alignItems: 'flex-start', marginBottom: mScale.md},
-                ]}>
-                <TextAtom
-                  text={'Comprehensive Finance Course - Masterclass'}
-                  preset="heading4"
-                  style={{width: moderateScale(200)}}
-                />
-                <TextAtom text={'₹ 2,999'} preset="heading4" />
-              </View>
+              {courses?.slice(0, 3)?.map((el, index) => {
+                return <CourseNameAndPrice el={el} />;
+              })}
             </View>
             <View
               style={{
@@ -128,7 +123,7 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
               <TextAtom text={'Subtotal'} preset="body" />
-              <TextAtom text={'₹ 6,000'} preset="heading4" />
+              <TextAtom text={`₹ ${subtotal}`} preset="heading4" />
             </View>
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
@@ -138,7 +133,7 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
                 style={{color: '#B5B5B5'}}
               />
               <TextAtom
-                text={'-₹ 1,000'}
+                text={`- ₹ ${totalDiscount}`}
                 preset="heading4"
                 style={{color: colorPresets.PRIMARY}}
               />
@@ -146,7 +141,7 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
             <View style={[commonStyle.flexSpaceBetween, {}]}>
               <TextAtom text={'GST'} preset="body" style={{color: '#B5B5B5'}} />
               <TextAtom
-                text={'+ ₹ 100'}
+                text={`+ ₹ ${gst}`}
                 preset="body"
                 style={{color: '#B5B5B5'}}
               />
@@ -161,7 +156,7 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
               <TextAtom text={'Grand Total'} preset="heading3" />
-              <TextAtom text={'₹ 6,000'} preset="heading3" />
+              <TextAtom text={`₹ ${totalPay}`} preset="heading3" />
             </View>
             <TouchableOpacity
               style={[commonStyle.flexEnd, {marginTop: mScale.base}]}>
@@ -206,5 +201,51 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
         />
       </View>
     </GradientTemplate>
+  );
+};
+
+const PurchaseCourse = ({el}: {el: CoursesResponse}) => {
+  return (
+    <View
+      style={[
+        {
+          padding: mScale.lg,
+          borderWidth: 1,
+          borderColor: colorPresets.GRAY3,
+          borderRadius: 12,
+          backgroundColor: '#121622',
+          marginVertical: mScale.base,
+        },
+      ]}>
+      <TextAtom text={el?.name} preset="heading4" />
+      <TextAtom
+        text={el?.description}
+        preset="medium"
+        style={{color: colorPresets.GRAY}}
+      />
+      <ProgressBar hours={'20'} level="intermediate" />
+      <View
+        style={[commonStyle.flexSpaceBetween, {marginVertical: mScale.base}]}>
+        <TextAtom text={`₹ ${el?.sale_price}`} preset="heading3" />
+        <ButtonAtom title={'Start this course now'} />
+      </View>
+    </View>
+  );
+};
+
+const CourseNameAndPrice = ({el}: {el: CoursesResponse}) => {
+  return (
+    <View
+      style={[
+        commonStyle.flexSpaceBetween,
+        {flex: 1, alignItems: 'flex-start', marginBottom: mScale.md},
+      ]}>
+      <TextAtom
+        text={el?.name}
+        preset="heading4"
+        style={{width: moderateScale(200)}}
+      />
+      <TextAtom text={`₹ ${el?.sale_price}`} preset="heading4" />
+    </View>
   );
 };

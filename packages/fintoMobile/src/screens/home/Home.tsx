@@ -3,6 +3,7 @@ import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {getCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {getCourses} from '@shared/src/provider/store/services/courses.service';
 import {
   useAppDispatch,
@@ -50,6 +51,9 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
   );
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
+    state => state.courseCart,
+  );
   const [refreshLoading, setRefreshLoading] = React.useState(false);
 
   const [categoriesSelected, setCategoriesSelected] = React.useState<
@@ -69,6 +73,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     dispatch(getBanner());
     dispatch(getCategories());
     dispatch(getCourses());
+    dispatch(getCourseCart());
     setRefreshLoading(false);
   };
 
@@ -101,12 +106,22 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       />
     );
   };
-  const innerCategoriesCoursesRenderItem = ({item}:{item:CoursesResponse}) => {
+  const innerCategoriesCoursesRenderItem = ({
+    item,
+  }: {
+    item: CoursesResponse;
+  }) => {
     return (
       <PopularCourseMolecule
         item={item}
         onPress={() => {
-          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN);
+          let body = {
+            user_id: auth?.user?.id,
+            cources_id: item?.id,
+            status: '1',
+          };
+          // navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN);
+          console.log(body);
         }}
       />
     );
@@ -127,7 +142,9 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       }}>
       {bannerLoading?.banner ||
       categoriesLoading?.categories ||
-      coursesLoading?.courses ? (
+      coursesLoading?.courses ||
+      courseCartLoading?.courseCart ||
+      courseCartLoading.create ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>
@@ -162,7 +179,12 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
         <View style={{marginVertical: mScale.xl}}>
           {categories?.length ? (
             <>
-              <ViewAll title="All Categories" />
+              <ViewAll
+                title="All Categories"
+                onPress={() => {
+                  navigation.navigate(RouteKeys.COURSECATEGORYSCREEN);
+                }}
+              />
               <View style={{paddingLeft: mScale.base}}>
                 <FlatList
                   data={categories?.length ? categories : []}
@@ -189,7 +211,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
                         ]}
                         onPress={() => {
                           setCategoriesSelected('all');
-                          setFilterCourses(courses)
+                          setFilterCourses(courses);
                         }}>
                         <TextAtom
                           text={'All'}

@@ -7,12 +7,13 @@ import {mScale} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
 import GetStarted from '@src/components/GetStarted';
 import CourseMolecule from '@src/components/molecules/CourseMolecule/CourseMolecule';
+import { RouteKeys } from '@src/navigation/RouteKeys';
 import React from 'react';
 import {FlatList, View} from 'react-native';
 
 interface SaveForLaterInterface {}
 const SaveForLater: React.FunctionComponent<SaveForLaterInterface> = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
@@ -44,7 +45,7 @@ const SaveForLater: React.FunctionComponent<SaveForLaterInterface> = () => {
               }}>
               <GetStarted
                 onPress={() => {
-                  console.log('get started');
+                  navigation.navigate(RouteKeys.COUPONSCREEN)
                 }}
                 btnTitle={'Redeem now'}
                 title={'Fintopedia Credits: 500'}

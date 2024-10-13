@@ -86,7 +86,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
       {coursesLoading.courses || coursesSectionLoading?.coursesSection ? (
         <LoaderAtom />
       ) : (
-        <ScrollViewAtom>
+        <ScrollViewAtom nestedScrollEnabled={true}>
           <View style={{paddingHorizontal: mScale.base}}>
             <View
               style={{
@@ -210,7 +210,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                   imageStyle={{width: 24, height: 24}}
                 />
                 <View style={{marginVertical: mScale.md}}>
-                  <TextAtom text={'11 Articles'} preset="titleBold" />
+                  <TextAtom text={'1 Year Access'} preset="titleBold" />
                   <TextAtom
                     preset="small"
                     text={
@@ -235,57 +235,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                   imageStyle={{width: 24, height: 24}}
                 />
                 <View style={{marginVertical: mScale.md}}>
-                  <TextAtom text={'11 Articles'} preset="titleBold" />
-                  <TextAtom
-                    preset="small"
-                    text={
-                      'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
-                    }
-                    numberOfLines={2}
-                  />
-                </View>
-              </Pressable>
-              <Pressable
-                style={{
-                  backgroundColor: '#222431',
-                  padding: mScale.base,
-                  borderWidth: 1,
-                  borderColor: colorPresets.GRAY3,
-                  borderRadius: 9,
-                  width: moderateScale(150),
-                  marginEnd: mScale.md,
-                }}>
-                <ImageAtom
-                  sourceRequire={require('@shared/src/assets/img/article.png')}
-                  imageStyle={{width: 24, height: 24}}
-                />
-                <View style={{marginVertical: mScale.md}}>
-                  <TextAtom text={'11 Articles'} preset="titleBold" />
-                  <TextAtom
-                    preset="small"
-                    text={
-                      'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
-                    }
-                    numberOfLines={2}
-                  />
-                </View>
-              </Pressable>
-              <Pressable
-                style={{
-                  backgroundColor: '#222431',
-                  padding: mScale.base,
-                  borderWidth: 1,
-                  borderColor: colorPresets.GRAY3,
-                  borderRadius: 9,
-                  width: moderateScale(150),
-                  marginEnd: mScale.md,
-                }}>
-                <ImageAtom
-                  sourceRequire={require('@shared/src/assets/img/article.png')}
-                  imageStyle={{width: 24, height: 24}}
-                />
-                <View style={{marginVertical: mScale.md}}>
-                  <TextAtom text={'11 Articles'} preset="titleBold" />
+                  <TextAtom text={'Certificate of completion'} preset="titleBold" />
                   <TextAtom
                     preset="small"
                     text={

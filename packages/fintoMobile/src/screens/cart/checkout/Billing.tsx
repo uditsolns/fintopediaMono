@@ -5,6 +5,7 @@ import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CheckoutStep} from '@src/components/CheckoutStep';
@@ -22,6 +23,7 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
 }) => {
   const routes = useRoute<any>();
   let cartData = routes?.params?.cartData;
+  const {current_user} = useAppSelector(state => state.auth);
   return (
     <GradientTemplate
       style={{
@@ -38,6 +40,8 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
                 shape="square"
                 label="Name*"
                 placeholder="Enter your name"
+                value={`${current_user?.first_name} ${current_user?.surname_name} `}
+                editable={false}
               />
             </View>
             <View style={{marginBottom: mScale.lg}}>
@@ -46,22 +50,27 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
                 label="Phone number *"
                 placeholder="Enter your phone number"
                 keyboardType="numeric"
+                value={`${current_user?.phone}`}
+                editable={false}
               />
             </View>
             <View style={{marginBottom: mScale.lg}}>
               <InputAtom
                 shape="square"
-                label="Address"
-                placeholder={'Enter your address'}
-                multiline={true}
+                label="Email"
+                placeholder={'Enter your email'}
+                value={`${current_user?.email}`}
+                editable={false}
               />
             </View>
             <View style={{marginBottom: mScale.lg}}>
               <InputAtom
                 shape="square"
                 label={'Location'}
-                placeholder={'Enter your location'}
+                placeholder={'Location'}
                 multiline={true}
+                value={`${current_user?.res_address || ''}`}
+                editable={false}
               />
             </View>
 

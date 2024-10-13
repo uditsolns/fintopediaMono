@@ -20,3 +20,8 @@ export const subtractTwoNumber = (num1: number, num2: number): number => {
 export const multiplyTwoNumber = (num1: number, num2: number): number => {
   return num1 * num2;
 };
+
+
+export const getRandomItem = <T,>(items: T[]): T[] => {
+  return [...items].sort(() => Math.random() - 0.5);
+};

@@ -31,7 +31,7 @@ export const MyCourses: React.FC<MyCoursesProps> = () => {
     ongoing: Ongoing,
     completed: Completed,
     saveForLater: SaveForLater,
-    downloaded: Downloaded,
+    // downloaded: Downloaded,
   });
 
   return (

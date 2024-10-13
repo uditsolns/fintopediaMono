@@ -67,7 +67,7 @@ export const MyCourseRouteKeys = [
   {key: 'ongoing', title: 'Ongoing'},
   {key: 'completed', title: 'Completed'},
   {key: 'saveForLater', title: 'Save For Later'},
-  {key: 'downloaded', title: 'Downloaded'},
+  // {key: 'downloaded', title: 'Downloaded'},
 ];
 
 export const CourseDetailsRouteKeys = [

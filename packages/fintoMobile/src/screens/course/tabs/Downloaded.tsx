@@ -7,12 +7,13 @@ import {mScale} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
 import GetStarted from '@src/components/GetStarted';
 import DownloadedMolecule from '@src/components/molecules/DownloadedMolecule/DownloadedMolecule';
+import { RouteKeys } from '@src/navigation/RouteKeys';
 import React from 'react';
 import {FlatList, View} from 'react-native';
 
 interface DownloadedInterface {}
 const Downloaded: React.FunctionComponent<DownloadedInterface> = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
@@ -40,7 +41,7 @@ const Downloaded: React.FunctionComponent<DownloadedInterface> = () => {
               }}>
               <GetStarted
                 onPress={() => {
-                  console.log('get started');
+                  navigation.navigate(RouteKeys.COUPONSCREEN)
                 }}
                 btnTitle={'Redeem now'}
                 title={'Fintopedia Credits: 500'}

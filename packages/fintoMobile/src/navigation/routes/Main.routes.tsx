@@ -97,7 +97,11 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={FilterByCourse as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerTitle:'',
+          headerLeft: () => headerBack(() => navigation.goBack()),
+        })}
         name={RouteKeys.COURSECATEGORYSCREEN}
         component={CourseCategory as React.FC}
       />
