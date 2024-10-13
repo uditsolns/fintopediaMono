@@ -16,10 +16,14 @@ import { StockDatasResponse } from "shared/src/utils/types/stockDatas";
 
 interface PreviousProps {
   gameId: number;
-  roundLevel:number;
+  roundLevel: number;
   roundId: number;
 }
-const PreviousData: React.FC<PreviousProps> = ({ gameId, roundLevel, roundId }) => {
+const PreviousData: React.FC<PreviousProps> = ({
+  gameId,
+  roundLevel,
+  roundId,
+}) => {
   const dispatch = useAppDispatch();
 
   const { auth } = useAppSelector((state) => state.auth);
@@ -111,7 +115,8 @@ const PreviousData: React.FC<PreviousProps> = ({ gameId, roundLevel, roundId }) 
                   .map((el, index) => (
                     <tr key={index}>
                       <th>{el.stock?.name}</th>
-                      <td>{Math.round(el.stock_current_price * 10) / 10}</td>
+                      <th>{el.stock_current_price}</th>
+                      {/* <td>{Math.round(el.stock_current_price * 10) / 10}</td> */}
                     </tr>
                   ))
               ) : (

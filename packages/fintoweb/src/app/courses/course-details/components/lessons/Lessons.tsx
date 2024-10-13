@@ -104,7 +104,7 @@ const Lessons: React.FC = () => {
               Welcome to our comprehensive Stock Market Course, designed to
               empower you with the knowledge and skills needed.
             </p>
-            <h4>What You'll Learn</h4>
+            <h4>What You&apos;ll Learn</h4>
             <ul>
               <li>
                 <b>Introduction to Stock Markets:</b> Grasp the basic

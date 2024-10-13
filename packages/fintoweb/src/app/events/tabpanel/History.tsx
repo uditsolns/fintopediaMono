@@ -109,7 +109,8 @@ const History: React.FC<HistoryProps> = ({ gameId, roundLevel, roundId }) => {
                       <tr key={index}>
                         <th>{el.stock?.name}</th>
                         <td>{el.order_qty}</td>
-                        <td>{Math.round(el.total_price * 10) / 10}</td>
+                        {/* <td>{Math.round(el.total_price * 10) / 10}</td> */}
+                        <td>{el.total_price}</td>
                         <td>{el.order_type}</td>
                       </tr>
                     );

@@ -40,7 +40,7 @@ const Overview = () => {
         </p>
         <p className={styles.subHeading}>
           The most updated and complete Product Management course on Udemy!
-          You'll learn the skills that make up the entire Product Management job
+          You&apos;ll learn the skills that make up the entire Product Management job
           and process: from ideation to market research, to UX wireframing to
           prototyping, technology, metrics, and finally to building the product
           with user stories, project management, scoping, and leadership. We
