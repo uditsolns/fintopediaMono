@@ -1,8 +1,8 @@
 import React from "react";
-import { Input, InputGroup, Label } from "reactstrap";
+import { Input, InputGroup, InputProps, Label } from "reactstrap";
 import styles from "../Inputs.module.css";
 
-interface InputAtomProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputAtomProps extends InputProps {
   label: string;
   error?: string;
   touched?: boolean;
