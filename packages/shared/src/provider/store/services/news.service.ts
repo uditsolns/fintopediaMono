@@ -79,7 +79,7 @@ export const updateNews = createAsyncThunk<
 });
 
 export const deleteNews = createAsyncThunk<
-  string | number,
+  string,
   number,
   { state: RootState }
 >("news/delete", async (id, thunkApi) => {
@@ -94,7 +94,7 @@ export const deleteNews = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as string | number;
+    const data = (await response.json()) as string;
 
     return data;
   } catch (error) {

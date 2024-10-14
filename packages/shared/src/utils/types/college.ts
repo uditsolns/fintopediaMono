@@ -49,8 +49,8 @@ export interface CollegeState {
     updateErr: any;
     deleteErr: any;
   };
-  college: BannerResponse[];
-  create: BannerResponse | null;
-  update: BannerResponse | null;
+  college: CollegeResponse[];
+  create: CollegeResponse | null;
+  update: CollegeResponse | null;
   delete: string | null;
 }
