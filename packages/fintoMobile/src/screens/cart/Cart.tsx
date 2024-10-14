@@ -34,6 +34,11 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
   );
+  const {courseCart, loading:courseCartLoading} = useAppSelector(
+    state => state.courseCart,
+  );
+  
+
   const [refreshLoading, setRefreshLoading] = React.useState(false);
   const [subtotal, setSubtotal] = React.useState<number>(0);
   const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
@@ -41,6 +46,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
   const [gst, setGst] = React.useState<number>(100);
 
   React.useEffect(() => {
+    // console.log(JSON.stringify(courseCart))
     if (courses?.length) {
       let sale_price = sumCalculate(courses, 'sale_price');
       let actual_price = sumCalculate(courses, 'actual_price');
@@ -76,7 +82,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
         paddingHorizontal: 0,
         paddingTop: moderateScale(70),
       }}>
-      {coursesLoading?.courses ? (
+      {coursesLoading?.courses || courseCartLoading?.courseCart ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>

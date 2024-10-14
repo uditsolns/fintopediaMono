@@ -32,7 +32,7 @@ export const getCompletedCourseById = createAsyncThunk<
   CompletedCoursesResponse,
   CompletedCoursesPararms,
   { state: RootState }
->("getCompletedCourse/get", async (params, thunkApi) => {
+>("getCompletedCourseById/get", async (params, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
