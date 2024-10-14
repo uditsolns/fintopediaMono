@@ -4,14 +4,14 @@ import { CoursesResponse } from "./courses";
 export interface CourseNotesParams {
   id?: number;
   course_id?: number;
-  user_id?: string;
+  user_id?: number;
   note_desc: null | string;
 }
 
 export interface CourseNotesResponse {
   id?: number;
   course_id?: number;
-  user_id?: string;
+  user_id?: number;
   note_desc: null | string;
   course?: CoursesResponse;
   user?: UserInfo;

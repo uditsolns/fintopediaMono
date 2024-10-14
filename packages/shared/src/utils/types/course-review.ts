@@ -4,7 +4,7 @@ import { CoursesResponse } from "./courses";
 export interface CourseReviewParams {
   id?: number;
   course_id?: number;
-  user_id?: string;
+  user_id?: number;
   rating: null| string;
   rating_desc: null| string;
 }
@@ -12,7 +12,7 @@ export interface CourseReviewParams {
 export interface CourseReviewResponse {
   id?: number;
   course_id?: number;
-  user_id?: string;
+  user_id?: number;
   rating: null| string;
   rating_desc: null| string;
   course?: CoursesResponse;
