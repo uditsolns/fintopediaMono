@@ -14,12 +14,17 @@ export interface CoursesParams {
   course_image?: File;
   course_video?: File;
   resources?: string;
+  rating: number;
+  course_type: string;
+  reviews: number;
+  is_polular: number;
+  resource_file_upload: File;
 }
 export interface CoursesResponse {
   id: number;
   category_id: number;
   name: string;
-  description: string; 
+  description: string;
   sale_price: string;
   actual_price: string;
   duration_time: string;
@@ -32,6 +37,11 @@ export interface CoursesResponse {
   created_at: string;
   updated_at: string;
   category?: CategoriesResponse;
+  rating: number;
+  course_type: string;
+  reviews: number;
+  is_polular: number;
+  resource_file_upload: File
 }
 export interface CoursesState {
   loading: {
@@ -39,15 +49,18 @@ export interface CoursesState {
     create: boolean;
     update: boolean;
     delete: boolean;
+    singleCourse: boolean;
   };
   err: {
     coursesErr: any;
     createErr: any;
     updateErr: any;
     deleteErr: any;
+    singleCourseErr: any;
   };
-  courses: CoursesResponse[]; 
+  courses: CoursesResponse[];
   create: CoursesResponse | null;
   update: CoursesResponse | null;
   delete: string | null;
+  singleCourse: CoursesResponse | null;
 }

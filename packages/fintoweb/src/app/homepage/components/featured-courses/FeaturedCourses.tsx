@@ -148,7 +148,7 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
           style={{ width: `${progress}%` }}
         ></div>
       </div>
-      <div className="buttonLink">
+      <div className="d-flex justify-content-center align-items-center mt-3">
         <ButtonWithIcons label="View all courses" path="/courses" />
       </div>
     </div>

@@ -1,7 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { CoursesRatingReviewsResponse,CoursesRatingReviewsParams } from "../../../utils/types/CoursesRatingReviews";
+import {
+  CoursesRatingReviewsResponse,
+  CoursesRatingReviewsParams,
+} from "../../../utils/types/CoursesRatingReviews";
 
 export const getCoursesRatingReviews = createAsyncThunk<
   CoursesRatingReviewsResponse[],
@@ -21,6 +24,34 @@ export const getCoursesRatingReviews = createAsyncThunk<
     });
 
     const data = (await response.json()) as CoursesRatingReviewsResponse[];
+
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
+export const getCoursesRatingReviewById = createAsyncThunk<
+  CoursesRatingReviewsParams,
+  CoursesRatingReviewsParams,
+  { state: RootState }
+>("singleCoursesRatingReviews/get", async (params, thunkApi) => {
+  try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
+
+    const response = await fetch(
+      `${apiUrl.COURSES_RATING_REVIEWS.GET}/${params?.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = (await response.json()) as CoursesRatingReviewsParams;
 
     return data;
   } catch (error) {
@@ -61,14 +92,17 @@ export const updateCoursesRatingReviews = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.COURSES_RATING_REVIEWS.UPDATE + "/" + params.id, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(params),
-    });
+    const response = await fetch(
+      apiUrl.COURSES_RATING_REVIEWS.UPDATE + "/" + params.id,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+      }
+    );
 
     const data = (await response.json()) as CoursesRatingReviewsResponse;
 
@@ -86,13 +120,16 @@ export const deleteCoursesRatingReviews = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.COURSES_RATING_REVIEWS.DELETE + "/" + params, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      apiUrl.COURSES_RATING_REVIEWS.DELETE + "/" + params,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = (await response.json()) as string;
 
