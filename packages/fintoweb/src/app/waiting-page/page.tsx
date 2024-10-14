@@ -125,7 +125,7 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
             className="font-bold text-center mt-5"
             style={{ fontSize: "30px" }}
           >
-            Hey! You're in waiting..
+            Hey! You&apos;re in waiting..
           </h3>
           <p className="mt-3 text-center text-gray-300">
             Please wait, the next round will begin shortly or try again later.

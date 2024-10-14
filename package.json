@@ -24,6 +24,10 @@
   "dependencies": {
     "next": "*",
     "react-dom": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-web": "*"
+  },
+  "resolutions": {
+    "react": "18.3.1"
   }
 }

@@ -31,6 +31,31 @@ export const getCoursesSections = createAsyncThunk<
   }
 });
 
+export const getCourseSectionById = createAsyncThunk<
+  CoursesSectionResponse,
+  CoursesSectionParams, 
+  { state: RootState }
+>("singleCourseSection/get", async (params, thunkApi) => {
+  try {
+    const state = thunkApi.getState(); 
+    const token = state.auth?.auth?.token;
+
+    const response = await fetch(`${apiUrl.COURSE_SECTIONS.GET}/${params?.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = (await response.json()) as CoursesSectionResponse;
+
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+}); 
+
 export const createCoursesSections = createAsyncThunk<
   CoursesSectionResponse,
   CoursesSectionParams,

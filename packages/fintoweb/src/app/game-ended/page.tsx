@@ -24,7 +24,7 @@ const GameEnded: React.FC = () => {
 
   React.useEffect(() => {
     checkSingleGameFinish();
-  }, []);
+  }, [singleGame]);
 
   const checkSingleGameFinish = async () => {
     let id = Number(singleGame?.id);

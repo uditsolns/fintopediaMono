@@ -20,17 +20,20 @@ export interface CoursesRatingReviewsResponse {
 export interface CoursesRatingReviewsState {
   loading: {
     coursesRatingReviews: boolean;
+    singleCoursesRatingReviews: boolean;
     create: boolean;
     update: boolean;
     delete: boolean;
   };
   err: {
     coursesRatingReviewsErr: any;
+    singleCoursesRatingReviewsErr: any;
     createErr: any;
-    updateErr: any;
+    updateErr: any; 
     deleteErr: any;
   };
   coursesRatingReviews: CoursesRatingReviewsResponse[];
+  singleCoursesRatingReviews: CoursesRatingReviewsResponse | null;
   create: CoursesRatingReviewsResponse | null;
   update: CoursesRatingReviewsResponse | null;
   delete: string | null;

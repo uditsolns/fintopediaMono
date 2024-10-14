@@ -18,11 +18,12 @@ import { useBuySellHelper } from "shared/src/components/structures/buy-sell/buyS
 import { buySellField } from "shared/src/components/structures/buy-sell/buySellModel";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import CircularLoading from "@src/components/loader/CircularLoading";
-import { StockDatasResponse } from "shared/src/utils/types/stockDatas";
+// import { StockDatasResponse } from "shared/src/utils/types/stockDatas";
 import { toast } from "react-toastify";
+import { TransactionsResponse } from "shared/src/utils/types/transactions";
 
 interface Props {
-  data: StockDatasResponse;
+  data: TransactionsResponse;
 }
 
 const SellStocks: React.FC<Props> = (props) => {
@@ -66,7 +67,7 @@ const SellStocks: React.FC<Props> = (props) => {
     const filterOrderQty = props.data?.user?.user_transactions?.find(
       (el) => el?.stock_id == props.data?.stock_id
     );
-    if (Number(values.order_qty) > filterOrderQty?.order_qty) {
+    if (Number(values.order_qty) > Number(filterOrderQty?.order_qty)) {
       toast.warning("Quantity is less than equal to total quantity", {
         type: "error",
       });

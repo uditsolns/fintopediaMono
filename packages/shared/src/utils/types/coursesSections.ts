@@ -29,14 +29,17 @@ export interface CoursesSectionState {
     create: boolean;
     update: boolean;
     delete: boolean;
+    singleCourseSection: boolean;
   };
   err: {
     coursesSectionErr: any;
     createErr: any;
     updateErr: any;
     deleteErr: any;
+    singleCourseSectionErr: any;
   };
   coursesSection: CoursesSectionResponse[];
+  singleCourseSection: CoursesSectionResponse | null;
   create: CoursesSectionResponse | null;
   update: CoursesSectionResponse | null;
   delete: string | null;

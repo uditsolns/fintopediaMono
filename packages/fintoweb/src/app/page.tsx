@@ -18,6 +18,7 @@ import {
 import Login from "./auth/login/page";
 import { getCourses } from "shared/src/provider/store/services/courses.service";
 import { getCategories } from "shared/src/provider/store/services/categories.service";
+import CircularLoading from "@src/components/loader/LightLoading";
 
 // const Homepage = dynamic(() => import("./homepage/Homepage"), {
 //   ssr: false,
@@ -31,10 +32,13 @@ import { getCategories } from "shared/src/provider/store/services/categories.ser
 export default function Home() {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
-  const { courses } = useAppSelector((state) => state.courses);
-  const { categories } = useAppSelector((state) => state.categories);
-
   const token = auth?.token;
+  const { categories, loading: categoriesLoading } = useAppSelector(
+    (state) => state.categories
+  );
+  const { courses, loading: coursesLoading } = useAppSelector(
+    (state) => state.courses
+  );
 
   React.useEffect(() => {
     if (token) {
@@ -45,20 +49,32 @@ export default function Home() {
 
   if (token) {
     return (
-      <div>
-        <Banner />
-        <StocksSlider />
-        <QuizSection />
+      <>
+        {categoriesLoading?.categories || coursesLoading?.courses ? (
+          <div className="fullPageLoading">
+            <CircularLoading
+              style={{
+                height: "5rem",
+                width: "5rem",
+              }}
+            />
+          </div>
+        ) : null}
         <div>
-          <FeaturedCourses courses={courses} categories={categories} />
+          <Banner />
+          <StocksSlider />
+          <QuizSection />
+          <div>
+            <FeaturedCourses courses={courses} categories={categories} />
+          </div>
+          <CategoryBanner categories={categories}/>
+          <HowitWorks />
+          <AchiveingLearningSlider />
+          <CourseOffer />
+          <BlogsSlider />
+          <BasicStockmarketBanner />
         </div>
-        <CategoryBanner />
-        <HowitWorks />
-        <AchiveingLearningSlider />
-        <CourseOffer />
-        <BlogsSlider />
-        <BasicStockmarketBanner />
-      </div>
+      </>
     );
   }
   return <Login />;

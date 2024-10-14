@@ -87,7 +87,7 @@ const CourseLevelOne: React.FC = () => {
                           block
                           disabled={isSubmitting}
                         >
-                          Let's go
+                          Let&apos;s go
                         </Button>
                       </Col>
                     </Row>

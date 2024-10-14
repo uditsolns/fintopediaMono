@@ -10,6 +10,11 @@
   font-weight: 700;
   line-height: 120%;
 }
+.container {
+  background-color: #1f2937;
+  color: white;
+  padding: 30px;
+}
 .slick-slide > div {
   margin: 0 30px;
 }
@@ -20,13 +25,7 @@
   margin-right: -30px;
   margin: 0 -10px;
 }
-.card {
-  color: #fff !important;
-  overflow: hidden;
-  margin: 10px;
-  background-color: #000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+
 .progressContainer {
   position: relative;
   width: 100%;
@@ -40,113 +39,7 @@
   width: 0%;
   transition: width 0.3s;
 }
-.cardImage {
-  height: auto;
-}
-.cardContent {
-  padding: 16px;
-}
-.cardTitle {
-  color: #fff;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 120%;
-}
-.cardDescription {
-  font-size: 1rem;
-  color: #666;
-}
-.iconRow {
-  display: flex;
-  overflow: hidden;
-  color: #fff;
-  text-overflow: ellipsis;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 120%;
-  gap: 20px;
-}
-.iconText {
-  display: flex;
-  align-items: center;
-}
-.cardRating {
-  display: inline-flex;
-  align-items: center;
-  margin-top: 10px;
-  gap: 10px;
-}
-.cardRating h6 {
-  overflow: hidden;
-  color: #fff;
-  text-overflow: ellipsis;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 120%;
-}
-.cardRating p {
-  overflow: hidden;
-  color: var(--71717-a, #71717a);
-  text-overflow: ellipsis;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 120%;
-}
-.cardRating svg {
-  color: #ffa11a;
-  width: 19.909px;
-  height: 19px;
-}
-.priceContainer {
-  display: flex;
-  align-items: center;
-  margin: 8px 0;
-  margin-top: 10px;
-}
-.priceContainer h3 {
-  overflow: hidden;
-  color: #fff;
-  text-overflow: ellipsis;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 120%;
-}
-.priceContainer s {
-  color: #71717a;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 120%;
-  text-decoration-line: strikethrough;
-  margin-left: 10px;
-}
 
-.addToCartButton {
-  display: flex;
-  width: 164px;
-  padding: 14px 24px;
-  justify-content: center;
-  align-items: center;
-  gap: 7.765px;
-  flex-shrink: 0;
-  border-radius: 3.106px;
-  background: #fff;
-  color: #0c0c0c;
-  font-size: 12px;
-  font-style: normal;
-  margin-left: auto;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.12px;
-}
-.addToCartButton:hover {
-  background-color: #ccc;
-}
 /* -----categories--------- */
 .categories {
   display: flex;
@@ -172,4 +65,9 @@
   border: 1px solid #b8bccb;
   background-color: #545664;
   color: white;
+}
+@media screen and (max-width: 435px) {
+  .courseContainer {
+    padding: 15px;
+  }
 }

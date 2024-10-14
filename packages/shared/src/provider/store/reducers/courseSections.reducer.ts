@@ -5,6 +5,7 @@ import {
   getCoursesSections,
   updateCoursesSections,
   createCoursesSections,
+  getCourseSectionById,
 } from "../services/courseSections.service";
 
 const initialState: CoursesSectionState = {
@@ -13,23 +14,35 @@ const initialState: CoursesSectionState = {
     delete: false,
     update: false,
     coursesSection: false,
+    singleCourseSection: false,
   },
   err: {
     createErr: null,
     deleteErr: null,
     updateErr: null,
     coursesSectionErr: null,
+    singleCourseSectionErr: null,
   },
   create: null,
   delete: null,
   update: null,
   coursesSection: [],
+  singleCourseSection: null,
 };
 
 const coursesSectionSlice = createSlice({
   name: "coursesSection",
   initialState,
-  reducers: {},
+  reducers: {
+    storeSingleCourseSection: (state, action) => {
+      state.singleCourseSection = action.payload;
+    },
+    clearCourseSection: (state) => {
+      state.create = null;
+      state.update = null;
+      state.delete = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCoursesSections.pending, (state) => {
@@ -43,6 +56,19 @@ const coursesSectionSlice = createSlice({
       .addCase(getCoursesSections.rejected, (state, action) => {
         state.loading.coursesSection = false;
         state.err.coursesSectionErr = action?.payload;
+      })
+      // single  course history
+      .addCase(getCourseSectionById.pending, (state) => {
+        state.loading.singleCourseSection = true;
+      })
+      .addCase(getCourseSectionById.fulfilled, (state, action) => {
+        state.loading.singleCourseSection = false;
+        state.singleCourseSection = action.payload;
+        state.err.singleCourseSectionErr = null;
+      })
+      .addCase(getCourseSectionById.rejected, (state, action) => {
+        state.loading.singleCourseSection = false;
+        state.err.singleCourseSectionErr = action?.payload;
       })
       //   create
       .addCase(createCoursesSections.pending, (state) => {
@@ -84,5 +110,6 @@ const coursesSectionSlice = createSlice({
       });
   },
 });
+export const { storeSingleCourseSection,clearCourseSection } = coursesSectionSlice.actions;
 
 export default coursesSectionSlice.reducer;

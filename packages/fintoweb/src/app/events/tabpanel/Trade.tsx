@@ -82,11 +82,11 @@ const Trade: React.FC<TradeProps> = (props) => {
           })
         );
       }
-      if (create?.error) {
-        toast.error(create?.error, {
-          type: "error",
-        });
-      }
+      // if (create?.error) {
+      //   toast.error(create?.error, {
+      //     type: "error",
+      //   });
+      // }
     }
   }, [create]);
 
@@ -183,11 +183,12 @@ const Trade: React.FC<TradeProps> = (props) => {
                         <tr key={index}>
                           <td>{el.stock.name}</td>
                           <td>
-                            {el.stock_current_price
+                            {/* {el.stock_current_price
                               ? Math.round(
                                   parseFloat(el.stock_current_price) * 10
                                 ) / 10
-                              : "N/A"}
+                              : "N/A"} */}
+                            {el.stock_current_price}
                           </td>
                           <td>
                             <BuyStocks data={el} />

@@ -5,6 +5,7 @@ import {
   getCoursesRatingReviews,
   updateCoursesRatingReviews,
   createCoursesRatingReviews,
+  getCoursesRatingReviewById,
 } from "../services/CoursesRatingReviews.service";
 
 const initialState: CoursesRatingReviewsState = {
@@ -13,23 +14,35 @@ const initialState: CoursesRatingReviewsState = {
     delete: false,
     update: false,
     coursesRatingReviews: false,
+    singleCoursesRatingReviews: false,
   },
   err: {
     createErr: null,
     deleteErr: null,
     updateErr: null,
     coursesRatingReviewsErr: null,
+    singleCoursesRatingReviewsErr: null,
   },
   create: null,
   delete: null,
   update: null,
   coursesRatingReviews: [],
+  singleCoursesRatingReviews: null,
 };
 
 const coursesRatingReviewsSlice = createSlice({
   name: "coursesRatingReviews",
   initialState,
-  reducers: {},
+  reducers: {
+    storeSingleCoursesRatingReviews: (state, action) => {
+      state.singleCoursesRatingReviews = action.payload;
+    },
+    clearCoursesRatingReviews: (state) => {
+      state.create = null;
+      state.update = null;
+      state.delete = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCoursesRatingReviews.pending, (state) => {
@@ -43,6 +56,19 @@ const coursesRatingReviewsSlice = createSlice({
       .addCase(getCoursesRatingReviews.rejected, (state, action) => {
         state.loading.coursesRatingReviews = false;
         state.err.coursesRatingReviewsErr = action?.payload;
+      })
+      // single  course rating
+      .addCase(getCoursesRatingReviewById.pending, (state) => {
+        state.loading.singleCoursesRatingReviews = true;
+      })
+      .addCase(getCoursesRatingReviewById.fulfilled, (state, action) => {
+        state.loading.singleCoursesRatingReviews = false;
+        state.singleCoursesRatingReviews = action.payload;
+        state.err.singleCoursesRatingReviewsErr = null;
+      })
+      .addCase(getCoursesRatingReviewById.rejected, (state, action) => {
+        state.loading.singleCoursesRatingReviews = false;
+        state.err.singleCoursesRatingReviewsErr = action?.payload;
       })
       //   create
       .addCase(createCoursesRatingReviews.pending, (state) => {
@@ -84,5 +110,8 @@ const coursesRatingReviewsSlice = createSlice({
       });
   },
 });
-
+export const {
+  storeSingleCoursesRatingReviews,
+  clearCoursesRatingReviews,
+} = coursesRatingReviewsSlice.actions;
 export default coursesRatingReviewsSlice.reducer;

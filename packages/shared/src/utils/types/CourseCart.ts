@@ -18,17 +18,20 @@ export interface CourseCartResponse {
 export interface CourseCartState {
   loading: {
     courseCart: boolean;
+    singleCourseCart: boolean;
     create: boolean;
     update: boolean;
     delete: boolean;
   };
   err: {
     courseCartErr: any;
+    singleCourseCartErr: any;
     createErr: any;
     updateErr: any;
     deleteErr: any;
   };
   courseCart: CourseCartResponse[];
+  singleCourseCart: CourseCartResponse | null;
   create: CourseCartResponse | null;
   update: CourseCartResponse | null;
   delete: string | null;

@@ -16,7 +16,7 @@ const stocks = new Array(2).fill({
   companyLogo: Logo,
   userImage: User,
   mainHeading: "Access to Quality Education",
-  subHeading: `Online learning has completely transformed my educational experience. The flexibility to attend classes and complete assignments on my own schedule has been a game-changer for me. It's allowed me to balance my job and family commitments while pursuing my degree. I'm so grateful for the opportunity to learn this way!`,
+  subHeading: `Online learning has completely transformed my educational experience. The flexibility to attend classes and complete assignments on my own schedule has been a game-changer for me. It&apos;s allowed me to balance my job and family commitments while pursuing my degree. I&apos;m so grateful for the opportunity to learn this way!`,
   courseLink: "Basics of Stock Market",
 });
 
@@ -108,7 +108,7 @@ const BlogDetails = () => {
               <p>
                 Through our innovative online courses, comprehensive resources,
                 and expert instructors, we strive to provide an unparalleled
-                learning experience. Whether you're looking to advance your
+                learning experience. Whether you&apos;re looking to advance your
                 career, switch to a new field, or simply enhance your knowledge,
                 Fintopedia is here to support your educational journey every
                 step of the way.

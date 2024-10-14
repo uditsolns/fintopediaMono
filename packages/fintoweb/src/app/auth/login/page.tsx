@@ -31,12 +31,12 @@ const Login: React.FC<LoginProps> = () => {
         });
         router.push("/");
       }
-      if (auth?.message) {
-        toast.error(auth?.message, {
-          position: "top-right",
-          theme: "light",
-        });
-      }
+      // if (auth?.message) {
+      //   toast.error(auth?.message, {
+      //     position: "top-right",
+      //     theme: "light",
+      //   });
+      // }
     }
   }, [auth, router]);
 
@@ -101,7 +101,7 @@ const Login: React.FC<LoginProps> = () => {
                     </Button>
                   </div>
                   <div className="mt-3 text-white text-center">
-                    Don't have an account?{" "}
+                    Don&apos;t have an account?{" "}
                     <a href="/auth/register" className="text-blue-500">
                       <u>Register Now</u>
                     </a>

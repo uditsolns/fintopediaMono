@@ -1,11 +1,12 @@
-import { CourseCartState } from "../../../utils/types/CourseCart";
+import { CourseCartState } from "../../../utils/types/coursecart";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   deleteCourseCart,
   getCourseCart,
   updateCourseCart,
   createCourseCart,
-} from "../services/CourseCart.service";
+  getCourseCartById,
+} from "../services/coursecart.service";
 
 const initialState: CourseCartState = {
   loading: {
@@ -13,23 +14,35 @@ const initialState: CourseCartState = {
     delete: false,
     update: false,
     courseCart: false,
+    singleCourseCart: false,
   },
   err: {
     createErr: null,
     deleteErr: null,
     updateErr: null,
     courseCartErr: null,
+    singleCourseCartErr: null,
   },
   create: null,
   delete: null,
   update: null,
   courseCart: [],
+  singleCourseCart: null,
 };
 
 const courseCartSlice = createSlice({
   name: "courseCart",
   initialState,
-  reducers: {},
+  reducers: {
+    storeSingleCourseCart: (state, action) => {
+      state.singleCourseCart = action.payload;
+    },
+    clearCourseCart: (state) => {
+      state.create = null;
+      state.update = null;
+      state.delete = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCourseCart.pending, (state) => {
@@ -43,6 +56,19 @@ const courseCartSlice = createSlice({
       .addCase(getCourseCart.rejected, (state, action) => {
         state.loading.courseCart = false;
         state.err.courseCartErr = action?.payload;
+      })
+      // single  cart
+      .addCase(getCourseCartById.pending, (state) => {
+        state.loading.singleCourseCart = true;
+      })
+      .addCase(getCourseCartById.fulfilled, (state, action) => {
+        state.loading.singleCourseCart = false;
+        state.singleCourseCart = action.payload;
+        state.err.singleCourseCartErr = null;
+      })
+      .addCase(getCourseCartById.rejected, (state, action) => {
+        state.loading.singleCourseCart = false;
+        state.err.singleCourseCartErr = action?.payload;
       })
       //   create
       .addCase(createCourseCart.pending, (state) => {
@@ -84,5 +110,6 @@ const courseCartSlice = createSlice({
       });
   },
 });
-
+export const { storeSingleCourseCart, clearCourseCart } =
+  courseCartSlice.actions;
 export default courseCartSlice.reducer;
