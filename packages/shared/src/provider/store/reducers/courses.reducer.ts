@@ -5,6 +5,7 @@ import {
   getCourses,
   updateCourses,
   createCourses,
+  getCoursesById,
 } from "../services/courses.service";
 
 const initialState: CoursesState = {
@@ -13,23 +14,35 @@ const initialState: CoursesState = {
     delete: false,
     update: false,
     courses: false,
+    singleCourse: false, 
   },
   err: {
     createErr: null,
     deleteErr: null,
     updateErr: null,
     coursesErr: null,
+    singleCourseErr: null,
   },
   create: null,
   delete: null,
   update: null,
   courses: [],
+  singleCourse: null,
 };
 
 const coursesSlice = createSlice({
   name: "courses",
   initialState,
-  reducers: {},
+  reducers: {
+    storeSingleCourse: (state, action) => {
+      state.singleCourse = action.payload;
+    },
+    clearCourse: (state) => {
+      state.create = null;
+      state.update = null;
+      state.delete = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCourses.pending, (state) => {
@@ -43,6 +56,19 @@ const coursesSlice = createSlice({
       .addCase(getCourses.rejected, (state, action) => {
         state.loading.courses = false;
         state.err.coursesErr = action?.payload;
+      })
+      // single  course 
+      .addCase(getCoursesById.pending, (state) => {
+        state.loading.singleCourse = true;
+      })
+      .addCase(getCoursesById.fulfilled, (state, action) => {
+        state.loading.singleCourse = false;
+        state.singleCourse = action.payload;
+        state.err.singleCourseErr = null;
+      })
+      .addCase(getCoursesById.rejected, (state, action) => {
+        state.loading.singleCourse = false;
+        state.err.singleCourseErr = action?.payload;
       })
       //   create
       .addCase(createCourses.pending, (state) => {
@@ -84,5 +110,5 @@ const coursesSlice = createSlice({
       });
   },
 });
-
+export const { storeSingleCourse, clearCourse } = coursesSlice.actions;
 export default coursesSlice.reducer;

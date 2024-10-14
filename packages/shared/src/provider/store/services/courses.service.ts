@@ -52,7 +52,30 @@ export const createCourses = createAsyncThunk<
     return thunkApi.rejectWithValue(error);
   }
 });
+export const getCoursesById = createAsyncThunk<
+  CoursesResponse,
+  CoursesParams, 
+  { state: RootState }
+>("singleCourses/get", async (params, thunkApi) => {
+  try {
+    const state = thunkApi.getState(); 
+    const token = state.auth?.auth?.token;
 
+    const response = await fetch(`${apiUrl.COURSES.GET}/${params?.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = (await response.json()) as CoursesResponse;
+
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+}); 
 export const updateCourses = createAsyncThunk<
   CoursesResponse,
   CoursesParams,

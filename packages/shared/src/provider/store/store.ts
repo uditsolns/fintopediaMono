@@ -19,9 +19,9 @@ import stockdatasReducer from "./reducers/stockdatas.reducer";
 import stocksReducer from "./reducers/stocks.reducer";
 import transactionsReducer from "./reducers/transactions.reducer";
 import userTransactionsReducer from "./reducers/usertransactions.reducer";
-import courseCartReducer from "./reducers/CourseCart.reducer";
+import courseCartReducer from "./reducers/coursecart.reducer";
 import coursesRatingReviewsReducer from "./reducers/CoursesRatingReviews.reducer";
-import purchaseHistoryReducer from "./reducers/PurchaseHistory.reducer";
+import purchaseHistoryReducer from "./reducers/purchasehistory.reducer";
 import userCertificateReducer from "./reducers/UserCertificate.reducer";
 import userCourseHistoryReducer from "./reducers/UserCourseHistory.reducer";
 import startGameReducer from "./reducers/startgame.reducer";
@@ -71,7 +71,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(errorMiddleware),
+    }).concat(errorMiddleware,logger),
 });
 
 export const persistor = persistStore(store);

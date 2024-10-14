@@ -5,7 +5,8 @@ interface ButtonWithIconsProps {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   label: string;
-  path?: string; 
+  path?: string;
+  width?: string;
 }
 
 const ButtonWithIcons: React.FC<ButtonWithIconsProps> = ({
@@ -13,6 +14,7 @@ const ButtonWithIcons: React.FC<ButtonWithIconsProps> = ({
   rightIcon,
   label,
   path,
+  width,
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -30,11 +32,12 @@ const ButtonWithIcons: React.FC<ButtonWithIconsProps> = ({
   }, []);
 
   return (
-    <div className="buttonStyles">
+    <div className="resusableButton">
       <button
         className="button"
         onClick={handleNavigation}
         disabled={isLoading}
+        style={{ width: width || "auto" }}
       >
         {isLoading ? (
           <span className="loader">Loading...</span>
@@ -61,9 +64,6 @@ const ButtonWithIcons: React.FC<ButtonWithIconsProps> = ({
           font-weight: 600;
           line-height: normal;
           letter-spacing: -0.16px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           border: none;
           cursor: pointer;
           width: auto;

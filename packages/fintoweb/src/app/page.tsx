@@ -67,7 +67,7 @@ export default function Home() {
           <div>
             <FeaturedCourses courses={courses} categories={categories} />
           </div>
-          <CategoryBanner />
+          <CategoryBanner categories={categories}/>
           <HowitWorks />
           <AchiveingLearningSlider />
           <CourseOffer />
