@@ -1,0 +1,94 @@
+export interface AuthState {
+  loading: {
+    login: boolean;
+    signup: boolean;
+    signout: boolean;
+    forgot: boolean;
+    confirm: boolean;
+  };
+  err: {
+    loginErr: any;
+    signupErr: any;
+    signoutErr: any;
+    forgotErr: any;
+    confirmErr: any;
+  };
+  auth: AuthResponse | null;
+  signup: AuthResponse | null;
+  forgot: null;
+  confirm: null;
+}
+
+export interface AuthParams {
+  phone: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  user: UserInfo;
+  token: string;
+}
+
+export interface UserInfo {
+  id: number;
+  first_name: string;
+  email: string;
+  phone: string;
+  role: string;
+  father_name: string;
+  surname_name: string;
+  dob: string;
+  qualification: string;
+  degree: string;
+  "10th_result": string;
+  "12th_result": string;
+  "12th_college_name": string;
+  "10th_school_name": string;
+  grad_result: string;
+  grad_school: string;
+  postgrad_result: string;
+  postgrad_school: string;
+  extra_courses: string;
+  job_preference: string;
+  location: string;
+  adhaar_num: string;
+  pan_num: string;
+  adhaar_file_upload: string;
+  work_experience: string;
+  age: null;
+  res_address: string;
+  gender: string;
+  cv: string;
+  email_verified_at: null;
+  is_degree_completed: string;
+  is_approved: string;
+  is_active: string;
+  created_at: string;
+  updated_at: string;
+  wallet: string;
+  forget_password_token: string;
+  is_google_login: string;
+  feedback: null;
+  college: null;
+}
+
+export interface SignupParams {
+  first_name: string;
+  surname_name: string;
+  phone: string;
+  role: string;
+  password: string;
+  password_confirmation: string;
+  email: string;
+  college_id: string;
+}
+
+export interface ForgotPasswordParams {
+  email: string;
+}
+
+export interface UpdatePasswordParams {
+  token?: string;
+  password?: string;
+  confirmation_password?: string;
+}

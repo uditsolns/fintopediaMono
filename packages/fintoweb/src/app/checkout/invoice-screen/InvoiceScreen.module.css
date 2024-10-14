@@ -1,0 +1,228 @@
+/* InvoiceScreen.module.css */
+.container {
+  max-width: 32rem; /* Same as max-w-2xl */
+  margin: 0 auto;
+}
+
+.screen {
+  min-height: 100vh;
+  background-color: #1a202c; /* bg-gray-900 */
+  color: white;
+  padding: 1.25rem; /* py-5 */
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+}
+
+.textCenter {
+  text-align: center;
+  margin-bottom: 2rem; /* mb-8 */
+}
+
+.iconContainer {
+  display: inline-block;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+  border: 1px solid #7a7fa2;
+  background: linear-gradient(
+    245deg,
+    #2d303d 0%,
+    #212330 28.6%,
+    #101320 65.15%,
+    #111521 78%,
+    #0d0f1b 100%
+  );
+}
+
+.title {
+  color: #fff;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 46px;
+}
+
+.subtitle {
+  color: #a4a4a4;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+  letter-spacing: -0.2px;
+  margin-top: 15px;
+}
+
+.card {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #121622;
+}
+
+.cardTitle {
+  margin-bottom: 0.5rem;
+  color: #fff;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.cardDescription {
+  color: #a4a4a4;
+  font-feature-settings: "liga" off, "clig" off;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  margin-bottom: 1rem;
+}
+
+.starsContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.stars {
+  display: flex;
+}
+
+.starIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #ecc94b;
+}
+
+.textGray {
+  display: flex;
+  gap: 8px;
+  overflow: hidden;
+  color: #fff;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  color: #fff;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.button {
+  display: flex;
+  padding: 14px 16px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  background: #fff;
+  gap: 10px;
+  color: #0c0c0c;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px;
+}
+.invoiceDetailsHeading {
+  color: #fff;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-bottom: 20px;
+}
+.invoiceDetails {
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.detailsRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detailsGrayText {
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+}
+.detailsHeading {
+  color: #fff;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
+}
+.grandTotal {
+  font-weight: 600;
+}
+
+.downloadButton button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 25px;
+}
+.downloadButton {
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  text-decoration-line: underline;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contactText {
+  margin-bottom: 1.5rem;
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.link {
+  color: #1d90f5;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.homeButton {
+  display: flex;
+  width: 100%;
+  padding: 20px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 6px;
+  border: 2px solid var(--Border, #7a7fa2);
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.4px;
+}

@@ -1,3 +1,4 @@
+.yarn
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
@@ -17,6 +18,10 @@
 node_modules/
 npm-debug.log
 yarn-error.log
+
+#enviroment
+.env
+.env.*
 
 # misc
 .DS_Store

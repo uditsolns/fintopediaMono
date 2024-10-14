@@ -1,0 +1,42 @@
+.container {
+  margin: auto;
+  padding: 20px;
+  background: linear-gradient(
+    245.33deg,
+    #2d303d 0%,
+    #212330 28.6%,
+    #101320 65.15%,
+    #111521 78%,
+    #0d0f1b 100%
+  );
+}
+.textfield {
+  height: 51px;
+  padding: 12px 22px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  border-radius: 6px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #222431;
+  color: #fff;
+}
+
+.textfield::placeholder {
+  color: #7a7fa2;
+}
+
+.textfield:focus {
+  background-color: #2d303d;
+  color: #fff;
+  outline: none;
+}
+
+.textfield:focus::placeholder {
+  color: #7a7fa2;
+}
+
+.isInvalid {
+  border-color: red;
+}
+
