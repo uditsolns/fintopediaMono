@@ -7,6 +7,7 @@ interface ButtonWithIconsProps {
   label: string;
   path?: string;
   width?: string;
+  onClick?: () => void;
 }
 
 const ButtonWithIcons: React.FC<ButtonWithIconsProps> = ({
@@ -15,13 +16,22 @@ const ButtonWithIcons: React.FC<ButtonWithIconsProps> = ({
   label,
   path,
   width,
+  onClick
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+  // const handleNavigation = () => {
+  //   setIsLoading(true);
+  //   router.push(path);
+  // };
   const handleNavigation = () => {
-    setIsLoading(true);
-    router.push(path);
+    if (onClick) {
+      onClick(); 
+    } else if (path) {
+      setIsLoading(true);
+      router.push(path);
+    }
   };
 
   useEffect(() => {

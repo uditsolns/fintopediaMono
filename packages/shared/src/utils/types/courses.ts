@@ -14,6 +14,11 @@ export interface CoursesParams {
   course_image?: File;
   course_video?: File;
   resources?: string;
+  rating: number;
+  course_type: string;
+  reviews: number;
+  is_polular: number;
+  resource_file_upload: File;
 }
 export interface CoursesResponse {
   id: number;
@@ -32,6 +37,11 @@ export interface CoursesResponse {
   created_at: string;
   updated_at: string;
   category?: CategoriesResponse;
+  rating: number;
+  course_type: string;
+  reviews: number;
+  is_polular: number;
+  resource_file_upload: File
 }
 export interface CoursesState {
   loading: {
@@ -40,7 +50,7 @@ export interface CoursesState {
     update: boolean;
     delete: boolean;
     singleCourse: boolean;
-  }; 
+  };
   err: {
     coursesErr: any;
     createErr: any;
