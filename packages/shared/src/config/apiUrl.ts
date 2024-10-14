@@ -1,4 +1,4 @@
-const baseUrl = "http://thezivagroup.com/game/public/api/";
+const baseUrl = "http://nivada.in/hiring-management-backend/public/api/";
 const version = "v1/";
 
 const buildUrl = (endpoint: string) => {
@@ -12,5 +12,10 @@ export default {
     FORGOT: buildUrl("forget-password"),
     FORGOTCONFIRM: buildUrl("update-password"),
     GOOGLE: buildUrl("google-login"),
+  },
+  USER: {
+    GET: buildUrl("users"),
+    UPDATE: buildUrl("users/"),
+    DELETE: buildUrl("users/"),
   },
 };

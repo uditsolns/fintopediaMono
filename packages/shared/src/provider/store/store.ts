@@ -1,9 +1,11 @@
 "use client";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
-import { errorMiddleware } from "./middleware/error.middleware";
+import { Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { errorMiddleware } from "./middleware/error.middleware";
 import authReducer from "./reducers/auth.reducer";
+import storage from "redux-persist/lib/storage";
 
 // let storage;
 
@@ -16,8 +18,8 @@ import authReducer from "./reducers/auth.reducer";
 // }
 
 const persistConfig: any = {
-  key: "hurd",
-  storage: AsyncStorage,
+  key: "fintopedia",
+  storage,
   timeout: null,
 };
 

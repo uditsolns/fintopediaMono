@@ -35,6 +35,7 @@ export const useAuthHelper = () => {
     key: dataType
   ): Partial<Record<keyof InputAtomProps, any>> => {
     return {
+      id: key,
       value: values[key],
       error: _onError(key),
       errorMessage: _onError(key),
@@ -42,6 +43,7 @@ export const useAuthHelper = () => {
       returnKeyType: "next",
       touched: touched[key] || false,
       onChangeText: handleChange(key),
+      onChange: handleChange(key),
     };
   };
 

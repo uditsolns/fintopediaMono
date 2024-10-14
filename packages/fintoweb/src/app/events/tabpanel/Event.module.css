@@ -1,0 +1,210 @@
+/* --------------Information design ------------ */
+.info-main-sec {
+  background-color: #539bff !important;
+}
+.timing-div {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 0px;
+}
+.main-head-row {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  grid-template-rows: 1fr !important;
+  grid-column-gap: 40px !important;
+  grid-row-gap: 0px !important;
+}
+.main-row td {
+  font-weight: bold;
+}
+/* Event.module.css */
+.sector-btn {
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #b8bccb;
+  background-color: #545664;
+  color: #fff;
+  width: 100%;
+  text-align: center;
+}
+
+.sector-btn:hover {
+  background-color: #6a6d7b;
+}
+.search-textfield {
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #121622;
+  width: 100%;
+}
+
+.search-icon {
+  color: #a4a4a4 !important;
+}
+
+.search-placeholder::placeholder {
+  color: #a4a4a4;
+  opacity: 1;
+}
+.search-input {
+  color: #a4a4a4;
+}
+.inline-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-textfield {
+  flex: 1;
+  border-radius: 8px;
+  border: 1px solid #7a7fa2;
+  background: #121622;
+}
+.search-button {
+  flex-shrink: 0;
+  height: 40px;
+  border-radius: 4px;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+}
+/* stocks table */
+.custom-table {
+  border-collapse: collapse;
+  background: transparent;
+}
+
+.custom-table th,
+.custom-table td {
+  border: none;
+  padding: 8px;
+  background: transparent;
+  color: #fff;
+}
+
+.custom-table thead th {
+  background: transparent;
+  color: #a4a4a4;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+/* Buy Sell Modal */
+.news-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.news-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.news-card {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  background-color: #121622;
+  color: #ffffff;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  min-width: 200px;
+  border: 1px solid;
+  /* border-image-source: linear-gradient(
+    257.31deg,
+    #7a7fa2 -10.81%,
+    #141622 113.5%
+  ) !important; */
+}
+
+.news-card + .news-card {
+  flex: 0 0 auto;
+  margin-left: 15px;
+}
+.news-text {
+  float: left;
+}
+
+.custom-modal-header .btn-close {
+  color: white !important;
+  opacity: 1 !important;
+}
+
+.custom-modal-header .btn-close:hover {
+  color: gainsboro !important;
+}
+
+/* textfield styles */
+.textfield {
+  background: #2d303d;
+  border: 1px solid;
+  border-image-source: linear-gradient(
+    257.31deg,
+    #7a7fa2 -10.81%,
+    #141622 113.5%
+  );
+  border-image-slice: 1;
+  color: #fff;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.textfield::placeholder {
+  color: #7a7fa2;
+}
+
+.textfield:focus {
+  background-color: #2d303d;
+  color: #fff;
+  outline: none;
+}
+
+.textfield:focus::placeholder {
+  color: #7a7fa2;
+}
+
+.isInvalid {
+  border-color: red;
+}
+
+/* -------media screen -------- */
+@media screen and (max-width: 420px) {
+  .main-login-div {
+    padding: 0px;
+  }
+  .sector-name {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 1%;
+    overflow-y: scroll !important;
+  }
+  .sector-btn {
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #b8bccb;
+    background-color: #545664;
+    color: #fff;
+    width: 100%;
+    padding: 1px 10px;
+    text-align: center;
+  }
+  .search-button {
+    flex-shrink: 0;
+    height: 40px;
+    border-radius: 4px;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+  }
+  .sector-btn:hover {
+    background-color: #6a6d7b;
+    height: 50px;
+  }
+}

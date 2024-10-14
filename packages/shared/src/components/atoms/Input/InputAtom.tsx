@@ -16,6 +16,7 @@ export interface InputAtomProps extends TextInputProps {
   touched?: boolean;
   errorMessage?: string;
   children?: React.ReactElement;
+  placeholderTextColor?: string;
 }
 
 export const InputAtom: React.FC<InputAtomProps> = ({
@@ -29,6 +30,7 @@ export const InputAtom: React.FC<InputAtomProps> = ({
   touched,
   errorMessage,
   children,
+  placeholderTextColor = colorPresets.GRAY,
   ...rest
 }) => {
   const [width, setWidth] = React.useState(WINDOW_WIDTH - mScale.lg3);
@@ -41,7 +43,13 @@ export const InputAtom: React.FC<InputAtomProps> = ({
     shape === "circle" ? mScale.xxl : shape === "square" ? mScale.md : 0;
   return (
     <View>
-      {label ? <TextAtom text={label} preset="medium" /> : null}
+      {label ? (
+        <TextAtom
+          text={label}
+          preset="title"
+          style={{ color: colorPresets.CTA }}
+        />
+      ) : null}
       <View
         onLayout={(event) => {
           const { width, height } = event.nativeEvent.layout;
@@ -50,6 +58,7 @@ export const InputAtom: React.FC<InputAtomProps> = ({
         }}
         style={{
           borderRadius: radius,
+          marginVertical: 10,
         }}
       >
         <View style={{ ...StyleSheet.absoluteFillObject, zIndex: -1 }}>
@@ -70,7 +79,7 @@ export const InputAtom: React.FC<InputAtomProps> = ({
         >
           <TextInput
             {...rest}
-            placeholderTextColor={colorPresets.GRAY}
+            placeholderTextColor={placeholderTextColor}
             style={[
               style,
               inputStyle,

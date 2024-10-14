@@ -14,8 +14,12 @@ export const signIn = createAsyncThunk<
   { state: RootState }
 >("auth/signin", async (params, thunkApi) => {
   try {
+    console.log(JSON.stringify(params));
     const response = await fetch(apiUrl.AUTH.LOGIN, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(params),
     });
 
@@ -31,10 +35,13 @@ export const signUp = createAsyncThunk<
   AuthResponse,
   SignupParams,
   { state: RootState }
->("auth/signin", async (params, thunkApi) => {
+>("auth/signup", async (params, thunkApi) => {
   try {
     const response = await fetch(apiUrl.AUTH.SIGNUP, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(params),
     });
 
@@ -50,10 +57,13 @@ export const forgotPassword = createAsyncThunk<
   AuthResponse,
   { email: string },
   { state: RootState }
->("auth/signin", async (params, thunkApi) => {
+>("auth/forgot", async (params, thunkApi) => {
   try {
     const response = await fetch(apiUrl.AUTH.FORGOT, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(params),
     });
 
@@ -69,10 +79,13 @@ export const confirmPassword = createAsyncThunk<
   AuthResponse,
   UpdatePasswordParams,
   { state: RootState }
->("auth/signin", async (params, thunkApi) => {
+>("auth/confirm", async (params, thunkApi) => {
   try {
     const response = await fetch(apiUrl.AUTH.FORGOTCONFIRM, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(params),
     });
 

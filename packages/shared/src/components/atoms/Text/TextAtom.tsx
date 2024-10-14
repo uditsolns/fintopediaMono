@@ -1,13 +1,14 @@
 import * as React from "react";
-import { Text, TextProps, View } from "react-native";
+import { Text, TextProps, View,TextStyle, StyleProp, ViewStyle } from "react-native";
 import { TextPresetType, TextPresets } from "./TextPresets";
 import { colorPresets } from "../../../theme/color";
 
 interface TextAtomProps extends TextProps {
-  text: string;
+  text?: string;
   translation?: string;
   preset?: TextPresetType;
   className?: string;
+  style?:StyleProp<TextStyle> | StyleProp<ViewStyle>
 }
 
 export const TextAtom: React.FC<TextAtomProps> = ({
@@ -20,7 +21,7 @@ export const TextAtom: React.FC<TextAtomProps> = ({
   return (
     <View>
       <Text
-        style={textStyle}
+        style={[textStyle]}
         {...rest}
         allowFontScaling={false}
         textBreakStrategy="simple"

@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthState } from "../../../utils/types/auth";
 import {
   confirmPassword,
   forgotPassword,
   signIn,
   signUp,
 } from "../services/auth.service";
+import { AuthState } from "../../../utils/types/auth";
 
 const initialState: AuthState = {
   loading: {

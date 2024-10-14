@@ -27,6 +27,10 @@ export type Paramkeys =
   | "role"
   | "password"
   | "password_confirmation"
-  | "email";
+  | "email"
+  | "college"
+  | "token"
+  | "password"
+  | "password_confirmation";
 
 export type ModelParams = Record<Paramkeys, FormModel>;

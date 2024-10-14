@@ -10,50 +10,57 @@ type SignupField = Pick<
   | "password"
   | "password_confirmation"
   | "email"
+  | "college"
 >;
 
 export const signupField: SignupField = {
   first_name: {
     name: "first_name",
-    label: "first_name",
-    placeHolder: "first_name",
-    requiredErr: "first_name is required",
+    label: "Name",
+    placeHolder: "Enter your name",
+    requiredErr: "Name is required",
   },
   surname_name: {
     name: "surname_name",
-    label: "surname_name",
-    placeHolder: "surname_name",
-    requiredErr: "surname_name is required",
-  },
-  phone: {
-    name: "phone",
-    label: "phone",
-    placeHolder: "phone",
-    requiredErr: "phone is required",
-  },
-  password: {
-    name: "password",
-    label: "password",
-    placeHolder: "password",
-    requiredErr: "password is required",
-  },
-  role: {
-    name: "role",
-    label: "role",
-    placeHolder: "role",
-    requiredErr: "role is required",
-  },
-  password_confirmation: {
-    name: "password_confirmation",
-    label: "password_confirmation",
-    placeHolder: "password_confirmation",
-    requiredErr: "password_confirmation is required",
+    label: "Surname",
+    placeHolder: "Enter your surname",
+    requiredErr: "Surname is required",
   },
   email: {
     name: "email",
-    label: "email",
-    placeHolder: "email",
-    requiredErr: "email is required",
+    label: "Email",
+    placeHolder: "Email your email id",
+    requiredErr: "Email is required",
+  },
+  phone: {
+    name: "phone",
+    label: "Phone",
+    placeHolder: "Enter your phone number",
+    requiredErr: "Phone number is required",
+  },
+  role: {
+    name: "role",
+    label: "Role",
+    placeHolder: "Role",
+    requiredErr: "Role is required",
+  },
+  password: {
+    name: "password",
+    label: "Password",
+    placeHolder: "Enter your password",
+    requiredErr: "Password is required",
+  },
+  password_confirmation: {
+    name: "password_confirmation",
+    label: "Confirm Password",
+    placeHolder: "Enter your confirm password",
+    requiredErr: "Confirm Password is required",
+  },
+  college: {
+    name: "college",
+    label: "College/University",
+    placeHolder: "Select your college/university",
+    requiredErr: "College/University is required",
   },
 };
 
@@ -64,11 +71,12 @@ export type SignupValues = {
 export const SIGNUP_VALUES = {
   [signupField.first_name.name]: "",
   [signupField.surname_name.name]: "",
+  [signupField.email.name]: "",
   [signupField.phone.name]: "",
   [signupField.role.name]: "",
   [signupField.password.name]: "",
   [signupField.password_confirmation.name]: "",
-  [signupField.email.name]: "",
+  [signupField.college.name]: "",
 };
 
 export const signupValidation = Yup.object().shape({
@@ -78,6 +86,9 @@ export const signupValidation = Yup.object().shape({
   [signupField.surname_name.name]: Yup.string().required(
     `${signupField.surname_name.requiredErr}`
   ),
+  [signupField.email.name]: Yup.string()
+    .email("Invalid email")
+    .required(`${signupField.email.requiredErr}`),
   [signupField.phone.name]: Yup.number().required(
     `${signupField.phone.requiredErr}`
   ),
@@ -87,10 +98,11 @@ export const signupValidation = Yup.object().shape({
   [signupField.password.name]: Yup.string().required(
     `${signupField.password.requiredErr}`
   ),
-  [signupField.password_confirmation.name]: Yup.string().required(
-    `${signupField.password_confirmation.requiredErr}`
-  ),
-  [signupField.email.name]: Yup.string()
-    .email("Invalid email")
-    .required(`${signupField.email.requiredErr}`),
+  [signupField.password_confirmation.name]: Yup.string()
+    .required(`${signupField.password_confirmation.requiredErr}`)
+    .oneOf(
+      [Yup.ref(`${signupField.password.name}`), ""],
+      "Passwords must match"
+    ),
+  [signupField.college.name]: Yup.string(),
 });

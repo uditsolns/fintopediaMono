@@ -17,13 +17,14 @@ export const useSignupHelper = () => {
       let data: SignupParams = {
         phone: values.phone,
         password: values.password,
-        college_id: "",
+        college_id: values.college,
         email: values.email,
         first_name: values.first_name,
         password_confirmation: values.password_confirmation,
         role: values.role,
         surname_name: values.surname_name,
       };
+      console.log("signup data ", data);
       dispatch(signUp(data));
     },
   });
@@ -42,6 +43,7 @@ export const useSignupHelper = () => {
     key: dataType
   ): Partial<Record<keyof InputAtomProps, any>> => {
     return {
+      id: key,
       value: values[key],
       error: _onError(key),
       errorMessage: _onError(key),
@@ -49,6 +51,7 @@ export const useSignupHelper = () => {
       returnKeyType: "next",
       touched: touched[key] || false,
       onChangeText: handleChange(key),
+      onChange: handleChange(key),
     };
   };
 

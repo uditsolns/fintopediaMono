@@ -12,4 +12,5 @@ export const colorPresets = {
   OFFBLACK: "#141622",
   ERROR: "#FA6777",
   TRANSPARENT: "transparent",
+  BLACK:"#000"
 };

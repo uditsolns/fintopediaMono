@@ -9,12 +9,12 @@ const BASE_VIEW: ViewStyle = {
   justifyContent: "center",
   paddingHorizontal: mScale.base,
   paddingVertical: mScale.md3,
-  marginVertical: mScale.md,
+  marginVertical: mScale.xs,
   borderRadius: mScale.sm,
 };
 
 const BASE_TEXT: TextStyle = {
-  ...fontPresets.bodyBold,
+  ...fontPresets.titleBold,
 };
 
 export const Presets = {
@@ -23,11 +23,16 @@ export const Presets = {
     ...BASE_VIEW,
     backgroundColor: colorPresets.BG,
   } as ViewStyle,
+  
   tertiary: {
     ...BASE_VIEW,
     backgroundColor: colorPresets.BG,
     marginVertical: moderateScale(1.5),
     marginHorizontal: moderateScale(1.5),
+  } as ViewStyle,
+  fourthy: {
+    ...BASE_VIEW,
+    backgroundColor: colorPresets.PRIMARY,
   } as ViewStyle,
   disabled: {
     ...BASE_VIEW,
@@ -39,6 +44,7 @@ export const ButtonText = {
   primary: { ...BASE_TEXT, color: colorPresets.OFFBLACK } as TextStyle,
   secondary: { ...BASE_TEXT } as TextStyle,
   tertiary: { ...BASE_TEXT } as TextStyle,
+  fourthy : {...BASE_TEXT} as TextStyle,
   disabled: { ...BASE_TEXT } as TextStyle,
 };
 

@@ -5,11 +5,24 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./store/store";
 import { ToastProvider } from "react-native-toast-notifications";
 import { ToastMolecule } from "../components/molecules/Toast/ToastMolecule";
+import { ToastProps } from "react-native-toast-notifications/lib/typescript/toast";
+import { Platform } from "react-native";
+import { ToastContainer } from "react-toastify";
 interface AppProviderProps {
   children: React.ReactNode;
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+  if (Platform.OS === "web") {
+    return (
+      <Provider store={store}>
+        <PersistGate persistor={persistor} loading={null}>
+          {children}
+        </PersistGate>
+        <ToastContainer />
+      </Provider>
+    );
+  }
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
@@ -17,7 +30,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           placement="bottom"
           offsetTop={80}
           offsetBottom={40}
-          renderToast={(toast: any) => <ToastMolecule {...toast} />}
+          renderToast={(toast: ToastProps) => <ToastMolecule {...toast} />}
         >
           {children}
         </ToastProvider>
