@@ -12,7 +12,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
-import LightLoading from "@src/components/loader/LightLoading";
+import LightLoading from "@src/components/loader/LoadingAtom";
 import { resetTransaction } from "shared/src/provider/store/reducers/transactions.reducer";
 import { toast } from "react-toastify";
 import { getGameUserByLoginIDGameID } from "shared/src/provider/store/services/gameusers.service";

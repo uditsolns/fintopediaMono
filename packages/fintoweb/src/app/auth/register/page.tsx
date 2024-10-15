@@ -111,9 +111,10 @@ const Register: React.FC = () => {
                       label={signupField.college.label}
                       placeholder={signupField.college.placeHolder}
                       {...signupInputProps(signupField.college.name)}
-                      options={[{ value: "User", label: "User" }]}
-
-                      // options={college}
+                      options={college.map((c) => ({
+                        value: c.id,
+                        label: c.name,
+                      }))}
                     />
                   </Col>
                 </Row>

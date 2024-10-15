@@ -2,10 +2,10 @@ import React from "react";
 import styles from "./CoursepageMolecule.module.css";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import { Card, CardBody, CardTitle } from "reactstrap";
-import { TbAntennaBars1 } from "react-icons/tb";
 import { FaClock } from "react-icons/fa";
 import Image from "next/image";
 import { imageUrl } from "shared/src/config/imageUrl";
+import ProgressBar from "@src/components/progress/ProgressBar";
 
 interface CoursepageMoleculeProps {
   course?: CoursesResponse;
@@ -31,7 +31,7 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
           </CardTitle>
           <div className={styles.iconRow}>
             <div className={styles.iconText}>
-              <TbAntennaBars1 className={styles.icon} /> Beginner
+              <ProgressBar level={course.course_type} />
             </div>
             <div className={styles.iconText}>
               <FaClock className={styles.icon} /> 20 Hours

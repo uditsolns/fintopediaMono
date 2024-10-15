@@ -18,7 +18,7 @@ import {
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import { imageUrl } from "shared/src/config/imageUrl";
-import LightLoading from "@src/components/loader/LightLoading";
+import LightLoading from "@src/components/loader/LoadingAtom";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { capitalizeAndTruncate } from "@src/components/capitalizeAndTruncate/capitalizeAndTruncate";

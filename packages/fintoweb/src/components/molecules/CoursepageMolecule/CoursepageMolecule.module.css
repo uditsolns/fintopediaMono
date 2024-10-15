@@ -1,103 +1,102 @@
-
 .card {
-    color: #fff !important;
-    overflow: hidden;
-    margin: 10px;
-    background-color: #000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  .cardImage {
-    height: auto;
-  }
-  .cardContent {
-    padding: 16px;
-  }
-  
-  .cardTitle {
-    color: #fff;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 120%;
-    align-self: stretch;
-  }
-  
-  .cardDescription {
-    font-size: 1rem;
-    color: #666;
-  }
-  .iconRow {
-    display: flex;
-    justify-content: space-between;
-    margin: 8px 0;
-    overflow: hidden;
-    color: #fff;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%;
-  }
-  
-  .iconText {
-    display: flex;
-    align-items: center;
-  }
-  
-  .icon {
-    margin-right: 8px;
-  }
-  .cardRating {
-    display: inline-flex;
-    align-items: center;
-  }
-  .cardRating svg {
-    color: #ffa11a;
-    gap: 5px;
-  }
-  .priceContainer {
-    display: flex;
-    align-items: center;
-    margin: 8px 0;
-  }
-  .priceContainer h3 {
-    color: #fff;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%;
-  }
-  .priceContainer s {
-    color: #71717a;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 120%;
-    text-decoration-line: strikethrough;
-    margin-left: 10px;
-  }
-  
-  .addToCartButton {
-    display: flex;
-    width: 127.352px;
-    padding: 10.872px 18.637px;
-    justify-content: center;
-    align-items: center;
-    gap: 7.765px;
-    flex-shrink: 0;
-    border-radius: 3.106px;
-    background: #fff;
-    color: #0c0c0c;
-    font-size: 12px;
-    font-style: normal;
-    margin-left: auto;
-    font-weight: 700;
-    line-height: normal;
-    letter-spacing: -0.12px;
-  }
-  .addToCartButton:hover {
-    background-color: #ccc;
-  }
-  .featureCourses {
-    padding: 50px;
-    background: #0e121d;
-  }
+  color: #fff !important;
+  overflow: hidden;
+  margin: 10px;
+  background-color: #000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.cardImage {
+  height: auto;
+}
+.cardContent {
+  padding: 16px;
+}
+
+.cardTitle {
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  align-self: stretch;
+}
+
+.cardDescription {
+  font-size: 1rem;
+  color: #666;
+}
+.iconRow {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  overflow: hidden;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+
+.iconText {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 8px;
+}
+.cardRating {
+  display: inline-flex;
+  align-items: center;
+}
+.cardRating svg {
+  color: #ffa11a;
+  gap: 5px;
+}
+.priceContainer {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+.priceContainer h3 {
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+.priceContainer s {
+  color: #71717a;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  text-decoration-line: strikethrough;
+  margin-left: 10px;
+}
+
+.addToCartButton {
+  display: flex;
+  width: 127.352px;
+  padding: 10.872px 18.637px;
+  justify-content: center;
+  align-items: center;
+  gap: 7.765px;
+  flex-shrink: 0;
+  border-radius: 3.106px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 12px;
+  font-style: normal;
+  margin-left: auto;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.12px;
+}
+.addToCartButton:hover {
+  background-color: #ccc;
+}
+.featureCourses {
+  padding: 50px;
+  background: #0e121d;
+}

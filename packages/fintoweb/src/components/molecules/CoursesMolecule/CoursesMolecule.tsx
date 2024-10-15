@@ -3,6 +3,7 @@ import styles from "./CoursesMolecule.module.css";
 import { imageUrl } from "shared/src/config/imageUrl";
 import Image from "next/image";
 import { CoursesResponse } from "shared/src/utils/types/courses";
+import ProgressBar from "@src/components/progress/ProgressBar";
 
 interface CoursesMoleculeProps {
   course?: CoursesResponse;
@@ -64,7 +65,7 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
       <div className={styles.cardContent}>
         <h2 className={styles.courseTitle}>{course.name}</h2>
         <div className={styles.details}>
-          <span>Begginer</span>
+          <ProgressBar level={course.course_type} />
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +117,9 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
             <span className={styles.price}>₹{course.sale_price}</span>
             <span className={styles.originalPrice}>₹{course.actual_price}</span>
           </div>
-          <button className={styles.button} onClick={onClick}>Add to cart</button>
+          <button className={styles.button} onClick={onClick}>
+            Add to cart
+          </button>
         </div>
       </div>
     </div>

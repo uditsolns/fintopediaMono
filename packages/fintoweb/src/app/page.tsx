@@ -18,7 +18,7 @@ import {
 import Login from "./auth/login/page";
 import { getCourses } from "shared/src/provider/store/services/courses.service";
 import { getCategories } from "shared/src/provider/store/services/categories.service";
-import CircularLoading from "@src/components/loader/LightLoading";
+import CircularLoading from "@src/components/loader/LoadingAtom";
 
 // const Homepage = dynamic(() => import("./homepage/Homepage"), {
 //   ssr: false,

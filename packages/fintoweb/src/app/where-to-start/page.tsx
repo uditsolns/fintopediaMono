@@ -11,7 +11,7 @@ import {
 } from "shared/src/provider/store/types/storeTypes";
 import { getCourses } from "shared/src/provider/store/services/courses.service";
 import { getCategories } from "shared/src/provider/store/services/categories.service";
-import CircularLoading from "@src/components/loader/LightLoading";
+import CircularLoading from "@src/components/loader/LoadingAtom";
 import CoursesMolecule from "@src/components/molecules/CoursesMolecule/CoursesMolecule";
 import ButtonWithIcons from "@src/components/button/ButtonWithIcons";
 

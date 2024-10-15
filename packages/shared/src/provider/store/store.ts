@@ -21,7 +21,7 @@ import transactionsReducer from "./reducers/transactions.reducer";
 import userTransactionsReducer from "./reducers/usertransactions.reducer";
 import courseCartReducer from "./reducers/CourseCart.reducer";
 import coursesRatingReviewsReducer from "./reducers/CoursesRatingReviews.reducer";
-import purchaseHistoryReducer from "./reducers/PurchaseHistory.reducer";
+import purchaseHistoryReducer from "./reducers/purchasehistory.reducer";
 import userCertificateReducer from "./reducers/UserCertificate.reducer";
 import userCourseHistoryReducer from "./reducers/UserCourseHistory.reducer";
 import startGameReducer from "./reducers/startgame.reducer";

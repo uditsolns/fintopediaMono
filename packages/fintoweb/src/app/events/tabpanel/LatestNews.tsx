@@ -15,7 +15,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
-import LightLoading from "@src/components/loader/LightLoading";
+import LightLoading from "@src/components/loader/LoadingAtom";
 
 const LatestNews: React.FC = () => {
   const dispatch = useAppDispatch();

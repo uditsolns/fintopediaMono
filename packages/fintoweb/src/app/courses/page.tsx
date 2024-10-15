@@ -30,7 +30,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
-import CircularLoading from "@src/components/loader/LightLoading";
+import CircularLoading from "@src/components/loader/LoadingAtom";
 
 interface RegisterFormValues {
   college_id: string;
