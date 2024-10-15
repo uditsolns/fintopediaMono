@@ -6,7 +6,6 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import CourseMolecule from '@src/components/molecules/CourseMolecule/CourseMolecule';
 import TagsAtom from '@src/components/TagsAtom';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
@@ -15,20 +14,26 @@ import {FlatList, Text, View} from 'react-native';
 import {CategoriesArr} from '../auth/Signup';
 import SortbyAtom from '@src/components/SortbyAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
-import { CoursesResponse } from '@shared/src/utils/types/courses';
-import { NavType } from '@src/navigation/types';
-import { useAppDispatch, useAppSelector } from '@shared/src/provider/store/types/storeTypes';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
+import {NavType} from '@src/navigation/types';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
 
 interface SearchProps extends NavType<'Search'> {}
 
 export const Search: React.FC<SearchProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
+  const {categories} = useAppSelector(state => state.categories);
+
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
   );
   const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
     courses?.length ? courses : [],
   );
+  const [search, setSearch] = React.useState<string>('');
 
   React.useEffect(() => {
     if (courses?.length) {
@@ -40,7 +45,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <View style={{width: WINDOW_WIDTH * 0.8,}}>
+          <View style={{width: WINDOW_WIDTH * 0.8}}>
             <InputAtom
               shape="square"
               placeholder="Search courses"
@@ -49,14 +54,32 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
               }
               autoCapitalize="none"
               style={{width: WINDOW_WIDTH}}
+              value={search}
+              onChangeText={text => filterSearchByStockName(text)}
             />
           </View>
         );
       },
     });
-  }, []);
+  }, [search]);
 
-  const renderItem = ({item}:{item:CoursesResponse}) => {
+  const filterSearchByStockName = (searchText: string) => {
+    if (searchText) {
+      const filtered = courses?.filter(item => {
+        const matchesName = item?.name
+          ?.toLowerCase()
+          .includes(searchText.toLowerCase());
+        return matchesName;
+      });
+      setSearch(searchText);
+      setFilterCourses(filtered);
+    } else {
+      setFilterCourses(courses);
+      setSearch(searchText);
+    }
+  };
+
+  const renderItem = ({item}: {item: CoursesResponse}) => {
     return (
       <View style={{paddingLeft: mScale.base, paddingRight: mScale.md}}>
         <CourseMolecule item={item} />
@@ -64,7 +87,12 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
     );
   };
   return (
-    <GradientTemplate style={{paddingHorizontal: 0, paddingBottom: 0,paddingTop:moderateScale(75)}}>
+    <GradientTemplate
+      style={{
+        paddingHorizontal: 0,
+        paddingBottom: 0,
+        paddingTop: moderateScale(75),
+      }}>
       <FlatList
         data={filterCourses?.length ? filterCourses : []}
         renderItem={renderItem}
@@ -109,24 +137,32 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
           </View>
         }
         ListFooterComponent={
-          <View
-            style={{
-              marginTop: mScale.md,
-              paddingLeft: mScale.base,
-              paddingRight: mScale.md,
-            }}>
-            <ViewAll
-              title="Top Searches"
-              visible={false}
-              paddingHorizontal={0}
-            />
-            <View
-              style={{flexDirection: 'row', flexWrap: 'wrap', gap: mScale.md}}>
-              {CategoriesArr.map((data, index) => {
-                return <TagsAtom title={data?.name} key={index} />;
-              })}
-            </View>
-          </View>
+          <>
+            {false && (
+              <View
+                style={{
+                  marginTop: mScale.md,
+                  paddingLeft: mScale.base,
+                  paddingRight: mScale.md,
+                }}>
+                <ViewAll
+                  title="Top Searches"
+                  visible={false}
+                  paddingHorizontal={0}
+                />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    gap: mScale.md,
+                  }}>
+                  {categories?.map((data, index) => {
+                    return <TagsAtom title={data?.category_name} key={index} />;
+                  })}
+                </View>
+              </View>
+            )}
+          </>
         }
       />
     </GradientTemplate>

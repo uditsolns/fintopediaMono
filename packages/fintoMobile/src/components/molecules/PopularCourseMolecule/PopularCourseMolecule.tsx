@@ -1,10 +1,10 @@
-import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { imageUrl } from '@shared/src/config/imageUrl';
-import { colorPresets } from '@shared/src/theme/color';
-import { moderateScale, mScale } from '@shared/src/theme/metrics';
-import { CoursesResponse } from '@shared/src/utils/types/courses';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {imageUrl} from '@shared/src/config/imageUrl';
+import {colorPresets} from '@shared/src/theme/color';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
 import CoursePrice from '@src/components/CoursePrice';
 import ProgressBar from '@src/components/ProgressBar';
 import RatingReview from '@src/components/RatingReview';
@@ -19,15 +19,17 @@ interface PopularCourseMoleculeProps {
 export default function PopularCourseMolecule({
   item,
   onPress,
+  ...rest
 }: PopularCourseMoleculeProps) {
   return (
-    <Pressable style={styles.activePlanDetails} onPress={onPress}>
+    <Pressable style={styles.activePlanDetails} {...rest}>
       <View>
         <ImageAtom
           sourceRequire={
             item?.course_image
-              ? {uri: `${imageUrl}/uploads/course_images/${item.course_image}`}
-              : require('@shared/src/assets/img/coursePlaceHolder.png')}
+              ? {uri: `${imageUrl}/uploads/course_images/${item?.course_image}`}
+              : require('@shared/src/assets/img/coursePlaceHolder.png')
+          }
           imageStyle={styles.image}
           resizeMode="contain"
         />
@@ -44,8 +46,11 @@ export default function PopularCourseMolecule({
         <TextAtom text={item?.name} preset="heading2" />
         <ProgressBar level={'intermediate'} hours={36} />
         <RatingReview rating={4.6} review={1000} />
-        <CoursePrice price={item?.sale_price} discount_price={item?.actual_price} />
-        <ButtonAtom title='Add to cart' />
+        <CoursePrice
+          price={item?.sale_price}
+          discount_price={item?.actual_price}
+        />
+        <ButtonAtom title="Add to cart" onPress={onPress} />
       </View>
     </Pressable>
   );

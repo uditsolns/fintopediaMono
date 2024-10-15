@@ -153,4 +153,58 @@ export default {
     UPDATE: buildUrl("start-game"),
     DELETE: buildUrl("start-game"),
   },
+  SEARCH_COURSES: {
+    GET: buildUrl("search-courses"),
+    POST: buildUrl("search-courses"),
+    UPDATE: buildUrl("search-courses"),
+    DELETE: buildUrl("search-courses"),
+  },
+  PREVIOUS_VIEW_COURSES: {
+    GET: buildUrl("previous-view-courses"),
+    POST: buildUrl("previous-view-courses"),
+    UPDATE: buildUrl("previous-view-courses"),
+    DELETE: buildUrl("previous-view-courses"),
+  },
+  ONGOING_COURSES: {
+    GET: buildUrl("ongoing-courses"),
+    POST: buildUrl("ongoing-courses"),
+    UPDATE: buildUrl("ongoing-courses"),
+    DELETE: buildUrl("ongoing-courses"),
+  },
+  COMPLETED_COURSES: {
+    GET: buildUrl("completed-courses"),
+    POST: buildUrl("completed-courses"),
+    UPDATE: buildUrl("completed-courses"),
+    DELETE: buildUrl("completed-courses"),
+  },
+  COUPON_CODE: {
+    GET: buildUrl("completed-courses"),
+    POST: buildUrl("completed-courses"),
+    UPDATE: buildUrl("completed-courses"),
+    DELETE: buildUrl("completed-courses"),
+  },
+  COURSE_NOTES: {
+    GET: buildUrl("course-notes"),
+    POST: buildUrl("course-notes"),
+    UPDATE: buildUrl("course-notes"),
+    DELETE: buildUrl("course-notes"),
+  },
+  COURSE_REVIEW: {
+    GET: buildUrl("course-review"),
+    POST: buildUrl("course-review"),
+    UPDATE: buildUrl("course-review"),
+    DELETE: buildUrl("course-review"),
+  },
+  COURSE_UPLOAD_FILE: {
+    GET: buildUrl("course-upload-file"),
+    POST: buildUrl("course-upload-file"),
+    UPDATE: buildUrl("course-upload-file"),
+    DELETE: buildUrl("course-upload-file"),
+  },
+  COURSE_SECTION: {
+    GET: buildUrl("course-section"),
+    POST: buildUrl("course-section"),
+    UPDATE: buildUrl("course-section"),
+    DELETE: buildUrl("course-section"),
+  },
 };

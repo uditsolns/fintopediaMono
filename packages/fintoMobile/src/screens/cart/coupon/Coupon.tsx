@@ -1,30 +1,37 @@
 import {commonStyle} from '@shared/src/commonStyle';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {fontPresets} from '@shared/src/theme/typography';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import CouponMolecule from '@src/components/molecules/CouponMolecule/CouponMolecule';
 import SeparatorAtom from '@src/components/SeperatorAtom';
+import {NavType} from '@src/navigation/types';
 import React from 'react';
 import {FlatList, TextInput, TouchableOpacity, View} from 'react-native';
 
-interface CouponProps {}
+interface CouponProps extends NavType<'Coupon'> {}
 
 export const Coupon: React.FunctionComponent<CouponProps> = () => {
-  const renderItem = ({item}) => {
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {}, []);
+  const renderItem = ({item}: {item: any}) => {
     return <CouponMolecule item={item} />;
   };
   return (
-    <GradientTemplate style={{paddingBottom: 0}}>
-      <HeaderLeftMolecule text={'Coupon codes'} />
+    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70)}}>
       <FlatList
         data={[...Array(5)]}
         renderItem={renderItem}
         ListHeaderComponent={
           <View>
-            <View style={[commonStyle.flexSpaceBetween]}>
+            <View
+              style={[commonStyle.flexSpaceBetween, {marginTop: mScale.base}]}>
               <TextInput
                 placeholder="Enter promo code"
                 placeholderTextColor={colorPresets.CTA}
@@ -51,12 +58,12 @@ export const Coupon: React.FunctionComponent<CouponProps> = () => {
                   alignItems: 'center',
                   borderTopRightRadius: 8,
                   borderBottomRightRadius: 8,
-                  marginStart:-5
+                  marginStart: -5,
                 }}>
                 <TextAtom
                   text={'Apply'}
                   preset="titleBold"
-                  style={{color:colorPresets.BLACK}}
+                  style={{color: colorPresets.BLACK}}
                 />
               </TouchableOpacity>
             </View>

@@ -1,31 +1,36 @@
-import {useNavigation} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
-import {mScale} from '@shared/src/theme/metrics';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CheckoutStep} from '@src/components/CheckoutStep';
 import {GrandTotalPrice} from '@src/components/GrandTotalPrice';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
+import {NavType} from '@src/navigation/types';
 import React from 'react';
 import {View} from 'react-native';
-interface BillingProps {}
 
-export const Billing: React.FunctionComponent<BillingProps> = () => {
-  const navigation = useNavigation();
+interface BillingProps extends NavType<'Billing'> {}
+
+export const Billing: React.FunctionComponent<BillingProps> = ({
+  navigation,
+}) => {
+  const routes = useRoute<any>();
+  let cartData = routes?.params?.cartData;
+  const {current_user} = useAppSelector(state => state.auth);
   return (
     <GradientTemplate
       style={{
         paddingBottom: 0,
         paddingHorizontal: 0,
+        paddingTop: moderateScale(70),
       }}>
-      <View style={{paddingHorizontal: mScale.base}}>
-        <HeaderLeftMolecule text={'Billing'} />
-      </View>
       <ScrollViewAtom>
         <View>
           <CheckoutStep activeStep={2} />
@@ -35,6 +40,8 @@ export const Billing: React.FunctionComponent<BillingProps> = () => {
                 shape="square"
                 label="Name*"
                 placeholder="Enter your name"
+                value={`${current_user?.first_name} ${current_user?.surname_name} `}
+                editable={false}
               />
             </View>
             <View style={{marginBottom: mScale.lg}}>
@@ -43,22 +50,27 @@ export const Billing: React.FunctionComponent<BillingProps> = () => {
                 label="Phone number *"
                 placeholder="Enter your phone number"
                 keyboardType="numeric"
+                value={`${current_user?.phone}`}
+                editable={false}
               />
             </View>
             <View style={{marginBottom: mScale.lg}}>
               <InputAtom
                 shape="square"
-                label="Address"
-                placeholder={'Enter your address'}
-                multiline={true}
+                label="Email"
+                placeholder={'Enter your email'}
+                value={`${current_user?.email}`}
+                editable={false}
               />
             </View>
             <View style={{marginBottom: mScale.lg}}>
               <InputAtom
                 shape="square"
                 label={'Location'}
-                placeholder={'Enter your location'}
+                placeholder={'Location'}
                 multiline={true}
+                value={`${current_user?.res_address || ''}`}
+                editable={false}
               />
             </View>
 
@@ -80,7 +92,7 @@ export const Billing: React.FunctionComponent<BillingProps> = () => {
                   'Note: You need to fill all the optional details within 24 hours of checkout'
                 }
                 preset="medium"
-                style={{flex:1,padding:mScale.md}}
+                style={{flex: 1, padding: mScale.md}}
               />
             </View>
           </View>
@@ -88,11 +100,11 @@ export const Billing: React.FunctionComponent<BillingProps> = () => {
       </ScrollViewAtom>
       <GrandTotalPrice
         btnTitle="Pay now"
-        itemCount={5}
-        price={'7,000'}
-        discount_price={'5,00'}
-        onPress={()=>{
-          navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN)
+        itemCount={cartData?.totalItem}
+        price={cartData?.totalPay}
+        discount_price={cartData?.totalDiscount}
+        onPress={() => {
+          navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN);
         }}
       />
     </GradientTemplate>

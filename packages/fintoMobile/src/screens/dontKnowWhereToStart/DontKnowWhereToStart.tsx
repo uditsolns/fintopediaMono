@@ -3,11 +3,9 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import Dropdown from '@src/components/Dropdown/Dropdown';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import React from 'react';
 import {FlatList, TextStyle, View} from 'react-native';
-import {CategoriesArr} from '../auth/Signup';
 import {colorPresets} from '@shared/src/theme/color';
 import GroupRadioButton from '@src/components/GroupRadioButton';
 import {
@@ -16,6 +14,7 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {NavType} from '@src/navigation/types';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 
 const options = [
   {label: 'Beginner', value: 'beginner'},
@@ -107,7 +106,7 @@ export const DontKnowWhereToStart: React.FunctionComponent<
                 selectedValue="beginner"
               />
             </View>
-            {/* <SmallButtonAtom btnTitle={'Let’s go'} preset={'mediumBold'} /> */}
+            <ButtonAtom title={'Let’s go'} />
             <View style={{marginTop: mScale.xxl}}>
               <TextAtom
                 text={`Become a Finance Manager\n in 3 months`}
