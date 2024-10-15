@@ -1,17 +1,16 @@
+import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
-import {imageUrl} from '@shared/src/config/imageUrl';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
-import {CoursesResponse} from '@shared/src/utils/types/courses';
 import ProgressBar from '@src/components/ProgressBar';
-import {RatingAtom} from '@src/components/RatingAtom';
+import { RatingAtom } from '@src/components/RatingAtom';
 import React from 'react';
 import {Pressable, StyleSheet, View, ViewStyle, ImageStyle} from 'react-native';
 
 interface CartMoleculeProps {
-  item?: CoursesResponse;
+  item?: any;
   onPress?: () => void;
   saveForLaterBoolean?: boolean;
 }
@@ -24,23 +23,18 @@ export default function CartMolecule({
   return (
     <View style={[commonStyle.flexStart, styles.container]}>
       <ImageAtom
-        sourceRequire={
-          item?.course_image
-            ? {uri: `${imageUrl}/uploads/course_images/${item?.course_image}`}
-            : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')
-        }
+        sourceRequire={require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')}
         imageStyle={styles.image}
-        resizeMode="stretch"
       />
       <View style={styles.content}>
         <View style={[commonStyle.flexSpaceBetween]}>
           <TextAtom
-            text={item?.name}
+            text="Swing Trading Basics"
             preset="titleBold"
             style={styles.boldText}
             numberOfLines={3}
           />
-          <TextAtom text={`₹ ${item?.sale_price}`} preset="titleBold" />
+          <TextAtom text={`₹ 2,5555`} preset="titleBold" />
         </View>
         <ProgressBar
           level="intermediate"
@@ -72,7 +66,7 @@ export default function CartMolecule({
               <TextAtom
                 text={'Save for later'}
                 preset="smallBold"
-                style={[commonStyle.underline, {color: colorPresets.PRIMARY}]}
+                style={[commonStyle.underline,{color:colorPresets.PRIMARY}]}
               />
             </Pressable>
           ) : null}
@@ -80,7 +74,7 @@ export default function CartMolecule({
             <TextAtom
               text={'Remove'}
               preset="smallBold"
-              style={[commonStyle.underline, {color: colorPresets.TERTIARY}]}
+              style={[commonStyle.underline,{color:colorPresets.TERTIARY}]}
             />
           </Pressable>
         </View>

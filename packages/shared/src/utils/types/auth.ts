@@ -18,8 +18,8 @@ export interface AuthState {
   token?: string | null;
   auth: AuthResponse | null;
   signup: AuthResponse | null;
-  forgot: any;
-  confirm: any;
+  forgot: null;
+  confirm: null;
   current_user: UserInfo | null;
 }
 
@@ -74,7 +74,7 @@ export interface UserInfo {
   is_google_login: string;
   feedback: null;
   college: null;
-  user_transactions?: UserTransactionsResponse[] | null;
+  user_transactions?:UserTransactionsResponse[] | null
 }
 
 export interface SignupParams {
@@ -87,6 +87,7 @@ export interface SignupParams {
   email: string;
   college_id: string;
 }
+
 
 export interface ForgotPasswordParams {
   email: string;
@@ -134,7 +135,7 @@ export interface UserUpdateParams {
 }
 
 export interface BuySellParams {
-  id?: number;
+  id?:number ;
   game_id?: number;
   user_id: number;
   stock_id: number;

@@ -1,52 +1,72 @@
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
-import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
-import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from '@shared/src/provider/store/types/storeTypes';
-import {colorPresets} from '@shared/src/theme/color';
-import {moderateScale, mScale} from '@shared/src/theme/metrics';
-import {CoursesResponse} from '@shared/src/utils/types/courses';
-import {getRandomItem} from '@src/components/Calculate';
+import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
+import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
+import { colorPresets } from '@shared/src/theme/color';
+import { mScale } from '@shared/src/theme/metrics';
 import Dropdown from '@src/components/Dropdown/Dropdown';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import TagsAtom from '@src/components/TagsAtom';
-import {ViewAll} from '@src/components/ViewAll/ViewAll';
-import {NavType} from '@src/navigation/types';
+import { ViewAll } from '@src/components/ViewAll/ViewAll';
 import * as React from 'react';
-import {FlatList, StyleSheet, View, ListRenderItem} from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  ListRenderItem,
+} from 'react-native';
 
-interface CourseCategoryProps extends NavType<'CourseCategory'> {}
-export default function CourseCategory({navigation}: CourseCategoryProps) {
-  const dispatch = useAppDispatch();
-  const {courses} = useAppSelector(state => state.courses);
-  const {categories} = useAppSelector(state => state.categories);
+interface Category {
+  id: number;
+  name: string;
+}
 
-  React.useEffect(() => {}, []);
+export const CategoriesArr: Category[] = [
+  {
+    id: 1,
+    name: 'Investment strategy',
+  },
+  {
+    id: 2,
+    name: 'Finance',
+  },
+  {
+    id: 3,
+    name: 'Mutual funds',
+  },
+  {
+    id: 4,
+    name: 'Stock trading',
+  },
+  {
+    id: 5,
+    name: 'Investment',
+  },
+  {
+    id: 6,
+    name: 'Money Market',
+  },
+];
 
-  const innerCategoriesCoursesRenderItem = ({
-    item,
-  }: {
-    item: CoursesResponse;
-  }) => {
+export default function CourseCategory() {
+  const innerCategoriesRenderItem: ListRenderItem<any> = ({item}) => {
     return <PopularCourseMolecule item={item} />;
   };
 
   return (
-    <GradientTemplate style={{paddingHorizontal: 0, paddingBottom: 0,paddingTop:moderateScale(70)}}>
+    <GradientTemplate style={{paddingHorizontal: 0, paddingBottom: 0}}>
+      <View style={{paddingHorizontal: mScale.base}}>
+        <HeaderLeftMolecule />
+      </View>
       <ScrollViewAtom nestedScrollEnabled={true}>
-        <View style={{marginBottom: mScale.xs}}>
+      <View style={{marginBottom: mScale.xs}}>
           <ViewAll title="All Categories" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
-            <View
+          <View
               style={{flexDirection: 'row', flexWrap: 'wrap', gap: mScale.md}}>
-              {getRandomItem(categories)
-                ?.slice(0, 5)
-                ?.map((data, index) => (
-                  <TagsAtom title={data?.category_name} key={index} />
-                ))}
+              {CategoriesArr.map((data, index) => (
+                <TagsAtom title={data?.name} key={index} />
+              ))}
             </View>
           </View>
         </View>
@@ -74,12 +94,12 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
               preset="medium"
               style={{textAlign: 'center', marginBottom: mScale.lg}}
             />
-
-            <Dropdown
-              dropdownItemArr={categories?.length ? categories : []}
-              itemLabelField="category_name"
+           
+             <Dropdown
+              dropdownItemArr={CategoriesArr}
+              itemLabelField="name"
               onSelect={item => {
-                console.log(item);
+                console.log(item)
               }}
               placeholder={'Select category'}
               dropdownBg="#121622"
@@ -92,8 +112,8 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
           <ViewAll title="Popular Courses" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={courses?.length ? courses : []}
-              renderItem={innerCategoriesCoursesRenderItem}
+              data={[...Array(5)]}
+              renderItem={innerCategoriesRenderItem}
               horizontal={true}
               contentContainerStyle={{
                 columnGap: 20,
@@ -109,8 +129,8 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
           <ViewAll title="Previously Viewed Courses" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={courses?.length ? courses : []}
-              renderItem={innerCategoriesCoursesRenderItem}
+              data={[...Array(5)]}
+              renderItem={innerCategoriesRenderItem}
               horizontal={true}
               contentContainerStyle={{
                 columnGap: 20,

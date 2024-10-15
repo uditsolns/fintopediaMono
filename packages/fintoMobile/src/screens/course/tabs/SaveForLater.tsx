@@ -1,27 +1,12 @@
-import {useNavigation} from '@react-navigation/native';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from '@shared/src/provider/store/types/storeTypes';
 import {mScale} from '@shared/src/theme/metrics';
-import {CoursesResponse} from '@shared/src/utils/types/courses';
 import GetStarted from '@src/components/GetStarted';
 import CourseMolecule from '@src/components/molecules/CourseMolecule/CourseMolecule';
-import { RouteKeys } from '@src/navigation/RouteKeys';
 import React from 'react';
 import {FlatList, View} from 'react-native';
 
 interface SaveForLaterInterface {}
 const SaveForLater: React.FunctionComponent<SaveForLaterInterface> = () => {
-  const navigation = useNavigation<any>();
-  const dispatch = useAppDispatch();
-  const {courses, loading: coursesLoading} = useAppSelector(
-    state => state.courses,
-  );
-
-  React.useEffect(() => {}, []);
-
-  const renderItem = ({item}: {item: CoursesResponse}) => {
+  const renderItem = ({item}: {item: any}) => {
     return (
       <View style={{paddingRight: mScale.base}}>
         <CourseMolecule item={item} />
@@ -29,10 +14,10 @@ const SaveForLater: React.FunctionComponent<SaveForLaterInterface> = () => {
     );
   };
   return (
-    <View style={{flex: 1, paddingTop: mScale.base}}>
+    <View style={{flex:1,paddingTop:mScale.base}}>
       <View style={{alignSelf: 'center', paddingLeft: mScale.base}}>
         <FlatList
-          data={courses?.length ? courses : []}
+          data={[...Array(10)]}
           renderItem={renderItem}
           contentContainerStyle={{
             rowGap: mScale.base,
@@ -45,7 +30,7 @@ const SaveForLater: React.FunctionComponent<SaveForLaterInterface> = () => {
               }}>
               <GetStarted
                 onPress={() => {
-                  navigation.navigate(RouteKeys.COUPONSCREEN)
+                  console.log('get started');
                 }}
                 btnTitle={'Redeem now'}
                 title={'Fintopedia Credits: 500'}

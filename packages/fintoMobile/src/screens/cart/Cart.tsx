@@ -1,7 +1,9 @@
 import React from 'react';
-import {FlatList, Pressable, RefreshControl, View} from 'react-native';
+import {FlatList, Pressable, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {mScale} from '@shared/src/theme/metrics';
+import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {commonStyle} from '@shared/src/commonStyle';
@@ -12,89 +14,28 @@ import CartMolecule from '@src/components/molecules/CartMolecule/CartMolecule';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import {Images} from '@shared/src/assets';
 import {RouteKeys} from '@src/navigation/RouteKeys';
-import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from '@shared/src/provider/store/types/storeTypes';
-import {NavType} from '@src/navigation/types';
-import {CoursesResponse} from '@shared/src/utils/types/courses';
-import {getCourses} from '@shared/src/provider/store/services/courses.service';
-import LoaderAtom from '@src/components/LoaderAtom';
-import {
-  addTwoNumber,
-  subtractTwoNumber,
-  sumCalculate,
-} from '@src/components/Calculate';
+import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
 
-interface CartProps extends NavType<'Cart'> {}
+interface CartProps {}
 
-export const Cart: React.FC<CartProps> = ({navigation}) => {
-  const dispatch = useAppDispatch();
-  const {courses, loading: coursesLoading} = useAppSelector(
-    state => state.courses,
-  );
-  const {courseCart, loading:courseCartLoading} = useAppSelector(
-    state => state.courseCart,
-  );
-  
-
-  const [refreshLoading, setRefreshLoading] = React.useState(false);
-  const [subtotal, setSubtotal] = React.useState<number>(0);
-  const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
-  const [totalPay, setTotalPay] = React.useState<number>(0);
-  const [gst, setGst] = React.useState<number>(100);
-
-  React.useEffect(() => {
-    // console.log(JSON.stringify(courseCart))
-    if (courses?.length) {
-      let sale_price = sumCalculate(courses, 'sale_price');
-      let actual_price = sumCalculate(courses, 'actual_price');
-      let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
-      let totalPayAmount = addTwoNumber(sale_price, gst);
-      setSubtotal(sale_price);
-      setTotalDiscount(totalDiscountAmount);
-      setTotalPay(totalPayAmount);
-    }
-  }, [courses]);
-
-  const onRefresh = () => {
-    setRefreshLoading(true);
-    dispatch(getCourses());
-    setRefreshLoading(false);
-  };
-
-  const renderItem = ({item}: {item: CoursesResponse}) => {
+export const Cart: React.FC<CartProps> = () => {
+  const navigation = useNavigation();
+  const renderItem = ({item}) => {
     return <CartMolecule item={item} />;
   };
 
-  const innerCategoriesCoursesRenderItem = ({
-    item,
-  }: {
-    item: CoursesResponse;
-  }) => {
+  const innerCategoriesRenderItem = ({item}) => {
     return <PopularCourseMolecule item={item} />;
   };
   return (
-    <GradientTemplate
-      style={{
-        paddingBottom: 0,
-        paddingHorizontal: 0,
-        paddingTop: moderateScale(70),
-      }}>
-      {coursesLoading?.courses || courseCartLoading?.courseCart ? (
-        <View style={commonStyle.fullPageLoading}>
-          <LoaderAtom size="large" />
-        </View>
-      ) : null}
-      <ScrollViewAtom
-        nestedScrollEnabled={true}
-        refreshControl={
-          <RefreshControl refreshing={refreshLoading} onRefresh={onRefresh} />
-        }>
+    <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0}}>
+      <View style={[{paddingHorizontal: mScale.base}]}>
+        <HeaderLeftMolecule text={'My Cart'} />
+      </View>
+      <ScrollViewAtom nestedScrollEnabled={true}>
         <View style={{paddingHorizontal: mScale.base}}>
           <FlatList
-            data={courses?.length ? courses : []}
+            data={[...Array(5)]}
             renderItem={renderItem}
             contentContainerStyle={{
               rowGap: mScale.base,
@@ -104,7 +45,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
           />
           <View>
             <TextAtom
-              text={`You have ${courses?.length} items in your cart`}
+              text={'You have 2 items in your cart'}
               preset="body"
               style={{marginBottom: mScale.md}}
             />
@@ -149,28 +90,20 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
               <TextAtom text={'Subtotal'} preset="large" />
-              <TextAtom text={`₹ ${subtotal}`} preset="heading3" />
+              <TextAtom text={'₹ 6,000'} preset="heading3" />
             </View>
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
+              <TextAtom text={'Discount'} preset="body" style={{color:'#B5B5B5'}} />
               <TextAtom
-                text={'Discount'}
-                preset="body"
-                style={{color: '#B5B5B5'}}
-              />
-              <TextAtom
-                text={`-₹ ${totalDiscount}`}
+                text={'-₹ 1,000'}
                 preset="heading4"
-                style={{color: colorPresets.PRIMARY}}
+                color={colorPresets.PRIMARY}
               />
             </View>
             <View style={[commonStyle.flexSpaceBetween, {}]}>
-              <TextAtom text={'GST'} preset="body" style={{color: '#B5B5B5'}} />
-              <TextAtom
-                text={`+ ₹ ${gst}`}
-                preset="body"
-                style={{color: '#B5B5B5'}}
-              />
+              <TextAtom text={'GST'} preset="body" style={{color:'#B5B5B5'}} />
+              <TextAtom text={'+ ₹ 100'} preset="body" style={{color:'#B5B5B5'}} />
             </View>
             <View
               style={{
@@ -183,15 +116,15 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
               <TextAtom text={'You pay'} preset="heading3" />
-              <TextAtom text={`₹ ${totalPay}`} preset="heading3" />
+              <TextAtom text={'₹ 6,000'} preset="heading3" />
             </View>
           </View>
         </View>
         <View style={{marginVertical: mScale.xl}}>
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={courses?.length ? courses : []}
-              renderItem={innerCategoriesCoursesRenderItem}
+              data={[...Array(5)]}
+              renderItem={innerCategoriesRenderItem}
               horizontal={true}
               contentContainerStyle={{
                 columnGap: 20,
@@ -207,8 +140,8 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
           <ViewAll title="Your might also like" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={courses?.length ? courses : []}
-              renderItem={innerCategoriesCoursesRenderItem}
+              data={[...Array(5)]}
+              renderItem={innerCategoriesRenderItem}
               horizontal={true}
               contentContainerStyle={{
                 columnGap: 20,
@@ -221,63 +154,51 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
           </View>
         </View>
       </ScrollViewAtom>
-      {totalDiscount ? (
-        <View
-          style={[
-            commonStyle.flexStart,
-            {
-              backgroundColor: '#222431',
-              padding: mScale.base,
-            },
-          ]}>
-          <ImageAtom
-            sourceRequire={require('@shared/src/assets/img/congrats.png')}
+      <View
+        style={[
+          commonStyle.flexStart,
+          {
+            backgroundColor: '#222431',
+            padding: mScale.base,
+            borderBottomWidth: 1,
+            borderColor: colorPresets.GRAY3,
+          },
+        ]}>
+        <ImageAtom
+          sourceRequire={require('@shared/src/assets/img/congrats.png')}
+        />
+        <View style={[commonStyle.flexStart, {marginStart: mScale.md}]}>
+          <TextAtom
+            text={'Wohoo! You’re saving'}
+            preset="titleBold"
+            style={{marginRight: mScale.sm}}
           />
-          <View style={[commonStyle.flexStart, {marginStart: mScale.md}]}>
-            <TextAtom
-              text={'Wohoo! You’re saving'}
-              preset="titleBold"
-              style={{marginRight: mScale.sm}}
-            />
-            <TextAtom
-              text={`₹ ${totalDiscount}`}
-              preset="titleBold"
-              style={{marginRight: mScale.sm, color: colorPresets.SECONDARY}}
-            />
-            <TextAtom text={'on this order'} preset="titleBold" />
-          </View>
+          <TextAtom
+            text={'₹ 1,000'}
+            preset="titleBold"
+            style={{marginRight: mScale.sm,color:colorPresets.SECONDARY}}
+          />
+          <TextAtom text={'on this order'} preset="titleBold" />
         </View>
-      ) : null}
+      </View>
       <View
         style={[
           commonStyle.flexSpaceBetween,
-          {
-            paddingHorizontal: mScale.base,
-            paddingVertical: mScale.lg,
-            borderTopWidth: 1,
-            borderColor: colorPresets.GRAY3,
-          },
+          {paddingHorizontal: mScale.base, paddingVertical: mScale.lg},
         ]}>
         <View>
           <TextAtom
             text={'Grand total'}
             preset="medium"
-            style={{marginBottom: mScale.xxs, color: '#B5B5B5'}}
+            style={{marginBottom: mScale.xxs,color:'#B5B5B5'}}
           />
-          <TextAtom text={`₹ ${totalPay}`} preset="heading3" />
+          <TextAtom text={'₹ 7,000'} preset="heading3" />
         </View>
         <View>
-          <ButtonAtom
-            title={'Proceed to checkout'}
-            onPress={() => {
-              let cartData = {
-                totalItem: courses?.length,
-                totalPay: totalPay,
-                totalDiscount: totalDiscount,
-              };
-              navigation.navigate(RouteKeys.CHECKOUTSCREEN,{cartData:cartData});
-            }}
-          />
+          <ButtonAtom title={'Proceed to checkout'} onPress={() => {
+              navigation.navigate(RouteKeys.CHECKOUTSCREEN);
+            }} />
+         
         </View>
       </View>
     </GradientTemplate>

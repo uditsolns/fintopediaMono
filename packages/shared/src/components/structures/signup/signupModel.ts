@@ -87,11 +87,10 @@ export const signupValidation = Yup.object().shape({
     `${signupField.surname_name.requiredErr}`
   ),
   [signupField.email.name]: Yup.string()
-    .email("Invalid email")
-    .required(`${signupField.email.requiredErr}`),
-  [signupField.phone.name]: Yup.number().required(
-    `${signupField.phone.requiredErr}`
-  ),
+  .email("Invalid email")
+  .required(`${signupField.email.requiredErr}`),
+  [signupField.phone.name]: Yup.number()
+    .required(`${signupField.phone.requiredErr}`),
   [signupField.role.name]: Yup.string().required(
     `${signupField.role.requiredErr}`
   ),
@@ -104,5 +103,6 @@ export const signupValidation = Yup.object().shape({
       [Yup.ref(`${signupField.password.name}`), ""],
       "Passwords must match"
     ),
+ 
   [signupField.college.name]: Yup.string(),
 });

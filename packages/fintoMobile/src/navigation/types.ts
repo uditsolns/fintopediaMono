@@ -1,7 +1,6 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {ParamListBase} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import { CoursesResponse } from '@shared/src/utils/types/courses';
 
 export interface StackParams extends ParamListBase {
   Home: undefined;
@@ -24,8 +23,8 @@ export interface StackParams extends ParamListBase {
   Billing: undefined;
   PaymentSuccess: undefined;
   DontKnowWhereToStart: undefined;
-  BeforeEnrollingCourseDetails: {course?: CoursesResponse; id?: number};
-  AfterEnrollingCourseDetails: {course?: CoursesResponse; id?: number};
+  BeforeEnrollingCourseDetails: undefined;
+  AfterEnrollingCourseDetails: undefined;
   ProfileDetails: undefined;
   Certifications: undefined;
   ReferandEarn: undefined;

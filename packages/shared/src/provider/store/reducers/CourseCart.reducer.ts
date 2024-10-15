@@ -1,4 +1,4 @@
-import { CourseCartState } from "../../../utils/types/CourseCart";
+import { CourseCartState } from "../../../utils/types/coursecart";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   deleteCourseCart,
@@ -6,7 +6,7 @@ import {
   updateCourseCart,
   createCourseCart,
   getCourseCartById,
-} from "../services/CourseCart.service";
+} from "../services/coursecart.service";
 
 const initialState: CourseCartState = {
   loading: {

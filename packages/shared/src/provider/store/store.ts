@@ -19,24 +19,16 @@ import stockdatasReducer from "./reducers/stockdatas.reducer";
 import stocksReducer from "./reducers/stocks.reducer";
 import transactionsReducer from "./reducers/transactions.reducer";
 import userTransactionsReducer from "./reducers/usertransactions.reducer";
-import courseCartReducer from "./reducers/CourseCart.reducer";
+import courseCartReducer from "./reducers/coursecart.reducer";
 import coursesRatingReviewsReducer from "./reducers/CoursesRatingReviews.reducer";
-import purchaseHistoryReducer from "./reducers/PurchaseHistory.reducer";
+import purchaseHistoryReducer from "./reducers/purchasehistory.reducer";
 import userCertificateReducer from "./reducers/UserCertificate.reducer";
 import userCourseHistoryReducer from "./reducers/UserCourseHistory.reducer";
 import startGameReducer from "./reducers/startgame.reducer";
 import stopGameReducer from "./reducers/stopgame.reducer";
-import checkNavigateReducer from "./reducers/checknavigate.reducer";
-import coursesSaveLaterReducer from "./reducers/coursessavelater.reducer";
-import notificationsReducer from "./reducers/notifications.reducer";
-import courseNotesReducer from "./reducers/course-notes.reducer";
-import courseReviewsReducer from "./reducers/course-review.reducer";
-import courseUploadFileReducer from "./reducers/course-upload-file.reducer";
-import ongoingCourseReducer from "./reducers/ongoing.course.reducer";
-import completedCourseReducer from "./reducers/completed-course.reducer";
-import previousViewCourseReducer from "./reducers/previous-view-course.reducer";
-import couponCodeReducer from "./reducers/coupon-code.reducer";
-import searchCoursesReducer from "./reducers/search-courses.reducer";
+import checkNavigateReducer from './reducers/checknavigate.reducer';
+import coursesSaveLaterReducer from './reducers/coursessavelater.reducer';
+import notificationsReducer from './reducers/notifications.reducer';
 
 const isNative = Platform.OS !== "web";
 
@@ -69,17 +61,9 @@ const reducers = combineReducers({
   userCourseHistory: userCourseHistoryReducer,
   startGame: startGameReducer,
   stopGame: stopGameReducer,
-  checkNavigate: checkNavigateReducer,
-  coursesSaveLater: coursesSaveLaterReducer,
-  notifications: notificationsReducer,
-  courseNotes: courseNotesReducer,
-  courseReviews: courseReviewsReducer,
-  courseUploadFile: courseUploadFileReducer,
-  ongoingCourse: ongoingCourseReducer,
-  completedCourse: completedCourseReducer,
-  previousViewCourse: previousViewCourseReducer,
-  searchCourses: searchCoursesReducer,
-  couponCode: couponCodeReducer,
+  checkNavigate:checkNavigateReducer,
+  coursesSaveLater:coursesSaveLaterReducer,
+  notifications:notificationsReducer
 });
 
 export const store = configureStore({
@@ -87,7 +71,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(errorMiddleware),
+    }).concat(errorMiddleware,logger),
 });
 
 export const persistor = persistStore(store);

@@ -24,8 +24,8 @@ export const useSignupHelper = () => {
         role: values.role,
         surname_name: values.surname_name,
       };
-      console.log("signup data ", data);
-      dispatch(signUp(data));
+      console.log("signup data ",data)
+      dispatch(signUp(data)); 
     },
   });
 

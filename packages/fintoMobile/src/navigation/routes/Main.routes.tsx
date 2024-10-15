@@ -34,7 +34,6 @@ import {colorPresets} from '@shared/src/theme/color';
 import {mScale} from '@shared/src/theme/metrics';
 import {Images} from '@shared/src/assets';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
-import Header from '@src/components/Header/Header';
 
 interface MainRoutesProps {}
 
@@ -83,11 +82,7 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={Notification as React.FC}
       />
       <Stack.Screen
-         options={({navigation}) => ({
-          headerShown: true,
-          headerTitle:'My Cart',
-          headerLeft: () => headerBack(() => navigation.goBack()),
-        })}
+        options={{headerShown: false}}
         name={RouteKeys.CARTSCREEN}
         component={Cart as React.FC}
       />
@@ -97,39 +92,23 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={FilterByCourse as React.FC}
       />
       <Stack.Screen
-        options={({navigation}) => ({
-          headerShown: true,
-          headerTitle:'',
-          headerLeft: () => headerBack(() => navigation.goBack()),
-        })}
+        options={{headerShown: false}}
         name={RouteKeys.COURSECATEGORYSCREEN}
         component={CourseCategory as React.FC}
       />
 
       <Stack.Screen
-         options={({navigation}) => ({
-          headerShown: true,
-          headerTitle:'Coupon codes',
-          headerLeft: () => headerBack(() => navigation.goBack()),
-        })}
+        options={{headerShown: false}}
         name={RouteKeys.COUPONSCREEN}
         component={Coupon as React.FC}
       />
       <Stack.Screen
-       options={({navigation}) => ({
-        headerShown: true,
-        headerTitle:'Order details',
-        headerLeft: () => headerBack(() => navigation.goBack()),
-      })}
+        options={{headerShown: false}}
         name={RouteKeys.CHECKOUTSCREEN}
         component={Checkout as React.FC}
       />
       <Stack.Screen
-        options={({navigation}) => ({
-          headerShown: true,
-          headerTitle:'Billing',
-          headerLeft: () => headerBack(() => navigation.goBack()),
-        })}
+        options={{headerShown: false}}
         name={RouteKeys.BILLINGSCREEN}
         component={Billing as React.FC}
       />
@@ -147,12 +126,7 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={DontKnowWhereToStart as React.FC}
       />
       <Stack.Screen
-        options={{
-          headerShown: true,
-          header: () => {
-            return <Header cartVisible={false} />
-          },
-        }}
+        options={{headerShown: false}}
         name={RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN}
         component={BeforeEnrollingCourseDetails as React.FC}
       />

@@ -5,11 +5,9 @@ import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
-import {imageUrl} from '@shared/src/config/imageUrl';
-import {CoursesResponse} from '@shared/src/utils/types/courses';
 
 interface CertificationsMoleculeProps {
-  item: CoursesResponse;
+  item: any;
   onPress?: () => void;
 }
 
@@ -25,17 +23,12 @@ const CertificationsMolecule: React.FC<CertificationsMoleculeProps> = ({
         {alignItems: 'flex-start'},
       ]}>
       <ImageAtom
-        sourceRequire={
-          item?.course_image
-            ? {uri: `${imageUrl}/uploads/course_images/${item?.course_image}`}
-            : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')
-        }
+        sourceRequire={require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')}
         imageStyle={styles.image}
-        resizeMode="stretch"
       />
       <View style={styles.content}>
         <TextAtom
-          text={item?.name}
+          text={'Trading Basics'}
           preset="heading4"
           style={styles.boldText}
           numberOfLines={2}
@@ -44,8 +37,9 @@ const CertificationsMolecule: React.FC<CertificationsMoleculeProps> = ({
           title={'stockmarketexpert/certificate 13655'}
           preset={'tertiary'}
         />
-        <View style={{marginTop: -mScale.sm}}>
-          <ButtonAtom title={'Download certificate'} preset={'primary'} />
+        <View style={{marginTop:-mScale.sm}}>
+
+        <ButtonAtom title={'Download certificate'} preset={'primary'} />
         </View>
       </View>
     </View>
