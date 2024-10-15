@@ -18,7 +18,7 @@ import {
 import Login from "./auth/login/page";
 import { getCourses } from "shared/src/provider/store/services/courses.service";
 import { getCategories } from "shared/src/provider/store/services/categories.service";
-import CircularLoading from "@src/components/loader/LoadingAtom";
+import LoadingAtom from "@src/components/loader/LoadingAtom";
 
 // const Homepage = dynamic(() => import("./homepage/Homepage"), {
 //   ssr: false,
@@ -52,7 +52,7 @@ export default function Home() {
       <>
         {categoriesLoading?.categories || coursesLoading?.courses ? (
           <div className="fullPageLoading">
-            <CircularLoading
+            <LoadingAtom
               style={{
                 height: "5rem",
                 width: "5rem",

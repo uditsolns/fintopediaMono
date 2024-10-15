@@ -18,13 +18,53 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
   return (
     <div key={course.id}>
       <Card className={styles.card}>
-        <Image
-          src={`${imageUrl}/uploads/course_images/${course.course_image}`}
-          alt={course.name}
-          width={350}
-          height={200}
-          className={styles.cardImage}
-        />
+        <div className={styles.cardImage}>
+          <Image
+            src={`${imageUrl}/uploads/course_images/${course.course_image}`}
+            alt={course.name}
+            width={350}
+            height={200}
+            className={styles.image}
+          />
+          <div className={styles.languageBadge}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_3837_6467)">
+                <path
+                  d="M1.25781 7C1.25781 8.52292 1.86279 9.98347 2.93966 11.0603C4.01653 12.1372 5.47708 12.7422 7 12.7422C8.52292 12.7422 9.98347 12.1372 11.0603 11.0603C12.1372 9.98347 12.7422 8.52292 12.7422 7C12.7422 5.47708 12.1372 4.01653 11.0603 2.93966C9.98347 1.86279 8.52292 1.25781 7 1.25781C5.47708 1.25781 4.01653 1.86279 2.93966 2.93966C1.86279 4.01653 1.25781 5.47708 1.25781 7Z"
+                  stroke="#434A4A"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M4.53906 7C4.53906 5.47708 4.79834 4.01653 5.25985 2.93966C5.72137 1.86279 6.34732 1.25781 7 1.25781C7.65268 1.25781 8.27863 1.86279 8.74015 2.93966C9.20166 4.01653 9.46094 5.47708 9.46094 7C9.46094 8.52292 9.20166 9.98347 8.74015 11.0603C8.27863 12.1372 7.65268 12.7422 7 12.7422C6.34732 12.7422 5.72137 12.1372 5.25985 11.0603C4.79834 9.98347 4.53906 8.52292 4.53906 7Z"
+                  stroke="#434A4A"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M1.66797 8.91406H12.332"
+                  stroke="#434A4A"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M1.66797 5.08594H12.332"
+                  stroke="#434A4A"
+                  stroke-linecap="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_3837_6467">
+                  <rect width="14" height="14" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            {course.course_language}
+          </div>
+        </div>
         <CardBody className={styles.cardContent}>
           <CardTitle tag="h3" className={styles.cardTitle}>
             {course.name}
@@ -34,7 +74,7 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
               <ProgressBar level={course.course_type} />
             </div>
             <div className={styles.iconText}>
-              <FaClock className={styles.icon} /> 20 Hours
+              <FaClock className={styles.icon} /> {course.duration_time} 
             </div>
             <div className={styles.cardRating}>
               4.3

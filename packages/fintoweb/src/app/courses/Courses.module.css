@@ -133,14 +133,13 @@
   transition: width 0.3s;
 }
 
-
 .slick-list {
   margin-right: -30px;
   margin: 0 -10px;
 }
 
 /* ----Trading Courses-------- */
-.tradingCourses{
+.tradingCourses {
   padding: 50px;
 }
 .tradingCourses h1 {
@@ -149,6 +148,36 @@
   font-style: normal;
   font-weight: 700;
   line-height: 32px;
+}
+/* active style Course type */
+.filterButtons {
+  display: flex;
+  margin-bottom: 1rem;
+  gap: 8px;
+}
+
+.filterButton {
+  color: #a4a4a4;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  padding: 18px 24px;
+}
+
+.activeFilter {
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  border-bottom: 3px solid #fff;
+  padding: 18px 24px;
+}
+.featureCourses {
+  padding: 40px;
 }
 @media screen and (max-width: 435px) {
   .headerCourseFilter {
@@ -171,7 +200,7 @@
   .formContainer {
     margin-top: 15px;
   }
-  .tradingCourses{
+  .tradingCourses {
     padding: 15px;
   }
 }

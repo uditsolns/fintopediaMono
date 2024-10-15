@@ -6,8 +6,33 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .cardImage {
-  height: auto;
+  position: relative;
 }
+
+.cardImage img {
+  width: 100%;
+  height: 200px;
+}
+
+.languageBadge {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  display: inline-flex;
+  padding: 10px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 4px;
+  background: var(--Neutrals-Base-White, #fcfcfc);
+  color: var(--Neutrals-Neutrals700, #40474f);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: 1.2px;
+}
+
 .cardContent {
   padding: 16px;
 }
