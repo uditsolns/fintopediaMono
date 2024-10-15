@@ -1,18 +1,21 @@
 import { UserInfo } from "./auth";
 import { CoursesResponse } from "./courses";
 
-export interface CoursesSaveLaterParams {
+export interface CoursesSaveLaterFields {
   id?: number;
   user_id?: number;
   course_id?: number;
-  status?: number | string;
+  status?: string;
+}
+export interface CoursesSaveLaterParams {
+  params: CoursesSaveLaterFields;
 }
 
 export interface CoursesSaveLaterResponse {
   id: number;
   user_id: number;
   course_id: number;
-  status?: number | string;
+  status?:string;
   user?: UserInfo;
   course?: CoursesResponse;
 }

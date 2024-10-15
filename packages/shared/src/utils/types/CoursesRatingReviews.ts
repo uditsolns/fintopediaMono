@@ -1,13 +1,18 @@
 import { UserInfo } from "./auth";
 import { CoursesResponse } from "./courses";
 
-export interface CoursesRatingReviewsParams {
+export interface CoursesRatingReviewsFields{
   id?: number;
   course_id?: number;
   user_id?: number;
   rating_star?: string;
   review_description?: string;
 }
+
+export interface CoursesRatingReviewsParams {
+  params: CoursesRatingReviewsFields
+}
+
 export interface CoursesRatingReviewsResponse {
   id: number;
   course_id: number;

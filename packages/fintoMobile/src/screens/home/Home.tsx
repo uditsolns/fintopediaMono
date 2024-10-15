@@ -3,7 +3,10 @@ import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import {getCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
+import {
+  createCourseCart,
+  getCourseCart,
+} from '@shared/src/provider/store/services/CourseCart.service';
 import {getCourses} from '@shared/src/provider/store/services/courses.service';
 import {
   useAppDispatch,
@@ -12,6 +15,7 @@ import {
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CategoriesResponse} from '@shared/src/utils/types/categories';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
+import {isInCart} from '@src/components/Calculate';
 import CarouselAtom from '@src/components/Carousel/CarouselAtom';
 import GetStarted from '@src/components/GetStarted';
 import Header from '@src/components/Header/Header';
@@ -43,8 +47,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   const {auth} = useAppSelector(state => state.auth);
   const {banner, loading: bannerLoading} = useAppSelector(
     state => state.banner,
-  ); 
-
+  );
   const {categories, loading: categoriesLoading} = useAppSelector(
     state => state.categories,
   );
@@ -114,24 +117,29 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     return (
       <PopularCourseMolecule
         item={item}
-        onPress={() => {
-          let body = {
-            user_id: auth?.user?.id,
-            cources_id: item?.id,
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
             status: '1',
           };
-          // navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN);
-          console.log(body);
+          if (isInCart(courseCart, item?.id)) {
+            navigation.navigate(RouteKeys.CARTSCREEN);
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                },
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
         }}
       />
     );
   };
-
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerRight: () => <View style={{flexDirection: 'row'}}></View>,
-  //   });
-  // });
 
   return (
     <GradientTemplate
@@ -147,7 +155,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       courseCartLoading.create ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
-        </View> 
+        </View>
       ) : null}
       <ScrollViewAtom
         nestedScrollEnabled={true}
@@ -262,7 +270,11 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
           <ViewAll title="Popular Courses" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={courses?.length ? courses : []}
+              data={
+                courses?.length
+                  ? courses?.filter(el => el?.is_polular === 1)
+                  : []
+              }
               renderItem={innerCategoriesCoursesRenderItem}
               horizontal={true}
               contentContainerStyle={{

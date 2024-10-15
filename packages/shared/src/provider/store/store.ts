@@ -6,6 +6,7 @@ import logger from "redux-logger";
 import { errorMiddleware } from "./middleware/error.middleware";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./reducers/auth.reducer";
+import usersReducer from "./reducers/user.reducer";
 import bannerReducer from "./reducers/banner.reducer";
 import categoriesReducer from "./reducers/categories.reducer";
 import collegesReducer from "./reducers/colleges.reducer";
@@ -49,6 +50,7 @@ const persistConfig: any = {
 
 const reducers = combineReducers({
   auth: persistReducer(persistConfig, authReducer),
+  users: usersReducer,
   banner: bannerReducer,
   categories: categoriesReducer,
   college: collegesReducer,

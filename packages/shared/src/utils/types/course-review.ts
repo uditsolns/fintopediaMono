@@ -1,20 +1,23 @@
 import { UserInfo } from "./auth";
 import { CoursesResponse } from "./courses";
 
-export interface CourseReviewParams {
+export interface CourseReviewFields {
   id?: number;
   course_id?: number;
   user_id?: number;
-  rating: null| string;
-  rating_desc: null| string;
+  rating?: null | string;
+  rating_desc?: null | string;
 }
 
+export interface CourseReviewParams {
+  params: CourseReviewFields;
+}
 export interface CourseReviewResponse {
   id?: number;
   course_id?: number;
   user_id?: number;
-  rating: null| string;
-  rating_desc: null| string;
+  rating: null | string;
+  rating_desc: null | string;
   course?: CoursesResponse;
   user?: UserInfo;
 }

@@ -4,7 +4,7 @@ import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAt
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
 import { colorPresets } from '@shared/src/theme/color';
-import { mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
+import { moderateScale, mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import FrequentlyAskMolecule from '@src/components/molecules/FrequentlyAskMolecule/FrequentlyAskMolecule';
 import SeparatorAtom from '@src/components/SeperatorAtom';
@@ -24,8 +24,7 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
   );
 
   return (
-    <GradientTemplate style={{paddingBottom: 0}}>
-      <HeaderLeftMolecule text="Contact Support" />
+    <GradientTemplate style={{paddingBottom: 0,paddingTop:moderateScale(70)}}>
       <ScrollViewAtom>
         <View>
           <View style={styles.contactCard}>

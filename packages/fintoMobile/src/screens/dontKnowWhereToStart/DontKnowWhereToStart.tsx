@@ -15,11 +15,12 @@ import {
 import {NavType} from '@src/navigation/types';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {CategoriesResponse} from '@shared/src/utils/types/categories';
 
 const options = [
   {label: 'Beginner', value: 'beginner'},
   {label: 'Intermediate', value: 'intermediate'},
-  {label: 'Pro', value: 'pro'},
+  {label: 'Pro', value: 'expert'},
 ];
 
 interface DontKnowWhereToStartProps extends NavType<'DontKnowWhereToStart'> {}
@@ -27,7 +28,6 @@ export const DontKnowWhereToStart: React.FunctionComponent<
   DontKnowWhereToStartProps
 > = ({navigation}) => {
   const dispatch = useAppDispatch();
-
   const {categories, loading: categoriesLoading} = useAppSelector(
     state => state.categories,
   );
@@ -37,6 +37,9 @@ export const DontKnowWhereToStart: React.FunctionComponent<
   const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
     courses?.length ? courses : [],
   );
+  const [dropdownSelected, setDropdownSelected] =
+    React.useState<CategoriesResponse | null>(null);
+  const [radioSelected, setRadioSelected] = React.useState<string>('beginner');
 
   React.useEffect(() => {
     if (courses?.length) {
@@ -84,10 +87,7 @@ export const DontKnowWhereToStart: React.FunctionComponent<
               dropdownItemArr={categories?.length ? categories : []}
               itemLabelField="category_name"
               onSelect={item => {
-                let filterCourseRes = courses?.filter(
-                  el => el?.category_id == item?.id,
-                );
-                setFilterCourses(filterCourseRes);
+                setDropdownSelected(item);
               }}
               placeholder={'Select category'}
               dropdownBg="#121622"
@@ -101,12 +101,22 @@ export const DontKnowWhereToStart: React.FunctionComponent<
               <GroupRadioButton
                 options={options}
                 onSelect={item => {
-                  console.log(item);
+                  setRadioSelected(item);
                 }}
                 selectedValue="beginner"
               />
             </View>
-            <ButtonAtom title={'Let’s go'} />
+            <ButtonAtom
+              title={'Let’s go'}
+              onPress={() => {
+                let filterCourseRes = courses?.filter(
+                  el =>
+                    el?.category_id == dropdownSelected?.id &&
+                    el?.course_type?.toLowerCase() == radioSelected,
+                );
+                setFilterCourses(filterCourseRes);
+              }}
+            />
             <View style={{marginTop: mScale.xxl}}>
               <TextAtom
                 text={`Become a Finance Manager\n in 3 months`}

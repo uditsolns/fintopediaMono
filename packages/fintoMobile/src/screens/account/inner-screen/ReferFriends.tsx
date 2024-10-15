@@ -13,12 +13,8 @@ import {Pressable, View} from 'react-native';
 interface ReferFriendsProps {}
 
 export const ReferFriends: React.FC<ReferFriendsProps> = ({}) => {
-  const [oldPassword, setOldPassword] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
   return (
-    <GradientTemplate style={{paddingBottom: 0}}>
-      <HeaderLeftMolecule text={'Refer and earn'} />
+    <GradientTemplate style={{paddingBottom: 0,paddingTop:moderateScale(70)}}>
       <ScrollViewAtom>
         <View
           style={{

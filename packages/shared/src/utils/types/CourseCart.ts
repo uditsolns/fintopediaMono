@@ -1,19 +1,27 @@
 import { UserInfo } from "./auth";
 import { CoursesResponse } from "./courses";
+import { OnErrorInterface, OnSuccessInterface } from "./roundLevel";
 
-export interface CourseCartParams {
+export interface CourseCartFields {
   id?: number;
   user_id?: number;
-  cources_id?: number;
-  status?: number;
+  course_id?: number;
+  status?: string;
+}
+
+export interface CourseCartParams {
+  params: CourseCartFields;
 }
 export interface CourseCartResponse {
   id: number;
   user_id: number;
-  cources_id: number;
-  status: number;
+  course_id: number;
+  status: string;
   course?: CoursesResponse | null;
   user?: UserInfo | null;
+}
+export interface DeleteParams extends OnSuccessInterface, OnErrorInterface {
+  id: number;
 }
 export interface CourseCartState {
   loading: {

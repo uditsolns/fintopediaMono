@@ -11,18 +11,22 @@ import React from 'react';
 import {Pressable, StyleSheet, View, ViewStyle, ImageStyle} from 'react-native';
 
 interface CartMoleculeProps {
-  item?: CoursesResponse;
+  item?: CoursesResponse | null;
   onPress?: () => void;
+  onSaveLater?: () => void;
+  onRemove?: () => void;
   saveForLaterBoolean?: boolean;
 }
 
 export default function CartMolecule({
   item,
   onPress,
+  onSaveLater,
+  onRemove,
   saveForLaterBoolean = true,
 }: CartMoleculeProps) {
   return (
-    <View style={[commonStyle.flexStart, styles.container]}>
+    <Pressable style={[commonStyle.flexStart, styles.container]} onPress={onPress}>
       <ImageAtom
         sourceRequire={
           item?.course_image
@@ -68,7 +72,7 @@ export default function CartMolecule({
         <RatingAtom ratingTitle={`4.6/5`} />
         <View style={[commonStyle.flexStart, {marginTop: mScale.base}]}>
           {saveForLaterBoolean ? (
-            <Pressable style={{marginEnd: mScale.base}}>
+            <Pressable style={{marginEnd: mScale.base}} onPress={onSaveLater}>
               <TextAtom
                 text={'Save for later'}
                 preset="smallBold"
@@ -76,7 +80,7 @@ export default function CartMolecule({
               />
             </Pressable>
           ) : null}
-          <Pressable>
+          <Pressable onPress={onRemove}>
             <TextAtom
               text={'Remove'}
               preset="smallBold"
@@ -85,7 +89,7 @@ export default function CartMolecule({
           </Pressable>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 

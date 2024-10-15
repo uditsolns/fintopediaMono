@@ -3,6 +3,7 @@ import { ModelParams } from "../../../utils/types/main";
 
 type UserField = Pick<
   ModelParams,
+  | "id"
   | "first_name"
   | "email"
   | "phone"
@@ -30,9 +31,20 @@ type UserField = Pick<
   | "gender"
   | "cv"
   | "feedback"
+  | "headline"
+  | "bio"
+  | "linkedin"
+  | "website_url"
+  | "photo"
 >;
 
 export const userField: UserField = {
+  id: {
+    name: "id",
+    label: "",
+    placeHolder: "",
+    requiredErr: "",
+  },
   first_name: {
     name: "first_name",
     label: "Name",
@@ -167,6 +179,12 @@ export const userField: UserField = {
     placeHolder: "Enter your adhaar numner",
     requiredErr: "",
   },
+  photo: {
+    name: "photo",
+    label: "",
+    placeHolder: "",
+    requiredErr: "Photo is required",
+  },
   pan_num: {
     name: "pan_num",
     label: "Enter your pan numner",
@@ -197,6 +215,30 @@ export const userField: UserField = {
     placeHolder: "Add your feedback",
     requiredErr: "",
   },
+  headline: {
+    name: "headline",
+    label: "Headline",
+    placeHolder: "Enter your headline",
+    requiredErr: "",
+  },
+  bio: {
+    name: "bio",
+    label: "Bio",
+    placeHolder: "Enter your bio",
+    requiredErr: "",
+  },
+  linkedin: {
+    name: "linkedin",
+    label: "Linkedin",
+    placeHolder: "Enter your linkedin url",
+    requiredErr: "",
+  },
+  website_url: {
+    name: "website_url",
+    label: "Website URL",
+    placeHolder: "Enter your website url",
+    requiredErr: "",
+  },
 };
 
 export type UserValues = {
@@ -204,6 +246,7 @@ export type UserValues = {
 };
 
 export const USER_VALUES = {
+  [userField.id.name]: "",
   [userField.first_name.name]: "",
   [userField.surname_name.name]: "",
   [userField.email.name]: "",
@@ -231,6 +274,11 @@ export const USER_VALUES = {
   [userField.cv.name]: "",
   [userField.work_experience.name]: "",
   [userField.feedback.name]: "",
+  [userField.bio.name]: "",
+  [userField.headline.name]: "",
+  [userField.linkedin.name]: "",
+  [userField.website_url.name]: "",
+  [userField.photo.name]: "",
 };
 
 export const userValidation = Yup.object().shape({
@@ -246,9 +294,9 @@ export const userValidation = Yup.object().shape({
   [userField.phone.name]: Yup.number().required(
     `${userField.phone.requiredErr}`
   ),
-  [userField.age.name]: Yup.string().required(`${userField.age.requiredErr}`),
-  [userField.gender.name]: Yup.string().required(
-    `${userField.gender.requiredErr}`
-  ),
-  [userField.dob.name]: Yup.string().required(`${userField.dob.requiredErr}`),
+  // [userField.age.name]: Yup.string().required(`${userField.age.requiredErr}`),
+  // [userField.gender.name]: Yup.string().required(
+  //   `${userField.gender.requiredErr}`
+  // ),
+  // [userField.dob.name]: Yup.string().required(`${userField.dob.requiredErr}`),
 });
