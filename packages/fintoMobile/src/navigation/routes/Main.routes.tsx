@@ -162,37 +162,72 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={AfterEnrollingCourseDetails as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={({navigation}) => ({
+          headerTitle: 'Profile details',
+          headerShown: true,
+          headerLeft: () =>
+            headerBack(() => navigation.navigate(RouteKeys.HOMESCREEN)),
+        })}
         name={RouteKeys.PROFILEDETAILSSCREEN}
         component={ProfileDetails as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={({navigation}) => ({
+          headerTitle: 'Certifications',
+          headerShown: true,
+          headerLeft: () =>
+            headerBack(() => navigation.navigate(RouteKeys.HOMESCREEN)),
+        })}
         name={RouteKeys.CERTIFICATIONSSCREEN}
         component={Certifications as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+         options={({navigation}) => ({
+          headerTitle: 'Refer and earn',
+          headerShown: true,
+          headerLeft: () =>
+            headerBack(() => navigation.navigate(RouteKeys.HOMESCREEN)),
+        })}
         name={RouteKeys.REFERANDEARNSCREEN}
         component={ReferFriends as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+         options={({navigation}) => ({
+          headerTitle: 'Membership Type',
+          headerShown: true,
+          headerLeft: () =>
+            headerBack(() => navigation.navigate(RouteKeys.HOMESCREEN)),
+        })}
         name={RouteKeys.MEMBERSHIPTYPESCREEN}
         component={MembershipType as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={({navigation}) => ({
+          headerTitle: 'Change password',
+          headerShown: true,
+          headerLeft: () =>
+            headerBack(() => navigation.navigate(RouteKeys.HOMESCREEN)),
+        })}
         name={RouteKeys.CHANGEPASSWORDSCREEN}
         component={ChangePassword as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={({navigation}) => ({
+          headerTitle: 'Purchase history',
+          headerShown: true,
+          headerLeft: () =>
+            headerBack(() => navigation.navigate(RouteKeys.HOMESCREEN)),
+        })}
         name={RouteKeys.PURCHASEHISTORYSCREEN}
         component={PurchaseHistory as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+       options={({navigation}) => ({
+        headerTitle: 'Contact Support',
+        headerShown: true,
+        headerLeft: () =>
+          headerBack(() => navigation.navigate(RouteKeys.HOMESCREEN)),
+      })}
         name={RouteKeys.CONTACTUSSCREEN}
         component={Contactus as React.FC}
       />

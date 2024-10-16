@@ -5,12 +5,16 @@ import {
   SearchCoursesParams,
   SearchCoursesResponse,
 } from "../../../utils/types/search-courses";
+import {
+  OnErrorInterface,
+  OnSuccessInterface,
+} from "../../../utils/types/roundLevel";
 
 export const postSeachCourses = createAsyncThunk<
   SearchCoursesResponse[],
-  SearchCoursesParams,
+  SearchCoursesParams & OnSuccessInterface & OnErrorInterface,
   { state: RootState }
->("postSeachCourses/post", async (params, thunkApi) => {
+>("postSeachCourses/post", async ({ params, onSuccess, onError }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
@@ -25,9 +29,10 @@ export const postSeachCourses = createAsyncThunk<
     });
 
     const data = (await response.json()) as SearchCoursesResponse[];
-
+    onSuccess(data);
     return data;
   } catch (error) {
+    onError(error);
     return thunkApi.rejectWithValue(error);
   }
 });

@@ -2,8 +2,8 @@ import { useFormik } from "formik";
 import { useAppDispatch } from "../../../provider/store/types/storeTypes";
 import { InputAtomProps } from "../../atoms/Input/InputAtom";
 import { USER_VALUES, userValidation } from "./userModel";
-import { UserUpdateParams } from "../../../utils/types/auth";
 import { updateUser } from "../../../provider/store/services/user.service";
+import { UserUpdateParams } from "../../../utils/types/auth";
 
 export const useUserHelper = () => {
   type dataType = keyof typeof USER_VALUES;
@@ -14,15 +14,17 @@ export const useUserHelper = () => {
     initialValues: USER_VALUES,
     validationSchema: userValidation,
     onSubmit: (values) => {
-      let data: UserUpdateParams = {
-        first_name: values.first_name,
-        phone: values.phone,
-        email: values.email,
-        surname_name: values.surname_name,
-        age: values.age,
-        gender: values.gender,
-        dob: values.dob,
-      };
+      const formData = new FormData();
+      formData.append('first_name', values.first_name);
+      formData.append('phone', values.phone);
+      formData.append('email', values.email);
+      formData.append('surname_name', values.surname_name);
+      formData.append('bio', values.bio);
+      formData.append('headline', values.headline);
+      formData.append('linkedin', values.linkedin);
+      formData.append('website_url', values.website_url);
+      let id =  values?.id.toString()
+      dispatch(updateUser({formData,id}));
     },
   });
 

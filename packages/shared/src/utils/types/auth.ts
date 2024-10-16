@@ -75,6 +75,11 @@ export interface UserInfo {
   feedback: null;
   college: null;
   user_transactions?: UserTransactionsResponse[] | null;
+  bio?: null | string;
+  headline?: null | string;
+  linkedin?: null | string;
+  website_url?: null | string;
+  photo?: string | null;
 }
 
 export interface SignupParams {
@@ -103,6 +108,7 @@ export interface UpdatePasswordParams {
   new_password_confirmation?: string;
 }
 export interface UserUpdateParams {
+  id?:number
   first_name: string;
   email: string;
   phone: string;
@@ -131,6 +137,11 @@ export interface UserUpdateParams {
   gender?: string;
   cv?: string;
   feedback?: null | string;
+  bio?: null | string;
+  headline?: null | string;
+  linkedin?: null | string;
+  website_url?: null | string;
+  photo?: string | null;
 }
 
 export interface BuySellParams {

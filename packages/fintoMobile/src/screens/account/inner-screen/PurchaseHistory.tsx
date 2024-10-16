@@ -1,6 +1,6 @@
 import { commonStyle } from '@shared/src/commonStyle';
 import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
-import { mScale } from '@shared/src/theme/metrics';
+import { moderateScale, mScale } from '@shared/src/theme/metrics';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import LoaderAtom from '@src/components/LoaderAtom';
 import PurchaseHistoryMolecule from '@src/components/molecules/PurchaseHistoryMolecule/PurchaseHistoryMolecule';
@@ -13,13 +13,12 @@ export const PurchaseHistory: React.FC<PurchaseHistoryProps> = ({}) => {
     return <PurchaseHistoryMolecule item={item} />;
   };
   return (
-    <GradientTemplate style={{paddingBottom: 0}}>
+    <GradientTemplate style={{paddingBottom: 0,paddingTop:moderateScale(70)}}>
       {false ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
-      <HeaderLeftMolecule text={'Purchase history'} />
       <FlatList
         data={[...Array(10)]}
         renderItem={renderItem}

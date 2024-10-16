@@ -5,7 +5,7 @@ export interface SearchCoursesResponse {
   id: number;
   category_id: number;
   name: string;
-  description: string; 
+  description: string;
   sale_price: string;
   actual_price: string;
   duration_time: string;
@@ -19,8 +19,11 @@ export interface SearchCoursesResponse {
   updated_at: string;
   category?: CategoriesResponse;
 }
-export interface SearchCoursesParams {
+export interface SearchCoursesFields {
   id?: number;
+}
+export interface SearchCoursesParams {
+  params: SearchCoursesFields;
 }
 export interface SearchCoursesState {
   loading: {

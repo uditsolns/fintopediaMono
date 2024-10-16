@@ -1,13 +1,16 @@
 import { UserInfo } from "./auth";
 import { CoursesResponse } from "./courses";
 
-export interface CourseNotesParams {
+export interface CourseNotesFields {
   id?: number;
   course_id?: number;
   user_id?: number;
   note_desc: null | string;
 }
 
+export interface CourseNotesParams {
+  params: CourseNotesFields;
+}
 export interface CourseNotesResponse {
   id?: number;
   course_id?: number;

@@ -1,13 +1,15 @@
 import { UserInfo } from "./auth";
 import { CoursesResponse } from "./courses";
 
-export interface CourseUploadFileParams {
+export interface CourseUploadFileFields {
   id?: number;
   course_id?: number;
   user_id?: string;
   upload_file: null | File | string;
 }
-
+export interface CourseUploadFileParams {
+  params: CourseUploadFileFields;
+}
 export interface CourseUploadFileResponse {
   id?: number;
   course_id?: number;

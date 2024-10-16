@@ -1,16 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { UserInfo } from "../../../utils/types/auth";
+import { UserInfo, UserUpdateParams } from "../../../utils/types/auth";
+import { storeCurrentUser } from "../reducers/auth.reducer";
 
 export const getUser = createAsyncThunk<UserInfo[], void, { state: RootState }>(
   "user/get",
   async (_, thunkApi) => {
     try {
+      const state = thunkApi.getState();
+      const token = state.auth?.auth?.token;
       const response = await fetch(apiUrl.USER.GET, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -25,19 +29,24 @@ export const getUser = createAsyncThunk<UserInfo[], void, { state: RootState }>(
 
 export const updateUser = createAsyncThunk<
   UserInfo,
-  UserInfo,
+  { formData: FormData; id: string },
   { state: RootState }
->("user/update", async (params, thunkApi) => {
+>("user/update", async ({ formData,id }, thunkApi) => {
+  const state = thunkApi.getState();
+  const token = state.auth?.auth?.token;
+  console.log("---------", JSON.stringify(formData));
   try {
-    const response = await fetch(apiUrl.USER.UPDATE + "/" + params.id, {
-      method: "POST",
+    const response = await fetch(apiUrl.USER.UPDATE + "/" + id, {
+      method: "PUT",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(params),
+      body: formData,
     });
 
     const data = (await response.json()) as UserInfo;
+    thunkApi.dispatch(storeCurrentUser(data));
 
     return data;
   } catch (error) {

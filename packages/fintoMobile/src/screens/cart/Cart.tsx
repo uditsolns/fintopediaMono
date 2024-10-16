@@ -23,9 +23,16 @@ import {getCourses} from '@shared/src/provider/store/services/courses.service';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {
   addTwoNumber,
+  filteredCourses,
   subtractTwoNumber,
   sumCalculate,
 } from '@src/components/Calculate';
+import {
+  deleteCourseCart,
+  getCourseCart,
+} from '@shared/src/provider/store/services/CourseCart.service';
+import {createCoursesSaveLater} from '@shared/src/provider/store/services/coursesavelater.service';
+import {CourseCartResponse} from '@shared/src/utils/types/CourseCart';
 
 interface CartProps extends NavType<'Cart'> {}
 
@@ -34,10 +41,10 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
   );
-  const {courseCart, loading:courseCartLoading} = useAppSelector(
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
     state => state.courseCart,
   );
-  
+  const {auth} = useAppSelector(state => state.auth);
 
   const [refreshLoading, setRefreshLoading] = React.useState(false);
   const [subtotal, setSubtotal] = React.useState<number>(0);
@@ -46,26 +53,60 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
   const [gst, setGst] = React.useState<number>(100);
 
   React.useEffect(() => {
-    // console.log(JSON.stringify(courseCart))
-    if (courses?.length) {
-      let sale_price = sumCalculate(courses, 'sale_price');
-      let actual_price = sumCalculate(courses, 'actual_price');
+    if (courseCart?.length) {
+      let sale_price = sumCalculate(courseCart, 'sale_price');
+      let actual_price = sumCalculate(courseCart, 'actual_price');
       let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
       let totalPayAmount = addTwoNumber(sale_price, gst);
       setSubtotal(sale_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
     }
-  }, [courses]);
+  }, [courseCart]);
 
   const onRefresh = () => {
     setRefreshLoading(true);
     dispatch(getCourses());
+    dispatch(getCourseCart());
     setRefreshLoading(false);
   };
 
-  const renderItem = ({item}: {item: CoursesResponse}) => {
-    return <CartMolecule item={item} />;
+  const renderItem = ({item}: {item: CourseCartResponse}) => {
+    return (
+      <CartMolecule
+        item={item?.course}
+        onPress={() => {}}
+        onSaveLater={() => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          console.log(params)
+          dispatch(
+            createCoursesSaveLater({
+              params,
+              onSuccess(data) {
+                console.log('createCoursesSaveLater');
+              },
+              onError(error) {},
+            }),
+          );
+        }}
+        onRemove={() => {
+          let id = Number(item?.id);
+          dispatch(
+            deleteCourseCart({
+              id,
+              onSuccess: data => {
+                console.log('delete cart');
+              },
+              onError: err => {},
+            }),
+          );
+        }}
+      />
+    );
   };
 
   const innerCategoriesCoursesRenderItem = ({
@@ -82,7 +123,10 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
         paddingHorizontal: 0,
         paddingTop: moderateScale(70),
       }}>
-      {coursesLoading?.courses || courseCartLoading?.courseCart ? (
+      {coursesLoading?.courses ||
+      courseCartLoading?.courseCart ||
+      courseCartLoading?.create ||
+      courseCartLoading?.delete ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>
@@ -94,7 +138,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
         }>
         <View style={{paddingHorizontal: mScale.base}}>
           <FlatList
-            data={courses?.length ? courses : []}
+            data={courseCart?.length ? courseCart : []}
             renderItem={renderItem}
             contentContainerStyle={{
               rowGap: mScale.base,
@@ -104,7 +148,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
           />
           <View>
             <TextAtom
-              text={`You have ${courses?.length} items in your cart`}
+              text={`You have ${courseCart?.length} items in your cart`}
               preset="body"
               style={{marginBottom: mScale.md}}
             />
@@ -190,7 +234,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
         <View style={{marginVertical: mScale.xl}}>
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={courses?.length ? courses : []}
+              data={courses?.length ? filteredCourses(courses, courseCart) : []}
               renderItem={innerCategoriesCoursesRenderItem}
               horizontal={true}
               contentContainerStyle={{
@@ -207,7 +251,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
           <ViewAll title="Your might also like" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={courses?.length ? courses : []}
+              data={courses?.length ? filteredCourses(courses, courseCart) : []}
               renderItem={innerCategoriesCoursesRenderItem}
               horizontal={true}
               contentContainerStyle={{
@@ -275,7 +319,9 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
                 totalPay: totalPay,
                 totalDiscount: totalDiscount,
               };
-              navigation.navigate(RouteKeys.CHECKOUTSCREEN,{cartData:cartData});
+              navigation.navigate(RouteKeys.CHECKOUTSCREEN, {
+                cartData: cartData,
+              });
             }}
           />
         </View>

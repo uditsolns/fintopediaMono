@@ -4,7 +4,12 @@ import apiUrl from "../../../config/apiUrl";
 import {
   CourseCartParams,
   CourseCartResponse,
+  DeleteParams,
 } from "../../../utils/types/CourseCart";
+import {
+  OnErrorInterface,
+  OnSuccessInterface,
+} from "../../../utils/types/roundLevel";
 
 export const getCourseCart = createAsyncThunk<
   CourseCartResponse[],
@@ -35,18 +40,21 @@ export const getCourseCartById = createAsyncThunk<
   CourseCartResponse,
   CourseCartParams,
   { state: RootState }
->("singleCourseCart/get", async (params, thunkApi) => {
+>("singleCourseCart/get", async ({ params }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(`${apiUrl.COURSE_ADD_TO_CART.GET}/${params?.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${apiUrl.COURSE_ADD_TO_CART.GET}/${params?.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = (await response.json()) as CourseCartResponse;
 
@@ -58,9 +66,9 @@ export const getCourseCartById = createAsyncThunk<
 
 export const createCourseCart = createAsyncThunk<
   CourseCartResponse,
-  CourseCartParams,
+  CourseCartParams & OnSuccessInterface & OnErrorInterface,
   { state: RootState }
->("courseCart/post", async (params, thunkApi) => {
+>("courseCart/post", async ({ params, onSuccess, onError }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
@@ -74,9 +82,11 @@ export const createCourseCart = createAsyncThunk<
     });
 
     const data = (await response.json()) as CourseCartResponse;
-
+    thunkApi.dispatch(getCourseCart());
+    onSuccess(data);
     return data;
   } catch (error) {
+    onError(error);
     return thunkApi.rejectWithValue(error);
   }
 });
@@ -85,12 +95,12 @@ export const updateCourseCart = createAsyncThunk<
   CourseCartResponse,
   CourseCartParams,
   { state: RootState }
->("courseCart/update", async (params, thunkApi) => {
+>("courseCart/update", async ({ params }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
     const response = await fetch(
-      apiUrl.COURSE_ADD_TO_CART.UPDATE + "/" + params.id,
+      apiUrl.COURSE_ADD_TO_CART.UPDATE + "/" + params?.id,
       {
         method: "POST",
         headers: {
@@ -110,28 +120,28 @@ export const updateCourseCart = createAsyncThunk<
 });
 
 export const deleteCourseCart = createAsyncThunk<
-  string,
-  string,
+  any,
+  DeleteParams,
   { state: RootState }
->("courseCart/delete", async (params, thunkApi) => {
+>("courseCart/delete", async ({ id, onSuccess, onError }, thunkApi) => {
+  console.log(id)
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(
-      apiUrl.COURSE_ADD_TO_CART.DELETE + "/" + params,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(apiUrl.COURSE_ADD_TO_CART.DELETE + "/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    const data = (await response.json()) as string;
-
+    const data = (await response.json()) as any;
+    thunkApi.dispatch(getCourseCart())
+    onSuccess(data);
     return data;
   } catch (error) {
+    onError(error);
     return thunkApi.rejectWithValue(error);
   }
 });
