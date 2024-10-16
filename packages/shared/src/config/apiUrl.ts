@@ -1,4 +1,4 @@
-const baseUrl = "http://nivada.in/hiring-management-backend/public/api/";
+const baseUrl = "https://nivada.in/hiring-management-backend/public/api/";
 const version = "v1/";
 
 const buildUrl = (endpoint: string) => {
