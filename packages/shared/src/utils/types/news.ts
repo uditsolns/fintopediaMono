@@ -15,6 +15,7 @@ export interface NewsResponse {
   created_at: string;
   updated_at: string;
   set_id: number;
+  description?: string | null;
   game?: GamesResponse;
 }
 export interface NewsState {

@@ -37,6 +37,7 @@ const authSlice = createSlice({
       return initialState;
     },
     storeCurrentUser: (state, action) => {
+      console.log("store current action payload", action.payload);
       state.current_user = action.payload;
     },
   },
