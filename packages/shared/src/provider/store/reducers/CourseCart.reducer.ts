@@ -6,7 +6,7 @@ import {
   updateCourseCart,
   createCourseCart,
   getCourseCartById,
-} from "../services/coursecart.service";
+} from "../services/CourseCart.service";
 
 const initialState: CourseCartState = {
   loading: {

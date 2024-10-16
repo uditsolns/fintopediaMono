@@ -4,7 +4,7 @@ import apiUrl from "../../../config/apiUrl";
 import {
   CourseCartParams,
   CourseCartResponse,
-} from "../../../utils/types/CourseCart";
+} from "../../../utils/types/coursecart";
 
 export const getCourseCart = createAsyncThunk<
   CourseCartResponse[],
@@ -40,13 +40,16 @@ export const getCourseCartById = createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(`${apiUrl.COURSE_ADD_TO_CART.GET}/${params?.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${apiUrl.COURSE_ADD_TO_CART.GET}/${params?.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = (await response.json()) as CourseCartResponse;
 
