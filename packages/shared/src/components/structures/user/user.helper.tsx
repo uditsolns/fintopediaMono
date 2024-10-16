@@ -23,6 +23,7 @@ export const useUserHelper = () => {
       formData.append('headline', values.headline);
       formData.append('linkedin', values.linkedin);
       formData.append('website_url', values.website_url);
+      formData.append('photo', values.photo);
       let id =  values?.id.toString()
       dispatch(updateUser({formData,id}));
     },

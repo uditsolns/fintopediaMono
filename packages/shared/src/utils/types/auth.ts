@@ -109,9 +109,9 @@ export interface UpdatePasswordParams {
 }
 export interface UserUpdateParams {
   id?:number
-  first_name: string;
-  email: string;
-  phone: string;
+  first_name?: string;
+  email?: string;
+  phone?: string;
   father_name?: string;
   surname_name?: string;
   dob?: string;

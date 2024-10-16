@@ -17,6 +17,10 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {NavType} from '@src/navigation/types';
 import {logout} from '@shared/src/provider/store/reducers/auth.reducer';
+import {PopupUpload} from '@src/components/Popup/PopupUpload';
+import {ImageType} from '@shared/src/utils/types/main';
+import {updateUser} from '@shared/src/provider/store/services/user.service';
+import {imageUrl} from '@shared/src/config/imageUrl';
 
 const avatarUrl =
   'https://st4.depositphotos.com/4329009/19956/v/450/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg';
@@ -63,11 +67,18 @@ interface AccountProps extends NavType<'Account'> {}
 
 export const Account: React.FC<AccountProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
-  const {auth} = useAppSelector(state => state.auth);
+  const {current_user} = useAppSelector(state => state.auth);
   const logoutUser = () => {
     setPopupVisible(true);
   };
   const [popupVisible, setPopupVisible] = React.useState(false);
+
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [photo, setPhoto] = React.useState<ImageType | null | undefined>(null);
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
 
   const navigateTo = (route: any) => {
     navigation.navigate(route);
@@ -78,19 +89,28 @@ export const Account: React.FC<AccountProps> = ({navigation}) => {
       style={{paddingBottom: 0, paddingHorizontal: 0, paddingTop: 0}}>
       <ScrollViewAtom contentContainerStyle={{paddingTop: mScale.xxl1}}>
         <View style={styles.centeredView}>
-          <ProfileIcon avatarUrl={avatarUrl} />
+          <ProfileIcon
+            avatarUrl={
+              photo
+                ? photo?.uri
+                : current_user?.photo
+                ? `${imageUrl}/uploads/user_photo/${current_user?.photo}`
+                : avatarUrl
+            }
+            onPress={() => setModalVisible(true)}
+          />
           <TextAtom
-            text={`${auth?.user?.first_name} ${auth?.user?.surname_name}`}
+            text={`${current_user?.first_name} ${current_user?.surname_name}`}
             preset="heading3"
             style={styles.nameText}
           />
           <TextAtom
-            text={auth?.user?.email}
+            text={current_user?.email}
             preset="medium"
             style={styles.emailText}
           />
           <TextAtom
-            text={`+91${auth?.user?.phone}`}
+            text={`+91${current_user?.phone}`}
             preset="small"
             style={[styles.phoneText, {color: '#C8C8CC', marginTop: mScale.xs}]}
           />
@@ -132,6 +152,18 @@ export const Account: React.FC<AccountProps> = ({navigation}) => {
           dispatch(logout());
           // navigation.navigate('AuthRoutes', { screen: RouteKeys.LOGINSCREEN });
           // navigation.navigate(RouteKeys.LOGINSCREEN);
+        }}
+      />
+      <PopupUpload
+        isVisible={modalVisible}
+        toggleModal={toggleModal}
+        onImagePick={(data: ImageType[]) => {
+          let res = data?.pop();
+          let formData = new FormData();
+          setPhoto(res);
+          formData.append('photo', res ? res : '');
+          let id = '' + current_user?.id;
+          dispatch(updateUser({formData, id}));
         }}
       />
     </GradientTemplate>

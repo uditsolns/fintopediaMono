@@ -12,7 +12,7 @@ export const getCouponCode = createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(apiUrl.NOTIFICATION.GET, {
+    const response = await fetch(apiUrl.COUPON_CODE.GET, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export const getCouponCodeById = createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(`${apiUrl.NOTIFICATION.GET}/${params?.id}`, {
+    const response = await fetch(`${apiUrl.COUPON_CODE.GET}/${params?.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export const createCouponCode = createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
     const response = await fetch(
-      apiUrl.NOTIFICATION.POST,
+      apiUrl.COUPON_CODE.POST,
       {
         method: "POST",
         headers: {
@@ -90,7 +90,7 @@ export const updateCouponCode= createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
     const response = await fetch(
-      apiUrl.NOTIFICATION.UPDATE + "/" + params.id,
+      apiUrl.COUPON_CODE.UPDATE + "/" + params.id,
       {
         method: "POST",
         headers: {
@@ -118,7 +118,7 @@ export const deleteCouponCode = createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
     const response = await fetch(
-      apiUrl.NOTIFICATION.DELETE + "/" + params,
+      apiUrl.COUPON_CODE.DELETE + "/" + params,
       {
         method: "DELETE",
         headers: {

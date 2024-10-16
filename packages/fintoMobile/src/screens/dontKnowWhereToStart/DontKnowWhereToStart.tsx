@@ -16,6 +16,9 @@ import {NavType} from '@src/navigation/types';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {CategoriesResponse} from '@shared/src/utils/types/categories';
+import {isInCart} from '@src/components/Calculate';
+import {RouteKeys} from '@src/navigation/RouteKeys';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 
 const options = [
   {label: 'Beginner', value: 'beginner'},
@@ -28,8 +31,12 @@ export const DontKnowWhereToStart: React.FunctionComponent<
   DontKnowWhereToStartProps
 > = ({navigation}) => {
   const dispatch = useAppDispatch();
+  const {auth} = useAppSelector(state => state.auth);
   const {categories, loading: categoriesLoading} = useAppSelector(
     state => state.categories,
+  );
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
+    state => state.courseCart,
   );
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
@@ -52,7 +59,31 @@ export const DontKnowWhereToStart: React.FunctionComponent<
   }: {
     item: CoursesResponse;
   }) => {
-    return <PopularCourseMolecule item={item} />;
+    return (
+      <PopularCourseMolecule
+        item={item}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+            navigation.navigate(RouteKeys.CARTSCREEN);
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                },
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
+        }}
+      />
+    );
   };
 
   return (

@@ -21,14 +21,14 @@ export default function CourseMolecule({ item, onPress }: OngoingMoleculeProps) 
     <View style={[commonStyle.flexStart, styles.container]}>
       <ImageAtom
         sourceRequire={ item?.course_image
-          ? {uri: `${imageUrl}/uploads/course_images/${item.course_image}`}
+          ? {uri: `${imageUrl}/uploads/course_images/${item?.course_image}`}
           : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')}
         imageStyle={styles.image}
         resizeMode='stretch'
       />
       <View style={styles.content}>
         <TextAtom
-          text={item?.name}
+          text={item?.name || ''}
           preset="titleBold"
           numberOfLines={3}
           style={{ marginTop: mScale.md }}
@@ -45,7 +45,7 @@ export default function CourseMolecule({ item, onPress }: OngoingMoleculeProps) 
         />
         <RatingReview rating={'4.6'} review={'1,000'} />
         <View style={[commonStyle.flexSpaceBetween]}>
-          <TextAtom text={`₹ ${item?.sale_price}`} preset="titleBold" />
+          <TextAtom text={`₹ ${item?.sale_price || 0}`} preset="titleBold" />
           <ButtonAtom title='Add to cart'  />
         </View>
       </View>

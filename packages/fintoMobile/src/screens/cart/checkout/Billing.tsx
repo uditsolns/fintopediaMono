@@ -34,7 +34,7 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
       <ScrollViewAtom>
         <View>
           <View>
-            <CheckoutStep activeStep={1} />
+            <CheckoutStep activeStep={2} />
           </View>
           <View style={{padding: mScale.base}}>
             <View style={{marginBottom: mScale.lg}}>
