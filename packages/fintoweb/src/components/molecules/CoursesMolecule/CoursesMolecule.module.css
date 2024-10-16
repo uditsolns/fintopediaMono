@@ -103,12 +103,12 @@
 }
 
 .courseTitle {
-  margin-bottom: 0.5rem;
-  color: #fff;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 120%;
+  margin-bottom: 0.5rem !important;
+  color: #fff !important;
+  font-size: 24px !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  line-height: 120% !important;
 }
 
 .details {

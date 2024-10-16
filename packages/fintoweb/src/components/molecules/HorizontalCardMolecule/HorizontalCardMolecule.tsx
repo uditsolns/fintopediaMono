@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Card, CardBody } from "reactstrap";
-import styles from "./CartsliderMolecule.module.css";
+import styles from "./HorizontalCardMolecule.module.css";
 import Image from "next/image";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import { imageUrl } from "shared/src/config/imageUrl";
@@ -12,7 +12,7 @@ interface CartsliderProps {
   course?: CoursesResponse;
   onClick?: () => void;
 }
-const CartsliderMolecule: React.FC<CartsliderProps> = ({ course, onClick }) => {
+const HorizontalCardMolecule: React.FC<CartsliderProps> = ({ course, onClick }) => {
   return (
     <div>
       <Card className={`${styles.courseCard}`}>
@@ -78,4 +78,4 @@ const CartsliderMolecule: React.FC<CartsliderProps> = ({ course, onClick }) => {
   );
 };
 
-export default CartsliderMolecule;
+export default HorizontalCardMolecule;

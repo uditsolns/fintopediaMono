@@ -2,10 +2,8 @@
 
 import React from "react";
 import Slider from "react-slick";
-import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 import styles from "./FeaturesCourseSlider.module.css";
-import Image from "next/image";
-import CartsliderMolecule from "@src/components/molecules/CartsliderMolecule/CartsliderMolecule";
+import HorizontalCardMolecule from "@src/components/molecules/HorizontalCardMolecule/HorizontalCardMolecule";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import NextArrow from "../components/NextArrow";
 import PrevArrow from "../components/PrevArrow";
@@ -59,7 +57,7 @@ const FeaturesCourseSlider: React.FC<FeaturesCourseSliderProps> = ({
       {courses.length > 0 ? (
         <Slider {...settings}>
           {courses.map((course) => (
-            <CartsliderMolecule
+            <HorizontalCardMolecule
               key={course.id}
               course={course}
               onClick={() => {}}

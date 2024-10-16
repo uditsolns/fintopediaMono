@@ -4,6 +4,8 @@ import { imageUrl } from "shared/src/config/imageUrl";
 import Image from "next/image";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import ProgressBar from "@src/components/progress/ProgressBar";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import { isInCart } from "shared/src/components/atoms/Calculate";
 
 interface CoursesMoleculeProps {
   course?: CoursesResponse;
@@ -13,6 +15,8 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
   course,
   onClick,
 }) => {
+  const { courseCart } = useAppSelector((state) => state.courseCart);
+
   return (
     <div key={course.id} className={styles.card}>
       <div className={styles.cardImage}>
@@ -118,7 +122,7 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
             <span className={styles.originalPrice}>₹{course.actual_price}</span>
           </div>
           <button className={styles.button} onClick={onClick}>
-            Add to cart
+            {isInCart(courseCart, course?.id) ? "Go to cart" : "Add to cart"}
           </button>
         </div>
       </div>

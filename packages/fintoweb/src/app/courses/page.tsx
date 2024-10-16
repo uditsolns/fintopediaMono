@@ -2,9 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./Courses.module.css";
-import { Button, Col, InputGroup, Row } from "reactstrap";
-import { ErrorMessage, Form, Field, Formik, FormikHelpers } from "formik";
-import CustomSelect from "@src/custom/CustomSelect";
+import { Col, Row } from "reactstrap";
 import Slider from "react-slick";
 import NextArrow from "../components/NextArrow";
 import PrevArrow from "../components/PrevArrow";
@@ -16,12 +14,10 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
-import CircularLoading from "@src/components/loader/LoadingAtom";
+import LoadingAtom from "@src/components/loader/LoadingAtom";
 import { getCategories } from "shared/src/provider/store/services/categories.service";
 import ButtonWithIcons from "@src/components/button/ButtonWithIcons";
-interface RegisterFormValues {
-  college_id: string;
-}
+
 const CourseFilter: React.FC = () => {
   const dispatch = useAppDispatch();
   const { courses, loading: coursesLoading } = useAppSelector(
@@ -30,16 +26,6 @@ const CourseFilter: React.FC = () => {
   const { categories, loading: categoriesLoading } = useAppSelector(
     (state) => state.categories
   );
-  const handleSubmit = (
-    values: RegisterFormValues,
-    { setSubmitting }: FormikHelpers<RegisterFormValues>
-  ) => {
-    const register = {
-      college_id: values.college_id,
-    };
-    setSubmitting(false);
-  };
-  const [progress, setProgress] = useState(0);
   const [slideToShow, setSlideToShow] = useState(4);
   const [activeFilter, setActiveFilter] = useState("All");
 
@@ -102,7 +88,7 @@ const CourseFilter: React.FC = () => {
       {coursesLoading?.courses || categoriesLoading?.categories ? (
         <div className={styles.loadingContainer}>
           <div className="fullPageLoading">
-            <CircularLoading
+            <LoadingAtom
               style={{
                 height: "5rem",
                 width: "5rem",

@@ -5,12 +5,17 @@ import styles from "./FeaturedCourses.module.css";
 import NextArrow from "@src/app/components/NextArrow";
 import PrevArrow from "@src/app/components/PrevArrow";
 import Slider from "react-slick";
-import { useAppDispatch } from "shared/src/provider/store/types/storeTypes";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import { CategoriesResponse } from "shared/src/utils/types/categories";
 import CoursesMolecule from "@src/components/molecules/CoursesMolecule/CoursesMolecule";
 import ButtonWithIcons from "@src/components/button/ButtonWithIcons";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { createCourseCart } from "shared/src/provider/store/services/CourseCart.service";
+import { useRouter } from "next/navigation";
+import { isInCart } from "shared/src/components/atoms/Calculate";
 
 interface FeaturedCoursesProps {
   courses: CoursesResponse[];
@@ -22,6 +27,10 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
   categories,
 }) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { auth } = useAppSelector((state) => state.auth);
+  const { courseCart } = useAppSelector((state) => state.courseCart);
+
   const [progress, setProgress] = React.useState(0);
   const [slideToShow, setSlideToShow] = React.useState(3);
   const [categoriesSelected, setCategoriesSelected] = React.useState<
@@ -137,7 +146,26 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
             <CoursesMolecule
               key={course.id}
               course={course}
-              onClick={() => {}}
+              onClick={async () => {
+                let params = {
+                  user_id: Number(auth?.user?.id),
+                  course_id: Number(course?.id),
+                  status: "1",
+                };
+                if (isInCart(courseCart, course?.id)) {
+                  router.push("/cart");
+                } else {
+                  await dispatch(
+                    createCourseCart({
+                      params,
+                      onSuccess: (data) => {
+                        router.push("/cart");
+                      },
+                      onError: (err) => {},
+                    })
+                  ).unwrap();
+                }
+              }}
             />
           );
         })}

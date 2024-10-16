@@ -122,6 +122,15 @@ const SellStocks: React.FC<Props> = (props) => {
               />
             </Col>
           </Row>
+          <Row className="form-group mt-3">
+            <Col md={12}>
+              <InputAtom
+                label={buySellField.remarks.label}
+                placeholder={buySellField.remarks.placeHolder}
+                {...buySellInputProps(buySellField.remarks.name)}
+              />
+            </Col>
+          </Row>
           <Row className="mt-3 mb-3 row">
             <Col className="col-12">
               <Button
@@ -145,7 +154,10 @@ const SellStocks: React.FC<Props> = (props) => {
                 .map((el, i) => (
                   <Card key={i} className={`${styles["news-card"]} m-2 p-2`}>
                     <CardBody>
-                      <CardTitle tag="h6">{el.name}</CardTitle>
+                      <div className={styles.newsContent}>
+                        <h3 className={styles.newsHeading}>{el.name}</h3>
+                        <p className={styles.newsDesc}>{el.description}</p>
+                      </div>
                     </CardBody>
                   </Card>
                 ))}

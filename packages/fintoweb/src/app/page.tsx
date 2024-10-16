@@ -19,6 +19,7 @@ import Login from "./auth/login/page";
 import { getCourses } from "shared/src/provider/store/services/courses.service";
 import { getCategories } from "shared/src/provider/store/services/categories.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
+import { getCourseCart } from "shared/src/provider/store/services/CourseCart.service";
 
 // const Homepage = dynamic(() => import("./homepage/Homepage"), {
 //   ssr: false,
@@ -44,6 +45,7 @@ export default function Home() {
     if (token) {
       dispatch(getCourses());
       dispatch(getCategories());
+      dispatch(getCourseCart());
     }
   }, [token, dispatch]);
 
@@ -67,7 +69,7 @@ export default function Home() {
           <div>
             <FeaturedCourses courses={courses} categories={categories} />
           </div>
-          <CategoryBanner categories={categories}/>
+          <CategoryBanner categories={categories} />
           <HowitWorks />
           <AchiveingLearningSlider />
           <CourseOffer />
