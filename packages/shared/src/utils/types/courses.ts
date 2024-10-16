@@ -17,7 +17,7 @@ export interface CoursesParams {
   rating: number;
   course_type: string;
   reviews: number;
-  is_polular: number;
+  is_popular: number;
   resource_file_upload: File;
 }
 export interface CoursesResponse {
@@ -40,7 +40,7 @@ export interface CoursesResponse {
   rating: number;
   course_type: string;
   reviews: number;
-  is_polular: number;
+  is_popular: number;
   resource_file_upload: File
 }
 export interface CoursesState {

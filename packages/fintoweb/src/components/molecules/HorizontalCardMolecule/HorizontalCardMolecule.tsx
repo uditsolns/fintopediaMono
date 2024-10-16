@@ -7,12 +7,20 @@ import Image from "next/image";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import { imageUrl } from "shared/src/config/imageUrl";
 import ProgressBar from "@src/components/progress/ProgressBar";
+import { isInCart } from "shared/src/components/atoms/Calculate";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
 interface CartsliderProps {
   course?: CoursesResponse;
   onClick?: () => void;
+  loading: boolean;
 }
-const HorizontalCardMolecule: React.FC<CartsliderProps> = ({ course, onClick }) => {
+const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
+  course,
+  onClick,
+  loading = false,
+}) => {
+  const { courseCart } = useAppSelector((state) => state.courseCart);
   return (
     <div>
       <Card className={`${styles.courseCard}`}>
@@ -25,7 +33,6 @@ const HorizontalCardMolecule: React.FC<CartsliderProps> = ({ course, onClick }) 
             className={styles.image}
           />
         </div>
-
         <div className={styles.cardBody}>
           <h3>{course.name}</h3>
           <div
@@ -68,8 +75,16 @@ const HorizontalCardMolecule: React.FC<CartsliderProps> = ({ course, onClick }) 
           <div className={styles.featurePriceContainer}>
             <h3>&#8377;{course.sale_price}</h3>
             <s>&#8377;{course.actual_price}</s>
-            <button className={styles.featureaddToCartButton}>
-              Add to Cart
+            <button
+              className={styles.featureaddToCartButton}
+              onClick={onClick}
+              disabled={loading}
+            >
+              {loading
+                ? "Loading..."
+                : isInCart(courseCart, course?.id)
+                ? "Go to cart"
+                : "Add to cart"}
             </button>
           </div>
         </div>

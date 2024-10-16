@@ -10,10 +10,12 @@ import { isInCart } from "shared/src/components/atoms/Calculate";
 interface CoursesMoleculeProps {
   course?: CoursesResponse;
   onClick?: () => void;
+  loading: boolean;
 }
 const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
   course,
   onClick,
+  loading = false,
 }) => {
   const { courseCart } = useAppSelector((state) => state.courseCart);
 
@@ -121,8 +123,19 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
             <span className={styles.price}>₹{course.sale_price}</span>
             <span className={styles.originalPrice}>₹{course.actual_price}</span>
           </div>
-          <button className={styles.button} onClick={onClick}>
+          {/* <button className={styles.button} onClick={onClick}>
             {isInCart(courseCart, course?.id) ? "Go to cart" : "Add to cart"}
+          </button> */}
+          <button
+            className={styles.button}
+            onClick={onClick}
+            disabled={loading}
+          >
+            {loading
+              ? "Loading..."
+              : isInCart(courseCart, course?.id)
+              ? "Go to cart"
+              : "Add to cart"}
           </button>
         </div>
       </div>

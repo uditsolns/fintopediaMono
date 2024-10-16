@@ -8,15 +8,31 @@ import Slider from "react-slick";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import CoursesMolecule from "@src/components/molecules/CoursesMolecule/CoursesMolecule";
 import ButtonWithIcons from "@src/components/button/ButtonWithIcons";
+import { createCourseCart } from "shared/src/provider/store/services/CourseCart.service";
+import { isInCart } from "shared/src/components/atoms/Calculate";
+import { useRouter } from "next/navigation";
+import {
+  useAppSelector,
+  useAppDispatch,
+} from "shared/src/provider/store/types/storeTypes";
 
 interface LikeCoursesProps {
   courses: CoursesResponse[];
 }
 
 const LikeCourses: React.FC<LikeCoursesProps> = ({ courses }) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const [progress, setProgress] = React.useState(0);
   const [slideToShow, setSlideToShow] = React.useState(3);
   const [currentSlide, setCurrentSlide] = React.useState(0);
+  const { courseCart, loading: courseCartLoading } = useAppSelector(
+    (state) => state.courseCart
+  );
+  const { auth } = useAppSelector((state) => state.auth);
+  const [loadingCourseId, setLoadingCourseId] = React.useState<number | null>(
+    null
+  );
 
   const setSlides = () => {
     if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
@@ -73,7 +89,39 @@ const LikeCourses: React.FC<LikeCoursesProps> = ({ courses }) => {
       },
     ],
   };
+  const handleCourseClick = async (course: CoursesResponse) => {
+    setLoadingCourseId(course.id);
 
+    if (isInCart(courseCart, course?.id)) {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        router.push("/cart");
+      } finally {
+        setLoadingCourseId(null);
+      }
+      return;
+    }
+
+    const params = {
+      user_id: Number(auth?.user?.id),
+      course_id: Number(course?.id),
+      status: "1",
+    };
+
+    try {
+      await dispatch(
+        createCourseCart({
+          params,
+          onSuccess: (data) => {
+            router.push("/cart");
+          },
+          onError: (err) => {},
+        })
+      ).unwrap();
+    } finally {
+      setLoadingCourseId(null);
+    }
+  };
   return (
     <div className={styles.courseContainer}>
       <h1 className={styles.courseContainerHeading}>You might also like</h1>
@@ -83,7 +131,8 @@ const LikeCourses: React.FC<LikeCoursesProps> = ({ courses }) => {
             <CoursesMolecule
               key={course.id}
               course={course}
-              onClick={() => {}}
+              loading={loadingCourseId === course.id}
+              onClick={() => handleCourseClick(course)}
             />
           );
         })}

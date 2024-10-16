@@ -18,7 +18,7 @@ const CourseCartMolecule: React.FC<CourseCartMoleculeProps> = ({
   onSaveLater,
   onRemove,
 }) => {
-  console.log("CourseCartMolecule", cart);
+  // console.log("CourseCartMolecule", cart);
   return (
     <Card key={cart.id} className={styles.card}>
       <CardBody className={styles.cardBody}>

@@ -36,9 +36,15 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
   const [categoriesSelected, setCategoriesSelected] = React.useState<
     number | string
   >("all");
+  const [loadingCourseId, setLoadingCourseId] = React.useState<number | null>(
+    null
+  );
 
+  // const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
+  //   courses?.length ? courses : []
+  // );
   const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
-    courses?.length ? courses : []
+    courses?.length ? courses.filter((course) => course.is_popular === 1) : []
   );
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
@@ -99,9 +105,42 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
   };
   React.useEffect(() => {
     if (courses?.length) {
-      setFilterCourses(courses);
+      setFilterCourses(courses.filter((course) => course.is_popular === 1));
     }
   }, [courses]);
+  const handleCourseClick = async (course: CoursesResponse) => {
+    setLoadingCourseId(course.id);
+
+    if (isInCart(courseCart, course?.id)) {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        router.push("/cart");
+      } finally {
+        setLoadingCourseId(null);
+      }
+      return;
+    }
+
+    const params = {
+      user_id: Number(auth?.user?.id),
+      course_id: Number(course?.id),
+      status: "1",
+    };
+
+    try {
+      await dispatch(
+        createCourseCart({
+          params,
+          onSuccess: (data) => {
+            router.push("/cart");
+          },
+          onError: (err) => {},
+        })
+      ).unwrap();
+    } finally {
+      setLoadingCourseId(null);
+    }
+  };
 
   return (
     <div className={styles.courseContainer}>
@@ -113,7 +152,9 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
           }`}
           onClick={() => {
             setCategoriesSelected("all");
-            setFilterCourses(courses);
+            setFilterCourses(
+              courses.filter((course) => course.is_popular === 1)
+            );
             setCurrentSlide(0);
             setProgress(0);
           }}
@@ -128,8 +169,8 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
             }`}
             onClick={() => {
               setCategoriesSelected(cat.id);
-              let filterCourseRes = courses?.filter(
-                (el) => el?.category_id == cat.id
+              let filterCourseRes = courses.filter(
+                (el) => el.category_id == cat.id && el.is_popular === 1
               );
               setFilterCourses(filterCourseRes);
               setCurrentSlide(0);
@@ -146,26 +187,8 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
             <CoursesMolecule
               key={course.id}
               course={course}
-              onClick={async () => {
-                let params = {
-                  user_id: Number(auth?.user?.id),
-                  course_id: Number(course?.id),
-                  status: "1",
-                };
-                if (isInCart(courseCart, course?.id)) {
-                  router.push("/cart");
-                } else {
-                  await dispatch(
-                    createCourseCart({
-                      params,
-                      onSuccess: (data) => {
-                        router.push("/cart");
-                      },
-                      onError: (err) => {},
-                    })
-                  ).unwrap();
-                }
-              }}
+              loading={loadingCourseId === course.id}
+              onClick={() => handleCourseClick(course)}
             />
           );
         })}

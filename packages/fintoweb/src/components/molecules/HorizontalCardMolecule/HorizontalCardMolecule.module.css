@@ -37,7 +37,7 @@
   object-fit: cover;
   border-radius: 10px;
   width: 100% !important;
-  height: 210px !important;
+  height: 170px !important;
 }
 
 .cardBody {
@@ -115,7 +115,7 @@
 /* Add to cart button */
 .featureaddToCartButton {
   display: flex;
-  width: 150px;
+  width: 130px;
   padding: 10px 20px;
   justify-content: center;
   align-items: center;

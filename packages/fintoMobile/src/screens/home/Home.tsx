@@ -272,7 +272,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
             <FlatList
               data={
                 courses?.length
-                  ? courses?.filter(el => el?.is_polular === 1)
+                  ? courses?.filter(el => el?.is_popular === 1)
                   : []
               }
               renderItem={innerCategoriesCoursesRenderItem}

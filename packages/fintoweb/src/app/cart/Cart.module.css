@@ -275,6 +275,10 @@
   font-weight: 700;
   line-height: 40px; /* 125% */
 }
+.emptyCartMessage{
+  font-weight: bold;
+  text-align: center;
+}
 /* Mobile View */
 @media (max-width: 768px) {
   .imageCol {
