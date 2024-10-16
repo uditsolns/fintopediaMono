@@ -1,7 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import { Platform } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import logger from "redux-logger";
 import { errorMiddleware } from "./middleware/error.middleware";
 import storage from "redux-persist/lib/storage";
@@ -34,7 +33,7 @@ const isNative = Platform.OS !== "web";
 
 const persistConfig: any = {
   key: "fintopedia",
-  storage: AsyncStorage,
+  storage: storage,
   timeout: null,
   whitelist: ["auth"],
 };
@@ -66,12 +65,19 @@ const reducers = combineReducers({
   notifications: notificationsReducer,
 });
 
+const middleware = (getDefaultMiddleware: any) => {
+  if (
+    process.env.NODE_ENV === "development" ||
+    (typeof __DEV__ !== "undefined" && __DEV__)
+  ) {
+    return getDefaultMiddleware().concat(errorMiddleware, logger);
+  }
+  return getDefaultMiddleware().concat(errorMiddleware);
+};
+
 export const store = configureStore({
   reducer: reducers,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }).concat(errorMiddleware, logger),
+  middleware,
 });
 
 export const persistor = persistStore(store);
