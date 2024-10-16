@@ -37,6 +37,7 @@ export interface GamesResponse {
   created_at?: string;
   updated_at?: string;
   to_publish_result: number;
+  game_desc?:string | null;
   news?: NewsResponse[] | null;
   stock_datas?: StockDatasResponse[] | null;
   college?: CollegeResponse | null;

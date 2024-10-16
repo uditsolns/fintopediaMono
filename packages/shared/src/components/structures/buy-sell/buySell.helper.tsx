@@ -23,6 +23,7 @@ export const useBuySellHelper = () => {
         total_price: +values.total_price,
         stock_current_price: +values.stock_current_price,
         round_level: values.round_level,
+        remarks: values.remarks,
       };
       dispatch(createTransactions(data));
       buySellFormik.resetForm();

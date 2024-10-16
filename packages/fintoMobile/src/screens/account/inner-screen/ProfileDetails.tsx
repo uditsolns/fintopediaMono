@@ -25,7 +25,6 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
   const {current_user} = useAppSelector(state => state.auth);
   const {loading, update} = useAppSelector(state => state.users);
-  console.log(update)
   const {userFormik, userInputProps} = useUserHelper();
   const {handleSubmit, setFieldValue} = userFormik;
 

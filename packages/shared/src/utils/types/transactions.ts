@@ -11,6 +11,7 @@ export interface TransactionsParams {
   total_price?: number;
   stock_current_price?: number;
   round_level?: string;
+  remarks?:string | null;
 }
 
 export interface TransactionsResponse {
@@ -23,6 +24,7 @@ export interface TransactionsResponse {
   order_type: string;
   total_price: null | number | string;
   round_level: string;
+  remarks?:string | null;
   deleted_at?: null | string;
   created_at: string | null;
   updated_at: string | number;

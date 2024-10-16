@@ -27,11 +27,34 @@ export const getUser = createAsyncThunk<UserInfo[], void, { state: RootState }>(
   }
 );
 
+export const getUserById = createAsyncThunk<
+  UserInfo,
+  { id: string },
+  { state: RootState }
+>("getUserById/get", async ({ id }, thunkApi) => {
+  try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
+    const response = await fetch(apiUrl.USER.GET + "/" + id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = (await response.json()) as UserInfo;
+    thunkApi.dispatch(storeCurrentUser(data));
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
 export const updateUser = createAsyncThunk<
   UserInfo,
   { formData: FormData; id: string },
   { state: RootState }
->("user/update", async ({ formData,id }, thunkApi) => {
+>("user/update", async ({ formData, id }, thunkApi) => {
   const state = thunkApi.getState();
   const token = state.auth?.auth?.token;
   console.log("---------", JSON.stringify(formData));
@@ -46,7 +69,9 @@ export const updateUser = createAsyncThunk<
     });
 
     const data = (await response.json()) as UserInfo;
+    console.log("update user response :", data);
     thunkApi.dispatch(storeCurrentUser(data));
+    thunkApi.dispatch(getUserById({ id }));
 
     return data;
   } catch (error) {
