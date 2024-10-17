@@ -6,7 +6,7 @@ import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {colorPresets} from '@shared/src/theme/color';
 
 interface ProfileIconProps {
-  avatarUrl: string;
+  avatarUrl: string | undefined;
   onPress?: () => void;
 }
 
@@ -17,7 +17,7 @@ const ProfileIcon: React.FC<ProfileIconProps> = ({avatarUrl, onPress}) => {
         sourceRequire={{uri: avatarUrl}}
         imageStyle={styles.avatar as ImageStyle}
       />
-      <Pressable style={styles.iconButton}>
+      <Pressable style={styles.iconButton} onPress={onPress}> 
         <Images.SVG.CameraIcon />
       </Pressable>
     </View>
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: moderateScale(100),
     height: moderateScale(100),
-    borderRadius: moderateScale(50),
+    borderRadius: moderateScale(100),
   },
   iconButton: {
     width: moderateScale(36),

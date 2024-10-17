@@ -60,7 +60,7 @@ export const updateUser = createAsyncThunk<
   console.log("---------", JSON.stringify(formData));
   try {
     const response = await fetch(apiUrl.USER.UPDATE + "/" + id, {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,

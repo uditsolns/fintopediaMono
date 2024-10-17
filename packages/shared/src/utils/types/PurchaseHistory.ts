@@ -1,8 +1,10 @@
 import { UserInfo } from "./auth";
+import { CoursesResponse } from "./courses";
 
 export interface PurchaseHistoryParams {
   id?: number;
   user_id?: number;
+  course_id?: number;
   purchase_date?: number;
   status?: number;
   payment_status?: number;
@@ -19,6 +21,7 @@ export interface PurchaseHistoryParams {
 export interface PurchaseHistoryResponse {
   id: number;
   user_id: number;
+  course_id: number;
   purchase_date: number;
   status: number;
   payment_status: number;
@@ -32,6 +35,7 @@ export interface PurchaseHistoryResponse {
   pgServiceTransactionId: string;
   cardType: string;
   user?: UserInfo | null;
+  course?: CoursesResponse | null;
 }
 export interface PurchaseHistoryState {
   loading: {

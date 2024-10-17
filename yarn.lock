@@ -6669,6 +6669,7 @@ __metadata:
     react-native-config: ^1.5.3
     react-native-document-picker: ^9.3.1
     react-native-gesture-handler: ^2.19.0
+    react-native-image-crop-picker: ^0.41.4
     react-native-pager-view: ^6.4.1
     react-native-pdf: ^6.7.5
     react-native-reanimated: ^3.15.1
@@ -10497,6 +10498,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: ce9b9fc6537debf962e6b8d84f1c4cf18fe00f39bd86498e84a203ebb26bf3543c2642ed247d974537840407b7ddb602939fd8c817c00a3416e87bddc8f2088f
+  languageName: node
+  linkType: hard
+
+"react-native-image-crop-picker@npm:^0.41.4":
+  version: 0.41.4
+  resolution: "react-native-image-crop-picker@npm:0.41.4"
+  peerDependencies:
+    react-native: ">=0.40.0"
+  checksum: 56a84330b4c9d9fd8cadd3519a178a610298be3851b6f516b2003c6951934ab23eb8989b36776447a643495c1ee8d712d203169cc50e7296763479e961534c21
   languageName: node
   linkType: hard
 

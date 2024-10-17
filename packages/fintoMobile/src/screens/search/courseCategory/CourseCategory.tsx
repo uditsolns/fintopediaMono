@@ -1,6 +1,7 @@
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import { createCourseCart } from '@shared/src/provider/store/services/CourseCart.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -8,21 +9,27 @@ import {
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
-import {getRandomItem} from '@src/components/Calculate';
+import {getRandomItem, isInCart} from '@src/components/Calculate';
 import Dropdown from '@src/components/Dropdown/Dropdown';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import TagsAtom from '@src/components/TagsAtom';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
+import { RouteKeys } from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import * as React from 'react';
-import {FlatList, StyleSheet, View, ListRenderItem} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 
 interface CourseCategoryProps extends NavType<'CourseCategory'> {}
 export default function CourseCategory({navigation}: CourseCategoryProps) {
   const dispatch = useAppDispatch();
   const {courses} = useAppSelector(state => state.courses);
-  const {categories} = useAppSelector(state => state.categories);
+  const {auth} = useAppSelector(state => state.auth);
+  const {categories, loading: categoriesLoading} = useAppSelector(
+    state => state.categories,
+  );
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
+    state => state.courseCart,
+  );
 
   React.useEffect(() => {}, []);
 
@@ -31,7 +38,26 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
   }: {
     item: CoursesResponse;
   }) => {
-    return <PopularCourseMolecule item={item} />;
+    return <PopularCourseMolecule item={item}  onPress={async () => {
+      let params = {
+        user_id: Number(auth?.user?.id),
+        course_id: Number(item?.id),
+        status: '1',
+      };
+      if (isInCart(courseCart, item?.id)) {
+        navigation.navigate(RouteKeys.CARTSCREEN);
+      } else {
+        await dispatch(
+          createCourseCart({
+            params,
+            onSuccess: data => {
+              navigation.navigate(RouteKeys.CARTSCREEN);
+            },
+            onError: err => {},
+          }),
+        ).unwrap();
+      }
+    }} />;
   };
 
   return (

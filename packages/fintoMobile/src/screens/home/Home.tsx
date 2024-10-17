@@ -8,6 +8,7 @@ import {
   getCourseCart,
 } from '@shared/src/provider/store/services/CourseCart.service';
 import {getCourses} from '@shared/src/provider/store/services/courses.service';
+import { getUserById } from '@shared/src/provider/store/services/user.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -72,7 +73,9 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   }, []);
 
   const onRefresh = () => {
+    let id = `${auth?.user?.id}`
     setRefreshLoading(true);
+    dispatch(getUserById({id}));
     dispatch(getBanner());
     dispatch(getCategories());
     dispatch(getCourses());

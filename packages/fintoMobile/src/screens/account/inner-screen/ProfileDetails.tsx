@@ -15,6 +15,9 @@ import React from 'react';
 import {View} from 'react-native';
 import {useUserHelper} from '@shared/src/components/structures/user/user.helper';
 import {userField} from '@shared/src/components/structures/user/userModel';
+import {PopupUpload} from '@src/components/Popup/PopupUpload';
+import {imageUrl} from '@shared/src/config/imageUrl';
+import {ImageType} from '@shared/src/utils/types/main';
 
 const avatarUrl =
   'https://st4.depositphotos.com/4329009/19956/v/450/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg';
@@ -27,6 +30,12 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({navigation}) => {
   const {loading, update} = useAppSelector(state => state.users);
   const {userFormik, userInputProps} = useUserHelper();
   const {handleSubmit, setFieldValue} = userFormik;
+
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
+  const [photo, setPhoto] = React.useState<ImageType | null | undefined>(null);
 
   React.useEffect(() => {
     setFieldValue(userField.id.name, current_user?.id || '');
@@ -68,7 +77,16 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({navigation}) => {
       ) : null}
       <ScrollViewAtom>
         <View>
-          <ProfileIcon avatarUrl={avatarUrl} />
+          <ProfileIcon
+            avatarUrl={
+              photo
+                ? photo?.uri
+                : current_user?.photo
+                ? `${imageUrl}/uploads/user_photo/${current_user?.photo}`
+                : avatarUrl
+            }
+            onPress={() => setModalVisible(true)}
+          />
           <View style={{marginVertical: mScale.lg}}>
             <View style={{marginBottom: mScale.lg}}>
               <InputAtom
@@ -148,6 +166,15 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({navigation}) => {
           </View>
         </View>
       </ScrollViewAtom>
+      <PopupUpload
+        isVisible={modalVisible}
+        toggleModal={toggleModal}
+        onImagePick={(data: ImageType[]) => {
+          let res = data?.pop();
+          setFieldValue(userField.photo.name, res || '');
+          setPhoto(res);
+        }}
+      />
     </GradientTemplate>
   );
 };
