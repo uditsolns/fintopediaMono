@@ -5,7 +5,7 @@ export interface CourseNotesFields {
   id?: number;
   course_id?: number;
   user_id?: number;
-  note_desc: null | string;
+  notes: null | string;
 }
 
 export interface CourseNotesParams {
@@ -15,9 +15,11 @@ export interface CourseNotesResponse {
   id?: number;
   course_id?: number;
   user_id?: number;
-  note_desc: null | string;
+  notes: null | string;
   course?: CoursesResponse;
   user?: UserInfo;
+  created_at?: string | null;
+  updated_at?: string | null;
 }
 export interface CourseNotesState {
   loading: {

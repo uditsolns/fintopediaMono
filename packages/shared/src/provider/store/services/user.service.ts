@@ -57,7 +57,6 @@ export const updateUser = createAsyncThunk<
 >("user/update", async ({ formData, id }, thunkApi) => {
   const state = thunkApi.getState();
   const token = state.auth?.auth?.token;
-  console.log("---------", JSON.stringify(formData));
   try {
     const response = await fetch(apiUrl.USER.UPDATE + "/" + id, {
       method: "POST",
@@ -69,7 +68,6 @@ export const updateUser = createAsyncThunk<
     });
 
     const data = (await response.json()) as UserInfo;
-    console.log("update user response :", data);
     thunkApi.dispatch(storeCurrentUser(data));
     thunkApi.dispatch(getUserById({ id }));
 

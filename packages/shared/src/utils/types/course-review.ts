@@ -18,8 +18,8 @@ export interface CourseReviewResponse {
   user_id?: number;
   rating: null | string;
   rating_desc: null | string;
-  course?: CoursesResponse;
-  user?: UserInfo;
+  course?: CoursesResponse | null;
+  user?: UserInfo | null;
 }
 export interface CourseReviewState {
   loading: {

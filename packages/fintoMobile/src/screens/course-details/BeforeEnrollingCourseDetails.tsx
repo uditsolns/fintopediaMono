@@ -6,7 +6,6 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
-import Header from '@src/components/Header/Header';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import ProgressBar from '@src/components/ProgressBar';
 import RatingReview from '@src/components/RatingReview';
@@ -25,9 +24,12 @@ import {
 import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {useFocusEffect} from '@react-navigation/native';
 import LoaderAtom from '@src/components/LoaderAtom';
-import { getCourses } from '@shared/src/provider/store/services/courses.service';
-import { getCoursesRatingReviews } from '@shared/src/provider/store/services/CoursesRatingReviews.service';
-import { getCoursesSections } from '@shared/src/provider/store/services/courseSections.service';
+import {
+  getCourses,
+  getCoursesById,
+} from '@shared/src/provider/store/services/courses.service';
+import {getCoursesRatingReviews} from '@shared/src/provider/store/services/CoursesRatingReviews.service';
+import {getCoursesSections} from '@shared/src/provider/store/services/courseSections.service';
 
 interface BeforeEnrollingCourseDetailsProps
   extends NavType<'BeforeEnrollingCourseDetails'> {}
@@ -40,13 +42,19 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
   );
-  const {coursesSection,loading:coursesSectionLoading} = useAppSelector(state => state.coursesSection);
-  console.log(coursesSection)
+  const {coursesSection, loading: coursesSectionLoading} = useAppSelector(
+    state => state.coursesSection,
+  );
+
   const [refreshLoading, setRefreshLoading] = React.useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
+      let params = {
+        id: Number(id),
+      };
       if (id) {
+        dispatch(getCoursesById(params));
       }
     }, [id]),
   );
@@ -61,7 +69,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
     setRefreshLoading(true);
     dispatch(getCourses());
     dispatch(getCoursesRatingReviews());
-    dispatch(getCoursesSections())
+    dispatch(getCoursesSections());
     setRefreshLoading(false);
   };
   const renderItem = ({item}: {item: any}) => {
@@ -235,7 +243,10 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                   imageStyle={{width: 24, height: 24}}
                 />
                 <View style={{marginVertical: mScale.md}}>
-                  <TextAtom text={'Certificate of completion'} preset="titleBold" />
+                  <TextAtom
+                    text={'Certificate of completion'}
+                    preset="titleBold"
+                  />
                   <TextAtom
                     preset="small"
                     text={

@@ -35,6 +35,7 @@ export default function ContinueLearningMolecule({
             : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')
         }
         style={styles.image}
+        resizeMode='stretch'
       />
       <View style={styles.content}>
         <TextAtom

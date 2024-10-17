@@ -17,6 +17,8 @@ export interface CourseUploadFileResponse {
   upload_file: null | File | string;
   course?: CoursesResponse;
   user?: UserInfo;
+  created_at: string | null;
+  updated_at: string | null;
 }
 export interface CourseUploadFileState {
   loading: {

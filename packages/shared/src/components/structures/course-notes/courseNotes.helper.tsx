@@ -2,7 +2,8 @@ import { useFormik } from "formik";
 import { useAppDispatch } from "../../../provider/store/types/storeTypes";
 import { InputAtomProps } from "../../atoms/Input/InputAtom";
 import { COURSE_NOTES_VALUES, courseNotesValidation } from "./courseNotesModel";
-import { CourseNotesParams } from "../../../utils/types/course-notes";
+import { CourseNotesFields} from "../../../utils/types/course-notes";
+import { createCourseNotes } from "../../../provider/store/services/course-note.service";
 
 export const useCourseNotesHelper = () => {
   type dataType = keyof typeof COURSE_NOTES_VALUES;
@@ -13,11 +14,13 @@ export const useCourseNotesHelper = () => {
     initialValues: COURSE_NOTES_VALUES,
     validationSchema: courseNotesValidation,
     onSubmit: (values) => {
-      let data: CourseNotesParams = {
+      let params:CourseNotesFields = {
         user_id: +values.user_id,
         course_id: +values.course_id,
-        note_desc: values.note_desc,
+        notes: values.course_notes,
       };
+      console.log("course note body",params)
+      dispatch(createCourseNotes({params}))
     },
   });
 

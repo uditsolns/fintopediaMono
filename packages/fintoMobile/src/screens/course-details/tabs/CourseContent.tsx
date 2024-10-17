@@ -1,10 +1,11 @@
-import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import {WINDOW_HEIGHT, WINDOW_WIDTH} from '@shared/src/theme/metrics';
+
+import { useRoute } from '@react-navigation/native';
+import { useAppSelector } from '@shared/src/provider/store/types/storeTypes';
 import {CourseInnerAtom} from '@src/components/CourseInnerAtom';
 import React from 'react';
 import {FlatList, View} from 'react-native';
 
-export const data = [
+export const data2 = [
   {
     section: 'Section 1: Course Introduction',
     lessons: [
@@ -38,11 +39,20 @@ export const CourseContent: React.FunctionComponent<
   CourseContentProps
 > = () => {
 
+  const {
+    courses,
+    singleCourse,
+    loading: coursesLoading,
+  } = useAppSelector(state => state.courses);
+   let route = useRoute<any>();
+   const {course, id} = route.params || {};
+   const data = singleCourse ? singleCourse : course;
+
   return (
     <View
       style={{flex: 1}}>
       <FlatList
-        data={data}
+        data={data2}
         renderItem={({item}) => (
           <CourseInnerAtom section={item.section} lessons={item.lessons} />
         )}

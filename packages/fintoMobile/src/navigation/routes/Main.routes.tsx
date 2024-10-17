@@ -157,7 +157,12 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={BeforeEnrollingCourseDetails as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={{
+          headerShown: true,
+          header: () => {
+            return <Header />
+          },
+        }}
         name={RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN}
         component={AfterEnrollingCourseDetails as React.FC}
       />

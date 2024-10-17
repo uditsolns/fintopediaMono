@@ -1,12 +1,22 @@
+import {useRoute} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {createCourseUploadFile} from '@shared/src/provider/store/services/course-upload-file.service';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale, WINDOW_HEIGHT} from '@shared/src/theme/metrics';
 import {fontPresets} from '@shared/src/theme/typography';
+import {CourseUploadFileResponse} from '@shared/src/utils/types/course-upload-file';
+import {ImageType} from '@shared/src/utils/types/main';
+import LoaderAtom from '@src/components/LoaderAtom';
 import PdfMolecule from '@src/components/molecules/PdfMolecule/PdfMolecule';
+import {PopupUpload} from '@src/components/Popup/PopupUpload';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import React from 'react';
 import {FlatList, Text, View} from 'react-native';
@@ -15,7 +25,24 @@ interface UploadProjectProps {}
 export const UploadProject: React.FunctionComponent<
   UploadProjectProps
 > = () => {
-  const renderItem = ({item}: {item: any}) => {
+  const dispatch = useAppDispatch();
+  const {auth} = useAppSelector(state => state.auth);
+  const {singleCourse, loading: coursesLoading} = useAppSelector(
+    state => state.courses,
+  );
+  const {upload_file, loading: upload_file_loading} = useAppSelector(
+    state => state.courseUploadFile,
+  );
+  let route = useRoute<any>();
+
+  const {course, id} = route.params || {};
+  const data = singleCourse ? singleCourse : course;
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  const renderItem = ({item}: {item: CourseUploadFileResponse}) => {
     return <PdfMolecule item={item} />;
   };
 
@@ -27,8 +54,13 @@ export const UploadProject: React.FunctionComponent<
         padding: mScale.base,
         paddingBottom: 0,
         zIndex: 1,
-        height: WINDOW_HEIGHT,
       }}>
+      {coursesLoading.singleCourse ||
+      coursesLoading.courses ||
+      upload_file_loading.create ||
+      upload_file_loading?.upload_file ? (
+        <LoaderAtom size="large" />
+      ) : null}
       <View>
         <View>
           <TextAtom text={'Upload Project'} preset="heading4" />
@@ -78,7 +110,11 @@ export const UploadProject: React.FunctionComponent<
             preset={'mediumBold'}
             style={{marginTop: mScale.md}}
           /> */}
-          <ButtonAtom title={'Upload a file'} preset="primary" />
+          <ButtonAtom
+            title={'Upload a file'}
+            preset="primary"
+            onPress={toggleModal}
+          />
           <TextAtom
             preset="body"
             text={'File under 20 MB'}
@@ -93,18 +129,44 @@ export const UploadProject: React.FunctionComponent<
           <View style={{marginStart: -mScale.md2}}>
             <ViewAll title="Previously Uploaded Projects" visible={false} />
           </View>
-
-          <FlatList
-            data={[...Array(15)]}
-            renderItem={renderItem}
-            contentContainerStyle={{
-              rowGap: mScale.base,
-              paddingBottom: moderateScale(WINDOW_HEIGHT * 0.5),
-            }}
-            showsVerticalScrollIndicator={false}
-            nestedScrollEnabled={true}
-          />
+          {upload_file?.length ? (
+            <View style={{marginVertical: mScale.base,height:WINDOW_HEIGHT}}>
+              <FlatList
+                data={upload_file}
+                renderItem={renderItem}
+                contentContainerStyle={{
+                  rowGap: mScale.base,
+                  paddingBottom: moderateScale(WINDOW_HEIGHT * 0.6),
+                  zIndex: 1,
+                }}
+                showsVerticalScrollIndicator={false}
+                nestedScrollEnabled={true}
+              />
+            </View>
+          ) : null}
         </View>
+        <PopupUpload
+          isVisible={modalVisible}
+          toggleModal={toggleModal}
+          pdfBoolean
+          onImagePick={(data: ImageType[]) => {
+            let res = data?.pop();
+            if (res) {
+              let formData = new FormData();
+              formData.append('user_id', auth?.user?.is_active);
+              formData.append('course_id', singleCourse?.id);
+              formData.append('upload_file', res);
+              console.log(res);
+              dispatch(
+                createCourseUploadFile({
+                  formData,
+                  onSuccess(data) {},
+                  onError(error) {},
+                }),
+              );
+            }
+          }}
+        />
       </View>
     </View>
   );

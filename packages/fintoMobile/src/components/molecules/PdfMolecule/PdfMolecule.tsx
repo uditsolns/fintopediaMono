@@ -5,18 +5,14 @@ import { Images } from '@shared/src/assets';
 import { moderateScale, mScale } from '@shared/src/theme/metrics';
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import { colorPresets } from '@shared/src/theme/color';
+import { CourseUploadFileResponse } from '@shared/src/utils/types/course-upload-file';
 
-export default function PdfMolecule({item, onPress}:{item?:any,onPress?:()=>void}) {
+export default function PdfMolecule({item, onPress}:{item?:CourseUploadFileResponse,onPress?:()=>void}) {
   return (
     <View style={[styles.container]}>
       <View style={styles.content}>
         <View style={[commonStyle.flexSpaceBetween]}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            {/* <ImageButtonAtom2
-              tintColor={colorPresets.WHITE}
-              sourceRequire={require('../../../assets/images/fe_document.png')}
-              style={{width: moderateScale(25), height: moderateScale(25)}}
-            /> */}
             <View>
               <Images.SVG.Certificate />
             </View>
@@ -36,7 +32,7 @@ export default function PdfMolecule({item, onPress}:{item?:any,onPress?:()=>void
           </Pressable>
         </View>
         <TextAtom
-          text={'Money Market.pdf'}
+          text={`${item?.upload_file || ''}` }
           preset="heading4"
           style={[styles.boldText, {marginTop: mScale.base}]}
           numberOfLines={2}

@@ -66,25 +66,25 @@ export const getCourseUploadFileById = createAsyncThunk<
 
 export const createCourseUploadFile = createAsyncThunk<
   CourseUploadFileResponse,
-  CourseUploadFileParams & OnSuccessInterface & OnErrorInterface,
+  { formData: FormData } & OnSuccessInterface & OnErrorInterface,
   { state: RootState }
 >(
   "createCourseUploadFile/post",
-  async ({ params, onSuccess, onError }, thunkApi) => {
+  async ({ formData, onSuccess, onError }, thunkApi) => {
     try {
       const state = thunkApi.getState();
       const token = state.auth?.auth?.token;
       const response = await fetch(apiUrl.COURSE_UPLOAD_FILE.POST, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(params),
+        body: formData,
       });
 
       const data = (await response.json()) as CourseUploadFileResponse;
-      thunkApi.dispatch(getCourseUploadFile())
+      thunkApi.dispatch(getCourseUploadFile());
       onSuccess(data);
       return data;
     } catch (error) {
@@ -117,7 +117,7 @@ export const updateCourseUploadFile = createAsyncThunk<
       );
 
       const data = (await response.json()) as CourseUploadFileResponse;
-      thunkApi.dispatch(getCourseUploadFile())
+      thunkApi.dispatch(getCourseUploadFile());
       onSuccess(data);
       return data;
     } catch (error) {
@@ -149,7 +149,7 @@ export const deleteCourseUploadFile = createAsyncThunk<
       );
 
       const data = (await response.json()) as any;
-      thunkApi.dispatch(getCourseUploadFile())
+      thunkApi.dispatch(getCourseUploadFile());
       onSuccess(data);
       return data;
     } catch (error) {

@@ -7,7 +7,7 @@ import {commonStyle} from '@shared/src/commonStyle';
 import {Images} from '@shared/src/assets';
 import {colorPresets} from '@shared/src/theme/color';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 
 interface HeaderProps {
   text?: string;
@@ -34,30 +34,37 @@ export default function Header({
           gap: mScale.lg1,
           marginVertical: mScale.lg,
           paddingHorizontal: ph,
-          backgroundColor:colorPresets.TRANSPARENT
+          backgroundColor: colorPresets.TRANSPARENT,
         },
       ]}>
       <View style={[commonStyle.flexStart, {gap: mScale.lg1, flex: 1}]}>
-        {visible ? <Images.SVG.ChevronLeft width={24} /> : null}
-        {textVisible ? (
-          <TextAtom text={text}  preset="heading3" />
+        {visible ? (
+          <Pressable onPress={() => navigation.goBack()}>
+            <Images.SVG.ChevronLeft width={24} />
+          </Pressable>
         ) : null}
+        {textVisible ? <TextAtom text={text} preset="heading3" /> : null}
       </View>
       <View style={[commonStyle.flexSpaceBetween]}>
-        <Pressable style={{marginRight: mScale.sm}} onPress={()=>{
-          navigation.navigate(RouteKeys.SEARCHSCREEN)
-        }}>
+        <Pressable
+          style={{marginRight: mScale.sm}}
+          onPress={() => {
+            navigation.navigate(RouteKeys.SEARCHSCREEN);
+          }}>
           <Images.SVG.Search2 width={24} />
         </Pressable>
-        <Pressable onPress={()=>{
-          navigation.navigate(RouteKeys.NOTIFICATIONSCREEN)
-        }}>
+        <Pressable
+          onPress={() => {
+            navigation.navigate(RouteKeys.NOTIFICATIONSCREEN);
+          }}>
           <Images.SVG.Bell width={24} />
         </Pressable>
         {cartVisible ? (
-          <Pressable style={{marginStart: mScale.sm}}  onPress={()=>{
-            navigation.navigate(RouteKeys.CARTSCREEN)
-          }}>
+          <Pressable
+            style={{marginStart: mScale.sm}}
+            onPress={() => {
+              navigation.navigate(RouteKeys.CARTSCREEN);
+            }}>
             <Images.SVG.ShoppingCart width={24} />
           </Pressable>
         ) : null}

@@ -14,11 +14,11 @@ export interface CoursesParams {
   course_image?: File;
   course_video?: File;
   resources?: string;
-  rating: number;
-  course_type: string;
-  reviews: number;
-  is_popular: number;
-  resource_file_upload: File;
+  rating?: number | string;
+  course_type?: string;
+  reviews?: number;
+  is_popular?: number;
+  resource_file_upload?: File | string | null;
 }
 export interface CoursesResponse {
   id: number;

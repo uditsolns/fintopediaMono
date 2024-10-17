@@ -5,7 +5,11 @@ import {
   COURSE_REVIEWS_VALUES,
   courseReviewsValidation,
 } from "./courseReviewsModel";
-import { CourseReviewParams } from "../../../utils/types/course-review";
+import {
+  CourseReviewFields,
+  CourseReviewParams,
+} from "../../../utils/types/course-review";
+import { createCourseReview } from "../../../provider/store/services/course-review.service";
 
 export const useCourseReviewssHelper = () => {
   type dataType = keyof typeof COURSE_REVIEWS_VALUES;
@@ -16,12 +20,13 @@ export const useCourseReviewssHelper = () => {
     initialValues: COURSE_REVIEWS_VALUES,
     validationSchema: courseReviewsValidation,
     onSubmit: (values) => {
-      let data: CourseReviewParams = {
+      let params: CourseReviewFields = {
         user_id: +values.user_id,
         course_id: +values.course_id,
         rating: values.rating,
         rating_desc: values.rating_desc,
       };
+      dispatch(createCourseReview({ params }));
     },
   });
 
