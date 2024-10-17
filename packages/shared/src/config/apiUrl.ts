@@ -19,13 +19,13 @@ export default {
     DELETE: buildUrl("users"),
   },
   CATEGORIES: {
-    GET: buildUrl("categories"),
+    GET: buildUrl("categories_open"),
     POST: buildUrl("categories"),
     UPDATE: buildUrl("categories"),
     DELETE: buildUrl("categories"),
   },
   COURSES: {
-    GET: buildUrl("courses"),
+    GET: buildUrl("courses_open"),
     POST: buildUrl("courses"),
     UPDATE: buildUrl("courses"),
     DELETE: buildUrl("courses"),
@@ -85,7 +85,7 @@ export default {
     DELETE: buildUrl("banners"),
   },
   COLLEGES: {
-    GET: buildUrl("colleges"),
+    GET: buildUrl("colleges_open"),
     POST: buildUrl("colleges"),
     UPDATE: buildUrl("colleges"),
     DELETE: buildUrl("colleges"),

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { CollegeInfo, CollegeParams, CollegeResponse } from "../../../utils/types/college";
+import { CollegeParams, CollegeResponse } from "../../../utils/types/college";
 
 export const getCollege = createAsyncThunk<
   CollegeResponse[],
@@ -54,7 +54,7 @@ export const createCollege = createAsyncThunk<
 });
 
 export const updateCollege = createAsyncThunk<
-CollegeResponse,
+  CollegeResponse,
   CollegeParams,
   { state: RootState }
 >("college/update", async (params, thunkApi) => {

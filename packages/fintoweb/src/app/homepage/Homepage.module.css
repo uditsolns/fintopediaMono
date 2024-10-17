@@ -326,7 +326,6 @@
   margin-top: -40px;
 }
 
-
 .howitWorksContent {
   padding: 30px;
 }
@@ -859,12 +858,15 @@
   .stockmarketBannerContent button {
     padding: 2vw 4vw;
   }
-  .worksImage{
+  .worksImage {
     position: absolute;
     bottom: -55px;
     left: -40px;
     width: 40%;
     height: auto;
     margin-top: -40px;
+  }
+  .blogsContainer {
+    padding: 15px;
   }
 }

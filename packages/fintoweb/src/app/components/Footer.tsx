@@ -6,8 +6,21 @@ import Image from "next/image";
 import Logo from "../../assets/Fintopedia logo-White.png";
 import { Col, Row } from "reactstrap";
 import Link from "next/link";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import { useRouter } from "next/navigation";
 
 export const Footer = () => {
+  const router = useRouter();
+  const { auth } = useAppSelector((state) => state.auth);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (auth?.token) {
+      router.push("/games");
+    } else {
+      router.push("/auth/login");
+    }
+  };
   return (
     <footer className={styles.footer}>
       <Row>
@@ -102,9 +115,9 @@ export const Footer = () => {
                 <Link href="/" prefetch={true} className={styles.links}>
                   Case Studies
                 </Link>
-                <Link href="/games" prefetch={true} className={styles.links}>
+                <a onClick={handleClick} className={styles.links}>
                   Events
-                </Link>
+                </a>
                 <Link href="/" prefetch={true} className={styles.links}>
                   Press Release
                 </Link>

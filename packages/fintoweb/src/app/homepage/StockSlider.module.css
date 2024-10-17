@@ -14,7 +14,13 @@
   line-height: 120%;
 }
 .stockCard {
-  background: linear-gradient(90deg, #050A18 0%, rgba(5, 10, 24, 0.00) 12.01%, rgba(5, 10, 24, 0.00) 89.01%, #050A18 96.59%);
+  background: linear-gradient(
+    90deg,
+    #050a18 0%,
+    rgba(5, 10, 24, 0) 12.01%,
+    rgba(5, 10, 24, 0) 89.01%,
+    #050a18 96.59%
+  );
   border: 1px solid #8b8888;
   color: #fff !important;
   padding: 10px;
@@ -85,4 +91,10 @@
   font-weight: 400;
   line-height: 26px;
   margin-top: 10px;
+}
+
+@media screen and (max-width: 435px) {
+  .offerContainer h1 {
+    font-size: 28px;
+  }
 }

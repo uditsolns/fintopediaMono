@@ -27,11 +27,16 @@ export const Navbar = () => {
         "left-0",
         "gap-10",
         "flex-col",
+        "z-50"
       ];
     } else {
       menuClasses = ["hidden", "md:flex"];
     }
     return menuClasses.join(" ");
+  }
+   // Function to close the menu
+   function closeMenu() {
+    setIsOpen(false);
   }
 
   return (
@@ -129,6 +134,7 @@ export const Navbar = () => {
                 href="/profile"
                 prefetch={true}
                 className="mx-2 hover:text-gray-300 flex items-center"
+                onClick={closeMenu}
               >
                 <Image
                   src={UserIcon}
@@ -141,6 +147,7 @@ export const Navbar = () => {
                 href="/auth/logout"
                 prefetch={true}
                 className="mx-2 hover:text-gray-300 flex items-center"
+                onClick={closeMenu}
               >
                 Logout
               </Link>
@@ -151,6 +158,7 @@ export const Navbar = () => {
                 href="/auth/register"
                 prefetch={true}
                 className="mx-2 hover:text-gray-300 flex items-center"
+                onClick={closeMenu}
               >
                 Sign Up
               </Link>
@@ -158,6 +166,7 @@ export const Navbar = () => {
                 href="/auth/login"
                 prefetch={true}
                 className="mx-2 hover:text-gray-300 flex items-center bg-white text-black py-2 px-4 rounded-md"
+                onClick={closeMenu}
               >
                 <Image
                   src={UserIcon}

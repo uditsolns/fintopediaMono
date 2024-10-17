@@ -29,8 +29,7 @@ import { getCourseCart } from "shared/src/provider/store/services/CourseCart.ser
 //   ssr: false,
 //   loading: () => <div>Loading...</div>,
 // });
-
-export default function Home() {
+const page = () => {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
   const token = auth?.token;
@@ -43,41 +42,42 @@ export default function Home() {
 
   React.useEffect(() => {
     if (token) {
-      dispatch(getCourses());
-      dispatch(getCategories());
       dispatch(getCourseCart());
     }
   }, [token, dispatch]);
 
-  if (token) {
-    return (
-      <>
-        {categoriesLoading?.categories || coursesLoading?.courses ? (
-          <div className="fullPageLoading">
-            <LoadingAtom
-              style={{
-                height: "5rem",
-                width: "5rem",
-              }}
-            />
-          </div>
-        ) : null}
-        <div>
-          <Banner />
-          <StocksSlider />
-          <QuizSection />
-          <div>
-            <FeaturedCourses courses={courses} categories={categories} />
-          </div>
-          <CategoryBanner categories={categories} />
-          <HowitWorks />
-          <AchiveingLearningSlider />
-          <CourseOffer />
-          <BlogsSlider />
-          <BasicStockmarketBanner />
+  React.useEffect(() => {
+    dispatch(getCourses());
+    dispatch(getCategories());
+  }, [dispatch]);
+  return (
+    <>
+      {categoriesLoading?.categories || coursesLoading?.courses ? (
+        <div className="fullPageLoading">
+          <LoadingAtom
+            style={{
+              height: "5rem",
+              width: "5rem",
+            }}
+          />
         </div>
-      </>
-    );
-  }
-  return <Login />;
-}
+      ) : null}
+      <div>
+        <Banner />
+        <StocksSlider />
+        <QuizSection />
+        <div>
+          <FeaturedCourses courses={courses} categories={categories} />
+        </div>
+        <CategoryBanner categories={categories} />
+        <HowitWorks />
+        <AchiveingLearningSlider />
+        <CourseOffer />
+        <BlogsSlider />
+        <BasicStockmarketBanner />
+      </div>
+    </>
+  );
+};
+
+export default page;

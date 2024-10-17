@@ -67,7 +67,11 @@ const FeaturesCourseSlider: React.FC<FeaturesCourseSliderProps> = ({
   };
   const handleCourseClick = async (course: CoursesResponse) => {
     setLoadingCourseId(course.id);
-
+    if (!auth?.token) {
+      router.push("/auth/login");
+      setLoadingCourseId(null);
+      return;
+    }
     if (isInCart(courseCart, course?.id)) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -77,13 +81,11 @@ const FeaturesCourseSlider: React.FC<FeaturesCourseSliderProps> = ({
       }
       return;
     }
-
     const params = {
       user_id: Number(auth?.user?.id),
       course_id: Number(course?.id),
       status: "1",
     };
-
     try {
       await dispatch(
         createCourseCart({

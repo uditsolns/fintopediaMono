@@ -144,7 +144,7 @@ const Winners: React.FC<WinnerProps> = () => {
                 style={{
                   borderColor: "#444444",
                   color: "white",
-                }}
+                }} 
               >
                 <div className="d-flex align-items-center">
                   <div

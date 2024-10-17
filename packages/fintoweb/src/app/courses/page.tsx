@@ -123,7 +123,7 @@ const CourseFilter: React.FC = () => {
                   storage!
                 </p>
                 <div className="form">
-                  <Row className="form-group mt-3">
+                  {/* <Row className="form-group mt-3">
                     <Col md={12}>
                       <div className="custom-select">
                         <select
@@ -139,7 +139,7 @@ const CourseFilter: React.FC = () => {
                         </select>
                       </div>
                     </Col>
-                  </Row>
+                  </Row> */}
                   <Row className="mt-3">
                     <Col md={12}>
                       <ButtonWithIcons

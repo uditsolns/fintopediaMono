@@ -203,5 +203,23 @@
   .tradingCourses {
     padding: 15px;
   }
+  .filterButtons {
+    margin-bottom: 30px;
+  }
+  .filterButton {
+    padding: 10px;
+  }
+  .headerContentsCourseFilter h2 {
+    font-size: 24px;
+  }
+  .headerContentsCourseFilter p {
+    font-size: 16px;
+  }
+  .formContainer {
+    width: 100%;
+    padding: 20px;
+  }
+  .formContainer h2 {
+    font-size: 25px;
+  }
 }
-/* course Details CSS */

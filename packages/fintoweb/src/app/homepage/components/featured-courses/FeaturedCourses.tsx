@@ -39,10 +39,6 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
   const [loadingCourseId, setLoadingCourseId] = React.useState<number | null>(
     null
   );
-
-  // const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
-  //   courses?.length ? courses : []
-  // );
   const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
     courses?.length ? courses.filter((course) => course.is_popular === 1) : []
   );
@@ -73,6 +69,9 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
+    autoplay: true, // Enable auto-scrolling
+    autoplaySpeed: 3000, // Auto-scroll speed (in ms)
+    pauseOnHover: true, // Pause auto-scroll on hover
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     afterChange: (current: number) => {
@@ -110,7 +109,11 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
   }, [courses]);
   const handleCourseClick = async (course: CoursesResponse) => {
     setLoadingCourseId(course.id);
-
+    if (!auth?.token) {
+      router.push("/auth/login");
+      setLoadingCourseId(null);
+      return;
+    }
     if (isInCart(courseCart, course?.id)) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -120,13 +123,11 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
       }
       return;
     }
-
     const params = {
       user_id: Number(auth?.user?.id),
       course_id: Number(course?.id),
       status: "1",
     };
-
     try {
       await dispatch(
         createCourseCart({
