@@ -36,6 +36,7 @@ export const RouteKeys = {
   GAMEWINNERSCREEN: 'GameWinner',
   MOCKTRADEBUYSTOCKSSCREEN: 'MockTradeBuyStocks',
   MOCKTRADESELLSTOCKSSCREEN: 'MockTradeSellStocks',
+  VIEWPDFSCREEN:"ViewPdf"
 };
 
 export const TabKeys = {

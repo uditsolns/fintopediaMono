@@ -35,6 +35,7 @@ import {mScale} from '@shared/src/theme/metrics';
 import {Images} from '@shared/src/assets';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import Header from '@src/components/Header/Header';
+import { ViewPdf } from '@src/screens/view-pdf/ViewPdf';
 
 interface MainRoutesProps {}
 
@@ -281,6 +282,12 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         name={RouteKeys.MOCKTRADESELLSTOCKSSCREEN}
         component={MockSellStocks as React.FC}
       />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name={RouteKeys.VIEWPDFSCREEN}
+        component={ViewPdf as React.FC}
+      />
+      
     </Stack.Navigator>
   );
 };
