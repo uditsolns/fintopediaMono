@@ -2,6 +2,7 @@ import {commonStyle} from '@shared/src/commonStyle';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {imageUrl} from '@shared/src/config/imageUrl';
+import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
@@ -25,8 +26,14 @@ export default function CartMolecule({
   onRemove,
   saveForLaterBoolean = true,
 }: CartMoleculeProps) {
+  const {courses_save_later, loading} = useAppSelector(
+    state => state.coursesSaveLater,
+  );
+
   return (
-    <Pressable style={[commonStyle.flexStart, styles.container]} onPress={onPress}>
+    <Pressable
+      style={[commonStyle.flexStart, styles.container]}
+      onPress={onPress}>
       <ImageAtom
         sourceRequire={
           item?.course_image
@@ -72,13 +79,15 @@ export default function CartMolecule({
         <RatingAtom ratingTitle={`4.6/5`} />
         <View style={[commonStyle.flexStart, {marginTop: mScale.base}]}>
           {saveForLaterBoolean ? (
-            <Pressable style={{marginEnd: mScale.base}} onPress={onSaveLater}>
-              <TextAtom
-                text={'Save for later'}
-                preset="smallBold"
-                style={[commonStyle.underline, {color: colorPresets.PRIMARY}]}
-              />
-            </Pressable>
+            courses_save_later?.some(el => el?.course_id == item?.id) ? null : (
+              <Pressable style={{marginEnd: mScale.base}} onPress={onSaveLater}>
+                <TextAtom
+                  text={'Save for later'}
+                  preset="smallBold"
+                  style={[commonStyle.underline, {color: colorPresets.PRIMARY}]}
+                />
+              </Pressable>
+            )
           ) : null}
           <Pressable onPress={onRemove}>
             <TextAtom

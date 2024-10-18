@@ -1,4 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
+import { getOngoingCourse } from '@shared/src/provider/store/services/ongoing-course.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -19,7 +20,17 @@ const Ongoing: React.FunctionComponent<OngoingInterface> = () => {
     state => state.courses,
   );
 
-  React.useEffect(() => {}, []);
+  const [refreshLoading, setRefreshLoading] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    onRefresh();
+  }, []);
+  const onRefresh = () => {
+    setRefreshLoading(true);
+    dispatch(getOngoingCourse());
+    setRefreshLoading(false);
+  };
+
   const renderItem = ({item}: {item: CoursesResponse}) => {
     return <OngoingMolecule item={item} />;
   };

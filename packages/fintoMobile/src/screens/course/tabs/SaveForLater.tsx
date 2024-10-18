@@ -1,5 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {getCoursesSaveLater} from '@shared/src/provider/store/services/coursesavelater.service';
 import {
   useAppDispatch,
@@ -8,6 +9,7 @@ import {
 import {mScale} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {CoursesSaveLaterResponse} from '@shared/src/utils/types/courses-save-later';
+import {isInCart} from '@src/components/Calculate';
 import GetStarted from '@src/components/GetStarted';
 import LoaderAtom from '@src/components/LoaderAtom';
 import CourseMolecule from '@src/components/molecules/CourseMolecule/CourseMolecule';
@@ -20,6 +22,7 @@ const SaveForLater: React.FunctionComponent<SaveForLaterInterface> = () => {
   const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
   const {auth} = useAppSelector(state => state.auth);
+  const {courseCart} = useAppSelector(state => state.courseCart);
   const {courses_save_later, loading} = useAppSelector(
     state => state.coursesSaveLater,
   );
@@ -37,7 +40,29 @@ const SaveForLater: React.FunctionComponent<SaveForLaterInterface> = () => {
   const renderItem = ({item}: {item: CoursesSaveLaterResponse}) => {
     return (
       <View style={{paddingRight: mScale.base}}>
-        <CourseMolecule item={item?.course} />
+        <CourseMolecule
+          item={item?.course}
+          onPress={async () => {
+            let params = {
+              user_id: Number(auth?.user?.id),
+              course_id: Number(item?.course_id),
+              status: '1',
+            };
+            if (isInCart(courseCart, item?.course_id)) {
+              navigation.navigate(RouteKeys.CARTSCREEN);
+            } else {
+              await dispatch(
+                createCourseCart({
+                  params,
+                  onSuccess: data => {
+                    navigation.navigate(RouteKeys.CARTSCREEN);
+                  },
+                  onError: err => {},
+                }),
+              ).unwrap();
+            }
+          }}
+        />
       </View>
     );
   };
