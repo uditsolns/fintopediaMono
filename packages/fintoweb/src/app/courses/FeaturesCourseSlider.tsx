@@ -14,6 +14,7 @@ import {
 } from "shared/src/provider/store/types/storeTypes";
 import { isInCart } from "shared/src/components/atoms/Calculate";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface FeaturesCourseSliderProps {
   courses: CoursesResponse[];
@@ -91,6 +92,10 @@ const FeaturesCourseSlider: React.FC<FeaturesCourseSliderProps> = ({
         createCourseCart({
           params,
           onSuccess: (data) => {
+            toast.success(data.message, {
+              position: "top-right",
+              theme: "light",
+            });
             router.push("/cart");
           },
           onError: (err) => {},

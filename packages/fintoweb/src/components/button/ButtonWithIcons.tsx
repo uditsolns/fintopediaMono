@@ -21,10 +21,6 @@ const ButtonWithIcons: React.FC<ButtonWithIconsProps> = ({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  // const handleNavigation = () => {
-  //   setIsLoading(true);
-  //   router.push(path);
-  // };
   const handleNavigation = () => {
     if (onClick) {
       onClick(); 

@@ -13,7 +13,6 @@ export const Navbar = () => {
   const { auth, loading } = useAppSelector((state) => state.auth);
   const [isOpen, setIsOpen] = useState(false);
 
-
   function getMenuClasses() {
     let menuClasses = [];
     if (isOpen) {
@@ -27,15 +26,15 @@ export const Navbar = () => {
         "left-0",
         "gap-10",
         "flex-col",
-        "z-50"
+        "z-50",
       ];
     } else {
       menuClasses = ["hidden", "md:flex"];
     }
     return menuClasses.join(" ");
   }
-   // Function to close the menu
-   function closeMenu() {
+  // Function to close the menu
+  function closeMenu() {
     setIsOpen(false);
   }
 
@@ -105,14 +104,25 @@ export const Navbar = () => {
         </div>
 
         <div className={getMenuClasses()}>
-          <Link
-            href="/cart"
-            prefetch={true}
-            className="mx-2 hover:text-gray-300 flex items-center"
-          >
-            <Image src={CartIcon} alt="Cart" className="inline-block mr-2" />
-            Cart
-          </Link>
+          {loading && auth?.token ? (
+            <Link
+              href="/cart"
+              prefetch={true}
+              className="mx-2 hover:text-gray-300 flex items-center"
+            >
+              <Image src={CartIcon} alt="Cart" className="inline-block mr-2" />
+              Cart
+            </Link>
+          ) : (
+            <Link
+              href="/auth/login"
+              prefetch={true}
+              className="mx-2 hover:text-gray-300 flex items-center"
+            >
+              <Image src={CartIcon} alt="Cart" className="inline-block mr-2" />
+              Cart
+            </Link>
+          )}
           {/* <Link
             href="/auth/register"
             prefetch={true}

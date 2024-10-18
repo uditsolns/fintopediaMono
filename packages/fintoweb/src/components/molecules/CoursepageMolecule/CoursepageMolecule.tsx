@@ -6,15 +6,20 @@ import { FaClock } from "react-icons/fa";
 import Image from "next/image";
 import { imageUrl } from "shared/src/config/imageUrl";
 import ProgressBar from "@src/components/progress/ProgressBar";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import { isInCart } from "shared/src/components/atoms/Calculate";
 
 interface CoursepageMoleculeProps {
   course?: CoursesResponse;
   onClick?: () => void;
+  loading: boolean;
 }
 const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
   course,
   onClick,
+  loading = false,
 }) => {
+  const { courseCart } = useAppSelector((state) => state.courseCart);
   return (
     <div key={course.id}>
       <Card className={styles.card}>
@@ -74,7 +79,7 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
               <ProgressBar level={course.course_type} />
             </div>
             <div className={styles.iconText}>
-              <FaClock className={styles.icon} /> {course.duration_time} 
+              <FaClock className={styles.icon} /> {course.duration_time}
             </div>
             <div className={styles.cardRating}>
               4.3
@@ -96,7 +101,17 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
           <div className={styles.priceContainer}>
             <h3>&#8377;{course.sale_price}</h3>{" "}
             <s>&#8377;{course.actual_price}</s>
-            <button className={styles.addToCartButton}>Add to Cart</button>
+            <button
+              className={styles.addToCartButton}
+              onClick={onClick}
+              disabled={loading}
+            >
+              {loading
+                ? "Loading..."
+                : isInCart(courseCart, course?.id)
+                ? "Go to cart"
+                : "Add to cart"}
+            </button>
           </div>
         </CardBody>
       </Card>

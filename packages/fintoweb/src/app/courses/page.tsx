@@ -17,14 +17,30 @@ import {
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 import { getCategories } from "shared/src/provider/store/services/categories.service";
 import ButtonWithIcons from "@src/components/button/ButtonWithIcons";
+import {
+  createCourseCart,
+  getCourseCart,
+} from "shared/src/provider/store/services/CourseCart.service";
+import { isInCart } from "shared/src/components/atoms/Calculate";
+import { CoursesResponse } from "shared/src/utils/types/courses";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const CourseFilter: React.FC = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { auth } = useAppSelector((state) => state.auth);
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
   );
+  const { courseCart, loading: courseCartLoading } = useAppSelector(
+    (state) => state.courseCart
+  );
   const { categories, loading: categoriesLoading } = useAppSelector(
     (state) => state.categories
+  );
+  const [loadingCourseId, setLoadingCourseId] = React.useState<number | null>(
+    null
   );
   const [slideToShow, setSlideToShow] = useState(4);
   const [activeFilter, setActiveFilter] = useState("All");
@@ -49,6 +65,7 @@ const CourseFilter: React.FC = () => {
   React.useEffect(() => {
     dispatch(getCourses());
     dispatch(getCategories());
+    dispatch(getCourseCart());
   }, []);
 
   const filteredCourses = courses.filter(
@@ -82,6 +99,45 @@ const CourseFilter: React.FC = () => {
         },
       },
     ],
+  };
+  const handleCourseClick = async (course: CoursesResponse) => {
+    setLoadingCourseId(course.id);
+    if (!auth?.token) {
+      router.push("/auth/login");
+      setLoadingCourseId(null);
+      return;
+    }
+    if (isInCart(courseCart, course?.id)) {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        router.push("/cart");
+      } finally {
+        setLoadingCourseId(null);
+      }
+      return;
+    }
+    const params = {
+      user_id: Number(auth?.user?.id),
+      course_id: Number(course?.id),
+      status: "1",
+    };
+    try {
+      await dispatch(
+        createCourseCart({
+          params,
+          onSuccess: (data) => {
+            toast.success(data.message, {
+              position: "top-right",
+              theme: "light",
+            });
+            router.push("/cart");
+          },
+          onError: (err) => {},
+        })
+      ).unwrap();
+    } finally {
+      setLoadingCourseId(null);
+    }
   };
   return (
     <>
@@ -175,7 +231,8 @@ const CourseFilter: React.FC = () => {
                 <CoursepageMolecule
                   key={course.id}
                   course={course}
-                  onClick={() => {}}
+                  loading={loadingCourseId === course.id}
+                  onClick={() => handleCourseClick(course)}
                 />
               ))}
             </Slider>
@@ -193,7 +250,8 @@ const CourseFilter: React.FC = () => {
                       <CoursepageMolecule
                         key={course.id}
                         course={course}
-                        onClick={() => {}}
+                        loading={loadingCourseId === course.id}
+                        onClick={() => handleCourseClick(course)}
                       />
                     </Col>
                   );

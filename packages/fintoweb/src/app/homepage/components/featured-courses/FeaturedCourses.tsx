@@ -16,6 +16,7 @@ import ButtonWithIcons from "@src/components/button/ButtonWithIcons";
 import { createCourseCart } from "shared/src/provider/store/services/CourseCart.service";
 import { useRouter } from "next/navigation";
 import { isInCart } from "shared/src/components/atoms/Calculate";
+import { toast } from "react-toastify";
 
 interface FeaturedCoursesProps {
   courses: CoursesResponse[];
@@ -133,6 +134,10 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
         createCourseCart({
           params,
           onSuccess: (data) => {
+            toast.success(data.message, {
+              position: "top-right",
+              theme: "light",
+            });
             router.push("/cart");
           },
           onError: (err) => {},
@@ -142,7 +147,7 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
       setLoadingCourseId(null);
     }
   };
-
+ 
   return (
     <div className={styles.courseContainer}>
       <h1 className={styles.courseContainerHeading}>Featured Courses</h1>

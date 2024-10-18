@@ -89,6 +89,10 @@ export default function Cart() {
         createCourseCart({
           params,
           onSuccess: (data) => {
+            toast.success(data.message, {
+              position: "top-right",
+              theme: "light",
+            });
             router.push("/cart");
           },
           onError: (err) => {},

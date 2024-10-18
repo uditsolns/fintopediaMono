@@ -14,15 +14,26 @@ import { getCategories } from "shared/src/provider/store/services/categories.ser
 import CircularLoading from "@src/components/loader/LoadingAtom";
 import CoursesMolecule from "@src/components/molecules/CoursesMolecule/CoursesMolecule";
 import ButtonWithIcons from "@src/components/button/ButtonWithIcons";
+import { toast } from "react-toastify";
+import { isInCart } from "shared/src/components/atoms/Calculate";
+import { useRouter } from "next/navigation";
+import {
+  createCourseCart,
+  getCourseCart,
+} from "shared/src/provider/store/services/CourseCart.service";
+import { CoursesResponse } from "shared/src/utils/types/courses";
 
 const WheretoStart: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const [formData, setFormData] = useState({ college_id: "", level: "" });
   const [filteredCourses, setFilteredCourses] = useState([]);
-  console.log("filteredCourses", filteredCourses);
-  console.log("formData", formData);
 
-  const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
+  const { courseCart, loading: courseCartLoading } = useAppSelector(
+    (state) => state.courseCart
+  );
+
   const token = auth?.token;
   const { categories, loading: categoriesLoading } = useAppSelector(
     (state) => state.categories
@@ -30,11 +41,13 @@ const WheretoStart: React.FC = () => {
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
   );
-  console.log("coursesLoading", coursesLoading);
-  console.log("categoriesLoading", categoriesLoading);
+  const [loadingCourseId, setLoadingCourseId] = React.useState<number | null>(
+    null
+  );
   React.useEffect(() => {
     if (token) {
       dispatch(getCourses());
+      dispatch(getCourseCart());
       dispatch(getCategories());
     }
   }, [token, dispatch]);
@@ -51,8 +64,6 @@ const WheretoStart: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Filter the courses based on selected category and level
     const filtered = courses.filter((course) => {
       const matchesCategory =
         formData.college_id === "" ||
@@ -61,14 +72,58 @@ const WheretoStart: React.FC = () => {
         formData.level === "" || course.course_type === formData.level;
       return matchesCategory && matchesLevel;
     });
-
-    // Update the state with the filtered courses
     setFilteredCourses(filtered);
   };
+  const handleSubmitWrapper = () => {
+    handleSubmit({
+      preventDefault: () => {},
+    } as React.FormEvent);
+  };
 
+  const handleCourseClick = async (course: CoursesResponse) => {
+    setLoadingCourseId(course.id);
+    if (!auth?.token) {
+      router.push("/auth/login");
+      setLoadingCourseId(null);
+      return;
+    }
+    if (isInCart(courseCart, course?.id)) {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        router.push("/cart");
+      } finally {
+        setLoadingCourseId(null);
+      }
+      return;
+    }
+    const params = {
+      user_id: Number(auth?.user?.id),
+      course_id: Number(course?.id),
+      status: "1",
+    };
+    try {
+      await dispatch(
+        createCourseCart({
+          params,
+          onSuccess: (data) => {
+            toast.success(data.message, {
+              position: "top-right",
+              theme: "light",
+            });
+            router.push("/cart");
+          },
+          onError: (err) => {},
+        })
+      ).unwrap();
+    } finally {
+      setLoadingCourseId(null);
+    }
+  };
   return (
     <>
-      {categoriesLoading?.categories || coursesLoading?.courses ? (
+      {categoriesLoading?.categories ||
+      coursesLoading?.courses ||
+      courseCartLoading?.courseCart ? (
         <div className="fullPageLoading">
           <CircularLoading
             style={{
@@ -171,7 +226,11 @@ const WheretoStart: React.FC = () => {
             </Row>
             <Row className="mt-2">
               <Col md={12}>
-                <ButtonWithIcons label="Let's go" width="100%" />
+                <ButtonWithIcons
+                  label="Let's go"
+                  width="100%"
+                  onClick={handleSubmitWrapper}
+                />
               </Col>
             </Row>
           </form>
@@ -190,9 +249,8 @@ const WheretoStart: React.FC = () => {
               <Col md={4} key={course.id}>
                 <CoursesMolecule
                   course={course}
-                  onClick={() => {
-                    handleSubmit;
-                  }}
+                  loading={loadingCourseId === course.id}
+                  onClick={() => handleCourseClick(course)}
                 />
               </Col>
             )

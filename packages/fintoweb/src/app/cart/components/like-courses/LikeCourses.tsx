@@ -15,6 +15,7 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "shared/src/provider/store/types/storeTypes";
+import { toast } from "react-toastify";
 
 interface LikeCoursesProps {
   courses: CoursesResponse[];
@@ -115,6 +116,10 @@ const LikeCourses: React.FC<LikeCoursesProps> = ({ courses }) => {
         createCourseCart({
           params,
           onSuccess: (data) => {
+            toast.success(data.message, {
+              position: "top-right",
+              theme: "light",
+            });
             router.push("/cart");
           },
           onError: (err) => {},
