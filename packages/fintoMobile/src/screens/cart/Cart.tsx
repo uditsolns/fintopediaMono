@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, Pressable, RefreshControl, View} from 'react-native';
+import {Alert, FlatList, Pressable, RefreshControl, View} from 'react-native';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
@@ -40,31 +40,38 @@ interface CartProps extends NavType<'Cart'> {}
 
 export const Cart: React.FC<CartProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
+  const {auth} = useAppSelector(state => state.auth);
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
   );
-  const {courseCart, loading: courseCartLoading} = useAppSelector(
-    state => state.courseCart,
+  const {
+    courseCart,
+    delete: deleteCart,
+    loading: courseCartLoading,
+    create,
+  } = useAppSelector(state => state.courseCart);
+  const {courses_save_later, loading} = useAppSelector(
+    state => state.coursesSaveLater,
   );
-  const {auth} = useAppSelector(state => state.auth);
 
   const [refreshLoading, setRefreshLoading] = React.useState(false);
   const [subtotal, setSubtotal] = React.useState<number>(0);
   const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
   const [totalPay, setTotalPay] = React.useState<number>(0);
-  const [gst, setGst] = React.useState<number>(100);
+  const [gst, setGst] = React.useState<number>(0);
 
   React.useEffect(() => {
-    if (courseCart?.length) {
+    if (courseCart) {
+      courseCart?.length ? setGst(100) : setGst(0);
       let sale_price = sumCalculate(courseCart, 'sale_price');
       let actual_price = sumCalculate(courseCart, 'actual_price');
       let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
-      let totalPayAmount = addTwoNumber(sale_price, gst);
+      let totalPayAmount = addTwoNumber(sale_price, courseCart?.length ? 100 : 0);
       setSubtotal(sale_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
     }
-  }, [courseCart]);
+  }, [courseCart, create, deleteCart]);
 
   const onRefresh = () => {
     setRefreshLoading(true);
@@ -79,12 +86,16 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
         item={item?.course}
         onPress={() => {}}
         onSaveLater={() => {
+          if (
+            courses_save_later?.some(el => el?.course_id == item?.course_id)
+          ) {
+            Alert.alert('You have already added to save for later.');
+          }
           let params = {
             user_id: Number(auth?.user?.id),
-            course_id: Number(item?.id),
+            course_id: Number(item?.course_id),
             status: '1',
           };
-          console.log(params);
           dispatch(
             createCoursesSaveLater({
               params,

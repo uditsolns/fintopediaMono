@@ -15,7 +15,7 @@ export const getOngoingCourse = createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(apiUrl.BANNERS.GET, {
+    const response = await fetch(apiUrl.ONGOING_COURSES.GET, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export const getOngoingCourseById = createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(`${apiUrl.BANNERS.GET}/${params?.id}`, {
+    const response = await fetch(`${apiUrl.ONGOING_COURSES.GET}/${params?.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export const createOngoingCourse= createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(`${apiUrl.BANNERS.GET}`, {
+    const response = await fetch(`${apiUrl.ONGOING_COURSES.GET}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export const updateOngoingCourse= createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(`${apiUrl.BANNERS.GET}/${params?.id}`, {
+    const response = await fetch(`${apiUrl.ONGOING_COURSES.GET}/${params?.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

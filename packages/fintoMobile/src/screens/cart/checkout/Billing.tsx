@@ -259,7 +259,6 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
         price={cartData?.totalPay}
         discount_price={cartData?.totalDiscount}
         onPress={() => {
-          // navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN);
           handlePayment();
         }}
       />

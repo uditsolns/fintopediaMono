@@ -2,7 +2,10 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import {deleteCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
+import {
+  deleteCourseCart,
+  getCourseCart,
+} from '@shared/src/provider/store/services/CourseCart.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -30,25 +33,32 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
   navigation,
 }) => {
   const dispatch = useAppDispatch();
-  const {courseCart, loading: courseCartLoading} = useAppSelector(
-    state => state.courseCart,
-  );
+  const {
+    courseCart,
+    delete: deleteCart,
+    loading: courseCartLoading,
+    create,
+  } = useAppSelector(state => state.courseCart);
   const [subtotal, setSubtotal] = React.useState<number>(0);
   const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
   const [totalPay, setTotalPay] = React.useState<number>(0);
   const [gst, setGst] = React.useState<number>(100);
 
   React.useEffect(() => {
-    if (courseCart?.length) {
+    if (courseCart) {
+      courseCart?.length ? setGst(100) : setGst(0);
       let sale_price = sumCalculate(courseCart, 'sale_price');
       let actual_price = sumCalculate(courseCart, 'actual_price');
       let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
-      let totalPayAmount = addTwoNumber(sale_price, gst);
+      let totalPayAmount = addTwoNumber(
+        sale_price,
+        courseCart?.length ? 100 : 0,
+      );
       setSubtotal(sale_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
     }
-  }, [courseCart]);
+  }, [courseCart, create, deleteCart]);
 
   const renderItem = ({item}: {item: CourseCartResponse}) => {
     return (
@@ -61,6 +71,7 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
             deleteCourseCart({
               id,
               onSuccess: data => {
+                dispatch(getCourseCart());
                 console.log('delete cart');
               },
               onError: err => {},
@@ -102,13 +113,15 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
         itemCount={courseCart?.length}
         price={totalPay}
         discount_price={totalDiscount}
-        onPress={() => { 
-          let cartData = {
-            totalItem: courseCart?.length,
-            totalPay: totalPay,
-            totalDiscount: totalDiscount,
-          };
-          navigation.navigate(RouteKeys.BILLINGSCREEN, {cartData: cartData});
+        onPress={() => {
+          if (courseCart?.length > 0) {
+            let cartData = {
+              totalItem: courseCart?.length,
+              totalPay: totalPay,
+              totalDiscount: totalDiscount,
+            };
+            navigation.navigate(RouteKeys.BILLINGSCREEN, {cartData: cartData});
+          }
         }}
       />
     </GradientTemplate>
