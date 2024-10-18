@@ -1,7 +1,10 @@
 import * as Yup from "yup";
 import { ModelParams } from "../../../utils/types/main";
 
-type CourseNotesField = Pick<ModelParams, "user_id" | "course_id" | "course_notes">;
+type CourseNotesField = Pick<
+  ModelParams,
+  "user_id" | "course_id" | "course_notes"
+>;
 
 export const courseNotesField: CourseNotesField = {
   user_id: {
@@ -22,7 +25,6 @@ export const courseNotesField: CourseNotesField = {
     placeHolder: "",
     requiredErr: "Course notes is required",
   },
- 
 };
 
 export type CourseNotesValues = {
@@ -36,7 +38,7 @@ export const COURSE_NOTES_VALUES = {
 };
 
 export const courseNotesValidation = Yup.object().shape({
-  // [buySellField.order_qty.name]: Yup.number().required(
-  //   `${buySellField.order_qty.requiredErr}`
-  // ),
+  [courseNotesField.course_notes.name]: Yup.string().required(
+    `${courseNotesField.course_notes.requiredErr}`
+  ),
 });

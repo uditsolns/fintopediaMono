@@ -5,10 +5,6 @@ import {
   CourseReviewParams,
   CourseReviewResponse,
 } from "../../../utils/types/course-review";
-import {
-  OnErrorInterface,
-  OnSuccessInterface,
-} from "../../../utils/types/roundLevel";
 import { DeleteParams } from "../../../utils/types/CourseCart";
 
 export const getCourseReviews = createAsyncThunk<
@@ -20,7 +16,7 @@ export const getCourseReviews = createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(apiUrl.NOTIFICATION.GET, {
+    const response = await fetch(apiUrl.COURSES_RATING_REVIEWS.GET, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -45,13 +41,16 @@ export const getCourseReviewsById = createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(`${apiUrl.NOTIFICATION.GET}/${params?.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${apiUrl.COURSES_RATING_REVIEWS.GET}/${params?.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = (await response.json()) as CourseReviewResponse;
 
@@ -63,66 +62,56 @@ export const getCourseReviewsById = createAsyncThunk<
 
 export const createCourseReview = createAsyncThunk<
   CourseReviewResponse,
-  CourseReviewParams & OnSuccessInterface & OnErrorInterface,
+  CourseReviewParams,
   { state: RootState }
->(
-  "createCourseReview/post",
-  async ({ params, onSuccess, onError }, thunkApi) => {
-    try {
-      const state = thunkApi.getState();
-      const token = state.auth?.auth?.token;
-      const response = await fetch(apiUrl.NOTIFICATION.POST, {
+>("createCourseReview/post", async ({ params }, thunkApi) => {
+  try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
+    const response = await fetch(apiUrl.COURSES_RATING_REVIEWS.POST, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(params),
+    });
+
+    const data = (await response.json()) as CourseReviewResponse;
+    thunkApi.dispatch(getCourseReviews());
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
+export const updateCourseReview = createAsyncThunk<
+  CourseReviewResponse,
+  CourseReviewParams,
+  { state: RootState }
+>("updateCourseReview/update", async ({ params }, thunkApi) => {
+  try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
+    const response = await fetch(
+      apiUrl.COURSES_RATING_REVIEWS.UPDATE + "/" + params?.id,
+      {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(params),
-      });
+      }
+    );
 
-      const data = (await response.json()) as CourseReviewResponse;
-      thunkApi.dispatch(getCourseReviews())
-      onSuccess(data);
-      return data;
-    } catch (error) {
-      onError(error);
-      return thunkApi.rejectWithValue(error);
-    }
+    const data = (await response.json()) as CourseReviewResponse;
+    thunkApi.dispatch(getCourseReviews());
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
   }
-);
-
-export const updateCourseReview = createAsyncThunk<
-  CourseReviewResponse,
-  CourseReviewParams & OnSuccessInterface & OnErrorInterface,
-  { state: RootState }
->(
-  "updateCourseReview/update",
-  async ({ params, onSuccess, onError }, thunkApi) => {
-    try {
-      const state = thunkApi.getState();
-      const token = state.auth?.auth?.token;
-      const response = await fetch(
-        apiUrl.NOTIFICATION.UPDATE + "/" + params?.id,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(params),
-        }
-      );
-
-      const data = (await response.json()) as CourseReviewResponse;
-      thunkApi.dispatch(getCourseReviews())
-      onSuccess(data);
-      return data;
-    } catch (error) {
-      onError(error);
-      return thunkApi.rejectWithValue(error);
-    }
-  }
-);
+});
 
 export const deleteCourseReview = createAsyncThunk<
   any,
@@ -132,16 +121,19 @@ export const deleteCourseReview = createAsyncThunk<
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.NOTIFICATION.DELETE + "/" + id, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      apiUrl.COURSES_RATING_REVIEWS.DELETE + "/" + id,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = (await response.json()) as any;
-    thunkApi.dispatch(getCourseReviews())
+    thunkApi.dispatch(getCourseReviews());
     onSuccess(data);
     return data;
   } catch (error) {

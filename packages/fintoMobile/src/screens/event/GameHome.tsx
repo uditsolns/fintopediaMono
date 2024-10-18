@@ -1,7 +1,6 @@
 import {RouteProp, useFocusEffect, useRoute} from '@react-navigation/native';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import {GameRouteKeys, RouteKeys} from '@src/navigation/RouteKeys';
 import * as React from 'react';
 import {Alert, BackHandler, View} from 'react-native';

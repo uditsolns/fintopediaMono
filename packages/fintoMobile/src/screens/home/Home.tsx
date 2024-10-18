@@ -8,7 +8,7 @@ import {
   getCourseCart,
 } from '@shared/src/provider/store/services/CourseCart.service';
 import {getCourses} from '@shared/src/provider/store/services/courses.service';
-import { getUserById } from '@shared/src/provider/store/services/user.service';
+import {getUserById} from '@shared/src/provider/store/services/user.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -73,7 +73,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   }, []);
 
   const onRefresh = () => {
-    let id = `${auth?.user?.id}`
+    let id = `${auth?.user?.id}`;
     setRefreshLoading(true);
     dispatch(getUserById({id}));
     dispatch(getBanner());
@@ -94,7 +94,9 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       <ContinueLearningMolecule
         item={item}
         onPress={() => {
-          navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN);
+          navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.id,
+          });
         }}
       />
     );
@@ -174,7 +176,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
             <ViewAll title="Continue Learning" visible={false} />
             <View style={{paddingLeft: mScale.base}}>
               <FlatList
-                data={[...Array(5)]}
+                data={courses?.length ? courses : []}
                 renderItem={continueLearningRenderItem}
                 horizontal={true}
                 contentContainerStyle={{

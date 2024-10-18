@@ -17,7 +17,6 @@ import {
 } from '@src/components/Calculate';
 import {CheckoutStep} from '@src/components/CheckoutStep';
 import {GrandTotalPrice} from '@src/components/GrandTotalPrice';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import LoaderAtom from '@src/components/LoaderAtom';
 import CartMolecule from '@src/components/molecules/CartMolecule/CartMolecule';
 import {RouteKeys} from '@src/navigation/RouteKeys';
@@ -103,7 +102,7 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
         itemCount={courseCart?.length}
         price={totalPay}
         discount_price={totalDiscount}
-        onPress={() => {
+        onPress={() => { 
           let cartData = {
             totalItem: courseCart?.length,
             totalPay: totalPay,
