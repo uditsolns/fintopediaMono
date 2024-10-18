@@ -8,7 +8,16 @@ import {GradientTemplate} from '@shared/src/components/templates/GradientTemplat
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
-import { ENVIRONMENT, MERCHANT_ID } from '@src/components/Calculate';
+import {
+  API_ENDPOINT,
+  CALLBACK_URL,
+  ENVIRONMENT,
+  MERCHANT_ID,
+  PRODUCTION_HOST_URL,
+  REDIRECT_URL,
+  SALT_INDEX,
+  SALT_KEY,
+} from '@src/components/Calculate';
 import {CheckoutStep} from '@src/components/CheckoutStep';
 import {GrandTotalPrice} from '@src/components/GrandTotalPrice';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
@@ -17,6 +26,8 @@ import {NavType} from '@src/navigation/types';
 import React from 'react';
 import {View} from 'react-native';
 import PhonePePaymentSDK from 'react-native-phonepe-pg';
+import sha256 from 'crypto-js/sha256';
+import base64 from 'react-native-base64';
 
 interface BillingProps extends NavType<'Billing'> {}
 
@@ -25,21 +36,147 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
 }) => {
   const routes = useRoute<any>();
   let cartData = routes?.params?.cartData;
-  const {current_user} = useAppSelector(state => state.auth);
+  const {current_user, auth} = useAppSelector(state => state.auth);
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
+    state => state.courseCart,
+  );
+  const currentDate = new Date().toISOString().toString();
+  const currentPurchaseDate = currentDate?.split('T')[0];
+  let course_id_arr = courseCart?.map(el => el?.course_id);
+  console.log(course_id_arr);
 
   React.useEffect(() => {
-    const initializeSDK = async () => {
-      try {
-        const res = await PhonePePaymentSDK.init(ENVIRONMENT, MERCHANT_ID, '', true);
-        console.log(`PhonePePaymentSDK initialized for ${MERCHANT_ID}`, res);
-      } catch (err) {
-        console.error('PhonePePaymentSDK initialization error', err);
-      }
-    };
-
-    initializeSDK();
+    PhonePePaymentSDK.init(ENVIRONMENT, MERCHANT_ID, '', true)
+      .then(res =>
+        console.log(`PhonePePaymentSDK initilized of this ${MERCHANT_ID}`, res),
+      )
+      .catch(err => console.log('PhonePePaymentSDK initilized error', err));
   }, []);
 
+  const handlePayment = () => {
+    const requestBody = {
+      merchantId: MERCHANT_ID,
+      merchantTransactionId: `${new Date().getTime()}`,
+      merchantUserId: `${auth?.user?.id}`,
+      amount: cartData?.totalPay * 100,
+      redirectUrl: REDIRECT_URL,
+      redirectMode: 'REDIRECT',
+      callbackUrl: CALLBACK_URL,
+      mobileNumber: `${auth?.user?.phone}`,
+      paymentInstrument: {
+        type: 'PAY_PAGE',
+      },
+    };
+    let requestJSONBody = JSON.stringify(requestBody);
+    let requestBase64Body = base64.encode(requestJSONBody);
+    const input = requestBase64Body + API_ENDPOINT + SALT_KEY;
+    const sha256Res = sha256(requestBase64Body + API_ENDPOINT + SALT_KEY);
+    const finalXHeader = `${sha256Res}###${SALT_INDEX}`;
+    PhonePePaymentSDK.startTransaction(
+      requestBase64Body,
+      finalXHeader,
+      'com.aurahealing',
+      null,
+    )
+      .then(res => {
+        console.log('startTransaction response ', JSON.stringify(res));
+        const sha256Res2 = sha256(
+          `/pg/v1/status/${MERCHANT_ID}/${requestBody?.merchantTransactionId}` +
+            SALT_KEY,
+        );
+        const finalXHeader2 = `${sha256Res2}###${SALT_INDEX}`;
+        paymentCheckStaus(
+          finalXHeader2,
+          MERCHANT_ID,
+          requestBody?.merchantTransactionId,
+        );
+      })
+      .catch(e => {
+        console.log('startTransaction err', e);
+      })
+      .finally(() => {
+        console.log('startTransaction finally block');
+      });
+  };
+
+  const paymentCheckStaus = (
+    finalXHeader2: string,
+    merchantId: string,
+    merchantTransactionId: string,
+  ) => {
+    fetch(
+      `${PRODUCTION_HOST_URL}/pg/v1/status/${merchantId}/${merchantTransactionId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-VERIFY': finalXHeader2,
+          'X-MERCHANT-ID': merchantId,
+        },
+      },
+    )
+      .then(response => response.json())
+      .then(async res => {
+        console.log('payment success response', JSON.stringify(res));
+
+        const formData = new FormData();
+
+        formData.append('user_id', auth?.user?.id);
+        formData.append('course_id', auth?.user?.id);
+        formData.append('purchase_date', currentPurchaseDate);
+        formData.append(
+          'status',
+          res?.code == 'PAYMENT_SUCCESS' ? 'paid' : 'failed',
+        );
+        formData.append(
+          'payment_status',
+          res?.code == 'PAYMENT_SUCCESS' ? 'paid' : 'failed',
+        );
+        formData.append(
+          'phone_pe_payment_id',
+          res?.data?.transactionId ||
+            res?.data?.paymentInstrument?.pgServiceTransactionId ||
+            '',
+        );
+        formData.append(
+          'payment_type',
+          res?.data?.paymentInstrument?.type || '',
+        );
+        formData.append('utr', res?.data?.paymentInstrument?.utr || '');
+        formData.append(
+          'upiTransactionId',
+          res?.data?.paymentInstrument?.upiTransactionId || '',
+        );
+        formData.append(
+          'accountHolderName',
+          res?.data?.paymentInstrument?.accountHolderName || '',
+        );
+        formData.append(
+          'accountType',
+          res?.data?.paymentInstrument?.accountType || '',
+        );
+        formData.append(
+          'pgTransactionId',
+          res?.data?.paymentInstrument?.pgTransactionId || '',
+        );
+        formData.append(
+          'pgServiceTransactionId',
+          res?.data?.paymentInstrument?.pgServiceTransactionId || '',
+        );
+        formData.append('arn', res?.data?.paymentInstrument?.arn || '');
+        formData.append(
+          'cardType',
+          res?.data?.paymentInstrument?.cardType || '',
+        );
+        formData.append('brn', res?.data?.paymentInstrument?.brn || '');
+
+        // await updateTransactionMethod(id, formData,res);
+        // await getAllTransactionsMethod(token, navigation);
+      })
+      .catch(error => {
+        console.error(JSON.stringify(error));
+      });
+  };
   return (
     <GradientTemplate
       style={{
@@ -122,7 +259,8 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
         price={cartData?.totalPay}
         discount_price={cartData?.totalDiscount}
         onPress={() => {
-          navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN);
+          // navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN);
+          handlePayment();
         }}
       />
     </GradientTemplate>

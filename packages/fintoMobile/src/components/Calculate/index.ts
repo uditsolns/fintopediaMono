@@ -82,3 +82,6 @@ export const API_ENDPOINT: string = '/pg/v1/pay';
 export const PRODUCTION_HOST_URL: string = false
   ? 'https://api.phonepe.com/apis/hermes'
   : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
+
+export const REDIRECT_URL = 'https://aurahealing.in/';
+export const CALLBACK_URL = 'https://aurahealing.in/';
