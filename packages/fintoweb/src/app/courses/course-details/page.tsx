@@ -1,6 +1,6 @@
 "use client";
 
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./CourseDetails.module.css";
 import Image from "next/image";
@@ -11,7 +11,10 @@ import Lessons from "./components/lessons/Lessons";
 import AchiverSlider from "./components/achiveing-slider/AchiverSlider";
 import FeaturedCourses from "@src/app/homepage/FeaturedCourses";
 
-const CourseDetails = () => {
+interface CourseDetailsProps {
+  id?: number;
+}
+const CourseDetails: React.FC<CourseDetailsProps> = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const handleToggle = (index: number) => {

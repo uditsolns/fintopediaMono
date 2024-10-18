@@ -72,6 +72,7 @@
 
 .cardImage {
   position: relative;
+  cursor: pointer;
 }
 
 .cardImage img {
@@ -109,6 +110,7 @@
   font-style: normal !important;
   font-weight: 700 !important;
   line-height: 120% !important;
+  cursor: pointer !important;
 }
 
 .details {
