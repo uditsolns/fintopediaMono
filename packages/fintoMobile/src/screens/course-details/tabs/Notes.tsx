@@ -87,7 +87,7 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
             setSelectedNote(null);
           }}
           value={notes}
-          onChangeText={setNotes}
+          onChangeText={setNotes} 
         />
 
         {course_notes?.length ? (

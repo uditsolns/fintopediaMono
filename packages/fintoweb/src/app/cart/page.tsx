@@ -54,7 +54,6 @@ export default function Cart() {
   );
   const { courses_save_later, loading: coursesSaveLaterLoading } =
     useAppSelector((state) => state.coursesSaveLater);
-  console.log("courses_save_later", courses_save_later);
   const { auth } = useAppSelector((state) => state.auth);
 
   const [subtotal, setSubtotal] = React.useState<number>(0);
@@ -333,12 +332,24 @@ export default function Cart() {
                         cart={cart}
                         onClick={() => {}}
                         onSaveLater={() => {
+                          if (
+                            courses_save_later?.some(
+                              (el) => el?.course_id == cart?.course_id
+                            )
+                          ) {
+                            toast.success(
+                              "You have already added to save for later.",
+                              {
+                                position: "top-right",
+                                theme: "light",
+                              }
+                            );
+                          }
                           let params = {
                             user_id: Number(auth?.user?.id),
                             course_id: Number(cart?.course_id),
                             status: "1",
                           };
-                          console.log(params);
                           dispatch(
                             createCoursesSaveLater({
                               params,
@@ -350,6 +361,7 @@ export default function Cart() {
                                     theme: "light",
                                   }
                                 );
+                                console.log("createCoursesSaveLater");
                               },
                               onError(error) {
                                 toast.error("Failed to course Save Later.", {

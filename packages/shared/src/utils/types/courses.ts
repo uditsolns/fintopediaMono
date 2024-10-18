@@ -1,5 +1,8 @@
 import { CategoriesResponse } from "./categories";
 
+export interface GetCourseIdParams {
+  id: number;
+}
 export interface CoursesParams {
   id?: number;
   category_id?: number;

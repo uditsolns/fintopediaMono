@@ -5,6 +5,7 @@ import styles from "./CourseCartMolecule.module.css";
 import { CourseCartResponse } from "shared/src/utils/types/CourseCart";
 import { imageUrl } from "shared/src/config/imageUrl";
 import ProgressBar from "@src/components/progress/ProgressBar";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
 interface CourseCartMoleculeProps {
   cart: CourseCartResponse;
@@ -18,7 +19,9 @@ const CourseCartMolecule: React.FC<CourseCartMoleculeProps> = ({
   onSaveLater,
   onRemove,
 }) => {
-  // console.log("CourseCartMolecule", cart);
+  const { courses_save_later } = useAppSelector(
+    (state) => state.coursesSaveLater
+  );
   return (
     <Card key={cart.id} className={styles.card}>
       <CardBody className={styles.cardBody}>
@@ -85,9 +88,13 @@ const CourseCartMolecule: React.FC<CourseCartMoleculeProps> = ({
               </span>
             </div>
             <div className={`${styles.actions}`}>
-              <button className={styles.saveLater} onClick={onSaveLater}>
-                Save for later
-              </button>
+              {courses_save_later?.some(
+                (el) => el?.course_id == cart?.course_id
+              ) ? null : (
+                <button className={styles.saveLater} onClick={onSaveLater}>
+                  Save for later
+                </button>
+              )}
               <button className={styles.remove} onClick={onRemove}>
                 Remove
               </button>

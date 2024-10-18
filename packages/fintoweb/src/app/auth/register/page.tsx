@@ -51,7 +51,7 @@ const Register: React.FC = () => {
       });
       router.push("/auth/login");
     }
-  }, [signup, router]);
+  }, [signup, router]); 
   return (
     <div className={styles.container}>
       <div className="container main-login-div">

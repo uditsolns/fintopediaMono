@@ -1,7 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { CoursesParams, CoursesResponse } from "../../../utils/types/courses";
+import {
+  CoursesParams,
+  CoursesResponse,
+  GetCourseIdParams,
+} from "../../../utils/types/courses";
 
 export const getCourses = createAsyncThunk<
   CoursesResponse[],
@@ -14,7 +18,7 @@ export const getCourses = createAsyncThunk<
       headers: {
         "Content-Type": "application/json",
       },
-    }); 
+    });
     const data = (await response.json()) as CoursesResponse[];
 
     return data;
@@ -49,14 +53,14 @@ export const createCourses = createAsyncThunk<
 });
 export const getCoursesById = createAsyncThunk<
   CoursesResponse,
-  CoursesParams,
+  GetCourseIdParams,
   { state: RootState }
->("singleCourses/get", async (params, thunkApi) => {
+>("singleCourses/get", async ({ id }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(`${apiUrl.COURSES.GET}/${params?.id}`, {
+    const response = await fetch(`${apiUrl.COURSES.GET}/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
