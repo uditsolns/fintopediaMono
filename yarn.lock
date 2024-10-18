@@ -5263,7 +5263,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-js@npm:4.2.0":
+"crypto-js@npm:4.2.0, crypto-js@npm:^4.2.0":
   version: 4.2.0
   resolution: "crypto-js@npm:4.2.0"
   checksum: f051666dbc077c8324777f44fbd3aaea2986f198fe85092535130d17026c7c2ccf2d23ee5b29b36f7a4a07312db2fae23c9094b644cc35f7858b1b4fcaf27774
@@ -6658,12 +6658,14 @@ __metadata:
     "@types/react-test-renderer": ^18.0.0
     babel-jest: ^29.6.3
     babel-plugin-module-resolver: ^5.0.2
+    crypto-js: ^4.2.0
     eslint: ^8.19.0
     formik: ^2.4.6
     jest: ^29.6.3
     prettier: 2.8.8
     react: 18.3.1
     react-native: 0.75.2
+    react-native-base64: ^0.2.1
     react-native-blob-util: ^0.19.11
     react-native-config: ^1.5.3
     react-native-document-picker: ^9.3.1
@@ -6696,6 +6698,7 @@ __metadata:
     next: "*"
     react-dom: "*"
     react-native: "*"
+    react-native-phonepe-pg: "https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz"
     react-native-web: "*"
   languageName: unknown
   linkType: soft
@@ -10435,6 +10438,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-base64@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "react-native-base64@npm:0.2.1"
+  checksum: 5127c857250cabb9c24f494b56185a4339bd0ebb859824a01c2f4eb3264379556e06efc8e59ffb9585cbf1c5e6fee18f50f4a6e8a1c63fe4b5cedf0658f8c25e
+  languageName: node
+  linkType: hard
+
 "react-native-blob-util@npm:^0.19.11":
   version: 0.19.11
   resolution: "react-native-blob-util@npm:0.19.11"
@@ -10521,6 +10531,16 @@ __metadata:
     react-native: "*"
     react-native-blob-util: ">=0.13.7"
   checksum: fa07d2e972efd0fd4f8b8d061ffbc63306766e4f792855f7010fc28814692c62b7ab942777b914a4d471a45044013793a854357fab19740596ad64034832f368
+  languageName: node
+  linkType: hard
+
+"react-native-phonepe-pg@https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz":
+  version: 2.0.1
+  resolution: "react-native-phonepe-pg@https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 1aac40cf4227d52d2445c9e877da6afbbef21561cfea1f58835c0d2c1ab22b65c0225f106deed7dfe6c8775c3ac17c5f340e8ffa32237e49cf618d794d9b8073
   languageName: node
   linkType: hard
 

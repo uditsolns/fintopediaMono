@@ -8,6 +8,7 @@ import {GradientTemplate} from '@shared/src/components/templates/GradientTemplat
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import { ENVIRONMENT, MERCHANT_ID } from '@src/components/Calculate';
 import {CheckoutStep} from '@src/components/CheckoutStep';
 import {GrandTotalPrice} from '@src/components/GrandTotalPrice';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
@@ -15,6 +16,7 @@ import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import React from 'react';
 import {View} from 'react-native';
+import PhonePePaymentSDK from 'react-native-phonepe-pg';
 
 interface BillingProps extends NavType<'Billing'> {}
 
@@ -24,6 +26,20 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
   const routes = useRoute<any>();
   let cartData = routes?.params?.cartData;
   const {current_user} = useAppSelector(state => state.auth);
+
+  React.useEffect(() => {
+    const initializeSDK = async () => {
+      try {
+        const res = await PhonePePaymentSDK.init(ENVIRONMENT, MERCHANT_ID, '', true);
+        console.log(`PhonePePaymentSDK initialized for ${MERCHANT_ID}`, res);
+      } catch (err) {
+        console.error('PhonePePaymentSDK initialization error', err);
+      }
+    };
+
+    initializeSDK();
+  }, []);
+
   return (
     <GradientTemplate
       style={{

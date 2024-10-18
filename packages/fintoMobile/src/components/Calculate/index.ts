@@ -41,8 +41,8 @@ export const filteredCourses = (arr1: any[], arr2: any[]) => {
 
 export const formatDateMonth = (dateString: string): string => {
   const date = new Date(dateString);
-  const day = date.getDate(); 
-  const month = date.toLocaleString('en-US', { month: 'short' });
+  const day = date.getDate();
+  const month = date.toLocaleString('en-US', {month: 'short'});
   return `${day} ${month}`;
 };
 
@@ -50,8 +50,18 @@ export function formatDateMonthTime(isoString: string): string {
   const date = new Date(isoString);
   const day = date.getUTCDate();
   const monthNames = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
   const month = monthNames[date.getUTCMonth()];
   const hours = String(date.getUTCHours()).padStart(2, '0');
@@ -60,3 +70,15 @@ export function formatDateMonthTime(isoString: string): string {
   return `${day} ${month} ${hours}:${minutes}`;
 }
 
+export const ENVIRONMENT: string = false ? 'PRODUCTION' : 'SANDBOX';
+export const MERCHANT_ID: string = false
+  ? 'AURAHEALINGONLINE'
+  : 'AURAHONLINEUAT';
+export const SALT_KEY: string = false
+  ? '8fe7d793-540e-40df-87cf-8118912f40f7'
+  : 'c9170f9e-85bc-4055-8cec-812bf1b73f53';
+export const SALT_INDEX: number = 1;
+export const API_ENDPOINT: string = '/pg/v1/pay';
+export const PRODUCTION_HOST_URL: string = false
+  ? 'https://api.phonepe.com/apis/hermes'
+  : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
