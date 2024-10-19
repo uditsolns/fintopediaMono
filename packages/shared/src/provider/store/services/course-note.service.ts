@@ -64,57 +64,67 @@ export const getCourseNotesById = createAsyncThunk<
 
 export const createCourseNotes = createAsyncThunk<
   CourseNotesResponse,
-  CourseNotesParams,
+  CourseNotesParams & OnSuccessInterface & OnErrorInterface,
   { state: RootState }
->("createCourseNotes/post", async ({ params }, thunkApi) => {
-  try {
-    const state = thunkApi.getState();
-    const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.COURSE_NOTES.POST, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(params),
-    });
-
-    const data = (await response.json()) as CourseNotesResponse;
-    thunkApi.dispatch(getCourseNotes());
-    thunkApi.dispatch(clearCourseNotes());
-    return data;
-  } catch (error) {
-    return thunkApi.rejectWithValue(error);
-  }
-});
-
-export const updateCourseNotes = createAsyncThunk<
-  CourseNotesResponse,
-  CourseNotesParams,
-  { state: RootState }
->("updateCourseNotes/update", async ({ params }, thunkApi) => {
-  try {
-    const state = thunkApi.getState();
-    const token = state.auth?.auth?.token;
-    const response = await fetch(
-      apiUrl.COURSE_NOTES.UPDATE + "/" + params?.id,
-      {
-        method: "PUT",
+>(
+  "createCourseNotes/post",
+  async ({ params, onSuccess, onError }, thunkApi) => {
+    try {
+      const state = thunkApi.getState();
+      const token = state.auth?.auth?.token;
+      const response = await fetch(apiUrl.COURSE_NOTES.POST, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(params),
-      }
-    );
+      });
 
-    const data = (await response.json()) as CourseNotesResponse;
-    thunkApi.dispatch(getCourseNotes());
-    return data;
-  } catch (error) {
-    return thunkApi.rejectWithValue(error);
+      const data = (await response.json()) as CourseNotesResponse;
+      onSuccess(data);
+      thunkApi.dispatch(getCourseNotes());
+      thunkApi.dispatch(clearCourseNotes());
+      return data;
+    } catch (error) {
+      onError(error);
+      return thunkApi.rejectWithValue(error);
+    }
   }
-});
+);
+
+export const updateCourseNotes = createAsyncThunk<
+  CourseNotesResponse,
+  CourseNotesParams & OnSuccessInterface & OnErrorInterface,
+  { state: RootState }
+>(
+  "updateCourseNotes/update",
+  async ({ params, onSuccess, onError }, thunkApi) => {
+    try {
+      const state = thunkApi.getState();
+      const token = state.auth?.auth?.token;
+      const response = await fetch(
+        apiUrl.COURSE_NOTES.UPDATE + "/" + params?.id,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(params),
+        }
+      );
+
+      const data = (await response.json()) as CourseNotesResponse;
+      onSuccess(data);
+      thunkApi.dispatch(getCourseNotes());
+      return data;
+    } catch (error) {
+      onError(error);
+      return thunkApi.rejectWithValue(error);
+    }
+  }
+);
 
 export const deleteCourseNotes = createAsyncThunk<
   any,
