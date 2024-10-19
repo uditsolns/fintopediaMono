@@ -11,7 +11,7 @@ import ProgressBar from '@src/components/ProgressBar';
 import RatingReview from '@src/components/RatingReview';
 import React from 'react';
 import {FlatList, Pressable, View} from 'react-native';
-import {data} from './tabs/CourseContent';
+import {data2} from './tabs/CourseContent';
 import {BeforeEnrollingCourseAtom} from '@src/components/BeforeEnrollingCourseAtom';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import LearningMolecule from '@src/components/molecules/LearningMolecule/LearningMolecule';
@@ -38,9 +38,11 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
 > = ({navigation, route}) => {
   const dispatch = useAppDispatch();
   const {course, id} = route.params || {};
-  const {courses, loading: coursesLoading} = useAppSelector(
-    state => state.courses,
-  );
+  const {
+    courses,
+    singleCourse,
+    loading: coursesLoading,
+  } = useAppSelector(state => state.courses);
   const {coursesSection, loading: coursesSectionLoading} = useAppSelector(
     state => state.coursesSection,
   );
@@ -58,7 +60,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
     }, [id]),
   );
 
-  // const data = single_course ? single_course : course;
+  const data = singleCourse ? singleCourse : course;
 
   React.useEffect(() => {
     onRefresh();
@@ -137,24 +139,26 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
           </View>
           <View style={{paddingHorizontal: mScale.base}}>
             <TextAtom
-              text={'Stock Market Trading & Investing: 8 Courses In 1 Bundle!'}
+              text={data?.name || ''}
               preset="heading3"
               style={{marginVertical: mScale.base}}
             />
             <TextAtom
-              text={
-                'These concepts seem scary but are actually very easy to understand if they are taught in a practical manner'
-              }
+              text={data?.description || ''}
               preset="medium"
               style={{color: '#D5D5D9'}}
             />
 
             <View>
-              <ProgressBar level="intermediate" hours={'20'} mv={mScale.sm} />
-              <RatingReview rating={4.6} review={1000} />
+              <ProgressBar
+                level={data?.course_type?.toLowerCase()}
+                hours={data?.duration_time}
+                mv={mScale.sm}
+              />
+              <RatingReview rating={data?.rating} review={data?.reviews} />
             </View>
             <ButtonAtom
-              title={'Course starts from  ₹ 2,999'}
+              title={`Course starts from  ₹ ${data?.sale_price}`}
               preset="fourthy"
             />
             <TextAtom
@@ -162,7 +166,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               preset="heading3"
               style={{marginVertical: mScale.md}}
             />
-            {[...Array(5)].map((el, index) => {
+            {data?.sections?.map((el, index) => {
               return (
                 <View
                   key={index}
@@ -170,7 +174,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                     commonStyle.flexStart,
                     {
                       alignSelf: 'flex-start',
-                      alignItems: 'flex-start',
+                      alignItems: 'center',
                       marginVertical: mScale.md,
                       flex: 1,
                     },
@@ -182,9 +186,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                   <TextAtom
                     preset="body"
                     style={{color: '#F3F4F7'}}
-                    text={
-                      'Practical learning through real-life examples.Wide range of options trading strategies'
-                    }
+                    text={el?.section_heading || ''}
                   />
                 </View>
               );
@@ -269,7 +271,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
             />
             <View>
               <FlatList
-                data={data}
+                data={data2}
                 renderItem={({item}) => (
                   <BeforeEnrollingCourseAtom
                     section={item.section}

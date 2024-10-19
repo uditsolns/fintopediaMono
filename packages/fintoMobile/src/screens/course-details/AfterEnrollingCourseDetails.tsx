@@ -179,7 +179,7 @@ export const AfterEnrollingCourseDetails: React.FC<
             <FlatList
               data={
                 courses?.length
-                  ? courses?.filter(el => el?.category_id == data?.category_id)
+                  ? courses?.filter(el => el?.category_id == data?.category_id && el.id != data?.id)
                   : []
               }
               renderItem={innerCategoriesRenderItem}

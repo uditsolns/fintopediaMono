@@ -122,6 +122,11 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     return (
       <PopularCourseMolecule
         item={item}
+        onView={() => {
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.id,
+          });
+        }}
         onPress={async () => {
           let params = {
             user_id: Number(auth?.user?.id),
