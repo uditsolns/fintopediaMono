@@ -83,6 +83,9 @@ export type Paramkeys =
   | "user_id"
   | "course_id"
   | "rating"
-  | "rating_desc";
+  | "rating_desc"
+  | "user_id"
+  | "course_id"
+  | "upload_file";
 
 export type ModelParams = Record<Paramkeys, FormModel>;

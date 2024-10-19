@@ -1,12 +1,15 @@
 import React from "react";
-import { ErrorMessage, Form, Field, Formik, FormikHelpers } from "formik";
-import { Button, Col, InputGroup, Row, Label } from "reactstrap";
-import CustomInput from "@src/custom/CustomInput";
+import { Card, CardBody, Form, FormGroup, Input, Button } from "reactstrap";
 import styles from "../EnrollTabs.module.css";
 import Link from "next/link";
 import User from "../../../../assets/userCircle.png";
 import Image from "next/image";
-
+// import { CoursesRatingReviewsFields } from "@shared/src/utils/types/CoursesRatingReviews";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
+import { toast } from "react-toastify";
 interface ReviewFormValues {
   review: string;
   rating: string;
@@ -20,22 +23,35 @@ const stocks = new Array(4).fill({
   courseLink: "Basics of Stock Market",
 });
 const Reviews: React.FC = () => {
-  const handleSubmit = (
-    values: ReviewFormValues,
-    { setSubmitting }: FormikHelpers<ReviewFormValues>
-  ) => {
-    const reviewData = {
-      review: values.review,
-      rating: values.rating,
-    };
-    // dispatch(actions.postReview(reviewData, () => router.push('/thank-you')));
-    setSubmitting(false);
-  };
+  const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((state) => state.auth);
+  const { singleCourse, loading: coursesLoading } = useAppSelector(
+    (state) => state.courses
+  );
 
+  const [review, setReview] = React.useState<string | null>("");
+  const [rating, setRating] = React.useState<number | null>(0);
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   let params: CoursesRatingReviewsFields = {
+  //     user_id: auth?.user?.id,
+  //     course_id: singleCourse?.id,
+  //     rating_star: `${rating || 0}`,
+  //     review_description: review!,
+  //   };
+  //   if (!rating || !review) {
+  //     toast.error("Please write your review and select your rating.", {
+  //       position: "top-right",
+  //       theme: "light",
+  //     });
+  //     return;
+  //   }
+  //   console.log(JSON.stringify(params));
+  // };
   return (
     <div className={styles.reviews}>
       <div className={styles.reviewsForm}>
-        <Formik
+        {/* <Formik
           initialValues={{
             review: "",
             rating: "",
@@ -44,7 +60,7 @@ const Reviews: React.FC = () => {
         >
           {({ errors, touched, isSubmitting }) => (
             <Form className="mt-3">
-              {/* Review Textarea */}
+             
               <Row className="form-group mt-3">
                 <Col md={12} className="p-0">
                   <InputGroup>
@@ -106,11 +122,73 @@ const Reviews: React.FC = () => {
               </Row>
             </Form>
           )}
-        </Formik>
+        </Formik>  */}
+        <Card
+          className="bg-dark"
+          style={{ maxWidth: "500px", margin: "2rem auto" }}
+        >
+          <CardBody>
+            <Form onSubmit={handleSubmit}>
+              <FormGroup>
+                <Input
+                  type="textarea"
+                  value={review}
+                  onChange={(e) => setReview(e.target.value)}
+                  placeholder="Write a review..."
+                  rows={4}
+                  style={{
+                    backgroundColor: "#1e2124",
+                    color: "#ffffff",
+                    border: "none",
+                    resize: "none",
+                  }}
+                />
+              </FormGroup>
+              <FormGroup className="d-flex justify-content-between align-items-center">
+                <div>
+                  <span className="text-white mr-2">Select Rating</span>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Button
+                      key={star}
+                      color="link"
+                      className="p-0 mr-1"
+                      onClick={() => setRating(star)}
+                    >
+                      <span
+                        style={{
+                          fontSize: "1.5rem",
+                          color: star <= rating ? "#ffc107" : "#6c757d",
+                        }}
+                      >
+                        ★
+                      </span>
+                    </Button>
+                  ))}
+                </div>
+                <div>
+                  <Button
+                    color="secondary"
+                    outline
+                    className="mr-2"
+                    onClick={() => {
+                      setReview("");
+                      setRating(0);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button color="primary" type="submit">
+                    Post
+                  </Button>
+                </div>
+              </FormGroup>
+            </Form>
+          </CardBody>
+        </Card>
       </div>
       <div className={styles.allReviews}>
         <h1>All Reviews</h1>
-        <Row className="mt-3">
+        {/* <Row className="mt-3">
           {stocks.map((card, index) => {
             return (
               <Col md={6} key={index} className="mt-3">
@@ -138,7 +216,7 @@ const Reviews: React.FC = () => {
               </Col>
             );
           })}
-        </Row>
+        </Row> */}
       </div>
     </div>
   );

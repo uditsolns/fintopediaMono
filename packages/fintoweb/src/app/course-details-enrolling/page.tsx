@@ -25,8 +25,11 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   const { singleCourse, loading: singleCourseLoading } = useAppSelector(
     (state) => state.courses
   );
-  const { course_notes, loading: courseNotesLoading } = useAppSelector(
+  const { course_notes, loading: course_notes_loading } = useAppSelector(
     (state) => state.courseNotes
+  );
+  const { upload_file, loading: upload_file_loading } = useAppSelector(
+    (state) => state.courseUploadFile
   );
 
   React.useEffect(() => {
@@ -68,7 +71,13 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   ];
   return (
     <>
-      {singleCourseLoading?.singleCourse || courseNotesLoading?.course_notes ? (
+      {singleCourseLoading.singleCourse ||
+      course_notes_loading?.course_notes ||
+      course_notes_loading?.create ||
+      course_notes_loading?.update ||
+      course_notes_loading?.delete ||
+      upload_file_loading.create ||
+      upload_file_loading?.upload_file ? (
         <div className="fullPageLoading">
           <LoadingAtom
             style={{
@@ -78,6 +87,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
           />
         </div>
       ) : null}
+
       <section>
         <div className={styles.enrollHeader}>
           <h2>Mastering Money Management</h2>
@@ -234,8 +244,9 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
             </div>
             <div className="col-md-8">
               <div className={styles.enrollCourseVideo}>
-                {/* <Image src={EnrollCourse} alt="Enroll" /> */}
-                <VideoPlayer src={`${imageUrl}/uploads/course_videos/${singleCourse?.course_video}`} /> 
+                <VideoPlayer
+                  src={`${imageUrl}/uploads/course_videos/${singleCourse?.course_video}`}
+                />
               </div>
               <div className={styles.tabsContainer}>
                 <h3>Roles and responsibilities of a product manager</h3>
