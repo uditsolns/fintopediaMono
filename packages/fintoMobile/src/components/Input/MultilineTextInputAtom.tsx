@@ -16,18 +16,20 @@ interface MultilineTextInputAtomProps {
   onRatingSelect?: (rating: number) => void;
   maxStars?: number | string;
   defaultRating?: number;
+  currentRating?: number;
 }
 
 export const MultilineTextInputAtom: React.FC<MultilineTextInputAtomProps> = ({
   placeholderTitle,
   value,
   onChangeText,
-  onCancel,
-  onSave,
+  onCancel = () => {},
+  onSave = () => {},
   ratingBoolean = false,
   onRatingSelect,
   maxStars = 5,
   defaultRating = 0,
+  currentRating = 0,
   ...rest
 }) => {
   const [rating, setRating] = React.useState(defaultRating);
@@ -79,7 +81,12 @@ export const MultilineTextInputAtom: React.FC<MultilineTextInputAtomProps> = ({
           <View />
         )}
         <View style={[commonStyle.flexSpaceBetween]}>
-          <TouchableOpacity style={{marginEnd: mScale.base}} onPress={onCancel}>
+          <TouchableOpacity
+            style={{marginEnd: mScale.base}}
+            onPress={() => {
+              setRating(0);
+              onCancel();
+            }}>
             <TextAtom text={'Cancel'} preset="smallBold" />
           </TouchableOpacity>
           <TouchableOpacity

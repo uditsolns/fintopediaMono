@@ -25,10 +25,10 @@ export default {
     DELETE: buildUrl("categories"),
   },
   COURSES: {
-    GET: buildUrl("courses"),
-    POST: buildUrl("courses"),
-    UPDATE: buildUrl("courses"),
-    DELETE: buildUrl("courses"),
+    GET: buildUrl("coursesget"),
+    POST: buildUrl("coursesget"),
+    UPDATE: buildUrl("coursesget"),
+    DELETE: buildUrl("coursesget"),
   },
   COURSE_SECTIONS: {
     GET: buildUrl("courses_sections"),

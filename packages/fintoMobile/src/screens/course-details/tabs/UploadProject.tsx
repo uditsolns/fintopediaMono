@@ -1,9 +1,13 @@
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
-import {createCourseUploadFile} from '@shared/src/provider/store/services/course-upload-file.service';
+import {imageUrl} from '@shared/src/config/imageUrl';
+import {
+  createCourseUploadFile,
+  deleteCourseUploadFile,
+} from '@shared/src/provider/store/services/course-upload-file.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -13,11 +17,13 @@ import {moderateScale, mScale, WINDOW_HEIGHT} from '@shared/src/theme/metrics';
 import {fontPresets} from '@shared/src/theme/typography';
 import {CourseUploadFileResponse} from '@shared/src/utils/types/course-upload-file';
 import {ImageType} from '@shared/src/utils/types/main';
+import {pdfPermission} from '@src/components/DownloadPdf/DownloadPdf';
 import LoaderAtom from '@src/components/LoaderAtom';
 import PdfMolecule from '@src/components/molecules/PdfMolecule/PdfMolecule';
 import {DeletePopup} from '@src/components/Popup/DeletePopup';
 import {PopupUpload} from '@src/components/Popup/PopupUpload';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
 import {Alert, FlatList, Text, View} from 'react-native';
 
@@ -26,6 +32,7 @@ export const UploadProject: React.FunctionComponent<
   UploadProjectProps
 > = () => {
   const dispatch = useAppDispatch();
+  const navigation = useNavigation<any>();
   const {auth} = useAppSelector(state => state.auth);
   const {singleCourse, loading: coursesLoading} = useAppSelector(
     state => state.courses,
@@ -129,7 +136,7 @@ export const UploadProject: React.FunctionComponent<
             preset="primary"
             onPress={toggleModal}
           />
-          <TextAtom
+          {/* <TextAtom
             preset="body"
             text={'File under 20 MB'}
             style={{
@@ -137,16 +144,20 @@ export const UploadProject: React.FunctionComponent<
               textAlign: 'center',
               color: '#717171',
             }}
-          />
+          /> */}
         </View>
         <View style={{marginVertical: mScale.base}}>
           <View style={{marginStart: -mScale.md2}}>
-            <ViewAll title="Previously Uploaded Projects" visible={false} />
+            {upload_file?.length ? (
+              <ViewAll title="Previously Uploaded Projects" visible={false} />
+            ) : null}
           </View>
           {upload_file?.length ? (
             <View style={{marginVertical: mScale.base, height: WINDOW_HEIGHT}}>
               <FlatList
-                data={upload_file}
+                data={upload_file?.filter(
+                  el => el?.course_id == singleCourse?.id,
+                )}
                 renderItem={renderItem}
                 contentContainerStyle={{
                   rowGap: mScale.base,
@@ -155,6 +166,7 @@ export const UploadProject: React.FunctionComponent<
                 }}
                 showsVerticalScrollIndicator={false}
                 nestedScrollEnabled={true}
+                keyExtractor={(item): any => item.id}
               />
             </View>
           ) : null}
@@ -170,7 +182,6 @@ export const UploadProject: React.FunctionComponent<
               formData.append('user_id', auth?.user?.is_active);
               formData.append('course_id', singleCourse?.id);
               formData.append('upload_file', res);
-              console.log(res);
               dispatch(
                 createCourseUploadFile({
                   formData,
@@ -185,13 +196,37 @@ export const UploadProject: React.FunctionComponent<
           isVisible={modalVisible2}
           toggleModal={toggleModal2}
           viewPdf={() => {
-            console.log(
-              '==========================view pdf',
-              JSON.stringify(selectedUploadFile),
+            let body = {
+              upload_file:
+                `${imageUrl}/uploads/course_files_pdf/${selectedUploadFile?.upload_file}` ||
+                '',
+              course_name: selectedUploadFile?.course?.name || '',
+              user_name: selectedUploadFile?.user?.first_name || '',
+            };
+            navigation.navigate(RouteKeys.VIEWPDFSCREEN, {data: body});
+          }}
+          downloadPdf={async () => {
+            let mime = 'application/pdf';
+            let extensionType =
+              '' + selectedUploadFile?.upload_file?.toString().split('.').pop();
+            let url = `${imageUrl}/uploads/course_files_pdf/${selectedUploadFile?.upload_file}`;
+            let title = `${selectedUploadFile?.course?.name}`;
+            await pdfPermission({mime, url, title, extensionType});
+            Alert.alert('Pdf have been downloaded successfully!');
+          }}
+          deletePdf={() => {
+            let id = Number(selectedUploadFile?.id);
+            dispatch(
+              deleteCourseUploadFile({
+                id,
+                onSuccess(data) {
+                  setSelectedUploadFile(null);
+                  console.log('data upload delete');
+                },
+                onError(error) {},
+              }),
             );
           }}
-          downloadPdf={() => {}}
-          deletePdf={() => {}}
         />
       </View>
     </View>

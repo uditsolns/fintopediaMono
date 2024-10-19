@@ -283,7 +283,11 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={MockSellStocks as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+         options={({navigation}) => ({
+          headerShown: true,
+          headerTitle:'',
+          headerLeft: () => headerBack(() => navigation.goBack()),
+        })}
         name={RouteKeys.VIEWPDFSCREEN}
         component={ViewPdf as React.FC}
       />

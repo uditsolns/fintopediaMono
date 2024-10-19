@@ -5,8 +5,8 @@ export interface CourseReviewFields {
   id?: number;
   course_id?: number;
   user_id?: number;
-  rating?: null | string;
-  rating_desc?: null | string;
+  rating_star: null | string;
+  review_description: null | string;
 }
 
 export interface CourseReviewParams {
@@ -16,8 +16,8 @@ export interface CourseReviewResponse {
   id?: number;
   course_id?: number;
   user_id?: number;
-  rating: null | string;
-  rating_desc: null | string;
+  rating_star: null | string;
+  review_description: null | string;
   course?: CoursesResponse | null;
   user?: UserInfo | null;
 }

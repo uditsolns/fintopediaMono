@@ -1,11 +1,11 @@
 import {useRoute} from '@react-navigation/native';
-import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
-import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {createCourseReview} from '@shared/src/provider/store/services/course-review.service';
 import {
   useAppDispatch,
   useAppSelector,
 } from '@shared/src/provider/store/types/storeTypes';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import { CourseReviewResponse } from '@shared/src/utils/types/course-review';
 import {CoursesRatingReviewsFields} from '@shared/src/utils/types/CoursesRatingReviews';
 import {MultilineTextInputAtom} from '@src/components/Input/MultilineTextInputAtom';
 import LoaderAtom from '@src/components/LoaderAtom';
@@ -20,20 +20,30 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = () => {
   const {singleCourse, loading: coursesLoading} = useAppSelector(
     state => state.courses,
   );
+  const {course_review, loading: course_review_loading} = useAppSelector(
+    state => state.courseReviews,
+  );
   let route = useRoute<any>();
 
   const {course, id} = route.params || {};
   const data = singleCourse ? singleCourse : course;
   const [reviewDesc, setReviewDesc] = React.useState<string | null>('');
   const [rating, setRating] = React.useState<number | null>(null);
+  const [defaultRating, setDefaultRating] = React.useState<number>(0);
 
-  const renderItem = ({item}: {item: any}) => {
+  const renderItem = ({item}: {item: CourseReviewResponse}) => {
     return <ReviewMolecule item={item} itemWidth={'full-width'} />;
+  };
+  const onCancel = () => {
+    setReviewDesc('');
+    setRating(null);
+    setDefaultRating(0);
   };
   return (
     <View style={{flex: 1}}>
-       {coursesLoading.singleCourse ||
-      coursesLoading.courses ? (
+      {coursesLoading.singleCourse ||
+      coursesLoading.courses ||
+      course_review_loading.create ? (
         <LoaderAtom size="large" />
       ) : null}
       <View>
@@ -44,39 +54,45 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = () => {
             onRatingSelect={(rating: number) => {
               setRating(rating);
             }}
-            onCancel={() => {
-              setReviewDesc('');
-              setRating(null);
-            }}
+            onCancel={onCancel}
             onSave={() => {
               let params: CoursesRatingReviewsFields = {
                 user_id: auth?.user?.id,
                 course_id: singleCourse?.id,
                 rating_star: `${rating || 0}`,
-                review_description: reviewDesc!,
+                review_description: reviewDesc || '',
               };
               if (!rating || !reviewDesc) {
                 Alert.alert('Please write your review and select your rating.');
                 return;
               }
-              console.log(JSON.stringify(params))
+              dispatch(
+                createCourseReview({
+                  params,
+                  onSuccess(data) {
+                    onCancel();
+                  },
+                  onError(error) {},
+                }),
+              );
             }}
             value={reviewDesc}
             onChangeText={setReviewDesc}
+            currentRating={defaultRating}
           />
         </View>
         <View>
           <ViewAll title="All Reviews" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={[...Array(5)]}
+              data={course_review?.length ? course_review?.filter(el=>el?.course_id == singleCourse?.id) : []}
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
               onEndReachedThreshold={0.2}
               contentContainerStyle={{
                 columnGap: mScale.base,
                 paddingBottom: mScale.lg,
-                minHeight: moderateScale(314),
+                minHeight: moderateScale(275),
               }}
               horizontal={true}
             />
