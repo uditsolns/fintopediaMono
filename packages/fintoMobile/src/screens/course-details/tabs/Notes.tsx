@@ -44,11 +44,6 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
   const [selectedNote, setSelectedNote] =
     React.useState<CourseNotesResponse | null>(null);
 
-  React.useEffect(() => {
-    setFieldValue(courseNotesField.user_id.name, auth?.user?.id || '');
-    setFieldValue(courseNotesField.course_id.name, singleCourse?.id || '');
-  }, [data]);
-
   return (
     <View style={{flex: 1, padding: mScale.base}}>
       {coursesLoading.singleCourse ||
@@ -109,6 +104,19 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
                 : []
             }
             renderItem={({item}) => {
+              let note = item?.notes ? item?.notes : '';
+              note = note
+                .toString()
+                .replace(/<br \/>|<p>|<ol>|<\/ol>|<ul>|<\/ul>/g, '')
+                .replace(/<\/p>|<br>|<\/li>/g, '\n')
+                .replace(/<li>/g, '\n\u2022')
+                .replace(/<li style="list-style-type: none;">/g, '\n\u2022')
+                .replace(/&gt;/g, '\u003E')
+                .replace(/&lt;/g, '\u003C')
+                .replace(/&#8220;|&#8221;/g, '\u0022')
+                .replace(/<strong>|<\/strong>/g, '')
+                .replace(/&amp;/g, '\u0026')
+                .replace(/&nbsp;/g, ' ');
               return (
                 <>
                   <View style={{marginVertical: mScale.md}}>
@@ -125,7 +133,26 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
                         <Pressable
                           style={{marginEnd: mScale.md}}
                           onPress={() => {
-                            setNotes(item?.notes);
+                            let note2 = item?.notes ? item?.notes : '';
+                            note2 = note2
+                              .toString()
+                              .replace(
+                                /<br \/>|<p>|<ol>|<\/ol>|<ul>|<\/ul>/g,
+                                '',
+                              )
+                              .replace(/<\/p>|<br>|<\/li>/g, '\n')
+                              .replace(/<li>/g, '\n\u2022')
+                              .replace(
+                                /<li style="list-style-type: none;">/g,
+                                '\n\u2022',
+                              )
+                              .replace(/&gt;/g, '\u003E')
+                              .replace(/&lt;/g, '\u003C')
+                              .replace(/&#8220;|&#8221;/g, '\u0022')
+                              .replace(/<strong>|<\/strong>/g, '')
+                              .replace(/&amp;/g, '\u0026')
+                              .replace(/&nbsp;/g, ' ');
+                            setNotes(note2);
                             setSelectedNote(item);
                           }}> 
                           <Images.SVG.Pencil />
@@ -154,7 +181,7 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
                         padding: mScale.base,
                         backgroundColor: '#222431',
                       }}>
-                      <TextAtom text={item?.notes || ''} preset="body" />
+                      <TextAtom text={note || ''} preset="body" />
                     </View>
                   </View>
                 </>

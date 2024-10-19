@@ -39,7 +39,7 @@ export default function ContinueLearningMolecule({
       />
       <View style={styles.content}>
         <TextAtom
-          text={'Introduction to Option Trading'}
+          text={item?.name || ''}
           preset="medium"
           style={[styles.boldText, {color: colorPresets.GRAY}]}
           numberOfLines={3}

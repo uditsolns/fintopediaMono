@@ -22,7 +22,7 @@ import {ImageType} from '@shared/src/utils/types/main';
 import {updateUser} from '@shared/src/provider/store/services/user.service';
 import {imageUrl} from '@shared/src/config/imageUrl';
 
-const avatarUrl =
+export const avatarUrl =
   'https://st4.depositphotos.com/4329009/19956/v/450/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg';
 
 const profileItems = [

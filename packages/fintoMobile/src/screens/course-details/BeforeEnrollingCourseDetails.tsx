@@ -28,7 +28,6 @@ import {
   getCourses,
   getCoursesById,
 } from '@shared/src/provider/store/services/courses.service';
-import {getCoursesRatingReviews} from '@shared/src/provider/store/services/CoursesRatingReviews.service';
 import {getCoursesSections} from '@shared/src/provider/store/services/courseSections.service';
 
 interface BeforeEnrollingCourseDetailsProps
@@ -68,7 +67,6 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
   const onRefresh = () => {
     setRefreshLoading(true);
     dispatch(getCourses());
-    dispatch(getCoursesRatingReviews());
     dispatch(getCoursesSections());
     setRefreshLoading(false);
   };

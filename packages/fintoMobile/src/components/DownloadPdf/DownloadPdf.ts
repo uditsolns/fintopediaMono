@@ -1,12 +1,12 @@
-import { Platform, PermissionsAndroid, Alert } from 'react-native';
+import {Platform, PermissionsAndroid, Alert} from 'react-native';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import Share from 'react-native-share';
 
 interface PdfProps {
-  mime: string;
-  url: string;
-  title: string;
-  description: string;
+  mime: string | null;
+  url: string | null;
+  title: string | null;
+  description?: string | null;
   onSucessMsg?: string;
   onErrorMsg?: string;
   extensionType: string;
@@ -16,7 +16,7 @@ const pdfPermission = async ({
   mime,
   url,
   title,
-  description,
+  description = 'Pdf download have been successfully!',
   onSucessMsg,
   onErrorMsg,
   extensionType,
@@ -40,7 +40,7 @@ const pdfPermission = async ({
           message: 'This app needs access to your storage to download PDFs.',
           buttonPositive: 'OK', // Mandatory for Android Rationale
           buttonNegative: 'Cancel', // Optional but good practice
-        }
+        },
       );
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -74,7 +74,7 @@ const downloadPDF = async ({
 }: PdfProps): Promise<void> => {
   try {
     const dirs = ReactNativeBlobUtil.fs.dirs.DocumentDir;
-    const config = {
+    const config: any = {
       fileCache: true,
       appendExt: extensionType,
       path: `${dirs}/${title}.${extensionType}`,
@@ -86,11 +86,14 @@ const downloadPDF = async ({
       },
     };
 
-    const res = await ReactNativeBlobUtil.config(config).fetch('GET', url);
+    const res = await ReactNativeBlobUtil.config(config).fetch(
+      'GET',
+      url || '',
+    );
     const filePath = res.path();
 
     if (Platform.OS === 'ios') {
-      const options = {
+      const options: any = {
         type: mime,
         url: filePath,
         saveToFiles: true,
@@ -104,11 +107,12 @@ const downloadPDF = async ({
         throw err;
       }
     } else {
-      const androidConfig = { fileCache: true };
+      console.log(title);
+      const androidConfig = {fileCache: true};
 
       const res = await ReactNativeBlobUtil.config(androidConfig).fetch(
         'GET',
-        url
+        url || '',
       );
       await ReactNativeBlobUtil.MediaCollection.copyToMediaStore(
         {
@@ -117,7 +121,7 @@ const downloadPDF = async ({
           mimeType: mime,
         },
         'Download',
-        res.path()
+        res.path(),
       );
 
       console.log(onSucessMsg || 'PDF downloaded successfully');
@@ -131,4 +135,4 @@ const downloadPDF = async ({
   }
 };
 
-export { pdfPermission, downloadPDF };
+export {pdfPermission, downloadPDF};
