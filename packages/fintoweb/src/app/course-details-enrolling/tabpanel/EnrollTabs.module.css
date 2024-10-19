@@ -113,10 +113,24 @@
 }
 
 /*  Reviews  */
+.reviewsFormCard {
+  display: flex;
+  width: 100%;
+  height: 200px;
+  align-items: flex-start;
+  gap: 17.523px;
+  flex-shrink: 0;
+  border-radius: 8.761px;
+  border: 1.46px solid var(--Border, #7a7fa2);
+  background: #222431;
+}
 .buttonRow {
   height: 52px;
   border-top: 1px solid var(--Border, #7a7fa2);
   background: var(--BG-2, #222431);
+}
+.reviewsForm {
+  width: 100% !important;
 }
 /* .textfield {
   border-radius: 8.761px;
@@ -287,19 +301,27 @@
   background: #222431;
   color: #fff;
 }
-
-.textfield::placeholder {
+.textareaField {
+  display: flex;
+  padding: 12px 22px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  border-radius: 6px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #222431;
+  color: #fff;
+}
+.textfield::placeholder,
+.textareaField::placeholder {
   color: #7a7fa2;
 }
 
-.textfield:focus {
+.textfield:focus,
+.textareaField:focus {
   background-color: #2d303d;
   color: #fff;
   outline: none;
-}
-
-.textfield:focus::placeholder {
-  color: #7a7fa2;
 }
 
 .isInvalid {
