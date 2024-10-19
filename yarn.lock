@@ -19929,12 +19929,12 @@ __metadata:
   linkType: hard
 
 "react-native-phonepe-pg@https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz":
-  version: 2.0.1
+  version: 2.0.2
   resolution: "react-native-phonepe-pg@https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 1aac40cf4227d52d2445c9e877da6afbbef21561cfea1f58835c0d2c1ab22b65c0225f106deed7dfe6c8775c3ac17c5f340e8ffa32237e49cf618d794d9b8073
+  checksum: 9f978e2efead34b7f8a1a129d03d91237ea4988d6c9cd6937cc2fb9c2e81d806b1060646a9f60eb6412645fcb7e2cae7c6cae97b7bf598f4a9d0956cd663a68d
   languageName: node
   linkType: hard
 

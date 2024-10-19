@@ -3,7 +3,6 @@ import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
-import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {createCourseUploadFile} from '@shared/src/provider/store/services/course-upload-file.service';
 import {
   useAppDispatch,
@@ -16,10 +15,11 @@ import {CourseUploadFileResponse} from '@shared/src/utils/types/course-upload-fi
 import {ImageType} from '@shared/src/utils/types/main';
 import LoaderAtom from '@src/components/LoaderAtom';
 import PdfMolecule from '@src/components/molecules/PdfMolecule/PdfMolecule';
+import {DeletePopup} from '@src/components/Popup/DeletePopup';
 import {PopupUpload} from '@src/components/Popup/PopupUpload';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import React from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {Alert, FlatList, Text, View} from 'react-native';
 
 interface UploadProjectProps {}
 export const UploadProject: React.FunctionComponent<
@@ -41,9 +41,23 @@ export const UploadProject: React.FunctionComponent<
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
+  const [modalVisible2, setModalVisible2] = React.useState(false);
+  const toggleModal2 = () => {
+    setModalVisible2(!modalVisible2);
+  };
+  const [selectedUploadFile, setSelectedUploadFile] =
+    React.useState<CourseUploadFileResponse | null>(null);
 
   const renderItem = ({item}: {item: CourseUploadFileResponse}) => {
-    return <PdfMolecule item={item} />;
+    return (
+      <PdfMolecule
+        item={item}
+        onPress={() => {
+          setSelectedUploadFile(item);
+          toggleModal2();
+        }}
+      />
+    );
   };
 
   return (
@@ -130,7 +144,7 @@ export const UploadProject: React.FunctionComponent<
             <ViewAll title="Previously Uploaded Projects" visible={false} />
           </View>
           {upload_file?.length ? (
-            <View style={{marginVertical: mScale.base,height:WINDOW_HEIGHT}}>
+            <View style={{marginVertical: mScale.base, height: WINDOW_HEIGHT}}>
               <FlatList
                 data={upload_file}
                 renderItem={renderItem}
@@ -166,6 +180,18 @@ export const UploadProject: React.FunctionComponent<
               );
             }
           }}
+        />
+        <DeletePopup
+          isVisible={modalVisible2}
+          toggleModal={toggleModal2}
+          viewPdf={() => {
+            console.log(
+              '==========================view pdf',
+              JSON.stringify(selectedUploadFile),
+            );
+          }}
+          downloadPdf={() => {}}
+          deletePdf={() => {}}
         />
       </View>
     </View>

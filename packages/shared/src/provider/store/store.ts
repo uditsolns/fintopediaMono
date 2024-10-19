@@ -21,8 +21,7 @@ import stocksReducer from "./reducers/stocks.reducer";
 import transactionsReducer from "./reducers/transactions.reducer";
 import userTransactionsReducer from "./reducers/usertransactions.reducer";
 import courseCartReducer from "./reducers/CourseCart.reducer";
-import coursesRatingReviewsReducer from "./reducers/CoursesRatingReviews.reducer";
-import purchaseHistoryReducer from "./reducers/purchasehistory.reducer";
+import purchaseHistoryReducer from "./reducers/PurchaseHistory.reducer";
 import userCertificateReducer from "./reducers/UserCertificate.reducer";
 import userCourseHistoryReducer from "./reducers/UserCourseHistory.reducer";
 import startGameReducer from "./reducers/startgame.reducer";
@@ -65,7 +64,6 @@ const reducers = combineReducers({
   transactions: transactionsReducer,
   userTransactions: userTransactionsReducer,
   courseCart: courseCartReducer,
-  coursesRatingReviews: coursesRatingReviewsReducer,
   purchaseHistory: purchaseHistoryReducer,
   userCertificate: userCertificateReducer,
   userCourseHistory: userCourseHistoryReducer,

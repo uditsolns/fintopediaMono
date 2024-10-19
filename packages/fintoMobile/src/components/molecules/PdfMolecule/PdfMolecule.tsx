@@ -6,6 +6,7 @@ import { moderateScale, mScale } from '@shared/src/theme/metrics';
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import { colorPresets } from '@shared/src/theme/color';
 import { CourseUploadFileResponse } from '@shared/src/utils/types/course-upload-file';
+import { formatDateMonthTime } from '@src/components/Calculate';
 
 export default function PdfMolecule({item, onPress}:{item?:CourseUploadFileResponse,onPress?:()=>void}) {
   return (
@@ -27,7 +28,7 @@ export default function PdfMolecule({item, onPress}:{item?:CourseUploadFileRespo
               <TextAtom text={'Checked'} preset="xSmallBold" />
             </Pressable>
           </View>
-          <Pressable>
+          <Pressable onPress={onPress}>
             <Images.SVG.DotHorizontal />
           </Pressable>
         </View>
@@ -38,7 +39,9 @@ export default function PdfMolecule({item, onPress}:{item?:CourseUploadFileRespo
           numberOfLines={2}
         />
         <TextAtom
-          text={`Sat, Apr 20  \u2B24  7.5 MB`}
+          text={ item?.created_at
+            ? formatDateMonthTime(item?.created_at)
+            : ''}
           preset="medium"
           style={{fontWeight: '400', marginVertical: mScale.md,color:colorPresets.GRAY}}
           numberOfLines={2}

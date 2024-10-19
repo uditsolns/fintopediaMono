@@ -31,10 +31,9 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
   const {singleCourse, loading: coursesLoading} = useAppSelector(
     state => state.courses,
   );
-  const {
-    course_notes,
-    loading: course_notes_loading,
-  } = useAppSelector(state => state.courseNotes);
+  const {course_notes, loading: course_notes_loading} = useAppSelector(
+    state => state.courseNotes,
+  );
   let route = useRoute<any>();
 
   const {course, id} = route.params || {};
@@ -79,10 +78,22 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
               return;
             }
             if (selectedNote) {
-              dispatch(updateCourseNotes({params}));
+              dispatch(
+                updateCourseNotes({
+                  params,
+                  onSuccess(data) {},
+                  onError(error) {},
+                }),
+              );
               return true;
             }
-            dispatch(createCourseNotes({params}));
+            dispatch(
+              createCourseNotes({
+                params,
+                onSuccess(data) {},
+                onError(error) {},
+              }),
+            );
             setNotes('');
             setSelectedNote(null);
           }}
@@ -92,7 +103,11 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
 
         {course_notes?.length ? (
           <FlatList
-            data={course_notes}
+            data={
+              course_notes?.length
+                ? course_notes?.filter(el => el?.user_id == auth?.user?.id)
+                : []
+            }
             renderItem={({item}) => {
               return (
                 <>
