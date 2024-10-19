@@ -18,13 +18,13 @@ export const useCourseNotesHelper = () => {
 
   const courseNotesFormik = useFormik({
     initialValues: COURSE_UPLOADFILE_VALUES,
-    validationSchema: courseFileuploadValidation,
+    // validationSchema: courseFileuploadValidation,
     onSubmit: (values) => {
       const formData = new FormData();
       formData.append("user_id", values.user_id);
       formData.append("course_id", values.course_id);
       formData.append("upload_file", values.upload_file);
-      console.log("course note body", formData);
+      console.log("course File body", JSON.stringify(formData));
       dispatch(createCourseUploadFileFormik({ formData }));
     },
   });

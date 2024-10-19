@@ -19,14 +19,24 @@ const UploadProject = () => {
     (state) => state.courses
   );
   const { courseNotesFormik, courseNotesInputProps } = useCourseNotesHelper();
-  const { handleSubmit, setFieldValue, values } = courseNotesFormik;
+  const { handleSubmit, setFieldValue, values, errors } = courseNotesFormik;
   console.log("values", values);
+  console.log("errors", errors);
+
   const { upload_file, loading: upload_file_loading } = useAppSelector(
     (state) => state.courseUploadFile
   );
 
   const handleFileChange = (event) => {
-    const file = event.currentTarget.files[0];
+    console.log("event", event.target.value);
+    console.log("event files", event.target.files);
+    const file = event.target.files[0];
+    const data = {
+      uri: "C:\fakepath\Relationship Final.pdf",
+      type: file.type,
+      name: file.name,
+    };
+    console.log("data---------", data);
     setFieldValue(courseFileuploadField.upload_file.name, file);
   };
 

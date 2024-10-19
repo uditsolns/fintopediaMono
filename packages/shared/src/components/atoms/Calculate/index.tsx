@@ -79,7 +79,7 @@ export const SALT_KEY: string = false
   : 'c9170f9e-85bc-4055-8cec-812bf1b73f53';
 export const SALT_INDEX: number = 1;
 export const API_ENDPOINT: string = '/pg/v1/pay';
-export const PRODUCTION_HOST_URL: string = false
+export const PRODUCTION_HOST_URL: string = true
   ? 'https://api.phonepe.com/apis/hermes'
   : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
 

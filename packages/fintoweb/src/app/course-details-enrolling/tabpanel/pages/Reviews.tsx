@@ -13,12 +13,13 @@ import styles from "../EnrollTabs.module.css";
 import Link from "next/link";
 import User from "../../../../assets/userCircle.png";
 import Image from "next/image";
-// import { CoursesRatingReviewsFields } from "@shared/src/utils/types/CoursesRatingReviews";
+import { CoursesRatingReviewsFields } from "@shared/src/utils/types/CoursesRatingReviews";
 import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import { toast } from "react-toastify";
+import { createCourseReview } from "shared/src/provider/store/services/course-review.service";
 interface ReviewFormValues {
   review: string;
   rating: string;
@@ -31,42 +32,60 @@ const stocks = new Array(4).fill({
   subHeading: `Online learning has completely transformed my educational experience. The flexibility to attend classes and complete assignments on my own schedule has been a game-changer for me. It's allowed me to balance my job and family commitments while pursuing my degree. I'm so grateful for the opportunity to learn this way!`,
   courseLink: "Basics of Stock Market",
 });
-const Reviews: React.FC = () => {
+const Reviews: React.FC<ReviewFormValues> = () => {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
   const { singleCourse, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
   );
-
+  const { course_review, loading: course_review_loading } = useAppSelector(
+    (state) => state.courseReviews
+  );
   const [review, setReview] = React.useState<string | null>("");
   const [rating, setRating] = React.useState<number | null>(0);
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   let params: CoursesRatingReviewsFields = {
-  //     user_id: auth?.user?.id,
-  //     course_id: singleCourse?.id,
-  //     rating_star: `${rating || 0}`,
-  //     review_description: review!,
-  //   };
-  //   if (!rating || !review) {
-  //     toast.error("Please write your review and select your rating.", {
-  //       position: "top-right",
-  //       theme: "light",
-  //     });
-  //     return;
-  //   }
-  //   console.log(JSON.stringify(params));
-  // };
+  const handleSubmit = async (e: React.FormEvent) => {
+    let params: CoursesRatingReviewsFields = {
+      user_id: auth?.user?.id,
+      course_id: singleCourse?.id,
+      rating_star: `${rating || 0}`,
+      review_description: review || "",
+    };
+    if (!rating || !review) {
+      toast.error("Please write your review and select your rating.", {
+        position: "top-right",
+        theme: "light",
+      });
+      return;
+    }
+    dispatch(
+      createCourseReview({
+        params,
+        onSuccess(data) {
+          toast.error(data.message, {
+            position: "top-right",
+            theme: "light",
+          });
+          onCancel();
+        },
+        onError(error) {},
+      })
+    );
+  };
+  const onCancel = () => {
+    setReview("");
+    setRating(0);
+  };
   return (
     <div className={styles.reviews}>
       <div className={styles.reviewsFormCard}>
         {/* onSubmit={handleSubmit} */}
-        <Form className={styles.reviewsForm}>
+        <Form className={styles.reviewsForm} onSubmit={handleSubmit}>
           <Row>
             <Col md={12}>
               <FormGroup>
                 <Input
-                  type="textarea" 
+                  type="textarea"
                   value={review}
                   className={styles.textareaField}
                   onChange={(e) => setReview(e.target.value)}
