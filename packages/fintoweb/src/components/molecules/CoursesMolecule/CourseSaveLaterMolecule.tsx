@@ -6,20 +6,28 @@ import ProgressBar from "@src/components/progress/ProgressBar";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import { isInCart } from "shared/src/components/atoms/Calculate";
 import { CoursesSaveLaterResponse } from "shared/src/utils/types/courses-save-later";
+import { useRouter } from "next/navigation";
 interface CourseSaveLaterMoleculeProps {
   saveLater?: CoursesSaveLaterResponse;
   onClick?: () => void;
   loading: boolean;
 }
 const CourseSaveLaterMolecule: React.FC<CourseSaveLaterMoleculeProps> = ({
-  saveLater, 
+  saveLater,
   onClick,
   loading = false,
 }) => {
+  const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);
+
+  const handleNavigation = async () => {
+    if (saveLater?.course_id) {
+      await router.push(`/courses/course-details/${saveLater?.course_id}`);
+    }
+  };
   return (
     <div key={saveLater.id} className={styles.card}>
-      <div className={styles.cardImage}>
+      <div className={styles.cardImage} onClick={handleNavigation}>
         <Image
           src={`${imageUrl}/uploads/course_images/${saveLater?.course.course_image}`}
           alt={saveLater?.course.name}
@@ -67,7 +75,9 @@ const CourseSaveLaterMolecule: React.FC<CourseSaveLaterMoleculeProps> = ({
         </div>
       </div>
       <div className={styles.cardContent}>
-        <h2 className={styles.courseTitle}>{saveLater?.course.name}</h2>
+        <h2 className={styles.courseTitle} onClick={handleNavigation}>
+          {saveLater?.course.name}
+        </h2>
         <div className={styles.details}>
           <ProgressBar level={saveLater?.course.course_type} />
           <span>
@@ -99,7 +109,7 @@ const CourseSaveLaterMolecule: React.FC<CourseSaveLaterMoleculeProps> = ({
           </span>
         </div>
         <div className={styles.rating}>
-          <span className={styles.ratingNum}>4.3</span>
+          <span className={styles.ratingNum}></span>
           <span className={styles.star}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -114,14 +124,20 @@ const CourseSaveLaterMolecule: React.FC<CourseSaveLaterMoleculeProps> = ({
               />
             </svg>
           </span>
-          <span className={styles.reviewCount}>(1000 reviews)</span>
+          <span className={styles.reviewCount}>
+            ({saveLater?.course.reviews} reviews)
+          </span>
         </div>
         <div className={styles.priceSection}>
           <div>
-            <span className={styles.price}>₹{saveLater?.course.sale_price}</span>
-            <span className={styles.originalPrice}>₹{saveLater?.course.actual_price}</span>
+            <span className={styles.price}>
+              ₹{saveLater?.course.sale_price}
+            </span>
+            <span className={styles.originalPrice}>
+              ₹{saveLater?.course.actual_price}
+            </span>
           </div>
-         
+
           <button
             className={styles.button}
             onClick={onClick}

@@ -113,7 +113,7 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
             </span>
           </div>
           <div className={styles.rating}>
-            <span className={styles.ratingNum}>4.3</span>
+            <span className={styles.ratingNum}>{course.rating}</span>
             <span className={styles.star}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +128,7 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
                 />
               </svg>
             </span>
-            <span className={styles.reviewCount}>(1000 reviews)</span>
+            <span className={styles.reviewCount}>({course.reviews} reviews)</span>
           </div>
           <div className={styles.priceSection}>
             <div>

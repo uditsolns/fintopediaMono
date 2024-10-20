@@ -9,6 +9,7 @@ import { imageUrl } from "shared/src/config/imageUrl";
 import ProgressBar from "@src/components/progress/ProgressBar";
 import { isInCart } from "shared/src/components/atoms/Calculate";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import { useRouter } from "next/navigation";
 
 interface CartsliderProps {
   course?: CoursesResponse;
@@ -19,12 +20,19 @@ const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
   course,
   onClick,
   loading = false,
-}) => {
+}) => { 
+  const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);
+
+  const handleNavigation = async () => {
+    if (course?.id) {
+      await router.push(`/courses/course-details/${course.id}`);
+    }
+  };
   return (
     <div>
       <Card className={`${styles.courseCard}`}>
-        <div className={styles.courseImageContainer}>
+        <div className={styles.courseImageContainer} onClick={handleNavigation}>
           <Image
             src={`${imageUrl}/uploads/course_images/${course.course_image}`}
             alt={course.name}
@@ -34,7 +42,7 @@ const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
           />
         </div>
         <div className={styles.cardBody}>
-          <h3>{course.name}</h3>
+          <h3 onClick={handleNavigation}>{course.name}</h3>
           <div
             className={`d-flex align-items-center ${styles.featurecardContent}`}
           >
@@ -56,7 +64,7 @@ const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
           <div
             className={`d-flex align-items-center ${styles.featurereviewContainer}`}
           >
-            <h4>4.6</h4>
+            <h4>{course.rating}</h4>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -70,7 +78,7 @@ const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
                 fill="#FFA11A"
               />
             </svg>
-            <span>(1000 reviews)</span>
+            <span>({course.reviews} reviews)</span>
           </div>
           <div className={styles.featurePriceContainer}>
             <h3>&#8377;{course.sale_price}</h3>

@@ -149,21 +149,6 @@ const Notes: React.FC = () => {
 
   return (
     <>
-      {/* {coursesLoading.singleCourse ||
-      coursesLoading.courses ||
-      course_notes_loading.create ||
-      course_notes_loading.course_notes ||
-      course_notes_loading.update ||
-      course_notes_loading.delete ? (
-        <div className="fullPageLoading">
-          <LoadingAtom
-            style={{
-              height: "5rem",
-              width: "5rem",
-            }}
-          />
-        </div>
-      ) : null} */}
       <div>
         <div className={styles.editorContainer}>
           <JoditEditor

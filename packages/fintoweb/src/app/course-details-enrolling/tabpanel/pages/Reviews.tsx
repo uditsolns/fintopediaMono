@@ -13,7 +13,6 @@ import styles from "../EnrollTabs.module.css";
 import Link from "next/link";
 import User from "../../../../assets/userCircle.png";
 import Image from "next/image";
-import { CoursesRatingReviewsFields } from "@shared/src/utils/types/CoursesRatingReviews";
 import {
   useAppDispatch,
   useAppSelector,
@@ -44,8 +43,8 @@ const Reviews: React.FC<ReviewFormValues> = () => {
   const [review, setReview] = React.useState<string | null>("");
   const [rating, setRating] = React.useState<number | null>(0);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    let params: CoursesRatingReviewsFields = {
+  const handleSubmit = async () => {
+    let params = {
       user_id: auth?.user?.id,
       course_id: singleCourse?.id,
       rating_star: `${rating || 0}`,
@@ -62,7 +61,7 @@ const Reviews: React.FC<ReviewFormValues> = () => {
       createCourseReview({
         params,
         onSuccess(data) {
-          toast.error(data.message, {
+          toast.success(data.message, {
             position: "top-right",
             theme: "light",
           });
@@ -79,8 +78,7 @@ const Reviews: React.FC<ReviewFormValues> = () => {
   return (
     <div className={styles.reviews}>
       <div className={styles.reviewsFormCard}>
-        {/* onSubmit={handleSubmit} */}
-        <Form className={styles.reviewsForm} onSubmit={handleSubmit}>
+        <Form className={styles.reviewsForm}>
           <Row>
             <Col md={12}>
               <FormGroup>
@@ -131,7 +129,9 @@ const Reviews: React.FC<ReviewFormValues> = () => {
                   >
                     Cancel
                   </Button>
-                  <Button className={styles.postButton}>Post</Button>
+                  <Button className={styles.postButton} onClick={handleSubmit}>
+                    Post
+                  </Button>
                 </div>
               </FormGroup>
             </Col>

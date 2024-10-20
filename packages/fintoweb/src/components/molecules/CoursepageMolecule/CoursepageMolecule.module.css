@@ -9,6 +9,7 @@
 }
 .cardImage {
   position: relative;
+  cursor: pointer;
 }
 
 .cardImage img {
@@ -46,6 +47,7 @@
   font-weight: 600;
   line-height: 120%;
   align-self: stretch;
+  cursor: pointer;
 }
 
 .cardDescription {

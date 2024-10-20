@@ -36,6 +36,7 @@
   border-radius: 10px;
   width: 100% !important;
   height: 170px !important;
+  cursor: pointer;
 }
 
 .cardBody {
@@ -47,6 +48,7 @@
   font-style: normal;
   font-weight: 600;
   line-height: 120%;
+  cursor: pointer;
 }
 .cardBody h4 {
   overflow: hidden;

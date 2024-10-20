@@ -8,6 +8,7 @@ import { imageUrl } from "shared/src/config/imageUrl";
 import ProgressBar from "@src/components/progress/ProgressBar";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import { isInCart } from "shared/src/components/atoms/Calculate";
+import { useRouter } from "next/navigation";
 
 interface CoursepageMoleculeProps {
   course?: CoursesResponse;
@@ -19,14 +20,21 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
   onClick,
   loading = false,
 }) => {
+  const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);
+
+  const handleNavigation = async () => {
+    if (course?.id) {
+      await router.push(`/courses/course-details/${course.id}`);
+    }
+  };
   return (
     <div key={course.id}>
       <Card className={styles.card}>
-        <div className={styles.cardImage}>
+        <div className={styles.cardImage} onClick={handleNavigation}>
           <Image
             src={`${imageUrl}/uploads/course_images/${course.course_image}`}
-            alt={course.name}
+            alt={course.name} 
             width={350}
             height={200}
             className={styles.image}
@@ -71,7 +79,7 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
           </div>
         </div>
         <CardBody className={styles.cardContent}>
-          <CardTitle tag="h3" className={styles.cardTitle}>
+          <CardTitle tag="h3" className={styles.cardTitle} onClick={handleNavigation}>
             {course.name}
           </CardTitle>
           <div className={styles.iconRow}>
@@ -82,7 +90,7 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
               <FaClock className={styles.icon} /> {course.duration_time}
             </div>
             <div className={styles.cardRating}>
-              4.3
+            {course.rating}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="13"

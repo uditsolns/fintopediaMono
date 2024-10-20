@@ -39,6 +39,7 @@
   border-radius: 0.25rem;
   width: 200px;
   height: 120px;
+  cursor: pointer;
 }
 .title {
   display: flex;
@@ -48,6 +49,8 @@
   font-style: normal;
   font-weight: 700;
   line-height: 120%;
+  cursor: pointer;
+
 }
 
 .courseTitle {

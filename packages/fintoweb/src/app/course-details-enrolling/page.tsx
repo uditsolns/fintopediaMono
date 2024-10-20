@@ -78,7 +78,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
       course_notes_loading?.delete ||
       upload_file_loading.create ||
       upload_file_loading?.upload_file ? (
-        <div className="fullPageLoading">
+        <div className="fullPageLoading"> 
           <LoadingAtom
             style={{
               height: "5rem",

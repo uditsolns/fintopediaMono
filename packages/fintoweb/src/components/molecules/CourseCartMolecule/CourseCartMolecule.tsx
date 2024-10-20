@@ -6,6 +6,7 @@ import { CourseCartResponse } from "shared/src/utils/types/CourseCart";
 import { imageUrl } from "shared/src/config/imageUrl";
 import ProgressBar from "@src/components/progress/ProgressBar";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import { useRouter } from "next/navigation";
 
 interface CourseCartMoleculeProps {
   cart: CourseCartResponse;
@@ -19,14 +20,20 @@ const CourseCartMolecule: React.FC<CourseCartMoleculeProps> = ({
   onSaveLater,
   onRemove,
 }) => {
+  const router = useRouter();
   const { courses_save_later } = useAppSelector(
     (state) => state.coursesSaveLater
   );
+  const handleNavigation = async () => {
+    if (cart?.course_id) {
+      await router.push(`/courses/course-details/${cart?.course_id}`);
+    }
+  };
   return (
     <Card key={cart.id} className={styles.card}>
       <CardBody className={styles.cardBody}>
         <Row>
-          <Col xs="12" md="4" className={styles.imageCol}>
+          <Col xs="12" md="4" className={styles.imageCol} onClick={handleNavigation}>
             <Image
               src={`${imageUrl}/uploads/course_images/${cart?.course?.course_image}`}
               alt="Course thumbnail"
@@ -35,9 +42,9 @@ const CourseCartMolecule: React.FC<CourseCartMoleculeProps> = ({
               height={120}
             />
           </Col>
-          <Col xs="12" md="8" className={styles.detailsCol}>
+          <Col xs="12" md="8" className={styles.detailsCol}> 
             <div className={styles.title}>
-              <h2 className={styles.courseTitle}>{cart?.course?.name}</h2>
+              <h2 className={styles.courseTitle} onClick={handleNavigation}>{cart?.course?.name}</h2>
               <div className={styles.priceWrapper}>
                 <div className={styles.price}>₹{cart?.course?.sale_price}</div>
               </div>
@@ -55,7 +62,7 @@ const CourseCartMolecule: React.FC<CourseCartMoleculeProps> = ({
                   fill="#FFA11A"
                 />
               </svg>
-              <span className={styles.textGray}>4.8/5</span>
+              <span className={styles.textGray}>{cart?.course?.rating}/5</span>
               <span className={styles.textGray}>
                 <ProgressBar level={cart?.course?.course_type} />
               </span>
