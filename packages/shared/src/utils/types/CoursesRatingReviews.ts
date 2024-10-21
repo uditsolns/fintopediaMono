@@ -1,24 +1,24 @@
 import { UserInfo } from "./auth";
 import { CoursesResponse } from "./courses";
 
-export interface CoursesRatingReviewsFields{
+export interface CoursesRatingReviewsFields {
   id?: number;
   course_id?: number;
   user_id?: number;
-  rating_star?: string;
+  rating_star?: string | null | number;
   review_description?: string;
 }
 
 export interface CoursesRatingReviewsParams {
-  params: CoursesRatingReviewsFields
+  params: CoursesRatingReviewsFields;
 }
 
 export interface CoursesRatingReviewsResponse {
   id: number;
   course_id: number;
   user_id: number;
-  rating_star: string;
-  review_description: string;
+  rating_star: string | number;
+  review_description: string | null;
   course?: CoursesResponse | null;
   user?: UserInfo | null;
 }
@@ -34,7 +34,7 @@ export interface CoursesRatingReviewsState {
     coursesRatingReviewsErr: any;
     singleCoursesRatingReviewsErr: any;
     createErr: any;
-    updateErr: any; 
+    updateErr: any;
     deleteErr: any;
   };
   coursesRatingReviews: CoursesRatingReviewsResponse[];

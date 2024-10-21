@@ -29,6 +29,7 @@ import {
   getCoursesById,
 } from '@shared/src/provider/store/services/courses.service';
 import {getCoursesSections} from '@shared/src/provider/store/services/courseSections.service';
+import {getCourseReviews} from '@shared/src/provider/store/services/course-review.service';
 
 interface BeforeEnrollingCourseDetailsProps
   extends NavType<'BeforeEnrollingCourseDetails'> {}
@@ -45,6 +46,9 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
   } = useAppSelector(state => state.courses);
   const {coursesSection, loading: coursesSectionLoading} = useAppSelector(
     state => state.coursesSection,
+  );
+  const {course_review, loading: course_review_loading} = useAppSelector(
+    state => state.courseReviews,
   );
 
   const [refreshLoading, setRefreshLoading] = React.useState(false);
@@ -70,6 +74,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
     setRefreshLoading(true);
     dispatch(getCourses());
     dispatch(getCoursesSections());
+    dispatch(getCourseReviews());
     setRefreshLoading(false);
   };
   const renderItem = ({item}: {item: any}) => {
@@ -271,11 +276,12 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
             />
             <View>
               <FlatList
-                data={data2}
+                data={data?.sections?.length ? data?.sections : []}
                 renderItem={({item}) => (
                   <BeforeEnrollingCourseAtom
-                    section={item.section}
-                    lessons={item.lessons}
+                    sectionNo={item?.section_number}
+                    sectionHeading={item?.section_heading}
+                    lessons={item?.subsections}
                   />
                 )}
                 keyExtractor={(item, index) => index.toString()}
@@ -326,7 +332,11 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
           </View>
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={[...Array(5)]}
+              data={
+                course_review?.length
+                  ? course_review?.filter(el => el?.course_id == data?.id)
+                  : []
+              }
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
               onEndReachedThreshold={0.2}
@@ -341,7 +351,15 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
             <ViewAll title="Frequently Bought Together" visible={false} />
             <View style={{paddingLeft: mScale.base}}>
               <FlatList
-                data={courses?.length ? courses : []}
+                data={
+                  courses?.length
+                    ? courses?.filter(
+                        el =>
+                          el?.category_id == data?.category_id &&
+                          el.id != data?.id,
+                      )
+                    : []
+                }
                 renderItem={innerCategoriesCoursesRenderItem}
                 horizontal={true}
                 contentContainerStyle={{

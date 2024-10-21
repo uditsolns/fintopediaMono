@@ -9,7 +9,7 @@ import {colorPresets} from '@shared/src/theme/color';
 import {Images} from '@shared/src/assets';
 
 interface Lesson {
-  id: string;
+  id?: string;
   section_id: string;
   subsection_heading: string;
   subsection_time: string;
