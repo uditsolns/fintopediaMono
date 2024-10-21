@@ -2,7 +2,6 @@
 .videoPlayer {
   position: relative;
   width: 100%;
-  max-width: 800px;
   background: #000;
   margin: 0 auto;
 }

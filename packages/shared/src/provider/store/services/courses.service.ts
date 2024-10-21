@@ -32,7 +32,7 @@ export const getCourses = createAsyncThunk<
 
 export const createCourses = createAsyncThunk<
   CoursesResponse,
-  CoursesParams,
+  CoursesParams, 
   { state: RootState }
 >("courses/post", async (params, thunkApi) => {
   try {
@@ -57,8 +57,8 @@ export const createCourses = createAsyncThunk<
 export const getCoursesById = createAsyncThunk<
   CoursesResponse,
   GetCourseIdParams,
-  { state: RootState }
->("singleCourses/get", async ({ id }, thunkApi) => {
+  { state: RootState } 
+>("singleCourse/get", async ({ id }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;

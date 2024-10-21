@@ -11,14 +11,6 @@
   line-height: 120%;
 }
 .profileCard {
-  /* border-radius: 12px;
-  border: 1px solid #7a7fa2;
-  background: #0d0f1c;
-  backdrop-filter: blur(19.5px);
-  padding: 18px;
-  margin: 0 20px;
-  margin-top: 10px; */
-
   display: flex;
   padding: 16px 24px 22px 24px;
   flex-direction: column;
@@ -81,5 +73,8 @@
 @media screen and (max-width: 435px) {
   .AchiveingLearningSlider {
     padding: 20px;
+  }
+  .AchiveingLearningSlider h1 {
+    font-size: 22px;
   }
 }
