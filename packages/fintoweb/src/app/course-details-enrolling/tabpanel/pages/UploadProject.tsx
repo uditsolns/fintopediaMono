@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import styles from "../EnrollTabs.module.css";
-import { Col, Row } from "reactstrap";
+import { Button, Col, InputGroup, Label, Row } from "reactstrap";
 import { createCourseUploadFile } from "shared/src/provider/store/services/course-upload-file.service";
 import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
+import { TextField } from "@mui/material";
+import { Form, Formik } from "formik";
 
 // Define the custom FileData interface
 interface FileData {
@@ -18,46 +20,29 @@ const UploadProject: React.FC = () => {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
   const { singleCourse } = useAppSelector((state) => state.courses);
-  const [selectedFile, setSelectedFile] = useState<FileData | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // const [selectedFile, setSelectedFile] = useState<FileData | null>(null);
+  // const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  console.log("selectedFile", selectedFile);
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
+  //   if (file) {
+  //     const data = {
+  //       uri: URL.createObjectURL(file), // Creates a temporary URL for the file
+  //       type: file.type,
+  //       name: file.name,
+  //     };
+  //     setSelectedFile(data);
+  //     setErrorMessage(null); // Clear any previous error messages
+  //   } else {
+  //     setErrorMessage("Please select a valid file.");
+  //   }
+  // };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const data = {
-        uri: URL.createObjectURL(file), // Creates a temporary URL for the file
-        type: file.type,
-        name: file.name,
-      };
-      setSelectedFile(data);
-      setErrorMessage(null); // Clear any previous error messages
-    } else {
-      setErrorMessage("Please select a valid file.");
-    }
-  };
-
-  const handleSubmit = () => {
-    if (!selectedFile) {
-      setErrorMessage("Please select a file to upload.");
-      return;
-    }
-
+  const handleSubmit = (values) => {
     const formData = new FormData();
-    formData.append("user_id", String(auth?.user?.is_active));
-    formData.append("course_id", String(singleCourse?.id));
-
-    // Create a Blob from the selectedFile.uri for the upload
-    const fileBlob = new Blob([selectedFile.uri], { type: selectedFile.type });
-    const file = new File([fileBlob], selectedFile.name, {
-      type: selectedFile.type,
-    });
-    console.log("fileBlob", fileBlob);
-    console.log("file", file);
-
-    formData.append("upload_file", file);
-
+    formData.append("user_id", auth?.user?.is_active);
+    formData.append("course_id", singleCourse?.id);
+    formData.append("upload_file", values.upload_file);
     dispatch(
       createCourseUploadFile({
         formData,
@@ -78,8 +63,8 @@ const UploadProject: React.FC = () => {
         },
       })
     );
+    return;
   };
-
   return (
     <>
       <div className={styles.uploadProject}>
@@ -89,7 +74,7 @@ const UploadProject: React.FC = () => {
           a mentor will give feedback in 2-3 days.
         </p>
         <div className={styles.uploadForm}>
-          <div className={styles.uploadFormText}>
+          {/* <div className={styles.uploadFormText}>
             <input
               type="file"
               accept=".pdf,.docx,.zip"
@@ -100,15 +85,64 @@ const UploadProject: React.FC = () => {
               Drag or drop your files to upload, or <span>Browse</span>
             </div>
           </div>
-          {errorMessage && (
-            <div className={styles.errorMessage}>{errorMessage}</div>
-          )}
+         
           <div className={styles.uploadButton}>
             <button onClick={handleSubmit}>Upload File</button>
           </div>
           <div className={styles.fileSizeText}>
             <span>File under 20 MB</span>
-          </div>
+          </div> */}
+          <Formik
+            initialValues={{
+              images: [],
+            }}
+            onSubmit={handleSubmit}
+          >
+            {(formProps) => {
+              return (
+                <Form>
+                  <Row className="form-group pt-2">
+                    <Col md={12}>
+                      <Label for="upload_file">Upload Image</Label>
+                      <InputGroup>
+                        <TextField
+                          fullWidth
+                          variant="standard"
+                          id="upload_file"
+                          type="file"
+                          name="upload_file"
+                          inputProps={{ multiple: true }}
+                          onChange={(e) => {
+                            formProps.setFieldValue(
+                              "upload_file",
+                              e.currentTarget.files[0]
+                            );
+                          }}
+                          error={
+                            formProps.touched.upload_file &&
+                            Boolean(formProps.errors.upload_file)
+                          }
+                        />
+                      </InputGroup>
+                    </Col>
+                  </Row>
+
+                  <Row style={{ justifyContent: "center" }} className="mt-3">
+                    <Col md={4}>
+                      <Button
+                        type="submit"
+                        disabled={formProps.isSubmitting}
+                        color="primary"
+                        block
+                      >
+                        Submit
+                      </Button>
+                    </Col>
+                  </Row>
+                </Form>
+              );
+            }}
+          </Formik>
         </div>
       </div>
       {/* Previously Uploaded Projects */}

@@ -25,7 +25,7 @@ export default {
     DELETE: buildUrl("categories"),
   },
   COURSES: {
-    GET: buildUrl("courses_open"),
+    GET: buildUrl("coursesget"),
     POST: buildUrl("courses"),
     UPDATE: buildUrl("courses"),
     DELETE: buildUrl("courses"),
