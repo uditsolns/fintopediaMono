@@ -41,7 +41,8 @@ import {
 } from '@shared/src/provider/store/services/courses.service';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {getCourseNotes} from '@shared/src/provider/store/services/course-note.service';
-import { getCourseUploadFile } from '@shared/src/provider/store/services/course-upload-file.service';
+import {getCourseUploadFile} from '@shared/src/provider/store/services/course-upload-file.service';
+import {getCourseReviews} from '@shared/src/provider/store/services/course-review.service';
 
 type RouteParams = {
   tab?: number;
@@ -84,6 +85,7 @@ export const AfterEnrollingCourseDetails: React.FC<
     dispatch(getCourses());
     dispatch(getCourseNotes());
     dispatch(getCourseUploadFile());
+    dispatch(getCourseReviews());
   }, []);
 
   React.useEffect(() => {
@@ -179,7 +181,11 @@ export const AfterEnrollingCourseDetails: React.FC<
             <FlatList
               data={
                 courses?.length
-                  ? courses?.filter(el => el?.category_id == data?.category_id)
+                  ? courses?.filter(
+                      el =>
+                        el?.category_id == data?.category_id &&
+                        el.id != data?.id,
+                    )
                   : []
               }
               renderItem={innerCategoriesRenderItem}

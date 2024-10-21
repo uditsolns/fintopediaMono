@@ -23,29 +23,64 @@ export interface CoursesParams {
   is_popular?: number;
   resource_file_upload?: File | string | null;
 }
+export interface ResourcesResponse {
+  id: number;
+  course_id: number;
+  resource_file: string | null;
+  created_at: string | null;
+  course?: CoursesResponse;
+}
+export interface CourseSubSections {
+  id: number;
+  section_id: number;
+  subsection_heading: string | null;
+  subsection_time: string | null;
+  sub_video: string | null;
+}
+export interface CourseSections {
+  id: number;
+  course_id: number;
+  section_number: number | string;
+  section_heading: string | null;
+  section_topics: string | null;
+  section_time: string | null;
+  video: string | null;
+  text: string | null;
+  notes: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+  subsections: CourseSubSections[] | null;
+}
 export interface CoursesResponse {
   id: number;
   category_id: number;
   name: string;
   description: string;
-  sale_price: string;
-  actual_price: string;
-  duration_time: string;
-  total_section: string;
-  total_topics: string;
+  sale_price: string | number;
+  actual_price: string | number;
+  duration_time: string | number;
+  total_section: string | number;
+  total_topics: string | number;
   course_language: string;
-  course_image: File | string;
-  course_video: File | string;
-  resources: string;
+  course_image: string | null;
+  course_video: string | null;
+  resources?: ResourcesResponse[];
+  rating: string | null;
+  course_type: string | null;
+  reviews: string | null;
+  is_popular: number;
+  resource_file_upload: null | string;
+  about_me: null | string;
   created_at: string;
   updated_at: string;
-  category?: CategoriesResponse;
-  rating: number;
-  course_type: string;
-  reviews: number;
-  is_popular: number;
-  resource_file_upload: File
+  category?: CategoriesResponse | null;
+  sections?: CourseSections[];
 }
+
+
+
+
+
 export interface CoursesState {
   loading: {
     courses: boolean;

@@ -5,7 +5,7 @@ import {
   useAppSelector,
 } from '@shared/src/provider/store/types/storeTypes';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
-import { CourseReviewResponse } from '@shared/src/utils/types/course-review';
+import {CourseReviewResponse} from '@shared/src/utils/types/course-review';
 import {CoursesRatingReviewsFields} from '@shared/src/utils/types/CoursesRatingReviews';
 import {MultilineTextInputAtom} from '@src/components/Input/MultilineTextInputAtom';
 import LoaderAtom from '@src/components/LoaderAtom';
@@ -39,6 +39,27 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = () => {
     setRating(null);  
     setDefaultRating(0);
   };
+  const onSave = async () => {
+    let params: CoursesRatingReviewsFields = {
+      user_id: auth?.user?.id,
+      course_id: singleCourse?.id,
+      rating_star: rating?.toString(),
+      review_description: reviewDesc || '',
+    };
+    if (!rating || !reviewDesc) {
+      Alert.alert('Please write your review and select your rating.');
+      return;
+    }
+    dispatch(
+      createCourseReview({
+        params,
+        onSuccess(data) {
+          onCancel();
+        },
+        onError(error) {},
+      }),
+    );
+  };
   return (
     <View style={{flex: 1}}>
       {coursesLoading.singleCourse ||
@@ -55,27 +76,7 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = () => {
               setRating(rating);
             }}
             onCancel={onCancel}
-            onSave={() => {
-              let params: CoursesRatingReviewsFields = {
-                user_id: auth?.user?.id,
-                course_id: singleCourse?.id,
-                rating_star: `${rating || 0}`,
-                review_description: reviewDesc || '',
-              };
-              if (!rating || !reviewDesc) {
-                Alert.alert('Please write your review and select your rating.');
-                return;
-              }
-              dispatch(
-                createCourseReview({
-                  params,
-                  onSuccess(data) {
-                    onCancel();
-                  },
-                  onError(error) {},
-                }),
-              );
-            }}
+            onSave={onSave}
             value={reviewDesc}
             onChangeText={setReviewDesc}
             currentRating={defaultRating}
@@ -85,7 +86,13 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = () => {
           <ViewAll title="All Reviews" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={course_review?.length ? course_review?.filter(el=>el?.course_id == singleCourse?.id) : []}
+              data={
+                course_review?.length
+                  ? course_review?.filter(
+                      el => el?.course_id == singleCourse?.id,
+                    )
+                  : []
+              }
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
               onEndReachedThreshold={0.2}

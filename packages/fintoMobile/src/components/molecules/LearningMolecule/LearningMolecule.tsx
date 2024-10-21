@@ -6,9 +6,12 @@ import {colorPresets} from '@shared/src/theme/color';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {Images} from '@shared/src/assets';
+import {CourseReviewResponse} from '@shared/src/utils/types/course-review';
+import {imageUrl} from '@shared/src/config/imageUrl';
+import {avatarUrl} from '@src/screens/account/Account';
 
 interface LearningMoleculeProps {
-  item?: any;
+  item?: CourseReviewResponse;
   itemWidth?: string | boolean;
 }
 
@@ -16,6 +19,7 @@ export default function LearningMolecule({
   item,
   itemWidth,
 }: LearningMoleculeProps) {
+  console.log(item?.rating_star);
   return (
     <Pressable
       style={[
@@ -34,14 +38,33 @@ export default function LearningMolecule({
               backgroundColor: colorPresets.CTA,
             }}>
             <ImageAtom
-              sourceRequire={item?.sourceRequire}
-              imageStyle={{width: moderateScale(52), height: moderateScale(52)}}
+              sourceRequire={{
+                uri: item?.user?.id
+                  ? `${imageUrl}/uploads/user_photo/${item?.user?.photo}`
+                  : avatarUrl,
+              }}
+              imageStyle={{
+                width: moderateScale(52),
+                height: moderateScale(52),
+                borderRadius: 100,
+              }}
+              containerStyle={{
+                width: moderateScale(52),
+                height: moderateScale(52),
+              }}
             />
           </View>
           <View style={{marginStart: mScale.base, flex: 1}}>
-            <TextAtom text={'Priyam Sharma'} preset="titleBold" />
+            <TextAtom
+              text={
+                item?.user?.first_name
+                  ? item?.user?.first_name + '' + item?.user?.surname_name
+                  : 'unknown'
+              }
+              preset="titleBold"
+            />
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              {[...Array(5)].map((_, index) => (
+              {[...Array(Number(item?.rating_star))].map((_, index) => (
                 <View>
                   <Images.SVG.Star1 />
                 </View>
@@ -50,9 +73,9 @@ export default function LearningMolecule({
           </View>
         </View>
         <TextAtom
-          text="Online learning has completely transformed my educational experience."
+          text={item?.review_description || ''}
           preset="medium"
-          style={[styles.boldText,{color:colorPresets.GRAY}]}
+          style={[styles.boldText, {color: colorPresets.GRAY}]}
         />
       </View>
     </Pressable>

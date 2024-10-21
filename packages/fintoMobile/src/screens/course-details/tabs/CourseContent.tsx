@@ -52,9 +52,9 @@ export const CourseContent: React.FunctionComponent<
     <View
       style={{flex: 1}}>
       <FlatList
-        data={data2}
+        data={singleCourse?.sections?.length ? singleCourse?.sections : [] }
         renderItem={({item}) => (
-          <CourseInnerAtom section={item.section} lessons={item.lessons} />
+          <CourseInnerAtom sectionNo={item?.section_number} sectionHeading={item?.section_heading} lessons={item?.subsections} />
         )}
         keyExtractor={(item, index) => index.toString()}
         nestedScrollEnabled={false}

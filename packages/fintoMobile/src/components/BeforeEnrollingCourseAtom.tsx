@@ -1,31 +1,27 @@
-import { Images } from '@shared/src/assets';
-import { commonStyle } from '@shared/src/commonStyle';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { colorPresets } from '@shared/src/theme/color';
-import { mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
+import {Images} from '@shared/src/assets';
+import {commonStyle} from '@shared/src/commonStyle';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {colorPresets} from '@shared/src/theme/color';
+import {mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import React from 'react';
-import {FlatList, Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-
-
-interface Lesson {
-  title: string;
-  duration: string;
-  completed: boolean;
-}
+import {
+  FlatList,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 interface BeforeEnrollingCourseAtomProps {
-  section: string;
-  lessons: Lesson[];
+  item: any;
 }
 
 export const BeforeEnrollingCourseAtom: React.FC<
   BeforeEnrollingCourseAtomProps
-> = ({section, lessons}) => {
+> = ({item}) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
 
-  const LessonItem: React.FC<{
-    title: string;
-  }> = ({title}) => {
+  const LessonItem: React.FC<any> = ({title, duration, onPress}) => {
     return (
       <View
         style={[
@@ -46,14 +42,13 @@ export const BeforeEnrollingCourseAtom: React.FC<
             <TextAtom
               text={title}
               preset="medium"
-              style={{marginStart: mScale.md,color:'#CFCFD3'}}
+              style={{marginStart: mScale.md, color: '#CFCFD3'}}
             />
           </View>
         </View>
       </View>
     );
   };
-
   return (
     <View
       style={{
@@ -69,25 +64,22 @@ export const BeforeEnrollingCourseAtom: React.FC<
         onPress={() => setExpanded(!expanded)}>
         <View>
           <TextAtom
-            text={section}
+            text={`Section ${sectionNo} : ${sectionHeading}` || ''}
             preset="heading4"
             style={{width: WINDOW_WIDTH * 0.75}}
           />
           <TextAtom
             preset="small"
             text={'9 topics • 1 hrs'}
-            style={{color:colorPresets.PRIMARY}}
+            style={{color: colorPresets.PRIMARY}}
           />
         </View>
-        {expanded ? 
-      <Images.SVG.ChevronTop />   :  <Images.SVG.ChevronDown />  
-      }
-       
+        {expanded ? <Images.SVG.ChevronTop /> : <Images.SVG.ChevronDown />}
       </TouchableOpacity>
       {expanded && lessons.length > 0 && (
         <FlatList
           data={lessons}
-          renderItem={({item, index}) => <LessonItem title={item.title} />}
+          renderItem={({item, index}) => <LessonItem item={item} />}
           keyExtractor={(item, index) => index.toString()}
         />
       )}

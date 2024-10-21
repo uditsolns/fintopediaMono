@@ -15,17 +15,19 @@ import {Pressable, StyleSheet, View, ViewStyle, ImageStyle} from 'react-native';
 
 interface PopularCourseMoleculeProps {
   item: CoursesResponse;
+  onView?: () => void;
   onPress?: () => void;
 }
 
 export default function PopularCourseMolecule({
   item,
-  onPress,
+  onView = () => {},
+  onPress = () => {},
   ...rest
 }: PopularCourseMoleculeProps) {
   const {courseCart} = useAppSelector(state => state.courseCart);
   return (
-    <Pressable style={styles.activePlanDetails} {...rest}>
+    <Pressable style={styles.activePlanDetails} {...rest} onPress={onView}>
       <View>
         <ImageAtom
           sourceRequire={
