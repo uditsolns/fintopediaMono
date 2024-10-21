@@ -74,7 +74,7 @@ export const Resources: React.FunctionComponent<ResourcesProps> = () => {
               course_name: selectedResourceFile?.course?.name || '',
               user_name: '',
             };
-            console.log(body)
+            console.log(body);
             navigation.navigate(RouteKeys.VIEWPDFSCREEN, {data: body});
           }}
           downloadPdf={async () => {

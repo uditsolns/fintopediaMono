@@ -11,7 +11,6 @@ import ProgressBar from '@src/components/ProgressBar';
 import RatingReview from '@src/components/RatingReview';
 import React from 'react';
 import {FlatList, Pressable, View} from 'react-native';
-import {data2} from './tabs/CourseContent';
 import {BeforeEnrollingCourseAtom} from '@src/components/BeforeEnrollingCourseAtom';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import LearningMolecule from '@src/components/molecules/LearningMolecule/LearningMolecule';
@@ -30,6 +29,7 @@ import {
 } from '@shared/src/provider/store/services/courses.service';
 import {getCoursesSections} from '@shared/src/provider/store/services/courseSections.service';
 import {getCourseReviews} from '@shared/src/provider/store/services/course-review.service';
+import { CourseReviewResponse } from '@shared/src/utils/types/course-review';
 
 interface BeforeEnrollingCourseDetailsProps
   extends NavType<'BeforeEnrollingCourseDetails'> {}
@@ -77,7 +77,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
     dispatch(getCourseReviews());
     setRefreshLoading(false);
   };
-  const renderItem = ({item}: {item: any}) => {
+  const renderItem = ({item}: {item: CourseReviewResponse}) => {
     return <LearningMolecule item={item} itemWidth={'full-width'} />;
   };
 
@@ -157,10 +157,13 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
             <View>
               <ProgressBar
                 level={data?.course_type?.toLowerCase()}
-                hours={data?.duration_time}
+                hours={data?.duration_time || ''}
                 mv={mScale.sm}
               />
-              <RatingReview rating={data?.rating} review={data?.reviews} />
+              <RatingReview
+                rating={data?.rating || ''}
+                review={data?.reviews || ''}
+              />
             </View>
             <ButtonAtom
               title={`Course starts from  ₹ ${data?.sale_price}`}
@@ -278,49 +281,42 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               <FlatList
                 data={data?.sections?.length ? data?.sections : []}
                 renderItem={({item}) => (
-                  <BeforeEnrollingCourseAtom
-                    sectionNo={item?.section_number}
-                    sectionHeading={item?.section_heading}
-                    lessons={item?.subsections}
-                  />
+                  <BeforeEnrollingCourseAtom item={item} />
                 )}
                 keyExtractor={(item, index) => index.toString()}
                 removeClippedSubviews={true}
               />
             </View>
           </View>
-          <View
-            style={{
-              marginHorizontal: mScale.base,
-              flex: 1,
-              backgroundColor: '#2D303D',
-              padding: mScale.base,
-              borderRadius: 10,
-            }}>
-            <TextAtom text={'About The Course'} preset="heading4" />
-            <TextAtom
-              preset="medium"
-              text={
-                'Welcome to our comprehensive Stock Market Course, designed to empower you with the knowledge and skills needed. '
-              }
-            />
-            <TextAtom
-              text={`What You'll Learn`}
-              preset="titleBold"
-              style={{marginVertical: mScale.base}}
-            />
-            <View style={{marginStart: mScale.xs}}>
+          {data?.about_me && (
+            <View
+              style={{
+                marginHorizontal: mScale.base,
+                flex: 1,
+                backgroundColor: '#2D303D',
+                padding: mScale.base,
+                borderRadius: 10,
+              }}>
+              <TextAtom text={'About The Course'} preset="heading4" />
+              <TextAtom preset="medium" text={data?.about_me || ''} />
               <TextAtom
-                style={{marginBottom: mScale.md}}
-                preset="medium"
-                text={`\u2B24 Introduction to Stock Markets: Grasp the basic terminologies, structure, and functions of the stock market. Financial Instruments: Deep dive into different types of financial instruments and their roles in the market.`}
+                text={`What You'll Learn`}
+                preset="titleBold"
+                style={{marginVertical: mScale.base}}
               />
-              <TextAtom
-                preset="medium"
-                text={`\u2B24 Introduction to Stock Markets: Grasp the basic terminologies, structure, and functions of the stock market. Financial Instruments: Deep dive into different types of financial instruments and their roles in the market.`}
-              />
+              <View style={{marginStart: mScale.xs}}>
+                <TextAtom
+                  style={{marginBottom: mScale.md}}
+                  preset="medium"
+                  text={`\u2B24 Introduction to Stock Markets: Grasp the basic terminologies, structure, and functions of the stock market. Financial Instruments: Deep dive into different types of financial instruments and their roles in the market.`}
+                />
+                <TextAtom
+                  preset="medium"
+                  text={`\u2B24 Introduction to Stock Markets: Grasp the basic terminologies, structure, and functions of the stock market. Financial Instruments: Deep dive into different types of financial instruments and their roles in the market.`}
+                />
+              </View>
             </View>
-          </View>
+          )}
           <View style={{padding: mScale.base}}>
             <View style={{paddingHorizontal: mScale.base}}>
               <TextAtom

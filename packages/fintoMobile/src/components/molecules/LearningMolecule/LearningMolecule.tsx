@@ -19,7 +19,10 @@ export default function LearningMolecule({
   item,
   itemWidth,
 }: LearningMoleculeProps) {
-  console.log(item?.rating_star);
+  let ratingStar = item?.rating_star
+    ? Math.floor(Number(item?.rating_star))
+    : [];
+  console.log(ratingStar);
   return (
     <Pressable
       style={[
@@ -64,11 +67,13 @@ export default function LearningMolecule({
               preset="titleBold"
             />
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              {[...Array(Number(item?.rating_star))].map((_, index) => (
-                <View>
-                  <Images.SVG.Star1 />
-                </View>
-              ))}
+              {Array(Math.max(0, Number(ratingStar) || 0))
+                .fill(0)
+                .map((_, index) => (
+                  <View key={index}>
+                    <Images.SVG.Star1 />
+                  </View>
+                ))}
             </View>
           </View>
         </View>

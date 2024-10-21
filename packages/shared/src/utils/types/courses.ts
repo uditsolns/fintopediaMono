@@ -46,7 +46,7 @@ export interface CourseSections {
   notes: string | null;
   created_at: string | null;
   updated_at: string | null;
-  subsections: CourseSubSections[] | null;
+  subsections: CourseSubSections[];
 }
 export interface CoursesResponse {
   id: number;
@@ -55,7 +55,7 @@ export interface CoursesResponse {
   description: string;
   sale_price: string | number;
   actual_price: string | number;
-  duration_time: string | number;
+  duration_time: string | null;
   total_section: string | number;
   total_topics: string | number;
   course_language: string;

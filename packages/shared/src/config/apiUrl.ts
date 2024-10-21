@@ -85,7 +85,7 @@ export default {
     DELETE: buildUrl("banners"),
   },
   COLLEGES: {
-    GET: buildUrl("colleges"),
+    GET: buildUrl("colleges_open"),
     POST: buildUrl("colleges"),
     UPDATE: buildUrl("colleges"),
     DELETE: buildUrl("colleges"),
@@ -154,10 +154,10 @@ export default {
     DELETE: buildUrl("start-game"),
   },
   SEARCH_COURSES: {
-    GET: buildUrl("search-courses"),
-    POST: buildUrl("search-courses"),
-    UPDATE: buildUrl("search-courses"),
-    DELETE: buildUrl("search-courses"),
+    GET: buildUrl("course_search"),
+    POST: buildUrl("course_search"),
+    UPDATE: buildUrl("course_search"),
+    DELETE: buildUrl("course_search"),
   },
   PREVIOUS_VIEW_COURSES: {
     GET: buildUrl("course_user_view"),

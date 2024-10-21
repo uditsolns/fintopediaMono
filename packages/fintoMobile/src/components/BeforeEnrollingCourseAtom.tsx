@@ -3,6 +3,7 @@ import {commonStyle} from '@shared/src/commonStyle';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import {mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
+import { CourseSections, CourseSubSections } from '@shared/src/utils/types/courses';
 import React from 'react';
 import {
   FlatList,
@@ -11,17 +12,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { CourseLessonItem } from './CourseInnerAtom';
 
 interface BeforeEnrollingCourseAtomProps {
-  item: any;
+  item: CourseSections;
 }
+
 
 export const BeforeEnrollingCourseAtom: React.FC<
   BeforeEnrollingCourseAtomProps
 > = ({item}) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
 
-  const LessonItem: React.FC<any> = ({title, duration, onPress}) => {
+  const LessonItem = ({el}:{el:CourseSubSections}) => {
     return (
       <View
         style={[
@@ -40,7 +43,7 @@ export const BeforeEnrollingCourseAtom: React.FC<
               <Images.SVG.Play2 />
             </Pressable>
             <TextAtom
-              text={title}
+              text={el?.subsection_heading || ''}
               preset="medium"
               style={{marginStart: mScale.md, color: '#CFCFD3'}}
             />
@@ -64,7 +67,7 @@ export const BeforeEnrollingCourseAtom: React.FC<
         onPress={() => setExpanded(!expanded)}>
         <View>
           <TextAtom
-            text={`Section ${sectionNo} : ${sectionHeading}` || ''}
+            text={`Section ${item?.section_number} : ${item?.section_heading}` || ''}
             preset="heading4"
             style={{width: WINDOW_WIDTH * 0.75}}
           />
@@ -76,10 +79,10 @@ export const BeforeEnrollingCourseAtom: React.FC<
         </View>
         {expanded ? <Images.SVG.ChevronTop /> : <Images.SVG.ChevronDown />}
       </TouchableOpacity>
-      {expanded && lessons.length > 0 && (
+      {expanded && item?.subsections?.length > 0 && (
         <FlatList
-          data={lessons}
-          renderItem={({item, index}) => <LessonItem item={item} />}
+          data={item?.subsections}
+          renderItem={({item}) => <LessonItem el={item} />}
           keyExtractor={(item, index) => index.toString()}
         />
       )}

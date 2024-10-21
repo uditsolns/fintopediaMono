@@ -20,6 +20,8 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@shared/src/provider/store/types/storeTypes';
+import {postSeachCourses} from '@shared/src/provider/store/services/search-courses.service';
+import {FilterModal} from '@src/components/Popup/FilterModal';
 
 interface SearchProps extends NavType<'Search'> {}
 
@@ -30,10 +32,35 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
   );
+  const {search_courses, loading: search_courses_loading} = useAppSelector(
+    state => state.searchCourses,
+  );
   const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
     courses?.length ? courses : [],
   );
   const [search, setSearch] = React.useState<string>('');
+  const [isFullPageModalVisible, setIsFullPageModalVisible] =
+    React.useState(false);
+
+  React.useEffect(() => {
+    let params = {
+      name: '',
+      sale_price: '',
+      category_name: '',
+      course_language: '',
+    };
+    dispatch(
+      postSeachCourses({
+        params,
+        onSuccess(data) {
+          console.log(data);
+        },
+        onError(error) {
+          console.log(error);
+        },
+      }),
+    );
+  }, []);
 
   React.useEffect(() => {
     if (courses?.length) {
@@ -122,7 +149,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
                 title="Most Popular"
                 iconName={'chevron'}
                 onPress={() => {
-                  navigation.navigate(RouteKeys.FILTERBYCOURSESCREEN);
+                  setIsFullPageModalVisible(true);
                 }}
               />
               <SortbyAtom
@@ -164,6 +191,15 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
             )}
           </>
         }
+      />
+      <FilterModal
+        isFullPageModalVisible={isFullPageModalVisible}
+        onClose={() => {
+          setIsFullPageModalVisible(!isFullPageModalVisible);
+        }}
+        bodyPayload={() => {
+          setIsFullPageModalVisible(!isFullPageModalVisible);
+        }}
       />
     </GradientTemplate>
   );

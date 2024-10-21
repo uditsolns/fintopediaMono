@@ -19,7 +19,7 @@ export const postSeachCourses = createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(apiUrl.BANNERS.GET, {
+    const response = await fetch(apiUrl.SEARCH_COURSES.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

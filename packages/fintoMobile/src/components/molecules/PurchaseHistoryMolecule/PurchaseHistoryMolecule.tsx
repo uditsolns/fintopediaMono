@@ -5,10 +5,10 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {colorPresets} from '@shared/src/theme/color';
-import {PurchaseHistoryResponse} from '@shared/src/utils/types/PurchaseHistory';
+import { UserCourseHistoryResponse } from '@shared/src/utils/types/UserCourseHistory';
 
 interface PurchaseHistoryMoleculeProps {
-  item?: PurchaseHistoryResponse;
+  item?: UserCourseHistoryResponse;
   onPress?: () => void;
 }
 

@@ -5,7 +5,7 @@ import {commonStyle} from '@shared/src/commonStyle';
 import {Images} from '@shared/src/assets';
 import {colorPresets} from '@shared/src/theme/color';
 import {InputAtom} from '@src/components/Input/InputAtom';
-import {mScale} from '@shared/src/theme/metrics';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {LinkButton} from '@src/components/Button/LinkButton';
 import FollowUsMolecule from '@src/components/molecules/FollowUsMolecule/FollowUsMolecule';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
@@ -16,9 +16,13 @@ import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {NavType} from '@src/navigation/types';
 import {useSignupHelper} from '@shared/src/components/structures/signup/signup.helper';
 import {signupField} from '@shared/src/components/structures/signup/signupModel';
-import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {Toast} from 'react-native-toast-notifications';
+import { getCollege } from '@shared/src/provider/store/services/colleges.service';
 
 interface SignupProps extends NavType<'Singup'> {}
 interface Category {
@@ -54,6 +58,10 @@ export const CategoriesArr: Category[] = [
 ];
 
 export const Signup: React.FC<SignupProps> = ({navigation}) => {
+  const dispatch = useAppDispatch();
+  const {college, loading: collegeLoading} = useAppSelector(
+    state => state.college,
+  );
   const {signupFormik, signupInputProps} = useSignupHelper();
   const {handleSubmit, setFieldValue} = signupFormik;
   const {signup, loading} = useAppSelector(state => state.auth);
@@ -64,6 +72,7 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
   };
 
   React.useEffect(() => {
+    dispatch(getCollege())
     setFieldValue(signupField.role.name, 'app-user');
   }, []);
 
@@ -91,9 +100,9 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
     }
   }, [signup]);
   return (
-    <GradientTemplate>
+    <GradientTemplate style={{paddingTop: moderateScale(60)}}>
       <ScrollViewAtom contentContainerStyle={{marginTop: mScale.base}}>
-        <View style={{marginTop: mScale.xxl1}}>
+        <View>
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               {...signupInputProps(signupField.first_name.name)}
@@ -130,7 +139,7 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
           </View>
           <View>
             <Dropdown
-              dropdownItemArr={CategoriesArr}
+              dropdownItemArr={college?.length ? college : []}
               itemLabelField="name"
               onSelect={item => {
                 setFieldValue(signupField.college.name, item?.id?.toString());

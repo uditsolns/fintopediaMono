@@ -12,11 +12,11 @@ import {commonStyle} from '@shared/src/commonStyle';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
-import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {imageUrl} from '@shared/src/config/imageUrl';
+import { OngoingCoursesResponse } from '@shared/src/utils/types/ongoing-course';
 
 interface ContinueLearningMoleculeProps {
-  item: CoursesResponse;
+  item: OngoingCoursesResponse;
   onPress?: () => void;
 }
 
@@ -30,8 +30,8 @@ export default function ContinueLearningMolecule({
       onPress={onPress}>
       <ImageAtom
         sourceRequire={
-          item?.course_image
-            ? {uri: `${imageUrl}/uploads/course_images/${item.course_image}`}
+          item?.course?.course_image
+            ? {uri: `${imageUrl}/uploads/course_images/${item?.course?.course_image}`}
             : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')
         }
         style={styles.image}
@@ -39,13 +39,13 @@ export default function ContinueLearningMolecule({
       />
       <View style={styles.content}>
         <TextAtom
-          text={item?.name || ''}
+          text={item?.course?.name || ''}
           preset="medium"
           style={[styles.boldText, {color: colorPresets.GRAY}]}
           numberOfLines={3}
         />
         <TextAtom
-          text="Module 01. Understanding Future & Options"
+          text={item?.courses_section?.section_heading || ''}
           preset="titleBold"
           numberOfLines={3}
           style={{marginTop: mScale.md}}
@@ -65,7 +65,7 @@ export default function ContinueLearningMolecule({
             ]}
           />
           <TextAtom
-            text={'12 Minutes'}
+            text={item?.courses_section?.section_time || ""}
             preset="medium"
             style={[
               styles.boldText,

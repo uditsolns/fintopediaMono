@@ -57,7 +57,12 @@ export default function PopularCourseMolecule({
           }
           hours={36}
         />
-        <RatingReview rating={4.6} review={1000} />
+        {item?.rating ? (
+          <RatingReview
+            rating={item?.rating || ''}
+            review={item?.reviews || ''}
+          />
+        ) : null}
         <CoursePrice
           price={item?.sale_price}
           discount_price={item?.actual_price}
