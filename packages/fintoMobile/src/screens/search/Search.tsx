@@ -1,4 +1,3 @@
-import {useNavigation} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
@@ -10,8 +9,7 @@ import CourseMolecule from '@src/components/molecules/CourseMolecule/CourseMolec
 import TagsAtom from '@src/components/TagsAtom';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import * as React from 'react';
-import {FlatList, Text, View} from 'react-native';
-import {CategoriesArr} from '../auth/Signup';
+import {FlatList, View} from 'react-native';
 import SortbyAtom from '@src/components/SortbyAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
@@ -22,13 +20,13 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {postSeachCourses} from '@shared/src/provider/store/services/search-courses.service';
 import {FilterModal} from '@src/components/Popup/FilterModal';
+import LoaderAtom from '@src/components/LoaderAtom';
 
 interface SearchProps extends NavType<'Search'> {}
 
 export const Search: React.FC<SearchProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
   const {categories} = useAppSelector(state => state.categories);
-
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
   );
@@ -36,11 +34,15 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
     state => state.searchCourses,
   );
   const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
-    courses?.length ? courses : [],
+    search_courses?.length ? search_courses : [],
   );
   const [search, setSearch] = React.useState<string>('');
   const [isFullPageModalVisible, setIsFullPageModalVisible] =
     React.useState(false);
+  const [sortByRating, setSortByRating] = React.useState<string | null>('');
+  const [filterByCourse, setFilterByCourse] = React.useState<string | null>('');
+  const [sortBySelectedVisible, setSortBySelectedVisible] =
+    React.useState<boolean>(false);
 
   React.useEffect(() => {
     let params = {
@@ -63,10 +65,10 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
   }, []);
 
   React.useEffect(() => {
-    if (courses?.length) {
-      setFilterCourses(courses);
+    if (search_courses?.length) {
+      setFilterCourses(search_courses);
     }
-  }, [courses]);
+  }, [search_courses]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -92,7 +94,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
 
   const filterSearchByStockName = (searchText: string) => {
     if (searchText) {
-      const filtered = courses?.filter(item => {
+      const filtered = search_courses?.filter(item => {
         const matchesName = item?.name
           ?.toLowerCase()
           .includes(searchText.toLowerCase());
@@ -101,7 +103,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
       setSearch(searchText);
       setFilterCourses(filtered);
     } else {
-      setFilterCourses(courses);
+      setFilterCourses(search_courses);
       setSearch(searchText);
     }
   };
@@ -120,6 +122,11 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
         paddingBottom: 0,
         paddingTop: moderateScale(75),
       }}>
+      {search_courses_loading?.search_courses ? (
+        <View style={commonStyle.fullPageLoading}>
+          <LoaderAtom size="large" />
+        </View>
+      ) : null}
       <FlatList
         data={filterCourses?.length ? filterCourses : []}
         renderItem={renderItem}
@@ -131,14 +138,16 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
               paddingLeft: mScale.base,
               paddingRight: mScale.md,
             }}>
-            <View style={[commonStyle.flexStart]}>
-              <TextAtom preset="heading3" text={'Finance Course'} />
-              <TextAtom
-                preset="large"
-                text={`(1,235)`}
-                style={{color: colorPresets.GRAY, marginStart: mScale.sm}}
-              />
-            </View>
+            {filterByCourse ? (
+              <View style={[commonStyle.flexStart]}>
+                <TextAtom preset="heading3" text={filterByCourse || ''} />
+                <TextAtom
+                  preset="large"
+                  text={`(${search_courses?.length || ''})`}
+                  style={{color: colorPresets.GRAY, marginStart: mScale.sm}}
+                />
+              </View>
+            ) : null}
             <View
               style={[
                 commonStyle.flexSpaceBetween,
@@ -146,18 +155,20 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
               ]}>
               <SortbyAtom
                 sortByTitle="Sort by"
-                title="Most Popular"
+                title={sortByRating || 'Select'}
                 iconName={'chevron'}
                 onPress={() => {
+                  setSortBySelectedVisible(true);
                   setIsFullPageModalVisible(true);
                 }}
               />
               <SortbyAtom
                 sortByTitle="Filter by"
-                title="Accounting and bookkeeping"
+                title={filterByCourse || 'Select'}
                 iconName={'filter'}
                 onPress={() => {
-                  navigation.navigate(RouteKeys.FILTERBYCOURSESCREEN);
+                  setSortBySelectedVisible(false);
+                  setIsFullPageModalVisible(true);
                 }}
               />
             </View>
@@ -197,9 +208,20 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
         onClose={() => {
           setIsFullPageModalVisible(!isFullPageModalVisible);
         }}
-        bodyPayload={() => {
-          setIsFullPageModalVisible(!isFullPageModalVisible);
+        bodyPayload={(payload: any) => {
+          setSortByRating(payload?.rating?.rating);
+          setFilterByCourse(payload?.categories?.category_name);
+          let params = {
+            name: '',
+            sale_price: '',
+            category_name: '',
+            course_language: '',
+            rating: '',
+          };
+          console.log(payload);
+          setIsFullPageModalVisible(false)
         }}
+        isRatingVisible={sortBySelectedVisible}
       />
     </GradientTemplate>
   );

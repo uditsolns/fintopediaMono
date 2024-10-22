@@ -82,7 +82,9 @@ export const FilterModal: React.FC<FilterModalInterface> = ({
         <ScrollViewAtom nestedScrollEnabled={true}>
           {!isRatingVisible ? (
             <>
-              <CollapsibleAtom collasibleTilte="Topics">
+              <CollapsibleAtom
+                collasibleTilte="Topics"
+                collapsableVisible={true}>
                 {categories?.map((el, index) => (
                   <TouchableOpacity
                     key={index}
@@ -107,7 +109,9 @@ export const FilterModal: React.FC<FilterModalInterface> = ({
                 style={{marginVertical: mScale.base}}
               />
 
-              <CollapsibleAtom collasibleTilte="Price">
+              <CollapsibleAtom
+                collasibleTilte="Price"
+                collapsableVisible={true}>
                 {priceArr?.map((el, index) => (
                   <TouchableOpacity
                     key={index}
@@ -127,13 +131,13 @@ export const FilterModal: React.FC<FilterModalInterface> = ({
                 ))}
               </CollapsibleAtom>
 
-              <SeparatorAtom
+              {/* <SeparatorAtom
                 marginHorizontal={0}
                 style={{marginVertical: mScale.base}}
-              />
+              /> */}
             </>
           ) : (
-            <CollapsibleAtom collasibleTilte="Rating">
+            <CollapsibleAtom collasibleTilte="Rating" collapsableVisible={true}>
               {ratingArr?.map((el, index) => (
                 <TouchableOpacity
                   key={index}
@@ -152,7 +156,17 @@ export const FilterModal: React.FC<FilterModalInterface> = ({
           )}
 
           <View style={[commonStyle.flexEnd, {marginVertical: mScale.base}]}>
-            <ButtonAtom title="Save" onPress={() => {}} />
+            <ButtonAtom
+              title="Save"
+              onPress={() => {
+                let payload = {
+                  categories: selectedCategory,
+                  price: selectedPrice,
+                  rating: selectedRating,
+                };
+                bodyPayload(payload);
+              }}
+            />
           </View>
         </ScrollViewAtom>
       </GradientTemplate>
