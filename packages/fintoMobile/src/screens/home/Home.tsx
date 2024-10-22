@@ -8,6 +8,7 @@ import {
   getCourseCart,
 } from '@shared/src/provider/store/services/CourseCart.service';
 import {getCourses} from '@shared/src/provider/store/services/courses.service';
+import { getOngoingCourse } from '@shared/src/provider/store/services/ongoing-course.service';
 import {getUserById} from '@shared/src/provider/store/services/user.service';
 import {
   useAppDispatch,
@@ -16,6 +17,8 @@ import {
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CategoriesResponse} from '@shared/src/utils/types/categories';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
+import { OngoingCoursesResponse } from '@shared/src/utils/types/ongoing-course';
+import { UserCourseHistoryResponse } from '@shared/src/utils/types/UserCourseHistory';
 import {isInCart} from '@src/components/Calculate';
 import CarouselAtom from '@src/components/Carousel/CarouselAtom';
 import GetStarted from '@src/components/GetStarted';
@@ -58,6 +61,12 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   const {courseCart, loading: courseCartLoading} = useAppSelector(
     state => state.courseCart,
   );
+  const {user_course_history, loading: user_course_history_loading} = useAppSelector(
+    state => state.userCourseHistory,
+  );
+  const {ongoing_courses, loading: ongoing_courses_loading} = useAppSelector(
+    state => state.ongoingCourse,
+  );
   const [refreshLoading, setRefreshLoading] = React.useState(false);
 
   const [categoriesSelected, setCategoriesSelected] = React.useState<
@@ -80,6 +89,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     dispatch(getCategories());
     dispatch(getCourses());
     dispatch(getCourseCart());
+    dispatch(getOngoingCourse());
     setRefreshLoading(false);
   };
 
@@ -89,13 +99,13 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     }
   }, [courses]);
 
-  const continueLearningRenderItem = ({item}: {item: CoursesResponse}) => {
+  const continueLearningRenderItem = ({item}: {item: OngoingCoursesResponse}) => {
     return (
       <ContinueLearningMolecule
         item={item}
         onPress={() => {
           navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
-            id: item?.id,
+            id: item?.course_id,
           });
         }}
       />
@@ -162,7 +172,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       categoriesLoading?.categories ||
       coursesLoading?.courses ||
       courseCartLoading?.courseCart ||
-      courseCartLoading.create ? (
+      courseCartLoading.create || user_course_history_loading?.user_course_history || ongoing_courses_loading?.ongoing_courses ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>
@@ -176,12 +186,12 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
         <View>
           <CarouselAtom data={banner?.length ? banner : []} />
         </View>
-        {auth ? (
+        {auth?.token ? (
           <View>
             <ViewAll title="Continue Learning" visible={false} />
             <View style={{paddingLeft: mScale.base}}>
               <FlatList
-                data={courses?.length ? courses : []}
+                data={ongoing_courses?.length ? ongoing_courses : []}
                 renderItem={continueLearningRenderItem}
                 horizontal={true}
                 contentContainerStyle={{

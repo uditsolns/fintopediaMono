@@ -1,39 +1,51 @@
-import { StyleSheet, View } from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
-import { commonStyle } from '@shared/src/commonStyle';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
-import { moderateScale, mScale } from '@shared/src/theme/metrics';
+import {commonStyle} from '@shared/src/commonStyle';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import HorizontalProgressBar from '@src/components/HorizontalProgressBar';
-import { CoursesResponse } from '@shared/src/utils/types/courses';
-import { imageUrl } from '@shared/src/config/imageUrl';
+import {imageUrl} from '@shared/src/config/imageUrl';
+import {OngoingCoursesResponse} from '@shared/src/utils/types/ongoing-course';
 
 interface OngoingMoleculeProps {
-  item: CoursesResponse;
+  item: OngoingCoursesResponse;
   onPress?: () => void;
 }
 
-const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({ item, onPress }) => {
+const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({item, onPress}) => {
   return (
-    <View style={[commonStyle.flexStart, styles.container, { alignItems: 'flex-start' }]}>
+    <View
+      style={[
+        commonStyle.flexStart,
+        styles.container,
+        {alignItems: 'flex-start'},
+      ]}>
       <ImageAtom
-        sourceRequire={ item?.course_image
-          ? {uri: `${imageUrl}/uploads/course_images/${item?.course_image}`}
-          : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')}
+        sourceRequire={
+          item?.course?.course_image
+            ? {
+                uri: `${imageUrl}/uploads/course_images/${item?.course?.course_image}`,
+              }
+            : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')
+        }
         imageStyle={styles.image}
-        resizeMode='stretch'
+        resizeMode="stretch"
       />
       <View style={styles.content}>
         <TextAtom
-          text={item?.name}
+          text={item?.courses_section?.section_heading || ''}
           preset="heading4"
           style={styles.boldText}
           numberOfLines={2}
         />
-        <HorizontalProgressBar progress={75} />
-        <ButtonAtom title={'Continue learning'} preset='primary' />
-       
+        <HorizontalProgressBar progress={Number(item?.course_percentage)} />
+        <ButtonAtom
+          title={'Continue learning'}
+          preset="primary"
+          onPress={onPress}
+        />
       </View>
     </View>
   );
@@ -50,7 +62,7 @@ const styles = StyleSheet.create({
     width: moderateScale(115),
     height: moderateScale(133),
   },
-  content: { flex: 1 },
+  content: {flex: 1},
   boldText: {
     fontWeight: '600',
     marginBottom: mScale.base,

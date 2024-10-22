@@ -1,12 +1,14 @@
 import {commonStyle} from '@shared/src/commonStyle';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {getPurchaseHistory} from '@shared/src/provider/store/services/PurchaseHistory.service';
+import { getUserCourseHistory } from '@shared/src/provider/store/services/UserCourseHistory.service';
 import {
   useAppDispatch,
   useAppSelector,
 } from '@shared/src/provider/store/types/storeTypes';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import { PurchaseHistoryResponse } from '@shared/src/utils/types/PurchaseHistory';
+import { UserCourseHistoryResponse } from '@shared/src/utils/types/UserCourseHistory';
 import LoaderAtom from '@src/components/LoaderAtom';
 import PurchaseHistoryMolecule from '@src/components/molecules/PurchaseHistoryMolecule/PurchaseHistoryMolecule';
 import {NavType} from '@src/navigation/types';
@@ -20,8 +22,8 @@ export const PurchaseHistory: React.FC<PurchaseHistoryProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const {auth} = useAppSelector(state => state.auth);
-  const {purchaseHistory, loading} = useAppSelector(
-    state => state.purchaseHistory,
+  const {user_course_history, loading} = useAppSelector(
+    state => state.userCourseHistory,
   );
   const [refreshLoading, setRefreshLoading] = React.useState<boolean>(false);
 
@@ -30,23 +32,24 @@ export const PurchaseHistory: React.FC<PurchaseHistoryProps> = ({
   }, []);
   const onRefresh = () => {
     setRefreshLoading(true);
-    dispatch(getPurchaseHistory());
+    dispatch(getUserCourseHistory());
     setRefreshLoading(false);
   };
-  const renderItem = ({item}: {item: PurchaseHistoryResponse}) => {
+  const renderItem = ({item}: {item: UserCourseHistoryResponse}) => {
     return <PurchaseHistoryMolecule item={item} />;
   };
   return (
     <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70)}}>
-      {loading?.purchaseHistory ? (
+      {loading?.user_course_history ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
       <FlatList
         data={
-          purchaseHistory?.length
-            ? purchaseHistory?.filter(el => el?.user_id == auth?.user?.id)
+          user_course_history?.length
+            // ? user_course_history?.filter(el => el?.user_id == auth?.user?.id)
+            ? user_course_history
             : []
         }
         renderItem={renderItem}

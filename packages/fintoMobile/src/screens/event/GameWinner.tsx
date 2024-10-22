@@ -1,6 +1,7 @@
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {imageUrl} from '@shared/src/config/imageUrl';
 import {
   useAppDispatch,
   useAppSelector,
@@ -15,7 +16,7 @@ import {
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import WinnerIcon from '@src/components/Winner/WinnerIcon';
 import WinnerListAtom from '@src/components/Winner/WinnerListAtom';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import React from 'react';
 import {View, StyleSheet, BackHandler, Alert} from 'react-native';
@@ -27,14 +28,13 @@ export const GameWinner: React.FC<GameWinnerProps> = ({navigation}) => {
   const {gameUsers} = useAppSelector(state => state.gameUsers);
   const [firstWinner, secondWinner, thirdWinner] = gameUsers;
 
-
   const nameShorter = (name: string) => {
     if (name?.length > 10) {
       return name.slice(0, 15) + '...';
     }
     return name;
   };
- 
+
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
@@ -63,11 +63,15 @@ export const GameWinner: React.FC<GameWinnerProps> = ({navigation}) => {
   );
 
   return (
-    <GradientTemplate style={{paddingBottom: 0,paddingTop: moderateScale(75)}}>
+    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(75)}}>
       <ScrollViewAtom>
         <View style={styles.topThreeContainer}>
           <WinnerIcon
-            profilePhoto={require('@shared/src/assets/img/gameWinnerLoading.png')}
+            profilePhoto={
+              secondWinner?.user?.photo
+                ? `${imageUrl}/uploads/user_photo/${secondWinner?.user?.photo}`
+                : null
+            }
             rank={2}
             name={
               secondWinner?.user
@@ -82,10 +86,14 @@ export const GameWinner: React.FC<GameWinnerProps> = ({navigation}) => {
               width: moderateScale(56),
               height: moderateScale(56),
               borderRadius: moderateScale(56 / 2),
-            }} 
+            }}
           />
           <WinnerIcon
-            profilePhoto={require('@shared/src/assets/img/gameWinnerLoading.png')}
+            profilePhoto={
+              firstWinner?.user?.photo
+                ? `${imageUrl}/uploads/user_photo/${firstWinner?.user?.photo}`
+                : null
+            }
             rank={1}
             name={
               firstWinner?.user
@@ -103,7 +111,11 @@ export const GameWinner: React.FC<GameWinnerProps> = ({navigation}) => {
             }}
           />
           <WinnerIcon
-            profilePhoto={require('@shared/src/assets/img/gameWinnerLoading.png')}
+            profilePhoto={
+              thirdWinner?.user?.photo
+                ? `${imageUrl}/uploads/user_photo/${thirdWinner?.user?.photo}`
+                : null
+            }
             rank={3}
             name={
               thirdWinner?.user
@@ -128,7 +140,11 @@ export const GameWinner: React.FC<GameWinnerProps> = ({navigation}) => {
                 ?.slice(3)
                 .map((el, index) => (
                   <WinnerListAtom
-                    profilePhoto={require('@shared/src/assets/img/gameWinnerLoading.png')}
+                    profilePhoto={
+                      el?.user?.photo
+                        ? `${imageUrl}/uploads/user_photo/${el?.user?.photo}`
+                        : null
+                    }
                     rank={index + 1}
                     name={
                       el?.user

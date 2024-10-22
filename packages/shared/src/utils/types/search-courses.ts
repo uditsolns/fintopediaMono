@@ -20,7 +20,10 @@ export interface SearchCoursesResponse {
   category?: CategoriesResponse;
 }
 export interface SearchCoursesFields {
-  id?: number;
+  name: string;
+  sale_price: string;
+  category_name: string;
+  course_language: string;
 }
 export interface SearchCoursesParams {
   params: SearchCoursesFields;

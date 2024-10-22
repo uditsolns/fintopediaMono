@@ -74,7 +74,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       <TextAtom
         text={item[itemLabelField]}
         preset={dropdownTextSize}
-        style={{color: dropdownTextColor}}
+        style={{color: dropdownTextColor,textTransform:'capitalize'}}
       />
     </TouchableOpacity>
   );
@@ -123,7 +123,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             <TextAtom
               text={selectedOption || placeholder}
               preset="medium"
-              style={{color: textColor || colorPresets.CTA}}
+              style={{color: textColor || colorPresets.CTA,textTransform:'capitalize'}}
             />
           </View>
           {true ? (
@@ -177,7 +177,6 @@ const styles = StyleSheet.create({
     marginBottom: mScale.md,
   },
   dropdown: {
-    // padding: mScale.md3,
     height: Platform.OS !== 'android' ? undefined : 50,
     paddingHorizontal: 2,
     paddingVertical: 1,

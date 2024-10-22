@@ -6,6 +6,7 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {mScale} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
+import { OngoingCoursesResponse } from '@shared/src/utils/types/ongoing-course';
 import GetStarted from '@src/components/GetStarted';
 import OngoingMolecule from '@src/components/molecules/OngoingMolecule/OngoingMolecule';
 import { RouteKeys } from '@src/navigation/RouteKeys';
@@ -16,8 +17,8 @@ interface OngoingInterface {}
 const Ongoing: React.FunctionComponent<OngoingInterface> = () => {
   const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
-  const {courses, loading: coursesLoading} = useAppSelector(
-    state => state.courses,
+  const {ongoing_courses, loading: ongoing_courses_loading} = useAppSelector(
+    state => state.ongoingCourse,
   );
 
   const [refreshLoading, setRefreshLoading] = React.useState<boolean>(false);
@@ -31,14 +32,14 @@ const Ongoing: React.FunctionComponent<OngoingInterface> = () => {
     setRefreshLoading(false);
   };
 
-  const renderItem = ({item}: {item: CoursesResponse}) => {
+  const renderItem = ({item}: {item: OngoingCoursesResponse}) => {
     return <OngoingMolecule item={item} />;
   };
   return (
     <View style={{flex: 1, paddingTop: mScale.base}}>
       <View style={{alignSelf: 'center', paddingLeft: mScale.base}}>
         <FlatList
-          data={courses?.length ? courses : []}
+          data={ongoing_courses?.length ? ongoing_courses : []}
           renderItem={renderItem}
           contentContainerStyle={{
             rowGap: mScale.base,

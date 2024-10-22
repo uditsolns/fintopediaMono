@@ -6,7 +6,7 @@ import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAt
 import {Images} from '@shared/src/assets';
 import {colorPresets} from '@shared/src/theme/color';
 import {InputAtom} from '@src/components/Input/InputAtom';
-import {mScale} from '@shared/src/theme/metrics';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {LinkButton} from '@src/components/Button/LinkButton';
 import FollowUsMolecule from '@src/components/molecules/FollowUsMolecule/FollowUsMolecule';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
@@ -38,10 +38,11 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
   const {handleSubmit, setFieldValue} = authFormik;
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);
 
-  React. useEffect(() => {
+  React.useEffect(() => {
     GoogleSignin.configure({
-      webClientId: "1086429717269-pqt2o5l783a0dadn2gqjolrksdjanghj.apps.googleusercontent.com", 
-      offlineAccess: true
+      webClientId:
+        '1086429717269-pqt2o5l783a0dadn2gqjolrksdjanghj.apps.googleusercontent.com',
+      offlineAccess: true,
     });
   }, []);
   React.useEffect(() => {
@@ -57,12 +58,12 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
     }
   }, [auth]);
 
-  const userGogleLogin = async() => {
+  const userGogleLogin = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const response = await GoogleSignin.signIn();
       if (isSuccessResponse(response)) {
-        console.log(response?.data)
+        console.log(response?.data);
         GoogleSignin.signOut();
       } else {
         // sign in was cancelled by user
@@ -71,25 +72,33 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
       if (isErrorWithCode(error)) {
         switch (error.code) {
           case statusCodes.IN_PROGRESS:
-            console.log("operation (eg. sign in) already in progress",error.code)
+            console.log(
+              'operation (eg. sign in) already in progress',
+              error.code,
+            );
             break;
           case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-            console.log("Android only, play services not available or outdated",error.code)
+            console.log(
+              'Android only, play services not available or outdated',
+              error.code,
+            );
             break;
           default:
-          console.log("some other error happened",error)
+            console.log('some other error happened', error);
         }
       } else {
-        console.log("an error that's not related to google sign in occurred")
+        console.log("an error that's not related to google sign in occurred");
       }
     }
-  
-  }
+  };
 
   return (
-    <GradientTemplate>
-      <ScrollViewAtom contentContainerStyle={{marginTop: mScale.base}}>
-        <View style={{marginTop: mScale.xxl1}}>
+    <GradientTemplate style={{paddingTop: moderateScale(60)}}>
+      <ScrollViewAtom
+        contentContainerStyle={{
+          marginTop: mScale.base,
+        }}>
+        <View style={{}}>
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               shape="square"
@@ -148,7 +157,11 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
           <View style={{marginVertical: mScale.md, alignSelf: 'center'}}>
             <TextAtom text={'or'} preset="medium" />
           </View>
-          <ButtonAtom title="Continue with google" preset="tertiary" onPress={userGogleLogin} />
+          <ButtonAtom
+            title="Continue with google"
+            preset="tertiary"
+            onPress={userGogleLogin}
+          />
           <ButtonAtom title="Continue as guest" preset="secondary" />
           <View style={[commonStyle.flexCenter, {marginTop: mScale.base}]}>
             <TextAtom text={`Don't have an account ? `} preset="medium" />
