@@ -7,7 +7,6 @@ import {GradientTemplate} from '@shared/src/components/templates/GradientTemplat
 import { colorPresets } from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {LinkButton} from '@src/components/Button/LinkButton';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 interface MembershipTypeProps {}

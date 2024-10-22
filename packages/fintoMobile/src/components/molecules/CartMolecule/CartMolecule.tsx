@@ -51,10 +51,21 @@ export default function CartMolecule({
             style={styles.boldText}
             numberOfLines={3}
           />
-          <TextAtom text={`₹ ${item?.sale_price}`} preset="titleBold" />
+          <View style={[commonStyle.flexSpaceBetween]}>
+            <TextAtom text={`₹ ${item?.sale_price || 0}`} preset="titleBold" />
+            {/* <TextAtom
+              style={{
+                paddingStart: mScale.xs,
+                textDecorationLine: 'line-through',
+                color: colorPresets.GRAY2,
+              }}
+              text={`₹ ${item?.actual_price || 0}`}
+              preset="xSmallBold"
+            /> */}
+          </View>
         </View>
         <ProgressBar
-          level="intermediate"
+          level={item?.course_type?.toLowerCase() || "intermediate"}
           hours={'20'}
           mv={mScale.md}
           textPreset="xSmall"
@@ -76,7 +87,10 @@ export default function CartMolecule({
             alignSelf: 'flex-start',
           }}
         /> */}
-        <RatingAtom ratingTitle={`4.6/5`} />
+
+        {item?.rating ? (
+          <RatingAtom ratingTitle={item?.rating ? `${item?.rating}` : ''} />
+        ) : null}
         <View style={[commonStyle.flexStart, {marginTop: mScale.base}]}>
           {saveForLaterBoolean ? (
             courses_save_later?.some(el => el?.course_id == item?.id) ? null : (
@@ -119,7 +133,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexGrow: 1,
     alignSelf: 'flex-start',
-    padding: mScale.base,
+    paddingStart: mScale.base,
+    paddingVertical: mScale.base,
+    paddingRight: mScale.sm,
   } as ViewStyle,
   boldText: {
     fontWeight: '400',

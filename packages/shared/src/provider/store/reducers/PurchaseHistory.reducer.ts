@@ -5,6 +5,7 @@ import {
   getPurchaseHistory,
   updatePurchaseHistory,
   createPurchaseHistory,
+  getPurchaseHistoryById,
 } from "../services/PurchaseHistory.service";
 
 const initialState: PurchaseHistoryState = {
@@ -13,23 +14,30 @@ const initialState: PurchaseHistoryState = {
     delete: false,
     update: false,
     purchaseHistory: false,
+    singlePurchaseHistory: false,
   },
   err: {
     createErr: null,
     deleteErr: null,
     updateErr: null,
     purchaseHistoryErr: null,
+    singlePurchaseHistoryErr: null,
   },
   create: null,
   delete: null,
   update: null,
   purchaseHistory: [],
+  singlePurchaseHistory: null,
 };
 
 const purchaseHistorySlice = createSlice({
   name: "purchaseHistory",
   initialState,
-  reducers: {},
+  reducers: {
+    storeSinglePurchaseHistory: (state, action) => {
+      state.singlePurchaseHistory = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getPurchaseHistory.pending, (state) => {
@@ -44,6 +52,21 @@ const purchaseHistorySlice = createSlice({
         state.loading.purchaseHistory = false;
         state.err.purchaseHistoryErr = action?.payload;
       })
+
+      //single purchase history
+      .addCase(getPurchaseHistoryById.pending, (state) => {
+        state.loading.singlePurchaseHistory = true;
+      })
+      .addCase(getPurchaseHistoryById.fulfilled, (state, action) => {
+        state.loading.singlePurchaseHistory = false;
+        state.singlePurchaseHistory = action.payload;
+        state.err.singlePurchaseHistoryErr = null;
+      })
+      .addCase(getPurchaseHistoryById.rejected, (state, action) => {
+        state.loading.singlePurchaseHistory = false;
+        state.err.singlePurchaseHistoryErr = action?.payload;
+      })
+
       //   create
       .addCase(createPurchaseHistory.pending, (state) => {
         state.loading.create = true;
@@ -85,4 +108,5 @@ const purchaseHistorySlice = createSlice({
   },
 });
 
+export const { storeSinglePurchaseHistory } = purchaseHistorySlice.actions;
 export default purchaseHistorySlice.reducer;

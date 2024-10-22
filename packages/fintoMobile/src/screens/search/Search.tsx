@@ -54,9 +54,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
     dispatch(
       postSeachCourses({
         params,
-        onSuccess(data) {
-          console.log(data);
-        },
+        onSuccess(data) {},
         onError(error) {
           console.log(error);
         },
@@ -219,7 +217,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
             rating: '',
           };
           console.log(payload);
-          setIsFullPageModalVisible(false)
+          setIsFullPageModalVisible(false);
         }}
         isRatingVisible={sortBySelectedVisible}
       />

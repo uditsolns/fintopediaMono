@@ -6,7 +6,6 @@ import {GradientTemplate} from '@shared/src/components/templates/GradientTemplat
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {mScale} from '@shared/src/theme/metrics';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import {InputAtom} from '@src/components/Input/InputAtom';
 import * as React from 'react';
 import {View} from 'react-native';

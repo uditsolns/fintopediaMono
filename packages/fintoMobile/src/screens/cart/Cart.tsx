@@ -56,18 +56,21 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
 
   const [refreshLoading, setRefreshLoading] = React.useState(false);
   const [subtotal, setSubtotal] = React.useState<number>(0);
+  const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
   const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
   const [totalPay, setTotalPay] = React.useState<number>(0);
   const [gst, setGst] = React.useState<number>(0);
 
   React.useEffect(() => {
     if (courseCart) {
-      courseCart?.length ? setGst(100) : setGst(0);
       let sale_price = sumCalculate(courseCart, 'sale_price');
       let actual_price = sumCalculate(courseCart, 'actual_price');
       let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
-      let totalPayAmount = addTwoNumber(sale_price, courseCart?.length ? 100 : 0);
+      let gstTotal = (sale_price * 18) / 100;
+      let totalPayAmount = addTwoNumber(sale_price, gstTotal);
+      setGst(gstTotal);
       setSubtotal(sale_price);
+      setActualPricetotal(actual_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
     }
@@ -231,24 +234,16 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
                     commonStyle.flexSpaceBetween,
                     {marginBottom: mScale.md},
                   ]}>
-                  <TextAtom text={'Subtotal'} preset="large" />
-                  <TextAtom text={`₹ ${subtotal}`} preset="heading3" />
+                  <TextAtom text={'Actual price'} preset="large" />
+                  <TextAtom text={`₹ ${actualPricetotal}`} preset="heading3" />
                 </View>
                 <View
                   style={[
                     commonStyle.flexSpaceBetween,
                     {marginBottom: mScale.md},
                   ]}>
-                  <TextAtom
-                    text={'Discount'}
-                    preset="body"
-                    style={{color: '#B5B5B5'}}
-                  />
-                  <TextAtom
-                    text={`-₹ ${totalDiscount}`}
-                    preset="heading4"
-                    style={{color: colorPresets.PRIMARY}}
-                  />
+                  <TextAtom text={'Sale price'} preset="large" />
+                  <TextAtom text={`₹ ${subtotal}`} preset="heading3" />
                 </View>
                 <View style={[commonStyle.flexSpaceBetween, {}]}>
                   <TextAtom
@@ -275,7 +270,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
                     commonStyle.flexSpaceBetween,
                     {marginBottom: mScale.md},
                   ]}>
-                  <TextAtom text={'You pay'} preset="heading3" />
+                  <TextAtom text={'Grand total'} preset="heading3" />
                   <TextAtom text={`₹ ${totalPay}`} preset="heading3" />
                 </View>
               </View>

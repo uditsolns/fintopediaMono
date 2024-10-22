@@ -13,7 +13,6 @@ import {
   WINDOW_HEIGHT,
   WINDOW_WIDTH,
 } from '@shared/src/theme/metrics';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import WinnerIcon from '@src/components/Winner/WinnerIcon';
 import WinnerListAtom from '@src/components/Winner/WinnerListAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';

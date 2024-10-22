@@ -35,7 +35,7 @@ import {mScale} from '@shared/src/theme/metrics';
 import {Images} from '@shared/src/assets';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import Header from '@src/components/Header/Header';
-import { ViewPdf } from '@src/screens/view-pdf/ViewPdf';
+import {ViewPdf} from '@src/screens/view-pdf/ViewPdf';
 
 interface MainRoutesProps {}
 
@@ -73,20 +73,24 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
       <Stack.Screen
         options={({navigation}) => ({
           headerShown: true,
-          headerLeft: () => headerBack(() => navigation.goBack())
+          headerLeft: () => headerBack(() => navigation.goBack()),
         })}
         name={RouteKeys.SEARCHSCREEN}
         component={Search as React.FC}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerTitle: 'Notifications',
+          headerLeft: () => headerBack(() => navigation.goBack()),
+        })}
         name={RouteKeys.NOTIFICATIONSCREEN}
         component={Notification as React.FC}
       />
       <Stack.Screen
-         options={({navigation}) => ({
+        options={({navigation}) => ({
           headerShown: true,
-          headerTitle:'My Cart',
+          headerTitle: 'My Cart',
           headerLeft: () => headerBack(() => navigation.goBack()),
         })}
         name={RouteKeys.CARTSCREEN}
@@ -100,7 +104,7 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
       <Stack.Screen
         options={({navigation}) => ({
           headerShown: true,
-          headerTitle:'',
+          headerTitle: '',
           headerLeft: () => headerBack(() => navigation.goBack()),
         })}
         name={RouteKeys.COURSECATEGORYSCREEN}
@@ -108,27 +112,27 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
       />
 
       <Stack.Screen
-         options={({navigation}) => ({
+        options={({navigation}) => ({
           headerShown: true,
-          headerTitle:'Coupon codes',
+          headerTitle: 'Coupon codes',
           headerLeft: () => headerBack(() => navigation.goBack()),
         })}
         name={RouteKeys.COUPONSCREEN}
         component={Coupon as React.FC}
       />
       <Stack.Screen
-       options={({navigation}) => ({
-        headerShown: true,
-        headerTitle:'Order details',
-        headerLeft: () => headerBack(() => navigation.goBack()),
-      })}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerTitle: 'Order details',
+          headerLeft: () => headerBack(() => navigation.goBack()),
+        })}
         name={RouteKeys.CHECKOUTSCREEN}
         component={Checkout as React.FC}
       />
       <Stack.Screen
         options={({navigation}) => ({
           headerShown: true,
-          headerTitle:'Billing',
+          headerTitle: 'Billing',
           headerLeft: () => headerBack(() => navigation.goBack()),
         })}
         name={RouteKeys.BILLINGSCREEN}
@@ -151,7 +155,7 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         options={{
           headerShown: true,
           header: () => {
-            return <Header cartVisible={false} />
+            return <Header cartVisible={false} />;
           },
         }}
         name={RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN}
@@ -161,7 +165,7 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         options={{
           headerShown: true,
           header: () => {
-            return <Header />
+            return <Header />;
           },
         }}
         name={RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN}
@@ -188,7 +192,7 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={Certifications as React.FC}
       />
       <Stack.Screen
-         options={({navigation}) => ({
+        options={({navigation}) => ({
           headerTitle: 'Refer and earn',
           headerShown: true,
           headerLeft: () =>
@@ -198,7 +202,7 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={ReferFriends as React.FC}
       />
       <Stack.Screen
-         options={({navigation}) => ({
+        options={({navigation}) => ({
           headerTitle: 'Membership Type',
           headerShown: true,
           headerLeft: () =>
@@ -228,12 +232,12 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={PurchaseHistory as React.FC}
       />
       <Stack.Screen
-       options={({navigation}) => ({
-        headerTitle: 'Contact Support',
-        headerShown: true,
-        headerLeft: () =>
-          headerBack(() => navigation.navigate(RouteKeys.HOMESCREEN)),
-      })}
+        options={({navigation}) => ({
+          headerTitle: 'Contact Support',
+          headerShown: true,
+          headerLeft: () =>
+            headerBack(() => navigation.navigate(RouteKeys.HOMESCREEN)),
+        })}
         name={RouteKeys.CONTACTUSSCREEN}
         component={Contactus as React.FC}
       />
@@ -283,15 +287,14 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
         component={MockSellStocks as React.FC}
       />
       <Stack.Screen
-         options={({navigation}) => ({
+        options={({navigation}) => ({
           headerShown: true,
-          headerTitle:'',
+          headerTitle: '',
           headerLeft: () => headerBack(() => navigation.goBack()),
         })}
         name={RouteKeys.VIEWPDFSCREEN}
         component={ViewPdf as React.FC}
       />
-      
     </Stack.Navigator>
   );
 };

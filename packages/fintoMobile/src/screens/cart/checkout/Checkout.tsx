@@ -12,7 +12,6 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CourseCartResponse} from '@shared/src/utils/types/CourseCart';
-import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {
   addTwoNumber,
   subtractTwoNumber,
@@ -42,18 +41,18 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
   const [subtotal, setSubtotal] = React.useState<number>(0);
   const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
   const [totalPay, setTotalPay] = React.useState<number>(0);
-  const [gst, setGst] = React.useState<number>(100);
+  const [gst, setGst] = React.useState<number>(0);
+  const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
 
   React.useEffect(() => {
     if (courseCart) {
-      courseCart?.length ? setGst(100) : setGst(0);
       let sale_price = sumCalculate(courseCart, 'sale_price');
       let actual_price = sumCalculate(courseCart, 'actual_price');
       let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
-      let totalPayAmount = addTwoNumber(
-        sale_price,
-        courseCart?.length ? 100 : 0,
-      );
+      let gstTotal = (sale_price * 18) / 100;
+      let totalPayAmount = addTwoNumber(sale_price, gstTotal);
+      setActualPricetotal(actual_price);
+      setGst(gstTotal);
       setSubtotal(sale_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
@@ -112,13 +111,16 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
         btnTitle="Next"
         itemCount={courseCart?.length}
         price={totalPay}
-        discount_price={totalDiscount}
+        discount_price={actualPricetotal}
         onPress={() => {
           if (courseCart?.length > 0) {
             let cartData = {
               totalItem: courseCart?.length,
               totalPay: totalPay,
               totalDiscount: totalDiscount,
+              totalSubTotal: subtotal,
+              actualPrice:actualPricetotal,
+              gst: gst,
             };
             navigation.navigate(RouteKeys.BILLINGSCREEN, {cartData: cartData});
           }

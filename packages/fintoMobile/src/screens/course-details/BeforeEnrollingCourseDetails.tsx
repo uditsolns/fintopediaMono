@@ -29,7 +29,7 @@ import {
 } from '@shared/src/provider/store/services/courses.service';
 import {getCoursesSections} from '@shared/src/provider/store/services/courseSections.service';
 import {getCourseReviews} from '@shared/src/provider/store/services/course-review.service';
-import { CourseReviewResponse } from '@shared/src/utils/types/course-review';
+import {CourseReviewResponse} from '@shared/src/utils/types/course-review';
 
 interface BeforeEnrollingCourseDetailsProps
   extends NavType<'BeforeEnrollingCourseDetails'> {}
@@ -160,10 +160,12 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                 hours={data?.duration_time || ''}
                 mv={mScale.sm}
               />
-              <RatingReview
-                rating={data?.rating || ''}
-                review={data?.reviews || ''}
-              />
+              {data?.rating ? (
+                <RatingReview
+                  rating={data?.rating || ''}
+                  review={data?.reviews || ''}
+                />
+              ) : null}
             </View>
             <ButtonAtom
               title={`Course starts from  ₹ ${data?.sale_price}`}
