@@ -113,12 +113,7 @@ const Lessons: React.FC<LessonsProps> = ({ sections, about_me }) => {
           </div>
         </Col>
         <Col md={6}>
-          {/* <div className={styles.aboutCourse}>
-            <h3>About The Course</h3>
-            <p>{about_me}</p>
-
-            <a href="#">Show more</a>
-          </div> */}
+         
           <div className={styles.aboutCourse}>
             <h3>About The Course</h3>
             {about_me && about_me.trim() ? (

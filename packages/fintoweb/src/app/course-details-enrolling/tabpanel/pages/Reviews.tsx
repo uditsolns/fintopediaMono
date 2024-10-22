@@ -19,6 +19,7 @@ import {
 } from "shared/src/provider/store/types/storeTypes";
 import { toast } from "react-toastify";
 import { createCourseReview } from "shared/src/provider/store/services/course-review.service";
+import { imageUrl } from "shared/src/config/imageUrl";
 interface ReviewFormValues {
   review: string;
   rating: string;
@@ -34,14 +35,27 @@ const stocks = new Array(4).fill({
 const Reviews: React.FC<ReviewFormValues> = () => {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
-  const { singleCourse, loading: coursesLoading } = useAppSelector(
-    (state) => state.courses
-  );
-  const { course_review, loading: course_review_loading } = useAppSelector(
-    (state) => state.courseReviews
-  );
+  const { singleCourse } = useAppSelector((state) => state.courses);
+  const { course_review } = useAppSelector((state) => state.courseReviews);
+  console.log("course_review", course_review);
   const [review, setReview] = React.useState<string | null>("");
   const [rating, setRating] = React.useState<number | null>(0);
+
+  // Array to keep track of the "show more" state for each review
+  const [showMoreStates, setShowMoreStates] = React.useState<boolean[]>([]);
+
+  // Initialize showMoreStates based on the number of reviews
+  React.useEffect(() => {
+    if (course_review) {
+      setShowMoreStates(new Array(course_review.length).fill(false));
+    }
+  }, [course_review]);
+
+  const handleShowMore = (index: number) => {
+    const updatedShowMoreStates = [...showMoreStates];
+    updatedShowMoreStates[index] = !updatedShowMoreStates[index];
+    setShowMoreStates(updatedShowMoreStates);
+  };
 
   const handleSubmit = async () => {
     let params = {
@@ -140,26 +154,95 @@ const Reviews: React.FC<ReviewFormValues> = () => {
       </div>
       <div className={styles.allReviews}>
         <h1>All Reviews</h1>
-        {/* <Row className="mt-3">
-          {stocks.map((card, index) => {
+        <Row className="mt-3">
+          {/* {course_review?.map((review, index) => {
             return (
               <Col md={6} key={index} className="mt-3">
                 <div className={styles.profileCard}>
                   <div className={styles.cardBody}>
-                    <h3 className={styles.mainHeading}>{card.mainHeading}</h3>
-                    <p className={styles.subHeading}>{card.subHeading}</p>
+                    <p className={styles.subHeading}>
+                      {review.review_description}
+                    </p>
                   </div>
                   <div className={styles.cardHeader}>
                     <div className={styles.userInfo}>
                       <Image
-                        src={card.userImage}
+                        width={50}
+                        height={50}
+                        // src={
+                        //   !review.user?.photo
+                        //     ? `${User}`
+                        //     : `${imageUrl}/UserImages/${review.user?.photo}`
+                        // }
+                        src={`${imageUrl}/UserImages/${review.user?.photo}`}
                         alt="User"
                         className={styles.userImage}
                       />
                       <div className={styles.userDetails}>
-                        <h4 className={styles.userName}>{card.userName}</h4>
+                        <h4 className={styles.userName}>
+                          {review.user?.surname_name}
+                          {review.user?.first_name}
+                        </h4>
                         <p className={styles.userDesignation}>
-                          {card.userDesignation}
+                          {review.user?.bio}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            );
+          })} */}
+          {course_review?.map((review, index) => {
+            return (
+              <Col md={6} key={index} className="mt-3">
+                <div className={`${styles.profileCard} d-flex flex-column`}>
+                  <div
+                    className={styles.cardBody}
+                    style={{ height: "180px", overflow: "hidden" }}
+                  >
+                    <p className={styles.subHeading}>
+                      {review.review_description &&
+                      review.review_description.trim() ? (
+                        <>
+                          <p>
+                            {showMoreStates ||
+                            review.review_description.split(" ").length <= 3
+                              ? review.review_description
+                              : `${review.review_description
+                                  .split(" ")
+                                  .slice(0, 3)
+                                  .join(" ")}...`}
+                          </p>
+                          {review.review_description.split(" ").length > 3 && (
+                            <span
+                              onClick={() => handleShowMore(index)}
+                              className={styles.seeMore}
+                            >
+                              {showMoreStates ? "Show less" : "Show more"}
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        <p>No Description</p>
+                      )}
+                    </p>
+                  </div>
+                  <div className={styles.cardHeader}>
+                    <div className={styles.userInfo}>
+                      <Image
+                        width={50}
+                        height={50}
+                        src={`${imageUrl}/UserImages/${review.user?.photo}`}
+                        alt="User"
+                        className={styles.userImage}
+                      />
+                      <div className={styles.userDetails}>
+                        <h4 className={styles.userName}>
+                          {review.user?.surname_name} {review.user?.first_name}
+                        </h4>
+                        <p className={styles.userDesignation}>
+                          {review.user?.bio}
                         </p>
                       </div>
                     </div>
@@ -168,7 +251,7 @@ const Reviews: React.FC<ReviewFormValues> = () => {
               </Col>
             );
           })}
-        </Row> */}
+        </Row>
       </div>
     </div>
   );

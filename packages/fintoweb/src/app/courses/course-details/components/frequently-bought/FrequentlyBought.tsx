@@ -18,11 +18,13 @@ import { toast } from "react-toastify";
 
 interface FrequentlyBoughtProps {
   courses: CoursesResponse[];
+  heading: string;
 }
 
-const FrequentlyBought: React.FC<FrequentlyBoughtProps> = ({ courses }) => {
-  console.log("courses", courses);
-
+const FrequentlyBought: React.FC<FrequentlyBoughtProps> = ({
+  courses,
+  heading,
+}) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { auth } = useAppSelector((state) => state.auth);
@@ -41,8 +43,6 @@ const FrequentlyBought: React.FC<FrequentlyBoughtProps> = ({ courses }) => {
   const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
     []
   );
-  console.log("filterCourses", filterCourses);
-
   React.useEffect(() => {
     if (courses?.length && singleCourse) {
       setFilterCourses(
@@ -80,9 +80,9 @@ const FrequentlyBought: React.FC<FrequentlyBoughtProps> = ({ courses }) => {
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
-    autoplay: true, // Enable auto-scrolling
-    autoplaySpeed: 3000, // Auto-scroll speed (in ms)
-    pauseOnHover: true, // Pause auto-scroll on hover
+    autoplay: true, 
+    autoplaySpeed: 3000, 
+    pauseOnHover: true, 
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     afterChange: (current: number) => {
@@ -156,9 +156,7 @@ const FrequentlyBought: React.FC<FrequentlyBoughtProps> = ({ courses }) => {
 
   return (
     <div className={styles.courseContainer}>
-      <h1 className={styles.courseContainerHeading}>
-        Frequently Bought Together
-      </h1>
+      <h1 className={styles.courseContainerHeading}>{heading}</h1>
       <Slider {...settings}>
         {filterCourses?.map((course, index) => {
           return (

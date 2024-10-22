@@ -177,7 +177,11 @@
   background: #0d0f1c;
   backdrop-filter: blur(19.5px);
 }
-
+.seeMore {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
 .cardHeader {
   display: flex;
   justify-content: space-between;

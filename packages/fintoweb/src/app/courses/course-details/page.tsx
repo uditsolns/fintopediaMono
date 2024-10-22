@@ -27,7 +27,6 @@ interface CourseDetailsProps {
   id?: number;
 }
 const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
-  
   const dispatch = useAppDispatch();
   const {
     singleCourse,
@@ -134,7 +133,10 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
           <AchiverSlider />
         </div>
         <div className={styles.frequentlyBoughtCourses}>
-          <FrequentlyBought courses={courses} />
+          <FrequentlyBought
+            courses={courses}
+            heading="Frequently Bought Together"
+          />
         </div>
         <div className={styles.contactAccordion}>
           <h1>Frequently Asked Questions</h1>

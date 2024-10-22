@@ -16,7 +16,6 @@ import {
 } from "shared/src/provider/store/services/course-note.service";
 import { toast } from "react-toastify";
 import { formatDateMonthTime } from "shared/src/components/atoms/Calculate";
-import LoadingAtom from "@src/components/loader/LoadingAtom";
 
 const Notes: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,11 +23,9 @@ const Notes: React.FC = () => {
   const { singleCourse, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
   );
-  const {
-    course_notes,
-    create,
-    loading: course_notes_loading,
-  } = useAppSelector((state) => state.courseNotes);
+  const { course_notes, loading: course_notes_loading } = useAppSelector(
+    (state) => state.courseNotes
+  );
 
   const [selectedNote, setSelectedNote] =
     React.useState<CourseNotesResponse | null>(null);

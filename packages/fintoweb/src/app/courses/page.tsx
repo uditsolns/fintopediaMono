@@ -139,6 +139,17 @@ const CourseFilter: React.FC = () => {
       setLoadingCourseId(null);
     }
   };
+  const [filter, setFilter] = useState({
+    name: "",
+    sale_price: "",
+    category_name: "",
+    course_language: "",
+  });
+
+  const languages = ["English"];
+  const handleFilter = () => {
+    // dispatch(creat)
+  };
   return (
     <>
       {coursesLoading?.courses || categoriesLoading?.categories ? (
@@ -243,6 +254,56 @@ const CourseFilter: React.FC = () => {
           <div className={styles.tradingCourses}>
             <h1>All Investing & Trading Courses</h1>
             <div className={styles.tradingCoursesListing}>
+              <div className="filter">
+                <input
+                  type="text"
+                  placeholder="Search by name"
+                  value={filter.name}
+                  onChange={(e) =>
+                    setFilter({ ...filter, name: e.target.value })
+                  }
+                />
+
+                <input
+                  type="text"
+                  placeholder="Search by sale price"
+                  value={filter.sale_price}
+                  onChange={(e) =>
+                    setFilter({ ...filter, sale_price: e.target.value })
+                  }
+                />
+
+                <select
+                  value={filter.category_name}
+                  onChange={(e) =>
+                    setFilter({ ...filter, category_name: e.target.value })
+                  }
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.category_name}>
+                      {category.category_name}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  value={filter.course_language}
+                  onChange={(e) =>
+                    setFilter({ ...filter, course_language: e.target.value })
+                  }
+                >
+                  <option value="">Select Language</option>
+                  {languages.map((language) => (
+                    <option key={language} value={language}>
+                      {language}
+                    </option>
+                  ))}
+                </select>
+
+                <button onClick={handleFilter}>Filter</button>
+              </div>
+
               <Row className="mt-3">
                 {courses.map((course) => {
                   return (

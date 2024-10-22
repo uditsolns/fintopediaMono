@@ -10,23 +10,29 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
-import { getCoursesById } from "shared/src/provider/store/services/courses.service";
+import { getCourses, getCoursesById } from "shared/src/provider/store/services/courses.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 import { getCourseNotes } from "shared/src/provider/store/services/course-note.service";
 import VideoPlayer from "@src/components/VideoPlayer/VideoPlayer";
 import { imageUrl } from "shared/src/config/imageUrl";
+import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
+import FrequentlyBought from "../courses/course-details/components/frequently-bought/FrequentlyBought";
 
 interface CourseEnrollDetailsProps {
   id?: number;
 }
 const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
-  const courseId = id;
   const dispatch = useAppDispatch();
-  const { singleCourse, loading: singleCourseLoading } = useAppSelector(
-    (state) => state.courses
-  );
+  const {
+    singleCourse,
+    courses,
+    loading: courseLoading,
+  } = useAppSelector((state) => state.courses);
   const { course_notes, loading: course_notes_loading } = useAppSelector(
     (state) => state.courseNotes
+  );
+  const { course_review, loading: course_review_loading } = useAppSelector(
+    (state) => state.courseReviews
   );
   const { upload_file, loading: upload_file_loading } = useAppSelector(
     (state) => state.courseUploadFile
@@ -37,6 +43,9 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
       dispatch(getCoursesById({ id }));
     }
     dispatch(getCourseNotes());
+    dispatch(getCourseReviews());
+    dispatch(getCourses());
+
   }, [id, dispatch]);
 
   const [isAccordionOpen, setIsAccordionOpen] = useState(true);
@@ -47,38 +56,19 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   const handleToggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
-  const items = [
-    {
-      title: "Section 1: Course Introduction",
-      content: "Content for section 1",
-    },
-    {
-      title: "Section 2: Basics of Stock Market",
-      content: "Content for section 2",
-    },
-    {
-      title: "Section 3: Mastering Money Management principles",
-      content: "Content for section 3",
-    },
-    {
-      title: "Section 4: Basics of Stock Market",
-      content: "Content for section 3",
-    },
-    {
-      title: "Section 5: Stock Market Analysis",
-      content: "Content for section 3",
-    },
-  ];
+ 
   return (
     <>
-      {singleCourseLoading.singleCourse ||
+      {courseLoading.singleCourse ||
+      courseLoading.courses ||
       course_notes_loading?.course_notes ||
       course_notes_loading?.create ||
       course_notes_loading?.update ||
       course_notes_loading?.delete ||
       upload_file_loading.create ||
-      upload_file_loading?.upload_file ? (
-        <div className="fullPageLoading"> 
+      upload_file_loading?.upload_file ||
+      course_review_loading?.course_review ? (
+        <div className="fullPageLoading">
           <LoadingAtom
             style={{
               height: "5rem",
@@ -90,7 +80,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
 
       <section>
         <div className={styles.enrollHeader}>
-          <h2>Mastering Money Management</h2>
+          <h2>{singleCourse?.name}</h2>
           <div className={styles.progressSection}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -212,28 +202,79 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                 {isAccordionOpen && (
                   <div className={styles.accordionContent}>
                     <div className={styles.accordion}>
-                      {items.map((item, index) => (
+                      {singleCourse?.sections?.map((section, index) => (
                         <div key={index} className={styles.item}>
                           <button
                             className={styles.accordionButton}
                             onClick={() => handleToggle(index)}
                           >
-                            <span className={styles.title}>{item.title}</span>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                            >
-                              <path
-                                d="M16.8482 8.03903L10.8909 13.9964C10.8356 14.0518 10.7699 14.0957 10.6975 14.1257C10.6252 14.1557 10.5477 14.1711 10.4694 14.1711C10.3911 14.1711 10.3136 14.1557 10.2413 14.1257C10.169 14.0957 10.1033 14.0518 10.0479 13.9964L4.0906 8.03903C3.97882 7.92725 3.91602 7.77564 3.91602 7.61755C3.91602 7.45946 3.97882 7.30785 4.0906 7.19607C4.20238 7.08428 4.35399 7.02148 4.51208 7.02148C4.67017 7.02148 4.82178 7.08428 4.93356 7.19607L10.4694 12.7327L16.0053 7.19607C16.0606 7.14072 16.1263 7.09681 16.1986 7.06686C16.271 7.0369 16.3485 7.02148 16.4268 7.02148C16.505 7.02148 16.5825 7.0369 16.6549 7.06686C16.7272 7.09681 16.7929 7.14072 16.8482 7.19607C16.9036 7.25142 16.9475 7.31713 16.9774 7.38944C17.0074 7.46176 17.0228 7.53927 17.0228 7.61755C17.0228 7.69583 17.0074 7.77334 16.9774 7.84565C16.9475 7.91797 16.9036 7.98368 16.8482 8.03903Z"
-                                fill="white"
-                              />
-                            </svg>
+                            <span className={styles.title}>
+                              {section.section_heading}
+                            </span>
+                            {openIndex === index ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                              >
+                                <path
+                                  d="M16.8482 11.961L10.8909 6.00363C10.8356 5.94824 10.7699 5.9043 10.6975 5.87432C10.6252 5.84434 10.5477 5.82891 10.4694 5.82891C10.3911 5.82891 10.3136 5.84434 10.2413 5.87432C10.169 5.9043 10.1033 5.94824 10.0479 6.00363L4.0906 11.961C3.97882 12.0728 3.91602 12.2244 3.91602 12.3825C3.91602 12.5405 3.97882 12.6921 4.0906 12.8039C4.20238 12.9157 4.35399 12.9785 4.51208 12.9785C4.67017 12.9785 4.82178 12.9157 4.93356 12.8039L10.4694 7.26733L16.0053 12.8039C16.0606 12.8593 16.1263 12.9032 16.1986 12.9331C16.271 12.9631 16.3485 12.9785 16.4268 12.9785C16.505 12.9785 16.5825 12.9631 16.6549 12.9331C16.7272 12.9032 16.7929 12.8593 16.8482 12.8039C16.9036 12.7486 16.9475 12.6829 16.9774 12.6106C17.0074 12.5382 17.0228 12.4607 17.0228 12.3825C17.0228 12.3042 17.0074 12.2267 16.9774 12.1543C16.9475 12.082 16.9036 12.0163 16.8482 11.961Z"
+                                  fill="white"
+                                />
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                              >
+                                <path
+                                  d="M16.8482 8.03903L10.8909 13.9964C10.8356 14.0518 10.7699 14.0957 10.6975 14.1257C10.6252 14.1557 10.5477 14.1711 10.4694 14.1711C10.3911 14.1711 10.3136 14.1557 10.2413 14.1257C10.169 14.0957 10.1033 14.0518 10.0479 13.9964L4.0906 8.03903C3.97882 7.92725 3.91602 7.77564 3.91602 7.61755C3.91602 7.45946 3.97882 7.30785 4.0906 7.19607C4.20238 7.08428 4.35399 7.02148 4.51208 7.02148C4.67017 7.02148 4.82178 7.08428 4.93356 7.19607L10.4694 12.7327L16.0053 7.19607C16.0606 7.14072 16.1263 7.09681 16.1986 7.06686C16.271 7.0369 16.3485 7.02148 16.4268 7.02148C16.505 7.02148 16.5825 7.0369 16.6549 7.06686C16.7272 7.09681 16.7929 7.14072 16.8482 7.19607C16.9036 7.25142 16.9475 7.31713 16.9774 7.38944C17.0074 7.46176 17.0228 7.53927 17.0228 7.61755C17.0228 7.69583 17.0074 7.77334 16.9774 7.84565C16.9475 7.91797 16.9036 7.98368 16.8482 8.03903Z"
+                                  fill="white"
+                                />
+                              </svg>
+                            )}
                           </button>
                           {openIndex === index && (
-                            <div className={styles.content}>{item.content}</div>
+                            <div className={styles.content}>
+                              <ul>
+                                {section.subsections?.map((subsection) => (
+                                  <li key={subsection.id}>
+                                    <div className={styles.subsectionContainer}>
+                                      <p className={styles.subsectionHeading}>
+                                        {subsection.subsection_heading}
+                                      </p>
+                                      <div
+                                        className={
+                                          styles.subsectionTimeContainer
+                                        }
+                                      >
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="16"
+                                          height="17"
+                                          viewBox="0 0 16 17"
+                                          fill="none"
+                                          className={styles.svgIcon}
+                                        >
+                                          <path
+                                            d="M9.9974 3.16732H3.9974V13.834H11.9974V5.16732H9.9974V3.16732ZM3.9974 1.83398H10.6641L13.3307 4.50065V13.834C13.3307 14.1876 13.1903 14.5267 12.9402 14.7768C12.6902 15.0268 12.351 15.1673 11.9974 15.1673H3.9974C3.64377 15.1673 3.30464 15.0268 3.05459 14.7768C2.80454 14.5267 2.66406 14.1876 2.66406 13.834V3.16732C2.66406 2.8137 2.80454 2.47456 3.05459 2.22451C3.30464 1.97446 3.64377 1.83398 3.9974 1.83398ZM5.33073 7.83398H10.6641V9.16732H5.33073V7.83398ZM5.33073 10.5007H10.6641V11.834H5.33073V10.5007Z"
+                                            fill="#6D6E6E"
+                                          />
+                                        </svg>
+                                        <span className={styles.subsectionTime}>
+                                          {subsection.subsection_time} min
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
                           )}
                         </div>
                       ))}
@@ -256,8 +297,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
           </div>
         </div>
         <div className={styles.levelUp}>
-          <h2 className="Heading">Level up your game</h2>
-          <FeaturedCourses />
+          <FrequentlyBought courses={courses} heading={"Level up your game"}/>
         </div>
       </section>
     </>
