@@ -44,7 +44,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
   const [sortBySelectedVisible, setSortBySelectedVisible] =
     React.useState<boolean>(false);
 
-  React.useEffect(() => {
+  React.useEffect(() => { 
     let params = {
       name: '',
       sale_price: '',
@@ -57,7 +57,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
         onSuccess(data) {
           console.log(data);
         },
-        onError(error) {
+        onError(error) { 
           console.log(error);
         },
       }),

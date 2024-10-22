@@ -110,7 +110,7 @@ const Reviews: React.FC<ReviewFormValues> = () => {
 
           <Row>
             <Col md={12}>
-              <FormGroup className="d-flex justify-content-between align-items-center p-2">
+              <FormGroup className={styles.ratingFormgroup}>
                 <div>
                   <span className="text-white mr-2">Select Rating</span>
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -202,30 +202,7 @@ const Reviews: React.FC<ReviewFormValues> = () => {
                     style={{ height: "180px", overflow: "hidden" }}
                   >
                     <p className={styles.subHeading}>
-                      {review.review_description &&
-                      review.review_description.trim() ? (
-                        <>
-                          <p>
-                            {showMoreStates ||
-                            review.review_description.split(" ").length <= 3
-                              ? review.review_description
-                              : `${review.review_description
-                                  .split(" ")
-                                  .slice(0, 3)
-                                  .join(" ")}...`}
-                          </p>
-                          {review.review_description.split(" ").length > 3 && (
-                            <span
-                              onClick={() => handleShowMore(index)}
-                              className={styles.seeMore}
-                            >
-                              {showMoreStates ? "Show less" : "Show more"}
-                            </span>
-                          )}
-                        </>
-                      ) : (
-                        <p>No Description</p>
-                      )}
+                      {review.review_description}
                     </p>
                   </div>
                   <div className={styles.cardHeader}>
@@ -233,7 +210,7 @@ const Reviews: React.FC<ReviewFormValues> = () => {
                       <Image
                         width={50}
                         height={50}
-                        src={`${imageUrl}/UserImages/${review.user?.photo}`}
+                        src={`${imageUrl}/user_photo/${review.user?.photo}`}
                         alt="User"
                         className={styles.userImage}
                       />

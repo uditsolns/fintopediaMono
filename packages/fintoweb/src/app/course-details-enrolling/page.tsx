@@ -17,6 +17,7 @@ import VideoPlayer from "@src/components/VideoPlayer/VideoPlayer";
 import { imageUrl } from "shared/src/config/imageUrl";
 import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
 import FrequentlyBought from "../courses/course-details/components/frequently-bought/FrequentlyBought";
+import ShareButton from "@src/components/share-button/ShareButton";
 
 interface CourseEnrollDetailsProps {
   id?: number;
@@ -37,7 +38,11 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   const { upload_file, loading: upload_file_loading } = useAppSelector(
     (state) => state.courseUploadFile
   );
-
+  const shareData = {
+    title: 'Check out this awesome page!',
+    text: 'This is a fantastic page I found!',
+    url: window.location.href,
+  };
   React.useEffect(() => {
     if (id !== undefined) {
       dispatch(getCoursesById({ id }));
@@ -117,7 +122,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
               </defs>
             </svg>
             <span>Your progress (12%)</span>
-            <button className={styles.shareButton}>
+            {/* <button className={styles.shareButton}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -131,7 +136,8 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                 />
               </svg>
               Share
-            </button>
+            </button> */}
+             <ShareButton title={shareData.title} text={shareData.text} url={shareData.url} />
             <span className={styles.fav}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

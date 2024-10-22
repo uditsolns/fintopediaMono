@@ -116,7 +116,7 @@
 .reviewsFormCard {
   display: flex;
   width: 100%;
-  height: 200px;
+  height: 230px;
   align-items: flex-start;
   gap: 17.523px;
   flex-shrink: 0;
@@ -181,6 +181,12 @@
   color: blue;
   text-decoration: underline;
   cursor: pointer;
+}
+.ratingFormgroup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
 }
 .cardHeader {
   display: flex;
@@ -544,4 +550,9 @@
   font-weight: 500;
   line-height: normal;
   letter-spacing: -0.24px;
+}
+@media screen and (max-width: 435px) {
+  .ratingFormgroup {
+    display: block;
+  }
 }

@@ -25,6 +25,7 @@ import { isInCart } from "shared/src/components/atoms/Calculate";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { postSeachCourses } from "shared/src/provider/store/services/search-courses.service";
 
 const CourseFilter: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +43,11 @@ const CourseFilter: React.FC = () => {
   const [loadingCourseId, setLoadingCourseId] = React.useState<number | null>(
     null
   );
+  const { search_courses, loading: search_courses_loading } = useAppSelector(
+    (state) => state.searchCourses
+  );
+  console.log("search_courses", search_courses);
+
   const [slideToShow, setSlideToShow] = useState(4);
   const [activeFilter, setActiveFilter] = useState("All");
 
@@ -145,11 +151,57 @@ const CourseFilter: React.FC = () => {
     category_name: "",
     course_language: "",
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
 
   const languages = ["English"];
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentCourses = (
+    search_courses.length > 0 ? search_courses : filteredCourses
+  ).slice(indexOfFirstItem, indexOfLastItem);
+  console.log("currentCourses", currentCourses);
+  const totalPages = Math.ceil(
+    (search_courses.length > 0
+      ? search_courses.length
+      : filteredCourses.length) / itemsPerPage
+  );
+
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
   const handleFilter = () => {
-    // dispatch(creat)
+    let params = {
+      name: filter?.name,
+      sale_price: filter?.sale_price,
+      category_name: filter?.category_name,
+      course_language: filter?.course_language,
+    };
+    dispatch(
+      postSeachCourses({
+        params,
+        onSuccess(data) {
+          console.log(data);
+        },
+        onError(error) {
+          console.log(error);
+        },
+      })
+    );
   };
+  const renderPagination = () => (
+    <nav>
+      <ul className="pagination">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <li
+            key={index + 1}
+            className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            <a className="page-link">{index + 1}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
   return (
     <>
       {coursesLoading?.courses || categoriesLoading?.categories ? (
@@ -254,27 +306,28 @@ const CourseFilter: React.FC = () => {
           <div className={styles.tradingCourses}>
             <h1>All Investing & Trading Courses</h1>
             <div className={styles.tradingCoursesListing}>
-              <div className="filter">
+              <div className={styles.filter}>
                 <input
                   type="text"
                   placeholder="Search by name"
                   value={filter.name}
+                  className={`${styles.textfield} form-control`}
                   onChange={(e) =>
                     setFilter({ ...filter, name: e.target.value })
                   }
                 />
-
                 <input
                   type="text"
+                  className={`${styles.textfield} form-control`}
                   placeholder="Search by sale price"
                   value={filter.sale_price}
                   onChange={(e) =>
                     setFilter({ ...filter, sale_price: e.target.value })
                   }
                 />
-
                 <select
                   value={filter.category_name}
+                  className={`${styles.textfield} form-control`}
                   onChange={(e) =>
                     setFilter({ ...filter, category_name: e.target.value })
                   }
@@ -286,9 +339,9 @@ const CourseFilter: React.FC = () => {
                     </option>
                   ))}
                 </select>
-
                 <select
                   value={filter.course_language}
+                  className={`${styles.textfield} form-control`}
                   onChange={(e) =>
                     setFilter({ ...filter, course_language: e.target.value })
                   }
@@ -300,12 +353,13 @@ const CourseFilter: React.FC = () => {
                     </option>
                   ))}
                 </select>
-
-                <button onClick={handleFilter}>Filter</button>
+                <button onClick={handleFilter} className="btn btn-lg btn-light">
+                  Filter
+                </button>
               </div>
 
               <Row className="mt-3">
-                {courses.map((course) => {
+                {/* {courses.map((course) => {
                   return (
                     <Col md={4}>
                       <CoursepageMolecule
@@ -316,8 +370,37 @@ const CourseFilter: React.FC = () => {
                       />
                     </Col>
                   );
-                })}
+                })} */}
+
+                {search_courses_loading?.search_courses ? (
+                  <div
+                    className="d-flex justify-content-center align-items-center"
+                    style={{ height: "25vh" }}
+                  >
+                    <LoadingAtom />
+                  </div>
+                ) : null}
+                {search_courses.length > 0
+                  ? search_courses.map((course) => (
+                      <Col md={4} key={course.id}>
+                        <CoursepageMolecule
+                          course={course}
+                          loading={loadingCourseId === course.id}
+                          onClick={() => handleCourseClick(course)}
+                        />
+                      </Col>
+                    ))
+                  : currentCourses.map((course) => (
+                      <Col md={4} key={course.id}>
+                        <CoursepageMolecule
+                          course={course}
+                          loading={loadingCourseId === course.id}
+                          onClick={() => handleCourseClick(course)}
+                        />
+                      </Col>
+                    ))}
               </Row>
+              {renderPagination()}
             </div>
           </div>
           <AchiveingLearningSlider />

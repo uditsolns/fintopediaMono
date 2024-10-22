@@ -7,6 +7,7 @@ import Arrow from "../../assets/Arrow - Down Circle.png";
 import SearchIcon from "../../assets/iconamoon_search-light.png";
 import CartIcon from "../../assets/Shopping-Cart-2.png";
 import UserIcon from "../../assets/mingcute_user-4-fill.png";
+import { FaUserCircle } from "react-icons/fa";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
 export const Navbar = () => {
@@ -53,7 +54,7 @@ export const Navbar = () => {
 
       <div className="flex items-center">
         <Link
-          href="/search"
+          href="/courses"
           prefetch={true}
           className="mx-2 hover:text-gray-300"
         >
@@ -141,16 +142,12 @@ export const Navbar = () => {
           {loading && auth?.token ? (
             <>
               <Link
-                href="/profile"
+                href="/dashboard"
                 prefetch={true}
                 className="mx-2 hover:text-gray-300 flex items-center"
                 onClick={closeMenu}
               >
-                <Image
-                  src={UserIcon}
-                  alt="User"
-                  className="inline-block mr-2"
-                />
+                <FaUserCircle style={{ color: "white", fontSize: "1rem" }} />&nbsp;
                 Profile
               </Link>
               <Link
