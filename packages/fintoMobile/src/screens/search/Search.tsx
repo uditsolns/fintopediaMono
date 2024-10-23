@@ -49,15 +49,16 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
       name: '',
       sale_price: '',
       category_name: '',
+      min_sale_price: '',
+      max_sale_price: '',
       course_language: '',
+      sort_rating: '',
     };
     dispatch(
       postSeachCourses({
         params,
-        onSuccess(data) {
-          console.log(data);
-        },
-        onError(error) { 
+        onSuccess(data) {},
+        onError(error) {
           console.log(error);
         },
       }),
@@ -211,15 +212,31 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
         bodyPayload={(payload: any) => {
           setSortByRating(payload?.rating?.rating);
           setFilterByCourse(payload?.categories?.category_name);
+          let [minSal, maxSal] = payload?.price?.price
+            ? payload?.price?.price?.split(' - ')?.map(Number)
+            : '';
           let params = {
             name: '',
             sale_price: '',
-            category_name: '',
+            category_name: payload?.categories?.category_name || '',
+            min_sale_price: minSal || '',
+            max_sale_price: maxSal || '',
             course_language: '',
-            rating: '',
+            sort_rating: sortBySelectedVisible ? payload?.rating?.value : '',
           };
-          console.log(payload);
-          setIsFullPageModalVisible(false)
+          dispatch(
+            postSeachCourses({
+              params,
+              onSuccess(data) {
+                // setFilterByCourse(null);
+                // setSortByRating(null)
+              },
+              onError(error) {
+                console.log(error);
+              },
+            }),
+          );
+          setIsFullPageModalVisible(false);
         }}
         isRatingVisible={sortBySelectedVisible}
       />

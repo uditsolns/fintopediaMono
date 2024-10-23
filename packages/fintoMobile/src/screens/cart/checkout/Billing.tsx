@@ -5,7 +5,10 @@ import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {
@@ -20,7 +23,6 @@ import {
 } from '@src/components/Calculate';
 import {CheckoutStep} from '@src/components/CheckoutStep';
 import {GrandTotalPrice} from '@src/components/GrandTotalPrice';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import React from 'react';
@@ -28,6 +30,11 @@ import {View} from 'react-native';
 import PhonePePaymentSDK from 'react-native-phonepe-pg';
 import sha256 from 'crypto-js/sha256';
 import base64 from 'react-native-base64';
+import {
+  createPurchaseHistory,
+  getPurchaseHistoryById,
+} from '@shared/src/provider/store/services/PurchaseHistory.service';
+import LoaderAtom from '@src/components/LoaderAtom';
 
 interface BillingProps extends NavType<'Billing'> {}
 
@@ -35,15 +42,14 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
   navigation,
 }) => {
   const routes = useRoute<any>();
+  const dispatch = useAppDispatch();
   let cartData = routes?.params?.cartData;
   const {current_user, auth} = useAppSelector(state => state.auth);
-  const {courseCart, loading: courseCartLoading} = useAppSelector(
-    state => state.courseCart,
-  );
+  const {courseCart} = useAppSelector(state => state.courseCart);
+  const {loading} = useAppSelector(state => state.purchaseHistory);
   const currentDate = new Date().toISOString().toString();
   const currentPurchaseDate = currentDate?.split('T')[0];
   let course_id_arr = courseCart?.map(el => el?.course_id);
-  console.log(course_id_arr);
 
   React.useEffect(() => {
     PhonePePaymentSDK.init(ENVIRONMENT, MERCHANT_ID, '', true)
@@ -117,61 +123,56 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
     )
       .then(response => response.json())
       .then(async res => {
-        console.log('payment success response', JSON.stringify(res));
-
-        const formData = new FormData();
-
-        formData.append('user_id', auth?.user?.id);
-        formData.append('course_id', auth?.user?.id);
-        formData.append('purchase_date', currentPurchaseDate);
-        formData.append(
-          'status',
-          res?.code == 'PAYMENT_SUCCESS' ? 'paid' : 'failed',
-        );
-        formData.append(
-          'payment_status',
-          res?.code == 'PAYMENT_SUCCESS' ? 'paid' : 'failed',
-        );
-        formData.append(
-          'phone_pe_payment_id',
-          res?.data?.transactionId ||
+        const params = {
+          user_id: auth?.user?.id,
+          course_id: course_id_arr,
+          purchase_date: currentPurchaseDate,
+          status: res?.code === 'PAYMENT_SUCCESS' ? 'paid' : 'failed',
+          payment_status: res?.code === 'PAYMENT_SUCCESS' ? 'paid' : 'failed',
+          phone_pe_payment_id:
+            res?.data?.transactionId ||
             res?.data?.paymentInstrument?.pgServiceTransactionId ||
             '',
+          payment_type: res?.data?.paymentInstrument?.type || '',
+          utr: res?.data?.paymentInstrument?.utr || '',
+          upiTransactionId:
+            res?.data?.paymentInstrument?.upiTransactionId || '',
+          accountHolderName:
+            res?.data?.paymentInstrument?.accountHolderName || '',
+          accountType: res?.data?.paymentInstrument?.accountType || '',
+          pgTransactionId: res?.data?.paymentInstrument?.pgTransactionId || '',
+          pgServiceTransactionId:
+            res?.data?.paymentInstrument?.pgServiceTransactionId || '',
+          arn: res?.data?.paymentInstrument?.arn || '',
+          cardType: res?.data?.paymentInstrument?.cardType || '',
+          brn: res?.data?.paymentInstrument?.brn || '',
+          subtotal: cartData?.totalSubTotal || '',
+          total_discount: cartData?.totalDiscount || '',
+          gst: cartData?.gst || '',
+          grand_total: cartData?.totalPay || '',
+        };
+        dispatch(
+          createPurchaseHistory({
+            params,
+            onSuccess(data) {
+              let params = {
+                id: data?.data?.id,
+              };
+              dispatch(
+                getPurchaseHistoryById({
+                  params,
+                  onSuccess(data) {
+                    navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN);
+                  },
+                  onError(error) {},
+                }),
+              );
+            },
+            onError(error) {
+              console.log(error);
+            },
+          }),
         );
-        formData.append(
-          'payment_type',
-          res?.data?.paymentInstrument?.type || '',
-        );
-        formData.append('utr', res?.data?.paymentInstrument?.utr || '');
-        formData.append(
-          'upiTransactionId',
-          res?.data?.paymentInstrument?.upiTransactionId || '',
-        );
-        formData.append(
-          'accountHolderName',
-          res?.data?.paymentInstrument?.accountHolderName || '',
-        );
-        formData.append(
-          'accountType',
-          res?.data?.paymentInstrument?.accountType || '',
-        );
-        formData.append(
-          'pgTransactionId',
-          res?.data?.paymentInstrument?.pgTransactionId || '',
-        );
-        formData.append(
-          'pgServiceTransactionId',
-          res?.data?.paymentInstrument?.pgServiceTransactionId || '',
-        );
-        formData.append('arn', res?.data?.paymentInstrument?.arn || '');
-        formData.append(
-          'cardType',
-          res?.data?.paymentInstrument?.cardType || '',
-        );
-        formData.append('brn', res?.data?.paymentInstrument?.brn || '');
-
-        // await updateTransactionMethod(id, formData,res);
-        // await getAllTransactionsMethod(token, navigation);
       })
       .catch(error => {
         console.error(JSON.stringify(error));
@@ -184,6 +185,11 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
         paddingHorizontal: 0,
         paddingTop: moderateScale(70),
       }}>
+      {loading?.singlePurchaseHistory || loading.create ? (
+        <View style={commonStyle.fullPageLoading}>
+          <LoaderAtom size="large" />
+        </View>
+      ) : null}
       <ScrollViewAtom>
         <View>
           <View>
@@ -257,7 +263,7 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
         btnTitle="Pay now"
         itemCount={cartData?.totalItem}
         price={cartData?.totalPay}
-        discount_price={cartData?.totalDiscount}
+        discount_price={cartData?.actualPrice}
         onPress={() => {
           handlePayment();
         }}

@@ -1,3 +1,4 @@
+import {useFocusEffect} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
@@ -19,39 +20,57 @@ import ProgressBar from '@src/components/ProgressBar';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import React from 'react';
-import {Text, TextStyle, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  BackHandler,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 interface PaymentSuccessProps extends NavType<'PaymentSuccess'> {}
 
 export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
   navigation,
 }) => {
-  const {courses, loading: coursesLoading} = useAppSelector(
-    state => state.courses,
+  const {singlePurchaseHistory, loading} = useAppSelector(
+    state => state.purchaseHistory,
   );
   const [subtotal, setSubtotal] = React.useState<number>(0);
   const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
   const [totalPay, setTotalPay] = React.useState<number>(0);
-  const [gst, setGst] = React.useState<number>(100);
+  const [gst, setGst] = React.useState<number>(0);
+  const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
 
   React.useEffect(() => {
-    if (courses?.length) {
-      let sale_price = sumCalculate(courses, 'sale_price');
-      let actual_price = sumCalculate(courses, 'actual_price');
+    if (singlePurchaseHistory?.courses?.length) {
+      let sale_price = sumCalculate(
+        singlePurchaseHistory?.courses,
+        'sale_price',
+      );
+      let actual_price = sumCalculate(
+        singlePurchaseHistory?.courses,
+        'actual_price',
+      );
       let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
-      let totalPayAmount = addTwoNumber(sale_price, gst);
+      let gstTotal = (sale_price * 18) / 100;
+      let totalPayAmount = addTwoNumber(sale_price, gstTotal);
+      setGst(gstTotal);
+      setActualPricetotal(actual_price);
       setSubtotal(sale_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
     }
-  }, [courses]);
+  }, [singlePurchaseHistory]);
+
   return (
     <GradientTemplate
       style={{
         paddingBottom: 0,
         paddingHorizontal: 0,
       }}>
-      {coursesLoading?.courses ? (
+      {loading?.singlePurchaseHistory ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>
@@ -88,8 +107,8 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
               }
             />
           </View>
-          {courses?.slice(0, 3)?.map((el, index) => {
-            return <PurchaseCourse el={el} />;
+          {singlePurchaseHistory?.courses?.map((el, index) => {
+            return <PurchaseCourse el={el} key={index} />;
           })}
 
           <View
@@ -109,7 +128,7 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
                 preset="medium"
                 style={{marginBottom: mScale.md}}
               />
-              {courses?.slice(0, 3)?.map((el, index) => {
+              {singlePurchaseHistory?.courses?.slice(0, 3)?.map((el, index) => {
                 return <CourseNameAndPrice el={el} />;
               })}
             </View>
@@ -122,8 +141,13 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
             />
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
-              <TextAtom text={'Subtotal'} preset="body" />
-              <TextAtom text={`₹ ${subtotal}`} preset="heading4" />
+              <TextAtom text={'Actual price'} preset="large" />
+              <TextAtom text={`₹ ${actualPricetotal}`} preset="heading3" />
+            </View>
+            <View
+              style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
+              <TextAtom text={'Sale price'} preset="large" />
+              <TextAtom text={`₹ ${subtotal}`} preset="heading3" />
             </View>
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
@@ -223,7 +247,10 @@ const PurchaseCourse = ({el}: {el: CoursesResponse}) => {
         preset="medium"
         style={{color: colorPresets.GRAY}}
       />
-      <ProgressBar hours={'20'} level="intermediate" />
+      <ProgressBar
+        hours={el?.duration_time || ''}
+        level={el?.course_type?.toLowerCase() || 'intermediate'}
+      />
       <View
         style={[commonStyle.flexSpaceBetween, {marginVertical: mScale.base}]}>
         <TextAtom text={`₹ ${el?.sale_price}`} preset="heading3" />

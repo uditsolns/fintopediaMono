@@ -6,7 +6,6 @@ import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAt
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import React from 'react';
 import {Pressable, View} from 'react-native';
 

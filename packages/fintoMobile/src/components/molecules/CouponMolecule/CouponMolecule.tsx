@@ -35,7 +35,7 @@ export default function CouponMolecule({item, onPress}: CouponMoleculeProps) {
             numberOfLines={2}
           />
           <TextAtom
-            text={'On all finance courses'}
+            text={`On all ${item?.course?.name}`}
             preset="small"
             style={{fontWeight: '400', marginTop: mScale.xs, color: '#A2A2A2'}}
             numberOfLines={2}
