@@ -28,15 +28,15 @@ interface FilterModalInterface {
 }
 
 const ratingArr = [
-  {id: 1, rating: 'Low to high'},
-  {id: 2, rating: 'High to low'},
+  {id: 1, rating: 'Low to high', value: 'asc'},
+  {id: 2, rating: 'High to low', value: 'desc'},
 ];
 
 const priceArr = [
   {id: 1, price: '0 - 4000', price_level: 'Rs. 0 - Rs. 4000'},
   {id: 2, price: '4000 - 8000', price_level: 'Rs. 4000 - Rs. 8000'},
   {id: 3, price: '8000 - 12000', price_level: 'Rs. 8000 - Rs. 12000'},
-  {id: 4, price: '12000+', price_level: 'Rs. 12000 and Above'},
+  {id: 4, price: '12000 - 100000', price_level: 'Rs. 12000 and Above'},
 ];
 
 interface RatingProps {

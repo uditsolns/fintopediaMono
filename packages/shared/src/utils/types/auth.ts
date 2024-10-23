@@ -7,6 +7,7 @@ export interface AuthState {
     signout: boolean;
     forgot: boolean;
     confirm: boolean;
+    google_login:boolean
   };
   err: {
     loginErr: any;
@@ -14,6 +15,7 @@ export interface AuthState {
     signoutErr: any;
     forgotErr: any;
     confirmErr: any;
+    google_login_err:any
   };
   token?: string | null;
   auth: AuthResponse | null;

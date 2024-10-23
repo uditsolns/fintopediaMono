@@ -21,9 +21,12 @@ export interface SearchCoursesResponse {
 }
 export interface SearchCoursesFields {
   name: string;
-  sale_price: string;
+  sale_price: string | number;
   category_name: string;
+  min_sale_price: string | number;
+  max_sale_price: string | number;
   course_language: string;
+  sort_rating: string;
 }
 export interface SearchCoursesParams {
   params: SearchCoursesFields;

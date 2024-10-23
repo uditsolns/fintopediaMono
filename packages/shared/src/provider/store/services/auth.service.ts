@@ -36,7 +36,7 @@ export const googleSignIn = createAsyncThunk<
   AuthResponse,
   ForgotPasswordParams,
   { state: RootState }
->("auth/signin", async (params, thunkApi) => {
+>("googleSignIn/signin", async (params, thunkApi) => {
   try {
     const response = await fetch(apiUrl.AUTH.GOOGLE, {
       method: "POST",
