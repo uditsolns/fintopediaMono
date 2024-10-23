@@ -28,6 +28,7 @@ import {
   isSuccessResponse,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import {googleSignIn} from '@shared/src/provider/store/services/auth.service';
 
 interface LoginProps extends NavType<'Login'> {}
 
@@ -63,7 +64,11 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
       await GoogleSignin.hasPlayServices();
       const response = await GoogleSignin.signIn();
       if (isSuccessResponse(response)) {
-        console.log(response?.data);
+        console.log(JSON.stringify(response));
+        let params = {
+          email: response?.data?.user?.email,
+        };
+        await dispatch(googleSignIn(params));
         GoogleSignin.signOut();
       } else {
         // sign in was cancelled by user
