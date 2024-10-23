@@ -3,13 +3,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./CourseDetails.module.css";
-import Image from "next/image";
-import CourseDetailsImg from "../../../assets/courseDetails.png";
-import Subscriber from "../../../assets/subscribers.png";
 import LearnSlider from "./components/learn-slider/LearnSlider";
 import Lessons from "./components/lessons/Lessons";
 import AchiverSlider from "./components/achiveing-slider/AchiverSlider";
-import FeaturedCourses from "@src/app/homepage/FeaturedCourses";
 import {
   getCourses,
   getCoursesById,
@@ -19,9 +15,10 @@ import {
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
-import VideoPlayer from "@src/components/VideoPlayer/VideoPlayer";
-import { imageUrl } from "shared/src/config/imageUrl";
+// import VideoPlayer from "@src/components/VideoPlayer/VideoPlayer";
+// import { imageUrl } from "shared/src/config/imageUrl";
 import FrequentlyBought from "./components/frequently-bought/FrequentlyBought";
+import VideoEmbed from "./components/VideoEmbed";
 
 interface CourseDetailsProps {
   id?: number;
@@ -116,8 +113,17 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
           </div>
         </div>
         <div className={styles.courseDetailsVideo}>
-          <VideoPlayer
+          {/* <VideoPlayer
             src={`${imageUrl}/uploads/course_videos/${singleCourse?.course_video}`}
+          /> */}
+          {/* <iframe
+            src={`https://player.vdocipher.com/v2/?otp=${singleCourse?.course_video_embed?.otp}&playbackInfo=${singleCourse?.course_video_embed?.playbackInfo}`}
+            style={{ border: 0, width: "50%", height: "250px" }}
+            allow="encrypted-media"
+          ></iframe> */}
+          <VideoEmbed
+            otp={singleCourse?.course_video_embed?.otp}
+            playbackInfo={singleCourse?.course_video_embed?.playbackInfo}
           />
         </div>
         <div className={styles.learnSlider}>

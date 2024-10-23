@@ -27,6 +27,9 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { postSeachCourses } from "shared/src/provider/store/services/search-courses.service";
 import Pagination from "@src/components/pagination/Pagination";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
 
 const CourseFilter: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -48,10 +51,13 @@ const CourseFilter: React.FC = () => {
     (state) => state.searchCourses
   );
   console.log("search_courses", search_courses);
-
+  const [searchTerm, setSearchTerm] = useState("");
   const [slideToShow, setSlideToShow] = useState(4);
   const [activeFilter, setActiveFilter] = useState("All");
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
   const setSlides = () => {
     if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
       setSlideToShow(3);
@@ -161,12 +167,19 @@ const CourseFilter: React.FC = () => {
     course_language: "",
     sort_rating: "",
   });
+  console.log("filter", filter);
   const languages = ["English"];
   const ratingArr = [
     { id: 1, rating: "Low to high", value: "asc" },
     { id: 2, rating: "High to low", value: "desc" },
   ];
 
+  // const priceArr = [
+  //   { id: 1, price: [0, 4000], price_level: "Rs. 0 - Rs. 4000" },
+  //   { id: 2, price: [4000, 8000], price_level: "Rs. 4000 - Rs. 8000" },
+  //   { id: 3, price: [8000, 12000], price_level: "Rs. 8000 - Rs. 12000" },
+  //   { id: 4, price: [12000, 100000], price_level: "Rs. 12000 and Above" },
+  // ];
   const priceArr = [
     { id: 1, price: "0 - 4000", price_level: "Rs. 0 - Rs. 4000" },
     { id: 2, price: "4000 - 8000", price_level: "Rs. 4000 - Rs. 8000" },
@@ -174,13 +187,19 @@ const CourseFilter: React.FC = () => {
     { id: 4, price: "12000 - 100000", price_level: "Rs. 12000 and Above" },
   ];
   const handleFilter = () => {
+    let [minSal, maxSal] = filter?.sale_price
+      ? filter?.sale_price?.split(" - ")?.map(Number)
+      : "";
     let params = {
-      name: filter?.name,
-      sale_price: filter?.sale_price,
-      category_name: filter?.category_name,
-      course_language: filter?.course_language,
-      sort_rating: filter?.sort_rating,
+      name: "",
+      sale_price: "",
+      min_sale_price: minSal || "",
+      max_sale_price: maxSal || "",
+      category_name: filter?.category_name || "",
+      course_language: "",
+      sort_rating: filter?.sort_rating || "",
     };
+    console.log("params", params);
     dispatch(
       postSeachCourses({
         params,
@@ -201,21 +220,42 @@ const CourseFilter: React.FC = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentCourses = (
-    search_courses.length > 0 ? search_courses : filteredCourses
+    search_courses.length > 0 ? search_courses : search_courses
   ).slice(indexOfFirstItem, indexOfLastItem);
 
   const totalPages = Math.ceil(
     (search_courses.length > 0
       ? search_courses.length
-      : filteredCourses.length) / itemsPerPage
+      : search_courses.length) / itemsPerPage
   );
 
   // Handle page change
   const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
-
+  React.useEffect(() => {
+    let params = {
+      name: "",
+      sale_price: "",
+      category_name: "",
+      min_sale_price: "",
+      max_sale_price: "",
+      course_language: "",
+      sort_rating: "",
+    };
+    dispatch(
+      postSeachCourses({
+        params,
+        onSuccess(data) {},
+        onError(error) {
+          console.log(error);
+        },
+      })
+    );
+  }, []);
   return (
     <>
-      {coursesLoading?.courses || categoriesLoading?.categories ? (
+      {coursesLoading?.courses ||
+      categoriesLoading?.categories ||
+      search_courses_loading?.search_courses ? (
         <div className={styles.loadingContainer}>
           <div className="fullPageLoading">
             <LoadingAtom
@@ -315,18 +355,37 @@ const CourseFilter: React.FC = () => {
             <FeaturesCourseSlider courses={courses} />
           </div>
           <div className={styles.tradingCourses}>
-            <h1>All Investing & Trading Courses</h1>
+            <div className="row">
+              <div className="col-md-6">
+                <h1>All Investing & Trading Courses</h1>
+              </div>
+              <div className="col-md-6">
+                <TextField
+                  id="input-with-icon-textfield"
+                  placeholder="Search by name"
+                  className={`${styles["search-textfield"]}`}
+                  // className={`${styles.textfield} form-control`}
+                  value={searchTerm}
+                  onChange={handleChange}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <SearchIcon className={styles["search-icon"]} />
+                      </InputAdornment>
+                    ),
+                    classes: {
+                      input: styles["search-input"],
+                    },
+                  }}
+                  InputLabelProps={{
+                    className: styles["search-placeholder"],
+                  }}
+                  variant="outlined"
+                />
+              </div>
+            </div>
             <div className={styles.tradingCoursesListing}>
               <div className={styles.filter}>
-                <input
-                  type="text"
-                  placeholder="Search by name"
-                  value={filter.name}
-                  className={`${styles.textfield} form-control`}
-                  onChange={(e) =>
-                    setFilter({ ...filter, name: e.target.value })
-                  }
-                />
                 <select
                   value={filter.sale_price}
                   className={`${styles.textfield} form-control`}
@@ -334,7 +393,7 @@ const CourseFilter: React.FC = () => {
                     setFilter({ ...filter, sale_price: e.target.value })
                   }
                 >
-                  <option value="">Select Sale Price</option>
+                  <option value="">Filter by price</option>
                   {priceArr.map((price) => (
                     <option key={price.id} value={price.price}>
                       {price.price_level}
@@ -348,27 +407,27 @@ const CourseFilter: React.FC = () => {
                     setFilter({ ...filter, category_name: e.target.value })
                   }
                 >
-                  <option value="">Select Category</option>
+                  <option value="">Filter by category</option>
                   {categories.map((category) => (
                     <option key={category.id} value={category.category_name}>
                       {category.category_name}
                     </option>
                   ))}
                 </select>
-                <select
+                {/* <select
                   value={filter.course_language}
                   className={`${styles.textfield} form-control`}
                   onChange={(e) =>
                     setFilter({ ...filter, course_language: e.target.value })
                   }
                 >
-                  <option value="">Select Language</option>
+                  <option value="">Filter by language</option>
                   {languages.map((language) => (
                     <option key={language} value={language}>
                       {language}
                     </option>
                   ))}
-                </select>
+                </select> */}
                 <select
                   value={filter.sort_rating}
                   className={`${styles.textfield} form-control`}
@@ -376,7 +435,7 @@ const CourseFilter: React.FC = () => {
                     setFilter({ ...filter, sort_rating: e.target.value })
                   }
                 >
-                  <option value={""}>Select Rating</option>
+                  <option value={""}>Sort by rating</option>
                   {ratingArr.map((rate) => (
                     <option key={rate.id} value={rate.value}>
                       {rate.rating}
@@ -397,7 +456,7 @@ const CourseFilter: React.FC = () => {
                     <LoadingAtom />
                   </div>
                 ) : null}
-                {search_courses.length > 0
+                {/* {search_courses.length > 0
                   ? search_courses.map((course) => (
                       <Col md={4} key={course.id}>
                         <CoursepageMolecule
@@ -415,7 +474,23 @@ const CourseFilter: React.FC = () => {
                           onClick={() => handleCourseClick(course)}
                         />
                       </Col>
-                    ))}
+                    ))} */}
+                {currentCourses
+                  ?.filter((course) =>
+                    course.name
+                      .trim()
+                      .toLowerCase()
+                      .includes(searchTerm.trim().toLowerCase())
+                  )
+                  ?.map((course) => (
+                    <Col md={4} key={course.id}>
+                      <CoursepageMolecule
+                        course={course}
+                        loading={loadingCourseId === course.id}
+                        onClick={() => handleCourseClick(course)}
+                      />
+                    </Col>
+                  ))}
               </Row>
               <Pagination
                 currentPage={currentPage}

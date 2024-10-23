@@ -53,9 +53,9 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
       max_sale_price: '',
       course_language: '',
       sort_rating: '',
-    };
+    }; 
     dispatch(
-      postSeachCourses({
+      postSeachCourses({ 
         params,
         onSuccess(data) {},
         onError(error) {

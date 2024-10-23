@@ -1,5 +1,6 @@
 import { UserInfo } from "./auth";
 import { CategoriesResponse } from "./categories";
+import { CoursesResponse } from "./courses";
 
 export interface SearchCoursesResponse {
   id: number;
@@ -38,5 +39,5 @@ export interface SearchCoursesState {
   err: {
     search_courses_err: any;
   };
-  search_courses: SearchCoursesResponse[];
+  search_courses: CoursesResponse[];
 }

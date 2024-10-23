@@ -36,6 +36,10 @@ export interface CourseSubSections {
   subsection_heading: string | null;
   subsection_time: string | null;
   sub_video: string | null;
+  sub_video_embed: {
+    otp: string | null;
+    playbackInfo: string | null;
+  };
 }
 export interface CourseSections {
   id: number;
@@ -76,10 +80,6 @@ export interface CoursesResponse {
   category?: CategoriesResponse | null;
   sections?: CourseSections[];
 }
-
-
-
-
 
 export interface CoursesState {
   loading: {
