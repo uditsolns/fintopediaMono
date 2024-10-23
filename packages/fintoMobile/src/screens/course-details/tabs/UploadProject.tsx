@@ -190,7 +190,7 @@ export const UploadProject: React.FunctionComponent<
                 }),
               );
             }
-          }}
+          }} 
         />
         <DeletePopup
           isVisible={modalVisible2}

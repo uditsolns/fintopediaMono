@@ -107,6 +107,9 @@
   color: #fff;
   background: var(--BG-2, #222431);
 }
+.listSubsection {
+  cursor: pointer;
+}
 .tabsContainer {
   padding: 10px;
 }

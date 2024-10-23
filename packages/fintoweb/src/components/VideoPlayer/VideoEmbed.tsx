@@ -9,10 +9,10 @@ const VideoEmbed: React.FC<VideoEmbedProps> = ({ otp, playbackInfo }) => {
   return (
     <iframe
       src={`https://player.vdocipher.com/v2/?otp=${otp}&playbackInfo=${playbackInfo}`}
-      style={{ border: 0, width: "50%", height: "250px" }}
+      style={{ border: 0, width: "100%", height: "500px" }}
       allow="encrypted-media"
-    ></iframe>
-  );
+    ></iframe> 
+  ); 
 };
 
 export default VideoEmbed;

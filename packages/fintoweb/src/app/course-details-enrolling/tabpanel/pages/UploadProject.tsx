@@ -13,29 +13,20 @@ import { createBanner } from "shared/src/provider/store/services/banner.service"
 
 const UploadProject: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((state) => state.auth);
+  const { singleCourse } = useAppSelector((state) => state.courses);
 
   const handleSubmit = (values: any) => {
-    const formData = new FormData();
-    // formData.append("user_id", "3");
-    // formData.append("course_id", "6");
-    formData.append("name", values.upload_file);
-
+    let formData = new FormData();
+    formData.append("user_id", auth?.user?.id);
+    formData.append("course_id", singleCourse?.id);
+    formData.append("upload_file", values.upload_file);
     dispatch(
-      createBanner(
-        formData
-        // onSuccess: (data) => {
-        //   console.log("File uploaded successfully", data);
-        // },
-        // onError: (error) => {
-        //   console.error("File upload failed", error);
-        //   try {
-        //     const responseData = JSON.parse(error.response);
-        //     console.log("Parsed response:", responseData);
-        //   } catch (e) {
-        //     console.error("Response is not in JSON format, raw response:", error.response);
-        //   }
-        // },
-      )
+      createCourseUploadFile({
+        formData,
+        onSuccess(data) {},
+        onError(error) {},
+      })
     );
   };
 

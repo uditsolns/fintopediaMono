@@ -173,13 +173,6 @@ const CourseFilter: React.FC = () => {
     { id: 1, rating: "Low to high", value: "asc" },
     { id: 2, rating: "High to low", value: "desc" },
   ];
-
-  // const priceArr = [
-  //   { id: 1, price: [0, 4000], price_level: "Rs. 0 - Rs. 4000" },
-  //   { id: 2, price: [4000, 8000], price_level: "Rs. 4000 - Rs. 8000" },
-  //   { id: 3, price: [8000, 12000], price_level: "Rs. 8000 - Rs. 12000" },
-  //   { id: 4, price: [12000, 100000], price_level: "Rs. 12000 and Above" },
-  // ];
   const priceArr = [
     { id: 1, price: "0 - 4000", price_level: "Rs. 0 - Rs. 4000" },
     { id: 2, price: "4000 - 8000", price_level: "Rs. 4000 - Rs. 8000" },
@@ -187,9 +180,12 @@ const CourseFilter: React.FC = () => {
     { id: 4, price: "12000 - 100000", price_level: "Rs. 12000 and Above" },
   ];
   const handleFilter = () => {
+    // let [minSal, maxSal] = filter?.sale_price
+    //   ? filter?.sale_price?.split(" - ")?.map(Number)
+    //   : "";
     let [minSal, maxSal] = filter?.sale_price
-      ? filter?.sale_price?.split(" - ")?.map(Number)
-      : "";
+      ? filter?.sale_price.split(" - ").map(Number) || []
+      : [];
     let params = {
       name: "",
       sale_price: "",
@@ -253,9 +249,7 @@ const CourseFilter: React.FC = () => {
   }, []);
   return (
     <>
-      {coursesLoading?.courses ||
-      categoriesLoading?.categories ||
-      search_courses_loading?.search_courses ? (
+      {coursesLoading?.courses || categoriesLoading?.categories ? (
         <div className={styles.loadingContainer}>
           <div className="fullPageLoading">
             <LoadingAtom
@@ -355,32 +349,19 @@ const CourseFilter: React.FC = () => {
             <FeaturesCourseSlider courses={courses} />
           </div>
           <div className={styles.tradingCourses}>
-            <div className="row">
+            <div className="row mb-3">
               <div className="col-md-6">
                 <h1>All Investing & Trading Courses</h1>
               </div>
               <div className="col-md-6">
-                <TextField
-                  id="input-with-icon-textfield"
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
                   placeholder="Search by name"
-                  className={`${styles["search-textfield"]}`}
-                  // className={`${styles.textfield} form-control`}
+                  className={`${styles.textfield} form-control`}
                   value={searchTerm}
                   onChange={handleChange}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <SearchIcon className={styles["search-icon"]} />
-                      </InputAdornment>
-                    ),
-                    classes: {
-                      input: styles["search-input"],
-                    },
-                  }}
-                  InputLabelProps={{
-                    className: styles["search-placeholder"],
-                  }}
-                  variant="outlined"
                 />
               </div>
             </div>
@@ -414,20 +395,6 @@ const CourseFilter: React.FC = () => {
                     </option>
                   ))}
                 </select>
-                {/* <select
-                  value={filter.course_language}
-                  className={`${styles.textfield} form-control`}
-                  onChange={(e) =>
-                    setFilter({ ...filter, course_language: e.target.value })
-                  }
-                >
-                  <option value="">Filter by language</option>
-                  {languages.map((language) => (
-                    <option key={language} value={language}>
-                      {language}
-                    </option>
-                  ))}
-                </select> */}
                 <select
                   value={filter.sort_rating}
                   className={`${styles.textfield} form-control`}
@@ -442,7 +409,7 @@ const CourseFilter: React.FC = () => {
                     </option>
                   ))}
                 </select>
-                <button onClick={handleFilter} className="btn btn-lg btn-light">
+                <button onClick={handleFilter} className={styles.searchButton}>
                   Filter
                 </button>
               </div>
@@ -456,8 +423,16 @@ const CourseFilter: React.FC = () => {
                     <LoadingAtom />
                   </div>
                 ) : null}
-                {/* {search_courses.length > 0
-                  ? search_courses.map((course) => (
+
+                {!search_courses_loading?.search_courses &&
+                  currentCourses
+                    ?.filter((course) =>
+                      course.name
+                        .trim()
+                        .toLowerCase()
+                        .includes(searchTerm.trim().toLowerCase())
+                    )
+                    ?.map((course) => (
                       <Col md={4} key={course.id}>
                         <CoursepageMolecule
                           course={course}
@@ -465,32 +440,7 @@ const CourseFilter: React.FC = () => {
                           onClick={() => handleCourseClick(course)}
                         />
                       </Col>
-                    ))
-                  : currentCourses.map((course) => (
-                      <Col md={4} key={course.id}>
-                        <CoursepageMolecule
-                          course={course}
-                          loading={loadingCourseId === course.id}
-                          onClick={() => handleCourseClick(course)}
-                        />
-                      </Col>
-                    ))} */}
-                {currentCourses
-                  ?.filter((course) =>
-                    course.name
-                      .trim()
-                      .toLowerCase()
-                      .includes(searchTerm.trim().toLowerCase())
-                  )
-                  ?.map((course) => (
-                    <Col md={4} key={course.id}>
-                      <CoursepageMolecule
-                        course={course}
-                        loading={loadingCourseId === course.id}
-                        onClick={() => handleCourseClick(course)}
-                      />
-                    </Col>
-                  ))}
+                    ))}
               </Row>
               <Pagination
                 currentPage={currentPage}

@@ -21,6 +21,7 @@ import { imageUrl } from "shared/src/config/imageUrl";
 import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
 import FrequentlyBought from "../courses/course-details/components/frequently-bought/FrequentlyBought";
 import ShareButton from "@src/components/share-button/ShareButton";
+import VideoEmbed from "@src/components/VideoPlayer/VideoEmbed";
 
 interface CourseEnrollDetailsProps {
   id?: number;
@@ -62,6 +63,17 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const handleToggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
+  };
+  // video changes
+  const [videoEmbedInfo, setVideoEmbedInfo] = useState({
+    otp: singleCourse?.course_video_embed?.otp,
+    playbackInfo: singleCourse?.course_video_embed?.playbackInfo,
+  });
+  console.log("singleCourse", singleCourse);
+
+  console.log("videoEmbedInfo", videoEmbedInfo);
+  const handleSubsectionClick = (otp, playbackInfo) => {
+    setVideoEmbedInfo({ otp, playbackInfo });
   };
 
   return (
@@ -241,7 +253,16 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                             <div className={styles.content}>
                               <ul>
                                 {section.subsections?.map((subsection) => (
-                                  <li key={subsection.id}>
+                                  <li
+                                    key={subsection.id}
+                                    className={styles.listSubsection}
+                                    onClick={() =>
+                                      handleSubsectionClick(
+                                        subsection.sub_video_embed.otp,
+                                        subsection.sub_video_embed.playbackInfo
+                                      )
+                                    }
+                                  >
                                     <div className={styles.subsectionContainer}>
                                       <p className={styles.subsectionHeading}>
                                         {subsection.subsection_heading}
@@ -265,7 +286,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                                           />
                                         </svg>
                                         <span className={styles.subsectionTime}>
-                                          {subsection.subsection_time} min
+                                          {subsection.subsection_time}
                                         </span>
                                       </div>
                                     </div>
@@ -283,15 +304,14 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
             </div>
             <div className="col-md-8">
               <div className={styles.enrollCourseVideo}>
-                <VideoPlayer
+                {/* <VideoPlayer
                   src={`${imageUrl}/uploads/course_videos/${singleCourse?.course_video}`}
+                /> */}
+
+                <VideoEmbed
+                  otp={videoEmbedInfo.otp}
+                  playbackInfo={videoEmbedInfo.playbackInfo}
                 />
-                {/* <iframe
-                  src="https://player.vdocipher.com/v2/?otp={{ $videoData['otp'] }}&playbackInfo={{ $videoData['playbackInfo'] }}"
-                  style="border:0;width:100%;height:500px"
-                  allow="encrypted-media"
-                  allowfullscreen
-                ></iframe> */}
               </div>
               <div className={styles.tabsContainer}>
                 <h3>Roles and responsibilities of a product manager</h3>
