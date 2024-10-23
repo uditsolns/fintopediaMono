@@ -41,6 +41,7 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
   const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
   const [totalPay, setTotalPay] = React.useState<number>(0);
   const [gst, setGst] = React.useState<number>(0);
+  const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
 
   React.useEffect(() => {
     if (singlePurchaseHistory?.courses?.length) {
@@ -56,24 +57,13 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
       let gstTotal = (sale_price * 18) / 100;
       let totalPayAmount = addTwoNumber(sale_price, gstTotal);
       setGst(gstTotal);
+      setActualPricetotal(actual_price);
       setSubtotal(sale_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
     }
   }, [singlePurchaseHistory]);
-  useFocusEffect(
-    React.useCallback(() => {
-      const onBackPress = (): any => {
-        navigation.navigate(RouteKeys.HOMESCREEN);
-      };
 
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-
-      return () => {
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-      };
-    }, []),
-  );
   return (
     <GradientTemplate
       style={{
@@ -151,8 +141,13 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
             />
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
-              <TextAtom text={'Subtotal'} preset="body" />
-              <TextAtom text={`₹ ${subtotal}`} preset="heading4" />
+              <TextAtom text={'Actual price'} preset="large" />
+              <TextAtom text={`₹ ${actualPricetotal}`} preset="heading3" />
+            </View>
+            <View
+              style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
+              <TextAtom text={'Sale price'} preset="large" />
+              <TextAtom text={`₹ ${subtotal}`} preset="heading3" />
             </View>
             <View
               style={[commonStyle.flexSpaceBetween, {marginBottom: mScale.md}]}>
