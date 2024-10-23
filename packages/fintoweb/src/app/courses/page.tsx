@@ -26,6 +26,7 @@ import { CoursesResponse } from "shared/src/utils/types/courses";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { postSeachCourses } from "shared/src/provider/store/services/search-courses.service";
+import Pagination from "@src/components/pagination/Pagination";
 
 const CourseFilter: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -145,35 +146,40 @@ const CourseFilter: React.FC = () => {
       setLoadingCourseId(null);
     }
   };
+  //   "name": "",
+  // "sale_price": "",
+  // "category_name": "",
+  // "min_sale_price": 5000,
+  // "max_sale_price": 8000,
+  // "course_language":"English"
+  // "sort_rating": "desc"
+  // "sort_rating": "asc"
   const [filter, setFilter] = useState({
     name: "",
     sale_price: "",
     category_name: "",
     course_language: "",
+    sort_rating: "",
   });
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
-
   const languages = ["English"];
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentCourses = (
-    search_courses.length > 0 ? search_courses : filteredCourses
-  ).slice(indexOfFirstItem, indexOfLastItem);
-  console.log("currentCourses", currentCourses);
-  const totalPages = Math.ceil(
-    (search_courses.length > 0
-      ? search_courses.length
-      : filteredCourses.length) / itemsPerPage
-  );
+  const ratingArr = [
+    { id: 1, rating: "Low to high", value: "asc" },
+    { id: 2, rating: "High to low", value: "desc" },
+  ];
 
-  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+  const priceArr = [
+    { id: 1, price: "0 - 4000", price_level: "Rs. 0 - Rs. 4000" },
+    { id: 2, price: "4000 - 8000", price_level: "Rs. 4000 - Rs. 8000" },
+    { id: 3, price: "8000 - 12000", price_level: "Rs. 8000 - Rs. 12000" },
+    { id: 4, price: "12000 - 100000", price_level: "Rs. 12000 and Above" },
+  ];
   const handleFilter = () => {
     let params = {
       name: filter?.name,
       sale_price: filter?.sale_price,
       category_name: filter?.category_name,
       course_language: filter?.course_language,
+      sort_rating: filter?.sort_rating,
     };
     dispatch(
       postSeachCourses({
@@ -187,21 +193,26 @@ const CourseFilter: React.FC = () => {
       })
     );
   };
-  const renderPagination = () => (
-    <nav>
-      <ul className="pagination">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <li
-            key={index + 1}
-            className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
-            onClick={() => handlePageChange(index + 1)}
-          >
-            <a className="page-link">{index + 1}</a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+  // pagination
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentCourses = (
+    search_courses.length > 0 ? search_courses : filteredCourses
+  ).slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(
+    (search_courses.length > 0
+      ? search_courses.length
+      : filteredCourses.length) / itemsPerPage
   );
+
+  // Handle page change
+  const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
+
   return (
     <>
       {coursesLoading?.courses || categoriesLoading?.categories ? (
@@ -316,15 +327,20 @@ const CourseFilter: React.FC = () => {
                     setFilter({ ...filter, name: e.target.value })
                   }
                 />
-                <input
-                  type="text"
-                  className={`${styles.textfield} form-control`}
-                  placeholder="Search by sale price"
+                <select
                   value={filter.sale_price}
+                  className={`${styles.textfield} form-control`}
                   onChange={(e) =>
                     setFilter({ ...filter, sale_price: e.target.value })
                   }
-                />
+                >
+                  <option value="">Select Sale Price</option>
+                  {priceArr.map((price) => (
+                    <option key={price.id} value={price.price}>
+                      {price.price_level}
+                    </option>
+                  ))}
+                </select>
                 <select
                   value={filter.category_name}
                   className={`${styles.textfield} form-control`}
@@ -353,25 +369,26 @@ const CourseFilter: React.FC = () => {
                     </option>
                   ))}
                 </select>
+                <select
+                  value={filter.sort_rating}
+                  className={`${styles.textfield} form-control`}
+                  onChange={(e) =>
+                    setFilter({ ...filter, sort_rating: e.target.value })
+                  }
+                >
+                  <option value={""}>Select Rating</option>
+                  {ratingArr.map((rate) => (
+                    <option key={rate.id} value={rate.value}>
+                      {rate.rating}
+                    </option>
+                  ))}
+                </select>
                 <button onClick={handleFilter} className="btn btn-lg btn-light">
                   Filter
                 </button>
               </div>
 
               <Row className="mt-3">
-                {/* {courses.map((course) => {
-                  return (
-                    <Col md={4}>
-                      <CoursepageMolecule
-                        key={course.id}
-                        course={course}
-                        loading={loadingCourseId === course.id}
-                        onClick={() => handleCourseClick(course)}
-                      />
-                    </Col>
-                  );
-                })} */}
-
                 {search_courses_loading?.search_courses ? (
                   <div
                     className="d-flex justify-content-center align-items-center"
@@ -400,7 +417,11 @@ const CourseFilter: React.FC = () => {
                       </Col>
                     ))}
               </Row>
-              {renderPagination()}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
             </div>
           </div>
           <AchiveingLearningSlider />
