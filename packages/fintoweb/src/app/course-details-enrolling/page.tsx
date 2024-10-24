@@ -22,6 +22,7 @@ import { getCourseReviews } from "shared/src/provider/store/services/course-revi
 import FrequentlyBought from "../courses/course-details/components/frequently-bought/FrequentlyBought";
 import ShareButton from "@src/components/share-button/ShareButton";
 import VideoEmbed from "@src/components/VideoPlayer/VideoEmbed";
+import { getCourseUploadFile } from "shared/src/provider/store/services/course-upload-file.service";
 
 interface CourseEnrollDetailsProps {
   id?: number;
@@ -54,6 +55,8 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     dispatch(getCourseNotes());
     dispatch(getCourseReviews());
     dispatch(getCourses());
+    dispatch(getCourseUploadFile());
+
   }, [id, dispatch]);
 
   const [isAccordionOpen, setIsAccordionOpen] = useState(true);
@@ -66,12 +69,18 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   };
   // video changes
   const [videoEmbedInfo, setVideoEmbedInfo] = useState({
-    otp: singleCourse?.course_video_embed?.otp,
-    playbackInfo: singleCourse?.course_video_embed?.playbackInfo,
+    otp: null,
+    playbackInfo: null,
   });
-  console.log("singleCourse", singleCourse);
+  React.useEffect(() => {
+    if (singleCourse?.course_video_embed) {
+      setVideoEmbedInfo({
+        otp: singleCourse.course_video_embed.otp,
+        playbackInfo: singleCourse.course_video_embed.playbackInfo,
+      });
+    }
+  }, [singleCourse]);
 
-  console.log("videoEmbedInfo", videoEmbedInfo);
   const handleSubsectionClick = (otp, playbackInfo) => {
     setVideoEmbedInfo({ otp, playbackInfo });
   };

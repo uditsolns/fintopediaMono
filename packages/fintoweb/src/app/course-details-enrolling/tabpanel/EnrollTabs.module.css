@@ -551,8 +551,78 @@
   line-height: normal;
   letter-spacing: -0.24px;
 }
+.resourceActionsBtn {
+  width: 40px;
+  height: 29px;
+  border-radius: 8px;
+  background: white;
+  color: #090a0b;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.24px;
+}
+
 @media screen and (max-width: 435px) {
   .ratingFormgroup {
     display: block;
   }
+}
+/* upload Project */
+.container {
+  color: white;
+  padding: 2rem; 
+}
+
+.title {
+  font-size: 1.5rem; 
+  font-weight: bold;
+  margin-bottom: 1.5rem; 
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  padding: 1rem;
+  position: relative;
+  border-radius: 12px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: var(--BG-2, #222431);
+}
+
+.statusBadge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.cardDate {
+  color: #a8a8a8;
+  font-size: 0.875rem;
+}
+
+.dropdownButton {
+  padding: 0;
+  color: white;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.dropdownItem:hover {
+  background-color: #343a40;
+  color: #fff;
 }

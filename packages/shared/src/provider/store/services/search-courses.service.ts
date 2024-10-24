@@ -16,14 +16,14 @@ export const postSeachCourses = createAsyncThunk<
   { state: RootState }
 >("postSeachCourses/post", async ({ params, onSuccess, onError }, thunkApi) => {
   try {
-    const state = thunkApi.getState();
-    const token = state.auth?.auth?.token;
+    // const state = thunkApi.getState();
+    // const token = state.auth?.auth?.token;
 
     const response = await fetch(apiUrl.SEARCH_COURSES.POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(params),
     });

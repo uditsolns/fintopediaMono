@@ -9,9 +9,13 @@ import CartIcon from "../../assets/Shopping-Cart-2.png";
 import UserIcon from "../../assets/mingcute_user-4-fill.png";
 import { FaUserCircle } from "react-icons/fa";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import styles from './Navbar.module.css';
 
 export const Navbar = () => {
   const { auth, loading } = useAppSelector((state) => state.auth);
+  const { courseCart } = useAppSelector((state) => state.courseCart);
+  console.log("cartCount", courseCart?.length);
+
   const [isOpen, setIsOpen] = useState(false);
 
   function getMenuClasses() {
@@ -106,14 +110,33 @@ export const Navbar = () => {
 
         <div className={getMenuClasses()}>
           {loading && auth?.token ? (
-            <Link
-              href="/cart"
-              prefetch={true}
-              className="mx-2 hover:text-gray-300 flex items-center"
-            >
-              <Image src={CartIcon} alt="Cart" className="inline-block mr-2" />
-              Cart
-            </Link>
+            // <Link
+            //   href="/cart"
+            //   prefetch={true}
+            //   className="mx-2 hover:text-gray-300 flex items-center"
+            // >
+            //   {courseCart?.length > 0 && (
+            //     <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+            //       {courseCart?.length}
+            //     </span>
+            //   )}
+            //   <Image src={CartIcon} alt="Cart" className="inline-block mr-2" />
+            //   Cart
+
+            // </Link>
+            <div className={styles.cartContainer}>
+              <Link
+                href="/cart"
+                prefetch={true}
+                className="mx-2 hover:text-gray-300 flex items-center"
+              >
+                {courseCart?.length > 0 && (
+                  <span className={styles.cartBadge}>{courseCart.length}</span>
+                )}
+                <Image src={CartIcon} alt="Cart" className={styles.cartIcon} />
+                
+              </Link>
+            </div>
           ) : (
             <Link
               href="/auth/login"
@@ -124,21 +147,7 @@ export const Navbar = () => {
               Cart
             </Link>
           )}
-          {/* <Link
-            href="/auth/register"
-            prefetch={true}
-            className="mx-2 hover:text-gray-300 flex items-center"
-          >
-            Sign Up
-          </Link>
-          <Link
-            href="/auth/login"
-            prefetch={true}
-            className="mx-2 hover:text-gray-300 flex items-center bg-white text-black py-2 px-4 rounded-md"
-          >
-            <Image src={UserIcon} alt="User" className="inline-block mr-2" />
-            Login
-          </Link> */}
+
           {loading && auth?.token ? (
             <>
               <Link
@@ -147,8 +156,8 @@ export const Navbar = () => {
                 className="mx-2 hover:text-gray-300 flex items-center"
                 onClick={closeMenu}
               >
-                <FaUserCircle style={{ color: "white", fontSize: "1rem" }} />&nbsp;
-                Profile
+                <FaUserCircle style={{ color: "white", fontSize: "1rem" }} />
+                &nbsp; Profile
               </Link>
               <Link
                 href="/auth/logout"

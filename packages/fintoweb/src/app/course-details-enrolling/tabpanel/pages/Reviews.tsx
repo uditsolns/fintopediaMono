@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 import styles from "../EnrollTabs.module.css";
 import Link from "next/link";
-import User from "../../../../assets/userCircle.png";
+import User from "../../../../assets/user.jpg";
 import Image from "next/image";
 import {
   useAppDispatch,
@@ -20,42 +20,36 @@ import {
 import { toast } from "react-toastify";
 import { createCourseReview } from "shared/src/provider/store/services/course-review.service";
 import { imageUrl } from "shared/src/config/imageUrl";
+import Pagination from "@src/components/pagination/Pagination";
 interface ReviewFormValues {
   review: string;
   rating: string;
 }
-const stocks = new Array(4).fill({
-  userName: "Priyam Sharma",
-  userDesignation: "Product Advisor",
-  userImage: User,
-  mainHeading: "Access to Quality Education",
-  subHeading: `Online learning has completely transformed my educational experience. The flexibility to attend classes and complete assignments on my own schedule has been a game-changer for me. It's allowed me to balance my job and family commitments while pursuing my degree. I'm so grateful for the opportunity to learn this way!`,
-  courseLink: "Basics of Stock Market",
-});
+
 const Reviews: React.FC<ReviewFormValues> = () => {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
   const { singleCourse } = useAppSelector((state) => state.courses);
   const { course_review } = useAppSelector((state) => state.courseReviews);
-  console.log("course_review", course_review);
   const [review, setReview] = React.useState<string | null>("");
   const [rating, setRating] = React.useState<number | null>(0);
 
-  // Array to keep track of the "show more" state for each review
-  const [showMoreStates, setShowMoreStates] = React.useState<boolean[]>([]);
+  // pagination
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const itemsPerPage = 2;
 
-  // Initialize showMoreStates based on the number of reviews
-  React.useEffect(() => {
-    if (course_review) {
-      setShowMoreStates(new Array(course_review.length).fill(false));
-    }
-  }, [course_review]);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentReviews = (
+    course_review.length > 0 ? course_review : course_review
+  ).slice(indexOfFirstItem, indexOfLastItem);
 
-  const handleShowMore = (index: number) => {
-    const updatedShowMoreStates = [...showMoreStates];
-    updatedShowMoreStates[index] = !updatedShowMoreStates[index];
-    setShowMoreStates(updatedShowMoreStates);
-  };
+  const totalPages = Math.ceil(
+    (course_review.length > 0 ? course_review.length : course_review.length) /
+      itemsPerPage
+  );
+
+  const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
 
   const handleSubmit = async () => {
     let params = {
@@ -101,13 +95,16 @@ const Reviews: React.FC<ReviewFormValues> = () => {
                   value={review}
                   className={styles.textareaField}
                   onChange={(e) => setReview(e.target.value)}
-                  placeholder="Write a review..."
+                  placeholder={`Write a review... (${review.length}/250 characters)`}
                   rows={4}
+                  maxLength={250}
                 />
               </FormGroup>
             </Col>
+            <p className={styles.characterCount}>
+              {`Write a review... (${review.length}/250 characters)`}
+            </p>
           </Row>
-
           <Row>
             <Col md={12}>
               <FormGroup className={styles.ratingFormgroup}>
@@ -155,51 +152,13 @@ const Reviews: React.FC<ReviewFormValues> = () => {
       <div className={styles.allReviews}>
         <h1>All Reviews</h1>
         <Row className="mt-3">
-          {/* {course_review?.map((review, index) => {
-            return (
-              <Col md={6} key={index} className="mt-3">
-                <div className={styles.profileCard}>
-                  <div className={styles.cardBody}>
-                    <p className={styles.subHeading}>
-                      {review.review_description}
-                    </p>
-                  </div>
-                  <div className={styles.cardHeader}>
-                    <div className={styles.userInfo}>
-                      <Image
-                        width={50}
-                        height={50}
-                        // src={
-                        //   !review.user?.photo
-                        //     ? `${User}`
-                        //     : `${imageUrl}/UserImages/${review.user?.photo}`
-                        // }
-                        src={`${imageUrl}/UserImages/${review.user?.photo}`}
-                        alt="User"
-                        className={styles.userImage}
-                      />
-                      <div className={styles.userDetails}>
-                        <h4 className={styles.userName}>
-                          {review.user?.surname_name}
-                          {review.user?.first_name}
-                        </h4>
-                        <p className={styles.userDesignation}>
-                          {review.user?.bio}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            );
-          })} */}
-          {course_review?.map((review, index) => {
+          {currentReviews?.map((review, index) => {
             return (
               <Col md={6} key={index} className="mt-3">
                 <div className={`${styles.profileCard} d-flex flex-column`}>
                   <div
                     className={styles.cardBody}
-                    style={{ height: "180px", overflow: "hidden" }}
+                    style={{ height: "200px", overflow: "hidden" }}
                   >
                     <p className={styles.subHeading}>
                       {review.review_description}
@@ -210,7 +169,11 @@ const Reviews: React.FC<ReviewFormValues> = () => {
                       <Image
                         width={50}
                         height={50}
-                        src={`${imageUrl}/user_photo/${review.user?.photo}`}
+                        src={
+                          review.user?.photo
+                            ? `${imageUrl}/uploads/user_photo/${review.user.photo}`
+                            : User
+                        }
                         alt="User"
                         className={styles.userImage}
                       />
@@ -229,6 +192,11 @@ const Reviews: React.FC<ReviewFormValues> = () => {
             );
           })}
         </Row>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );

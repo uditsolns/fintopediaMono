@@ -78,7 +78,7 @@ const CourseFilter: React.FC = () => {
   React.useEffect(() => {
     dispatch(getCourses());
     dispatch(getCategories());
-    dispatch(getCourseCart());
+    // dispatch(getCourseCart());
   }, []);
 
   const filteredCourses = courses.filter(
@@ -152,14 +152,7 @@ const CourseFilter: React.FC = () => {
       setLoadingCourseId(null);
     }
   };
-  //   "name": "",
-  // "sale_price": "",
-  // "category_name": "",
-  // "min_sale_price": 5000,
-  // "max_sale_price": 8000,
-  // "course_language":"English"
-  // "sort_rating": "desc"
-  // "sort_rating": "asc"
+ 
   const [filter, setFilter] = useState({
     name: "",
     sale_price: "",
@@ -180,9 +173,6 @@ const CourseFilter: React.FC = () => {
     { id: 4, price: "12000 - 100000", price_level: "Rs. 12000 and Above" },
   ];
   const handleFilter = () => {
-    // let [minSal, maxSal] = filter?.sale_price
-    //   ? filter?.sale_price?.split(" - ")?.map(Number)
-    //   : "";
     let [minSal, maxSal] = filter?.sale_price
       ? filter?.sale_price.split(" - ").map(Number) || []
       : [];
@@ -209,7 +199,6 @@ const CourseFilter: React.FC = () => {
     );
   };
   // pagination
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
@@ -225,7 +214,6 @@ const CourseFilter: React.FC = () => {
       : search_courses.length) / itemsPerPage
   );
 
-  // Handle page change
   const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
   React.useEffect(() => {
     let params = {

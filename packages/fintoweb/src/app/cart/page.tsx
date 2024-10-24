@@ -49,37 +49,46 @@ export default function Cart() {
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
   );
-  const { courseCart, loading: courseCartLoading } = useAppSelector(
-    (state) => state.courseCart
-  );
+  const {
+    courseCart,
+    loading: courseCartLoading,
+    delete: deleteCart,
+    create,
+  } = useAppSelector((state) => state.courseCart);
   const { courses_save_later, loading: coursesSaveLaterLoading } =
     useAppSelector((state) => state.coursesSaveLater);
   const { auth } = useAppSelector((state) => state.auth);
 
   const [subtotal, setSubtotal] = React.useState<number>(0);
+  const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
   const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
   const [totalPay, setTotalPay] = React.useState<number>(0);
-  const [gst, setGst] = React.useState<number>(100);
+  const [gst, setGst] = React.useState<number>(0);
   const [loadingCourseId, setLoadingCourseId] = React.useState<number | null>(
     null
   );
+
+  React.useEffect(() => {
+    if (courseCart) {
+      let sale_price = sumCalculate(courseCart, "sale_price");
+      let actual_price = sumCalculate(courseCart, "actual_price");
+      let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
+      let gstTotal = (sale_price * 18) / 100;
+      let totalPayAmount = addTwoNumber(sale_price, gstTotal);
+      setGst(gstTotal);
+      setSubtotal(sale_price);
+      setActualPricetotal(actual_price);
+      setTotalDiscount(totalDiscountAmount);
+      setTotalPay(totalPayAmount);
+    }
+  }, [courseCart, create, deleteCart]);
 
   React.useEffect(() => {
     dispatch(getCourses());
     dispatch(getCourseCart());
     dispatch(getCoursesSaveLater());
   }, []);
-  React.useEffect(() => {
-    if (courseCart?.length) {
-      let sale_price = sumCalculate(courseCart, "sale_price");
-      let actual_price = sumCalculate(courseCart, "actual_price");
-      let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
-      let totalPayAmount = addTwoNumber(sale_price, gst);
-      setSubtotal(sale_price);
-      setTotalDiscount(totalDiscountAmount);
-      setTotalPay(totalPayAmount);
-    }
-  }, [courseCart]);
+
   const handleCourseClick = async (course: CoursesResponse) => {
     setLoadingCourseId(course.id);
     if (!auth?.token) {
@@ -463,17 +472,27 @@ export default function Cart() {
                       </Button>
                       <div className={styles.summaryText}>
                         <div className="d-flex justify-content-between mt-3">
-                          <span className={styles.subtotalText}>Subtotal</span>
+                          <span className={styles.subtotalText}>
+                            Actual Price
+                          </span>
+                          <span className={styles.subtotalPrice}>
+                            ₹{actualPricetotal}
+                          </span>
+                        </div>
+                        <div className="d-flex justify-content-between mt-3">
+                          <span className={styles.subtotalText}>
+                            Sale Price
+                          </span>
                           <span className={styles.subtotalPrice}>
                             ₹{subtotal}
                           </span>
                         </div>
-                        <div
+                        {/* <div
                           className={`${styles.discount} d-flex justify-content-between mt-3`}
                         >
                           <span className={styles.textLightGray}>Discount</span>
                           <h6>- ₹{totalDiscount}</h6>
-                        </div>
+                        </div> */}
                         <div className="d-flex justify-content-between mt-3">
                           <span className={styles.textLightGray}>GST</span>
                           <span className={styles.textLightGray}>+ ₹{gst}</span>

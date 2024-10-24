@@ -1,31 +1,108 @@
 "use client";
 import React from "react";
 import styles from "../EnrollTabs.module.css";
-import { Button, Col, InputGroup, Label, Row } from "reactstrap";
-import { createCourseUploadFile } from "shared/src/provider/store/services/course-upload-file.service";
+import {
+  Button,
+  Col,
+  InputGroup,
+  Label,
+  Row,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
+import { FaEllipsisV, FaEdit, FaTrashAlt, FaEye } from "react-icons/fa";
+import {
+  createCourseUploadFile,
+  deleteCourseUploadFile,
+} from "shared/src/provider/store/services/course-upload-file.service";
 import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import { TextField } from "@mui/material";
 import { Form, Formik } from "formik";
-import { createBanner } from "shared/src/provider/store/services/banner.service";
+import { toast } from "react-toastify";
+import LoadingAtom from "@src/components/loader/LoadingAtom";
+import { formatDate, getFileSize } from "./Resources";
+import { imageUrl } from "shared/src/config/imageUrl";
+import Pagination from "@src/components/pagination/Pagination";
 
 const UploadProject: React.FC = () => {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
-  const { singleCourse } = useAppSelector((state) => state.courses);
+  const { singleCourse, loading: coursesLoading } = useAppSelector(
+    (state) => state.courses
+  );
+  const { upload_file, loading: upload_file_loading } = useAppSelector(
+    (state) => state.courseUploadFile
+  );
+  const [openDropdown, setOpenDropdown] = React.useState<number | null>(null);
 
-  const handleSubmit = (values: any) => {
+  // pagination
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const itemsPerPage = 4;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentFiles = (
+    upload_file.length > 0 ? upload_file : upload_file
+  ).slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(
+    (upload_file.length > 0 ? upload_file.length : upload_file.length) /
+      itemsPerPage
+  );
+
+  const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const handleViewPdf = (fileName) => {
+    const fileUrl = `${imageUrl}/uploads/course_files_pdf/${fileName}`;
+    window.open(fileUrl, "_blank");
+  };
+  const handleDelete = (id) => {
+    dispatch(
+      deleteCourseUploadFile({
+        id,
+        onSuccess(data) {
+          console.log("data upload delete");
+          toast.success("File Deleted Successfully!", {
+            position: "top-right",
+            theme: "light",
+          });
+        },
+        onError(error) {},
+      })
+    );
+  };
+  // const handleAction = (action: string, fileName: string) => {
+  //   console.log(`${action} action on ${fileName}`);
+  //   setOpenDropdown(null);
+  // };
+
+  const handleSubmit = (values: any, { resetForm, setSubmitting }: any) => {
     let formData = new FormData();
-    formData.append("user_id", auth?.user?.id);
-    formData.append("course_id", singleCourse?.id);
+    formData.append("user_id", auth?.user?.id.toString());
+    formData.append("course_id", singleCourse?.id.toString());
     formData.append("upload_file", values.upload_file);
+
     dispatch(
       createCourseUploadFile({
         formData,
-        onSuccess(data) {},
-        onError(error) {},
+        onSuccess(data) {
+          console.log("data");
+          toast.success("File Uploaded Successfully!", {
+            position: "top-right",
+            theme: "light",
+          });
+          resetForm();
+
+          setSubmitting(false);
+        },
+        onError(error) {
+          setSubmitting(false);
+        },
       })
     );
   };
@@ -56,6 +133,7 @@ const UploadProject: React.FC = () => {
                         variant="standard"
                         id="upload_file"
                         type="file"
+                        required
                         name="upload_file"
                         inputProps={{ multiple: true }}
                         onChange={(e) => {
@@ -74,34 +152,123 @@ const UploadProject: React.FC = () => {
                   </Col>
                 </Row>
                 <Row style={{ justifyContent: "center" }} className="mt-3">
-                  <Col md={4}>
-                    <Button
+                  <div className={styles.uploadButton}>
+                    <button
                       type="submit"
-                      disabled={formProps.isSubmitting}
-                      color="primary"
-                      block
+                      // onClick={() => {
+                      //   handleSubmit();
+                      // }}
                     >
-                      Submit
-                    </Button>
-                  </Col>
+                      {upload_file_loading?.create ? (
+                        <LoadingAtom size="sm" color="dark" />
+                      ) : (
+                        <>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="25"
+                            height="24"
+                            viewBox="0 0 25 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M4.5 16L4.5 17C4.5 18.6569 5.84315 20 7.5 20L17.5 20C19.1569 20 20.5 18.6569 20.5 17L20.5 16M16.5 8L12.5 4M12.5 4L8.5 8M12.5 4L12.5 16"
+                              stroke="#090A0B"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                          Upload a file
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </Row>
               </Form>
             );
           }}
         </Formik>
       </div>
-      <div className={styles.previousUploadProject}>
-        <h1>Previously Uploaded Projects</h1>
-        <Row className="mt">
-          <Col md={6} className="mt-3">
-            <div className={styles.uploadFiles}>
-              <h1 className={styles.uploadFilename}>Sample File.pdf</h1>
-              <span className={styles.uploadFiletime}>
-                Sat, Apr 20 . 7.5 MB
-              </span>
+      <div className={styles.container}>
+        <h1 className={styles.title}>Previously Uploaded Projects</h1>
+        <div className={styles.grid}>
+          {currentFiles.map((file, index) => (
+            <div key={index} className={styles.card}>
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <div className="d-flex">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                  >
+                    <path
+                      d="M12.0013 16H20.0013M12.0013 21.3333H20.0013M22.668 28H9.33464C7.86188 28 6.66797 26.8061 6.66797 25.3333V6.66667C6.66797 5.19391 7.86188 4 9.33464 4H16.7824C17.136 4 17.4751 4.14048 17.7252 4.39052L24.9441 11.6095C25.1942 11.8595 25.3346 12.1987 25.3346 12.5523V25.3333C25.3346 26.8061 24.1407 28 22.668 28Z"
+                      stroke="#FCFCFC"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+
+                  <span className={styles.resourseBtn}>
+                    {file.upload_file
+                      ? typeof file.upload_file === "string"
+                        ? file.upload_file.split(".").pop()?.toUpperCase()
+                        : "UNKNOWN"
+                      : "NO FILE UPLOADED"}
+                  </span>
+                </div>
+                <Dropdown
+                  isOpen={openDropdown === index}
+                  toggle={() =>
+                    setOpenDropdown(openDropdown === index ? null : index)
+                  }
+                >
+                  <DropdownToggle
+                    tag="span"
+                    data-toggle="dropdown"
+                    aria-expanded={openDropdown === index}
+                    className={styles.dropdownButton}
+                  >
+                    <Button color="link" className="p-0">
+                      <FaEllipsisV />
+                    </Button>
+                  </DropdownToggle>
+                  <DropdownMenu end>
+                    <DropdownItem
+                      className={styles.dropdownItem}
+                      onClick={() => handleViewPdf(file.upload_file)}
+                    >
+                      <FaEye className="me-2" />
+                      View
+                    </DropdownItem>
+
+                    <DropdownItem
+                      className={styles.dropdownItem}
+                      onClick={() => handleDelete(file.id)}
+                    >
+                      <FaTrashAlt className="me-2" />
+                      Delete
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+              <div className={styles.cardTitle}>
+                <h2 className="h6 mb-0">Demo.pdf</h2>
+              </div>
+              <p className={styles.cardDate}>
+                {formatDate(file.created_at)} • {getFileSize(file.upload_file)}
+              </p>
             </div>
-          </Col>
-        </Row>
+          ))}
+        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );

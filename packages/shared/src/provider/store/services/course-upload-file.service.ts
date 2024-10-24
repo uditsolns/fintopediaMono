@@ -77,7 +77,6 @@ export const createCourseUploadFile = createAsyncThunk<
       const response = await fetch(apiUrl.COURSE_UPLOAD_FILE.POST, {
         method: "POST",
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
         body: formData,
