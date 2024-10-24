@@ -143,7 +143,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
           if (item?.course_video_embed) {
             dispatch(storeVideoUrl(item?.course_video_embed));
           }
-          navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
             id: item?.id,
           });
         }}
