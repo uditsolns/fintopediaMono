@@ -7,7 +7,6 @@ import {
   useAppSelector,
 } from '@shared/src/provider/store/types/storeTypes';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
-import { PurchaseHistoryResponse } from '@shared/src/utils/types/PurchaseHistory';
 import { UserCourseHistoryResponse } from '@shared/src/utils/types/UserCourseHistory';
 import LoaderAtom from '@src/components/LoaderAtom';
 import PurchaseHistoryMolecule from '@src/components/molecules/PurchaseHistoryMolecule/PurchaseHistoryMolecule';

@@ -73,7 +73,7 @@ export const BeforeEnrollingCourseAtom: React.FC<
           />
           <TextAtom
             preset="small"
-            text={'9 topics • 1 hrs'}
+            // text={`${item?.section_time || ''}`}
             style={{color: colorPresets.PRIMARY}}
           />
         </View>

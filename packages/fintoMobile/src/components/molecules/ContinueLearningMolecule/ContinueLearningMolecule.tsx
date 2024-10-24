@@ -50,6 +50,7 @@ export default function ContinueLearningMolecule({
           numberOfLines={3}
           style={{marginTop: mScale.md}}
         />
+        {item?.courses_section?.section_time ? 
         <View style={[commonStyle.flexStart, {marginTop: mScale.lg}]}>
           <TextAtom
             text={'Lecture'}
@@ -72,7 +73,7 @@ export default function ContinueLearningMolecule({
               {marginStart: mScale.md, color: colorPresets.GRAY},
             ]}
           />
-        </View>
+        </View> : null }
       </View>
     </Pressable>
   );

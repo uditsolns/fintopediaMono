@@ -10,7 +10,7 @@ import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecu
 import ProgressBar from '@src/components/ProgressBar';
 import RatingReview from '@src/components/RatingReview';
 import React from 'react';
-import {FlatList, Pressable, View} from 'react-native';
+import {Alert, FlatList, Pressable, View, ViewStyle} from 'react-native';
 import {BeforeEnrollingCourseAtom} from '@src/components/BeforeEnrollingCourseAtom';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import LearningMolecule from '@src/components/molecules/LearningMolecule/LearningMolecule';
@@ -30,9 +30,18 @@ import {
 import {getCoursesSections} from '@shared/src/provider/store/services/courseSections.service';
 import {getCourseReviews} from '@shared/src/provider/store/services/course-review.service';
 import {CourseReviewResponse} from '@shared/src/utils/types/course-review';
+import {VdoPlayerView} from 'vdocipher-rn-bridge';
+import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
+import {clearVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
+import Orientation from 'react-native-orientation-locker';
 
 interface BeforeEnrollingCourseDetailsProps
   extends NavType<'BeforeEnrollingCourseDetails'> {}
+const testOtp = {
+  otp: '20160313versASE323hWIImvm6bLVuhCJxeBlUvQXCD7jEa5wnwzZwAXyw1BsDmK',
+  playbackInfo:
+    'eyJ2aWRlb0lkIjoiNDk3NzExMzcwMTdkNDAwYzg4NDI0ZTNjNmEzZDQ3NTQifQ==',
+};
 
 export const BeforeEnrollingCourseDetails: React.FunctionComponent<
   BeforeEnrollingCourseDetailsProps
@@ -42,6 +51,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
   const {
     courses,
     singleCourse,
+    video_url,
     loading: coursesLoading,
   } = useAppSelector(state => state.courses);
   const {coursesSection, loading: coursesSectionLoading} = useAppSelector(
@@ -52,6 +62,10 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
   );
 
   const [refreshLoading, setRefreshLoading] = React.useState(false);
+  const [playVideoStart, setPlayVideoStart] = React.useState(false);
+  const [height, setHeight] = React.useState<string | number>(220);
+  const [embedInfo, setEmbedInfo] = React.useState<any>(video_url);
+  const videoPlayer = React.useRef<any>(null);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -68,6 +82,11 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
 
   React.useEffect(() => {
     onRefresh();
+    Orientation.unlockAllOrientations();
+    return () => {
+      dispatch(clearVideoUrl());
+      Orientation.lockToPortrait();
+    };
   }, []);
 
   const onRefresh = () => {
@@ -101,13 +120,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
       ) : (
         <ScrollViewAtom nestedScrollEnabled={true}>
           <View style={{paddingHorizontal: mScale.base}}>
-            <View
-              style={{
-                alignSelf: 'center',
-                position: 'relative',
-                borderRadius: 10,
-                overflow: 'hidden',
-              }}>
+            <View>
               <View
                 style={{
                   position: 'absolute',
@@ -119,27 +132,56 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                 }}>
                 <Images.SVG.ShareIcon />
               </View>
-              <ImageAtom
-                sourceRequire={require('@shared/src/assets/img/courseplaceholder2.png')}
-                imageStyle={{
-                  width: WINDOW_WIDTH * 0.91,
-                  height: moderateScale(235),
-                }}
-                resizeMode="cover"
-              />
-              <View
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  zIndex: 1,
-                }}>
-                <Images.SVG.Play1 />
-              </View>
+              {playVideoStart && video_url ? (
+                <>
+                  <VdoPlayerView
+                    ref={videoPlayer}
+                    style={{height: height, width: '100%'} as ViewStyle}
+                    embedInfo={embedInfo ? embedInfo : video_url}
+                    onLoaded={data => {
+                      console.log('on loaded :', data);
+                    }}
+                    onLoadError={e => {
+                      console.log('onLoadError =>', e);
+                    }}
+                    onProgress={time => {
+                      console.log('progress', time);
+                    }}
+                    onMediaEnded={data => {
+                      console.log('onmediaended called', data);
+                    }}
+                    onEnterFullscreen={() => setHeight('100%')}
+                    onPlaybackProperties={data =>
+                      console.log('onPlaybackProperties', data)
+                    }
+                  />
+                </>
+              ) : (
+                <>
+                  <ImageAtom
+                    sourceRequire={require('@shared/src/assets/img/courseplaceholder2.png')}
+                    imageStyle={{
+                      width: WINDOW_WIDTH * 0.91,
+                      height: moderateScale(235),
+                      borderRadius: mScale.md,
+                    }}
+                    resizeMode="cover"
+                  />
+                  <PressableAtom
+                    style={[commonStyle.play]}
+                    onPress={() => {
+                      if (data?.course_video_embed) {
+                        setPlayVideoStart(true);
+                      } else {
+                        Alert.alert("This course doesn't contain any videos.");
+                      }
+                    }}>
+                    <ImageAtom
+                      sourceRequire={require('@shared/src/assets/img/play.png')}
+                    />
+                  </PressableAtom>
+                </>
+              )}
             </View>
           </View>
           <View style={{paddingHorizontal: mScale.base}}>
@@ -221,12 +263,11 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                   borderColor: colorPresets.GRAY3,
                   borderRadius: 9,
                   width: moderateScale(150),
+                  height: moderateScale(150),
                   marginEnd: mScale.md,
                 }}>
-                <ImageAtom
-                  sourceRequire={require('@shared/src/assets/img/article.png')}
-                  imageStyle={{width: 24, height: 24}}
-                />
+              
+                <Images.SVG.YearAccess  width={24} height={24}/>
                 <View style={{marginVertical: mScale.md}}>
                   <TextAtom text={'1 Year Access'} preset="titleBold" />
                   <TextAtom
@@ -246,12 +287,11 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                   borderColor: colorPresets.GRAY3,
                   borderRadius: 9,
                   width: moderateScale(150),
+                  height: moderateScale(150),
                   marginEnd: mScale.md,
                 }}>
-                <ImageAtom
-                  sourceRequire={require('@shared/src/assets/img/article.png')}
-                  imageStyle={{width: 24, height: 24}}
-                />
+              
+                <Images.SVG.Certificate  width={24} height={24}/>
                 <View style={{marginVertical: mScale.md}}>
                   <TextAtom
                     text={'Certificate of completion'}
@@ -274,11 +314,11 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               preset="heading3"
               style={{marginTop: mScale.md}}
             />
-            <TextAtom
+            {/* <TextAtom
               preset="body"
               text={'3 sections • 24 topics • 4 hrs 38 mins content'}
               style={{color: '#E8EBED'}}
-            />
+            /> */}
             <View>
               <FlatList
                 data={data?.sections?.length ? data?.sections : []}
@@ -301,24 +341,11 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               }}>
               <TextAtom text={'About The Course'} preset="heading4" />
               <TextAtom preset="medium" text={data?.about_me || ''} />
-              <TextAtom
-                text={`What You'll Learn`}
-                preset="titleBold"
-                style={{marginVertical: mScale.base}}
-              />
-              <View style={{marginStart: mScale.xs}}>
-                <TextAtom
-                  style={{marginBottom: mScale.md}}
-                  preset="medium"
-                  text={`\u2B24 Introduction to Stock Markets: Grasp the basic terminologies, structure, and functions of the stock market. Financial Instruments: Deep dive into different types of financial instruments and their roles in the market.`}
-                />
-                <TextAtom
-                  preset="medium"
-                  text={`\u2B24 Introduction to Stock Markets: Grasp the basic terminologies, structure, and functions of the stock market. Financial Instruments: Deep dive into different types of financial instruments and their roles in the market.`}
-                />
-              </View>
+           
             </View>
           )}
+          {course_review?.filter(el => el?.course_id == data?.id)?.length ? 
+          <>
           <View style={{padding: mScale.base}}>
             <View style={{paddingHorizontal: mScale.base}}>
               <TextAtom
@@ -343,8 +370,10 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                 paddingBottom: mScale.lg,
               }}
               horizontal={true}
+              keyExtractor={(item): any => item?.id}
             />
           </View>
+          </> : null }
           <View style={{marginVertical: mScale.xl}}>
             <ViewAll title="Frequently Bought Together" visible={false} />
             <View style={{paddingLeft: mScale.base}}>
@@ -366,6 +395,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                   paddingEnd: mScale.lg,
                 }}
                 showsHorizontalScrollIndicator={false}
+                keyExtractor={(item): any => item?.id}
               />
             </View>
           </View>

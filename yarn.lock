@@ -6671,6 +6671,7 @@ __metadata:
     react-native-document-picker: ^9.3.1
     react-native-gesture-handler: ^2.19.0
     react-native-image-crop-picker: ^0.41.4
+    react-native-orientation-locker: ^1.7.0
     react-native-pager-view: ^6.4.1
     react-native-pdf: ^6.7.5
     react-native-phonepe-pg: "https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz"
@@ -6688,6 +6689,7 @@ __metadata:
     redux-persist: ^6.0.0
     shared: "*"
     typescript: 5.0.4
+    vdocipher-rn-bridge: ^1.20.8
     yup: ^1.4.0
   languageName: unknown
   linkType: soft
@@ -10511,6 +10513,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-orientation-locker@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "react-native-orientation-locker@npm:1.7.0"
+  peerDependencies:
+    react: ">=16.13.1"
+    react-native: ">=0.63.2"
+    react-native-windows: ">=0.63.3"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: 495010b3150adcbc1dcb24e0ca5c13838f02dbcee7c6ec391fe07bd47f9b75ac57b0ec1144aaab5d6ed62e7a354497e9fa5399359d896099ecbea439908817cf
+  languageName: node
+  linkType: hard
+
 "react-native-pager-view@npm:^6.4.1":
   version: 6.4.1
   resolution: "react-native-pager-view@npm:6.4.1"
@@ -12611,6 +12627,18 @@ __metadata:
   version: 1.1.2
   resolution: "vary@npm:1.1.2"
   checksum: ae0123222c6df65b437669d63dfa8c36cee20a504101b2fcd97b8bf76f91259c17f9f2b4d70a1e3c6bbcee7f51b28392833adb6b2770b23b01abec84e369660b
+  languageName: node
+  linkType: hard
+
+"vdocipher-rn-bridge@npm:^1.20.8":
+  version: 1.20.8
+  resolution: "vdocipher-rn-bridge@npm:1.20.8"
+  dependencies:
+    deprecated-react-native-prop-types: ^2.3.0
+    prop-types: ^15.6.2
+  peerDependencies:
+    react-native: 0.68 - 0.75
+  checksum: 6fad9027d0f466dc40e04a6d45d9ffaca356e12994086aada953332394b5714ec5a1e83db6f5a27c8477f99f674241c5c777e11ed13de8080c3d4106b546718d
   languageName: node
   linkType: hard
 

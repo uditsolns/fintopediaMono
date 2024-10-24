@@ -11,6 +11,9 @@ import {
   CourseSections,
   CourseSubSections,
 } from '@shared/src/utils/types/courses';
+import { PressableAtom } from '@shared/src/components/atoms/Button/PressableAtom';
+import { useAppDispatch } from '@shared/src/provider/store/types/storeTypes';
+import { storeVideoUrl } from '@shared/src/provider/store/reducers/courses.reducer';
 interface CourseInnerAtomProps {
   item: CourseSections;
 }
@@ -21,10 +24,11 @@ export interface CourseLessonItem {
 }
 export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
+  const dispatch = useAppDispatch()
 
   const LessonItem = ({el, onPress}: CourseLessonItem) => {
     return (
-      <View
+      <PressableAtom
         style={[
           commonStyle.flexStart,
           {
@@ -34,8 +38,10 @@ export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
             paddingVertical: mScale.base,
             backgroundColor: '#222431',
           },
-        ]}>
-        <CustomCheckbox isChecked={true} onPress={onPress} />
+        ]}
+        onPress={onPress}
+        >
+        <CustomCheckbox isChecked={true}  />
         <View style={{flex: 1}}>
           <TextAtom text={el?.subsection_heading || ''} preset="body" />
           <View style={[commonStyle.flexStart]}>
@@ -49,7 +55,7 @@ export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
             />
           </View>
         </View>
-      </View>
+      </PressableAtom>
     );
   };
 
@@ -73,7 +79,10 @@ export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
         <FlatList
           data={item?.subsections}
           renderItem={({item, index}) => (
-            <LessonItem el={item} onPress={() => {}} />
+            <LessonItem el={item} onPress={() => {
+              console.log(item)
+              dispatch(storeVideoUrl(item?.sub_video_embed))
+            }} />
           )}
           keyExtractor={(item, index) => index.toString()}
         />

@@ -48,6 +48,11 @@ export interface CourseSections {
   updated_at: string | null;
   subsections: CourseSubSections[];
 }
+
+export interface CourseEmbedvideo {
+  otp: string | null;
+  playbackInfo: string | null;
+}
 export interface CoursesResponse {
   id: number;
   category_id: number;
@@ -72,11 +77,8 @@ export interface CoursesResponse {
   updated_at: string;
   category?: CategoriesResponse | null;
   sections?: CourseSections[];
+  course_video_embed?: CourseEmbedvideo | null;
 }
-
-
-
-
 
 export interface CoursesState {
   loading: {
@@ -98,4 +100,5 @@ export interface CoursesState {
   update: CoursesResponse | null;
   delete: string | null;
   singleCourse: CoursesResponse | null;
+  video_url: null | string;
 }
