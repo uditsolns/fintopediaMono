@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -13,6 +14,7 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+  console.log("Platform.OS", Platform.OS);
   if (Platform.OS === "web") {
     return (
       <Provider store={store}>

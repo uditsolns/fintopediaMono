@@ -22,7 +22,7 @@ const RatingReview: React.FC<RatingReviewProps> = ({
         commonStyle.flexSpaceBetween,
         {alignSelf: 'flex-start', flex: 1, marginBottom: mb},
       ]}>
-      <RatingAtom ratingTitle={`4.5`} preset="titleBold" />
+      <RatingAtom ratingTitle={`${rating || ""}`} preset="titleBold" />
       <TextAtom
         text={`(${review} reviews)`}
         preset="medium"

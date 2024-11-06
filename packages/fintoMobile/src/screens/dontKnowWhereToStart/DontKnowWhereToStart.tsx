@@ -3,11 +3,9 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import Dropdown from '@src/components/Dropdown/Dropdown';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import React from 'react';
 import {FlatList, TextStyle, View} from 'react-native';
-import {CategoriesArr} from '../auth/Signup';
 import {colorPresets} from '@shared/src/theme/color';
 import GroupRadioButton from '@src/components/GroupRadioButton';
 import {
@@ -16,11 +14,16 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {NavType} from '@src/navigation/types';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {CategoriesResponse} from '@shared/src/utils/types/categories';
+import {isInCart} from '@src/components/Calculate';
+import {RouteKeys} from '@src/navigation/RouteKeys';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 
 const options = [
   {label: 'Beginner', value: 'beginner'},
   {label: 'Intermediate', value: 'intermediate'},
-  {label: 'Pro', value: 'pro'},
+  {label: 'Pro', value: 'expert'},
 ];
 
 interface DontKnowWhereToStartProps extends NavType<'DontKnowWhereToStart'> {}
@@ -28,9 +31,12 @@ export const DontKnowWhereToStart: React.FunctionComponent<
   DontKnowWhereToStartProps
 > = ({navigation}) => {
   const dispatch = useAppDispatch();
-
+  const {auth} = useAppSelector(state => state.auth);
   const {categories, loading: categoriesLoading} = useAppSelector(
     state => state.categories,
+  );
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
+    state => state.courseCart,
   );
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
@@ -38,6 +44,9 @@ export const DontKnowWhereToStart: React.FunctionComponent<
   const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
     courses?.length ? courses : [],
   );
+  const [dropdownSelected, setDropdownSelected] =
+    React.useState<CategoriesResponse | null>(null);
+  const [radioSelected, setRadioSelected] = React.useState<string>('beginner');
 
   React.useEffect(() => {
     if (courses?.length) {
@@ -50,7 +59,31 @@ export const DontKnowWhereToStart: React.FunctionComponent<
   }: {
     item: CoursesResponse;
   }) => {
-    return <PopularCourseMolecule item={item} />;
+    return (
+      <PopularCourseMolecule
+        item={item}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+            navigation.navigate(RouteKeys.CARTSCREEN);
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                },
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
+        }}
+      />
+    );
   };
 
   return (
@@ -85,10 +118,7 @@ export const DontKnowWhereToStart: React.FunctionComponent<
               dropdownItemArr={categories?.length ? categories : []}
               itemLabelField="category_name"
               onSelect={item => {
-                let filterCourseRes = courses?.filter(
-                  el => el?.category_id == item?.id,
-                );
-                setFilterCourses(filterCourseRes);
+                setDropdownSelected(item);
               }}
               placeholder={'Select category'}
               dropdownBg="#121622"
@@ -102,12 +132,22 @@ export const DontKnowWhereToStart: React.FunctionComponent<
               <GroupRadioButton
                 options={options}
                 onSelect={item => {
-                  console.log(item);
+                  setRadioSelected(item);
                 }}
                 selectedValue="beginner"
               />
             </View>
-            {/* <SmallButtonAtom btnTitle={'Let’s go'} preset={'mediumBold'} /> */}
+            <ButtonAtom
+              title={'Let’s go'}
+              onPress={() => {
+                let filterCourseRes = courses?.filter(
+                  el =>
+                    el?.category_id == dropdownSelected?.id &&
+                    el?.course_type?.toLowerCase() == radioSelected,
+                );
+                setFilterCourses(filterCourseRes);
+              }}
+            />
             <View style={{marginTop: mScale.xxl}}>
               <TextAtom
                 text={`Become a Finance Manager\n in 3 months`}

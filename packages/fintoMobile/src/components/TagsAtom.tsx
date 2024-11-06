@@ -6,7 +6,7 @@ import { colorPresets } from '@shared/src/theme/color';
 import { mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
 
 interface TagsAtomInterface {
-  title: string;
+  title?: string;
 }
 
 const TagsAtom: React.FC<TagsAtomInterface> = ({ title }) => {

@@ -52,6 +52,7 @@
   line-height: 138%;
   display: flex;
   margin-top: 12px;
+  cursor: pointer;
 }
 .links:hover {
   color: lightgray;

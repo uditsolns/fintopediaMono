@@ -11,6 +11,7 @@ type BuySellField = Pick<
   | "total_price"
   | "stock_current_price"
   | "round_level"
+  | "remarks"
 >;
 
 export const buySellField: BuySellField = {
@@ -64,6 +65,12 @@ export const buySellField: BuySellField = {
     placeHolder: "",
     requiredErr: "Round level is required",
   },
+  remarks: {
+    name: "remarks",
+    label: "Remark(optional)",
+    placeHolder: "Enter remarks",
+    requiredErr: "",
+  },
 };
 
 export type BuySellValues = {
@@ -79,6 +86,7 @@ export const BUY_SELL_VALUES = {
   [buySellField.total_price.name]: "",
   [buySellField.stock_current_price.name]: "",
   [buySellField.round_level.name]: "",
+  [buySellField.remarks.name]: "",
 };
 
 export const buySellValidation = Yup.object().shape({

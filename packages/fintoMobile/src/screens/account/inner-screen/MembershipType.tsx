@@ -5,17 +5,15 @@ import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAt
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import { colorPresets } from '@shared/src/theme/color';
-import {mScale} from '@shared/src/theme/metrics';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {LinkButton} from '@src/components/Button/LinkButton';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 interface MembershipTypeProps {}
 
 export const MembershipType: React.FC<MembershipTypeProps> = ({}) => {
   return (
-    <GradientTemplate style={{paddingBottom: 0}}>
-      <HeaderLeftMolecule text={'Membership Type'} />
+    <GradientTemplate style={{paddingBottom: 0,paddingTop:moderateScale(70)}}>
       <ScrollViewAtom>
         <View>
           <View>

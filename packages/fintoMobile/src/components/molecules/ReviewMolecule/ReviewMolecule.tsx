@@ -5,12 +5,15 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import {commonStyle} from '@shared/src/commonStyle';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
+import {CourseReviewResponse} from '@shared/src/utils/types/course-review';
+import {imageUrl} from '@shared/src/config/imageUrl';
+import {avatarUrl} from '@src/screens/account/Account';
 
 export default function ReviewMolecule({
   item,
   itemWidth,
 }: {
-  item?: any;
+  item?: CourseReviewResponse;
   itemWidth?: string | number;
 }) {
   return (
@@ -23,15 +26,16 @@ export default function ReviewMolecule({
       ]}>
       <View style={styles.content}>
         <TextAtom
-          text={'Access to Quality Education'}
+          text={item?.review_description || ''}
           preset="titleBold"
           style={styles.boldText}
+          numberOfLines={10}
         />
-        <TextAtom
+        {/* <TextAtom
           text="Online learning has completely transformed my educational experience. The flexibility to attend classes and complete assignments on my own schedule has been a game-changer for me. It's allowed me to balance my job and family commitments while pursuing my degree. I'm so grateful for the opportunity to learn this way!"
           preset="medium"
           style={[styles.boldText,{color:colorPresets.GRAY}]}
-        />
+        /> */}
         <View style={[commonStyle.flexStart, {marginVertical: mScale.md}]}>
           <View
             style={{
@@ -41,17 +45,36 @@ export default function ReviewMolecule({
               backgroundColor: colorPresets.CTA,
             }}>
             <ImageAtom
-              sourceRequire={item?.sourceRequire}
-              imageStyle={{width: moderateScale(52), height: moderateScale(52)}}
+              sourceRequire={{
+                uri: item?.user?.id
+                  ? `${imageUrl}/uploads/user_photo/${item?.user?.photo}`
+                  : avatarUrl,
+              }}
+              imageStyle={{
+                width: moderateScale(52),
+                height: moderateScale(52),
+                borderRadius: 100,
+              }}
+              containerStyle={{
+                width: moderateScale(52),
+                height: moderateScale(52),
+              }}
             />
           </View>
           <View style={{marginStart: mScale.base, flex: 1}}>
-            <TextAtom text={'Priyam Sharma'} preset="smallBold" />
             <TextAtom
+              text={
+                item?.user?.first_name
+                  ? item?.user?.first_name + '' + item?.user?.surname_name
+                  : 'unknown'
+              }
+              preset="smallBold"
+            />
+            {/* <TextAtom
               text={'Product Advisor'}
               preset="medium"
-              style={{color:'#D5D5D9'}}
-            />
+              style={{color: '#D5D5D9'}}
+            /> */}
           </View>
         </View>
       </View>
@@ -71,10 +94,12 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: colorPresets.TEXT,
     padding: mScale.base,
+    
   },
 
   content: {flex: 1, paddingVertical: mScale.md, flexGrow: 1},
   boldText: {
     fontWeight: '600',
+    color: colorPresets.CTA,
   },
 });

@@ -1,3 +1,6 @@
+import { Alert } from "./svg/Alert";
+import { Check } from "./svg/Check";
+import { Close } from "./svg/Close";
 import { Article } from "./svg/Article";
 import { Bell } from "./svg/Bell";
 import { CameraIcon } from "./svg/CameraIcon";
@@ -32,6 +35,7 @@ import { ForgotIcon } from "./svg/ForgotIcon";
 import { Google } from "./svg/Google";
 import { GraphBar } from "./svg/GraphBar";
 import { Home } from "./svg/Home";
+import { Info } from "./svg/Info";
 import { InfoIcon } from "./svg/InfoIcon";
 import { LanguageIcon } from "./svg/LanguageIcon";
 import { LinkedIn2 } from "./svg/LinkedIn2";
@@ -70,6 +74,10 @@ import { YearAccess } from "./svg/YearAccess";
 
 export const Images = {
   SVG: {
+    Alert,
+    Close,
+    Check,
+    Info,
     Home,
     Courses,
     Mock,
@@ -138,6 +146,6 @@ export const Images = {
     ContactIcon,
     LogoutIcon,
     CheckBoxIcon2,
-    CameraIcon
+    CameraIcon,
   },
 };

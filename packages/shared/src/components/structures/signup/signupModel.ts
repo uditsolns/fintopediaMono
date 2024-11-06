@@ -87,22 +87,26 @@ export const signupValidation = Yup.object().shape({
     `${signupField.surname_name.requiredErr}`
   ),
   [signupField.email.name]: Yup.string()
-  .email("Invalid email")
-  .required(`${signupField.email.requiredErr}`),
-  [signupField.phone.name]: Yup.number()
+    .email("Invalid email")
+    .required(`${signupField.email.requiredErr}`),
+
+  [signupField.phone.name]: Yup.string()
+    .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
     .required(`${signupField.phone.requiredErr}`),
   [signupField.role.name]: Yup.string().required(
     `${signupField.role.requiredErr}`
   ),
-  [signupField.password.name]: Yup.string().required(
-    `${signupField.password.requiredErr}`
-  ),
+
+  [signupField.password.name]: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .required(`${signupField.password.requiredErr}`),
   [signupField.password_confirmation.name]: Yup.string()
     .required(`${signupField.password_confirmation.requiredErr}`)
     .oneOf(
       [Yup.ref(`${signupField.password.name}`), ""],
       "Passwords must match"
     ),
- 
-  [signupField.college.name]: Yup.string(),
+  [signupField.college.name]: Yup.string().required(
+    `${signupField.college.requiredErr}`
+  ),
 });

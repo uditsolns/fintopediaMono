@@ -35,6 +35,7 @@ export type Paramkeys =
   | "old_password"
   | "new_password"
   | "new_password_confirmation"
+  | "id"
   | "first_name"
   | "email"
   | "phone"
@@ -64,6 +65,11 @@ export type Paramkeys =
   | "cv"
   | "wallet"
   | "feedback"
+  | "headline"
+  | "bio"
+  | "linkedin"
+  | "website_url"
+  | "photo"
   | "game_id"
   | "user_id"
   | "stock_id"
@@ -71,6 +77,14 @@ export type Paramkeys =
   | "order_qty"
   | "total_price"
   | "stock_current_price"
-  | "round_level";
+  | "round_level"
+  | "remarks"
+  | "course_notes"
+  | "user_id"
+  | "course_id"
+  | "rating"
+  | "rating_desc"
+  | "last_name"
+  | "message";
 
 export type ModelParams = Record<Paramkeys, FormModel>;

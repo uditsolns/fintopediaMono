@@ -25,7 +25,7 @@ export default function EventMolecule({
             : require('@shared/src/assets/img/gameImage.png')
         }
         style={styles.image}
-        resizeMode='contain'
+        resizeMode="contain"
       />
       <View style={styles.content}>
         <TextAtom
@@ -35,16 +35,13 @@ export default function EventMolecule({
           numberOfLines={2}
         />
         <TextAtom
-          text="Build your financial through Build your financial through project-driven skills "
+          text={item?.game_desc ? item?.game_desc : ''}
           preset="small"
           style={[styles.boldText, {color: colorPresets.GRAY}]}
           numberOfLines={3}
         />
         <View style={{marginTop: mScale.xl}}>
-          <ButtonAtom
-            title="Play game"
-            onPress={onPress}
-          />
+          <ButtonAtom title="Play game" onPress={onPress} />
         </View>
       </View>
     </View>
@@ -67,7 +64,7 @@ const styles = StyleSheet.create({
   image: {
     width: moderateScale(139),
     height: moderateScale(156),
-    overflow:"hidden"
+    overflow: 'hidden',
   },
   content: {flex: 1, paddingVertical: mScale.md},
   boldText: {

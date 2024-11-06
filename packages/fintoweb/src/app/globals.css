@@ -118,6 +118,23 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
+.shareButton {
+  display: flex;
+  width: 134px;
+  padding: 14px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  margin: 0 10px;
+}
 @media screen and (max-width: 435px) {
   .Heading {
     color: #fff;

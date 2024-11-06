@@ -7,6 +7,7 @@ export interface AuthState {
     signout: boolean;
     forgot: boolean;
     confirm: boolean;
+    google_login:boolean
   };
   err: {
     loginErr: any;
@@ -14,6 +15,7 @@ export interface AuthState {
     signoutErr: any;
     forgotErr: any;
     confirmErr: any;
+    google_login_err:any
   };
   token?: string | null;
   auth: AuthResponse | null;
@@ -75,6 +77,11 @@ export interface UserInfo {
   feedback: null;
   college: null;
   user_transactions?: UserTransactionsResponse[] | null;
+  bio?: null | string;
+  headline?: null | string;
+  linkedin?: null | string;
+  website_url?: null | string;
+  photo?: string | null;
 }
 
 export interface SignupParams {
@@ -103,9 +110,10 @@ export interface UpdatePasswordParams {
   new_password_confirmation?: string;
 }
 export interface UserUpdateParams {
-  first_name: string;
-  email: string;
-  phone: string;
+  id?:number
+  first_name?: string;
+  email?: string;
+  phone?: string;
   father_name?: string;
   surname_name?: string;
   dob?: string;
@@ -131,6 +139,11 @@ export interface UserUpdateParams {
   gender?: string;
   cv?: string;
   feedback?: null | string;
+  bio?: null | string;
+  headline?: null | string;
+  linkedin?: null | string;
+  website_url?: null | string;
+  photo?: string | null;
 }
 
 export interface BuySellParams {

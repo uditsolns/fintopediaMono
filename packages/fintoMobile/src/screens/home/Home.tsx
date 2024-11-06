@@ -3,7 +3,14 @@ import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {storeSingleCourse, storeVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
+import {
+  createCourseCart,
+  getCourseCart,
+} from '@shared/src/provider/store/services/CourseCart.service';
 import {getCourses} from '@shared/src/provider/store/services/courses.service';
+import {getOngoingCourse} from '@shared/src/provider/store/services/ongoing-course.service';
+import {getUserById} from '@shared/src/provider/store/services/user.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -11,6 +18,9 @@ import {
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CategoriesResponse} from '@shared/src/utils/types/categories';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
+import {OngoingCoursesResponse} from '@shared/src/utils/types/ongoing-course';
+import {UserCourseHistoryResponse} from '@shared/src/utils/types/UserCourseHistory';
+import {isInCart} from '@src/components/Calculate';
 import CarouselAtom from '@src/components/Carousel/CarouselAtom';
 import GetStarted from '@src/components/GetStarted';
 import Header from '@src/components/Header/Header';
@@ -42,13 +52,20 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   const {auth} = useAppSelector(state => state.auth);
   const {banner, loading: bannerLoading} = useAppSelector(
     state => state.banner,
-  ); 
-
+  );
   const {categories, loading: categoriesLoading} = useAppSelector(
     state => state.categories,
   );
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
+  );
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
+    state => state.courseCart,
+  );
+  const {user_course_history, loading: user_course_history_loading} =
+    useAppSelector(state => state.userCourseHistory);
+  const {ongoing_courses, loading: ongoing_courses_loading} = useAppSelector(
+    state => state.ongoingCourse,
   );
   const [refreshLoading, setRefreshLoading] = React.useState(false);
 
@@ -65,10 +82,14 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   }, []);
 
   const onRefresh = () => {
+    let id = `${auth?.user?.id}`;
     setRefreshLoading(true);
+    dispatch(getUserById({id}));
     dispatch(getBanner());
     dispatch(getCategories());
     dispatch(getCourses());
+    dispatch(getCourseCart());
+    dispatch(getOngoingCourse());
     setRefreshLoading(false);
   };
 
@@ -78,12 +99,21 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     }
   }, [courses]);
 
-  const continueLearningRenderItem = ({item}: {item: CoursesResponse}) => {
+  const continueLearningRenderItem = ({
+    item,
+  }: {
+    item: OngoingCoursesResponse;
+  }) => {
     return (
       <ContinueLearningMolecule
         item={item}
         onPress={() => {
-          navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN);
+          if (item?.course?.course_video_embed) {
+            dispatch(storeVideoUrl(item?.course?.course_video_embed));
+          }
+          navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.course_id,
+          });
         }}
       />
     );
@@ -101,22 +131,45 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       />
     );
   };
-  const innerCategoriesCoursesRenderItem = ({item}:{item:CoursesResponse}) => {
+  const innerCategoriesCoursesRenderItem = ({
+    item,
+  }: {
+    item: CoursesResponse;
+  }) => {
     return (
       <PopularCourseMolecule
         item={item}
-        onPress={() => {
-          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN);
+        onView={() => {
+          if (item?.course_video_embed) {
+            dispatch(storeVideoUrl(item?.course_video_embed));
+          }
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.id,
+          });
+        }}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+            navigation.navigate(RouteKeys.CARTSCREEN);
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                },
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
         }}
       />
     );
   };
-
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerRight: () => <View style={{flexDirection: 'row'}}></View>,
-  //   });
-  // });
 
   return (
     <GradientTemplate
@@ -127,10 +180,14 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       }}>
       {bannerLoading?.banner ||
       categoriesLoading?.categories ||
-      coursesLoading?.courses ? (
+      coursesLoading?.courses ||
+      courseCartLoading?.courseCart ||
+      courseCartLoading.create ||
+      user_course_history_loading?.user_course_history ||
+      ongoing_courses_loading?.ongoing_courses ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
-        </View> 
+        </View>
       ) : null}
       <ScrollViewAtom
         nestedScrollEnabled={true}
@@ -141,12 +198,12 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
         <View>
           <CarouselAtom data={banner?.length ? banner : []} />
         </View>
-        {auth ? (
+        {auth?.token ? (
           <View>
             <ViewAll title="Continue Learning" visible={false} />
             <View style={{paddingLeft: mScale.base}}>
               <FlatList
-                data={[...Array(5)]}
+                data={ongoing_courses?.length ? ongoing_courses : []}
                 renderItem={continueLearningRenderItem}
                 horizontal={true}
                 contentContainerStyle={{
@@ -162,7 +219,12 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
         <View style={{marginVertical: mScale.xl}}>
           {categories?.length ? (
             <>
-              <ViewAll title="All Categories" />
+              <ViewAll
+                title="All Categories"
+                onPress={() => {
+                  navigation.navigate(RouteKeys.COURSECATEGORYSCREEN);
+                }}
+              />
               <View style={{paddingLeft: mScale.base}}>
                 <FlatList
                   data={categories?.length ? categories : []}
@@ -189,7 +251,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
                         ]}
                         onPress={() => {
                           setCategoriesSelected('all');
-                          setFilterCourses(courses)
+                          setFilterCourses(courses);
                         }}>
                         <TextAtom
                           text={'All'}
@@ -240,7 +302,11 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
           <ViewAll title="Popular Courses" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={courses?.length ? courses : []}
+              data={
+                courses?.length
+                  ? courses?.filter(el => el?.is_popular === 1)
+                  : []
+              }
               renderItem={innerCategoriesCoursesRenderItem}
               horizontal={true}
               contentContainerStyle={{

@@ -8,7 +8,7 @@ import React from 'react';
 import {StyleSheet, View, ViewStyle, TextStyle} from 'react-native';
 
 interface ProgressBarProps {
-  level?: 'beginner' | 'intermediate' | 'expert';
+  level?: 'beginner' | 'intermediate' | 'expert' | string;
   hours?: number | string;
   mv?:number | undefined,
   textPreset?:TextPresetType,

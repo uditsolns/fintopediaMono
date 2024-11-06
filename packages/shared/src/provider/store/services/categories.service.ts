@@ -9,17 +9,12 @@ export const getCategories = createAsyncThunk<
   { state: RootState }
 >("categories/get", async (_, thunkApi) => {
   try {
-    const state = thunkApi.getState();
-    const token = state.auth?.auth?.token;
-
     const response = await fetch(apiUrl.CATEGORIES.GET, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     });
-
     const data = (await response.json()) as CategoriesResponse[];
 
     return data;

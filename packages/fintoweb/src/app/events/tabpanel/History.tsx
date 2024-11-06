@@ -11,7 +11,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
-import LightLoading from "@src/components/loader/LightLoading";
+import LightLoading from "@src/components/loader/LoadingAtom";
 import { getTransactions } from "shared/src/provider/store/services/transactions.service";
 
 interface HistoryProps {

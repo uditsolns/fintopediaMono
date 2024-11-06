@@ -6,7 +6,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import { FaArrowRotateRight } from "react-icons/fa6";
-import LightLoading from "@src/components/loader/LightLoading";
+import LoadingAtom from "@src/components/loader/LoadingAtom";
 import styles from "./Event.module.css";
 import {
   useAppDispatch,
@@ -96,7 +96,7 @@ const PreviousData: React.FC<PreviousProps> = ({
               {loading.stockData ? (
                 <tr>
                   <td colSpan={2} style={{ textAlign: "center" }}>
-                    <LightLoading />
+                    <LoadingAtom />
                   </td>
                 </tr>
               ) : searchStocksData.filter((user) =>

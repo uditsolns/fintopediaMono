@@ -33,6 +33,7 @@ export const createBanner = createAsyncThunk<
   BannerPararms,
   { state: RootState }
 >("banner/post", async (params, thunkApi) => {
+  console.log("params", JSON.stringify(params));
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;

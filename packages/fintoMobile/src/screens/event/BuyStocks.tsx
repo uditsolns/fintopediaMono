@@ -148,8 +148,9 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
           <View style={{marginBottom: mScale.base}}>
             <InputAtom
               shape="square"
-              label={'Remark (optional)'}
-              placeholder={'Enter Remark'}
+              label={buySellField.remarks.label}
+              placeholder={buySellField.remarks.placeHolder}
+              {...buySellInputProps(buySellField.remarks.name)}
               multiline={true}
             />
           </View>

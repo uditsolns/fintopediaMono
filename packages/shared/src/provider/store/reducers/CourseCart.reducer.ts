@@ -1,4 +1,4 @@
-import { CourseCartState } from "../../../utils/types/coursecart";
+import { CourseCartState } from "../../../utils/types/CourseCart";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   deleteCourseCart,

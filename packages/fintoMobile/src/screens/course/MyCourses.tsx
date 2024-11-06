@@ -1,4 +1,3 @@
-import {StyleSheet} from 'react-native';
 import React from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {MyCourseRouteKeys} from '@src/navigation/RouteKeys';
@@ -8,9 +7,9 @@ import Completed from './tabs/Completed';
 import SaveForLater from './tabs/SaveForLater';
 import Downloaded from './tabs/Downloaded';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import Header from '@src/components/Header/Header';
-import {WINDOW_WIDTH} from '@shared/src/theme/metrics';
+import {moderateScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import {MyCourseTabMolecule} from '@src/components/molecules/MyCourseTabMolecule/MyCourseTabMolecule';
+import MyCourse from './tabs/MyCourse';
 type RouteParams = {
   tab?: number;
 };
@@ -30,14 +29,20 @@ export const MyCourses: React.FC<MyCoursesProps> = () => {
   }, [route.params?.tab]);
 
   const renderScene = SceneMap({
+    myCourse:MyCourse,
     ongoing: Ongoing,
     completed: Completed,
     saveForLater: SaveForLater,
-    downloaded: Downloaded,
+    // downloaded: Downloaded,
   });
 
   return (
-    <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0,paddingTop:60}}>
+    <GradientTemplate
+      style={{
+        paddingBottom: 0,
+        paddingHorizontal: 0,
+        paddingTop: moderateScale(60),
+      }}>
       <TabView
         navigationState={{index, routes}}
         renderTabBar={props => <MyCourseTabMolecule {...props} />}

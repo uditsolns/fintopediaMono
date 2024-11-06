@@ -13,6 +13,7 @@ export interface GamesParams {
   id?: number;
   college_id?: number;
   name?: string;
+  game_desc?: string;
   image?: null | string;
   start_time?: string;
   end_time?: string;
@@ -25,6 +26,7 @@ export interface GamesResponse {
   id: number;
   college_id: number;
   name: string;
+  game_desc: string;
   image: null | string;
   start_time: string;
   end_time: string;
@@ -35,6 +37,7 @@ export interface GamesResponse {
   created_at?: string;
   updated_at?: string;
   to_publish_result: number;
+  game_desc?:string | null;
   news?: NewsResponse[] | null;
   stock_datas?: StockDatasResponse[] | null;
   college?: CollegeResponse | null;

@@ -20,4 +20,17 @@ buildscript {
     }
 }
 
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url  "https://phonepe.mycloudrepo.io/public/repositories/phonepe-intentsdk-android"
+        }
+        maven {
+            url "https://github.com/VdoCipher/maven-repo/raw/master/repo"
+        }
+    }
+}
+
 apply plugin: "com.facebook.react.rootproject"

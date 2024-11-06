@@ -23,7 +23,7 @@ const CategoryBanner: React.FC<CategoryBannerProps> = ({ categories }) => {
             </p>
           </Col>
           <Col md={4}>
-            <Row className="form-group mt-3">
+            {/* <Row className="form-group mt-3">
               <Col md={12}>
                 <div className="custom-select">
                   <select
@@ -39,11 +39,11 @@ const CategoryBanner: React.FC<CategoryBannerProps> = ({ categories }) => {
                   </select>
                 </div>
               </Col>
-            </Row>
+            </Row> */}
             <Row className="mt-2">
               <Col md={12}>
                 <ButtonWithIcons
-                  label="Let's go"
+                  label="Get Started"
                   path="/where-to-start"
                   width="100%"
                 />

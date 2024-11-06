@@ -28,7 +28,7 @@ export default function LatestNewsMolecule({
           style={styles.boldText}
         />
         <TextAtom
-          text="Build your financial through project-driven skills"
+          text={item?.description ? item?.description : ''}
           preset="medium"
           style={[styles.boldText, {color: colorPresets.GRAY}]}
           numberOfLines={3}
