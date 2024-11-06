@@ -7012,7 +7012,6 @@ __metadata:
     next: "*"
     react-dom: "*"
     react-native: "*"
-    react-native-phonepe-pg: "https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz"
     react-native-web: "*"
   languageName: unknown
   linkType: soft
