@@ -5,12 +5,18 @@ import styles from "./FeaturedCourses.module.css";
 import NextArrow from "@src/app/components/NextArrow";
 import PrevArrow from "@src/app/components/PrevArrow";
 import Slider from "react-slick";
-import { useAppDispatch } from "shared/src/provider/store/types/storeTypes";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import { CategoriesResponse } from "shared/src/utils/types/categories";
 import CoursesMolecule from "@src/components/molecules/CoursesMolecule/CoursesMolecule";
 import ButtonWithIcons from "@src/components/button/ButtonWithIcons";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { createCourseCart } from "shared/src/provider/store/services/CourseCart.service";
+import { useRouter } from "next/navigation";
+import { isInCart } from "shared/src/components/atoms/Calculate";
+import { toast } from "react-toastify";
 
 interface FeaturedCoursesProps {
   courses: CoursesResponse[];
@@ -22,14 +28,20 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
   categories,
 }) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { auth } = useAppSelector((state) => state.auth);
+  const { courseCart } = useAppSelector((state) => state.courseCart);
+
   const [progress, setProgress] = React.useState(0);
   const [slideToShow, setSlideToShow] = React.useState(3);
   const [categoriesSelected, setCategoriesSelected] = React.useState<
     number | string
   >("all");
-
+  const [loadingCourseId, setLoadingCourseId] = React.useState<number | null>(
+    null
+  );
   const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
-    courses?.length ? courses : []
+    courses?.length ? courses.filter((course) => course.is_popular === 1) : []
   );
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
@@ -58,6 +70,9 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
+    autoplay: true, // Enable auto-scrolling
+    autoplaySpeed: 3000, // Auto-scroll speed (in ms)
+    pauseOnHover: true, // Pause auto-scroll on hover
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     afterChange: (current: number) => {
@@ -90,10 +105,49 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
   };
   React.useEffect(() => {
     if (courses?.length) {
-      setFilterCourses(courses);
+      setFilterCourses(courses.filter((course) => course.is_popular === 1));
     }
   }, [courses]);
-
+  const handleCourseClick = async (course: CoursesResponse) => {
+    setLoadingCourseId(course.id);
+    if (!auth?.token) {
+      router.push("/auth/login");
+      setLoadingCourseId(null);
+      return;
+    }
+    if (isInCart(courseCart, course?.id)) {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        router.push("/cart");
+      } finally {
+        setLoadingCourseId(null);
+      }
+      return;
+    }
+    const params = {
+      user_id: Number(auth?.user?.id),
+      course_id: Number(course?.id),
+      status: "1",
+    };
+    try {
+      await dispatch(
+        createCourseCart({
+          params,
+          onSuccess: (data) => {
+            toast.success(data.message, {
+              position: "top-right",
+              theme: "light",
+            });
+            router.push("/cart");
+          },
+          onError: (err) => {},
+        })
+      ).unwrap();
+    } finally {
+      setLoadingCourseId(null);
+    }
+  };
+ 
   return (
     <div className={styles.courseContainer}>
       <h1 className={styles.courseContainerHeading}>Featured Courses</h1>
@@ -104,7 +158,9 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
           }`}
           onClick={() => {
             setCategoriesSelected("all");
-            setFilterCourses(courses);
+            setFilterCourses(
+              courses.filter((course) => course.is_popular === 1)
+            );
             setCurrentSlide(0);
             setProgress(0);
           }}
@@ -119,8 +175,8 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
             }`}
             onClick={() => {
               setCategoriesSelected(cat.id);
-              let filterCourseRes = courses?.filter(
-                (el) => el?.category_id == cat.id
+              let filterCourseRes = courses.filter(
+                (el) => el.category_id == cat.id && el.is_popular === 1
               );
               setFilterCourses(filterCourseRes);
               setCurrentSlide(0);
@@ -137,7 +193,8 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
             <CoursesMolecule
               key={course.id}
               course={course}
-              onClick={() => {}}
+              loading={loadingCourseId === course.id}
+              onClick={() => handleCourseClick(course)}
             />
           );
         })}

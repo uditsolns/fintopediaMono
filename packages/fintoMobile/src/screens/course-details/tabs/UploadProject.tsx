@@ -11,7 +11,7 @@ import {
 import {
   useAppDispatch,
   useAppSelector,
-} from '@shared/src/provider/store/types/storeTypes';
+} from '@shared/src/provider/store/types/storeTypes'; 
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale, WINDOW_HEIGHT} from '@shared/src/theme/metrics';
 import {fontPresets} from '@shared/src/theme/typography';
@@ -79,8 +79,8 @@ export const UploadProject: React.FunctionComponent<
       {coursesLoading.singleCourse ||
       coursesLoading.courses ||
       upload_file_loading.create ||
-      upload_file_loading?.upload_file ? (
-        <LoaderAtom size="large" />
+      upload_file_loading?.upload_file ? ( 
+        <LoaderAtom size="large" /> 
       ) : null}
       <View>
         <View>
@@ -190,7 +190,7 @@ export const UploadProject: React.FunctionComponent<
                 }),
               );
             }
-          }}
+          }} 
         />
         <DeletePopup
           isVisible={modalVisible2}

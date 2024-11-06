@@ -1,21 +1,14 @@
 "use client";
 
 import React, { useEffect } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  CardBody,
-  CardTitle,
-  CardText,
-} from "reactstrap";
+import { Container, Row, Col, Card, CardBody } from "reactstrap";
 import { getNews } from "shared/src/provider/store/services/news.service";
 import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
-import LightLoading from "@src/components/loader/LightLoading";
+import LoadingAtom from "@src/components/loader/LoadingAtom";
+import styles from "./Event.module.css";
 
 const LatestNews: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -31,7 +24,7 @@ const LatestNews: React.FC = () => {
         <Row className="mt-5">
           {loading?.news ? (
             <div className="d-flex justify-content-center align-items-center p-5">
-              <LightLoading />
+              <LoadingAtom />
             </div>
           ) : news.length === 0 ? (
             <div className="text-center text-white p-3">
@@ -52,9 +45,10 @@ const LatestNews: React.FC = () => {
                       }}
                     >
                       <CardBody>
-                        <CardTitle tag="h5" className="font-weight-bold">
-                          {item.name}
-                        </CardTitle>
+                        <div className={styles.newsContent}>
+                          <h3 className={styles.newsHeading}>{item.name}</h3>
+                          <p className={styles.newsDesc}>{item.description}</p>
+                        </div>
                       </CardBody>
                     </Card>
                   </Col>

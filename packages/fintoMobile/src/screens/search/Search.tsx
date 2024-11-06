@@ -44,7 +44,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
   const [sortBySelectedVisible, setSortBySelectedVisible] =
     React.useState<boolean>(false);
 
-  React.useEffect(() => {
+  React.useEffect(() => { 
     let params = {
       name: '',
       sale_price: '',
@@ -53,9 +53,9 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
       max_sale_price: '',
       course_language: '',
       sort_rating: '',
-    };
+    }; 
     dispatch(
-      postSeachCourses({
+      postSeachCourses({ 
         params,
         onSuccess(data) {},
         onError(error) {

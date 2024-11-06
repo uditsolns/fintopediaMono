@@ -36,7 +36,7 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = () => {
   };
   const onCancel = () => {
     setReviewDesc('');
-    setRating(null);
+    setRating(null);  
     setDefaultRating(0);
   };
   const onSave = async () => {

@@ -1,7 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
-import { CoursesParams, CoursesResponse } from "../../../utils/types/courses";
+import {
+  CoursesParams,
+  CoursesResponse,
+  GetCourseIdParams,
+} from "../../../utils/types/courses";
 
 export const getCourses = createAsyncThunk<
   CoursesResponse[],
@@ -9,17 +13,15 @@ export const getCourses = createAsyncThunk<
   { state: RootState }
 >("courses/get", async (_, thunkApi) => {
   try {
-    const state = thunkApi.getState();
-    const token = state.auth?.auth?.token;
-
+    // const state = thunkApi.getState();
+    // const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.COURSES.GET, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
       },
     });
-
     const data = (await response.json()) as CoursesResponse[];
 
     return data;
@@ -30,7 +32,7 @@ export const getCourses = createAsyncThunk<
 
 export const createCourses = createAsyncThunk<
   CoursesResponse,
-  CoursesParams,
+  CoursesParams, 
   { state: RootState }
 >("courses/post", async (params, thunkApi) => {
   try {
@@ -54,18 +56,18 @@ export const createCourses = createAsyncThunk<
 });
 export const getCoursesById = createAsyncThunk<
   CoursesResponse,
-  CoursesParams, 
-  { state: RootState }
->("singleCourses/get", async (params, thunkApi) => {
+  GetCourseIdParams,
+  { state: RootState } 
+>("singleCourse/get", async ({ id }, thunkApi) => {
   try {
-    const state = thunkApi.getState(); 
-    const token = state.auth?.auth?.token;
+    // const state = thunkApi.getState();
+    // const token = state.auth?.auth?.token;
 
-    const response = await fetch(`${apiUrl.COURSES.GET}/${params?.id}`, {
+    const response = await fetch(`${apiUrl.COURSES.GET}/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
       },
     });
 
@@ -75,7 +77,7 @@ export const getCoursesById = createAsyncThunk<
   } catch (error) {
     return thunkApi.rejectWithValue(error);
   }
-}); 
+});
 export const updateCourses = createAsyncThunk<
   CoursesResponse,
   CoursesParams,

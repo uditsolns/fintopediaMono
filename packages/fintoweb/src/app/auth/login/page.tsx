@@ -45,7 +45,7 @@ const Login: React.FC<LoginProps> = () => {
       <div className="container main-login-div">
         <div className="no-gutters justify-content-center row">
           <div className="col-md-6 col-lg-6 login-card">
-            <h1 className="font-bold text-white">Welcome Back</h1>
+            <h1 className="font-bold text-white mt-3">Welcome Back</h1>
             <div className="main-content">
               <div className="p-3">
                 <Row className="form-group mt-3">

@@ -8,7 +8,13 @@ export interface CoursesRatingReviewsFields {
   rating_star?: string | null | number;
   review_description?: string;
 }
-
+export interface CoursesRatingInterfce{
+  id?: number;
+  course_id?: number;
+  user_id?: number;
+  rating_star?: string;
+  review_description?: string;
+}
 export interface CoursesRatingReviewsParams {
   params: CoursesRatingReviewsFields;
 }

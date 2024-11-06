@@ -62,24 +62,26 @@
   margin-top: 10px;
 }
 .textfield {
-  display: flex;
-  padding: 19px 26px;
-  align-items: center;
-  gap: 8px;
-  align-self: stretch;
-  border-radius: 4px;
-  border: 1px solid var(--Border, #7a7fa2);
-  background: #121622;
-  color: #fff;
+  display: flex !important;
+  padding: 9px 16px !important;
+  align-items: center !important;
+  margin-top: 10px;
+  gap: 8px !important;
+  align-self: stretch !important;
+  border-radius: 4px !important;
+  border: 1px solid var(--Border, #7a7fa2) !important;
+  background: #121622 !important;
+  color: #fff !important;
 }
 
 .textfield::placeholder {
-  color: #fff;
+  /* color: #fff; */
+  color: #a4a4a4;
 }
 
 .textfield:focus {
   background-color: #2d303d;
-  color: #fff;
+  color: #a4a4a4;
   outline: none;
 }
 
@@ -90,6 +92,38 @@
 .isInvalid {
   border-color: red;
 }
+/* filter */
+.filter {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.filter .form-control {
+  flex: 1;
+  min-width: 150px;
+}
+
+.searchButton {
+  display: flex;
+  width: 128px;
+  padding: 14px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 12px;
+  font-style: normal;
+  margin-left: auto;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.12px;
+  margin-top: 4px;
+}
+
 .letsgoButton {
   display: flex;
   padding: 16px 24px;
@@ -133,14 +167,13 @@
   transition: width 0.3s;
 }
 
-
 .slick-list {
   margin-right: -30px;
   margin: 0 -10px;
 }
 
 /* ----Trading Courses-------- */
-.tradingCourses{
+.tradingCourses {
   padding: 50px;
 }
 .tradingCourses h1 {
@@ -149,6 +182,37 @@
   font-style: normal;
   font-weight: 700;
   line-height: 32px;
+  margin-bottom: 20px;
+}
+/* active style Course type */
+.filterButtons {
+  display: flex;
+  margin-bottom: 1rem;
+  gap: 8px;
+}
+
+.filterButton {
+  color: #a4a4a4;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  padding: 18px 24px;
+}
+
+.activeFilter {
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  border-bottom: 3px solid #fff;
+  padding: 18px 24px;
+}
+.featureCourses {
+  padding: 40px;
 }
 @media screen and (max-width: 435px) {
   .headerCourseFilter {
@@ -171,8 +235,35 @@
   .formContainer {
     margin-top: 15px;
   }
-  .tradingCourses{
+  .tradingCourses {
     padding: 15px;
   }
+  .filterButtons {
+    margin-bottom: 30px;
+  }
+  .filterButton {
+    padding: 10px;
+  }
+  .headerContentsCourseFilter h2 {
+    font-size: 24px;
+  }
+  .headerContentsCourseFilter p {
+    font-size: 16px;
+  }
+  .formContainer {
+    width: 100%;
+    padding: 20px;
+  }
+  .formContainer h2 {
+    font-size: 25px;
+  }
+  .filter {
+    display: block;
+  }
+  .filter button {
+    width: 100%;
+  }
+  .textfield {
+    padding: 3px !important;
+  }
 }
-/* course Details CSS */

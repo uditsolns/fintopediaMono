@@ -143,7 +143,7 @@ export const GameWinner: React.FC<GameWinnerProps> = ({navigation}) => {
                       el?.user?.photo
                         ? `${imageUrl}/uploads/user_photo/${el?.user?.photo}`
                         : null
-                    }
+                    } 
                     rank={index + 1}
                     name={
                       el?.user

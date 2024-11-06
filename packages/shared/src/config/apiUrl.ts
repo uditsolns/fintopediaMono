@@ -1,4 +1,4 @@
-const baseUrl = "http://nivada.in/hiring-management-backend/public/api/";
+const baseUrl = "https://nivada.in/hiring-management-backend/public/api/";
 const version = "v1/";
 
 const buildUrl = (endpoint: string) => {
@@ -19,16 +19,16 @@ export default {
     DELETE: buildUrl("users"),
   },
   CATEGORIES: {
-    GET: buildUrl("categories"),
+    GET: buildUrl("categories_open"),
     POST: buildUrl("categories"),
     UPDATE: buildUrl("categories"),
     DELETE: buildUrl("categories"),
   },
   COURSES: {
     GET: buildUrl("coursesget"),
-    POST: buildUrl("coursesget"),
-    UPDATE: buildUrl("coursesget"),
-    DELETE: buildUrl("coursesget"),
+    POST: buildUrl("courses"),
+    UPDATE: buildUrl("courses"),
+    DELETE: buildUrl("courses"),
   },
   COURSE_SECTIONS: {
     GET: buildUrl("courses_sections"),

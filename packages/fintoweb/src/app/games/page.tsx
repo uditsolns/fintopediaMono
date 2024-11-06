@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import styles from "./Games.module.css";
 import {
   Container,
   Row,
@@ -10,6 +11,7 @@ import {
   CardImg,
   CardTitle,
   Button,
+  CardText,
 } from "reactstrap";
 import { getGames } from "shared/src/provider/store/services/games.service";
 import { createStartGame } from "shared/src/provider/store/services/startgame.service";
@@ -18,11 +20,12 @@ import {
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import { imageUrl } from "shared/src/config/imageUrl";
-import LightLoading from "@src/components/loader/LightLoading";
+import LightLoading from "@src/components/loader/LoadingAtom";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { capitalizeAndTruncate } from "@src/components/capitalizeAndTruncate/capitalizeAndTruncate";
 import { clearGameUsers } from "shared/src/provider/store/reducers/gameusers.reducer";
+import LoadingAtom from "@src/components/loader/LoadingAtom";
 
 const GamesPage: React.FC = () => {
   const router = useRouter();
@@ -37,92 +40,102 @@ const GamesPage: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className="background-gradient">
-      <Container>
-        <Row className="mt-5">
-          {loading?.games || startGameLoading.create ? (
-            <div className="d-flex justify-content-center align-items-center p-5">
-              <LightLoading />
-            </div>
-          ) : games.length === 0 ? (
-            <div className="text-center text-white p-5">
-              No games available at the moment.
-            </div>
-          ) : (
-            games
-              .filter((game) => game?.is_active == 1)
-              .map((game) => (
-                <Col key={game.id} md={4} className="mb-4">
-                  <Card
-                    className="h-100 d-flex flex-row"
-                    style={{ backgroundColor: "black", color: "#FFF" }}
-                  >
-                    <div style={{ flex: "0 0 40%", overflow: "hidden" }}>
-                      <CardImg
-                        src={
-                          !game.image
-                            ? "https://spiderimg.amarujala.com/assets/images/2021/09/02/share-market-business_1630576834.jpeg"
-                            : `${imageUrl}/GameImages/${game.image}`
-                        }
-                        alt="Game Image"
-                        style={{ height: "100%", objectFit: "cover" }}
-                      />
-                    </div>
-                    <CardBody
-                      style={{
-                        flex: "1 0 60%",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                      }}
+    <>
+      {loading?.games || startGameLoading.create ? (
+        <div className="fullPageLoading">
+          <LoadingAtom
+            style={{
+              height: "5rem",
+              width: "5rem",
+            }}
+          />
+        </div>
+      ) : null}
+      <div className="background-gradient">
+        <Container>
+          <Row className="mt-5">
+            {games.length === 0 ? (
+              <div className="text-center text-white p-5">
+                No games available at the moment.
+              </div>
+            ) : (
+              games
+                .filter((game) => game?.is_active == 1)
+                .map((game) => (
+                  <Col key={game.id} md={4} className="mb-4">
+                    <Card
+                      className="h-100 d-flex flex-row"
+                      style={{ backgroundColor: "black", color: "#FFF" }}
                     >
-                      <CardTitle tag="h5">
-                        {capitalizeAndTruncate(game.name, 25)}
-                      </CardTitle>
-                      <Button
-                        prefetch={true}
-                        className="btn btn-sm btn-light font-bold text-black"
-                        style={{ width: "80%" }}
-                        onClick={() => {
-                          const startGameInfo = {
-                            game_id: game?.id,
-                          };
-                          dispatch(clearGameUsers());
-                          dispatch(
-                            createStartGame({
-                              startGameInfo,
-                              onSuccess: (res) => {
-                                if (res.error) {
-                                  toast.error(res.error, {
+                      <div style={{ flex: "0 0 40%", overflow: "hidden" }}>
+                        <CardImg
+                          src={
+                            !game.image
+                              ? "https://spiderimg.amarujala.com/assets/images/2021/09/02/share-market-business_1630576834.jpeg"
+                              : `${imageUrl}/GameImages/${game.image}`
+                          }
+                          alt="Game Image"
+                          style={{ height: "100%", objectFit: "cover" }}
+                        />
+                      </div>
+                      <CardBody
+                        style={{
+                          flex: "1 0 60%",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <div className={styles.gameContent}>
+                          <h2>{capitalizeAndTruncate(game.name, 25)}</h2>
+                          <p>{game.game_desc}</p>
+                        </div>
+
+                        <Button
+                          prefetch={true}
+                          className="btn btn-sm btn-light font-bold text-black mt-3"
+                          style={{ width: "80%" }}
+                          onClick={() => {
+                            const startGameInfo = {
+                              game_id: game?.id,
+                            };
+                            dispatch(clearGameUsers());
+                            dispatch(
+                              createStartGame({
+                                startGameInfo,
+                                onSuccess: (res) => {
+                                  if (res.error) {
+                                    toast.error(res.error, {
+                                      position: "top-right",
+                                      theme: "light",
+                                    });
+                                    return;
+                                  }
+                                  router.push(`/waiting-page/${game?.id}`);
+                                },
+                                onError: (err) => {
+                                  const errorMessage =
+                                    err.error || "An unknown error occurred";
+                                  toast.error(errorMessage, {
                                     position: "top-right",
                                     theme: "light",
                                   });
-                                  return;
-                                }
-                                router.push(`/waiting-page/${game?.id}`);
-                              },
-                              onError: (err) => {
-                                const errorMessage =
-                                  err.error || "An unknown error occurred";
-                                toast.error(errorMessage, {
-                                  position: "top-right",
-                                  theme: "light",
-                                });
-                              },
-                            })
-                          );
-                        }}
-                      >
-                        Play Game
-                      </Button>
-                    </CardBody>
-                  </Card>
-                </Col>
-              ))
-          )}
-        </Row>
-      </Container>
-    </div>
+                                },
+                              })
+                            );
+                          }}
+                        >
+                          Play Game
+                        </Button>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                ))
+            )}
+          </Row>
+        </Container>
+      </div>
+    </>
   );
 };
 

@@ -19,7 +19,7 @@ interface CartMoleculeProps {
   saveForLaterBoolean?: boolean;
 }
 
-export default function CartMolecule({
+export default function CartMolecule({ 
   item,
   onPress,
   onSaveLater,

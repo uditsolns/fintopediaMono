@@ -103,7 +103,7 @@ const courseNotesSlice = createSlice({
         state.loading.delete = false;
         state.err.deleteErr = action?.payload;
       });
-  },
+  }, 
 });
 export const { storeSingleCourseNotes, clearCourseNotes } =
   courseNotesSlice.actions;

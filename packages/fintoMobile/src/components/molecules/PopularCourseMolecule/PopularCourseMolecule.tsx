@@ -72,7 +72,7 @@ export default function PopularCourseMolecule({
           onPress={onPress}
         />
       </View>
-    </Pressable>
+    </Pressable> 
   );
 }
 

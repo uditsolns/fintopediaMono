@@ -53,7 +53,7 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
       course_notes_loading.update ||
       course_notes_loading.delete ? (
         <LoaderAtom size="large" />
-      ) : null}
+      ) : null} 
       <View>
         <MultilineTextInputAtom
           placeholderTitle="Add a note at 0.15"
@@ -93,7 +93,7 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
             setSelectedNote(null);
           }}
           value={notes}
-          onChangeText={setNotes}
+          onChangeText={setNotes} 
         />
 
         {course_notes?.length ? (
@@ -154,7 +154,7 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
                               .replace(/&nbsp;/g, ' ');
                             setNotes(note2);
                             setSelectedNote(item);
-                          }}>
+                          }}> 
                           <Images.SVG.Pencil />
                         </Pressable>
                         <Pressable

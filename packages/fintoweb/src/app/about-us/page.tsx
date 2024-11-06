@@ -176,7 +176,7 @@ const About = () => {
                   We are committed to providing top-tier finance education that
                   is easily accessible to learners from diverse backgrounds and
                   locations, ensuring that everyone has the opportunity 
-                  {/*to gain valuable financial knowledge. */}
+                 
                 </p>
               </CardBody>
             </Card>

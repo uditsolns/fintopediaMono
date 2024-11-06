@@ -87,7 +87,7 @@ const WaitingPage: React.FC<WaitingPageProps> = ({ id }) => {
       for (let i = 0; i < filterRound.length; i++) {
         if (filterRound[i].is_active == 1) {
           await pushFilterData(filterRound[i]);
-          setModal(false);
+         
           let roundLevel = filterRound[i]?.round_level;
           let roundId = filterRound[i]?.id;
           console.log("roundLevel-----------", roundLevel, roundId);

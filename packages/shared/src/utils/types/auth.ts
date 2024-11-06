@@ -20,8 +20,8 @@ export interface AuthState {
   token?: string | null;
   auth: AuthResponse | null;
   signup: AuthResponse | null;
-  forgot: null;
-  confirm: null;
+  forgot: any;
+  confirm: any;
   current_user: UserInfo | null;
 }
 
