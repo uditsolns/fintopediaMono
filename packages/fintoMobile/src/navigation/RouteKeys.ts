@@ -36,6 +36,7 @@ export const RouteKeys = {
   GAMEWINNERSCREEN: 'GameWinner',
   MOCKTRADEBUYSTOCKSSCREEN: 'MockTradeBuyStocks',
   MOCKTRADESELLSTOCKSSCREEN: 'MockTradeSellStocks',
+  VIEWPDFSCREEN:"ViewPdf"
 };
 
 export const TabKeys = {
@@ -64,10 +65,11 @@ export const MockTradeRouteKeys = [
 ];
 
 export const MyCourseRouteKeys = [
+  {key: 'myCourse', title: 'My Course'},
   {key: 'ongoing', title: 'Ongoing'},
   {key: 'completed', title: 'Completed'},
   {key: 'saveForLater', title: 'Save For Later'},
-  {key: 'downloaded', title: 'Downloaded'},
+  // {key: 'downloaded', title: 'Downloaded'},
 ];
 
 export const CourseDetailsRouteKeys = [

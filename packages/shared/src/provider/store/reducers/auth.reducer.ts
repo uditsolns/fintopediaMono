@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   confirmPassword,
   forgotPassword,
+  googleSignIn,
   signIn,
   signUp,
 } from "../services/auth.service";
@@ -14,6 +15,7 @@ const initialState: AuthState = {
     signout: false,
     forgot: false,
     confirm: false,
+    google_login: false,
   },
   err: {
     loginErr: null,
@@ -21,11 +23,13 @@ const initialState: AuthState = {
     signoutErr: null,
     forgotErr: null,
     confirmErr: null,
+    google_login_err: null,
   },
   auth: null,
   signup: null,
   forgot: null,
   confirm: null,
+  current_user: null,
 };
 
 const authSlice = createSlice({
@@ -34,6 +38,10 @@ const authSlice = createSlice({
   reducers: {
     logout: () => {
       return initialState;
+    },
+    storeCurrentUser: (state, action) => {
+      console.log("store current action payload", action.payload);
+      state.current_user = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -49,6 +57,18 @@ const authSlice = createSlice({
       .addCase(signIn.rejected, (state, action) => {
         state.loading.login = false;
         state.err.loginErr = action?.payload;
+      })
+      .addCase(googleSignIn.pending, (state) => {
+        state.loading.google_login = true;
+      })
+      .addCase(googleSignIn.fulfilled, (state, action) => {
+        state.loading.google_login = false;
+        state.auth = action.payload;
+        state.err.google_login_err = null;
+      })
+      .addCase(googleSignIn.rejected, (state, action) => {
+        state.loading.forgot = false;
+        state.err.google_login_err = action?.payload;
       })
       .addCase(signUp.pending, (state) => {
         state.loading.signup = true;
@@ -89,5 +109,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { logout, storeCurrentUser } = authSlice.actions;
 export default authSlice.reducer;
-export const { logout } = authSlice.actions;

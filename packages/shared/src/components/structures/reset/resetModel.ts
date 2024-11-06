@@ -15,9 +15,9 @@ export const resetField: ResetField = {
   },
   password: {
     name: "password",
-    label: "Password",
-    placeHolder: "Enter your password",
-    requiredErr: "Password is required",
+    label: "New Password",
+    placeHolder: "Enter your new password",
+    requiredErr: "New Password is required",
   },
   password_confirmation: {
     name: "password_confirmation",

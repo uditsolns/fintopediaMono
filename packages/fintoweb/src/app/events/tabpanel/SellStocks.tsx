@@ -1,139 +1,85 @@
 "use client";
 
-import { ErrorMessage, Field, Formik, Form } from "formik";
 import React, { useState, useEffect } from "react";
-import * as Yup from "yup";
 import {
   Button,
   Col,
-  InputGroup,
-  Label,
   Modal,
   ModalBody,
   ModalHeader,
   Row,
   Card,
-  ModalFooter,
   CardBody,
   CardTitle,
-  CardText,
 } from "reactstrap";
-import CustomInput from "../../../custom/CustomInput";
 import styles from "./Event.module.css";
+import { InputAtom } from "@src/components/atoms/Input/InputAtom";
+import { useBuySellHelper } from "shared/src/components/structures/buy-sell/buySell.helper";
+import { buySellField } from "shared/src/components/structures/buy-sell/buySellModel";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import CircularLoading from "@src/components/loader/CircularLoading";
+// import { StockDatasResponse } from "shared/src/utils/types/stockDatas";
+import { toast } from "react-toastify";
+import { TransactionsResponse } from "shared/src/utils/types/transactions";
 
-// import CircularLoading from "../loader/CircularLoading";
+interface Props {
+  data: TransactionsResponse;
+}
 
-type BuyModalProps = {
-  data: {
-    game_id: number;
-    stock_id: number;
-    stock: { name: string };
-    total_price: number;
-    stock_current_price: number;
-    round_level: number;
-    remark: string;
-  };
-};
-
-type FormValues = {
-  game_id: string;
-  user_id: string;
-  stock_id: string;
-  order_type: string;
-  order_qty: string;
-  total_price: string;
-  stock_current_price: string;
-  round_level: string;
-};
-
-const SellStocks: React.FC<BuyModalProps> = (props) => {
-  console.log("props", props);
+const SellStocks: React.FC<Props> = (props) => {
+  const { auth } = useAppSelector((state) => state.auth);
+  const { news } = useAppSelector((state) => state.news);
+  const { create, loading } = useAppSelector((state) => state.transactions);
+  const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
   const [modal, setModal] = useState(false);
-  const [isPostLoading, setIsPostLoading] = useState(false);
-  const [login, setLogin] = useState<{
-    user: { id: number };
-    token: string;
-  } | null>(null);
-  const [news, setNews] = useState<
-    {
-      id: number;
-      set_id: number;
-      title: string;
-      description: string;
-      date: string;
-    }[]
-  >([]);
-  const [filterRoundLevelData, setFilterRoundLevelData] = useState<{
-    set_id: number;
-  } | null>(null);
 
-  const toggle = () => {
-    setModal(!modal);
+  const toggle = () => setModal(!modal);
+
+  const { buySellFormik, buySellInputProps } = useBuySellHelper();
+  const { handleSubmit, setFieldValue, values } = buySellFormik;
+
+  React.useEffect(() => {
+    setFieldValue(buySellField.game_id.name, props.data?.game_id);
+    setFieldValue(buySellField.user_id.name, auth?.user?.id);
+    setFieldValue(buySellField.stock_id.name, props.data?.stock_id);
+    setFieldValue(buySellField.order_type.name, "Sell");
+    setFieldValue(buySellField.round_level.name, props.data?.round_level);
+  }, [props.data, modal]);
+
+  React.useEffect(() => {
+    const stock_filter_amount = props.data?.stock?.stock_datas!.find((e3) => {
+      return (
+        e3.game_id == filterRoundLevelData?.game_id &&
+        e3.round_level == filterRoundLevelData?.round_level
+      );
+    });
+    let current_price: string =
+      stock_filter_amount?.stock_current_price?.toString() || "0";
+    let quantity: string = values.order_qty?.trim()?.toString() || "0";
+    const cleanCurrentPrice = parseFloat(current_price.replace(/,/g, "")) || 0;
+    const cleanQuantity = parseFloat(quantity.replace(/,/g, "")) || 0;
+    const totalPrice = (cleanQuantity * cleanCurrentPrice).toString();
+    setFieldValue(buySellField.total_price.name, totalPrice);
+    setFieldValue(buySellField.stock_current_price.name, cleanCurrentPrice);
+  }, [props.data, values.order_qty, values.stock_current_price, modal]);
+
+  const sellStock = () => {
+    const filterOrderQty = props.data?.user?.user_transactions?.find(
+      (el) => el?.stock_id == props.data?.stock_id
+    );
+    if (Number(values.order_qty) > Number(filterOrderQty?.order_qty)) {
+      toast.warning("Quantity is less than equal to total quantity", {
+        type: "error",
+      });
+    } else {
+      handleSubmit();
+    }
   };
-
-  const handleSubmit = (
-    values: FormValues,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
-    setIsPostLoading(true);
-    // Perform API call or other actions here
-    // Example: simulate API call
-    setTimeout(() => {
-      // API call successful
-      setIsPostLoading(false);
-      toggle();
-      setSubmitting(false);
-    }, 1000);
-  };
-
-  useEffect(() => {
-    // Mock fetching data that was originally handled by Redux
-    const mockLogin = { user: { id: 1 }, token: "mock-token" };
-    const mockNews = [
-      // { set_id: 1, name: "News Item 1" },
-      // { set_id: 2, name: "News Item 2" },
-      {
-        id: 1,
-        set_id: 1,
-        title: "Stock Market Hits Record Highs",
-        description:
-          "The stock market reached new record highs today as investors remain optimistic about the economic recovery.",
-        date: "August 22, 2024",
-      },
-      {
-        id: 2,
-        set_id: 1,
-
-        title: "Tech Stocks Lead the Rally",
-        description:
-          "Technology stocks have led the market rally, with significant gains in companies like Apple and Microsoft.",
-        date: "August 21, 2024",
-      },
-      {
-        id: 3,
-        set_id: 1,
-
-        title: "Oil Prices Surge Amid Supply Concerns",
-        description:
-          "Oil prices surged today as concerns about supply disruptions in the Middle East continue to grow.",
-        date: "August 20, 2024",
-      },
-      {
-        id: 4,
-        set_id: 1,
-        title: "Federal Reserve Signals Rate Hike",
-        description:
-          "The Federal Reserve has signaled that it may raise interest rates sooner than expected, citing inflation concerns.",
-        date: "August 19, 2024",
-      },
-    ];
-    const mockFilterRoundLevelData = { set_id: 1 };
-
-    setLogin(mockLogin);
-    setNews(mockNews);
-    setFilterRoundLevelData(mockFilterRoundLevelData);
-  }, []);
-
+  React.useEffect(() => {
+    if (create && create?.id) {
+      setModal(false);
+    }
+  }, [create]);
   return (
     <div>
       <Button className="btn-warning p-1" onClick={toggle} block>
@@ -148,147 +94,61 @@ const SellStocks: React.FC<BuyModalProps> = (props) => {
         </ModalHeader>
 
         <ModalBody className="background-gradient">
-          <Formik
-            initialValues={{
-              game_id: "",
-              user_id: "",
-              stock_id: "",
-              order_type: "Sell",
-              order_qty: "",
-              total_price: "",
-              stock_current_price: "",
-              round_level: "",
-              remark: "",
-            }}
-            onSubmit={handleSubmit}
-            validationSchema={Yup.object().shape({
-              order_qty: Yup.number()
-                .positive("This field must contain a positive number")
-                .integer("This field should contain an integer")
-                .required("This field is required"),
-            })}
-          >
-            {(formProps) => {
-              // Update the total price when order quantity and stock price are present
-              const orderQty = parseFloat(formProps.values.order_qty);
-              const stockPrice = parseFloat(
-                props.data?.stock_current_price.toString() || "0"
-              );
-              formProps.values.total_price =
-                !isNaN(orderQty) && !isNaN(stockPrice)
-                  ? (orderQty * stockPrice).toFixed(2)
-                  : "";
-
-              return (
-                <Form className="mt-3">
-                  <Row className="form-group mt-3">
-                    <Col md={12}>
-                      <Label className="text-white">Stock Current Price</Label>
-                      <InputGroup>
-                        <Field
-                          component={CustomInput}
-                          type="text"
-                          name="stock_current_price"
-                          id="stock_current_price"
-                          placeholder="Stock Current Price"
-                          className={`${styles.textfield} form-control ${
-                            formProps.errors.stock_current_price &&
-                            formProps.touched.stock_current_price
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                        />
-                        <ErrorMessage
-                          name="stock_current_price"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </InputGroup>
-                    </Col>
-                  </Row>
-                  <Row className="form-group mt-3">
-                    <Col md={12}>
-                      <Label className="text-white">Quantity</Label>
-                      <InputGroup>
-                        <Field
-                          component={CustomInput}
-                          type="text"
-                          name="order_qty"
-                          id="order_qty"
-                          placeholder="Select Quantity"
-                          className={`${styles.textfield} form-control ${
-                            formProps.errors.order_qty &&
-                            formProps.touched.order_qty
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                        />
-                        <ErrorMessage
-                          name="order_qty"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </InputGroup>
-                    </Col>
-                  </Row>
-                  
-                  <Row className="form-group mt-3">
-                    <Col md={12}>
-                      <Label className="text-white">Remarks (Optional)</Label>
-                      <InputGroup>
-                        <Field
-                          component={CustomInput}
-                          type="text"
-                          name="remark"
-                          id="remark"
-                          placeholder="Enter Remark"
-                          className={`${styles.textfield} form-control ${
-                            formProps.errors.remark && formProps.touched.remark
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                        />
-                        <ErrorMessage
-                          name="remark"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </InputGroup>
-                    </Col>
-                  </Row>
-                  <Row className="mt-3">
-                    <Col md={12}>
-                      <Button
-                        type="submit"
-                        disabled={isPostLoading}
-                        color="light"
-                        block
-                        className="font-bold"
-                      >
-                        {/* {isPostLoading ? <CircularLoading /> : "BUY"} */}Sell
-                      </Button>
-                    </Col>
-                  </Row>
-                </Form>
-              );
-            }}
-          </Formik>
+          <Row className="form-group mt-3">
+            <Col md={12}>
+              <InputAtom
+                label={buySellField.stock_current_price.label}
+                placeholder={buySellField.stock_current_price.placeHolder}
+                {...buySellInputProps(buySellField.stock_current_price.name)}
+                disabled
+              />
+            </Col>
+          </Row>
+          <Row className="form-group mt-3">
+            <Col md={12}>
+              <InputAtom
+                label={buySellField.order_qty.label}
+                placeholder={buySellField.order_qty.placeHolder}
+                {...buySellInputProps(buySellField.order_qty.name)}
+              />
+            </Col>
+          </Row>
+          <Row className="form-group mt-3">
+            <Col md={12}>
+              <InputAtom
+                label={buySellField.total_price.label}
+                placeholder={buySellField.total_price.placeHolder}
+                {...buySellInputProps(buySellField.total_price.name)}
+              />
+            </Col>
+          </Row>
+          <Row className="mt-3 mb-3 row">
+            <Col className="col-12">
+              <Button
+                type="submit"
+                className="btn btn-light font-bold text-black"
+                size="lg"
+                block
+                onClick={sellStock}
+              >
+                {loading.create ? <CircularLoading /> : "Sell"}
+              </Button>
+            </Col>
+          </Row>
           <h2 className="text-start mt-3 mb-3 font-bold">
             Catch up with latest news
           </h2>
           <div className={styles["news-scroll-container"]}>
-            {news.length > 0 && (
-              <>
-                {news.map((el, i) => (
+            {news.length > 0 &&
+              news
+                ?.filter((item) => item.set_id == filterRoundLevelData?.set_id)
+                .map((el, i) => (
                   <Card key={i} className={`${styles["news-card"]} m-2 p-2`}>
                     <CardBody>
-                      <CardTitle tag="h6">{el.title}</CardTitle>
-                      <CardText>{el.description}</CardText>
+                      <CardTitle tag="h6">{el.name}</CardTitle>
                     </CardBody>
                   </Card>
                 ))}
-              </>
-            )}
           </div>
         </ModalBody>
       </Modal>

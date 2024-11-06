@@ -100,19 +100,18 @@ const Popup: React.FC<PopupProps> = ({
               />
             </View>
 
-<View style={{width:'100%'}}>
-
-            <ButtonAtom
-              title={`${btnTitle1}`}
-              preset="fourthy"
-              onPress={onRetry}
-            />
-            <ButtonAtom
-              title={`${btnTitle2}`}
-              preset="tertiary"
-              onPress={onRetry}
-            />
-</View>
+            <View style={{width: '100%'}}>
+              <ButtonAtom
+                title={`${btnTitle1}`}
+                preset="fourthy"
+                onPress={onRetry}
+              />
+              <ButtonAtom
+                title={`${btnTitle2}`}
+                preset="tertiary"
+                onPress={onClose}
+              />
+            </View>
           </View>
         </View>
       </View>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { interTight } from "shared/src/theme/typography.web";
 import "bootstrap/dist/css/bootstrap.css";
 import "./globals.css";
-import BootstrapClient from "@src/components/BootstrapClient";
+// import BootstrapClient from "@src/components/BootstrapClient";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import "slick-carousel/slick/slick.css";

@@ -135,7 +135,7 @@ const Blogs: React.FC = () => {
               fragrances and elegance. Dive into the art of perfumery, discover
               the impact of scents on your life, and explore sustainable
               practices that define our brand. From styling tips to the science
-              of aromas, we're here to enrich your fragrance journey. Join us as
+              of aromas, we&apos;re here to enrich your fragrance journey. Join us as
               we delve into the essence of ZAura, where every scent tells a
               story.
             </p>

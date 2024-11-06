@@ -6,7 +6,6 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {mScale} from '@shared/src/theme/metrics';
 import {LinkButton} from '@src/components/Button/LinkButton';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import TextInputBox from '@src/components/Input/TextInputBox';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
@@ -18,14 +17,11 @@ interface OTPProps extends NavType<'Otp'> {}
 export const OTP: React.FC<OTPProps> = ({navigation}) => {
   return (
     <GradientTemplate>
-      <HeaderLeftMolecule />
-
-      <ScrollViewAtom>
+     <ScrollViewAtom contentContainerStyle={{marginTop: mScale.xxl1}}>
         <View>
           <View style={{marginVertical: mScale.base, padding: mScale.md}}>
             <View style={{alignSelf: 'center'}}>
               <Images.SVG.EmailVerifyIcon />
-              {/* <ImageAtom sourceRequire={require('@shared/src/assets/img/lockIcon.png')} /> */}
             </View>
             <TextAtom
               text={`Verify your email address`}

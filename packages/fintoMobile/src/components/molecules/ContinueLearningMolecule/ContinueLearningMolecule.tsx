@@ -1,18 +1,23 @@
 import React from 'react';
-import { Pressable, StyleSheet, View, ViewStyle, ImageStyle, TextStyle } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View,
+  ViewStyle,
+  ImageStyle,
+  TextStyle,
+} from 'react-native';
 import ImageAtom from '@src/components/Image/ImageAtom';
-import { commonStyle } from '@shared/src/commonStyle';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { colorPresets } from '@shared/src/theme/color';
-import { moderateScale, mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
+import {commonStyle} from '@shared/src/commonStyle';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {colorPresets} from '@shared/src/theme/color';
+import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
+import {imageUrl} from '@shared/src/config/imageUrl';
+import { OngoingCoursesResponse } from '@shared/src/utils/types/ongoing-course';
 
 interface ContinueLearningMoleculeProps {
-  item: {
-    id: number | string;
-    title: string;
-    description: string;
-  };
-  onPress: () => void;
+  item: OngoingCoursesResponse;
+  onPress?: () => void;
 }
 
 export default function ContinueLearningMolecule({
@@ -20,41 +25,55 @@ export default function ContinueLearningMolecule({
   onPress,
 }: ContinueLearningMoleculeProps) {
   return (
-    <Pressable style={[commonStyle.flexStart, styles.container]} onPress={onPress}>
+    <Pressable
+      style={[commonStyle.flexStart, styles.container]}
+      onPress={onPress}>
       <ImageAtom
-        sourceRequire={require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')}
+        sourceRequire={
+          item?.course?.course_image
+            ? {uri: `${imageUrl}/uploads/course_images/${item?.course?.course_image}`}
+            : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')
+        }
         style={styles.image}
+        resizeMode='stretch'
       />
       <View style={styles.content}>
         <TextAtom
-          text={'Introduction to Option Trading'}
+          text={item?.course?.name || ''}
           preset="medium"
-          style={[styles.boldText,{color:colorPresets.GRAY}]}
+          style={[styles.boldText, {color: colorPresets.GRAY}]}
           numberOfLines={3}
         />
         <TextAtom
-          text="Module 01. Understanding Future & Options"
+          text={item?.courses_section?.section_heading || ''}
           preset="titleBold"
           numberOfLines={3}
-          style={{ marginTop: mScale.md }}
+          style={{marginTop: mScale.md}}
         />
-        <View style={[commonStyle.flexStart, { marginTop: mScale.lg }]}>
+        {item?.courses_section?.section_time ? 
+        <View style={[commonStyle.flexStart, {marginTop: mScale.lg}]}>
           <TextAtom
             text={'Lecture'}
             preset="medium"
-            style={[styles.boldText,{color:colorPresets.GRAY}]}
+            style={[styles.boldText, {color: colorPresets.GRAY}]}
           />
           <TextAtom
             text={'\u2B24'}
             preset="titleBold"
-            style={[styles.boldText, { marginStart: mScale.md,color:colorPresets.GRAY }]}
+            style={[
+              styles.boldText,
+              {marginStart: mScale.md, color: colorPresets.GRAY},
+            ]}
           />
           <TextAtom
-            text={'12 Minutes'}
+            text={item?.courses_section?.section_time || ""}
             preset="medium"
-            style={[styles.boldText, { marginStart: mScale.md,color:colorPresets.GRAY }]}
+            style={[
+              styles.boldText,
+              {marginStart: mScale.md, color: colorPresets.GRAY},
+            ]}
           />
-        </View>
+        </View> : null }
       </View>
     </Pressable>
   );

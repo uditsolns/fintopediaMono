@@ -23,8 +23,8 @@
 .sector-btn {
   margin-bottom: 10px;
   border-radius: 4px;
-  border: 1px solid #b8bccb;
-  background-color: #545664;
+  border: none;
+  background-color: transparent;
   color: #fff;
   width: 100%;
   text-align: center;
@@ -33,12 +33,18 @@
 .sector-btn:hover {
   background-color: #6a6d7b;
 }
+.active {
+  border: 1px solid #b8bccb;
+  background-color: #545664;
+  color: white;
+}
+
 .search-textfield {
-  gap: 8px;
-  border-radius: 8px;
-  border: 1px solid var(--Border, #7a7fa2);
-  background: #121622;
-  width: 100%;
+  gap: 8px !important;
+  border-radius: 5px !important;
+  border: 1px solid var(--Border, #7a7fa2) !important;
+  background: #121622 !important;
+  width: 100% !important;
 }
 
 .search-icon {
@@ -46,11 +52,11 @@
 }
 
 .search-placeholder::placeholder {
-  color: #a4a4a4;
-  opacity: 1;
+  color: #a4a4a4 !important;
+  opacity: 1 !important;
 }
 .search-input {
-  color: #a4a4a4;
+  color: #a4a4a4 !important;
 }
 .inline-row {
   display: flex;
@@ -173,7 +179,15 @@
 .isInvalid {
   border-color: red;
 }
-
+.overview {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  padding: 15px 30px 0px 22px;
+  /* padding-top: 20px;
+  padding-left: 22px;
+  padding-right: 30px; */
+}
 /* -------media screen -------- */
 @media screen and (max-width: 420px) {
   .main-login-div {
@@ -188,8 +202,8 @@
   .sector-btn {
     margin-bottom: 10px;
     border-radius: 4px;
-    border: 1px solid #b8bccb;
-    background-color: #545664;
+    border: none;
+    background-color: transparent;
     color: #fff;
     width: 100%;
     padding: 1px 10px;

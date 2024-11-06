@@ -73,7 +73,7 @@ const Contact: React.FC = () => {
           <h1>Get in Touch with Fintopedia</h1>
           <p>
             Reach out to us for inquiries, collaborations, or just to say hello.
-            We're here to listen,
+            We&apos;re here to listen,
             <br /> collaborate, and transform your ideas into digital realities.
           </p>
         </div>

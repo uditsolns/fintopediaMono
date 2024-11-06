@@ -4,9 +4,12 @@ import apiUrl from "../../../config/apiUrl";
 import {
   AuthParams,
   AuthResponse,
+  ForgotPasswordParams,
   SignupParams,
   UpdatePasswordParams,
+  UserInfo,
 } from "../../../utils/types/auth";
+import { storeCurrentUser } from "../reducers/auth.reducer";
 
 export const signIn = createAsyncThunk<
   AuthResponse,
@@ -14,17 +17,36 @@ export const signIn = createAsyncThunk<
   { state: RootState }
 >("auth/signin", async (params, thunkApi) => {
   try {
-    console.log(JSON.stringify(params))
     const response = await fetch(apiUrl.AUTH.LOGIN, {
       method: "POST",
-      headers:{
-        'Content-Type':"application/json"
+      headers: {
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
     });
-
     const data = (await response.json()) as AuthResponse;
+    thunkApi.dispatch(storeCurrentUser(data?.user));
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
 
+export const googleSignIn = createAsyncThunk<
+  AuthResponse,
+  ForgotPasswordParams,
+  { state: RootState }
+>("googleSignIn/signin", async (params, thunkApi) => {
+  try {
+    const response = await fetch(apiUrl.AUTH.GOOGLE, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    });
+    const data = (await response.json()) as AuthResponse;
+    thunkApi.dispatch(storeCurrentUser(data?.user as UserInfo));
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);
@@ -39,8 +61,8 @@ export const signUp = createAsyncThunk<
   try {
     const response = await fetch(apiUrl.AUTH.SIGNUP, {
       method: "POST",
-      headers:{
-        'Content-Type':"application/json"
+      headers: {
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
     });
@@ -61,8 +83,8 @@ export const forgotPassword = createAsyncThunk<
   try {
     const response = await fetch(apiUrl.AUTH.FORGOT, {
       method: "POST",
-      headers:{
-        'Content-Type':"application/json"
+      headers: {
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
     });
@@ -83,8 +105,8 @@ export const confirmPassword = createAsyncThunk<
   try {
     const response = await fetch(apiUrl.AUTH.FORGOTCONFIRM, {
       method: "POST",
-      headers:{
-        'Content-Type':"application/json"
+      headers: {
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
     });

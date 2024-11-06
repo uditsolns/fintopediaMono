@@ -2,24 +2,15 @@
 
 import React from "react";
 import styles from "./CategoryBanner.module.css";
-import { Button, Col, InputGroup, Row } from "reactstrap";
-import { ErrorMessage, Form, Field, Formik,FormikHelpers } from "formik";
-import CustomSelect from "@src/custom/CustomSelect";
+import { Col, Row } from "reactstrap";
+import { CategoriesResponse } from "shared/src/utils/types/categories";
+import ButtonWithIcons from "@src/components/button/ButtonWithIcons";
 
-interface RegisterFormValues {
-  college_id: string;
+interface CategoryBannerProps {
+  categories: CategoriesResponse[];
 }
-const CategoryBanner: React.FC = () => {
-  const handleSubmit = (
-    values: RegisterFormValues,
-    { setSubmitting }: FormikHelpers<RegisterFormValues>
-  ) => {
-    const register = {
-      college_id: values.college_id,
-    };
-    // dispatch(actions.postRegister(register, () => router.push('/login')));
-    setSubmitting(false);
-  };
+
+const CategoryBanner: React.FC<CategoryBannerProps> = ({ categories }) => {
   return (
     <div className={styles.CategoryBanner}>
       <div className={styles.mainRow}>
@@ -32,54 +23,32 @@ const CategoryBanner: React.FC = () => {
             </p>
           </Col>
           <Col md={4}>
-            <Formik
-              initialValues={{
-                college_id: "",
-              }}
-              onSubmit={handleSubmit}
-            >
-              {({ errors, touched, isSubmitting }) => (
-                <Form className="mt-3">
-                  <Row className="form-group mt-3">
-                    <Col md={12}>
-                      <InputGroup>
-                        <Field
-                          component={CustomSelect}
-                          name="college_id"
-                          id="college_id"
-                          className={`${styles.textfield} form-control ${
-                            errors.college_id && touched.college_id
-                              ? "is-invalid"
-                              : ""
-                          }`} 
-                        >
-                          <option>Select Category</option>
-                        </Field>
-                        <ErrorMessage
-                          name="college_id"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </InputGroup>
-                    </Col>
-                  </Row>
-
-                  <Row className="mt-2">
-                    <Col md={12}>
-                      <Button
-                        type="submit"
-                        className="btn btn-light font-bold text-black"
-                        size="md"
-                        block
-                        disabled={isSubmitting}
-                      >
-                        Let's go
-                      </Button>
-                    </Col>
-                  </Row>
-                </Form>
-              )}
-            </Formik>
+            <Row className="form-group mt-3">
+              <Col md={12}>
+                <div className="custom-select">
+                  <select
+                    id="categorySelect"
+                    className="textfield form-control"
+                  >
+                    <option value="">Select a Category</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.category_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </Col>
+            </Row>
+            <Row className="mt-2">
+              <Col md={12}>
+                <ButtonWithIcons
+                  label="Let's go"
+                  path="/where-to-start"
+                  width="100%"
+                />
+              </Col>
+            </Row>
           </Col>
         </Row>
       </div>

@@ -9,7 +9,8 @@ export const errorMiddleware =
       if (action?.payload) {
         if (Platform.OS === "web") {
           toast.error(action.payload.message, {
-            position: "top-center",
+            position: "top-right",
+            theme: "light",
           });
         } else {
           Toast.show(action.payload.message, {
@@ -19,7 +20,8 @@ export const errorMiddleware =
       } else {
         if (Platform.OS === "web") {
           toast.error(action.error.message, {
-            position: "top-center",
+            position: "top-right",
+            theme: "light",
           });
         } else {
           Toast.show(action.error.message, {

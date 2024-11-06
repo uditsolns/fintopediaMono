@@ -25,7 +25,7 @@ export const useSignupHelper = () => {
         surname_name: values.surname_name,
       };
       console.log("signup data ",data)
-      dispatch(signUp(data));
+      dispatch(signUp(data)); 
     },
   });
 

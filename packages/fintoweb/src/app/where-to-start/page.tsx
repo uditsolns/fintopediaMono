@@ -1,74 +1,83 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import styles from "./WheretoStart.module.css";
 import Back from "../../assets/whereto-start.png";
-import { FaArrowRight, FaClock, FaStar } from "react-icons/fa";
+import { Col, Row, Label } from "reactstrap";
 import {
-  Button,
-  Col,
-  InputGroup,
-  Row,
-  Card,
-  CardImg,
-  CardBody,
-  CardTitle,
-  Label,
-} from "reactstrap";
-import { ErrorMessage, Form, Field, Formik, FormikHelpers } from "formik";
-import CustomSelect from "@src/custom/CustomSelect";
-import { TbAntennaBars1 } from "react-icons/tb";
-
-interface RegisterFormValues {
-  college_id: string;
-}
-const stocks = [
-  {
-    id: 1,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Basic of Stock Market",
-    description: "A brief description of Company A.",
-    rating: 4.6,
-    reviews: 1000,
-    price: 5000,
-    originalPrice: 6000,
-  },
-  {
-    id: 2,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Mastering of Money",
-    description: "A brief description of Company B.",
-    rating: 4.8,
-    reviews: 1500,
-    price: 4500,
-    originalPrice: 5500,
-  },
-  {
-    id: 3,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Basic of Stock Market",
-    description: "A brief description of Company C.",
-    rating: 4.2,
-    reviews: 800,
-    price: 4000,
-    originalPrice: 5000,
-  },
-];
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
+import { getCourses } from "shared/src/provider/store/services/courses.service";
+import { getCategories } from "shared/src/provider/store/services/categories.service";
+import CircularLoading from "@src/components/loader/LightLoading";
+import CoursesMolecule from "@src/components/molecules/CoursesMolecule/CoursesMolecule";
+import ButtonWithIcons from "@src/components/button/ButtonWithIcons";
 
 const WheretoStart: React.FC = () => {
-  const handleSubmit = (
-    values: RegisterFormValues,
-    { setSubmitting }: FormikHelpers<RegisterFormValues>
+  const [formData, setFormData] = useState({ college_id: "", level: "" });
+  const [filteredCourses, setFilteredCourses] = useState([]);
+  console.log("filteredCourses", filteredCourses);
+  console.log("formData", formData);
+
+  const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((state) => state.auth);
+  const token = auth?.token;
+  const { categories, loading: categoriesLoading } = useAppSelector(
+    (state) => state.categories
+  );
+  const { courses, loading: coursesLoading } = useAppSelector(
+    (state) => state.courses
+  );
+  console.log("coursesLoading", coursesLoading);
+  console.log("categoriesLoading", categoriesLoading);
+  React.useEffect(() => {
+    if (token) {
+      dispatch(getCourses());
+      dispatch(getCategories());
+    }
+  }, [token, dispatch]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const register = {
-      college_id: values.college_id,
-    };
-    // dispatch(actions.postRegister(register, () => router.push('/login')));
-    setSubmitting(false);
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Filter the courses based on selected category and level
+    const filtered = courses.filter((course) => {
+      const matchesCategory =
+        formData.college_id === "" ||
+        course.category_id === Number(formData.college_id);
+      const matchesLevel =
+        formData.level === "" || course.course_type === formData.level;
+      return matchesCategory && matchesLevel;
+    });
+
+    // Update the state with the filtered courses
+    setFilteredCourses(filtered);
+  };
+
   return (
     <>
+      {categoriesLoading?.categories || coursesLoading?.courses ? (
+        <div className="fullPageLoading">
+          <CircularLoading
+            style={{
+              height: "5rem",
+              width: "5rem",
+            }}
+          />
+        </div>
+      ) : null}
       <div className={styles.headerHowitWorks}>
         <div className={styles.headerContentsHowitWorks}>
           <h2>
@@ -81,120 +90,91 @@ const WheretoStart: React.FC = () => {
             <br />
             or Figma. You can even sync designs from your cloud storage!
           </p>
-          <div className="form">
-            <Formik
-              initialValues={{
-                college_id: "",
-                level: "",
-              }}
-              onSubmit={handleSubmit}
-            >
-              {({ errors, touched, isSubmitting }) => (
-                <Form className="mt-3">
-                  <Row className="form-group mt-3">
-                    <Col md={12}>
-                      <InputGroup>
-                        <Field
-                          component={CustomSelect}
-                          name="college_id"
-                          id="college_id"
-                          className={`textfield form-control ${
-                            errors.college_id && touched.college_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                        >
-                          <option>Select Category</option>
-                        </Field>
-                        <ErrorMessage
-                          name="college_id"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </InputGroup>
-                    </Col>
-                  </Row>
-                  <Row className="form-group mt-3">
-                    <Col md={12}>
-                      <Label
-                        htmlFor="beginner"
-                        className="form-check-label text-white m-2"
-                      >
-                        I am:
-                      </Label>
-                      <div className="form-check form-check-inline">
-                        <Field
-                          type="radio"
-                          name="level"
-                          value="beginner"
-                          id="beginner"
-                          className="form-check-input"
-                        />
-                        <Label
-                          htmlFor="beginner"
-                          className="form-check-label text-white"
-                        >
-                          Beginner
-                        </Label>
-                      </div>
-
-                      <div className="form-check form-check-inline">
-                        <Field
-                          type="radio"
-                          name="level"
-                          value="intermediate"
-                          id="intermediate"
-                          className="form-check-input"
-                        />
-                        <Label
-                          htmlFor="intermediate"
-                          className="form-check-label text-white"
-                        >
-                          Intermediate
-                        </Label>
-                      </div>
-
-                      <div className="form-check form-check-inline">
-                        <Field
-                          type="radio"
-                          name="level"
-                          value="pro"
-                          id="pro"
-                          className="form-check-input"
-                        />
-                        <Label
-                          htmlFor="pro"
-                          className="form-check-label text-white"
-                        >
-                          Pro
-                        </Label>
-                      </div>
-
-                      <ErrorMessage
-                        name="level"
-                        component="div"
-                        className="invalid-feedback"
-                      />
-                    </Col>
-                  </Row>
-
-                  <Row className="mt-2">
-                    <Col md={12}>
-                      <Button
-                        type="submit"
-                        className={styles.letsgoButton}
-                        size="md"
-                        block
-                        disabled={isSubmitting}
-                      >
-                        Let's go
-                      </Button>
-                    </Col>
-                  </Row>
-                </Form>
-              )}
-            </Formik>
-          </div>
+          <form onSubmit={handleSubmit} className="form">
+            <Row className="form-group mt-3">
+              <Col md={12}>
+                <div className="custom-select">
+                  <select
+                    id="categorySelect"
+                    name="college_id"
+                    className="textfield form-control"
+                    onChange={handleInputChange}
+                    value={formData.college_id}
+                  >
+                    <option value="">Select a Category</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.category_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </Col>
+            </Row>
+            <Row className="form-group mt-3">
+              <Col md={12}>
+                <Label
+                  htmlFor="beginner"
+                  className="form-check-label text-white m-2"
+                >
+                  I am:
+                </Label>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    name="level"
+                    value="Beginner"
+                    id="beginner"
+                    className="form-check-input"
+                    onChange={handleInputChange}
+                    checked={formData.level === "Beginner"}
+                  />
+                  <Label
+                    htmlFor="beginner"
+                    className="form-check-label text-white"
+                  >
+                    Beginner
+                  </Label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    name="level"
+                    value="Intermediate"
+                    id="intermediate"
+                    className="form-check-input"
+                    onChange={handleInputChange}
+                    checked={formData.level === "Intermediate"}
+                  />
+                  <Label
+                    htmlFor="intermediate"
+                    className="form-check-label text-white"
+                  >
+                    Intermediate
+                  </Label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    name="level"
+                    value="Expert"
+                    id="pro"
+                    className="form-check-input"
+                    onChange={handleInputChange}
+                    checked={formData.level === "Expert"}
+                  />
+                  <Label htmlFor="pro" className="form-check-label text-white">
+                    Expert
+                  </Label>
+                </div>
+              </Col>
+            </Row>
+            <Row className="mt-2">
+              <Col md={12}>
+                <ButtonWithIcons label="Let's go" width="100%" />
+              </Col>
+            </Row>
+          </form>
         </div>
         <div className={styles.imageContainer}>
           <Image src={Back} alt="Logo" />
@@ -205,43 +185,18 @@ const WheretoStart: React.FC = () => {
           Become a Finance Manager in 3 months
         </h2>
         <Row className="mt-3">
-          {stocks.map((stock) => (
-            <Col md={4} key={stock.id}>
-              <Card className={styles.card}>
-                <CardImg
-                  top
-                  width="100%"
-                  src={stock.imageSrc}
-                  alt={stock.title}
-                  className={styles.cardImage}
+          {(filteredCourses.length > 0 ? filteredCourses : courses).map(
+            (course) => (
+              <Col md={4} key={course.id}>
+                <CoursesMolecule
+                  course={course}
+                  onClick={() => {
+                    handleSubmit;
+                  }}
                 />
-                <CardBody className={styles.cardContent}>
-                  <CardTitle tag="h3" className={styles.cardTitle}>
-                    {stock.title}
-                  </CardTitle>
-                  <div className={styles.iconRow}>
-                    <div className={styles.iconText}>
-                      <TbAntennaBars1 className={styles.icon} /> Beginner
-                    </div>
-                    <div className={styles.iconText}>
-                      <FaClock className={styles.icon} /> 20 Hours
-                    </div>
-                  </div>
-                  <div className={styles.cardRating}>
-                    {stock.rating} <FaStar className={styles.icon} /> (
-                    {stock.reviews} reviews)
-                  </div>
-                  <div className={styles.priceContainer}>
-                    <h3>&#8377;{stock.price}</h3>{" "}
-                    <s>&#8377;{stock.originalPrice}</s>
-                    <button className={styles.addToCartButton}>
-                      Add to Cart
-                    </button>
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
-          ))}
+              </Col>
+            )
+          )}
         </Row>
       </div>
     </>

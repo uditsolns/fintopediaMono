@@ -1,44 +1,125 @@
 "use client";
 
-import React from 'react';
-import { Container, Row, Col, Card, CardBody, CardImg, CardTitle, CardText, Button } from 'reactstrap';
-import GameImage from "../../assets/game.png"
-import Link from 'next/link';
-const games = [
-  { id: 1, image: '/images/game2.jpg', name: 'Game One', price: '$59.99' },
-  { id: 2, image: '/images/game2.jpg', name: 'Game Two', price: '$49.99' },
-  { id: 3, image: '/images/game3.jpg', name: 'Game Three', price: '$39.99' },
-  { id: 4, image: '/images/game4.jpg', name: 'Game Four', price: '$29.99' },
-  // Add more games here
-];
+import React, { useEffect } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  CardImg,
+  CardTitle,
+  Button,
+} from "reactstrap";
+import { getGames } from "shared/src/provider/store/services/games.service";
+import { createStartGame } from "shared/src/provider/store/services/startgame.service";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
+import { imageUrl } from "shared/src/config/imageUrl";
+import LightLoading from "@src/components/loader/LightLoading";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { capitalizeAndTruncate } from "@src/components/capitalizeAndTruncate/capitalizeAndTruncate";
+import { clearGameUsers } from "shared/src/provider/store/reducers/gameusers.reducer";
 
 const GamesPage: React.FC = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { games, loading } = useAppSelector((state) => state.games);
+  const { startGame, loading: startGameLoading } = useAppSelector(
+    (state) => state.startGame
+  );
+
+  useEffect(() => {
+    dispatch(getGames());
+  }, [dispatch]);
+
   return (
-    <div className='background-gradient'>
+    <div className="background-gradient">
       <Container>
-        <Row className='mt-5'>
-          {games.map((game) => (
-            <Col key={game.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
-              <Card className="h-100 d-flex flex-row" style={{ backgroundColor: 'black', color: '#FFF' }}>
-                {/* Image Section */}
-                <div style={{ flex: '0 0 40%', overflow: 'hidden' }}>
-                  <CardImg 
-                    top 
-                    src={game.image} 
-                    alt={game.name} 
-                    style={{ height: '100%', objectFit: 'cover' }} 
-                  />
-                </div>
-                {/* Content Section */}
-                <CardBody style={{ flex: '1 0 60%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <CardTitle tag="h5">{game.name}</CardTitle>
-                  <CardText>{game.price}</CardText>
-                  <Link href="/events" prefetch={true} className='btn btn-sm btn-light font-bold text-black' style={{width:"80%"}}>Play Game</Link>
-                 
-                </CardBody>
-              </Card>
-            </Col>
-          ))}
+        <Row className="mt-5">
+          {loading?.games || startGameLoading.create ? (
+            <div className="d-flex justify-content-center align-items-center p-5">
+              <LightLoading />
+            </div>
+          ) : games.length === 0 ? (
+            <div className="text-center text-white p-5">
+              No games available at the moment.
+            </div>
+          ) : (
+            games
+              .filter((game) => game?.is_active == 1)
+              .map((game) => (
+                <Col key={game.id} md={4} className="mb-4">
+                  <Card
+                    className="h-100 d-flex flex-row"
+                    style={{ backgroundColor: "black", color: "#FFF" }}
+                  >
+                    <div style={{ flex: "0 0 40%", overflow: "hidden" }}>
+                      <CardImg
+                        src={
+                          !game.image
+                            ? "https://spiderimg.amarujala.com/assets/images/2021/09/02/share-market-business_1630576834.jpeg"
+                            : `${imageUrl}/GameImages/${game.image}`
+                        }
+                        alt="Game Image"
+                        style={{ height: "100%", objectFit: "cover" }}
+                      />
+                    </div>
+                    <CardBody
+                      style={{
+                        flex: "1 0 60%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <CardTitle tag="h5">
+                        {capitalizeAndTruncate(game.name, 25)}
+                      </CardTitle>
+                      <Button
+                        prefetch={true}
+                        className="btn btn-sm btn-light font-bold text-black"
+                        style={{ width: "80%" }}
+                        onClick={() => {
+                          const startGameInfo = {
+                            game_id: game?.id,
+                          };
+                          dispatch(clearGameUsers());
+                          dispatch(
+                            createStartGame({
+                              startGameInfo,
+                              onSuccess: (res) => {
+                                if (res.error) {
+                                  toast.error(res.error, {
+                                    position: "top-right",
+                                    theme: "light",
+                                  });
+                                  return;
+                                }
+                                router.push(`/waiting-page/${game?.id}`);
+                              },
+                              onError: (err) => {
+                                const errorMessage =
+                                  err.error || "An unknown error occurred";
+                                toast.error(errorMessage, {
+                                  position: "top-right",
+                                  theme: "light",
+                                });
+                              },
+                            })
+                          );
+                        }}
+                      >
+                        Play Game
+                      </Button>
+                    </CardBody>
+                  </Card>
+                </Col>
+              ))
+          )}
         </Row>
       </Container>
     </div>

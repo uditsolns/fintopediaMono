@@ -5,15 +5,28 @@ import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {TransactionsResponse} from '@shared/src/utils/types/transactions';
+import {RoundLevelResponse} from '@shared/src/utils/types/roundLevel';
 
 interface PortfolioMoleculeProps {
-  item?: any;
+  item?: TransactionsResponse;
   onSellStcok?: () => void;
+  filterRoundLevel?: RoundLevelResponse | null;
 }
 export default function PortfolioMolecule({
   item,
   onSellStcok,
+  filterRoundLevel,
 }: PortfolioMoleculeProps) {
+  const filterOrderQty = item?.user?.user_transactions?.find(
+    el => el?.stock_id == item?.stock_id,
+  );
+  const stock_filter_amount = item?.stock?.stock_datas!.find(e3 => {
+    return (
+      e3?.game_id == filterRoundLevel?.game_id &&
+      e3?.round_level == filterRoundLevel?.round_level
+    );
+  });
   return (
     <View style={[commonStyle.flexSpaceBetween, {width: '100%'}]}>
       <View
@@ -29,7 +42,7 @@ export default function PortfolioMolecule({
           }}
         />
         <TextAtom
-          text={'Bajaj Finance Stock'}
+          text={item?.stock?.name}
           preset="smallBold"
           style={{fontWeight: '600', width: moderateScale(86)}}
           numberOfLines={1}
@@ -37,19 +50,23 @@ export default function PortfolioMolecule({
       </View>
       <View style={[commonStyle.flexSpaceBetween, {width: '65%'}]}>
         <TextAtom
-          text={`10000`}
+          text={`${filterOrderQty?.order_qty}`}
           preset="smallBold"
           style={{fontWeight: '500', width: moderateScale(50)}}
           numberOfLines={1}
         />
         <TextAtom
-          text={`₹ 20,000`}
+          text={`₹ ${
+            item?.stock_current_price ? item?.stock_current_price : 0
+          }`}
           preset="smallBold"
           style={{fontWeight: '500', width: moderateScale(70)}}
           numberOfLines={1}
         />
         <TextAtom
-          text={`₹ 15,000`}
+          text={`₹ ${
+            stock_filter_amount ? stock_filter_amount?.stock_current_price : 0
+          }`}
           preset="smallBold"
           style={{fontWeight: '500', width: moderateScale(70)}}
           numberOfLines={1}

@@ -1,7 +1,12 @@
-import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { moderateScale, mScale } from '@shared/src/theme/metrics';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {imageUrl} from '@shared/src/config/imageUrl';
+import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
+import {colorPresets} from '@shared/src/theme/color';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
+import {isInCart} from '@src/components/Calculate';
 import CoursePrice from '@src/components/CoursePrice';
 import ProgressBar from '@src/components/ProgressBar';
 import RatingReview from '@src/components/RatingReview';
@@ -9,18 +14,27 @@ import React from 'react';
 import {Pressable, StyleSheet, View, ViewStyle, ImageStyle} from 'react-native';
 
 interface PopularCourseMoleculeProps {
-  item?:any;
+  item: CoursesResponse;
+  onView?: () => void;
   onPress?: () => void;
 }
 
 export default function PopularCourseMolecule({
-  onPress,
+  item,
+  onView = () => {},
+  onPress = () => {},
+  ...rest
 }: PopularCourseMoleculeProps) {
+  const {courseCart} = useAppSelector(state => state.courseCart);
   return (
-    <Pressable style={styles.activePlanDetails} onPress={onPress}>
+    <Pressable style={styles.activePlanDetails} {...rest} onPress={onView}>
       <View>
         <ImageAtom
-          sourceRequire={require('@shared/src/assets/img/coursePlaceHolder.png')}
+          sourceRequire={
+            item?.course_image
+              ? {uri: `${imageUrl}/uploads/course_images/${item?.course_image}`}
+              : require('@shared/src/assets/img/coursePlaceHolder.png')
+          }
           imageStyle={styles.image}
           resizeMode="contain"
         />
@@ -32,14 +46,31 @@ export default function PopularCourseMolecule({
           fontWeight={'600'}
           style={{position: 'absolute', bottom: mScale.base, right: mScale.lg}}
         /> */}
-        
       </View>
       <View style={styles.content}>
-        <TextAtom text={'Basics of Stock Market'} preset="heading2" />
-        <ProgressBar level={'intermediate'} hours={36} />
-        <RatingReview rating={4.6} review={1000} />
-        <CoursePrice price={'2,999'} discount_price={'1,888'} />
-        <ButtonAtom title='Add to cart' />
+        <TextAtom text={item?.name} preset="heading2" />
+        <ProgressBar
+          level={
+            item?.course_type
+              ? item?.course_type?.toLowerCase()
+              : 'intermediate'
+          }
+          hours={36}
+        />
+        {item?.rating ? (
+          <RatingReview
+            rating={item?.rating || ''}
+            review={item?.reviews || ''}
+          />
+        ) : null}
+        <CoursePrice
+          price={item?.sale_price}
+          discount_price={item?.actual_price}
+        />
+        <ButtonAtom
+          title={isInCart(courseCart, item?.id) ? 'Go to cart' : 'Add to cart'}
+          onPress={onPress}
+        />
       </View>
     </Pressable>
   );

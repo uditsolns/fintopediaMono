@@ -1,17 +1,14 @@
 import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 import { colorPresets } from '@shared/src/theme/color';
 import { mScale } from '@shared/src/theme/metrics';
+import { CategoriesResponse } from '@shared/src/utils/types/categories';
 import React from 'react';
 import { Pressable, StyleSheet, ViewStyle, TextStyle } from 'react-native';
-interface CategoryItem {
-  id: number | string;
-  name: string;
-}
 
 interface CategoriesMoleculeProps {
-  item: CategoryItem;
+  item: CategoriesResponse;
   categoriesSelectedId: number | string;
-  onPress: (id: number | string) => void;
+  onPress: (id: number) => void;
 }
 
 export default function CategoriesMolecule({
@@ -33,9 +30,9 @@ export default function CategoriesMolecule({
           paddingHorizontal: mScale.base,
         },
       ]}
-      onPress={() => onPress(item?.id)}>
+      onPress={() => onPress(Number(item?.id))}>
       <TextAtom
-        text={item?.name}
+        text={item?.category_name}
         preset="titleBold"
         style={styles.boldText}
       />

@@ -15,19 +15,28 @@ import CircularLoading from "@src/components/loader/CircularLoading";
 interface LoginProps {}
 
 const Login: React.FC<LoginProps> = () => {
+  const router = useRouter();
+
   const { auth, loading } = useAppSelector((state) => state.auth);
   const { authFormik, authInputProps } = useAuthHelper();
   const { handleSubmit, isSubmitting } = authFormik;
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
 
-  const router = useRouter();
-
-  useEffect(() => {
-    if (auth?.token) {
-      toast.success("Login successful!", {
-        position: "top-center",
-      });
-      router.push("/");
+  React.useEffect(() => {
+    if (auth) {
+      if (auth?.token) {
+        toast.success("Login successful!", {
+          position: "top-right",
+          theme: "light",
+        });
+        router.push("/");
+      }
+      // if (auth?.message) {
+      //   toast.error(auth?.message, {
+      //     position: "top-right",
+      //     theme: "light",
+      //   });
+      // }
     }
   }, [auth, router]);
 
@@ -83,7 +92,7 @@ const Login: React.FC<LoginProps> = () => {
                     <Button
                       type="submit"
                       className="btn btn-light font-bold text-black"
-                      size="md"
+                      size="lg"
                       block
                       disabled={loading?.login}
                       onClick={() => handleSubmit()}
@@ -92,7 +101,7 @@ const Login: React.FC<LoginProps> = () => {
                     </Button>
                   </div>
                   <div className="mt-3 text-white text-center">
-                    Don't have an account?{" "}
+                    Don&apos;t have an account?{" "}
                     <a href="/auth/register" className="text-blue-500">
                       <u>Register Now</u>
                     </a>

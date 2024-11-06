@@ -1,43 +1,71 @@
-import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {imageUrl} from '@shared/src/config/imageUrl';
+import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
 import ProgressBar from '@src/components/ProgressBar';
-import { RatingAtom } from '@src/components/RatingAtom';
+import {RatingAtom} from '@src/components/RatingAtom';
 import React from 'react';
 import {Pressable, StyleSheet, View, ViewStyle, ImageStyle} from 'react-native';
 
 interface CartMoleculeProps {
-  item?: any;
+  item?: CoursesResponse | null;
   onPress?: () => void;
+  onSaveLater?: () => void;
+  onRemove?: () => void;
   saveForLaterBoolean?: boolean;
 }
 
 export default function CartMolecule({
   item,
   onPress,
+  onSaveLater,
+  onRemove,
   saveForLaterBoolean = true,
 }: CartMoleculeProps) {
+  const {courses_save_later, loading} = useAppSelector(
+    state => state.coursesSaveLater,
+  );
+
   return (
-    <View style={[commonStyle.flexStart, styles.container]}>
+    <Pressable
+      style={[commonStyle.flexStart, styles.container]}
+      onPress={onPress}>
       <ImageAtom
-        sourceRequire={require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')}
+        sourceRequire={
+          item?.course_image
+            ? {uri: `${imageUrl}/uploads/course_images/${item?.course_image}`}
+            : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')
+        }
         imageStyle={styles.image}
+        resizeMode="stretch"
       />
       <View style={styles.content}>
         <View style={[commonStyle.flexSpaceBetween]}>
           <TextAtom
-            text="Swing Trading Basics"
+            text={item?.name}
             preset="titleBold"
             style={styles.boldText}
             numberOfLines={3}
           />
-          <TextAtom text={`₹ 2,5555`} preset="titleBold" />
+          <View style={[commonStyle.flexSpaceBetween]}>
+            <TextAtom text={`₹ ${item?.sale_price || 0}`} preset="titleBold" />
+            {/* <TextAtom
+              style={{
+                paddingStart: mScale.xs,
+                textDecorationLine: 'line-through',
+                color: colorPresets.GRAY2,
+              }}
+              text={`₹ ${item?.actual_price || 0}`}
+              preset="xSmallBold"
+            /> */}
+          </View>
         </View>
         <ProgressBar
-          level="intermediate"
+          level={item?.course_type?.toLowerCase() || "intermediate"}
           hours={'20'}
           mv={mScale.md}
           textPreset="xSmall"
@@ -59,27 +87,32 @@ export default function CartMolecule({
             alignSelf: 'flex-start',
           }}
         /> */}
-        <RatingAtom ratingTitle={`4.6/5`} />
+
+        {item?.rating ? (
+          <RatingAtom ratingTitle={item?.rating ? `${item?.rating}` : ''} />
+        ) : null}
         <View style={[commonStyle.flexStart, {marginTop: mScale.base}]}>
           {saveForLaterBoolean ? (
-            <Pressable style={{marginEnd: mScale.base}}>
-              <TextAtom
-                text={'Save for later'}
-                preset="smallBold"
-                style={[commonStyle.underline,{color:colorPresets.PRIMARY}]}
-              />
-            </Pressable>
+            courses_save_later?.some(el => el?.course_id == item?.id) ? null : (
+              <Pressable style={{marginEnd: mScale.base}} onPress={onSaveLater}>
+                <TextAtom
+                  text={'Save for later'}
+                  preset="smallBold"
+                  style={[commonStyle.underline, {color: colorPresets.PRIMARY}]}
+                />
+              </Pressable>
+            )
           ) : null}
-          <Pressable>
+          <Pressable onPress={onRemove}>
             <TextAtom
               text={'Remove'}
               preset="smallBold"
-              style={[commonStyle.underline,{color:colorPresets.TERTIARY}]}
+              style={[commonStyle.underline, {color: colorPresets.TERTIARY}]}
             />
           </Pressable>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -100,7 +133,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexGrow: 1,
     alignSelf: 'flex-start',
-    padding: mScale.base,
+    paddingStart: mScale.base,
+    paddingVertical: mScale.base,
+    paddingRight: mScale.sm,
   } as ViewStyle,
   boldText: {
     fontWeight: '400',
