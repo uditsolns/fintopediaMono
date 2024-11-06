@@ -629,9 +629,9 @@ export default function Cart() {
         <div className={styles.wishlist}>
           <h1 className={styles.wishlistHeading}>Wishlist</h1>
           <Row className="mt-3">
-            {courses_save_later.map((saveLater) => {
+            {courses_save_later.map((saveLater, index) => {
               return (
-                <Col md={4}>
+                <Col key={index} md={4}>
                   <CourseSaveLaterMolecule
                     key={saveLater.id}
                     saveLater={saveLater}
