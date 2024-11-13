@@ -5,8 +5,11 @@
   padding: 70px;
   flex-shrink: 0;
   border-radius: 16px;
-  border: 1px solid var(--L2, #7a7fa2);
-  background: var(
+  background-image: url("../../assets/homepage/where-to-star.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* border: 1px solid var(--L2, #7a7fa2); */
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -16,7 +19,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
 }
 .mainRow h1 {
   color: #fff;

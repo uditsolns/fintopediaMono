@@ -50,7 +50,10 @@
 
 /*  Course Offer .tsx */
 .offerContainer {
-  background: #050a18;
+  background-image: url("../../assets/homepage/What\ our\ courses\ offer-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background: #050a18; */
   padding: 30px;
 }
 .offerContainer h1 {

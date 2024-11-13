@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    height: 100vh;
+    background: var(--BG, linear-gradient(245deg, #2D303D 0%, #212330 28.6%, #101320 65.15%, #111521 78%, #0D0F1B 100%));
+    color: white;
+}
+
+.sidebar {
+    background-color: var(--BG, linear-gradient(245deg, #2D303D 0%, #212330 28.6%, #101320 65.15%, #111521 78%, #0D0F1B 100%));
+    padding: 1rem;
+    width: 250px;
+    transition: all 0.3s ease;
+    border-right: 1px solid #404251;
+}
+
+.iconText {
+    display: flex;
+    align-items: center;
+}
+
+.iconText svg {
+    margin-right: 10px;
+}
+
+.mainContent {
+    flex-grow: 1;
+    padding: 1rem;
+    overflow: auto;
+}
+
+.button {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    /* Space between buttons */
+}
+
+.logoutButton {
+    margin-top: auto;
+    /* Push logout button to the bottom */
+}
+
+
+.active {
+    background-color: #007bff;
+    /* Highlight color */
+    color: white;
+    /* Text color when active */
+}

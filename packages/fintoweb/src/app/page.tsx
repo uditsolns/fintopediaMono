@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import Banner from "./homepage/Banner";
 import StocksSlider from "./homepage/StocksSlider";
 import QuizSection from "./homepage/QuizSection";
@@ -15,7 +15,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
-import Login from "./auth/login/page";
+// import Login from "./auth/login/page";
 import { getCourses } from "shared/src/provider/store/services/courses.service";
 import { getCategories } from "shared/src/provider/store/services/categories.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";

@@ -3,21 +3,28 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  background: linear-gradient(
+  background-image: url("../../assets/homepage/Banner-bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background: linear-gradient(
     245.33deg,
     #2d303d 0%,
     #212330 28.6%,
     #101320 66.05%,
     #111521 83.68%,
     #0d0f1b 100%
-  );
+  ); */
 }
 .quizHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  background: linear-gradient(265.31deg, #717171 -37.14%, #0d0d0c 103.52%);
+  background-image: url("../../assets/homepage/Quiz-section-bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  /* background: linear-gradient(265.31deg, #717171 -37.14%, #0d0d0c 103.52%); */
 }
 .headerContents,
 .quizContents {
@@ -301,7 +308,10 @@
 /* -------How it Works -------- */
 
 .howitWorks {
-  background-color: #050a18;
+  /* background-color: #050a18; */
+  background-image: url("../../assets/homepage/How-it-Works.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 120px;
   margin-top: 15px;
 }
@@ -422,8 +432,11 @@
 
 /* AchiveingLearningSlider css */
 .AchiveingLearningSlider {
+  background-image: url("../../assets/contact/Testimonials.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 50px;
-  background: var(
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -433,7 +446,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
 }
 .AchiveingLearningSlider h1 {
   color: #fff;

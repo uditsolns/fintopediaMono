@@ -7,7 +7,7 @@ import ButtonWithIcons from "../../components/button/ButtonWithIcons";
 
 const Banner = () => {
   return (
-    <div className={styles.header}>
+    <div className={styles.header}> 
       <div className={styles.headerContents}>
         <h2>
           India&apos;s top experts
