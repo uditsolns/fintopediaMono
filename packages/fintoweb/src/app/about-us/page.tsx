@@ -14,7 +14,7 @@ const About = () => {
       <div className={styles.aboutBanner}>
         <div className={styles.aboutContents}>
           <h2>
-            Get to know more
+            Get to know more 
             <br /> about us
           </h2>
           <p className="text-gray">

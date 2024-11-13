@@ -14,22 +14,23 @@
   line-height: 120%;
 }
 .stockCard {
-  background: linear-gradient(
-    90deg,
-    #050a18 0%,
-    rgba(5, 10, 24, 0) 12.01%,
-    rgba(5, 10, 24, 0) 89.01%,
-    #050a18 96.59%
-  );
-  border: 1px solid #8b8888;
+  border-radius: 4px;
+  border: 1px solid var(--gradient, #7a7fa2);
+  background: #262a40;
+  backdrop-filter: blur(19.5px);
   color: #fff !important;
-  padding: 10px;
+  padding: 5px;
   margin: 10px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.cardTitle{
+  font-weight: bold;
+  font-size: 22px;
+}
 .stockCard .card-body {
   color: #fff !important;
+  padding: 3px !important;
 }
 
 .slick-slide {

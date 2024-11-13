@@ -79,42 +79,45 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
         </div>
       ) : null}
       <div className={styles.CourseDetails}>
-        <div className={styles.CourseDetailsHeader}>
-          <div className={styles.links}>
-            <Link href="/" className={styles.link}>
-              Home
-            </Link>
-            <span> &gt; </span>
-            <Link href="#" className={styles.link}>
-              {singleCourse?.category?.category_name}
-            </Link>
-            <span> &gt; </span>
-            <Link href="#" className={styles.link}>
-              {singleCourse?.name}
-            </Link>
+        <div className={styles.CourseDetailsIntro}>
+          <div className={styles.CourseDetailsHeader}>
+            <div className={styles.links}>
+              <Link href="/" className={styles.link}>
+                Home
+              </Link>
+              <span> &gt; </span>
+              <Link href="#" className={styles.link}>
+                {singleCourse?.category?.category_name}
+              </Link>
+              <span> &gt; </span>
+              <Link href="#" className={styles.link}>
+                {singleCourse?.name}
+              </Link>
+            </div>
+            <div className="courseDetailsContent">
+              <h2 className={styles.heading}>{singleCourse?.name}</h2>
+              <p className={styles.subHeading}>
+                Welcome to our comprehensive Stock Market Course, designed to
+                <br /> empower you with the knowledge and skills needed.
+              </p>
+              <div className={styles.CourseDetailsHeaderButton}>
+                <button>Course starts from ₹ {singleCourse?.sale_price}</button>
+              </div>
+              <div className={styles.offerText}>
+                <h6>
+                  Offer ends in <span> 01d : 09h : 20m : 06s</span>
+                </h6>
+              </div>
+            </div>
           </div>
-          <div className="courseDetailsContent">
-            <h2 className={styles.heading}>{singleCourse?.name}</h2>
-            <p className={styles.subHeading}>
-              Welcome to our comprehensive Stock Market Course, designed to
-              <br /> empower you with the knowledge and skills needed.
-            </p>
-            <div className={styles.CourseDetailsHeaderButton}>
-              <button>Course starts from ₹ {singleCourse?.sale_price}</button>
-            </div>
-            <div className={styles.offerText}>
-              <h6>
-                Offer ends in <span> 01d : 09h : 20m : 06s</span>
-              </h6>
-            </div>
+          <div className={styles.courseDetailsVideo}>
+            <VideoEmbed
+              otp={singleCourse?.course_video_embed?.otp}
+              playbackInfo={singleCourse?.course_video_embed?.playbackInfo}
+            />
           </div>
         </div>
-        <div className={styles.courseDetailsVideo}>
-          <VideoEmbed
-            otp={singleCourse?.course_video_embed?.otp}
-            playbackInfo={singleCourse?.course_video_embed?.playbackInfo}
-          />
-        </div>
+
         <div className={styles.learnSlider}>
           <LearnSlider />
         </div>

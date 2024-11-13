@@ -48,7 +48,7 @@ const StocksSlider: React.FC = () => {
         <div>
           <Card className={styles.stockCard}>
             <CardBody>
-              <CardTitle tag="h5">Stock A</CardTitle>
+              <CardTitle className={styles.cardTitle}>Stock A</CardTitle>
               <CardText>Price: $150</CardText>
               <CardText>Change: +1.5%</CardText>
             </CardBody>
@@ -57,7 +57,7 @@ const StocksSlider: React.FC = () => {
         <div>
           <Card className={styles.stockCard}>
             <CardBody>
-              <CardTitle tag="h5">Stock B</CardTitle>
+              <CardTitle className={styles.cardTitle}>Stock B</CardTitle>
               <CardText>Price: $220</CardText>
               <CardText>Change: -0.8%</CardText>
             </CardBody>
@@ -66,7 +66,7 @@ const StocksSlider: React.FC = () => {
         <div>
           <Card className={styles.stockCard}>
             <CardBody>
-              <CardTitle tag="h5">Stock C</CardTitle>
+              <CardTitle className={styles.cardTitle}>Stock C</CardTitle>
               <CardText>Price: $90</CardText>
               <CardText>Change: +2.3%</CardText>
             </CardBody>
@@ -75,7 +75,7 @@ const StocksSlider: React.FC = () => {
         <div>
           <Card className={styles.stockCard}>
             <CardBody>
-              <CardTitle tag="h5">Stock D</CardTitle>
+              <CardTitle className={styles.cardTitle}>Stock D</CardTitle>
               <CardText>Price: $300</CardText>
               <CardText>Change: +0.5%</CardText>
             </CardBody>
@@ -84,7 +84,7 @@ const StocksSlider: React.FC = () => {
         <div>
           <Card className={styles.stockCard}>
             <CardBody>
-              <CardTitle tag="h5">Stock E</CardTitle>
+              <CardTitle className={styles.cardTitle}>Stock E</CardTitle>
               <CardText>Price: $300</CardText>
               <CardText>Change: +0.5%</CardText>
             </CardBody>
@@ -93,7 +93,7 @@ const StocksSlider: React.FC = () => {
         <div>
           <Card className={styles.stockCard}>
             <CardBody>
-              <CardTitle tag="h5">Stock F</CardTitle>
+              <CardTitle className={styles.cardTitle}>Stock F</CardTitle>
               <CardText>Price: $300</CardText>
               <CardText>Change: +0.5%</CardText>
             </CardBody>

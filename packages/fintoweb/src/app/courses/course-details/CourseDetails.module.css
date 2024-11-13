@@ -1,4 +1,4 @@
-.CourseDetails {
+/* .CourseDetails {
   background: var(
     --BG,
     linear-gradient(
@@ -10,6 +10,11 @@
       #0d0f1b 100%
     )
   );
+} */
+.CourseDetailsIntro {
+  background-image: url("../../../assets/courses/course-details/Course-details-new.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .CourseDetailsHeader {
   padding: 50px;
@@ -161,7 +166,10 @@
 }
 /* accordion */
 .contactAccordion {
-  background: var(
+  background-image: url("../../../assets/courses/course-details/FrequentlyAskedQuestionsbg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -171,7 +179,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
   padding: 50px 150px;
 }
 .contactAccordion h1 {

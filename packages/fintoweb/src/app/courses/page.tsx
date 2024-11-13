@@ -249,8 +249,8 @@ const CourseFilter: React.FC = () => {
           </div>
         </div>
       ) : (
-        <>
-          <div className={styles.headerCourseFilter}>
+        <> 
+          <div className={styles.headerCourseFilter}>  
             <div className={styles.headerContentsCourseFilter}>
               <h2>Investing & Trading Courses</h2>
               <p>

@@ -26,6 +26,42 @@
 
   /* background: linear-gradient(265.31deg, #717171 -37.14%, #0d0d0c 103.52%); */
 }
+.headerCount {
+  display: flex;
+  width: 260px;
+  padding: 7.524px;
+  align-items: center;
+  border-radius: 44.202px;
+  border: 0.94px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+}
+.headerCount h4 {
+  display: flex;
+  padding: 7.524px;
+  justify-content: center;
+  align-items: center;
+  gap: 7.524px;
+  border-radius: 27.274px;
+  border: 0.47px solid rgba(0, 194, 255, 0.52);
+  background: rgba(0, 194, 255, 0.18);
+  color: #00c2ff;
+  text-align: center;
+  font-size: 13.167px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 105%;
+  text-transform: uppercase;
+}
+.headerCount span {
+  color: #fff;
+  text-align: center;
+  margin-left: 10px;
+  font-size: 13.167px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 105%;
+  text-transform: uppercase;
+}
 .headerContents,
 .quizContents {
   flex: 1;

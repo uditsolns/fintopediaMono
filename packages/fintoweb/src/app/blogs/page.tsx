@@ -123,7 +123,7 @@ const Blogs: React.FC = () => {
   };
   return (
     <>
-      <div className={styles.blogs}>
+      <div className={styles.blogs}> 
         <div className={styles.blogsHeader}>
           <div className={styles.blogsContent}>
             <h1>
@@ -166,7 +166,7 @@ const Blogs: React.FC = () => {
                       <p>{stock.description}</p>
                     </div>
                     <div className={styles.blogsFooter}>
-                      <a href="/blogs-details" className={styles.readmore}>
+                      <a href="/blogs/blog-details" className={styles.readmore}>
                         Read More
                       </a>
                     </div>

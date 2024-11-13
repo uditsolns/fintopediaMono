@@ -9,8 +9,9 @@ const Banner = () => {
   return (
     <div className={styles.header}> 
       <div className={styles.headerContents}>
+        <div className={styles.headerCount}><h4 className={styles.count}>10,000+ </h4><span>Traders Trusted Us</span></div>
         <h2>
-          India&apos;s top experts
+          India&apos;s top experts 
           <br /> courses on Investing
         </h2>
         <p>

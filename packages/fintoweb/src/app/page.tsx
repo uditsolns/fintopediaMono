@@ -67,7 +67,7 @@ const page = () => {
         <StocksSlider />
         <QuizSection />
         <div>
-          <FeaturedCourses courses={courses} categories={categories} />
+          <FeaturedCourses courses={courses} categories={categories} label="Featured Courses"/>
         </div>
         <CategoryBanner categories={categories} />
         <HowitWorks />
