@@ -111,7 +111,15 @@
   cursor: pointer;
 }
 .tabsContainer {
+  background-image: url("../../assets/courses/course-enroll/Overview-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 10px;
+}
+.levelUp{
+  background-image: url("../../assets/courses/course-enroll/Level-up-your-game.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .tabsContainer h3 {
   color: #fff;

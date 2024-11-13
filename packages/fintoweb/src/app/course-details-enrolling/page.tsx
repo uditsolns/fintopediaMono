@@ -56,7 +56,6 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     dispatch(getCourseReviews());
     dispatch(getCourses());
     dispatch(getCourseUploadFile());
-
   }, [id, dispatch]);
 
   const [isAccordionOpen, setIsAccordionOpen] = useState(true);
@@ -313,21 +312,22 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
             </div>
             <div className="col-md-8">
               <div className={styles.enrollCourseVideo}>
-                {/* <VideoPlayer
-                  src={`${imageUrl}/uploads/course_videos/${singleCourse?.course_video}`}
-                /> */}
-
                 <VideoEmbed
                   otp={videoEmbedInfo.otp}
                   playbackInfo={videoEmbedInfo.playbackInfo}
                 />
               </div>
-              <div className={styles.tabsContainer}>
-                <h3>Roles and responsibilities of a product manager</h3>
-                <EnrollTabs />
-              </div>
             </div>
           </div>
+          <div className={styles.tabsContainer}>
+          <div className="row">
+            <div className="col-md-4"></div>
+            <div className="col-md-8">
+              <h3>Roles and responsibilities of a product manager</h3>
+              <EnrollTabs />
+            </div>
+          </div>
+        </div>
         </div>
         <div className={styles.levelUp}>
           <FrequentlyBought courses={courses} heading={"Level up your game"} />

@@ -17,6 +17,7 @@ import {
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 import FrequentlyBought from "./components/frequently-bought/FrequentlyBought";
 import VideoEmbed from "@src/components/VideoPlayer/VideoEmbed";
+import CountCardMolecule from "@src/components/molecules/CountCardMolecule/CountCardMolecule";
 interface CourseDetailsProps {
   id?: number;
 }
@@ -114,6 +115,12 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
             <VideoEmbed
               otp={singleCourse?.course_video_embed?.otp}
               playbackInfo={singleCourse?.course_video_embed?.playbackInfo}
+            />
+          </div>
+          <div className={styles.countCard}>
+            <CountCardMolecule
+              rating={singleCourse?.rating}
+              review={singleCourse?.reviews}
             />
           </div>
         </div>

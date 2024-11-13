@@ -327,7 +327,7 @@ export default function Cart() {
           />
         </div>
       ) : null}
-      <div>
+      <div className={styles.CartDetails}>
         <div className={styles.container}>
           <h1 className={styles.heading}>My Cart</h1>
           {courseCart?.length > 0 ? (
@@ -626,7 +626,7 @@ export default function Cart() {
         <div className={styles.likeCourses}>
           <LikeCourses courses={courses} />
         </div>
-        <div className={styles.wishlist}>
+        {/* <div className={styles.wishlist}>
           <h1 className={styles.wishlistHeading}>Wishlist</h1>
           <Row className="mt-3">
             {courses_save_later.map((saveLater) => {
@@ -642,6 +642,25 @@ export default function Cart() {
               );
             })}
           </Row>
+        </div> */}
+        <div className={styles.wishlist}>
+          <h1 className={styles.wishlistHeading}>Wishlist</h1>
+
+          {courses_save_later.length === 0 ? (
+            <p>No items found in your wishlist.</p> 
+          ) : (
+            <Row className="mt-3">
+              {courses_save_later.map((saveLater) => (
+                <Col md={4} key={saveLater.id}>
+                  <CourseSaveLaterMolecule
+                    saveLater={saveLater}
+                    loading={loadingCourseId === saveLater.id}
+                    onClick={() => handleCourseSavelaterClick(saveLater)}
+                  />
+                </Col>
+              ))}
+            </Row>
+          )}
         </div>
       </div>
     </>

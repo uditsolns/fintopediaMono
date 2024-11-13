@@ -1,13 +1,16 @@
 .container {
   margin: auto;
   padding: 5px;
-  background: linear-gradient(
-    245.33deg,
-    #2d303d 0%,
-    #212330 28.6%,
-    #101320 65.15%,
-    #111521 78%,
-    #0d0f1b 100%
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
   );
 }
 .textfield {
@@ -39,4 +42,3 @@
 .isInvalid {
   border-color: red;
 }
-

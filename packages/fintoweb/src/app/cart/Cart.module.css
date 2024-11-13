@@ -1,7 +1,12 @@
+.CartDetails{
+  background-image: url("../../assets/cart/Cart-page.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .container {
   min-height: 100vh;
   padding: 50px;
-  background: var(
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -11,7 +16,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
   color: #fff;
 }
 

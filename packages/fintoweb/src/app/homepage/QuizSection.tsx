@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import styles from "./Homepage.module.css";
 import QuizBanner from "../../assets/3d-cash-money 1.png";
-import { FaArrowRight } from "react-icons/fa";
+import Subscribers from "../../assets/subscribers.png";
 
 const QuizSection = () => {
   return (
@@ -18,8 +18,13 @@ const QuizSection = () => {
         </p>
         <button>Attempt Quiz, It will only take 2 mins</button>
         <div className={styles.quizCount}>
-          <h2>10,000+</h2>
-          <h6>Students taken quiz</h6>
+          <div>
+            <h2>10,000+</h2>
+            <h6>Students taken quiz</h6>
+          </div>
+          <div>
+            <Image src={Subscribers} alt="Subscribers" />
+          </div>
         </div>
       </div>
       <div className={styles.imageContainer}>
