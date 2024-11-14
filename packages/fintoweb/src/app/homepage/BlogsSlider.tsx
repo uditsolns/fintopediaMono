@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardImg, CardBody, CardTitle, CardText } from "reactstrap";
 import styles from "./Homepage.module.css";
 import Slider from "react-slick";
+import Link from "next/link";
 import NextArrow from "../components/NextArrow";
 import PrevArrow from "../components/PrevArrow";
 import Blog1 from "../../assets/blogs/Blog1.png";
@@ -125,7 +126,7 @@ const BlogsSlider: React.FC = () => {
         {stocks.map((stock) => (
           <div key={stock.id}>
             <Card className={styles.blogsCard}>
-              <Image
+              <Image 
                 src={stock.image}
                 alt={stock.title}
                 className={styles.blogsCardImage}
@@ -153,10 +154,11 @@ const BlogsSlider: React.FC = () => {
         ></div>
       </div>
       <div className={styles.viewAllCourses}>
-        <button>View all Blogs</button>
+        <Link href="/blogs" className={styles.blogButton}>View all Blogs</Link>
+        {/* <button>View all Blogs</button> */} 
       </div>
     </div>
-  );
+  ); 
 };
 
 export default BlogsSlider;

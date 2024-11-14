@@ -93,7 +93,7 @@
   display: flex;
   margin-top: 20px;
   cursor: pointer;
-  padding: 16px 24px;
+  padding: 16px 20px;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -173,9 +173,10 @@
   align-items: center;
   margin-top: 35px;
 }
-.viewAllCourses button {
+.blogButton {
   width: 189px;
   padding: 16px 18px;
+  text-align: center;
   gap: 7.765px;
   border-radius: 4px;
   background: #fff;
@@ -904,9 +905,11 @@
   .stockmarketBannerContent {
     max-width: 45%;
   }
-  /* .stockmarketBannerContent p {
-    display: none;
-  } */
+  .stockmarketBanner {
+    width: 100%;
+    height: 100vh;
+  }
+
   .stockmarketBannerContent button {
     padding: 2vw 4vw;
   }
@@ -917,8 +920,5 @@
     width: 40%;
     height: auto;
     margin-top: -40px;
-  }
-  .blogsContainer {
-    padding: 15px;
   }
 }

@@ -30,7 +30,6 @@ export default function RootLayout({
           <Footer />
         </AppProvider>
         <ToastContainer />
-        {/* <BootstrapClient /> */}
       </body>
     </html>
   );

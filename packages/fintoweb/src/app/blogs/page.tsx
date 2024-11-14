@@ -17,12 +17,15 @@ import {
 } from "reactstrap";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import CustomInput from "../../custom/CustomInput";
-
+import Blog1 from "../../assets/blogs/Blog1.png";
+import Blog2 from "../../assets/blogs/Blog2.png";
+import Blog3 from "../../assets/blogs/Blog3.png";
+import Blog4 from "../../assets/blogs/Blog4.png";
 
 const stocks = [
   {
     id: 1,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog1,
     title: "Mastering Option Trading",
     description:
       "Explore key strategies and concepts to enhance your option trading skills. Gain insights from expert Jyoti Budhia.Lorem ispum",
@@ -33,7 +36,7 @@ const stocks = [
   },
   {
     id: 2,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog2,
     title: "Decoding Market Trends",
     description:
       "Stay ahead with the latest market analysis and trend predictions. Learn how to make informed trading decisions.",
@@ -44,7 +47,7 @@ const stocks = [
   },
   {
     id: 3,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog3,
     title: "Leveraging Trading Technology",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
@@ -55,7 +58,7 @@ const stocks = [
   },
   {
     id: 4,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog4,
     title: "Fundamental Analysis for Traders",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
@@ -66,7 +69,7 @@ const stocks = [
   },
   {
     id: 5,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog1,
     title: "Basic of Stock Market",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
@@ -77,7 +80,7 @@ const stocks = [
   },
   {
     id: 6,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog2,
     title: "Basic of Stock Market",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
@@ -88,7 +91,7 @@ const stocks = [
   },
   {
     id: 7,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog3,
     title: "Basic of Stock Market",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
@@ -99,7 +102,7 @@ const stocks = [
   },
   {
     id: 8,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog4,
     title: "Basic of Stock Market",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
@@ -125,7 +128,7 @@ const Blogs: React.FC = () => {
   };
   return (
     <>
-      <div className={styles.blogs}> 
+      <div className={styles.blogs}>
         <div className={styles.blogsHeader}>
           <div className={styles.blogsContent}>
             <h1>
@@ -137,9 +140,9 @@ const Blogs: React.FC = () => {
               fragrances and elegance. Dive into the art of perfumery, discover
               the impact of scents on your life, and explore sustainable
               practices that define our brand. From styling tips to the science
-              of aromas, we&apos;re here to enrich your fragrance journey. Join us as
-              we delve into the essence of ZAura, where every scent tells a
-              story.
+              of aromas, we&apos;re here to enrich your fragrance journey. Join
+              us as we delve into the essence of ZAura, where every scent tells
+              a story.
             </p>
           </div>
           <div className={styles.blogsImage}>
@@ -153,10 +156,8 @@ const Blogs: React.FC = () => {
             return (
               <Col md={3} key={stock.id} className="mt-3">
                 <Card className={styles.blogsCard}>
-                  <CardImg
-                    top
-                    width="100%"
-                    src={stock.imageSrc}
+                  <Image
+                    src={stock.image}
                     alt={stock.title}
                     className={styles.blogsCardImage}
                   />
@@ -238,7 +239,8 @@ const Blogs: React.FC = () => {
           </Formik>
         </div>
         <div className={styles.subscribeFooter}>
-        By signing in you agree with the <b>Terms and Conditions</b> and <b>Privacy Policy</b>
+          By signing in you agree with the <b>Terms and Conditions</b> and{" "}
+          <b>Privacy Policy</b>
         </div>
       </div>
     </>

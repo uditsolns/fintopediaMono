@@ -1,49 +1,123 @@
 .container {
-    display: flex;
-    height: 100vh;
-    background: var(--BG, linear-gradient(245deg, #2D303D 0%, #212330 28.6%, #101320 65.15%, #111521 78%, #0D0F1B 100%));
-    color: white;
+  display: flex;
+  height: 100vh;
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+  color: white;
 }
 
 .sidebar {
-    background-color: var(--BG, linear-gradient(245deg, #2D303D 0%, #212330 28.6%, #101320 65.15%, #111521 78%, #0D0F1B 100%));
-    padding: 1rem;
-    width: 250px;
-    transition: all 0.3s ease;
-    border-right: 1px solid #404251;
+  background-color: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+  padding: 1rem;
+  width: 300px;
+  transition: all 0.3s ease;
+  border-right: 1px solid #404251;
 }
-
+.navBar{
+    height: 270px;
+}
 .iconText {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .iconText svg {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .mainContent {
-    flex-grow: 1;
-    padding: 1rem;
-    overflow: auto;
+  flex-grow: 1;
+  padding: 1rem;
+  overflow: auto;
 }
 
 .button {
-    text-align: left;
-    width: 100%;
-    margin-bottom: 0.5rem;
-    /* Space between buttons */
+  text-align: left;
+  width: 100%;
+  margin-bottom: 0.5rem;
+    background-color: transparent;
+    border: none;
 }
 
 .logoutButton {
-    margin-top: auto;
-    /* Push logout button to the bottom */
+  margin-top: auto;
 }
 
-
 .active {
-    background-color: #007bff;
-    /* Highlight color */
-    color: white;
-    /* Text color when active */
+  display: flex;
+  padding: 8px 14px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 8px;
+  background: #464853;
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px;
+}
+/* redeem card */
+.redeemCard {
+  width: 265px;
+  height: 192px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #121622;
+  margin-bottom: 20px;
+  padding: 25px;
+}
+
+.redeemCard h1 {
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-bottom: 15px;
+}
+.redeemCard p {
+  color: #d5d5d9;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  margin-bottom: 20px;
+}
+.redeemButton {
+  display: flex;
+  width: 100%;
+  padding: 14px 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 7.765px;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  margin-bottom: 15px;
 }
