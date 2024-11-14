@@ -1,7 +1,6 @@
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {colorPresets} from '@shared/src/theme/color';
@@ -34,6 +33,7 @@ import {VdoPlayerView} from 'vdocipher-rn-bridge';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {clearVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
 import Orientation from 'react-native-orientation-locker';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface BeforeEnrollingCourseDetailsProps
   extends NavType<'BeforeEnrollingCourseDetails'> {}
@@ -266,8 +266,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                   height: moderateScale(150),
                   marginEnd: mScale.md,
                 }}>
-              
-                <Images.SVG.YearAccess  width={24} height={24}/>
+                <Images.SVG.YearAccess width={24} height={24} />
                 <View style={{marginVertical: mScale.md}}>
                   <TextAtom text={'1 Year Access'} preset="titleBold" />
                   <TextAtom
@@ -290,8 +289,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                   height: moderateScale(150),
                   marginEnd: mScale.md,
                 }}>
-              
-                <Images.SVG.Certificate  width={24} height={24}/>
+                <Images.SVG.Certificate width={24} height={24} />
                 <View style={{marginVertical: mScale.md}}>
                   <TextAtom
                     text={'Certificate of completion'}
@@ -341,39 +339,39 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               }}>
               <TextAtom text={'About The Course'} preset="heading4" />
               <TextAtom preset="medium" text={data?.about_me || ''} />
-           
             </View>
           )}
-          {course_review?.filter(el => el?.course_id == data?.id)?.length ? 
-          <>
-          <View style={{padding: mScale.base}}>
-            <View style={{paddingHorizontal: mScale.base}}>
-              <TextAtom
-                preset="heading3"
-                text={'See what others are achieving through learning'}
-                style={{textAlign: 'center'}}
-              />
-            </View>
-          </View>
-          <View style={{paddingLeft: mScale.base}}>
-            <FlatList
-              data={
-                course_review?.length
-                  ? course_review?.filter(el => el?.course_id == data?.id)
-                  : []
-              }
-              renderItem={renderItem}
-              showsVerticalScrollIndicator={false}
-              onEndReachedThreshold={0.2}
-              contentContainerStyle={{
-                columnGap: mScale.base,
-                paddingBottom: mScale.lg,
-              }}
-              horizontal={true}
-              keyExtractor={(item): any => item?.id}
-            />
-          </View>
-          </> : null }
+          {course_review?.filter(el => el?.course_id == data?.id)?.length ? (
+            <>
+              <View style={{padding: mScale.base}}>
+                <View style={{paddingHorizontal: mScale.base}}>
+                  <TextAtom
+                    preset="heading3"
+                    text={'See what others are achieving through learning'}
+                    style={{textAlign: 'center'}}
+                  />
+                </View>
+              </View>
+              <View style={{paddingLeft: mScale.base}}>
+                <FlatList
+                  data={
+                    course_review?.length
+                      ? course_review?.filter(el => el?.course_id == data?.id)
+                      : []
+                  }
+                  renderItem={renderItem}
+                  showsVerticalScrollIndicator={false}
+                  onEndReachedThreshold={0.2}
+                  contentContainerStyle={{
+                    columnGap: mScale.base,
+                    paddingBottom: mScale.lg,
+                  }}
+                  horizontal={true}
+                  keyExtractor={(item): any => item?.id}
+                />
+              </View>
+            </>
+          ) : null}
           <View style={{marginVertical: mScale.xl}}>
             <ViewAll title="Frequently Bought Together" visible={false} />
             <View style={{paddingLeft: mScale.base}}>

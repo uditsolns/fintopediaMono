@@ -36,12 +36,13 @@ import completedCourseReducer from "./reducers/completed-course.reducer";
 import previousViewCourseReducer from "./reducers/previous-view-course.reducer";
 import couponCodeReducer from "./reducers/coupon-code.reducer";
 import searchCoursesReducer from "./reducers/search-courses.reducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const isNative = Platform.OS !== "web";
 
 const persistConfig: any = {
   key: "fintopedia",
-  storage: storage,
+  storage: AsyncStorage,
   timeout: null,
   whitelist: ["auth"],
 };
@@ -86,7 +87,7 @@ const middleware = (getDefaultMiddleware: any) => {
     process.env.NODE_ENV === "development" ||
     (typeof __DEV__ !== "undefined" && __DEV__)
   ) {
-    return getDefaultMiddleware().concat(errorMiddleware, logger);
+    return getDefaultMiddleware().concat(errorMiddleware);
   }
   return getDefaultMiddleware().concat(errorMiddleware);
 };

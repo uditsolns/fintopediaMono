@@ -1,4 +1,3 @@
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
@@ -19,6 +18,7 @@ import {CategoriesResponse} from '@shared/src/utils/types/categories';
 import {isInCart} from '@src/components/Calculate';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 const options = [
   {label: 'Beginner', value: 'beginner'},

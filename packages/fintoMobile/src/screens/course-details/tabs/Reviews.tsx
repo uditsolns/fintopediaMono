@@ -12,9 +12,13 @@ import LoaderAtom from '@src/components/LoaderAtom';
 import ReviewMolecule from '@src/components/molecules/ReviewMolecule/ReviewMolecule';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import React from 'react';
-import {Alert, FlatList, View} from 'react-native';
-interface ReviewsProps {}
-export const Reviews: React.FunctionComponent<ReviewsProps> = () => {
+import {Alert, FlatList, LayoutChangeEvent, View} from 'react-native';
+
+interface ReviewsProps {
+  onLayout: (event: LayoutChangeEvent) => void;
+}
+
+export const Reviews: React.FunctionComponent<ReviewsProps> = ({onLayout}) => {
   const dispatch = useAppDispatch();
   const {auth} = useAppSelector(state => state.auth);
   const {singleCourse, loading: coursesLoading} = useAppSelector(
@@ -36,7 +40,7 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = () => {
   };
   const onCancel = () => {
     setReviewDesc('');
-    setRating(null);  
+    setRating(null);
     setDefaultRating(0);
   };
   const onSave = async () => {
@@ -61,7 +65,7 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = () => {
     );
   };
   return (
-    <View style={{flex: 1}}>
+    <View onLayout={onLayout} style={{flex: 1}}>
       {coursesLoading.singleCourse ||
       coursesLoading.courses ||
       course_review_loading.create ? (

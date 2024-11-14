@@ -1,9 +1,12 @@
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import {storeSingleCourse, storeVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
+import {
+  storeSingleCourse,
+  storeVideoUrl,
+} from '@shared/src/provider/store/reducers/courses.reducer';
 import {
   createCourseCart,
   getCourseCart,

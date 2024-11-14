@@ -17,10 +17,10 @@ import {Resources} from './tabs/Resources';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import Header from '@src/components/Header/Header';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {
   Alert,
   FlatList,
+  LayoutChangeEvent,
   SafeAreaView,
   ScrollView,
   View,
@@ -55,6 +55,7 @@ import {clearVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {commonStyle} from '@shared/src/commonStyle';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 type RouteParams = {
   tab?: number;
@@ -78,12 +79,24 @@ export const AfterEnrollingCourseDetails: React.FC<
   const [index, setIndex] = React.useState(route.params?.tab ?? 0);
   const [routes] = React.useState(CourseDetailsRouteKeys);
   const [width, setWidth] = React.useState(WINDOW_WIDTH);
-  const [height, setHeight] = React.useState(WINDOW_HEIGHT);
+  // const [height, setHeight] = React.useState(WINDOW_HEIGHT / 2);
   const [height2, setHeight2] = React.useState<string | number>(220);
   const [playVideoStart, setPlayVideoStart] = React.useState(false);
   const [embedInfo, setEmbedInfo] = React.useState<any>(video_url);
   const videoPlayer = React.useRef<any>(null);
   const {course, id} = route.params || {};
+
+  const [tabHeights, setTabHeights] = React.useState<number[]>([]);
+
+  const setHeight = React.useCallback(
+    (tab: string, height: number) => {
+      setTabHeights(prevHeights => ({
+        ...prevHeights,
+        [tab]: height,
+      }));
+    },
+    [setTabHeights],
+  );
 
   React.useEffect(() => {
     setEmbedInfo(video_url);
@@ -122,15 +135,38 @@ export const AfterEnrollingCourseDetails: React.FC<
     }
   }, [route.params?.tab]);
 
-  const renderScene = SceneMap({
-    courseContent: CourseContent,
-    overview: Overview,
-    notes: Notes,
-    reviews: Reviews,
-    learningMode: LearningMode,
-    uploadProject: UploadProject,
-    resources: Resources,
-  });
+  const handleTabLayout = React.useCallback(
+    (index: number) => (event: LayoutChangeEvent) => {
+      const {height} = event.nativeEvent.layout;
+      setTabHeights(prevHeights => {
+        const updatedHeights = [...prevHeights];
+        updatedHeights[index] = height;
+        return updatedHeights;
+      });
+    },
+    [setTabHeights],
+  );
+
+  const renderScene = ({route}: {route: {key: string}}) => {
+    switch (route.key) {
+      case 'courseContent':
+        return <CourseContent onLayout={handleTabLayout(0)} />;
+      case 'overview':
+        return <Overview onLayout={handleTabLayout(1)} />;
+      case 'notes':
+        return <Notes onLayout={handleTabLayout(2)} />;
+      case 'reviews':
+        return <Reviews onLayout={handleTabLayout(3)} />;
+      case 'learningMode':
+        return <LearningMode onLayout={handleTabLayout(4)} />;
+      case 'uploadProject':
+        return <UploadProject onLayout={handleTabLayout(5)} />;
+      case 'resources':
+        return <Resources onLayout={handleTabLayout(6)} />;
+      default:
+        return null;
+    }
+  };
 
   const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
     return <PopularCourseMolecule item={item} />;
@@ -138,14 +174,10 @@ export const AfterEnrollingCourseDetails: React.FC<
 
   return (
     <GradientTemplate
-      style={{
-        paddingBottom: 0,
-        paddingHorizontal: 0,
-        flex: 1,
-        flexGrow: 1,
-        paddingTop: moderateScale(60),
-      }}>
-      <ScrollViewAtom>
+      style={{paddingHorizontal: 0, paddingTop: moderateScale(60)}}>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        stickyHeaderIndices={[1]}>
         <View
           style={{
             paddingHorizontal: mScale.base,
@@ -222,13 +254,7 @@ export const AfterEnrollingCourseDetails: React.FC<
             </>
           )}
         </View>
-        <View
-          style={{flex: 1, height: height}}
-          onLayout={event => {
-            const {width, height} = event.nativeEvent.layout;
-            setWidth(width);
-            setHeight(height);
-          }}>
+        <View style={{flex: 1, height: tabHeights[index] || WINDOW_HEIGHT / 2}}>
           <TabView
             navigationState={{index, routes}}
             renderTabBar={props => <MyCourseTabMolecule {...props} />}
@@ -238,7 +264,8 @@ export const AfterEnrollingCourseDetails: React.FC<
             lazy={true}
           />
         </View>
-        <View style={{marginVertical: mScale.xl}}>
+      </ScrollView>
+      {/* <View style={{marginVertical: mScale.xl}}>
           <ViewAll title="Frequently Bought Together" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
@@ -261,8 +288,7 @@ export const AfterEnrollingCourseDetails: React.FC<
               showsHorizontalScrollIndicator={false}
             />
           </View>
-        </View>
-      </ScrollViewAtom>
+        </View> */}
     </GradientTemplate>
   );
 };

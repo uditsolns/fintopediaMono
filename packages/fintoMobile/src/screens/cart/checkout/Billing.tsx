@@ -2,7 +2,6 @@ import {useRoute} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {
@@ -35,6 +34,7 @@ import {
   getPurchaseHistoryById,
 } from '@shared/src/provider/store/services/PurchaseHistory.service';
 import LoaderAtom from '@src/components/LoaderAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface BillingProps extends NavType<'Billing'> {}
 

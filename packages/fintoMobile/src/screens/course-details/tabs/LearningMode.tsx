@@ -2,18 +2,15 @@ import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {LinearGradientMolecule} from '@shared/src/components/molecules/Gradient/LinearGradientMolecule';
 import {colorPresets} from '@shared/src/theme/color';
-import {
-  moderateScale,
-  mScale,
-  WINDOW_HEIGHT,
-  WINDOW_WIDTH,
-} from '@shared/src/theme/metrics';
+import {mScale, WINDOW_HEIGHT, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import SeparatorAtom from '@src/components/SeperatorAtom';
 import React from 'react';
 import {
+  LayoutChangeEvent,
   Modal,
   Pressable,
   StyleSheet,
@@ -36,15 +33,22 @@ let dailyReminderArr = [
   },
 ];
 
-interface LearningModeProps {}
-export const LearningMode: React.FunctionComponent<LearningModeProps> = () => {
+interface LearningModeProps {
+  onLayout: (event: LayoutChangeEvent) => void;
+}
+
+export const LearningMode: React.FunctionComponent<LearningModeProps> = ({
+  onLayout,
+}) => {
   let [selectedReminder, setSelectedReminder] = React.useState<number>(1);
   const [visible, setVisible] = React.useState<boolean>(false);
   const [width, setWidth] = React.useState(WINDOW_WIDTH * 0.92);
-  const [height, setHeight] = React.useState<number>(WINDOW_HEIGHT * 0.5);
+  const [height, setModuleHeight] = React.useState<number>(WINDOW_HEIGHT * 0.5);
 
   return (
-    <View style={{flex: 1, padding: mScale.base,paddingBottom:0}}>
+    <ScrollViewAtom
+      onLayout={onLayout}
+      style={{flex: 1, padding: mScale.base, paddingBottom: 0}}>
       <View style={{marginVertical: mScale.md}}>
         <View
           style={{
@@ -117,7 +121,7 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = () => {
             onLayout={event => {
               const {width, height} = event.nativeEvent.layout;
               setWidth(width);
-              setHeight(height);
+              setModuleHeight(height);
             }}>
             <View
               style={{
@@ -215,7 +219,7 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = () => {
           </View>
         </View>
       </Modal>
-    </View>
+    </ScrollViewAtom>
   );
 };
 

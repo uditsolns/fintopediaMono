@@ -2,7 +2,6 @@ import {GradientTemplate} from '@shared/src/components/templates/GradientTemplat
 import * as React from 'react';
 import {Alert, View} from 'react-native';
 import {commonStyle} from '@shared/src/commonStyle';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {Images} from '@shared/src/assets';
 import {colorPresets} from '@shared/src/theme/color';
 import {InputAtom} from '@src/components/Input/InputAtom';
@@ -29,6 +28,7 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {googleSignIn} from '@shared/src/provider/store/services/auth.service';
+import {ScrollViewAtom} from 'shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface LoginProps extends NavType<'Login'> {}
 
@@ -68,7 +68,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
         let params = {
           email: response?.data?.user?.email,
         };
-        await dispatch(googleSignIn(params));
+        dispatch(googleSignIn(params));
         GoogleSignin.signOut();
       } else {
         // sign in was cancelled by user
@@ -149,7 +149,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
               onPress={() => {
                 handleSubmit();
               }}
-              loading={loading?.login}
+              loading={loading.login}
             />
           </View>
           <ButtonAtom

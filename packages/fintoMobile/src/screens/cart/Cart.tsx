@@ -2,7 +2,6 @@ import React from 'react';
 import {Alert, FlatList, Pressable, RefreshControl, View} from 'react-native';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {commonStyle} from '@shared/src/commonStyle';
 import {colorPresets} from '@shared/src/theme/color';
@@ -35,6 +34,7 @@ import {
 } from '@shared/src/provider/store/services/CourseCart.service';
 import {createCoursesSaveLater} from '@shared/src/provider/store/services/coursesavelater.service';
 import {CourseCartResponse} from '@shared/src/utils/types/CourseCart';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface CartProps extends NavType<'Cart'> {}
 

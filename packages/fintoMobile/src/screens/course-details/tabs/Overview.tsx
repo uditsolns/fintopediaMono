@@ -1,15 +1,19 @@
 import {useRoute} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
-import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import SeparatorAtom from '@src/components/SeperatorAtom';
 import React from 'react';
-import {View} from 'react-native';
-interface OverviewProps {}
+import {LayoutChangeEvent, View} from 'react-native';
 
-export const Overview: React.FunctionComponent<OverviewProps> = () => {
+interface OverviewProps {
+  onLayout: (event: LayoutChangeEvent) => void;
+}
+
+export const Overview: React.FunctionComponent<OverviewProps> = ({
+  onLayout,
+}) => {
   const {
     courses,
     singleCourse,
@@ -19,7 +23,7 @@ export const Overview: React.FunctionComponent<OverviewProps> = () => {
   const {course, id} = route.params || {};
   const data = singleCourse ? singleCourse : course;
   return (
-    <View style={{flex: 1, padding: mScale.base}}>
+    <View onLayout={onLayout} style={{flex: 1, padding: mScale.base}}>
       <View>
         <View style={{marginBottom: mScale.base}}>
           <TextAtom text={'About this course'} preset="heading3" />

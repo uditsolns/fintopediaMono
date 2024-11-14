@@ -3,7 +3,6 @@ import React from 'react';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {commonStyle} from '@shared/src/commonStyle';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
@@ -20,6 +19,7 @@ import {NewsResponse} from '@shared/src/utils/types/news';
 import {getGameUserByLoginIDGameID} from '@shared/src/provider/store/services/gameusers.service';
 import {storeUserGameAmount} from '@shared/src/provider/store/reducers/gameusers.reducer';
 import {Toast} from 'react-native-toast-notifications';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface BuyStocksProps extends NavType<'BuyStocks'> {}
 

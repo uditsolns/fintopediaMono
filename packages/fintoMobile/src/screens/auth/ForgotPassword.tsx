@@ -1,6 +1,5 @@
 import {Images} from '@shared/src/assets';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
@@ -13,6 +12,7 @@ import * as React from 'react';
 import {View} from 'react-native';
 import {useForgotHelper} from '@shared/src/components/structures/forgot/forgot.helper';
 import {forgotField} from '@shared/src/components/structures/forgot/forgotModel';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface ForgotPasswordProps extends NavType<'ForgotPassword'> {}
 
