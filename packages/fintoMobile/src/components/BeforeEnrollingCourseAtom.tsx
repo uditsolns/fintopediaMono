@@ -3,7 +3,10 @@ import {commonStyle} from '@shared/src/commonStyle';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import {mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
-import { CourseSections, CourseSubSections } from '@shared/src/utils/types/courses';
+import {
+  CourseSections,
+  CourseSubSections,
+} from '@shared/src/utils/types/courses';
 import React from 'react';
 import {
   FlatList,
@@ -12,19 +15,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { CourseLessonItem } from './CourseInnerAtom';
+import {CourseLessonItem} from './CourseInnerAtom';
 
 interface BeforeEnrollingCourseAtomProps {
   item: CourseSections;
 }
-
 
 export const BeforeEnrollingCourseAtom: React.FC<
   BeforeEnrollingCourseAtomProps
 > = ({item}) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
 
-  const LessonItem = ({el}:{el:CourseSubSections}) => {
+  const LessonItem = ({el}: {el: CourseSubSections}) => {
     return (
       <View
         style={[
@@ -67,7 +69,9 @@ export const BeforeEnrollingCourseAtom: React.FC<
         onPress={() => setExpanded(!expanded)}>
         <View>
           <TextAtom
-            text={`Section ${item?.section_number} : ${item?.section_heading}` || ''}
+            text={
+              `Section ${item?.section_number} : ${item?.section_heading}` || ''
+            }
             preset="heading4"
             style={{width: WINDOW_WIDTH * 0.75}}
           />

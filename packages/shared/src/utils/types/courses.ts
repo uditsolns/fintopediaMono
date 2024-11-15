@@ -40,7 +40,7 @@ export interface CourseSubSections {
   subsection_heading: string | null;
   subsection_time: string | null;
   sub_video: string | null;
-  sub_video_embed: VideoEmbed; 
+  sub_video_embed: VideoEmbed;
 }
 export interface CourseSections {
   id: number;
@@ -86,7 +86,6 @@ export interface CoursesResponse {
   course_video_embed: VideoEmbed;
   category?: CategoriesResponse | null;
   sections?: CourseSections[];
-  course_video_embed?: CourseEmbedvideo | null;
 }
 
 export interface CoursesState {

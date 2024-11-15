@@ -14,6 +14,7 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+  console.log("Platform.OS", Platform.OS);
   if (Platform.OS === "web") {
     return (
       <Provider store={store}>
@@ -39,4 +40,20 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     //     </Provider>
     //   );
   }
+
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistor} loading={null}>
+        {children}
+        {/* <ToastProvider
+          placement="bottom"
+          offsetTop={80}
+          offsetBottom={40}
+          renderToast={(toast: ToastProps) => <ToastMolecule {...toast} />}
+        >
+          
+        </ToastProvider> */}
+      </PersistGate>
+    </Provider>
+  );
 };

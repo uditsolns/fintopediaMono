@@ -29,8 +29,7 @@ import { getCourseCart } from "shared/src/provider/store/services/CourseCart.ser
 //   ssr: false,
 //   loading: () => <div>Loading...</div>,
 // });
-
-export default function Home() {
+const page = () => {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
   const token = auth?.token;
@@ -79,4 +78,4 @@ export default function Home() {
       </div>
     </>
   );
-}
+};
