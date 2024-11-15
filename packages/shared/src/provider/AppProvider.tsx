@@ -14,7 +14,6 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  console.log("Platform.OS", Platform.OS);
   if (Platform.OS === "web") {
     return (
       <Provider store={store}>
