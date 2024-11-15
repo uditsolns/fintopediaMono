@@ -42,7 +42,7 @@ const isNative = Platform.OS !== "web";
 
 const persistConfig: any = {
   key: "fintopedia",
-  storage: AsyncStorage,
+  storage,
   timeout: null,
   whitelist: ["auth"],
 };
