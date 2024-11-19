@@ -61,7 +61,7 @@ export const updateUser = createAsyncThunk<
     const response = await fetch(apiUrl.USER.UPDATE + "/" + id, {
       method: "POST",
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
       body: formData,

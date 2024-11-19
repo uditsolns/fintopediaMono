@@ -1,0 +1,80 @@
+.headerNotification {
+  background-color: transparent;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+.headerNotification h1 {
+  color: #fff;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 40px;
+}
+.headerNotification h4 {
+  color: #1d90f5;
+  text-align: right;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.notificationCard {
+  margin-top: 20px;
+  display: flex;
+  padding-right: 60px;
+  align-items: center;
+  gap: 35px;
+  border-radius: 12px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+}
+.notificationIcon {
+  display: flex;
+  width: 153px;
+  height: 137px;
+  padding: 46px 53px 45px 54px;
+  justify-content: center;
+  align-items: center;
+  background: var(--BG-2, #222431);
+  border-radius: 12px;
+}
+.notificationContent h3 {
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.notificationContent p {
+  color: #c8c8cc;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+.explore {
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px; 
+  letter-spacing: -0.36px;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+}
