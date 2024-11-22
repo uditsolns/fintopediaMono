@@ -16,13 +16,18 @@ import { FaChevronDown, FaSignOutAlt, FaChevronUp } from "react-icons/fa";
 import styles from "./DashboardLayout.module.css";
 import Logo from "../../assets/Fintopedia logo-White.png";
 import Image from "next/image";
-import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
+import { logout } from "shared/src/provider/store/reducers/auth.reducer";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const dispatch = useAppDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("/dashboard/my-courses");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -571,7 +576,13 @@ export default function DashboardLayout({
             </DropdownMenu>
           </Dropdown>
         </nav>
-        <Button className={`${styles.button} ${styles.logoutButton}`}>
+        <Button
+          className={`${styles.button} ${styles.logoutButton}`}
+          onClick={() => {
+            dispatch(logout());
+            router.push("/auth/login");
+          }}
+        >
           <div className={styles.iconText}>
             <FaSignOutAlt className="me-2" />
             Logout
@@ -582,7 +593,9 @@ export default function DashboardLayout({
         <Container fluid>
           <Row className="align-items-center mb-4">
             <Col>
-              <h2 className={styles.WelcomeHeading}>Welcome back, {auth?.user?.first_name}!</h2>
+              <h2 className={styles.WelcomeHeading}>
+                Welcome back, {auth?.user?.first_name}!
+              </h2>
             </Col>
             <Col className="text-end d-md-none">
               <Button

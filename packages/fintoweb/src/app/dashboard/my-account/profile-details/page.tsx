@@ -11,8 +11,12 @@ import { useUserHelper } from "shared/src/components/structures/user/user.helper
 import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import CircularLoading from "@src/components/loader/CircularLoading";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+
 
 const page = () => {
+  const router = useRouter();
+
   const { auth } = useAppSelector((state) => state.auth);
   const { user, loading, update } = useAppSelector((state) => state.users);
 
@@ -79,16 +83,16 @@ const page = () => {
     setFieldValue(userField.photo.name, null);
   };
   React.useEffect(() => {
-    setFieldValue(userField.id.name, auth.user?.id || "");
-    setFieldValue(userField.first_name.name, auth.user?.first_name ?? "");
-    setFieldValue(userField.surname_name.name, auth.user?.surname_name ?? "");
-    setFieldValue(userField.email.name, auth.user?.email ?? "");
-    setFieldValue(userField.phone.name, auth.user?.phone ?? "");
-    setFieldValue(userField.headline.name, auth.user?.headline ?? "");
-    setFieldValue(userField.bio.name, auth.user?.bio ?? "");
-    setFieldValue(userField.website_url.name, auth.user?.website_url ?? "");
-    setFieldValue(userField.linkedin.name, auth.user?.linkedin ?? "");
-    setFieldValue(userField.photo.name, imagevalue || auth.user?.photo);
+    setFieldValue(userField.id.name, auth?.user?.id || "");
+    setFieldValue(userField.first_name.name, auth?.user?.first_name ?? "");
+    setFieldValue(userField.surname_name.name, auth?.user?.surname_name ?? "");
+    setFieldValue(userField.email.name, auth?.user?.email ?? "");
+    setFieldValue(userField.phone.name, auth?.user?.phone ?? "");
+    setFieldValue(userField.headline.name, auth?.user?.headline ?? "");
+    setFieldValue(userField.bio.name, auth?.user?.bio ?? "");
+    setFieldValue(userField.website_url.name, auth?.user?.website_url ?? "");
+    setFieldValue(userField.linkedin.name, auth?.user?.linkedin ?? "");
+    setFieldValue(userField.photo.name, imagevalue || auth?.user?.photo);
   }, [auth, image, setFieldValue]);
 
   React.useEffect(() => {
@@ -101,6 +105,11 @@ const page = () => {
       }
     }
   }, [update]);
+  React.useEffect(() => {
+    if (!auth?.token) {
+      router.push("/auth/login"); 
+    }
+  }, [auth?.token, router]);
   return (
     <React.Fragment>
       <hr />
@@ -109,11 +118,11 @@ const page = () => {
         <div className={styles.container}>
           <div className={styles.profilePicWrapper}>
             <div className={styles.profilePic}>
-              {image || auth.user?.photo ? (
+              {image || auth?.user?.photo ? (
                 <Image
                   src={
                     image ||
-                    `${imageUrl}/uploads/user_photo/${auth.user?.photo}`
+                    `${imageUrl}/uploads/user_photo/${auth?.user?.photo}`
                   }
                   alt="Profile"
                   fill
