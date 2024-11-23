@@ -21,7 +21,7 @@ import stocksReducer from "./reducers/stocks.reducer";
 import transactionsReducer from "./reducers/transactions.reducer";
 import userTransactionsReducer from "./reducers/usertransactions.reducer";
 import courseCartReducer from "./reducers/CourseCart.reducer";
-import purchaseHistoryReducer from "./reducers/purchasehistory.reducer";
+import purchaseHistoryReducer from "./reducers/PurchaseHistory.reducer";
 import userCertificateReducer from "./reducers/UserCertificate.reducer";
 import userCourseHistoryReducer from "./reducers/UserCourseHistory.reducer";
 import startGameReducer from "./reducers/startgame.reducer";
@@ -42,7 +42,7 @@ const isNative = Platform.OS !== "web";
 
 const persistConfig: any = {
   key: "fintopedia",
-  storage: AsyncStorage,
+  storage: storage,
   timeout: null,
   whitelist: ["auth"],
 };
@@ -63,7 +63,7 @@ const reducers = combineReducers({
   stocks: stocksReducer,
   transactions: transactionsReducer,
   userTransactions: userTransactionsReducer,
-  courseCart: courseCartReducer,
+  courseCart: persistReducer(persistConfig, courseCartReducer),
   purchaseHistory: purchaseHistoryReducer,
   userCertificate: userCertificateReducer,
   userCourseHistory: userCourseHistoryReducer,
@@ -87,7 +87,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(errorMiddleware,logger),
+    }).concat(errorMiddleware, logger),
 });
 
 export const persistor = persistStore(store);

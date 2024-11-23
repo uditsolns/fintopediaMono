@@ -44,6 +44,7 @@ export default function DashboardLayout({
       setActiveTab("/dashboard/my-courses");
     }
   }, [pathname, router]);
+  const shouldShowWelcome = location.pathname === "/dashboard/my-courses";
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -592,11 +593,18 @@ export default function DashboardLayout({
       <main className={styles.mainContent}>
         <Container fluid>
           <Row className="align-items-center mb-4">
-            <Col>
+            {/* <Col>
               <h2 className={styles.WelcomeHeading}>
                 Welcome back, {auth?.user?.first_name}!
               </h2>
-            </Col>
+            </Col> */}
+            {shouldShowWelcome && (
+              <Col>
+                <h2 className={styles.WelcomeHeading}>
+                  Welcome back, {auth?.user?.first_name}!
+                </h2>
+              </Col>
+            )}
             <Col className="text-end d-md-none">
               <Button
                 color="outline-light"

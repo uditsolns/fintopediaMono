@@ -13,7 +13,6 @@ import CircularLoading from "@src/components/loader/CircularLoading";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-
 const page = () => {
   const router = useRouter();
 
@@ -107,12 +106,11 @@ const page = () => {
   }, [update]);
   React.useEffect(() => {
     if (!auth?.token) {
-      router.push("/auth/login"); 
+      router.push("/auth/login");
     }
   }, [auth?.token, router]);
   return (
     <React.Fragment>
-      <hr />
       <div className={styles.profilePicture}>
         <h1 className={styles.profileHeading}>Profile Picture</h1>
         <div className={styles.container}>

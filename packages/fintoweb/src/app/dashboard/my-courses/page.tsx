@@ -9,10 +9,11 @@ import {
 } from "shared/src/provider/store/types/storeTypes";
 import { getCoursesSaveLater } from "shared/src/provider/store/services/coursesavelater.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
-import CircularLoading from "@src/components/loader/CircularLoading";
 
 const MyCoursesPage = () => {
   const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((state) => state.auth);
+  const token = auth?.token;
   const { courses_save_later, loading: coursesSavelaterLoading } =
     useAppSelector((state) => state.coursesSaveLater);
   const { courses, loading: courseLoading } = useAppSelector(
@@ -22,6 +23,7 @@ const MyCoursesPage = () => {
     dispatch(getCourses());
     dispatch(getCoursesSaveLater());
   }, []);
+
   return (
     <>
       {coursesSavelaterLoading?.courses_save_later || courseLoading?.courses ? (

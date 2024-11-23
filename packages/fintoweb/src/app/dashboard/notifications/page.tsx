@@ -4,12 +4,11 @@ import styles from "./Notifications.module.css";
 const page = () => {
   return (
     <React.Fragment>
-      <hr />
       <div className={styles.headerNotification}>
         <h1>Notifications</h1>
         <h4>Mark all as read</h4>
       </div>
-      <hr />
+
       <div className={styles.notificationCard}>
         <div className={styles.notificationIcon}>
           <svg
@@ -105,9 +104,7 @@ const page = () => {
             Figma.
           </p>
         </div>
-        <div className={styles.explore}>
-        Explore now
-        </div>
+        <div className={styles.explore}>Explore now</div>
       </div>
     </React.Fragment>
   );

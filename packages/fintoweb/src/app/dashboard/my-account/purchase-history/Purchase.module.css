@@ -1,3 +1,6 @@
+.container{
+  margin-top: 15px;
+}
 .title {
   font-size: 1.25rem;
   font-weight: bold;
@@ -44,4 +47,12 @@
   font-weight: 500;
   line-height: 22px;
   letter-spacing: -0.32px;
+}
+.PurchaseHistoryHeading {
+  color: #fff;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 40px;
+  margin-bottom: 20px;
 }

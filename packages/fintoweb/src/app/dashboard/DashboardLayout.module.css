@@ -1,17 +1,9 @@
 .container {
   display: flex;
   height: 150vh;
-  background: var(
-    --BG,
-    linear-gradient(
-      245deg,
-      #2d303d 0%,
-      #212330 28.6%,
-      #101320 65.15%,
-      #111521 78%,
-      #0d0f1b 100%
-    )
-  );
+  background-image: url("../../assets/dashboardBg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   color: white;
 }
 

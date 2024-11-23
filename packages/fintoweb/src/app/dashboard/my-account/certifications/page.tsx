@@ -3,8 +3,6 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Card } from "reactstrap";
-import { Progress } from "reactstrap";
-import { FaArrowRight } from "react-icons/fa";
 import styles from "../../my-courses/tabs/Tabs.module.css";
 import { imageUrl } from "shared/src/config/imageUrl";
 import {
@@ -26,6 +24,7 @@ const page = () => {
   }, []);
   return (
     <>
+      <div className={styles.certificateHeading}>Certifications</div>
       {courseLoading?.courses ? (
         <div className="d-flex justify-content-center p-5">
           <LoadingAtom />
