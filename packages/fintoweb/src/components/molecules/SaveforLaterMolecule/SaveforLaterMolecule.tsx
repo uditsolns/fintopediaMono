@@ -14,7 +14,7 @@ import { CoursesSaveLaterResponse } from "shared/src/utils/types/courses-save-la
 interface CartsliderProps {
   course?: CoursesSaveLaterResponse;
   onClick?: () => void;
-  loading?: boolean; 
+  loading?: boolean;
 }
 const SaveforLaterMolecule: React.FC<CartsliderProps> = ({
   course,
@@ -36,17 +36,15 @@ const SaveforLaterMolecule: React.FC<CartsliderProps> = ({
           <Image
             src={`${imageUrl}/uploads/course_images/${course.course?.course_image}`}
             alt={course.course?.name}
-            width={420} 
+            width={420}
             height={220}
             className={styles.image}
           />
         </div>
         <div className={styles.cardBody}>
           <h3 onClick={handleNavigation}>{course.course?.name}</h3>
-          <div
-            className={`d-flex ${styles.featurecardContent}`}
-          >
-            <ProgressBar level={course.course?.course_type} />
+          <div className={`d-flex ${styles.featurecardContent}`}>
+            <ProgressBar level={course.course?.course_type} flex={0} />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="21"

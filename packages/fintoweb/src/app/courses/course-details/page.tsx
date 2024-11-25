@@ -102,7 +102,18 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
                 <br /> empower you with the knowledge and skills needed.
               </p>
               <div className={styles.CourseDetailsHeaderButton}>
-                <button>Course starts from ₹ {singleCourse?.sale_price}</button>
+                <button>
+                  Course starts from ₹ {singleCourse?.sale_price}{" "}
+                  <span
+                    style={{
+                      textDecoration: "line-through",
+                      color:"lightgray",
+                      marginLeft: "5px",
+                    }}
+                  >
+                    ₹ {singleCourse?.actual_price}
+                  </span>
+                </button>
               </div>
               <div className={styles.offerText}>
                 <h6>

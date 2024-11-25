@@ -1,24 +1,33 @@
 "use client";
 
 import React from "react";
-// import { ShoppingCart } from 'lucide-react';
 import { Button, Table } from "reactstrap";
 import styles from "./Purchase.module.css";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
 const page = () => {
+  const router = useRouter();
+  const { auth } = useAppSelector((state) => state.auth);
+  const token = auth?.token;
+
   const transactions = Array(10).fill({
     courseName: "Pro-Investor Membership",
     date: "11 Dec 2022",
     price: "Rs. 499",
     paymentType: "UPI",
   });
-
+  React.useEffect(() => {
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, [token, router]);
   return (
     <>
       <div>
         <h1 className={styles.PurchaseHistoryHeading}>Purchase History</h1>
       </div>
-      <hr/>
+      <hr />
       <div className={styles.container}>
         <h1 className={styles.title}>Fintopedia Credits: 500</h1>
         <Table className={styles.table}>

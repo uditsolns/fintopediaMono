@@ -1,12 +1,24 @@
 "use client";
 
+import React from "react";
 import { Button } from "reactstrap";
 import styles from "./Membership.module.css";
 import { Card, CardBody } from "reactstrap";
 import Image from "next/image";
 import Membership from "../../../../assets/membership.png";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import { useRouter } from "next/navigation";
 
 const page = () => {
+  const router = useRouter();
+  const { auth } = useAppSelector((state) => state.auth);
+  const token = auth?.token;
+
+  React.useEffect(() => {
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, [token, router]);
   return (
     <div className={styles.container}>
       <div className={styles.maxWidth}>
@@ -53,7 +65,6 @@ const page = () => {
                   <Image
                     src={Membership}
                     alt="Person working on a computer"
-                    
                     className={styles.MembershipImage}
                   />
                 </div>
@@ -89,7 +100,6 @@ const page = () => {
                   <Image
                     src={Membership}
                     alt="Person working on a computer"
-                    
                     className={styles.MembershipImage}
                   />
                 </div>

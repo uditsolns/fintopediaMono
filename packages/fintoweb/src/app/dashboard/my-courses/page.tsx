@@ -9,9 +9,12 @@ import {
 } from "shared/src/provider/store/types/storeTypes";
 import { getCoursesSaveLater } from "shared/src/provider/store/services/coursesavelater.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
+import { useRouter } from "next/navigation";
 
 const MyCoursesPage = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+
   const { auth } = useAppSelector((state) => state.auth);
   const token = auth?.token;
   const { courses_save_later, loading: coursesSavelaterLoading } =
@@ -20,9 +23,17 @@ const MyCoursesPage = () => {
     (state) => state.courses
   );
   React.useEffect(() => {
-    dispatch(getCourses());
-    dispatch(getCoursesSaveLater());
+    if (token) {
+      dispatch(getCourses());
+      dispatch(getCoursesSaveLater());
+    }
   }, []);
+
+  React.useEffect(() => {
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, [token, router]);
 
   return (
     <>

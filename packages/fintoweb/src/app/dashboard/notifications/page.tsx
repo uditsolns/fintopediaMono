@@ -1,7 +1,20 @@
+"use client";
+
 import React from "react";
 import styles from "./Notifications.module.css";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
 const page = () => {
+  const { auth } = useAppSelector((state) => state.auth);
+  const token = auth?.token;
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, [token, router]);
   return (
     <React.Fragment>
       <div className={styles.headerNotification}>

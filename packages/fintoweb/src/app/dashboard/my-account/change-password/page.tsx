@@ -6,11 +6,22 @@ import { updatePasswordField } from "shared/src/components/structures/update-pas
 import { useUpdatePasswordHelper } from "shared/src/components/structures/update-password/updatePassword.helper";
 import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import { Button, Col, Row } from "reactstrap";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
 const page = () => {
+  const router = useRouter();
+  const { auth } = useAppSelector((state) => state.auth);
+  const token = auth?.token;
   const { updatePasswordFormik, updatePasswordInputProps } =
     useUpdatePasswordHelper();
   const { handleSubmit, setFieldValue, isSubmitting } = updatePasswordFormik;
+
+  React.useEffect(() => {
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, [token, router]);
   return (
     <React.Fragment>
       <div>

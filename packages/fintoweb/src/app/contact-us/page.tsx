@@ -308,7 +308,9 @@ const Contact: React.FC = () => {
                     </svg>
                   </div>
                   <div className={styles.contactText}>
-                    support@flintopedia.com
+                    <a href="mailto:reachus@fintopedia.com">
+                      reachus@fintopedia.com
+                    </a>
                   </div>
                 </div>
                 <div className={styles.socialContactIcon}>
@@ -328,7 +330,9 @@ const Contact: React.FC = () => {
                       />
                     </svg>
                   </div>
-                  <div className={styles.contactText}>+91 12345 67890</div>
+                  <div className={styles.contactText}>
+                    <a href="tel:+917400419869">+91 7400419869</a>
+                  </div>
                 </div>
                 <div className={styles.socialContactIcon}>
                   <div className={styles.contactIcon}>
@@ -347,9 +351,7 @@ const Contact: React.FC = () => {
                       />
                     </svg>
                   </div>
-                  <div className={styles.contactText}>
-                    Some where in the World
-                  </div>
+                  <div className={styles.contactText}>Mumbai</div>
                 </div>
               </div>
             </div>

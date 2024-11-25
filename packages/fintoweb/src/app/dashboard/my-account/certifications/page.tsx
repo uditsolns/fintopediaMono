@@ -12,16 +12,27 @@ import {
 import Image from "next/image";
 import { getCourses } from "shared/src/provider/store/services/courses.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
+import { useRouter } from "next/navigation";
 
 const page = () => {
   const dispatch = useAppDispatch();
-
+  const { auth } = useAppSelector((state) => state.auth);
+  const token = auth?.token;
+  const router = useRouter();
   const { courses, loading: courseLoading } = useAppSelector(
     (state) => state.courses
   );
   React.useEffect(() => {
-    dispatch(getCourses());
+    if (token) {
+      dispatch(getCourses());
+    }
   }, []);
+
+  React.useEffect(() => {
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, [token, router]);
   return (
     <>
       <div className={styles.certificateHeading}>Certifications</div>

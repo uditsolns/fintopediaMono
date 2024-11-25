@@ -110,20 +110,6 @@ export const Navbar = () => {
 
         <div className={getMenuClasses()}>
           {loading && auth?.token ? (
-            // <Link
-            //   href="/cart"
-            //   prefetch={true}
-            //   className="mx-2 hover:text-gray-300 flex items-center"
-            // >
-            //   {courseCart?.length > 0 && (
-            //     <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-            //       {courseCart?.length}
-            //     </span>
-            //   )}
-            //   <Image src={CartIcon} alt="Cart" className="inline-block mr-2" />
-            //   Cart
-
-            // </Link>
             <div className={styles.cartContainer}>
               <Link
                 href="/cart"
@@ -137,16 +123,7 @@ export const Navbar = () => {
                 
               </Link>
             </div>
-          ) : (
-            <Link
-              href="/auth/login"
-              prefetch={true}
-              className="mx-2 hover:text-gray-300 flex items-center"
-            >
-              <Image src={CartIcon} alt="Cart" className="inline-block mr-2" />
-              Cart
-            </Link>
-          )}
+          ) : null}
 
           {loading && auth?.token ? (
             <>

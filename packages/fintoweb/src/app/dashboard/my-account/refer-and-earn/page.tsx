@@ -1,11 +1,22 @@
 "use client";
 
+import React, { useState } from "react";
 import { Button, Input } from "reactstrap";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
-import { useState } from "react";
 import styles from "./Refer.module.css";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
 const page = () => {
+  const router = useRouter();
+  const { auth } = useAppSelector((state) => state.auth);
+  const token = auth?.token;
+
+  React.useEffect(() => {
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, [token, router]);
   const [copied, setCopied] = useState(false);
   const referralUrl = "https://www.fintopedia.com/u/vashstefan10";
 

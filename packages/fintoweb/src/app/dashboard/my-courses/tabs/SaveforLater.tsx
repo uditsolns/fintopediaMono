@@ -13,6 +13,7 @@ const SaveforLater = () => {
         <SaveforLaterMolecule
           key={course.id}
           course={course}
+         
           // loading={loadingCourseId === course.id}
           // onClick={() => handleCourseClick(course)}
         />
