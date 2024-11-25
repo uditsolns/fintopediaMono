@@ -27,9 +27,8 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { postSeachCourses } from "shared/src/provider/store/services/search-courses.service";
 import Pagination from "@src/components/pagination/Pagination";
-import InputAdornment from "@mui/material/InputAdornment";
-import TextField from "@mui/material/TextField";
-import SearchIcon from "@mui/icons-material/Search";
+import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
+import AchiveingSliderMolecule from "@src/components/molecules/AchiveingSliderMolecule/AchiveingSliderMolecule";
 
 const CourseFilter: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -41,6 +40,7 @@ const CourseFilter: React.FC = () => {
   const { courseCart, loading: courseCartLoading } = useAppSelector(
     (state) => state.courseCart
   );
+  console.log("courseCart", courseCart);
   const { categories, loading: categoriesLoading } = useAppSelector(
     (state) => state.categories
   );
@@ -50,7 +50,9 @@ const CourseFilter: React.FC = () => {
   const { search_courses, loading: search_courses_loading } = useAppSelector(
     (state) => state.searchCourses
   );
-  console.log("search_courses", search_courses);
+  const { course_review, loading: coursesReviewLoading } = useAppSelector(
+    (state) => state.courseReviews
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [slideToShow, setSlideToShow] = useState(4);
   const [activeFilter, setActiveFilter] = useState("All");
@@ -78,7 +80,8 @@ const CourseFilter: React.FC = () => {
   React.useEffect(() => {
     dispatch(getCourses());
     dispatch(getCategories());
-    // dispatch(getCourseCart());
+    dispatch(getCourseReviews());
+    dispatch(getCourseCart());
   }, []);
 
   const filteredCourses = courses.filter(
@@ -152,7 +155,7 @@ const CourseFilter: React.FC = () => {
       setLoadingCourseId(null);
     }
   };
- 
+
   const [filter, setFilter] = useState({
     name: "",
     sale_price: "",
@@ -237,7 +240,10 @@ const CourseFilter: React.FC = () => {
   }, []);
   return (
     <>
-      {coursesLoading?.courses || categoriesLoading?.categories ? (
+      {coursesLoading?.courses ||
+      categoriesLoading?.categories ||
+      coursesReviewLoading?.course_review ||
+      courseCartLoading?.courseCart ? (
         <div className={styles.loadingContainer}>
           <div className="fullPageLoading">
             <LoadingAtom
@@ -249,8 +255,8 @@ const CourseFilter: React.FC = () => {
           </div>
         </div>
       ) : (
-        <> 
-          <div className={styles.headerCourseFilter}>  
+        <>
+          <div className={styles.headerCourseFilter}>
             <div className={styles.headerContentsCourseFilter}>
               <h2>Investing & Trading Courses</h2>
               <p>
@@ -437,7 +443,7 @@ const CourseFilter: React.FC = () => {
               />
             </div>
           </div>
-          <AchiveingLearningSlider />
+          <AchiveingSliderMolecule/>
         </>
       )}
     </>

@@ -16,9 +16,10 @@ import { useRouter } from "next/navigation";
 const page = () => {
   const router = useRouter();
 
-  const { auth } = useAppSelector((state) => state.auth);
+  const { auth, current_user } = useAppSelector((state) => state.auth);
   const { user, loading, update } = useAppSelector((state) => state.users);
 
+  console.log("current_user", current_user);
   const { userFormik, userInputProps } = useUserHelper();
   const { handleSubmit, setFieldValue, isSubmitting } = userFormik;
 
@@ -82,16 +83,16 @@ const page = () => {
     setFieldValue(userField.photo.name, null);
   };
   React.useEffect(() => {
-    setFieldValue(userField.id.name, auth?.user?.id || "");
-    setFieldValue(userField.first_name.name, auth?.user?.first_name ?? "");
-    setFieldValue(userField.surname_name.name, auth?.user?.surname_name ?? "");
-    setFieldValue(userField.email.name, auth?.user?.email ?? "");
-    setFieldValue(userField.phone.name, auth?.user?.phone ?? "");
-    setFieldValue(userField.headline.name, auth?.user?.headline ?? "");
-    setFieldValue(userField.bio.name, auth?.user?.bio ?? "");
-    setFieldValue(userField.website_url.name, auth?.user?.website_url ?? "");
-    setFieldValue(userField.linkedin.name, auth?.user?.linkedin ?? "");
-    setFieldValue(userField.photo.name, imagevalue || auth?.user?.photo);
+    setFieldValue(userField.id.name, current_user?.id || "");
+    setFieldValue(userField.first_name.name, current_user?.first_name ?? "");
+    setFieldValue(userField.surname_name.name, current_user?.surname_name ?? "");
+    setFieldValue(userField.email.name, current_user?.email ?? "");
+    setFieldValue(userField.phone.name, current_user?.phone ?? "");
+    setFieldValue(userField.headline.name, current_user?.headline ?? "");
+    setFieldValue(userField.bio.name, current_user?.bio ?? "");
+    setFieldValue(userField.website_url.name, current_user?.website_url ?? "");
+    setFieldValue(userField.linkedin.name, current_user?.linkedin ?? "");
+    setFieldValue(userField.photo.name, imagevalue || current_user?.photo);
   }, [auth, image, setFieldValue]);
 
   React.useEffect(() => {
@@ -116,11 +117,11 @@ const page = () => {
         <div className={styles.container}>
           <div className={styles.profilePicWrapper}>
             <div className={styles.profilePic}>
-              {image || auth?.user?.photo ? (
+              {image || current_user?.photo ? (
                 <Image
                   src={
                     image ||
-                    `${imageUrl}/uploads/user_photo/${auth?.user?.photo}`
+                    `${imageUrl}/uploads/user_photo/${current_user?.photo}`
                   }
                   alt="Profile"
                   fill

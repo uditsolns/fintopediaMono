@@ -1,0 +1,148 @@
+.AchiveingLearningSlider {
+  background-image: url("../../../assets/contact/Testimonials.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 50px;
+}
+.AchiveingLearningSlider h1 {
+  color: #fff;
+  text-align: center;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; 
+}
+.profileCard {
+  border-radius: 12px;
+  border: 1px solid #7a7fa2;
+  background: #0d0f1c;
+  backdrop-filter: blur(19.5px);
+  backdrop-filter: blur(19.5px);
+  padding: 18px;
+  margin: 0 10px;
+  margin-top: 10px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.userImage {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 12px;
+  border: 2px solid #ddd;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.userDesignation {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.companyLogo img {
+  width: 50px;
+}
+
+.cardRating {
+  margin-top: 8px;
+  font-size: 20px;
+}
+
+.cardBody {
+  margin-top: 12px;
+}
+
+.mainHeading {
+  overflow: hidden;
+  color: #fff;
+  text-overflow: ellipsis;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 26px;
+  margin-bottom: 10px;
+}
+
+.subHeading {
+  overflow: hidden;
+  color: #d5d5d9;
+  text-align: justify;
+  text-overflow: ellipsis;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px;
+}
+.cardLink {
+  display: flex;
+  margin-top: 20px;
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+}
+.cardLink a {
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  text-decoration-line: underline;
+}
+.slick-slide > div {
+  margin: 0 30px;
+}
+.slick-slide > div:nth-child(1) {
+  margin-left: 0;
+}
+.progressContainer {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background-color: #333;
+  margin-top: 20px;
+}
+
+.progressBar {
+  background-color: #007bff;
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+.cardImage {
+  height: auto;
+}
+.slick-list {
+  margin-right: -30px;
+  margin: 0 -10px;
+}
+.cardBody{
+  height: 250px;
+}
+@media screen and (max-width: 435px) {
+  .AchiveingLearningSlider {
+    padding: 20px;
+  }
+}

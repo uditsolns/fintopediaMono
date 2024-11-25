@@ -20,6 +20,8 @@ import { getCourses } from "shared/src/provider/store/services/courses.service";
 import { getCategories } from "shared/src/provider/store/services/categories.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 import { getCourseCart } from "shared/src/provider/store/services/CourseCart.service";
+import AchiveingSliderMolecule from "@src/components/molecules/AchiveingSliderMolecule/AchiveingSliderMolecule";
+import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
 
 // const Homepage = dynamic(() => import("./homepage/Homepage"), {
 //   ssr: false,
@@ -39,7 +41,9 @@ const page = () => {
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
   );
-
+  const { course_review, loading: coursesReviewLoading } = useAppSelector(
+    (state) => state.courseReviews
+  );
   React.useEffect(() => {
     if (token) {
       dispatch(getCourseCart());
@@ -49,10 +53,13 @@ const page = () => {
   React.useEffect(() => {
     dispatch(getCourses());
     dispatch(getCategories());
+    dispatch(getCourseReviews());
   }, [dispatch]);
   return (
     <>
-      {categoriesLoading?.categories || coursesLoading?.courses ? (
+      {categoriesLoading?.categories ||
+      coursesLoading?.courses ||
+      coursesReviewLoading?.course_review ? (
         <div className="fullPageLoading">
           <LoadingAtom
             style={{
@@ -67,11 +74,15 @@ const page = () => {
         <StocksSlider />
         <QuizSection />
         <div>
-          <FeaturedCourses courses={courses} categories={categories} label="Featured Courses"/>
+          <FeaturedCourses
+            courses={courses}
+            categories={categories}
+            label="Featured Courses"
+          />
         </div>
         <CategoryBanner categories={categories} />
         <HowitWorks />
-        <AchiveingLearningSlider />
+        <AchiveingSliderMolecule />
         <CourseOffer />
         <BlogsSlider />
         <BasicStockmarketBanner />

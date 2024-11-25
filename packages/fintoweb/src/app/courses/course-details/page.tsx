@@ -18,6 +18,7 @@ import LoadingAtom from "@src/components/loader/LoadingAtom";
 import FrequentlyBought from "./components/frequently-bought/FrequentlyBought";
 import VideoEmbed from "@src/components/VideoPlayer/VideoEmbed";
 import CountCardMolecule from "@src/components/molecules/CountCardMolecule/CountCardMolecule";
+import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
 interface CourseDetailsProps {
   id?: number;
 }
@@ -28,7 +29,9 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
     courses,
     loading: singleCourseLoading,
   } = useAppSelector((state) => state.courses);
-  console.log("singleCourse", singleCourse);
+  const { course_review, loading: courseReviewLoading } = useAppSelector(
+    (state) => state.courseReviews
+  );
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   React.useEffect(() => {
@@ -36,6 +39,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
       dispatch(getCoursesById({ id }));
     }
     dispatch(getCourses());
+    dispatch(getCourseReviews());
   }, [id, dispatch]);
 
   const handleToggle = (index: number) => {
@@ -69,7 +73,9 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
   ];
   return (
     <>
-      {singleCourseLoading?.singleCourse || singleCourseLoading?.courses ? (
+      {singleCourseLoading?.singleCourse ||
+      singleCourseLoading?.courses ||
+      courseReviewLoading?.course_review ? (
         <div className="fullPageLoading">
           <LoadingAtom
             style={{
@@ -107,7 +113,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
                   <span
                     style={{
                       textDecoration: "line-through",
-                      color:"lightgray",
+                      color: "lightgray",
                       marginLeft: "5px",
                     }}
                   >
