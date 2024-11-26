@@ -86,6 +86,7 @@ export type Paramkeys =
   | "rating_desc"
   | "last_name"
   | "message"
-  | "designation";
+  | "phone_no"
+  | "designation"; 
 
 export type ModelParams = Record<Paramkeys, FormModel>;

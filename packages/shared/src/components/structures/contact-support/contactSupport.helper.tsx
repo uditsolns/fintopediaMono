@@ -1,10 +1,14 @@
 import { useFormik } from "formik";
 import { useAppDispatch } from "../../../provider/store/types/storeTypes";
 import { InputAtomProps } from "../../atoms/Input/InputAtom";
-import { CONTACTSUPPORT_VALUES, contactSupportValidation } from "./contactSupportModel";
+import {
+  CONTACTSUPPORT_VALUES,
+  contactSupportValidation,
+} from "./contactSupportModel";
+import { createContactSupport } from "../../../provider/store/services/contact.service";
 
 export const useContactSupportHelper = () => {
-  type dataType = keyof typeof CONTACTSUPPORT_VALUES ;
+  type dataType = keyof typeof CONTACTSUPPORT_VALUES;
 
   const dispatch = useAppDispatch();
 
@@ -13,18 +17,18 @@ export const useContactSupportHelper = () => {
     validationSchema: contactSupportValidation,
     onSubmit: (values) => {
       let data = {
-        phone: values.phone,
-        email: values.email,
         first_name: values.first_name,
         last_name: values.last_name,
+        phone_no: values.phone_no,
+        email: values.email,
         message: values.message,
       };
-      console.log("signup data ",data); 
+      dispatch(createContactSupport(data));
     },
   });
 
   const { setFieldTouched, values, touched, errors, handleChange } =
-  contactSupportFormik;
+    contactSupportFormik;
 
   const _onBlur = (key: string) => {
     setFieldTouched(key);

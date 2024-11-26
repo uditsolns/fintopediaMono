@@ -2,9 +2,8 @@
 
 import React, { useState } from "react";
 import styles from "./Contact.module.css";
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
-import { Button, Col, InputGroup, Label, Row, Accordion } from "reactstrap";
-import CustomInput from "../../custom/CustomInput";
+import { FormikHelpers } from "formik";
+import { Col, Row } from "reactstrap";
 import AchiveingSliderMolecule from "@src/components/molecules/AchiveingSliderMolecule/AchiveingSliderMolecule";
 import {
   useAppDispatch,
@@ -12,24 +11,18 @@ import {
 } from "shared/src/provider/store/types/storeTypes";
 import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
+import { InputAtom } from "@src/components/atoms/Input/InputAtom";
+import { contactSupportField } from "shared/src/components/structures/contact-support/contactSupportModel";
+import { useContactSupportHelper } from "shared/src/components/structures/contact-support/contactSupport.helper";
 
-interface ContactFormValues {
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  message: string;
-}
-interface AccordionItem {
-  title: string;
-  content: string;
-}
 
 const Contact: React.FC = () => {
   const dispatch = useAppDispatch();
   const { course_review, loading: courseReviewLoading } = useAppSelector(
     (state) => state.courseReviews
   );
+  // const { userFormik, userInputProps } = useUserHelper();
+  // const { handleSubmit, setFieldValue, isSubmitting } = userFormik;
 
   React.useEffect(() => {
     dispatch(getCourseReviews());
@@ -40,20 +33,7 @@ const Contact: React.FC = () => {
   const handleToggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
-  const handleSubmit = (
-    values: ContactFormValues,
-    { setSubmitting }: FormikHelpers<ContactFormValues>
-  ) => {
-    const register = {
-      first_name: values.first_name,
-      last_name: values.last_name,
-      email: values.email,
-      phone: values.phone,
-      message: values.message,
-    };
-    // dispatch(actions.postRegister(register, () => router.push('/login')));
-    setSubmitting(false);
-  };
+  
   const items = [
     {
       title: "Why opt for an online options trading course?",
@@ -81,7 +61,7 @@ const Contact: React.FC = () => {
     },
   ];
 
-  return ( 
+  return (
     <>
       {courseReviewLoading?.course_review ? (
         <div className="fullPageLoading">
@@ -107,7 +87,7 @@ const Contact: React.FC = () => {
           <div className={styles.contactForm}>
             <div className="row">
               <div className={`col-md-8 mt-3 ${styles.colLeft}`}>
-                <Formik
+                {/* <Formik
                   initialValues={{
                     first_name: "",
                     last_name: "",
@@ -252,7 +232,17 @@ const Contact: React.FC = () => {
                       </Row>
                     </Form>
                   )}
-                </Formik>
+                </Formik> */}
+                <Row className="mt-3">
+                  <Col md={6}>
+                    {/* <InputAtom
+                      label={contactSupportField.first_name.label}
+                      placeholder={contactSupportField.first_name.placeHolder}
+                      {...userInputProps(contactSupportField.first_name.name)}
+                    /> */}
+                  </Col>
+                  <Col md={6}></Col>
+                </Row>
               </div>
               <div className="col-md-4 mt-3">
                 <div className={styles.socialCard}>

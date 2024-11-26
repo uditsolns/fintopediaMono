@@ -213,4 +213,10 @@ export default {
     UPDATE: buildUrl("course_like"),
     DELETE: buildUrl("course_like"),
   },
+  CONTACT_SUPPORT: {
+    GET: buildUrl("contact_support"),
+    POST: buildUrl("contact_support"),
+    UPDATE: buildUrl("contact_support"),
+    DELETE: buildUrl("contact_support"),
+  },
 };
