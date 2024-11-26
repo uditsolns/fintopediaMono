@@ -2,26 +2,25 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
 import {
-  CourseReviewParams,
-  CourseReviewResponse,
-} from "../../../utils/types/course-review";
+  LikeCoursesParams,
+  LikeCoursesResponse,
+} from "../../../utils/types/course-like";
 import { DeleteParams } from "../../../utils/types/CourseCart";
 import {
   OnErrorInterface,
-  OnSuccessInterface,
-} from "../../../utils/types/roundLevel";
-import { getCourses } from "./courses.service";
+  OnSuccessInterface, 
+} from "../../../utils/types/roundLevel"; 
 
-export const getCourseReviews = createAsyncThunk<
-  CourseReviewResponse[],
+export const getLikeCourse = createAsyncThunk<
+  LikeCoursesResponse[], 
   void, 
   { state: RootState }
->("getCourseReviews/get", async (_, thunkApi) => {
+>("getLikeCourse/get", async (_, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(apiUrl.COURSES_RATING_REVIEWS.GET, {
+    const response = await fetch(apiUrl.COURSE_LIKE.GET, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +28,7 @@ export const getCourseReviews = createAsyncThunk<
       },
     });
 
-    const data = (await response.json()) as CourseReviewResponse[];
+    const data = (await response.json()) as LikeCoursesResponse[];
 
     return data;
   } catch (error) {
@@ -37,17 +36,17 @@ export const getCourseReviews = createAsyncThunk<
   }
 });
 
-export const getCourseReviewsById = createAsyncThunk<
-  CourseReviewResponse,
-  CourseReviewParams,
+export const getLikeCourseById = createAsyncThunk<
+  LikeCoursesResponse,
+  LikeCoursesParams,
   { state: RootState }
->("getCourseReviewsById/get", async ({ params }, thunkApi) => {
+>("getLikeCourseById/get", async ({ params }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
     const response = await fetch(
-      `${apiUrl.COURSES_RATING_REVIEWS.GET}/${params?.id}`,
+      `${apiUrl.COURSE_LIKE.GET}/${params?.id}`,
       {
         method: "GET",
         headers: {
@@ -57,7 +56,7 @@ export const getCourseReviewsById = createAsyncThunk<
       }
     );
 
-    const data = (await response.json()) as CourseReviewResponse;
+    const data = (await response.json()) as LikeCoursesResponse;
 
     return data;
   } catch (error) {
@@ -65,17 +64,17 @@ export const getCourseReviewsById = createAsyncThunk<
   }
 });
 
-export const createCourseReview = createAsyncThunk<
-  CourseReviewResponse,
-  CourseReviewParams & OnSuccessInterface & OnErrorInterface,
+export const createLikeCourse = createAsyncThunk<
+  LikeCoursesResponse,
+  LikeCoursesParams & OnSuccessInterface & OnErrorInterface,
   { state: RootState }
 >(
-  "createCourseReview/post",
+  "createLikeCourse/post",
   async ({ params, onSuccess, onError }, thunkApi) => {
     try {
       const state = thunkApi.getState();
       const token = state.auth?.auth?.token;
-      const response = await fetch(apiUrl.COURSES_RATING_REVIEWS.POST, {
+      const response = await fetch(apiUrl.COURSE_LIKE.POST, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -84,11 +83,9 @@ export const createCourseReview = createAsyncThunk<
         body: JSON.stringify(params),
       });
 
-      const data = (await response.json()) as CourseReviewResponse;
+      const data = (await response.json()) as LikeCoursesResponse;
       onSuccess(data);
-      thunkApi.dispatch(getCourseReviews());
-      thunkApi.dispatch(getCourses());
-
+      thunkApi.dispatch(getLikeCourse());
       return data;
     } catch (error) {
       onError(error);
@@ -97,18 +94,18 @@ export const createCourseReview = createAsyncThunk<
   }
 );
 
-export const updateCourseReview = createAsyncThunk<
-  CourseReviewResponse,
-  CourseReviewParams & OnSuccessInterface & OnErrorInterface,
+export const updateLikeCourse = createAsyncThunk<
+  LikeCoursesResponse,
+  LikeCoursesParams & OnSuccessInterface & OnErrorInterface,
   { state: RootState }
 >(
-  "updateCourseReview/update",
+  "updateLikeCourse/update",
   async ({ params, onSuccess, onError }, thunkApi) => {
     try {
       const state = thunkApi.getState();
       const token = state.auth?.auth?.token;
       const response = await fetch(
-        apiUrl.COURSES_RATING_REVIEWS.UPDATE + "/" + params?.id,
+        apiUrl.COURSE_LIKE.UPDATE + "/" + params?.id,
         {
           method: "POST",
           headers: {
@@ -119,10 +116,9 @@ export const updateCourseReview = createAsyncThunk<
         }
       );
 
-      const data = (await response.json()) as CourseReviewResponse;
+      const data = (await response.json()) as LikeCoursesResponse;
       onSuccess(data);
-      thunkApi.dispatch(getCourseReviews());
-      thunkApi.dispatch(getCourses());
+      thunkApi.dispatch(getLikeCourse());
       return data;
     } catch (error) {
       onError(error);
@@ -131,16 +127,16 @@ export const updateCourseReview = createAsyncThunk<
   }
 );
 
-export const deleteCourseReview = createAsyncThunk<
+export const deleteLikeCourse = createAsyncThunk<
   any,
   DeleteParams,
   { state: RootState }
->("deleteCourseReview/delete", async ({ id, onSuccess, onError }, thunkApi) => {
+>("deleteLikeCourse/delete", async ({ id, onSuccess, onError }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
     const response = await fetch(
-      apiUrl.COURSES_RATING_REVIEWS.DELETE + "/" + id,
+      apiUrl.COURSE_LIKE.DELETE + "/" + id,
       {
         method: "DELETE",
         headers: {
@@ -151,7 +147,7 @@ export const deleteCourseReview = createAsyncThunk<
     );
 
     const data = (await response.json()) as any;
-    thunkApi.dispatch(getCourseReviews());
+    thunkApi.dispatch(getLikeCourse());
     onSuccess(data);
     return data;
   } catch (error) {

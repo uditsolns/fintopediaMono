@@ -115,7 +115,7 @@ const CourseFilter: React.FC = () => {
         },
       },
     ],
-  };
+  }; 
   const handleCourseClick = async (course: CoursesResponse) => {
     setLoadingCourseId(course.id);
     if (!auth?.token) {

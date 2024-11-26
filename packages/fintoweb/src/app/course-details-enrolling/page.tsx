@@ -23,6 +23,8 @@ import FrequentlyBought from "../courses/course-details/components/frequently-bo
 import ShareButton from "@src/components/share-button/ShareButton";
 import VideoEmbed from "@src/components/VideoPlayer/VideoEmbed";
 import { getCourseUploadFile } from "shared/src/provider/store/services/course-upload-file.service";
+import { createLikeCourse } from "shared/src/provider/store/services/course-like.service";
+import { toast } from "react-toastify";
 
 interface CourseEnrollDetailsProps {
   id?: number;
@@ -34,6 +36,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     courses,
     loading: courseLoading,
   } = useAppSelector((state) => state.courses);
+  const { auth } = useAppSelector((state) => state.auth);
   const { course_notes, loading: course_notes_loading } = useAppSelector(
     (state) => state.courseNotes
   );
@@ -42,6 +45,9 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   );
   const { upload_file, loading: upload_file_loading } = useAppSelector(
     (state) => state.courseUploadFile
+  );
+  const { likeCourse, loading: likeCourseLoading } = useAppSelector(
+    (state) => state.likeCourse
   );
   const shareData = {
     title: "Check out this awesome page!",
@@ -83,7 +89,25 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   const handleSubsectionClick = (otp, playbackInfo) => {
     setVideoEmbedInfo({ otp, playbackInfo });
   };
-
+  const handleSubmit = async () => {
+    let params = {
+      user_id: auth?.user?.id,
+      course_id: singleCourse?.id,
+      status: "1",
+    };
+    dispatch(
+      createLikeCourse({
+        params,
+        onSuccess(data) {
+          toast.success("Course added to Like", {
+            position: "top-right",
+            theme: "light",
+          });
+        },
+        onError(error) {},
+      })
+    );
+  };
   return (
     <>
       {courseLoading.singleCourse ||
@@ -94,6 +118,9 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
       course_notes_loading?.delete ||
       upload_file_loading.create ||
       upload_file_loading?.upload_file ||
+      likeCourseLoading?.likeCourse ||
+      likeCourseLoading?.create ||
+      likeCourseLoading?.update ||
       course_review_loading?.course_review ? (
         <div className="fullPageLoading">
           <LoadingAtom
@@ -150,7 +177,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
               text={shareData.text}
               url={shareData.url}
             />
-            <span className={styles.fav}>
+            <span className={styles.fav} onClick={handleSubmit}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
@@ -320,14 +347,14 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
             </div>
           </div>
           <div className={styles.tabsContainer}>
-          <div className="row">
-            <div className="col-md-4"></div>
-            <div className="col-md-8">
-              <h3>Roles and responsibilities of a product manager</h3>
-              <EnrollTabs />
+            <div className="row">
+              <div className="col-md-4"></div>
+              <div className="col-md-8">
+                <h3>Roles and responsibilities of a product manager</h3>
+                <EnrollTabs />
+              </div>
             </div>
           </div>
-        </div>
         </div>
         <div className={styles.levelUp}>
           <FrequentlyBought courses={courses} heading={"Level up your game"} />

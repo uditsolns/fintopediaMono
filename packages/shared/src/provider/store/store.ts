@@ -37,6 +37,7 @@ import completedCourseReducer from "./reducers/completed-course.reducer";
 import previousViewCourseReducer from "./reducers/previous-view-course.reducer";
 import couponCodeReducer from "./reducers/coupon-code.reducer";
 import searchCoursesReducer from "./reducers/search-courses.reducer";
+import likeCoursesReducer from "./reducers/course-like.reducer";
 
 const isNative = Platform.OS !== "web";
 
@@ -80,6 +81,7 @@ const reducers = combineReducers({
   previousViewCourse: previousViewCourseReducer,
   searchCourses: searchCoursesReducer,
   couponCode: couponCodeReducer,
+  likeCourse: likeCoursesReducer,
 });
 
 export const store = configureStore({

@@ -207,4 +207,10 @@ export default {
     UPDATE: buildUrl("course-section"),
     DELETE: buildUrl("course-section"),
   },
+  COURSE_LIKE: {
+    GET: buildUrl("course_like"),
+    POST: buildUrl("course_like"),
+    UPDATE: buildUrl("course_like"),
+    DELETE: buildUrl("course_like"),
+  },
 };
