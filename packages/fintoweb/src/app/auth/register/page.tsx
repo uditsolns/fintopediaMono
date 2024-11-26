@@ -51,7 +51,7 @@ const Register: React.FC = () => {
       });
       router.push("/auth/login");
     }
-  }, [signup, router]); 
+  }, [signup, router]);
   return (
     <div className={styles.container}>
       <div className="container main-login-div">
@@ -92,6 +92,15 @@ const Register: React.FC = () => {
                       label={signupField.phone.label}
                       placeholder={signupField.phone.placeHolder}
                       {...signupInputProps(signupField.phone.name)}
+                    />
+                  </Col>
+                </Row>
+                <Row className="form-group mt-3">
+                  <Col md={12}>
+                    <InputAtom
+                      label={signupField.designation.label}
+                      placeholder={signupField.designation.placeHolder}
+                      {...signupInputProps(signupField.designation.name)}
                     />
                   </Col>
                 </Row>

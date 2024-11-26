@@ -116,7 +116,7 @@
   background-repeat: no-repeat;
   padding: 10px;
 }
-.levelUp{
+.levelUp {
   background-image: url("../../assets/courses/course-enroll/Level-up-your-game.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -160,6 +160,9 @@
 
 .subsectionTime {
   margin-left: 0.25rem;
+}
+.fav {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 435px) {

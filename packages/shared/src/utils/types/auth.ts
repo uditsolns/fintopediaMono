@@ -7,7 +7,7 @@ export interface AuthState {
     signout: boolean;
     forgot: boolean;
     confirm: boolean;
-    google_login:boolean
+    google_login: boolean;
   };
   err: {
     loginErr: any;
@@ -15,7 +15,7 @@ export interface AuthState {
     signoutErr: any;
     forgotErr: any;
     confirmErr: any;
-    google_login_err:any
+    google_login_err: any;
   };
   token?: string | null;
   auth: AuthResponse | null;
@@ -76,6 +76,7 @@ export interface UserInfo {
   is_google_login: string;
   feedback: null;
   college: null;
+  designation?: null | string;
   user_transactions?: UserTransactionsResponse[] | null;
   bio?: null | string;
   headline?: null | string;
@@ -93,6 +94,7 @@ export interface SignupParams {
   password_confirmation: string;
   email: string;
   college_id: string;
+  designation: string;
 }
 
 export interface ForgotPasswordParams {
@@ -110,7 +112,7 @@ export interface UpdatePasswordParams {
   new_password_confirmation?: string;
 }
 export interface UserUpdateParams {
-  id?:number
+  id?: number;
   first_name?: string;
   email?: string;
   phone?: string;
@@ -143,6 +145,7 @@ export interface UserUpdateParams {
   headline?: null | string;
   linkedin?: null | string;
   website_url?: null | string;
+  designation?: null | string;
   photo?: string | null;
 }
 

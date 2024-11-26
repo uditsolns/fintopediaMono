@@ -85,13 +85,17 @@ const page = () => {
   React.useEffect(() => {
     setFieldValue(userField.id.name, current_user?.id || "");
     setFieldValue(userField.first_name.name, current_user?.first_name ?? "");
-    setFieldValue(userField.surname_name.name, current_user?.surname_name ?? "");
+    setFieldValue(
+      userField.surname_name.name,
+      current_user?.surname_name ?? ""
+    );
     setFieldValue(userField.email.name, current_user?.email ?? "");
     setFieldValue(userField.phone.name, current_user?.phone ?? "");
     setFieldValue(userField.headline.name, current_user?.headline ?? "");
     setFieldValue(userField.bio.name, current_user?.bio ?? "");
     setFieldValue(userField.website_url.name, current_user?.website_url ?? "");
     setFieldValue(userField.linkedin.name, current_user?.linkedin ?? "");
+    setFieldValue(userField.designation.name, current_user?.designation ?? "");
     setFieldValue(userField.photo.name, imagevalue || current_user?.photo);
   }, [auth, image, setFieldValue]);
 
@@ -269,6 +273,15 @@ const page = () => {
               label={userField.website_url.label}
               placeholder={userField.website_url.placeHolder}
               {...userInputProps(userField.website_url.name)}
+            />
+          </Col>
+        </Row>
+        <Row className="form-group mt-3">
+          <Col md={6}>
+            <InputAtom
+              label={userField.designation.label}
+              placeholder={userField.designation.placeHolder}
+              {...userInputProps(userField.designation.name)}
             />
           </Col>
         </Row>

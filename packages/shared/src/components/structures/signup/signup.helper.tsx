@@ -23,6 +23,7 @@ export const useSignupHelper = () => {
         password_confirmation: values.password_confirmation,
         role: values.role,
         surname_name: values.surname_name,
+        designation: values.designation,
       };
       console.log("signup data ", data);
       dispatch(signUp(data));

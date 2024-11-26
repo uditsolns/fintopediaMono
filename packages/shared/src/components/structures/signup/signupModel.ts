@@ -11,6 +11,7 @@ type SignupField = Pick<
   | "password_confirmation"
   | "email"
   | "college"
+  | "designation"
 >;
 
 export const signupField: SignupField = {
@@ -43,6 +44,12 @@ export const signupField: SignupField = {
     label: "Role",
     placeHolder: "Role",
     requiredErr: "Role is required",
+  },
+  designation: {
+    name: "designation",
+    label: "Designation",
+    placeHolder: "Enter your Designation",
+    requiredErr: "Designation is required",
   },
   password: {
     name: "password",
@@ -77,6 +84,8 @@ export const SIGNUP_VALUES = {
   [signupField.password.name]: "",
   [signupField.password_confirmation.name]: "",
   [signupField.college.name]: "",
+  [signupField.designation.name]: "",
+
 };
 
 export const signupValidation = Yup.object().shape({
@@ -85,6 +94,9 @@ export const signupValidation = Yup.object().shape({
   ),
   [signupField.surname_name.name]: Yup.string().required(
     `${signupField.surname_name.requiredErr}`
+  ),
+  [signupField.designation.name]: Yup.string().required(
+    `${signupField.designation.requiredErr}`
   ),
   [signupField.email.name]: Yup.string()
     .email("Invalid email")

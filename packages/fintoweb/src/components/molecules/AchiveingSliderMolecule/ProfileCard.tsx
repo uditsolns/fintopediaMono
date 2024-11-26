@@ -57,7 +57,7 @@ const ProfileCard = ({ review }) => {
               {review.user?.surname_name}&nbsp;{review.user?.first_name}
             </h4>
             <p className={styles.userDesignation}>
-              {review.user?.qualification}
+              {review.user?.designation}
             </p>
           </div>
         </div>

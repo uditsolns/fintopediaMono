@@ -13,8 +13,8 @@ export interface LikeCoursesParams {
 }
 export interface LikeCoursesResponse {
   id?: number;
-  course_id?: number;
-  user_id?: number;
+  course_id: number;
+  user_id: number;
   status: string;
   course?: CoursesResponse | null;
   user?: UserInfo | null;

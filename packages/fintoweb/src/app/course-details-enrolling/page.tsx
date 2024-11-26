@@ -2,10 +2,7 @@
 
 import React, { useState } from "react";
 import styles from "./CourseDetailsEnrolling.module.css";
-import EnrollCourse from "../../assets/enroll-course.png";
-import Image from "next/image";
 import EnrollTabs from "./tabpanel/EnrollTabs";
-import FeaturedCourses from "../homepage/FeaturedCourses";
 import {
   useAppDispatch,
   useAppSelector,
@@ -16,14 +13,16 @@ import {
 } from "shared/src/provider/store/services/courses.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 import { getCourseNotes } from "shared/src/provider/store/services/course-note.service";
-import VideoPlayer from "@src/components/VideoPlayer/VideoPlayer";
-import { imageUrl } from "shared/src/config/imageUrl";
 import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
 import FrequentlyBought from "../courses/course-details/components/frequently-bought/FrequentlyBought";
 import ShareButton from "@src/components/share-button/ShareButton";
 import VideoEmbed from "@src/components/VideoPlayer/VideoEmbed";
 import { getCourseUploadFile } from "shared/src/provider/store/services/course-upload-file.service";
-import { createLikeCourse } from "shared/src/provider/store/services/course-like.service";
+import {
+  createLikeCourse,
+  deleteLikeCourse,
+  getLikeCourse,
+} from "shared/src/provider/store/services/course-like.service";
 import { toast } from "react-toastify";
 
 interface CourseEnrollDetailsProps {
@@ -37,18 +36,25 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     loading: courseLoading,
   } = useAppSelector((state) => state.courses);
   const { auth } = useAppSelector((state) => state.auth);
-  const { course_notes, loading: course_notes_loading } = useAppSelector(
+  const { loading: course_notes_loading } = useAppSelector(
     (state) => state.courseNotes
   );
-  const { course_review, loading: course_review_loading } = useAppSelector(
+  const { loading: course_review_loading } = useAppSelector(
     (state) => state.courseReviews
   );
-  const { upload_file, loading: upload_file_loading } = useAppSelector(
+  const { loading: upload_file_loading } = useAppSelector(
     (state) => state.courseUploadFile
   );
   const { likeCourse, loading: likeCourseLoading } = useAppSelector(
     (state) => state.likeCourse
   );
+  const isLiked = likeCourse?.some(
+    (like) => like.course_id === singleCourse?.id
+  );
+  const likedCourse = likeCourse?.find(
+    (like) => like.course_id === singleCourse?.id
+  );
+  const likedCourseId = likedCourse ? likedCourse.id : null;
   const shareData = {
     title: "Check out this awesome page!",
     text: "This is a fantastic page I found!",
@@ -62,9 +68,11 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     dispatch(getCourseReviews());
     dispatch(getCourses());
     dispatch(getCourseUploadFile());
+    dispatch(getLikeCourse());
   }, [id, dispatch]);
 
   const [isAccordionOpen, setIsAccordionOpen] = useState(true);
+
   const handleAccordionToggle = () => {
     setIsAccordionOpen(!isAccordionOpen);
   };
@@ -99,12 +107,31 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
       createLikeCourse({
         params,
         onSuccess(data) {
-          toast.success("Course added to Like", {
+          toast.success("Course added to Favorites!", {
             position: "top-right",
             theme: "light",
           });
         },
         onError(error) {},
+      })
+    );
+  };
+  const handleDelete = async () => {
+    dispatch(
+      deleteLikeCourse({
+        id: likedCourseId,
+        onSuccess(data) {
+          toast.success("Course removed from Favorites!", {
+            position: "top-right",
+            theme: "light",
+          });
+        },
+        onError(error) {
+          toast.error("Failed to delete the Course.", {
+            position: "top-right",
+            theme: "light",
+          });
+        },
       })
     );
   };
@@ -177,7 +204,10 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
               text={shareData.text}
               url={shareData.url}
             />
-            <span className={styles.fav} onClick={handleSubmit}>
+            <span
+              className={styles.fav}
+              onClick={!isLiked ? handleSubmit : handleDelete}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
@@ -186,8 +216,12 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                 fill="none"
               >
                 <path
-                  d="M27.8748 7.12405C26.5162 5.76886 24.6763 5.00678 22.7574 5.00444C20.8385 5.00209 18.9967 5.75968 17.6348 7.11155L15.9998 8.6303L14.3636 7.10655C13.002 5.7488 11.1569 4.98755 9.23404 4.99024C7.3112 4.99294 5.46819 5.75937 4.11045 7.12092C2.75271 8.48248 1.99145 10.3276 1.99415 12.2505C1.99684 14.1733 2.76327 16.0163 4.12483 17.374L15.2936 28.7065C15.3866 28.801 15.4975 28.8761 15.6199 28.9273C15.7422 28.9785 15.8735 29.0049 16.0061 29.0049C16.1387 29.0049 16.27 28.9785 16.3923 28.9273C16.5146 28.8761 16.6255 28.801 16.7186 28.7065L27.8748 17.374C29.2335 16.0145 29.9968 14.1711 29.9968 12.249C29.9968 10.327 29.2335 8.48356 27.8748 7.12405ZM26.4561 15.969L15.9998 26.574L5.53733 15.959C4.55271 14.9744 3.99956 13.639 3.99956 12.2465C3.99956 10.8541 4.55271 9.51866 5.53733 8.53405C6.52194 7.54943 7.85737 6.99628 9.24983 6.99628C10.6423 6.99628 11.9777 7.54943 12.9623 8.53405L12.9873 8.55905L15.3186 10.7278C15.5036 10.9 15.747 10.9957 15.9998 10.9957C16.2526 10.9957 16.496 10.9 16.6811 10.7278L19.0123 8.55905L19.0373 8.53405C20.0226 7.55009 21.3584 6.99784 22.7509 6.99878C24.1433 6.99972 25.4784 7.55377 26.4623 8.53905C27.4463 9.52432 27.9985 10.8601 27.9976 12.2526C27.9967 13.645 27.4426 14.9801 26.4573 15.964L26.4561 15.969Z"
-                  fill="white"
+                  d={
+                    isLiked
+                      ? "M27.8748 7.12405C26.5162 5.76886 24.6763 5.00678 22.7574 5.00444C20.8385 5.00209 18.9967 5.75968 17.6348 7.11155L15.9998 8.6303L14.3636 7.10655C13.002 5.7488 11.1569 4.98755 9.23404 4.99024C7.3112 4.99294 5.46819 5.75937 4.11045 7.12092C2.75271 8.48248 1.99145 10.3276 1.99415 12.2505C1.99684 14.1733 2.76327 16.0163 4.12483 17.374L15.2936 28.7065C15.3866 28.801 15.4975 28.8761 15.6199 28.9273C15.7422 28.9785 15.8735 29.0049 16.0061 29.0049C16.1387 29.0049 16.27 28.9785 16.3923 28.9273C16.5146 28.8761 16.6255 28.801 16.7186 28.7065L27.8748 17.374C29.2335 16.0145 29.9968 14.1711 29.9968 12.249C29.9968 10.327 29.2335 8.48356 27.8748 7.12405ZM26.4561 15.969L15.9998 26.574L5.53733 15.959C4.55271 14.9744 3.99956 13.639 3.99956 12.2465C3.99956 10.8541 4.55271 9.51866 5.53733 8.53405C6.52194 7.54943 7.85737 6.99628 9.24983 6.99628C10.6423 6.99628 11.9777 7.54943 12.9623 8.53405L12.9873 8.55905L15.3186 10.7278C15.5036 10.9 15.747 10.9957 15.9998 10.9957C16.2526 10.9957 16.496 10.9 16.6811 10.7278L19.0123 8.55905L19.0373 8.53405C20.0226 7.55009 21.3584 6.99784 22.7509 6.99878C24.1433 6.99972 25.4784 7.55377 26.4623 8.53905C27.4463 9.52432 27.9985 10.8601 27.9976 12.2526C27.9967 13.645 27.4426 14.9801 26.4573 15.964L26.4561 15.969Z"
+                      : "M27.8748 7.12405C26.5162 5.76886 24.6763 5.00678 22.7574 5.00444C20.8385 5.00209 18.9967 5.75968 17.6348 7.11155L15.9998 8.6303L14.3636 7.10655C13.002 5.7488 11.1569 4.98755 9.23404 4.99024C7.3112 4.99294 5.46819 5.75937 4.11045 7.12092C2.75271 8.48248 1.99145 10.3276 1.99415 12.2505C1.99684 14.1733 2.76327 16.0163 4.12483 17.374L15.2936 28.7065C15.3866 28.801 15.4975 28.8761 15.6199 28.9273C15.7422 28.9785 15.8735 29.0049 16.0061 29.0049C16.1387 29.0049 16.27 28.9785 16.3923 28.9273C16.5146 28.8761 16.6255 28.801 16.7186 28.7065L27.8748 17.374C29.2335 16.0145 29.9968 14.1711 29.9968 12.249C29.9968 10.327 29.2335 8.48356 27.8748 7.12405ZM26.4561 15.969L15.9998 26.574L5.53733 15.959C4.55271 14.9744 3.99956 13.639 3.99956 12.2465C3.99956 10.8541 4.55271 9.51866 5.53733 8.53405C6.52194 7.54943 7.85737 6.99628 9.24983 6.99628C10.6423 6.99628 11.9777 7.54943 12.9623 8.53405L12.9873 8.55905L15.3186 10.7278C15.5036 10.9 15.747 10.9957 15.9998 10.9957C16.2526 10.9957 16.496 10.9 16.6811 10.7278L19.0123 8.55905L19.0373 8.53405C20.0226 7.55009 21.3584 6.99784 22.7509 6.99878C24.1433 6.99972 25.4784 7.55377 26.4623 8.53905C27.4463 9.52432 27.9985 10.8601 27.9976 12.2526C27.9967 13.645 27.4426 14.9801 26.4573 15.964L26.4561 15.969Z"
+                  }
+                  fill={isLiked ? "#ff0000" : "white"}
                 />
               </svg>
             </span>

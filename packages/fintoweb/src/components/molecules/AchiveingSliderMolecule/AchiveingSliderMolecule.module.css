@@ -10,7 +10,7 @@
   font-size: 40px;
   font-style: normal;
   font-weight: 700;
-  line-height: 120%; 
+  line-height: 120%;
 }
 .profileCard {
   border-radius: 12px;
@@ -49,14 +49,22 @@
 
 .userName {
   margin: 0;
-  font-size: 16px;
-  font-weight: bold;
+  overflow: hidden;
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 26px;
 }
 
 .userDesignation {
   margin: 0;
-  font-size: 14px;
-  color: #555;
+  overflow: hidden;
+  color: #d5d5d9;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
 }
 
 .companyLogo img {
@@ -138,7 +146,7 @@
   margin-right: -30px;
   margin: 0 -10px;
 }
-.cardBody{
+.cardBody {
   height: 250px;
 }
 @media screen and (max-width: 435px) {
