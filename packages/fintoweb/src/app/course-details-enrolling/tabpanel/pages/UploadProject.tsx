@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import * as Yup from "yup";
 import styles from "../EnrollTabs.module.css";
 import {
   Button,
@@ -22,12 +23,16 @@ import {
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import { TextField } from "@mui/material";
-import { Form, Formik } from "formik";
+import { Form, Formik, useFormik } from "formik";
 import { toast } from "react-toastify";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 import { formatDate, getFileSize } from "./Resources";
 import { imageUrl } from "shared/src/config/imageUrl";
 import Pagination from "@src/components/pagination/Pagination";
+import { AiOutlineUpload } from "react-icons/ai";
+
+const MAX_FILE_SIZE = 20 * 1024 * 1024;
+const ACCEPTED_FILE_TYPES = [".pdf", ".docx", ".zip"];
 
 const UploadProject: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -76,37 +81,87 @@ const UploadProject: React.FC = () => {
       })
     );
   };
-  // const handleAction = (action: string, fileName: string) => {
-  //   console.log(`${action} action on ${fileName}`);
-  //   setOpenDropdown(null);
+
+  // const handleSubmit = (values: any, { resetForm, setSubmitting }: any) => {
+  //   let formData = new FormData();
+  //   formData.append("user_id", auth?.user?.id.toString());
+  //   formData.append("course_id", singleCourse?.id.toString());
+  //   formData.append("upload_file", values.upload_file);
+
+  //   dispatch(
+  //     createCourseUploadFile({
+  //       formData,
+  //       onSuccess(data) {
+  //         console.log("data");
+  //         toast.success("File Uploaded Successfully!", {
+  //           position: "top-right",
+  //           theme: "light",
+  //         });
+  //         resetForm();
+
+  //         setSubmitting(false);
+  //       },
+  //       onError(error) {
+  //         setSubmitting(false);
+  //       },
+  //     })
+  //   );
   // };
+  const formik = useFormik({
+    initialValues: {
+      file: null as File | null,
+    },
+    validationSchema: Yup.object({
+      file: Yup.mixed()
+        .required("Please select a file")
+        .test("fileSize", "File size must be less than 20MB", (value) => {
+          if (!value) return true;
+          return (value as File).size <= MAX_FILE_SIZE;
+        })
+        .test("fileType", "Unsupported file format", (value) => {
+          if (!value) return true;
+          const extension =
+            "." + (value as File).name.split(".").pop()?.toLowerCase();
+          return ACCEPTED_FILE_TYPES.includes(extension);
+        }),
+    }),
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
+      const formData = new FormData();
+      formData.append("user_id", auth?.user?.id.toString());
+      formData.append("course_id", singleCourse?.id.toString());
+      if (values.file) {
+        formData.append("upload_file", values.file);
+      }
+      dispatch(
+        createCourseUploadFile({
+          formData,
+          onSuccess(data) {
+            console.log("File upload successful", data);
+            toast.success("File Uploaded Successfully!", {
+              position: "top-right",
+              theme: "light",
+            });
+            resetForm();
+            setSubmitting(false);
+          },
+          onError(error) {
+            console.error("Error uploading file", error);
+            setSubmitting(false);
+          },
+        })
+      );
+    },
+  });
 
-  const handleSubmit = (values: any, { resetForm, setSubmitting }: any) => {
-    let formData = new FormData();
-    formData.append("user_id", auth?.user?.id.toString());
-    formData.append("course_id", singleCourse?.id.toString());
-    formData.append("upload_file", values.upload_file);
-
-    dispatch(
-      createCourseUploadFile({
-        formData,
-        onSuccess(data) {
-          console.log("data");
-          toast.success("File Uploaded Successfully!", {
-            position: "top-right",
-            theme: "light",
-          });
-          resetForm();
-
-          setSubmitting(false);
-        },
-        onError(error) {
-          setSubmitting(false);
-        },
-      })
-    );
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    formik.setFieldValue("file", file);
   };
 
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
   return (
     <div className={styles.uploadProject}>
       <h1 className={styles.heading}>Upload Project</h1>
@@ -115,7 +170,7 @@ const UploadProject: React.FC = () => {
         mentor will give feedback in 2-3 days.
       </p>
       <div className={styles.uploadForm}>
-        <Formik
+        {/* <Formik
           initialValues={{
             upload_file: "",
           }}
@@ -187,7 +242,104 @@ const UploadProject: React.FC = () => {
               </Form>
             );
           }}
-        </Formik>
+        </Formik> */}
+        <form onSubmit={formik.handleSubmit} className="space-y-4">
+          <div
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            className={`${styles.uploadBox} ${
+              formik.touched.file && formik.errors.file
+                ? styles.uploadBoxError
+                : styles.uploadBoxDefault
+            }`}
+          >
+            <div className="flex flex-col items-center gap-2">
+              {/* <AiOutlineUpload className={styles.icon} /> */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+              >
+                <path
+                  d="M9.33333 21.3332C6.38781 21.3332 4 18.9454 4 15.9998C4 13.4571 5.77942 11.33 8.16094 10.7958C8.05559 10.3251 8 9.83563 8 9.33317C8 5.65127 10.9848 2.6665 14.6667 2.6665C17.8924 2.6665 20.5831 4.9575 21.2002 8.00114C21.2445 8.00027 21.2889 7.99984 21.3333 7.99984C25.0152 7.99984 28 10.9846 28 14.6665C28 17.8918 25.7097 20.5821 22.6667 21.1998M20 17.3332L16 13.3332M16 13.3332L12 17.3332M16 13.3332L16 29.3332"
+                  stroke="#545F71"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <div className={styles.textSmall}>
+                {formik.values.file ? (
+                  formik.values.file.name
+                ) : (
+                  <>
+                    <span>Drag or drop your files to upload, or &nbsp;</span>
+                    <label
+                      className={`${styles.browseLink} ${styles.browseLinkHover}`}
+                    >
+                      Browse
+                      <input
+                        type="file"
+                        className="hidden"
+                        accept={ACCEPTED_FILE_TYPES.join(",")}
+                        onChange={(e) => {
+                          if (e.currentTarget.files) {
+                            formik.setFieldValue(
+                              "file",
+                              e.currentTarget.files[0]
+                            );
+                          }
+                        }}
+                      />
+                    </label>
+                  </>
+                )}
+              </div>
+              <div className={styles.textExtraSmall}>
+                Format: Pdf, Docx, Zip file
+              </div>
+              
+            </div>
+          </div>
+
+          {formik.touched.file &&
+            formik.errors.file &&
+            typeof formik.errors.file === "string" && (
+              <div className={styles.textError}>{formik.errors.file}</div>
+            )}
+          <div className={styles.uploadButton}>
+            <button
+              type="submit"
+              disabled={!formik.values.file || !formik.isValid}
+            >
+              {upload_file_loading?.create ? (
+                <LoadingAtom size="sm" color="dark" />
+              ) : (
+                <>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M4.5 16L4.5 17C4.5 18.6569 5.84315 20 7.5 20L17.5 20C19.1569 20 20.5 18.6569 20.5 17L20.5 16M16.5 8L12.5 4M12.5 4L8.5 8M12.5 4L12.5 16"
+                      stroke="#090A0B"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  Upload a file
+                </>
+              )}
+            </button>
+          </div>
+          <div className={styles.textExtraSmall}>File under 20 MB</div>
+        </form>
       </div>
       <div className={styles.container}>
         <h1 className={styles.title}>Previously Uploaded Projects</h1>
