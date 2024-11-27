@@ -191,84 +191,94 @@ const UploadProject: React.FC = () => {
       </div>
       <div className={styles.container}>
         <h1 className={styles.title}>Previously Uploaded Projects</h1>
-        <div className={styles.grid}>
-          {currentFiles.map((file, index) => (
-            <div key={index} className={styles.card}>
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <div className="d-flex">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                  >
-                    <path
-                      d="M12.0013 16H20.0013M12.0013 21.3333H20.0013M22.668 28H9.33464C7.86188 28 6.66797 26.8061 6.66797 25.3333V6.66667C6.66797 5.19391 7.86188 4 9.33464 4H16.7824C17.136 4 17.4751 4.14048 17.7252 4.39052L24.9441 11.6095C25.1942 11.8595 25.3346 12.1987 25.3346 12.5523V25.3333C25.3346 26.8061 24.1407 28 22.668 28Z"
-                      stroke="#FCFCFC"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
+        {currentFiles.length > 0 ? (
+          <>
+            <div className={styles.grid}>
+              {currentFiles.map((file, index) => (
+                <div key={index} className={styles.card}>
+                  <div className="d-flex justify-content-between align-items-center mb-2">
+                    <div className="d-flex">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="32"
+                        height="32"
+                        viewBox="0 0 32 32"
+                        fill="none"
+                      >
+                        <path
+                          d="M12.0013 16H20.0013M12.0013 21.3333H20.0013M22.668 28H9.33464C7.86188 28 6.66797 26.8061 6.66797 25.3333V6.66667C6.66797 5.19391 7.86188 4 9.33464 4H16.7824C17.136 4 17.4751 4.14048 17.7252 4.39052L24.9441 11.6095C25.1942 11.8595 25.3346 12.1987 25.3346 12.5523V25.3333C25.3346 26.8061 24.1407 28 22.668 28Z"
+                          stroke="#FCFCFC"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
 
-                  <span className={styles.resourseBtn}>
-                    {file.upload_file
-                      ? typeof file.upload_file === "string"
-                        ? file.upload_file.split(".").pop()?.toUpperCase()
-                        : "UNKNOWN"
-                      : "NO FILE UPLOADED"}
-                  </span>
+                      <span className={styles.resourseBtn}>
+                        {file.upload_file
+                          ? typeof file.upload_file === "string"
+                            ? file.upload_file.split(".").pop()?.toUpperCase()
+                            : "UNKNOWN"
+                          : "NO FILE UPLOADED"}
+                      </span>
+                    </div>
+                    <Dropdown
+                      isOpen={openDropdown === index}
+                      toggle={() =>
+                        setOpenDropdown(openDropdown === index ? null : index)
+                      }
+                    >
+                      <DropdownToggle
+                        tag="span"
+                        data-toggle="dropdown"
+                        aria-expanded={openDropdown === index}
+                        className={styles.dropdownButton}
+                      >
+                        <Button color="link" className="p-0">
+                          <FaEllipsisV />
+                        </Button>
+                      </DropdownToggle>
+                      <DropdownMenu end>
+                        <DropdownItem
+                          className={styles.dropdownItem}
+                          onClick={() => handleViewPdf(file.upload_file)}
+                        >
+                          <FaEye className="me-2" />
+                          View
+                        </DropdownItem>
+
+                        <DropdownItem
+                          className={styles.dropdownItem}
+                          onClick={() => handleDelete(file.id)}
+                        >
+                          <FaTrashAlt className="me-2" />
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
+                  <div className={styles.cardTitle}>
+                    {typeof file?.upload_file === "string"
+                      ? file.upload_file.split("_").pop()
+                      : "Unknown File"}
+                  </div>
+                  <p className={styles.cardDate}>
+                    {formatDate(file.created_at)} •{" "}
+                    {getFileSize(file.upload_file)}
+                  </p>
                 </div>
-                <Dropdown
-                  isOpen={openDropdown === index}
-                  toggle={() =>
-                    setOpenDropdown(openDropdown === index ? null : index)
-                  }
-                >
-                  <DropdownToggle
-                    tag="span"
-                    data-toggle="dropdown"
-                    aria-expanded={openDropdown === index}
-                    className={styles.dropdownButton}
-                  >
-                    <Button color="link" className="p-0">
-                      <FaEllipsisV />
-                    </Button>
-                  </DropdownToggle>
-                  <DropdownMenu end>
-                    <DropdownItem
-                      className={styles.dropdownItem}
-                      onClick={() => handleViewPdf(file.upload_file)}
-                    >
-                      <FaEye className="me-2" />
-                      View
-                    </DropdownItem>
-
-                    <DropdownItem
-                      className={styles.dropdownItem}
-                      onClick={() => handleDelete(file.id)}
-                    >
-                      <FaTrashAlt className="me-2" />
-                      Delete
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </div>
-              <div className={styles.cardTitle}>
-                <h2 className="h6 mb-0">Demo.pdf</h2>
-              </div>
-              <p className={styles.cardDate}>
-                {formatDate(file.created_at)} • {getFileSize(file.upload_file)}
-              </p>
+              ))}
             </div>
-          ))}
-        </div>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </>
+        ) : (
+          <p>No Files Available.</p>
+        )}
       </div>
     </div>
   );

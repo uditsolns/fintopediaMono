@@ -104,7 +104,8 @@ const Resources = () => {
                   </div>
                 </div>
                 <h1 className={styles.uploadFilename}>
-                  {resource.resource_file}
+                  {/* {resource.resource_file} */}
+                  {resource.resource_file.split('_').pop()}
                 </h1>
                 <span className={styles.uploadFiletime}>
                   {formatDate(resource.created_at)} .{" "}

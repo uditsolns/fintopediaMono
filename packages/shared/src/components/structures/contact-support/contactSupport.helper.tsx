@@ -8,7 +8,7 @@ import {
 import { createContactSupport } from "../../../provider/store/services/contact.service";
 
 export const useContactSupportHelper = () => {
-  type dataType = keyof typeof CONTACTSUPPORT_VALUES;
+  type dataType = keyof typeof CONTACTSUPPORT_VALUES; 
 
   const dispatch = useAppDispatch();
 
@@ -20,10 +20,11 @@ export const useContactSupportHelper = () => {
         first_name: values.first_name,
         last_name: values.last_name,
         phone_no: values.phone_no,
-        email: values.email,
+        email_id: values.email_id,
         message: values.message,
       };
       dispatch(createContactSupport(data));
+      contactSupportFormik.resetForm();
     },
   });
 

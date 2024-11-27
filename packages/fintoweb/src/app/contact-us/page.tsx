@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import styles from "./Contact.module.css";
 import { FormikHelpers } from "formik";
-import { Col, Row } from "reactstrap";
+import { Button, Col, Row } from "reactstrap";
 import AchiveingSliderMolecule from "@src/components/molecules/AchiveingSliderMolecule/AchiveingSliderMolecule";
 import {
   useAppDispatch,
@@ -14,15 +14,22 @@ import LoadingAtom from "@src/components/loader/LoadingAtom";
 import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import { contactSupportField } from "shared/src/components/structures/contact-support/contactSupportModel";
 import { useContactSupportHelper } from "shared/src/components/structures/contact-support/contactSupport.helper";
-
+import CircularLoading from "@src/components/loader/CircularLoading";
+import { toast } from "react-toastify";
 
 const Contact: React.FC = () => {
   const dispatch = useAppDispatch();
   const { course_review, loading: courseReviewLoading } = useAppSelector(
     (state) => state.courseReviews
   );
-  // const { userFormik, userInputProps } = useUserHelper();
-  // const { handleSubmit, setFieldValue, isSubmitting } = userFormik;
+  const {
+    contact,
+    create,
+    loading: contactLoading,
+  } = useAppSelector((state) => state.contact);
+  const { contactSupportFormik, contactSupportInputProps } =
+    useContactSupportHelper();
+  const { handleSubmit, isSubmitting } = contactSupportFormik;
 
   React.useEffect(() => {
     dispatch(getCourseReviews());
@@ -33,7 +40,7 @@ const Contact: React.FC = () => {
   const handleToggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
-  
+
   const items = [
     {
       title: "Why opt for an online options trading course?",
@@ -61,9 +68,17 @@ const Contact: React.FC = () => {
     },
   ];
 
+  React.useEffect(() => {
+    if (create?.id) {
+      toast.success("Your request has been successfully submitted!", {
+        position: "top-right",
+        theme: "light",
+      });
+    }
+  }, [create]);
   return (
     <>
-      {courseReviewLoading?.course_review ? (
+      {courseReviewLoading?.course_review || contactLoading?.contact ? (
         <div className="fullPageLoading">
           <LoadingAtom
             style={{
@@ -87,161 +102,77 @@ const Contact: React.FC = () => {
           <div className={styles.contactForm}>
             <div className="row">
               <div className={`col-md-8 mt-3 ${styles.colLeft}`}>
-                {/* <Formik
-                  initialValues={{
-                    first_name: "",
-                    last_name: "",
-                    email: "",
-                    phone: "",
-                    message: "",
-                  }}
-                  onSubmit={handleSubmit}
-                >
-                  {({ errors, touched, isSubmitting }) => (
-                    <Form className={styles.form}>
-                      <Row className="form-group">
-                        <Col md={6}>
-                          <Label className="text-white">First Name</Label>
-                          <InputGroup>
-                            <Field
-                              component={CustomInput}
-                              type="text"
-                              name="first_name"
-                              id="first_name"
-                              placeholder="Enter First Name"
-                              className={`textfield form-control ${
-                                errors.first_name && touched.first_name
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                            />
-                            <ErrorMessage
-                              name="first_name"
-                              component="div"
-                              className="invalid-feedback"
-                            />
-                          </InputGroup>
-                        </Col>
-                        <Col md={6}>
-                          <Label className="text-white">Last Name</Label>
-                          <InputGroup>
-                            <Field
-                              component={CustomInput}
-                              type="text"
-                              name="last_name"
-                              id="last_name"
-                              placeholder="Enter Last Name"
-                              className={`textfield form-control ${
-                                errors.last_name && touched.last_name
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                            />
-                            <ErrorMessage
-                              name="last_name"
-                              component="div"
-                              className="invalid-feedback"
-                            />
-                          </InputGroup>
-                        </Col>
-                      </Row>
-
-                      <Row className="form-group mt-3">
-                        <Col md={6}>
-                          <Label className="text-white">Email</Label>
-                          <InputGroup>
-                            <Field
-                              component={CustomInput}
-                              type="text"
-                              name="email"
-                              id="email"
-                              placeholder="Enter email address"
-                              className={`textfield form-control ${
-                                errors.email && touched.email
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                            />
-                            <ErrorMessage
-                              name="email"
-                              component="div"
-                              className="invalid-feedback"
-                            />
-                          </InputGroup>
-                        </Col>
-                        <Col md={6}>
-                          <Label className="text-white">Phone</Label>
-                          <InputGroup>
-                            <Field
-                              component={CustomInput}
-                              type="text"
-                              name="phone"
-                              id="phone"
-                              placeholder="Enter Phone number"
-                              className={`textfield form-control ${
-                                errors.phone && touched.phone
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                            />
-                            <ErrorMessage
-                              name="phone"
-                              component="div"
-                              className="invalid-feedback"
-                            />
-                          </InputGroup>
-                        </Col>
-                      </Row>
-                      <Row className="form-group mt-3">
-                        <Col md={12}>
-                          <Label className="text-white">Message</Label>
-                          <InputGroup>
-                            <Field
-                              as="textarea"
-                              name="message"
-                              id="message"
-                              placeholder="Enter your message"
-                              rows={5} // Adjust rows for height
-                              className={`textfield form-control ${
-                                errors.message && touched.message
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                            />
-                            <ErrorMessage
-                              name="message"
-                              component="div"
-                              className="invalid-feedback"
-                            />
-                          </InputGroup>
-                        </Col>
-                      </Row>
-
-                      <Row className="form-group mt-3">
-                        <Col md={12}>
-                          <Button
-                            type="submit"
-                            className={styles.contactButton}
-                            size="md"
-                            block
-                            disabled={isSubmitting}
-                          >
-                            Submit your message
-                          </Button>
-                        </Col>
-                      </Row>
-                    </Form>
-                  )}
-                </Formik> */}
-                <Row className="mt-3">
+                <Row className="form-group mt-3">
                   <Col md={6}>
-                    {/* <InputAtom
+                    <InputAtom
                       label={contactSupportField.first_name.label}
                       placeholder={contactSupportField.first_name.placeHolder}
-                      {...userInputProps(contactSupportField.first_name.name)}
-                    /> */}
+                      {...contactSupportInputProps(
+                        contactSupportField.first_name.name
+                      )}
+                    />
                   </Col>
-                  <Col md={6}></Col>
+                  <Col md={6}>
+                    <InputAtom
+                      label={contactSupportField.last_name.label}
+                      placeholder={contactSupportField.last_name.placeHolder}
+                      {...contactSupportInputProps(
+                        contactSupportField.last_name.name
+                      )}
+                    />
+                  </Col>
+                </Row>
+                <Row className="form-group mt-3">
+                  <Col md={6}>
+                    <InputAtom
+                      label={contactSupportField.email_id.label}
+                      placeholder={contactSupportField.email_id.placeHolder}
+                      {...contactSupportInputProps(
+                        contactSupportField.email_id.name
+                      )}
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <InputAtom
+                      label={contactSupportField.phone_no.label}
+                      placeholder={contactSupportField.phone_no.placeHolder}
+                      {...contactSupportInputProps(
+                        contactSupportField.phone_no.name
+                      )}
+                    />
+                  </Col>
+                </Row>
+                <Row className="form-group mt-3">
+                  <Col md={12}>
+                    <InputAtom
+                      label={contactSupportField.message.label}
+                      placeholder={contactSupportField.message.placeHolder}
+                      {...contactSupportInputProps(
+                        contactSupportField.message.name
+                      )}
+                      type="textarea"
+                    />
+                  </Col>
+                </Row>
+                <Row className="form-group mt-3">
+                  <Col md={12}>
+                    <Button
+                      type="submit"
+                      className={styles.contactButton}
+                      size="md"
+                      block
+                      disabled={contactLoading?.contact}
+                      onClick={() => {
+                        handleSubmit();
+                      }}
+                    >
+                      {contactLoading?.create ? (
+                        <CircularLoading />
+                      ) : (
+                        " Submit your message"
+                      )}
+                    </Button>
+                  </Col>
                 </Row>
               </div>
               <div className="col-md-4 mt-3">

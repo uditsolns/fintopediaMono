@@ -22,6 +22,9 @@ export interface CoursesParams {
   reviews?: number;
   is_popular?: number;
   resource_file_upload?: File | string | null;
+  offer_start_date?: string;
+  offer_end_date?: string;
+  offer_status?: string;
 }
 export interface ResourcesResponse {
   id: number;
@@ -40,7 +43,7 @@ export interface CourseSubSections {
   subsection_heading: string | null;
   subsection_time: string | null;
   sub_video: string | null;
-  sub_video_embed: VideoEmbed; 
+  sub_video_embed: VideoEmbed;
 }
 export interface CourseSections {
   id: number;
@@ -81,6 +84,9 @@ export interface CoursesResponse {
   course_video_embed: VideoEmbed;
   category?: CategoriesResponse | null;
   sections?: CourseSections[];
+  offer_start_date?: string;
+  offer_end_date?: string;
+  offer_status?: string;
 }
 
 export interface CoursesState {

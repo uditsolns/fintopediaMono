@@ -19,6 +19,7 @@ import FrequentlyBought from "./components/frequently-bought/FrequentlyBought";
 import VideoEmbed from "@src/components/VideoPlayer/VideoEmbed";
 import CountCardMolecule from "@src/components/molecules/CountCardMolecule/CountCardMolecule";
 import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
+import OfferCountdown from "@src/components/offer-countdown/OfferCountdown";
 interface CourseDetailsProps {
   id?: number;
 }
@@ -122,9 +123,13 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
                 </button>
               </div>
               <div className={styles.offerText}>
-                <h6>
+                {/* <h6>
                   Offer ends in <span> 01d : 09h : 20m : 06s</span>
-                </h6>
+                </h6> */}
+                <OfferCountdown
+                  offerStartDate={singleCourse?.offer_start_date}
+                  offerEndDate={singleCourse?.offer_end_date}
+                />
               </div>
             </div>
           </div>

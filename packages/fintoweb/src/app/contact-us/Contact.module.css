@@ -30,7 +30,7 @@
   padding: 20px;
 }
 .colLeft {
-  display: inline-flex;
+  /* display: inline-flex; */
   padding: 25px;
   justify-content: center;
   align-items: center;

@@ -36,7 +36,7 @@ export const createTransactions = createAsyncThunk<
   TransactionsResponse,
   TransactionsParams,
   { state: RootState }
->("transactions/post", async (params, thunkApi) => {
+>("transactions/post", async (params, thunkApi) => { 
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;

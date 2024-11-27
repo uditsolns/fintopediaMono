@@ -3,7 +3,7 @@ import { ModelParams } from "../../../utils/types/main";
 
 type ContactSupportField = Pick<
   ModelParams,
-  "first_name" | "last_name" | "phone_no" | "email" | "message"
+  "first_name" | "last_name" | "phone_no" | "email_id" | "message"
 >;
 
 export const contactSupportField: ContactSupportField = {
@@ -19,15 +19,15 @@ export const contactSupportField: ContactSupportField = {
     placeHolder: "Enter last name",
     requiredErr: "Last name is required",
   },
-  email: {
-    name: "email",
+  email_id: {
+    name: "email_id",
     label: "Email",
     placeHolder: "Email email id",
     requiredErr: "Email is required",
   },
   phone_no: {
     name: "phone_no",
-    label: "phone_no",
+    label: "Phone Number",
     placeHolder: "Enter phone number",
     requiredErr: "Phone number is required",
   },
@@ -46,7 +46,7 @@ export type ContactSupportFieldValues = {
 export const CONTACTSUPPORT_VALUES = {
   [contactSupportField.first_name.name]: "",
   [contactSupportField.last_name.name]: "",
-  [contactSupportField.email.name]: "",
+  [contactSupportField.email_id.name]: "",
   [contactSupportField.phone_no.name]: "",
   [contactSupportField.message.name]: "",
 };
@@ -58,9 +58,9 @@ export const contactSupportValidation = Yup.object().shape({
   [contactSupportField.last_name.name]: Yup.string().required(
     `${contactSupportField.last_name.requiredErr}`
   ),
-  [contactSupportField.email.name]: Yup.string()
+  [contactSupportField.email_id.name]: Yup.string()
     .email("Invalid email")
-    .required(`${contactSupportField.email.requiredErr}`),
+    .required(`${contactSupportField.email_id.requiredErr}`),
 
   [contactSupportField.phone_no.name]: Yup.string()
     .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")

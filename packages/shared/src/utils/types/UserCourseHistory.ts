@@ -1,5 +1,6 @@
 import { UserInfo } from "./auth";
 import { CoursesResponse } from "./courses";
+import { PurchaseHistoryResponse } from "./PurchaseHistory";
 
 export interface UserCourseHistoryParams {
   id?: number;
@@ -19,6 +20,7 @@ export interface UserCourseHistoryResponse {
   status?: number;
   user?: UserInfo | null;
   course?: CoursesResponse | null;
+  purchase_history?: PurchaseHistoryResponse | null
 }
 export interface UserCourseHistoryState {
   loading: {
