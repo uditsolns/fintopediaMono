@@ -30,7 +30,7 @@ const page = () => {
 
   React.useEffect(() => {
     if (!token) {
-      router.push("/auth/login");
+      router.push("/auth/login"); 
     }
   }, [token, router]);
   return (

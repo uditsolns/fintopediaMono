@@ -8,15 +8,19 @@ import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import { Button, Col, Row } from "reactstrap";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import CircularLoading from "@src/components/loader/CircularLoading";
 
 const page = () => {
   const router = useRouter();
-  const { auth } = useAppSelector((state) => state.auth);
+  const { auth, confirm, loading } = useAppSelector((state) => state.auth);
   const token = auth?.token;
   const { updatePasswordFormik, updatePasswordInputProps } =
     useUpdatePasswordHelper();
   const { handleSubmit, setFieldValue, isSubmitting } = updatePasswordFormik;
 
+  React.useEffect(() => {
+    setFieldValue(updatePasswordField.user_id.name, auth?.user?.id || "");
+  }, [auth, setFieldValue]);
   React.useEffect(() => {
     if (!token) {
       router.push("/auth/login");
@@ -28,7 +32,7 @@ const page = () => {
         <h1 className={styles.ChangePasswordHeading}>Change Password</h1>
       </div>
       <hr />
-      <Row className="mt-3">
+      {/* <Row className="mt-3">
         <Col md={6}>
           <InputAtom
             label={updatePasswordField.old_password.label}
@@ -37,7 +41,7 @@ const page = () => {
             type="password"
           />
         </Col>
-      </Row>
+      </Row> */}
       <Row className="mt-3">
         <Col md={6}>
           <InputAtom
@@ -68,8 +72,14 @@ const page = () => {
           <Button className={styles.cancleButton}>Cancle</Button>
         </Col>
         <Col md={3}>
-          <button className={styles.ChangePasswordbutton}>
-            Change password
+          <button
+            type="submit"
+            className={styles.ChangePasswordbutton}
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
+            {loading.confirm ? <CircularLoading /> : "Change password"}
           </button>
         </Col>
       </Row>

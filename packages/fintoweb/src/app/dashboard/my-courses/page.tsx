@@ -10,6 +10,7 @@ import {
 import { getCoursesSaveLater } from "shared/src/provider/store/services/coursesavelater.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 import { useRouter } from "next/navigation";
+import { getUserCertificate } from "shared/src/provider/store/services/UserCertificate.service";
 
 const MyCoursesPage = () => {
   const dispatch = useAppDispatch();
@@ -17,15 +18,19 @@ const MyCoursesPage = () => {
 
   const { auth } = useAppSelector((state) => state.auth);
   const token = auth?.token;
-  const { courses_save_later, loading: coursesSavelaterLoading } =
-    useAppSelector((state) => state.coursesSaveLater);
-  const { courses, loading: courseLoading } = useAppSelector(
-    (state) => state.courses
+  const { loading: coursesSavelaterLoading } = useAppSelector(
+    (state) => state.coursesSaveLater
   );
+  const { loading: courseLoading } = useAppSelector((state) => state.courses);
+  const { loading: userCertificateLoading } = useAppSelector(
+    (state) => state.userCertificate
+  );
+
   React.useEffect(() => {
     if (token) {
       dispatch(getCourses());
       dispatch(getCoursesSaveLater());
+      dispatch(getUserCertificate());
     }
   }, []);
 
@@ -37,7 +42,9 @@ const MyCoursesPage = () => {
 
   return (
     <>
-      {coursesSavelaterLoading?.courses_save_later || courseLoading?.courses ? (
+      {coursesSavelaterLoading?.courses_save_later ||
+      courseLoading?.courses ||
+      userCertificateLoading?.userCertificate ? (
         <div className="d-flex justify-content-center p-5">
           <LoadingAtom />
         </div>

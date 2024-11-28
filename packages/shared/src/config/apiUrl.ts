@@ -12,6 +12,8 @@ export default {
     FORGOT: buildUrl("forget-password"),
     FORGOTCONFIRM: buildUrl("update-password"),
     GOOGLE: buildUrl("google-login"),
+    VERIFYOTP: buildUrl("verifyOtp"),
+
   },
   USER: {
     GET: buildUrl("users"),
@@ -65,6 +67,9 @@ export default {
     POST: buildUrl("user_certificate"),
     UPDATE: buildUrl("user_certificate"),
     DELETE: buildUrl("user_certificate"),
+  },
+  DOWNLOAD_CERTIFICATE: {
+    GET: buildUrl("downloadcertificate"),
   },
   COURSE_SAVE_LATER: {
     GET: buildUrl("courses_save_later"),

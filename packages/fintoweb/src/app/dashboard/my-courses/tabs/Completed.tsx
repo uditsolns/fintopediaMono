@@ -1,27 +1,36 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Card } from "reactstrap";
-import { Progress } from "reactstrap";
-import { FaArrowRight } from "react-icons/fa";
 import styles from "./Tabs.module.css";
 import { imageUrl } from "shared/src/config/imageUrl";
-import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
 import Image from "next/image";
+import { getUserCertificateById } from "shared/src/provider/store/services/UserCertificate.service";
 
-const Completed = (props) => {
-  const { courses } = useAppSelector((state) => state.courses);
-  console.log("courses", courses);
+const Completed = () => {
+  const dispatch = useAppDispatch();
+  const { userCertificate } = useAppSelector((state) => state.userCertificate);
+  const downloadCertificate = (certificateId) => {
+    dispatch(
+      getUserCertificateById({
+        id: certificateId,
+      })
+    );
+  };
 
   return (
     <div>
-      {courses.map((course) => {
+      {userCertificate?.map((course) => {
         return (
           <Card className={styles.card}>
             <div className="grid md:grid-cols-2">
               <div className={styles.left}>
                 <Image
-                  src={`${imageUrl}/uploads/course_images/${course.course_image}`}
-                  alt={course.name}
+                  src={`${imageUrl}/uploads/course_images/${course?.course?.course_image}`}
+                  alt={course?.course?.name}
                   width={420}
                   height={220}
                   className={styles.image}
@@ -29,7 +38,7 @@ const Completed = (props) => {
               </div>
               <div className={styles.right}>
                 <div className="space-y-2">
-                  <h3 className={styles.title}>{course.name}</h3>
+                  <h3 className={styles.title}>{course?.course?.name}</h3>
                 </div>
                 <div className={styles.certificateInput}>
                   <div className={styles.certificateInputText}>
@@ -72,7 +81,13 @@ const Completed = (props) => {
                     </svg>
                   </div>
                 </div>
-                <Button className={styles.continueButton}>
+                <Button
+                  className={styles.continueButton}
+                  onClick={() => {
+                    let id = Number(course?.id);
+                    downloadCertificate(id);
+                  }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="25"
@@ -115,7 +130,6 @@ const Completed = (props) => {
                     </defs>
                   </svg>
                   Download certificate
-                  {/* <FaArrowRight className="ml-2 h-4 w-4" /> */}
                 </Button>
               </div>
             </div>

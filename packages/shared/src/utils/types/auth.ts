@@ -8,6 +8,7 @@ export interface AuthState {
     forgot: boolean;
     confirm: boolean;
     google_login: boolean;
+    verifyOtp: boolean;
   };
   err: {
     loginErr: any;
@@ -16,6 +17,7 @@ export interface AuthState {
     forgotErr: any;
     confirmErr: any;
     google_login_err: any;
+    verifyOtpErr: any;
   };
   token?: string | null;
   auth: AuthResponse | null;
@@ -23,6 +25,7 @@ export interface AuthState {
   forgot: any;
   confirm: any;
   current_user: UserInfo | null;
+  verifyOtp: VerifyOtpResponse | null;
 }
 
 export interface AuthParams {
@@ -34,7 +37,18 @@ export interface AuthResponse {
   user: UserInfo;
   token: string;
 }
-
+export interface VerifyOtpParams {
+  email: string;
+  otp: string;
+  new_password: string;
+  new_password_confirmation: string;
+}
+export interface VerifyOtpResponse {
+  email: string;
+  otp: string;
+  new_password: string;
+  new_password_confirmation: string;
+}
 export interface UserInfo {
   id: number;
   first_name: string;
@@ -107,7 +121,8 @@ export interface ResetPasswordParams {
   confirmation_password?: string;
 }
 export interface UpdatePasswordParams {
-  old_password?: string;
+  // old_password?: string;
+  user_id: string;
   new_password?: string;
   new_password_confirmation?: string;
 }

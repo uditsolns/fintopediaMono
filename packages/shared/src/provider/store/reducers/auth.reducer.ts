@@ -5,6 +5,7 @@ import {
   googleSignIn,
   signIn,
   signUp,
+  VerifyOtp,
 } from "../services/auth.service";
 import { AuthState } from "../../../utils/types/auth";
 
@@ -16,6 +17,7 @@ const initialState: AuthState = {
     forgot: false,
     confirm: false,
     google_login: false,
+    verifyOtp: false,
   },
   err: {
     loginErr: null,
@@ -24,12 +26,14 @@ const initialState: AuthState = {
     forgotErr: null,
     confirmErr: null,
     google_login_err: null,
+    verifyOtpErr: null,
   },
   auth: null,
   signup: null,
   forgot: null,
   confirm: null,
   current_user: null,
+  verifyOtp: null,
 };
 
 const authSlice = createSlice({
@@ -105,6 +109,19 @@ const authSlice = createSlice({
       .addCase(confirmPassword.rejected, (state, action) => {
         state.loading.confirm = false;
         state.err.confirmErr = action?.payload;
+      })
+      // VerifyOtp
+      .addCase(VerifyOtp.pending, (state) => {
+        state.loading.verifyOtp = true;
+      })
+      .addCase(VerifyOtp.fulfilled, (state, action) => {
+        state.loading.verifyOtp = false;
+        state.verifyOtp = action.payload;
+        state.err.verifyOtpErr = null;
+      })
+      .addCase(VerifyOtp.rejected, (state, action) => {
+        state.loading.verifyOtp = false;
+        state.err.verifyOtpErr = action?.payload;
       });
   },
 });

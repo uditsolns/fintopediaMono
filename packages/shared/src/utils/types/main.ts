@@ -33,6 +33,7 @@ export type Paramkeys =
   | "password"
   | "password_confirmation"
   | "old_password"
+  | "user_id"
   | "new_password"
   | "new_password_confirmation"
   | "id"

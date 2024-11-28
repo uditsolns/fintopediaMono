@@ -8,6 +8,8 @@ import {
   SignupParams,
   UpdatePasswordParams,
   UserInfo,
+  VerifyOtpParams,
+  VerifyOtpResponse,
 } from "../../../utils/types/auth";
 import { storeCurrentUser } from "../reducers/auth.reducer";
 
@@ -103,7 +105,32 @@ export const confirmPassword = createAsyncThunk<
   { state: RootState }
 >("auth/confirm", async (params, thunkApi) => {
   try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.AUTH.FORGOTCONFIRM, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }, 
+      body: JSON.stringify(params),
+    }); 
+
+    const data = (await response.json()) as AuthResponse;
+
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
+export const VerifyOtp = createAsyncThunk<
+  VerifyOtpResponse,
+  VerifyOtpParams,
+  { state: RootState }
+>("auth/verifyOtp", async (params, thunkApi) => {
+  try {
+    const response = await fetch(apiUrl.AUTH.VERIFYOTP, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +138,7 @@ export const confirmPassword = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as AuthResponse;
+    const data = (await response.json()) as VerifyOtpResponse;
 
     return data;
   } catch (error) {

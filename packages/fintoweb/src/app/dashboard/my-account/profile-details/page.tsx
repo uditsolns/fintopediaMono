@@ -97,7 +97,7 @@ const page = () => {
     setFieldValue(userField.linkedin.name, current_user?.linkedin ?? "");
     setFieldValue(userField.designation.name, current_user?.designation ?? "");
     setFieldValue(userField.photo.name, imagevalue || current_user?.photo);
-  }, [auth, image, setFieldValue]);
+  }, [auth,current_user, image, setFieldValue]);
 
   React.useEffect(() => {
     if (update) {
