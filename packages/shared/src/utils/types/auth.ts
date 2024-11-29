@@ -37,6 +37,20 @@ export interface AuthResponse {
   user: UserInfo;
   token: string;
 }
+
+export interface UpdatePasswordResponse {
+  code: number;
+  status: string;
+  status_message: string;
+}
+
+export interface ForgotPasswordResponse {
+  code: number;
+  status: string;
+  status_message: string;
+  email: string;
+  otp: number;
+}
 export interface VerifyOtpParams {
   email: string;
   otp: string;
@@ -114,7 +128,12 @@ export interface SignupParams {
 export interface ForgotPasswordParams {
   email: string;
 }
-
+export interface OnSuccessInterface {
+  onSuccess: (data: any) => void;
+}
+export interface OnErrorInterface {
+  onError: (error: any) => void;
+}
 export interface ResetPasswordParams {
   token?: string;
   password?: string;

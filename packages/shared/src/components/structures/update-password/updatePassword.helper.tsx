@@ -24,6 +24,7 @@ export const useUpdatePasswordHelper = () => {
         new_password_confirmation: values.new_password_confirmation,
       };
       dispatch(confirmPassword(data));
+      updatePasswordFormik.resetForm();
     },
   });
 

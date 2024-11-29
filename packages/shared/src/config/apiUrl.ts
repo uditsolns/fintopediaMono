@@ -13,7 +13,6 @@ export default {
     FORGOTCONFIRM: buildUrl("update-password"),
     GOOGLE: buildUrl("google-login"),
     VERIFYOTP: buildUrl("verifyOtp"),
-
   },
   USER: {
     GET: buildUrl("users"),
@@ -39,7 +38,7 @@ export default {
     DELETE: buildUrl("courses_sections"),
   },
   COURSES_RATING_REVIEWS: {
-    GET: buildUrl("courses_rating_reviews"),
+    GET: buildUrl("courses_rating_reviews_open"),
     POST: buildUrl("courses_rating_reviews"),
     UPDATE: buildUrl("courses_rating_reviews"),
     DELETE: buildUrl("courses_rating_reviews"),

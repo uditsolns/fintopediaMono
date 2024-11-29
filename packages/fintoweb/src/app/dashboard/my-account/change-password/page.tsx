@@ -8,11 +8,13 @@ import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import { Button, Col, Row } from "reactstrap";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
-import CircularLoading from "@src/components/loader/CircularLoading";
+import { toast } from "react-toastify";
+import LoadingAtom from "@src/components/loader/LoadingAtom";
 
 const page = () => {
   const router = useRouter();
   const { auth, confirm, loading } = useAppSelector((state) => state.auth);
+  console.log("confirm", confirm);
   const token = auth?.token;
   const { updatePasswordFormik, updatePasswordInputProps } =
     useUpdatePasswordHelper();
@@ -21,11 +23,26 @@ const page = () => {
   React.useEffect(() => {
     setFieldValue(updatePasswordField.user_id.name, auth?.user?.id || "");
   }, [auth, setFieldValue]);
+  // status_message
+  React.useEffect(() => { 
+    if (confirm?.code === 200) {
+      toast.success(confirm?.status_message, {
+        position: "top-right",
+        theme: "light",
+      });
+    }
+    if (confirm?.code === 400) {
+      toast.warning(confirm?.status_message, {
+        position: "top-right",
+        theme: "light",
+      });
+    }
+  }, [confirm]);
   React.useEffect(() => {
     if (!token) {
       router.push("/auth/login");
     }
-  }, [token, router]);
+  }, [token, router, confirm]);
   return (
     <React.Fragment>
       <div>
@@ -75,11 +92,16 @@ const page = () => {
           <button
             type="submit"
             className={styles.ChangePasswordbutton}
+            
             onClick={() => {
               handleSubmit();
             }}
           >
-            {loading.confirm ? <CircularLoading /> : "Change password"}
+            {loading.confirm ? (
+              <LoadingAtom size="sm" color="dark" />
+            ) : (
+              "Change password"
+            )}
           </button>
         </Col>
       </Row>

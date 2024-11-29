@@ -38,16 +38,16 @@ export const getUserCertificateById = createAsyncThunk<
   { state: RootState }
 >("getUserCertificateById/get", async (params, thunkApi) => {
   try {
-    const state = thunkApi.getState();
-    const token = state.auth?.auth?.token;
+    // const state = thunkApi.getState();
+    // const token = state.auth?.auth?.token;
 
     const response = await fetch(
       `${apiUrl.DOWNLOAD_CERTIFICATE.GET}/${params?.id}`,
       {
         method: "GET",
         headers: {
-          // "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -116,7 +116,7 @@ export const updateUserCertificate = createAsyncThunk<
 // export const downloadUserCertificate = createAsyncThunk<
 //   any,
 //   DownloadCertificateParams,
-//   { state: RootState } 
+//   { state: RootState }
 // >("userCertificate/post", async ({ id, onSuccess, onError }, thunkApi) => {
 //   try {
 //     const state = thunkApi.getState();
