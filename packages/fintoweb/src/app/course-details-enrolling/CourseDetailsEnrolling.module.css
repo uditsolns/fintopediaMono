@@ -132,13 +132,32 @@
 }
 
 .subsectionContainer {
-  flex-grow: 1;
+  /* flex-grow: 1; */
+  display: flex;
   padding: 13px 12px;
   align-items: flex-start;
   gap: 12px;
   align-self: stretch;
 }
-
+.checkIcon {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 3px;
+  background: var(--Primary-CTA-2, #1d90f5);
+}
+.uncheckIcon {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
 .subsectionHeading {
   color: #fff;
   font-size: 18px;

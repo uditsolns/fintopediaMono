@@ -13,7 +13,7 @@ export const resetField: ResetField = {
     placeHolder: "Enter your token",
     requiredErr: "Token is required",
   },
-  password: {
+  password: { 
     name: "password",
     label: "New Password",
     placeHolder: "Enter your new password",

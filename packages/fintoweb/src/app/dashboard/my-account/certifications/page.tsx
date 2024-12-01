@@ -13,43 +13,48 @@ import Image from "next/image";
 import { getCourses } from "shared/src/provider/store/services/courses.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 import { useRouter } from "next/navigation";
+import { getUserCertificate } from "shared/src/provider/store/services/UserCertificate.service";
+import {
+  DownloadCertificate,
+  CopyToClipboard,
+} from "shared/src/components/certificate-dawnload/DownloadCertificate";
 
 const page = () => {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
   const token = auth?.token;
   const router = useRouter();
-  const { courses, loading: courseLoading } = useAppSelector(
-    (state) => state.courses
+  const { userCertificate, loading: userCertificateLoading } = useAppSelector(
+    (state) => state.userCertificate
   );
   React.useEffect(() => {
     if (token) {
-      dispatch(getCourses());
+      dispatch(getUserCertificate());
     }
   }, []);
 
   React.useEffect(() => {
     if (!token) {
-      router.push("/auth/login"); 
+      router.push("/auth/login");
     }
   }, [token, router]);
   return (
     <>
       <div className={styles.certificateHeading}>Certifications</div>
-      {courseLoading?.courses ? (
+      {userCertificateLoading?.userCertificate ? (
         <div className="d-flex justify-content-center p-5">
           <LoadingAtom />
         </div>
       ) : (
         <div>
-          {courses.map((course) => {
+          {userCertificate.map((course) => {
             return (
               <Card className={styles.card}>
                 <div className="grid md:grid-cols-2">
                   <div className={styles.left}>
                     <Image
-                      src={`${imageUrl}/uploads/course_images/${course.course_image}`}
-                      alt={course.name}
+                      src={`${imageUrl}/uploads/course_images/${course?.course?.course_image}`}
+                      alt={course?.course?.name}
                       width={420}
                       height={220}
                       className={styles.image}
@@ -58,7 +63,7 @@ const page = () => {
                   <div className={styles.right}>
                     <div className="space-y-2">
                       <h3 className={styles.title}>
-                        Certification of Completion - {course.name}
+                        Certification of Completion - {course?.course?.name}
                       </h3>
                     </div>
                     <div className={styles.certificateLink}>
@@ -66,9 +71,18 @@ const page = () => {
                     </div>
                     <div className={styles.certificateInput}>
                       <div className={styles.certificateInputText}>
-                        stockmarketexpert/certificate
-                      </div>
-                      <div>
+                        {course?.course?.name
+                          ?.toLowerCase()
+                          .replace(/\s+/g, "_")}
+                        /certificate
+                      </div>  
+                      <div
+                        onClick={() => {
+                          let certificateId = Number(course?.id);
+                          CopyToClipboard(certificateId);
+                        }}
+                        style={{ cursor: "pointer" }}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
@@ -105,7 +119,13 @@ const page = () => {
                         </svg>
                       </div>
                     </div>
-                    <Button className={styles.continueButton}>
+                    <Button
+                      className={styles.continueButton}
+                      onClick={() => {
+                        let certificateId = Number(course?.id);
+                        DownloadCertificate(certificateId);
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="25"
@@ -148,7 +168,6 @@ const page = () => {
                         </defs>
                       </svg>
                       Download certificate
-                      {/* <FaArrowRight className="ml-2 h-4 w-4" /> */}
                     </Button>
                   </div>
                 </div>

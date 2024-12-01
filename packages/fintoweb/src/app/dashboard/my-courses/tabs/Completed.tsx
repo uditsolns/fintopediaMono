@@ -3,23 +3,12 @@ import { Button } from "reactstrap";
 import { Card } from "reactstrap";
 import styles from "./Tabs.module.css";
 import { imageUrl } from "shared/src/config/imageUrl";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "shared/src/provider/store/types/storeTypes";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import Image from "next/image";
-import { getUserCertificateById } from "shared/src/provider/store/services/UserCertificate.service";
+import { CopyToClipboard, DownloadCertificate } from "shared/src/components/certificate-dawnload/DownloadCertificate";
 
 const Completed = () => {
-  const dispatch = useAppDispatch();
   const { userCertificate } = useAppSelector((state) => state.userCertificate);
-  const downloadCertificate = (certificateId) => {
-    dispatch(
-      getUserCertificateById({
-        id: certificateId,
-      })
-    );
-  };
 
   return (
     <div>
@@ -42,9 +31,16 @@ const Completed = () => {
                 </div>
                 <div className={styles.certificateInput}>
                   <div className={styles.certificateInputText}>
-                    stockmarketexpert/certificate
+                    {course?.course?.name?.toLowerCase().replace(/\s+/g, "_")}
+                    /certificate
                   </div>
-                  <div>
+                  <div
+                    onClick={() => {
+                      let certificateId = Number(course?.id);
+                      CopyToClipboard(certificateId);
+                    }}
+                    style={{ cursor: "pointer" }}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -84,8 +80,8 @@ const Completed = () => {
                 <Button
                   className={styles.continueButton}
                   onClick={() => {
-                    let id = Number(course?.id);
-                    downloadCertificate(id);
+                    let certificateId = Number(course?.id);
+                    DownloadCertificate(certificateId);
                   }}
                 >
                   <svg

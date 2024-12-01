@@ -53,15 +53,14 @@ export interface ForgotPasswordResponse {
 }
 export interface VerifyOtpParams {
   email: string;
-  otp: string;
+  otp: number;
   new_password: string;
   new_password_confirmation: string;
 }
 export interface VerifyOtpResponse {
-  email: string;
-  otp: string;
-  new_password: string;
-  new_password_confirmation: string;
+  code: number;
+  status: string;
+  status_message: string;
 }
 export interface UserInfo {
   id: number;
@@ -138,6 +137,12 @@ export interface ResetPasswordParams {
   token?: string;
   password?: string;
   confirmation_password?: string;
+}
+export interface ResetPasswordParams2 {
+  email: string;
+  otp: number;
+  new_password: string;
+  new_password_confirmation: string;
 }
 export interface UpdatePasswordParams {
   // old_password?: string;

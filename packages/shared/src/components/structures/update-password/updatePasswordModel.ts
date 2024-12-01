@@ -56,14 +56,6 @@ export const updatePasswordValidation = Yup.object().shape({
       [Yup.ref(`${updatePasswordField.new_password_confirmation.name}`), ""],
       "Passwords must match"
     ),
-  // [updatePasswordField.new_password.name]: Yup.string().required(
-  //   `${updatePasswordField.new_password.requiredErr}`
-  // ),
-  // [updatePasswordField.new_password_confirmation.name]: Yup.string()
-  //   .required(`${updatePasswordField.new_password_confirmation.requiredErr}`)
-  //   .oneOf(
-  //     [Yup.ref(`${updatePasswordField.new_password.name}`), ""],
-  //     "Passwords must match"
-  //   ),
+ 
 });
  

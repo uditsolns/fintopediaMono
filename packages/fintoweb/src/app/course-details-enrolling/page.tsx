@@ -333,30 +333,55 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                                     }
                                   >
                                     <div className={styles.subsectionContainer}>
-                                      <p className={styles.subsectionHeading}>
-                                        {subsection.subsection_heading}
-                                      </p>
-                                      <div
-                                        className={
-                                          styles.subsectionTimeContainer
-                                        }
-                                      >
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          width="16"
-                                          height="17"
-                                          viewBox="0 0 16 17"
-                                          fill="none"
-                                          className={styles.svgIcon}
-                                        >
-                                          <path
-                                            d="M9.9974 3.16732H3.9974V13.834H11.9974V5.16732H9.9974V3.16732ZM3.9974 1.83398H10.6641L13.3307 4.50065V13.834C13.3307 14.1876 13.1903 14.5267 12.9402 14.7768C12.6902 15.0268 12.351 15.1673 11.9974 15.1673H3.9974C3.64377 15.1673 3.30464 15.0268 3.05459 14.7768C2.80454 14.5267 2.66406 14.1876 2.66406 13.834V3.16732C2.66406 2.8137 2.80454 2.47456 3.05459 2.22451C3.30464 1.97446 3.64377 1.83398 3.9974 1.83398ZM5.33073 7.83398H10.6641V9.16732H5.33073V7.83398ZM5.33073 10.5007H10.6641V11.834H5.33073V10.5007Z"
-                                            fill="#6D6E6E"
-                                          />
-                                        </svg>
-                                        <span className={styles.subsectionTime}>
-                                          {subsection.subsection_time}
+                                      {index === 1 ? (
+                                        <span className={styles.checkIcon}>
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 20 20"
+                                            fill="none"
+                                          >
+                                            <path
+                                              d="M8.49956 12.3791L15.3936 5.48438L16.4548 6.54488L8.49956 14.5001L3.72656 9.72712L4.78706 8.66663L8.49956 12.3791Z"
+                                              fill="white"
+                                            />
+                                          </svg>
                                         </span>
+                                      ) : (
+                                        <span
+                                          className={styles.uncheckIcon}
+                                        ></span>
+                                      )}
+
+                                      <div>
+                                        <p className={styles.subsectionHeading}>
+                                          {subsection.subsection_heading}
+                                        </p>
+                                        <div
+                                          className={
+                                            styles.subsectionTimeContainer
+                                          }
+                                        >
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="16"
+                                            height="17"
+                                            viewBox="0 0 16 17"
+                                            fill="none"
+                                            className={styles.svgIcon}
+                                          >
+                                            <path
+                                              d="M9.9974 3.16732H3.9974V13.834H11.9974V5.16732H9.9974V3.16732ZM3.9974 1.83398H10.6641L13.3307 4.50065V13.834C13.3307 14.1876 13.1903 14.5267 12.9402 14.7768C12.6902 15.0268 12.351 15.1673 11.9974 15.1673H3.9974C3.64377 15.1673 3.30464 15.0268 3.05459 14.7768C2.80454 14.5267 2.66406 14.1876 2.66406 13.834V3.16732C2.66406 2.8137 2.80454 2.47456 3.05459 2.22451C3.30464 1.97446 3.64377 1.83398 3.9974 1.83398ZM5.33073 7.83398H10.6641V9.16732H5.33073V7.83398ZM5.33073 10.5007H10.6641V11.834H5.33073V10.5007Z"
+                                              fill="#6D6E6E"
+                                            />
+                                          </svg>
+                                          <span
+                                            className={styles.subsectionTime}
+                                          >
+                                            {subsection.subsection_time}
+                                          </span>
+                                        </div>
                                       </div>
                                     </div>
                                   </li>
