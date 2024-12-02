@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../register/Signup.module.css";
 import { Button, Col, InputGroupText, Row } from "reactstrap";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import { FaFacebookF, FaInstagram ,FaLinkedin } from "react-icons/fa";
 import { useAuthHelper } from "shared/src/components/structures/login/login.helper";
 import { authField } from "shared/src/components/structures/login/loginModel";
 import { InputAtom } from "@src/components/atoms/Input/InputAtom";
@@ -125,7 +125,14 @@ const Login: React.FC<LoginProps> = () => {
                   >
                     <FaInstagram color="#E4405F" size="30px" />
                   </a>
-                </div>
+                  
+                  <a
+                    // href="https://www.instagram.com/fintopedia_official/"
+                    className="p-2"
+                  >
+                    <FaLinkedin color="#0077B5" size="30px" />
+                  </a>
+                </div> 
               </div>
             </div>
           </div>

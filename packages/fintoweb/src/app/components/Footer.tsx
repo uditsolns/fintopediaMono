@@ -75,7 +75,7 @@ export const Footer = () => {
                   Home
                 </Link>
                 <Link href="/about-us" prefetch={true} className={styles.links}>
-                  About
+                  About Us
                 </Link>
                 <Link href="/courses" prefetch={true} className={styles.links}>
                   Courses

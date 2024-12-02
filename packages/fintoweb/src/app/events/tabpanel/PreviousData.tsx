@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Row, Col, Button, Table } from "reactstrap";
+import { Row, Col, Button, Table, InputGroup, Input } from "reactstrap";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
@@ -13,6 +13,8 @@ import {
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import { StockDatasResponse } from "shared/src/utils/types/stockDatas";
+import CustomSelect from "@src/custom/CustomSelect";
+import { ErrorMessage, Field } from "formik";
 
 interface PreviousProps {
   gameId: number;
@@ -24,11 +26,13 @@ const PreviousData: React.FC<PreviousProps> = ({
   roundLevel,
   roundId,
 }) => {
+  console.log("roundLevel", roundLevel);
   const dispatch = useAppDispatch();
 
   const { auth } = useAppSelector((state) => state.auth);
   const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
   const { stockData, loading } = useAppSelector((state) => state.stockData);
+  console.log("stockData", stockData);
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [data, setData] = useState<StockDatasResponse[]>([]);
@@ -36,20 +40,43 @@ const PreviousData: React.FC<PreviousProps> = ({
   const [searchStocksData, setSearchStocksData] = React.useState<
     StockDatasResponse[]
   >(stockData || []);
+
+  console.log("searchStocksData", searchStocksData);
   const [rounds, setRounds] = React.useState<number | string>(roundLevel!);
 
+  const [roundValues, setRoundValues] = useState<number>(roundLevel || "1");
+  console.log("roundValues", roundValues);
+
+  const handleRoundChange = (event) => {
+    setRoundValues(event.target.value);
+  };
+  // React.useEffect(() => {
+  //   if (stockData) {
+  //     let filterData = searchStocksData?.length
+  //       ? searchStocksData?.filter(
+  //           (e3) =>
+  //             e3.game_id == gameId &&
+  //             e3.round_level == (roundValues > 1 ? roundValues - 1 : 1)
+  //         )
+  //       : [];
+  //       console.log("filterData")
+  //     setSearchStocksData(filterData);
+  //   }
+  // }, [stockData,roundValues]);
   React.useEffect(() => {
     if (stockData) {
-      let filterData = searchStocksData?.length
-        ? searchStocksData?.filter(
-            (e3) =>
-              e3.game_id == gameId &&
-              e3.round_level == (roundLevel > 1 ? roundLevel - 1 : 1)
-          )
-        : [];
+      let filterData =
+        stockData && stockData.length
+          ? stockData.filter(
+              (item) =>
+                item.game_id === gameId && item.round_level === roundValues
+            )
+          : [];
+
+      console.log("filterData", filterData);
       setSearchStocksData(filterData);
     }
-  }, [stockData]);
+  }, [stockData, roundValues, gameId]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -89,7 +116,35 @@ const PreviousData: React.FC<PreviousProps> = ({
             <thead>
               <tr>
                 <th scope="col">Name</th>
-                <th scope="col">Current Price</th>
+                {/* <th scope="col">Current Price</th> */}
+                <th scope="col">
+                  <InputGroup style={{ width: "300px" }}>
+                    <Input
+                      component={CustomSelect}
+                      type="select"
+                      id="round_values"
+                      name="round_values"
+                      value={roundValues}
+                      onChange={(e) => {
+                        handleRoundChange(e);
+                      }}
+                      placeholder="Select Round"
+                      className={`form-control ${styles.SelectBox}`}
+                    >
+                      <option value={"1"}>Round 1 Price</option>
+                      <option value={"2"}>Round 2 Price</option>
+                      <option value={"3"}>Round 3 Price</option>
+                      <option value={"4"}>Round 4 Price</option>
+                      <option value={"5"}>Round 5 Price</option>
+                    </Input>
+                  </InputGroup>
+                </th>
+
+                {/* <ErrorMessage
+                  name="round_values"
+                  component="div"
+                  className="text-danger" 
+                />*/}
               </tr>
             </thead>
             <tbody>
