@@ -21,3 +21,12 @@
   align-items: center;
   font-size: 12px;
 }
+.browseLink {
+  width: 230px;
+}
+
+@media screen and (max-width: 435px) {
+  .browseLink {
+    width: auto;
+  }
+}

@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { AppProvider } from "shared/src/provider/AppProvider";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import ScrollToTop from "@src/components/scroll-top/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "Finto pedia",
@@ -26,6 +27,7 @@ export default function RootLayout({
         <AppProvider>
           <Navbar />
           {children}
+          <ScrollToTop/>
           <Footer />
         </AppProvider>
         <ToastContainer />

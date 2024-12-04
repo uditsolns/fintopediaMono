@@ -3,7 +3,7 @@ import styles from "./ProgressBar.module.css";
 import { colorPresets } from "shared/src/theme/color";
 
 interface ProgressBarProps {
-  level?: "Beginner" | "Intermediate" | "Expert" | string;
+  level?: "Beginner" | "Intermediate" | "Advanced" | string;
   flex?: number;
 }
 
@@ -15,7 +15,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ level, flex = 1 }) => {
           <div
             className={styles.segment}
             style={{
-              backgroundColor: ["Beginner", "Intermediate", "Expert"].includes(
+              backgroundColor: ["Beginner", "Intermediate", "Advanced"].includes(
                 level || ""
               )
                 ? colorPresets.PRIMARY 
@@ -28,7 +28,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ level, flex = 1 }) => {
             className={styles.segment}
             style={{
               backgroundColor:
-                level === "Intermediate" || level === "Expert"
+                level === "Intermediate" || level === "Advanced"
                   ? "#FFA11A"
                   : colorPresets.GRAY,
             }}
@@ -37,7 +37,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ level, flex = 1 }) => {
             className={styles.segment}
             style={{
               backgroundColor:
-                level === "Expert" ? colorPresets.PRIMARY : colorPresets.GRAY,
+                level === "Advanced" ? colorPresets.PRIMARY : colorPresets.GRAY,
               borderTopRightRadius: 8,
               borderBottomRightRadius: 8,
             }}
@@ -51,7 +51,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ level, flex = 1 }) => {
                 backgroundColor: [
                   "Beginner",
                   "Intermediate",
-                  "Expert",
+                  "Advanced",
                 ].includes(level || "")
                   ? colorPresets.PRIMARY
                   : undefined,
@@ -84,7 +84,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ level, flex = 1 }) => {
                 backgroundColor: [
                   "Beginner",
                   "Intermediate",
-                  "Expert",
+                  "Advanced",
                 ].includes(level || "")
                   ? "#FFA11A"
                   : undefined,
@@ -109,7 +109,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ level, flex = 1 }) => {
           </div>
         ) : null}
 
-        {level === "Expert" ? (
+        {level === "Advanced" ? (
           <div className={styles.progressBar}>
             <div
               className={styles.segment}
@@ -117,7 +117,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ level, flex = 1 }) => {
                 backgroundColor: [
                   "Beginner",
                   "Intermediate",
-                  "Expert",
+                  "Advanced",
                 ].includes(level || "")
                   ? "#FF5E1A"
                   : undefined,

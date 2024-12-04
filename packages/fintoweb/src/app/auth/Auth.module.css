@@ -227,11 +227,15 @@
   margin-top: 15px;
 }
 /* ---forgot password ---- */
+.forgotContainer {
+  background-image: url("../../assets/auth/bgAuthpages.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .forgotLogo {
   display: flex;
   align-items: center;
   justify-content: center;
-
   margin-top: 20px;
 }
 .forgotLogo svg {
@@ -257,7 +261,7 @@
   font-weight: 700;
   line-height: 40px;
   text-align: center;
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 .forgotContainer h6 {
   overflow: hidden;

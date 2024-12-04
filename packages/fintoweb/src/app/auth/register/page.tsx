@@ -24,6 +24,8 @@ import {
 } from "shared/src/provider/store/types/storeTypes";
 import CircularLoading from "@src/components/loader/CircularLoading";
 import { getCollege } from "shared/src/provider/store/services/colleges.service";
+import GoogleIcon from "../../../assets/google.png";
+import Image from "next/image";
 
 const Register: React.FC = () => {
   const router = useRouter();
@@ -51,14 +53,15 @@ const Register: React.FC = () => {
       });
       router.push("/auth/login");
     }
-  }, [signup, router]); 
+  }, [signup, router]);
   return (
-    <div className={styles.container}>
+    <div className={styles.signupLoginontainer}>
       <div className="container main-login-div">
         <div className="no-gutters justify-content-center row">
           <div className="col-md-6 col-lg-6 login-card">
+            <h1 className={styles.loginHeading}>Create Account</h1>
             <div className="main-content">
-              <div className="p-3">
+              <div className={styles.loginForm}>
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
@@ -95,7 +98,7 @@ const Register: React.FC = () => {
                     />
                   </Col>
                 </Row>
-                <Row className="form-group mt-3">
+                {/* <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
                       label={signupField.designation.label}
@@ -103,8 +106,8 @@ const Register: React.FC = () => {
                       {...signupInputProps(signupField.designation.name)}
                     />
                   </Col>
-                </Row>
-                <Row className="form-group mt-3">
+                </Row> */}
+                {/* <Row className="form-group mt-3">
                   <Col md={12}>
                     <SelectAtom
                       label={signupField.role.label}
@@ -113,8 +116,8 @@ const Register: React.FC = () => {
                       options={[{ value: "User", label: "User" }]}
                     />
                   </Col>
-                </Row>
-                <Row className="form-group mt-3">
+                </Row> */}
+                {/* <Row className="form-group mt-3">
                   <Col md={12}>
                     <SelectAtom
                       label={signupField.college.label}
@@ -126,7 +129,7 @@ const Register: React.FC = () => {
                       }))}
                     />
                   </Col>
-                </Row>
+                </Row> */}
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
@@ -181,11 +184,17 @@ const Register: React.FC = () => {
                     />
                   </Col>
                 </Row>
+                <div className="mt-3 text-white">
+                  Already have an account?{" "}
+                  <a href="/auth/login" className="text-blue-500">
+                    <u>Login</u>
+                  </a>
+                </div>
                 <Row className="mt-3 mb-3 row">
                   <div className="col-12">
                     <Button
                       type="submit"
-                      className="btn btn-light font-bold text-black"
+                      className={styles.loginButton}
                       size="lg"
                       block
                       // disabled={isSubmitting}
@@ -193,40 +202,37 @@ const Register: React.FC = () => {
                         handleSubmit();
                       }}
                     >
-                      {loading.signup ? <CircularLoading /> : "Register"}
+                      {loading.signup ? <CircularLoading /> : "Sign up"}
                     </Button>
                   </div>
                 </Row>
-                <div className="mt-3 text-white">
-                  Already have an account?{" "}
-                  <a href="/auth/login" className="text-blue-500">
-                    <u>Login</u>
-                  </a>
+                <div className="text-center p-1">or</div>
+                <div className="mt-3 mb-3 row">
+                  <div className="col-12">
+                    <Button
+                      type="submit"
+                      className={`${styles.googleLoginButton} d-flex justify-content-center align-items-center`} // Added flex and centering classes
+                      size="lg"
+                      block
+                      onClick={() => handleSubmit()}
+                    >
+                      <Image src={GoogleIcon} alt="Google" className="mr-1" />
+                      Login with Google
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div className="mt-1 mb-3 p-3">
-                <h3 className="text-center font-bold text-white mb-3">
-                  Follow us on:
-                </h3>
-                <div className="d-flex justify-content-center align-items-center">
-                  <a
-                    href="https://www.facebook.com/people/Fintopedia/61551172396495/"
-                    className="p-2"
-                  >
-                    <FaFacebookF color="#1877F2" size="30px" />
-                  </a>
-                  <a
-                    href="https://www.instagram.com/fintopedia_official/"
-                    className="p-2"
-                  >
-                    <FaInstagram color="#E4405F" size="30px" />
-                  </a>
-                  <a
-                    // href="https://www.instagram.com/fintopedia_official/"
-                    className="p-2"
-                  >
-                    <FaLinkedin color="#0077B5" size="30px" />
-                  </a>
+                <div className="mt-3 mb-5 row">
+                  <div className="col-12">
+                    <Button
+                      type="submit"
+                      className={`${styles.guestButton} d-flex justify-content-center align-items-center`} // Added flex and centering classes
+                      size="lg"
+                      block
+                      onClick={() => handleSubmit()}
+                    >
+                      Continue as guest
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

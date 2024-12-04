@@ -240,9 +240,7 @@ const WheretoStart: React.FC = () => {
         </div>
       </div>
       <div className={styles.cards}>
-        <h2 className={styles.cardsHeading}>
-          Become a Finance Manager in 3 months
-        </h2>
+        <h2 className={styles.cardsHeading}>Recommended Courses</h2>
         <Row className="mt-3">
           {(filteredCourses.length > 0 ? filteredCourses : courses).map(
             (course) => (

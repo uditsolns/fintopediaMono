@@ -41,18 +41,18 @@ export const Navbar = () => {
   // Function to close the menu
   function closeMenu() {
     setIsOpen(false);
-  }
+  } 
 
   return (
     <nav className="background-gradient text-white p-4 sm:p-6 flex justify-between items-center border-b border-gray-400">
-      <div className="flex items-center">
+      <div className={`flex items-center ${styles.browseLink}`}>
         <span className="font-bold">Browse</span>
         <Image src={Arrow} alt="Arrow" className="ml-2 inline-block" />
       </div>
-
+      
       <div className="flex items-center">
         <a href="/" className="text-2xl font-bold">
-          <Image src={Logo} alt="Logo" className="ml-2 inline-block" />
+          <Image src={Logo} alt="Logo" width={150} height={50} className="ml-5 inline-block" />
         </a>
       </div>
 

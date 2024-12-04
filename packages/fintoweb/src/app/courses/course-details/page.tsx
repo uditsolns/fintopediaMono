@@ -88,11 +88,24 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
       ) : null}
       <div className={styles.CourseDetails}>
         <div className={styles.CourseDetailsIntro}>
+          <div className={styles.links}>
+            <Link href="/" className={styles.link}>
+              Home
+            </Link>
+            <span> &gt; </span>
+            <Link href="#" className={styles.link}>
+              {singleCourse?.category?.category_name}
+            </Link>
+            <span> &gt; </span>
+            <Link href="#" className={styles.link}>
+              {singleCourse?.name}
+            </Link>
+          </div>
           <div className={styles.CourseDetailsHeader}>
-            <div className={styles.links}>
+            {/* <div className={styles.links}>
               <Link href="/" className={styles.link}>
                 Home
-              </Link>
+              </Link> 
               <span> &gt; </span>
               <Link href="#" className={styles.link}>
                 {singleCourse?.category?.category_name}
@@ -101,7 +114,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
               <Link href="#" className={styles.link}>
                 {singleCourse?.name}
               </Link>
-            </div>
+            </div> */}
             <div className="courseDetailsContent">
               <h2 className={styles.heading}>{singleCourse?.name}</h2>
               <p className={styles.subHeading}>

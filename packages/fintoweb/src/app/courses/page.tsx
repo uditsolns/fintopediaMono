@@ -78,10 +78,12 @@ const CourseFilter: React.FC = () => {
     };
   }, []);
   React.useEffect(() => {
+    if (auth?.token) {
+      dispatch(getCourseCart());
+    }
     dispatch(getCourses());
     dispatch(getCategories());
     dispatch(getCourseReviews());
-    dispatch(getCourseCart());
   }, []);
 
   const filteredCourses = courses.filter(
@@ -115,7 +117,7 @@ const CourseFilter: React.FC = () => {
         },
       },
     ],
-  }; 
+  };
   const handleCourseClick = async (course: CoursesResponse) => {
     setLoadingCourseId(course.id);
     if (!auth?.token) {
@@ -443,7 +445,7 @@ const CourseFilter: React.FC = () => {
               />
             </div>
           </div>
-          <AchiveingSliderMolecule/>
+          <AchiveingSliderMolecule />
         </>
       )}
     </>

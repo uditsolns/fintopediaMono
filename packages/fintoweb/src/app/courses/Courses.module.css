@@ -37,6 +37,7 @@
   letter-spacing: -0.2px;
   width: 550px;
   margin-top: 15px;
+  text-align: justify;
 }
 .formContainer {
   display: flex;
