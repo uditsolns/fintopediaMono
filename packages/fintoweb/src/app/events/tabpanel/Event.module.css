@@ -29,7 +29,12 @@
   width: 100%;
   text-align: center;
 }
-
+.SelectBox {
+  color: #fff !important;
+  border-radius: 6px !important;
+  border: 1px solid var(--Border, #7a7fa2) !important;
+  background: #222431 !important;
+}
 .sector-btn:hover {
   background-color: #6a6d7b;
 }

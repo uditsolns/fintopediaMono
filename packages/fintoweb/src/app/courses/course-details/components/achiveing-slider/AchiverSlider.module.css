@@ -1,6 +1,9 @@
 .AchiveingLearningSlider {
-  padding: 20px;
-  background: #0d0f1c;
+  padding: 40px;
+  background-image: url("../../../../../assets/courses/course-details/Testimonials-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background: #0d0f1c; */
 }
 .AchiveingLearningSlider h1 {
   color: #fff;
@@ -60,6 +63,7 @@
 }
 .cardBody {
   margin-top: 12px;
+  height: 150px;
 }
 .subHeading {
   overflow: hidden;

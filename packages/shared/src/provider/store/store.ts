@@ -37,12 +37,14 @@ import previousViewCourseReducer from "./reducers/previous-view-course.reducer";
 import couponCodeReducer from "./reducers/coupon-code.reducer";
 import searchCoursesReducer from "./reducers/search-courses.reducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import likeCoursesReducer from "./reducers/course-like.reducer";
+import contactReducer from "./reducers/contact.reducer";
 
 const isNative = Platform.OS !== "web";
 
 const persistConfig: any = {
   key: "fintopedia",
-  storage,
+  storage: storage,
   timeout: null,
   whitelist: ["auth"],
 };
@@ -63,7 +65,7 @@ const reducers = combineReducers({
   stocks: stocksReducer,
   transactions: transactionsReducer,
   userTransactions: userTransactionsReducer,
-  courseCart: courseCartReducer,
+  courseCart: persistReducer(persistConfig, courseCartReducer),
   purchaseHistory: purchaseHistoryReducer,
   userCertificate: userCertificateReducer,
   userCourseHistory: userCourseHistoryReducer,
@@ -80,6 +82,8 @@ const reducers = combineReducers({
   previousViewCourse: previousViewCourseReducer,
   searchCourses: searchCoursesReducer,
   couponCode: couponCodeReducer,
+  likeCourse: likeCoursesReducer,
+  contact: contactReducer,
 });
 
 const middleware = (getDefaultMiddleware: any) => {
@@ -94,7 +98,10 @@ const middleware = (getDefaultMiddleware: any) => {
 
 export const store = configureStore({
   reducer: reducers,
-  middleware,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(errorMiddleware, logger),
 });
 
 export const persistor = persistStore(store);

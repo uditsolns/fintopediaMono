@@ -111,7 +111,15 @@
   cursor: pointer;
 }
 .tabsContainer {
+  background-image: url("../../assets/courses/course-enroll/Overview-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 10px;
+}
+.levelUp {
+  background-image: url("../../assets/courses/course-enroll/Level-up-your-game.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .tabsContainer h3 {
   color: #fff;
@@ -124,13 +132,32 @@
 }
 
 .subsectionContainer {
-  flex-grow: 1;
+  /* flex-grow: 1; */
+  display: flex;
   padding: 13px 12px;
   align-items: flex-start;
   gap: 12px;
   align-self: stretch;
 }
-
+.checkIcon {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 3px;
+  background: var(--Primary-CTA-2, #1d90f5);
+}
+.uncheckIcon {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
 .subsectionHeading {
   color: #fff;
   font-size: 18px;
@@ -152,6 +179,9 @@
 
 .subsectionTime {
   margin-left: 0.25rem;
+}
+.fav {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 435px) {

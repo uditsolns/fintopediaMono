@@ -36,6 +36,7 @@ type UserField = Pick<
   | "linkedin"
   | "website_url"
   | "photo"
+  | "designation"
 >;
 
 export const userField: UserField = {
@@ -239,6 +240,12 @@ export const userField: UserField = {
     placeHolder: "Enter your website url",
     requiredErr: "",
   },
+  designation: {
+    name: "designation",
+    label: "Designation",
+    placeHolder: "Enter your Designation",
+    requiredErr: "",
+  },
 };
 
 export type UserValues = {
@@ -279,6 +286,8 @@ export const USER_VALUES = {
   [userField.linkedin.name]: "",
   [userField.website_url.name]: "",
   [userField.photo.name]: "",
+  [userField.designation.name]: "",
+
 };
 
 export const userValidation = Yup.object().shape({

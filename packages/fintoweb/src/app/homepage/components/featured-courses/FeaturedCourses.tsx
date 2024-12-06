@@ -21,11 +21,13 @@ import { toast } from "react-toastify";
 interface FeaturedCoursesProps {
   courses: CoursesResponse[];
   categories: CategoriesResponse[];
+  label: string;
 }
 
 const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
   courses,
   categories,
+  label,
 }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -147,10 +149,10 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
       setLoadingCourseId(null);
     }
   };
- 
+
   return (
     <div className={styles.courseContainer}>
-      <h1 className={styles.courseContainerHeading}>Featured Courses</h1>
+      <h1 className={styles.courseContainerHeading}>{label}</h1>
       <div className={styles.categories}>
         <button
           className={`${styles.categoryButton} ${

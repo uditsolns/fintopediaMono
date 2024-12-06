@@ -17,6 +17,9 @@ import {
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 import FrequentlyBought from "./components/frequently-bought/FrequentlyBought";
 import VideoEmbed from "@src/components/VideoPlayer/VideoEmbed";
+import CountCardMolecule from "@src/components/molecules/CountCardMolecule/CountCardMolecule";
+import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
+import OfferCountdown from "@src/components/offer-countdown/OfferCountdown";
 interface CourseDetailsProps {
   id?: number;
 }
@@ -27,7 +30,9 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
     courses,
     loading: singleCourseLoading,
   } = useAppSelector((state) => state.courses);
-  console.log("singleCourse", singleCourse);
+  const { course_review, loading: courseReviewLoading } = useAppSelector(
+    (state) => state.courseReviews
+  );
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   React.useEffect(() => {
@@ -35,6 +40,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
       dispatch(getCoursesById({ id }));
     }
     dispatch(getCourses());
+    dispatch(getCourseReviews());
   }, [id, dispatch]);
 
   const handleToggle = (index: number) => {
@@ -68,7 +74,9 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
   ];
   return (
     <>
-      {singleCourseLoading?.singleCourse || singleCourseLoading?.courses ? (
+      {singleCourseLoading?.singleCourse ||
+      singleCourseLoading?.courses ||
+      courseReviewLoading?.course_review ? (
         <div className="fullPageLoading">
           <LoadingAtom
             style={{
@@ -79,7 +87,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
         </div>
       ) : null}
       <div className={styles.CourseDetails}>
-        <div className={styles.CourseDetailsHeader}>
+        <div className={styles.CourseDetailsIntro}>
           <div className={styles.links}>
             <Link href="/" className={styles.link}>
               Home
@@ -93,28 +101,65 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
               {singleCourse?.name}
             </Link>
           </div>
-          <div className="courseDetailsContent">
-            <h2 className={styles.heading}>{singleCourse?.name}</h2>
-            <p className={styles.subHeading}>
-              Welcome to our comprehensive Stock Market Course, designed to
-              <br /> empower you with the knowledge and skills needed.
-            </p>
-            <div className={styles.CourseDetailsHeaderButton}>
-              <button>Course starts from ₹ {singleCourse?.sale_price}</button>
-            </div>
-            <div className={styles.offerText}>
-              <h6>
-                Offer ends in <span> 01d : 09h : 20m : 06s</span>
-              </h6>
+          <div className={styles.CourseDetailsHeader}>
+            {/* <div className={styles.links}>
+              <Link href="/" className={styles.link}>
+                Home
+              </Link> 
+              <span> &gt; </span>
+              <Link href="#" className={styles.link}>
+                {singleCourse?.category?.category_name}
+              </Link>
+              <span> &gt; </span>
+              <Link href="#" className={styles.link}>
+                {singleCourse?.name}
+              </Link>
+            </div> */}
+            <div className="courseDetailsContent">
+              <h2 className={styles.heading}>{singleCourse?.name}</h2>
+              <p className={styles.subHeading}>
+                Welcome to our comprehensive Stock Market Course, designed to
+                <br /> empower you with the knowledge and skills needed.
+              </p>
+              <div className={styles.CourseDetailsHeaderButton}>
+                <button>
+                  Course starts from ₹ {singleCourse?.sale_price}{" "}
+                  <span
+                    style={{
+                      textDecoration: "line-through",
+                      color: "lightgray",
+                      marginLeft: "5px",
+                    }}
+                  >
+                    ₹ {singleCourse?.actual_price}
+                  </span>
+                </button>
+              </div>
+              <div className={styles.offerText}>
+                {/* <h6>
+                  Offer ends in <span> 01d : 09h : 20m : 06s</span>
+                </h6> */}
+                <OfferCountdown
+                  offerStartDate={singleCourse?.offer_start_date}
+                  offerEndDate={singleCourse?.offer_end_date}
+                />
+              </div>
             </div>
           </div>
+          <div className={styles.courseDetailsVideo}>
+            <VideoEmbed
+              otp={singleCourse?.course_video_embed?.otp}
+              playbackInfo={singleCourse?.course_video_embed?.playbackInfo}
+            />
+          </div>
+          <div className={styles.countCard}>
+            <CountCardMolecule
+              rating={singleCourse?.rating}
+              review={singleCourse?.reviews}
+            />
+          </div>
         </div>
-        <div className={styles.courseDetailsVideo}>
-          <VideoEmbed
-            otp={singleCourse?.course_video_embed?.otp}
-            playbackInfo={singleCourse?.course_video_embed?.playbackInfo}
-          />
-        </div>
+
         <div className={styles.learnSlider}>
           <LearnSlider />
         </div>

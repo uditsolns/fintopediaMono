@@ -8,6 +8,15 @@ export interface UserCertificateParams {
   status?: number | string;
 }
 
+export interface OnSuccessInterface {
+  onSuccess: (data: any) => void;
+}
+export interface OnErrorInterface {
+  onError: (error: any) => void;
+}
+export interface DownloadCertificateParams extends OnSuccessInterface, OnErrorInterface {
+  id: number;
+}
 export interface UserCertificateResponse {
   id: number;
   user_id: number;

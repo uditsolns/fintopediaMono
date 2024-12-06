@@ -1,8 +1,12 @@
 import { useFormik } from "formik";
 import { useAppDispatch } from "../../../provider/store/types/storeTypes";
 import { InputAtomProps } from "../../atoms/Input/InputAtom";
-import { UPDATE_PASSWORD_VALUES, updatePasswordValidation } from "./updatePasswordModel";
+import {
+  UPDATE_PASSWORD_VALUES,
+  updatePasswordValidation,
+} from "./updatePasswordModel";
 import { UpdatePasswordParams } from "../../../utils/types/auth";
+import { confirmPassword } from "../../../provider/store/services/auth.service";
 
 export const useUpdatePasswordHelper = () => {
   type dataType = keyof typeof UPDATE_PASSWORD_VALUES;
@@ -14,14 +18,18 @@ export const useUpdatePasswordHelper = () => {
     validationSchema: updatePasswordValidation,
     onSubmit: (values) => {
       let data: UpdatePasswordParams = {
-        old_password: values.old_password,
+        // old_password: values.old_password,
+        user_id: values.user_id,
         new_password: values.new_password,
         new_password_confirmation: values.new_password_confirmation,
       };
+      dispatch(confirmPassword(data));
+      updatePasswordFormik.resetForm();
     },
   });
 
-  const { setFieldTouched, values, touched, errors, handleChange } = updatePasswordFormik;
+  const { setFieldTouched, values, touched, errors, handleChange } =
+    updatePasswordFormik;
 
   const _onBlur = (key: string) => {
     setFieldTouched(key);

@@ -12,6 +12,7 @@ export default {
     FORGOT: buildUrl("forget-password"),
     FORGOTCONFIRM: buildUrl("update-password"),
     GOOGLE: buildUrl("google-login"),
+    VERIFYOTP: buildUrl("verifyOtp"),
   },
   USER: {
     GET: buildUrl("users"),
@@ -37,7 +38,7 @@ export default {
     DELETE: buildUrl("courses_sections"),
   },
   COURSES_RATING_REVIEWS: {
-    GET: buildUrl("courses_rating_reviews"),
+    GET: buildUrl("courses_rating_reviews_open"),
     POST: buildUrl("courses_rating_reviews"),
     UPDATE: buildUrl("courses_rating_reviews"),
     DELETE: buildUrl("courses_rating_reviews"),
@@ -65,6 +66,9 @@ export default {
     POST: buildUrl("user_certificate"),
     UPDATE: buildUrl("user_certificate"),
     DELETE: buildUrl("user_certificate"),
+  },
+  DOWNLOAD_CERTIFICATE: {
+    GET: buildUrl("downloadcertificate"),
   },
   COURSE_SAVE_LATER: {
     GET: buildUrl("courses_save_later"),
@@ -206,5 +210,17 @@ export default {
     POST: buildUrl("course-section"),
     UPDATE: buildUrl("course-section"),
     DELETE: buildUrl("course-section"),
+  },
+  COURSE_LIKE: {
+    GET: buildUrl("course_like"),
+    POST: buildUrl("course_like"),
+    UPDATE: buildUrl("course_like"),
+    DELETE: buildUrl("course_like"),
+  },
+  CONTACT_SUPPORT: {
+    GET: buildUrl("contact_support"),
+    POST: buildUrl("contact_support"),
+    UPDATE: buildUrl("contact_support"),
+    DELETE: buildUrl("contact_support"),
   },
 };

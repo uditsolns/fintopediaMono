@@ -5,13 +5,21 @@ export interface NotificationsParams {
   id?: number;
   user_id?: number;
   course_id?: number;
+  title: string;
+  description: string;
+  image: null | File | string;
+  url: string;
   status?: number | string;
 }
 
 export interface NotificationsResponse {
   id: number;
-  user_id: number;
+  user_id?: number;
   course_id: number;
+  title: string;
+  description: string;
+  image: null | File | string;
+  url: string;
   status?: number | string;
   user?: UserInfo;
   course?: CoursesResponse;

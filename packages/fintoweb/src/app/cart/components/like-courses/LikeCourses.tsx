@@ -16,9 +16,10 @@ import {
   useAppDispatch,
 } from "shared/src/provider/store/types/storeTypes";
 import { toast } from "react-toastify";
+import { LikeCoursesResponse } from "shared/src/utils/types/course-like";
 
 interface LikeCoursesProps {
-  courses: CoursesResponse[];
+  courses: LikeCoursesResponse[];
 }
 
 const LikeCourses: React.FC<LikeCoursesProps> = ({ courses }) => {
@@ -90,14 +91,14 @@ const LikeCourses: React.FC<LikeCoursesProps> = ({ courses }) => {
       },
     ],
   };
-  const handleCourseClick = async (course: CoursesResponse) => {
-    setLoadingCourseId(course.id);
+  const handleCourseClick = async (course: LikeCoursesResponse) => {
+    setLoadingCourseId(course.course_id);
     if (!auth?.token) {
       router.push("/auth/login");
       setLoadingCourseId(null);
       return;
     }
-    if (isInCart(courseCart, course?.id)) {
+    if (isInCart(courseCart, course?.course_id)) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1500));
         router.push("/cart");
@@ -108,7 +109,7 @@ const LikeCourses: React.FC<LikeCoursesProps> = ({ courses }) => {
     }
     const params = {
       user_id: Number(auth?.user?.id),
-      course_id: Number(course?.id),
+      course_id: Number(course?.course_id),
       status: "1",
     };
     try {
@@ -137,7 +138,7 @@ const LikeCourses: React.FC<LikeCoursesProps> = ({ courses }) => {
           return (
             <CoursesMolecule
               key={course.id}
-              course={course}
+              course={course?.course}
               loading={loadingCourseId === course.id}
               onClick={() => handleCourseClick(course)}
             />

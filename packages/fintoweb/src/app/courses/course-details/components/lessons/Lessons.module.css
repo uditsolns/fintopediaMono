@@ -1,6 +1,9 @@
 .lessonsContainer {
   padding: 50px;
-  background: var(
+  background-image: url("../../../../../assets/courses/course-details/Lessons-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -10,7 +13,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
 }
 .lessonContent h2 {
   color: #fff;

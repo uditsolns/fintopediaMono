@@ -42,12 +42,16 @@ import sha256 from "crypto-js/sha256";
 import { Base64 } from "js-base64";
 import { CoursesSaveLaterResponse } from "shared/src/utils/types/courses-save-later";
 import CourseSaveLaterMolecule from "@src/components/molecules/CoursesMolecule/CourseSaveLaterMolecule";
+import { getLikeCourse } from "shared/src/provider/store/services/course-like.service";
 
 export default function Cart() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
+  );
+  const { likeCourse, loading: likeCourseLoading } = useAppSelector(
+    (state) => state.likeCourse
   );
   const {
     courseCart,
@@ -87,6 +91,7 @@ export default function Cart() {
     dispatch(getCourses());
     dispatch(getCourseCart());
     dispatch(getCoursesSaveLater());
+    dispatch(getLikeCourse());
   }, []);
 
   const handleCourseClick = async (course: CoursesResponse) => {
@@ -317,7 +322,7 @@ export default function Cart() {
     <>
       {courseCartLoading?.courseCart ||
       coursesLoading?.courses ||
-      coursesSaveLaterLoading?.courses_save_later ? (
+      coursesSaveLaterLoading?.courses_save_later || likeCourseLoading?.likeCourse ? (
         <div className="fullPageLoading">
           <LoadingAtom
             style={{
@@ -327,7 +332,7 @@ export default function Cart() {
           />
         </div>
       ) : null}
-      <div>
+      <div className={styles.CartDetails}>
         <div className={styles.container}>
           <h1 className={styles.heading}>My Cart</h1>
           {courseCart?.length > 0 ? (
@@ -624,9 +629,9 @@ export default function Cart() {
           )}
         </div>
         <div className={styles.likeCourses}>
-          <LikeCourses courses={courses} />
+          <LikeCourses courses={likeCourse} />
         </div>
-        <div className={styles.wishlist}>
+        {/* <div className={styles.wishlist}>
           <h1 className={styles.wishlistHeading}>Wishlist</h1>
           <Row className="mt-3">
             {courses_save_later.map((saveLater, index) => {
@@ -642,6 +647,25 @@ export default function Cart() {
               );
             })}
           </Row>
+        </div> */}
+        <div className={styles.wishlist}>
+          <h1 className={styles.wishlistHeading}>Wishlist</h1>
+
+          {courses_save_later.length === 0 ? (
+            <p>No items found in your wishlist.</p> 
+          ) : (
+            <Row className="mt-3">
+              {courses_save_later.map((saveLater) => (
+                <Col md={4} key={saveLater.id}>
+                  <CourseSaveLaterMolecule
+                    saveLater={saveLater}
+                    loading={loadingCourseId === saveLater.id}
+                    onClick={() => handleCourseSavelaterClick(saveLater)}
+                  />
+                </Col>
+              ))}
+            </Row>
+          )}
         </div>
       </div>
     </>

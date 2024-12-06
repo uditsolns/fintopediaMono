@@ -33,6 +33,7 @@ export type Paramkeys =
   | "password"
   | "password_confirmation"
   | "old_password"
+  | "user_id"
   | "new_password"
   | "new_password_confirmation"
   | "id"
@@ -85,6 +86,13 @@ export type Paramkeys =
   | "rating"
   | "rating_desc"
   | "last_name"
-  | "message";
+  | "message"
+  | "phone_no"
+  | "email_id"
+  | "designation"
+  | "email"
+  | "otp"
+  | "new_password"
+  | "new_password_confirmation"; 
 
 export type ModelParams = Record<Paramkeys, FormModel>;

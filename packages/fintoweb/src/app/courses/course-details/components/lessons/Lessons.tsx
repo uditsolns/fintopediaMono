@@ -37,7 +37,7 @@ const Lessons: React.FC<LessonsProps> = ({ sections, about_me }) => {
                 (acc, section) => acc + parseFloat(section.section_time),
                 0
               )}{" "}
-              mins content
+              content
             </p>
           </div>
 
@@ -54,7 +54,7 @@ const Lessons: React.FC<LessonsProps> = ({ sections, about_me }) => {
                     {section.section_number}. {section.section_heading} •
                     <span style={{ color: "#1D90F5" }}>
                       {section.subsections?.length} topics •{" "}
-                      {section.section_time} hrs
+                      {section.section_time} 
                     </span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +113,6 @@ const Lessons: React.FC<LessonsProps> = ({ sections, about_me }) => {
           </div>
         </Col>
         <Col md={6}>
-         
           <div className={styles.aboutCourse}>
             <h3>About The Course</h3>
             {about_me && about_me.trim() ? (

@@ -43,6 +43,7 @@ export interface PurchaseHistoryResponse {
   pgTransactionId: string;
   pgServiceTransactionId: string;
   cardType: string;
+  grand_total?:number | string;
   user?: UserInfo | null;
   courses?: CoursesResponse[] | null;
 }

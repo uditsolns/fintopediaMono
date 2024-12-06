@@ -5,11 +5,15 @@ import {
   AuthParams,
   AuthResponse,
   ForgotPasswordParams,
+  ForgotPasswordResponse,
   SignupParams,
   UpdatePasswordParams,
+  UpdatePasswordResponse,
   UserInfo,
+  VerifyOtpParams,
+  VerifyOtpResponse,
 } from "../../../utils/types/auth";
-import { storeCurrentUser } from "../reducers/auth.reducer";
+import { storeCurrentUser, logout } from "../reducers/auth.reducer"; 
 
 export const signIn = createAsyncThunk<
   AuthResponse,
@@ -76,7 +80,7 @@ export const signUp = createAsyncThunk<
 });
 
 export const forgotPassword = createAsyncThunk<
-  AuthResponse,
+  ForgotPasswordResponse,
   { email: string },
   { state: RootState }
 >("auth/forgot", async (params, thunkApi) => {
@@ -87,9 +91,9 @@ export const forgotPassword = createAsyncThunk<
         "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
-    });
+    }); 
 
-    const data = (await response.json()) as AuthResponse;
+    const data = (await response.json()) as ForgotPasswordResponse;
 
     return data;
   } catch (error) {
@@ -98,12 +102,40 @@ export const forgotPassword = createAsyncThunk<
 });
 
 export const confirmPassword = createAsyncThunk<
-  AuthResponse,
+  UpdatePasswordResponse,
   UpdatePasswordParams,
   { state: RootState }
 >("auth/confirm", async (params, thunkApi) => {
   try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
     const response = await fetch(apiUrl.AUTH.FORGOTCONFIRM, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(params),
+    });
+
+    const data = (await response.json()) as UpdatePasswordResponse;
+    console.log("data---------", data);
+    if (data?.code === 200) {
+      thunkApi.dispatch(logout());
+    }
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
+export const VerifyOtp = createAsyncThunk<
+  VerifyOtpResponse,
+  VerifyOtpParams,
+  { state: RootState }
+>("auth/verifyOtp", async (params, thunkApi) => {
+  try {
+    const response = await fetch(apiUrl.AUTH.VERIFYOTP, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +143,7 @@ export const confirmPassword = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as AuthResponse;
+    const data = (await response.json()) as VerifyOtpResponse;
 
     return data;
   } catch (error) {

@@ -420,6 +420,12 @@
   line-height: 22px; /* 137.5% */
   letter-spacing: -0.32px;
 }
+.uploadButton button:disabled {
+  background-color: #808388;
+  color: #090a0b;
+  border: 1px solid #808388;
+  cursor: not-allowed;
+}
 .fileSizeText {
   color: #808388;
   font-size: 16px;
@@ -461,7 +467,37 @@
 .uploadCardLeft svg {
   margin-right: 10px;
 }
-
+.textSmall span {
+  color: #717171;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.4px;
+}
+.browseLinkHover {
+  color: #717171;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.4px;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+}
+.textExtraSmall {
+  text-align: center;
+  color: #808388;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.32px;
+}
 .checkoutBtn {
   display: flex;
   width: 80px;
@@ -571,13 +607,13 @@
 /* upload Project */
 .container {
   color: white;
-  padding: 2rem; 
+  padding: 2rem;
 }
 
 .title {
-  font-size: 1.5rem; 
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 1.5rem; 
+  margin-bottom: 1.5rem;
 }
 
 .grid {

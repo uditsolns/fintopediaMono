@@ -7,15 +7,32 @@ import { Button, Col, Row } from "reactstrap";
 import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import { forgotField } from "shared/src/components/structures/forgot/forgotModel";
 import { useForgotHelper } from "shared/src/components/structures/forgot/forgot.helper";
-
-interface LoginFormValues {
-  email: string;
-}
+import LoadingAtom from "@src/components/loader/LoadingAtom";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import { toast } from "react-toastify";
 
 const ForgotPassword: React.FC = () => {
+  const router = useRouter();
+  const { auth, forgot, loading } = useAppSelector((state) => state.auth);
+  console.log("forgot", forgot);
   const { forgotFormik, forgotInputProps } = useForgotHelper();
   const { handleSubmit, isSubmitting } = forgotFormik;
-
+  React.useEffect(() => {
+    if (forgot?.code === 200) {
+      toast.success(forgot?.status_message, {
+        position: "top-right",
+        theme: "light",
+      });
+      router.push("/auth/two-factor-auth");
+    }
+    if (forgot?.code === 400) {
+      toast.warning(forgot?.status_message, {
+        position: "top-right",
+        theme: "light",
+      });
+    }
+  }, [forgot]);
   return (
     <div className={styles.forgotContainer}>
       <div className="container main-login-div">
@@ -49,7 +66,7 @@ const ForgotPassword: React.FC = () => {
             </div>
             <h1>Forgot Password?</h1>
             <h6>
-              Enter your email address and we ll send you the
+              Enter your email address and we&apos;ll send you the
               <br /> reset password link
             </h6>
             <div className={styles.forgotForm}>
@@ -63,7 +80,7 @@ const ForgotPassword: React.FC = () => {
                     />
                   </Col>
                 </Row>
-                <div className="mt-5 mb-3 row">
+                <div className="mt-5 mb-2 row">
                   <div className="col-12">
                     <Button
                       type="submit"
@@ -71,13 +88,19 @@ const ForgotPassword: React.FC = () => {
                       className={styles.sendLinkButton}
                       size="md"
                       block
-                      disabled={isSubmitting}
+                      onClick={() => {
+                        handleSubmit();
+                      }}
                     >
-                      Send Link
+                      {loading.forgot ? (
+                        <LoadingAtom size="sm" color="dark" />
+                      ) : (
+                        " Send Link"
+                      )}
                     </Button>
                   </div>
                   <div className={styles.forgotFooterText}>
-                    <h6>Didn’t get the email? Kindly check the spam box too</h6>
+                    <h6>Didn’t get email? Kindly check spam box too</h6>
                     <p>Send it again?</p>
                   </div>
                 </div>

@@ -66,7 +66,7 @@ const Trade: React.FC<TradeProps> = (props) => {
           position: "top-right",
           theme: "light",
         });
-        dispatch(resetTransaction());
+        dispatch(resetTransaction()); 
         let user_id = Number(auth?.user?.id);
         let game_id = Number(gameId);
         dispatch(

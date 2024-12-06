@@ -1,4 +1,4 @@
-.CourseDetails {
+/* .CourseDetails {
   background: var(
     --BG,
     linear-gradient(
@@ -10,9 +10,16 @@
       #0d0f1b 100%
     )
   );
+} */
+.CourseDetailsIntro {
+  background-image: url("../../../assets/courses/course-details/Course-details-new.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .CourseDetailsHeader {
-  padding: 50px;
+  /* padding: 50px; */
+  padding-left: 50px;
+  padding-right: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,9 +30,7 @@
   padding: 20px 300px;
 }
 .links {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 30px;
 }
 .links span {
   margin-right: 5px;
@@ -161,7 +166,10 @@
 }
 /* accordion */
 .contactAccordion {
-  background: var(
+  background-image: url("../../../assets/courses/course-details/FrequentlyAskedQuestionsbg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -171,7 +179,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
   padding: 50px 150px;
 }
 .contactAccordion h1 {
@@ -221,6 +229,13 @@
   border-radius: 12px;
   background: var(--BG-2, #222431);
 }
+.countCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  /* margin-bottom: 20px; */
+}
 @media screen and (max-width: 435px) {
   .contactSection {
     padding: 10px;
@@ -233,5 +248,12 @@
   }
   .CourseDetailsHeader {
     padding: 15px;
+  }
+  .links {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    padding: 5px;
+    margin-top: 10px;
   }
 }

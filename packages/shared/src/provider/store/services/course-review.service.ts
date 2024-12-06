@@ -14,7 +14,7 @@ import { getCourses } from "./courses.service";
 
 export const getCourseReviews = createAsyncThunk<
   CourseReviewResponse[],
-  void,
+  void, 
   { state: RootState }
 >("getCourseReviews/get", async (_, thunkApi) => {
   try {

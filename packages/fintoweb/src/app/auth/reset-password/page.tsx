@@ -17,20 +17,48 @@ import * as Yup from "yup";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { InputAtom } from "@src/components/atoms/Input/InputAtom";
-import { resetField } from "shared/src/components/structures/reset/resetModel";
-import { useResetHelper } from "shared/src/components/structures/reset/reset.helper";
+import { resetField } from "shared/src/components/structures/reset-password/reset.passwordModel";
+import { useResetPasswordHelper } from "shared/src/components/structures/reset-password/reset-password.helper";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import LoadingAtom from "@src/components/loader/LoadingAtom";
+import { toast } from "react-toastify";
 
 interface LoginFormValues {
   password: string;
   confirm_password: string;
 }
 const ResetPassword: React.FC = () => {
-  const { resetFormik, resetInputProps } = useResetHelper();
-  const { handleSubmit, isSubmitting } = resetFormik;
+  const router = useRouter();
+  const { auth, forgot, loading, verifyOtp } = useAppSelector(
+    (state) => state.auth
+  );
+  console.log("Reset Forgot data", forgot);
+  const { resetFormik, resetInputProps } = useResetPasswordHelper();
+  const { handleSubmit, setFieldValue, isSubmitting } = resetFormik;
 
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
   const [isRevealPwd1, setIsRevealPwd1] = useState<boolean>(false);
+  React.useEffect(() => {
+    setFieldValue(resetField.email.name, forgot?.email || "");
+    setFieldValue(resetField.otp.name, forgot?.otp || "");
+  }, [auth, forgot, setFieldValue]);
 
+  React.useEffect(() => {
+    if (verifyOtp?.code === 200) {
+      toast.success(verifyOtp?.status_message, {
+        position: "top-right",
+        theme: "light",
+      });
+      router.push("/auth/login");
+    }
+    if (verifyOtp?.status === "failed") {
+      toast.warning(verifyOtp?.status_message, {
+        position: "top-right",
+        theme: "light",
+      });
+    }
+  }, [verifyOtp]);
   return (
     <div className={styles.forgotContainer}>
       <div className="container main-login-div">
@@ -72,9 +100,9 @@ const ResetPassword: React.FC = () => {
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
-                      label={resetField.password.label}
-                      placeholder={resetField.password.placeHolder}
-                      {...resetInputProps(resetField.password.name)}
+                      label={resetField.new_password.label}
+                      placeholder={resetField.new_password.placeHolder}
+                      {...resetInputProps(resetField.new_password.name)}
                       type={isRevealPwd ? "text" : "password"}
                       rightIcon={
                         <InputGroupText
@@ -97,10 +125,12 @@ const ResetPassword: React.FC = () => {
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
-                      label={resetField.password_confirmation.label}
-                      placeholder={resetField.password_confirmation.placeHolder}
+                      label={resetField.new_password_confirmation.label}
+                      placeholder={
+                        resetField.new_password_confirmation.placeHolder
+                      }
                       {...resetInputProps(
-                        resetField.password_confirmation.name
+                        resetField.new_password_confirmation.name
                       )}
                       type={isRevealPwd1 ? "text" : "password"}
                       rightIcon={
@@ -129,9 +159,15 @@ const ResetPassword: React.FC = () => {
                       className={styles.sendLinkButton}
                       size="md"
                       block
+                      onClick={() => {
+                        handleSubmit();
+                      }}
                     >
-                      {/* {isLoading ? <CircularLoading /> : "Register"} */}
-                      Reset password
+                      {loading?.verifyOtp ? (
+                        <LoadingAtom size="sm" color="dark" />
+                      ) : (
+                        "Reset password"
+                      )}
                     </Button>
                   </div>
                 </div>

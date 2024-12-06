@@ -1,6 +1,7 @@
 import { UserState } from "../../../utils/types/user";
 import { createSlice } from "@reduxjs/toolkit";
 import { deleteUser, getUser, getUserById, updateUser } from "../services/user.service";
+import { storeCurrentUser } from "./auth.reducer";
 
 const initialState: UserState = {
   loading: {
@@ -70,6 +71,8 @@ const userSlice = createSlice({
         state.loading.update = false;
         state.update = action.payload;
         state.err.updateErr = null;
+
+        storeCurrentUser(action.payload);
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.loading.update = false;

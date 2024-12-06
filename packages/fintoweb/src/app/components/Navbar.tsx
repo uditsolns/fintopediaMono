@@ -41,18 +41,18 @@ export const Navbar = () => {
   // Function to close the menu
   function closeMenu() {
     setIsOpen(false);
-  }
+  } 
 
   return (
     <nav className="background-gradient text-white p-4 sm:p-6 flex justify-between items-center border-b border-gray-400">
-      <div className="flex items-center">
+      <div className={`flex items-center ${styles.browseLink}`}>
         <span className="font-bold">Browse</span>
         <Image src={Arrow} alt="Arrow" className="ml-2 inline-block" />
       </div>
-
+      
       <div className="flex items-center">
         <a href="/" className="text-2xl font-bold">
-          <Image src={Logo} alt="Logo" className="ml-2 inline-block" />
+          <Image src={Logo} alt="Logo" width={150} height={50} className="ml-5 inline-block" />
         </a>
       </div>
 
@@ -110,20 +110,6 @@ export const Navbar = () => {
 
         <div className={getMenuClasses()}>
           {loading && auth?.token ? (
-            // <Link
-            //   href="/cart"
-            //   prefetch={true}
-            //   className="mx-2 hover:text-gray-300 flex items-center"
-            // >
-            //   {courseCart?.length > 0 && (
-            //     <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-            //       {courseCart?.length}
-            //     </span>
-            //   )}
-            //   <Image src={CartIcon} alt="Cart" className="inline-block mr-2" />
-            //   Cart
-
-            // </Link>
             <div className={styles.cartContainer}>
               <Link
                 href="/cart"
@@ -137,16 +123,7 @@ export const Navbar = () => {
                 
               </Link>
             </div>
-          ) : (
-            <Link
-              href="/auth/login"
-              prefetch={true}
-              className="mx-2 hover:text-gray-300 flex items-center"
-            >
-              <Image src={CartIcon} alt="Cart" className="inline-block mr-2" />
-              Cart
-            </Link>
-          )}
+          ) : null}
 
           {loading && auth?.token ? (
             <>

@@ -7,7 +7,8 @@ export interface AuthState {
     signout: boolean;
     forgot: boolean;
     confirm: boolean;
-    google_login:boolean
+    google_login: boolean;
+    verifyOtp: boolean;
   };
   err: {
     loginErr: any;
@@ -15,7 +16,8 @@ export interface AuthState {
     signoutErr: any;
     forgotErr: any;
     confirmErr: any;
-    google_login_err:any
+    google_login_err: any;
+    verifyOtpErr: any;
   };
   token?: string | null;
   auth: AuthResponse | null;
@@ -23,6 +25,7 @@ export interface AuthState {
   forgot: any;
   confirm: any;
   current_user: UserInfo | null;
+  verifyOtp: VerifyOtpResponse | null;
 }
 
 export interface AuthParams {
@@ -35,6 +38,30 @@ export interface AuthResponse {
   token: string;
 }
 
+export interface UpdatePasswordResponse {
+  code: number;
+  status: string;
+  status_message: string;
+}
+
+export interface ForgotPasswordResponse {
+  code: number;
+  status: string;
+  status_message: string;
+  email: string;
+  otp: number;
+}
+export interface VerifyOtpParams {
+  email: string;
+  otp: number;
+  new_password: string;
+  new_password_confirmation: string;
+}
+export interface VerifyOtpResponse {
+  code: number;
+  status: string;
+  status_message: string;
+}
 export interface UserInfo {
   id: number;
   first_name: string;
@@ -76,6 +103,7 @@ export interface UserInfo {
   is_google_login: string;
   feedback: null;
   college: null;
+  designation?: null | string;
   user_transactions?: UserTransactionsResponse[] | null;
   bio?: null | string;
   headline?: null | string;
@@ -93,24 +121,37 @@ export interface SignupParams {
   password_confirmation: string;
   email: string;
   college_id: string;
+  designation: string;
 }
 
 export interface ForgotPasswordParams {
   email: string;
 }
-
+export interface OnSuccessInterface {
+  onSuccess: (data: any) => void;
+}
+export interface OnErrorInterface {
+  onError: (error: any) => void;
+}
 export interface ResetPasswordParams {
   token?: string;
   password?: string;
   confirmation_password?: string;
 }
+export interface ResetPasswordParams2 {
+  email: string;
+  otp: number;
+  new_password: string;
+  new_password_confirmation: string;
+}
 export interface UpdatePasswordParams {
-  old_password?: string;
+  // old_password?: string;
+  user_id: string;
   new_password?: string;
   new_password_confirmation?: string;
 }
 export interface UserUpdateParams {
-  id?:number
+  id?: number;
   first_name?: string;
   email?: string;
   phone?: string;
@@ -143,6 +184,7 @@ export interface UserUpdateParams {
   headline?: null | string;
   linkedin?: null | string;
   website_url?: null | string;
+  designation?: null | string;
   photo?: string | null;
 }
 
