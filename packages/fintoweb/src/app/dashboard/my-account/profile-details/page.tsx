@@ -13,13 +13,12 @@ import CircularLoading from "@src/components/loader/CircularLoading";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const ProfileDetails = () => {
   const router = useRouter();
 
   const { auth, current_user } = useAppSelector((state) => state.auth);
   const { user, loading, update } = useAppSelector((state) => state.users);
 
-  console.log("current_user", current_user);
   const { userFormik, userInputProps } = useUserHelper();
   const { handleSubmit, setFieldValue, isSubmitting } = userFormik;
 
@@ -97,7 +96,7 @@ const page = () => {
     setFieldValue(userField.linkedin.name, current_user?.linkedin ?? "");
     setFieldValue(userField.designation.name, current_user?.designation ?? "");
     setFieldValue(userField.photo.name, imagevalue || current_user?.photo);
-  }, [auth,current_user, image, setFieldValue]);
+  }, [auth, current_user, image, setFieldValue]);
 
   React.useEffect(() => {
     if (update) {
@@ -302,4 +301,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ProfileDetails;

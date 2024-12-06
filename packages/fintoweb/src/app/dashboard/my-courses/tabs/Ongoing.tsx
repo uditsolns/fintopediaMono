@@ -8,8 +8,8 @@ const Ongoing = () => {
   const { courses } = useAppSelector((state) => state.courses);
   return (
     <div>
-      {courses.map((course) => {
-        return <OngoingMolecule course={course} />;
+      {courses.map((course, index) => {
+        return <OngoingMolecule key={index} course={course} />;
       })}
     </div>
   );

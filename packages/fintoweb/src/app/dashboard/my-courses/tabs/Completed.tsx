@@ -5,16 +5,19 @@ import styles from "./Tabs.module.css";
 import { imageUrl } from "shared/src/config/imageUrl";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import Image from "next/image";
-import { CopyToClipboard, DownloadCertificate } from "shared/src/components/certificate-dawnload/DownloadCertificate";
+import {
+  CopyToClipboard,
+  DownloadCertificate,
+} from "shared/src/components/certificate-dawnload/DownloadCertificate";
 
 const Completed = () => {
   const { userCertificate } = useAppSelector((state) => state.userCertificate);
 
   return (
     <div>
-      {userCertificate?.map((course) => {
+      {userCertificate?.map((course, index) => {
         return (
-          <Card className={styles.card}>
+          <Card key={index} className={styles.card}>
             <div className="grid md:grid-cols-2">
               <div className={styles.left}>
                 <Image
