@@ -92,6 +92,7 @@ export interface CoursesResponse {
   offer_start_date?: string;
   offer_end_date?: string;
   offer_status?: string;
+  // course_video_embed?: CourseEmbedvideo | null;
 }
 
 export interface CoursesState {
