@@ -7,6 +7,8 @@ export interface OngoingCoursesResponse {
   user_id: number;
   course_id: number;
   section_id: number;
+  sub_section_id: number;
+  watching_status: boolean;
   course_percentage: string | null;
   created_at: string | null;
   updated_at: string | null;

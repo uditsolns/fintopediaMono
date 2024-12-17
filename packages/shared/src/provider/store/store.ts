@@ -33,13 +33,13 @@ import courseNotesReducer from "./reducers/course-notes.reducer";
 import courseReviewsReducer from "./reducers/course-review.reducer";
 import courseUploadFileReducer from "./reducers/course-upload-file.reducer";
 import ongoingCourseReducer from "./reducers/ongoing.course.reducer";
+import ongoingCourseStatusReducer from "./reducers/ongoing.courses.status.reducer";
 import completedCourseReducer from "./reducers/completed-course.reducer";
 import previousViewCourseReducer from "./reducers/previous-view-course.reducer";
 import couponCodeReducer from "./reducers/coupon-code.reducer";
 import searchCoursesReducer from "./reducers/search-courses.reducer";
 import likeCoursesReducer from "./reducers/course-like.reducer";
 import contactReducer from "./reducers/contact.reducer";
-
 
 const isNative = Platform.OS !== "web";
 
@@ -79,13 +79,13 @@ const reducers = combineReducers({
   courseReviews: courseReviewsReducer,
   courseUploadFile: courseUploadFileReducer,
   ongoingCourse: ongoingCourseReducer,
+  ongoingCourseStatus: ongoingCourseStatusReducer,
   completedCourse: completedCourseReducer,
   previousViewCourse: previousViewCourseReducer,
   searchCourses: searchCoursesReducer,
   couponCode: couponCodeReducer,
   likeCourse: likeCoursesReducer,
   contact: contactReducer,
-
 });
 
 export const store = configureStore({

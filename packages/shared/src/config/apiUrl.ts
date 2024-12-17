@@ -175,6 +175,12 @@ export default {
     UPDATE: buildUrl("ongoings"),
     DELETE: buildUrl("ongoings"),
   },
+  ONGOING_COURSES_STATUS: {
+    GET: buildUrl("ongoing_status"),
+    POST: buildUrl("ongoing_status"),
+    UPDATE: buildUrl("ongoing_status"),
+    DELETE: buildUrl("ongoing_status"),
+  },
   COMPLETED_COURSES: {
     GET: buildUrl("completed-courses"),
     POST: buildUrl("completed-courses"),
