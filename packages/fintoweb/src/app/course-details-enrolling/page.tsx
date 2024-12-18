@@ -28,7 +28,10 @@ import {
   getOngoingCourseStatus,
   updateOngoingCourseStatus,
 } from "shared/src/provider/store/services/ongoing-courses-status.service";
-import { getOngoingCourse } from "shared/src/provider/store/services/ongoing-course.service";
+import {
+  getOngoingCourse,
+  updateOngoingCourse,
+} from "shared/src/provider/store/services/ongoing-course.service";
 
 interface CourseEnrollDetailsProps {
   id?: number;
@@ -42,13 +45,11 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   } = useAppSelector((state) => state.courses);
   const { ongoing_courses_status, loading: ongoing_courses_status_loading } =
     useAppSelector((state) => state.ongoingCourseStatus);
-  // console.log("ongoing_courses_status", ongoing_courses_status);
+  console.log("ongoing_courses_status", ongoing_courses_status);
 
   const { ongoing_courses, loading: ongoing_courses_loading } = useAppSelector(
     (state) => state.ongoingCourse
   );
-  console.log("ongoing_courses", ongoing_courses);
-
   const { auth } = useAppSelector((state) => state.auth);
   const { loading: course_notes_loading } = useAppSelector(
     (state) => state.courseNotes
@@ -97,107 +98,135 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     setOpenIndex(openIndex === index ? null : index);
   };
   // video changes
-  // const [videoEmbedInfo, setVideoEmbedInfo] = useState({
-  //   otp: null,
-  //   playbackInfo: null,
-  // });
-  // React.useEffect(() => {
-  //   if (singleCourse?.course_video_embed) {
-  //     setVideoEmbedInfo({
-  //       otp: singleCourse.course_video_embed.otp,
-  //       playbackInfo: singleCourse.course_video_embed.playbackInfo,
-  //     });
-  //   }
-  // }, [singleCourse]);
-
-  // const handleSubsectionClick = (otp, playbackInfo) => {
-  //   setVideoEmbedInfo({ otp, playbackInfo });
-  // };
   const [videoEmbedInfo, setVideoEmbedInfo] = useState({
     otp: null,
     playbackInfo: null,
   });
-  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
-  const [currentSubsectionIndex, setCurrentSubsectionIndex] = useState(0);
-
-  // Set the initial video information when the course data is loaded
   React.useEffect(() => {
-    if (singleCourse?.sections) {
-      const initialSection = singleCourse.sections[currentSectionIndex];
-      const initialSubsection =
-        initialSection.subsections[currentSubsectionIndex];
-      if (initialSubsection) {
-        setVideoEmbedInfo({
-          otp: initialSubsection.sub_video_embed.otp,
-          playbackInfo: initialSubsection.sub_video_embed.playbackInfo,
-        });
-      }
+    if (singleCourse?.course_video_embed) {
+      setVideoEmbedInfo({
+        otp: singleCourse.course_video_embed.otp,
+        playbackInfo: singleCourse.course_video_embed.playbackInfo,
+      });
     }
-  }, [singleCourse, currentSectionIndex, currentSubsectionIndex]);
+  }, [singleCourse]);
 
-  // Handle clicking on a subsection (changes the video)
   const handleSubsectionClick = (
     otp,
     playbackInfo,
-    sectionIndex,
-    subsectionIndex
+    sectionId,
+    subsectionId,
+    ongoingId
   ) => {
+    let params = {
+      id: ongoingId,
+      user_id: Number(auth?.user?.id),
+      course_id: Number(singleCourse?.id),
+      section_id: sectionId,
+      sub_section_id: subsectionId,
+      watching_status: "true",
+      course_percentage: "0",
+    };
+    dispatch(
+      updateOngoingCourse({
+        params,
+        onSuccess(data) {
+          console.log("data");
+          // toast.success("Course Updated Successfully !", {
+          //   position: "top-right",
+          //   theme: "light",
+          // });
+        },
+        onError(error) {},
+      })
+    );
     setVideoEmbedInfo({ otp, playbackInfo });
-    setCurrentSectionIndex(sectionIndex);
-    setCurrentSubsectionIndex(subsectionIndex);
-    // let params: CourseNotesFields = {
-    //   id: selectedNote?.id,
-    //   user_id: Number(auth?.user?.id),
-    //   course_id: Number(singleCourse?.id),
-    //   notes: notes,
-    // };
-    // dispatch(
-    //   updateOngoingCourseStatus({
-    //     params,
-    //     onSuccess(data) {
-    //       toast.success("Course Updated Successfully !", {
-    //         position: "top-right",
-    //         theme: "light",
-    //       });
-    //     },
-    //     onError(error) {},
-    //   })
-    // );
   };
+  // const [videoEmbedInfo, setVideoEmbedInfo] = useState({
+  //   otp: null,
+  //   playbackInfo: null,
+  // });
+  // const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+  // const [currentSubsectionIndex, setCurrentSubsectionIndex] = useState(0);
 
-  // Handle video end to play the next video
-  const handleVideoEnd = () => {
-    console.log("handleVideoEnd");
-    // Get the current section and subsection
-    const currentSection = singleCourse?.sections[currentSectionIndex];
-    const nextSubsectionIndex = currentSubsectionIndex + 1;
+  // Set the initial video information when the course data is loaded
+  // React.useEffect(() => {
+  //   if (singleCourse?.sections) {
+  //     const initialSection = singleCourse.sections[currentSectionIndex];
+  //     const initialSubsection =
+  //       initialSection.subsections[currentSubsectionIndex];
+  //     if (initialSubsection) {
+  //       setVideoEmbedInfo({
+  //         otp: initialSubsection.sub_video_embed.otp,
+  //         playbackInfo: initialSubsection.sub_video_embed.playbackInfo,
+  //       });
+  //     }
+  //   }
+  // }, [singleCourse, currentSectionIndex, currentSubsectionIndex]);
 
-    console.log("currentSection");
-    console.log("nextSubsectionIndex");
+  // // Handle clicking on a subsection (changes the video)
+  // const handleSubsectionClick = (
+  //   otp,
+  //   playbackInfo,
+  //   sectionIndex,
+  //   subsectionIndex
+  // ) => {
+  //   setVideoEmbedInfo({ otp, playbackInfo });
+  //   setCurrentSectionIndex(sectionIndex);
+  //   setCurrentSubsectionIndex(subsectionIndex);
+  // let params: CourseNotesFields = {
+  //   id: selectedNote?.id,
+  //   user_id: Number(auth?.user?.id),
+  //   course_id: Number(singleCourse?.id),
+  //   notes: notes,
+  // };
+  // dispatch(
+  //   updateOngoingCourseStatus({
+  //     params,
+  //     onSuccess(data) {
+  //       toast.success("Course Updated Successfully !", {
+  //         position: "top-right",
+  //         theme: "light",
+  //       });
+  //     },
+  //     onError(error) {},
+  //   })
+  // );
+  // };
 
-    // Check if the next subsection exists, otherwise move to the next section
-    if (currentSection?.subsections[nextSubsectionIndex]) {
-      const nextSubsection = currentSection.subsections[nextSubsectionIndex];
-      setVideoEmbedInfo({
-        otp: nextSubsection.sub_video_embed.otp,
-        playbackInfo: nextSubsection.sub_video_embed.playbackInfo,
-      });
-      setCurrentSubsectionIndex(nextSubsectionIndex); // Update to the next subsection
-    } else {
-      const nextSectionIndex = currentSectionIndex + 1;
-      if (singleCourse?.sections[nextSectionIndex]) {
-        const nextSection = singleCourse.sections[nextSectionIndex];
-        setCurrentSectionIndex(nextSectionIndex); // Update to the next section
-        setCurrentSubsectionIndex(0); // Reset to the first subsection of the new section
+  // // Handle video end to play the next video
+  // const handleVideoEnd = () => {
+  //   console.log("handleVideoEnd");
+  //   // Get the current section and subsection
+  //   const currentSection = singleCourse?.sections[currentSectionIndex];
+  //   const nextSubsectionIndex = currentSubsectionIndex + 1;
 
-        const firstSubsection = nextSection.subsections[0];
-        setVideoEmbedInfo({
-          otp: firstSubsection.sub_video_embed.otp,
-          playbackInfo: firstSubsection.sub_video_embed.playbackInfo,
-        });
-      }
-    }
-  };
+  //   console.log("currentSection");
+  //   console.log("nextSubsectionIndex");
+
+  //   // Check if the next subsection exists, otherwise move to the next section
+  //   if (currentSection?.subsections[nextSubsectionIndex]) {
+  //     const nextSubsection = currentSection.subsections[nextSubsectionIndex];
+  //     setVideoEmbedInfo({
+  //       otp: nextSubsection.sub_video_embed.otp,
+  //       playbackInfo: nextSubsection.sub_video_embed.playbackInfo,
+  //     });
+  //     setCurrentSubsectionIndex(nextSubsectionIndex); // Update to the next subsection
+  //   } else {
+  //     const nextSectionIndex = currentSectionIndex + 1;
+  //     if (singleCourse?.sections[nextSectionIndex]) {
+  //       const nextSection = singleCourse.sections[nextSectionIndex];
+  //       setCurrentSectionIndex(nextSectionIndex); // Update to the next section
+  //       setCurrentSubsectionIndex(0); // Reset to the first subsection of the new section
+
+  //       const firstSubsection = nextSection.subsections[0];
+  //       setVideoEmbedInfo({
+  //         otp: firstSubsection.sub_video_embed.otp,
+  //         playbackInfo: firstSubsection.sub_video_embed.playbackInfo,
+  //       });
+  //     }
+  //   }
+  // };
   const handleSubmit = async () => {
     let params = {
       user_id: auth?.user?.id,
@@ -236,6 +265,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
       })
     );
   };
+
   return (
     <>
       {courseLoading.singleCourse ||
@@ -425,78 +455,118 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                             <div className={styles.content}>
                               <ul>
                                 {section.subsections?.map(
-                                  (subsection, subsectionIndex) => (
-                                    <li
-                                      key={subsection.id}
-                                      className={styles.listSubsection}
-                                      onClick={() =>
-                                        handleSubsectionClick(
-                                          subsection.sub_video_embed.otp,
-                                          subsection.sub_video_embed
-                                            .playbackInfo,
-                                          sectionIndex,
-                                          subsectionIndex
-                                        )
-                                      }
-                                    >
-                                      <div
-                                        className={styles.subsectionContainer}
-                                      >
-                                        {sectionIndex === 1 ? (
-                                          <span className={styles.checkIcon}>
-                                            <svg
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              width="20"
-                                              height="20"
-                                              viewBox="0 0 20 20"
-                                              fill="none"
-                                            >
-                                              <path
-                                                d="M8.49956 12.3791L15.3936 5.48438L16.4548 6.54488L8.49956 14.5001L3.72656 9.72712L4.78706 8.66663L8.49956 12.3791Z"
-                                                fill="white"
-                                              />
-                                            </svg>
-                                          </span>
-                                        ) : (
-                                          <span
-                                            className={styles.uncheckIcon}
-                                          ></span>
-                                        )}
+                                  (subsection, subsectionIndex) => {
+                                    // const ongoingId = ongoing_courses.some(
+                                    //   (course) =>
+                                    //     course.user_id === auth.user?.id &&
+                                    //     course.course_id ===
+                                    //       singleCourse.id &&
+                                    //     course.section_id === section.id &&
+                                    //     course.sub_section_id ===
+                                    //       subsection.id);
+                                    const ongoingCourse = ongoing_courses.find(
+                                      (course) =>
+                                        course.user_id === auth.user?.id &&
+                                        course.course_id === singleCourse.id &&
+                                        course.section_id === section.id &&
+                                        course.sub_section_id === subsection.id
+                                    );
+                                    console.log("ongoingCourse", ongoingCourse);
 
-                                        <div>
-                                          <p
-                                            className={styles.subsectionHeading}
-                                          >
-                                            {subsection.subsection_heading}
-                                          </p>
-                                          <div
-                                            className={
-                                              styles.subsectionTimeContainer
-                                            }
-                                          >
-                                            <svg
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              width="16"
-                                              height="17"
-                                              viewBox="0 0 16 17"
-                                              fill="none"
-                                              className={styles.svgIcon}
-                                            >
-                                              <path
-                                                d="M9.9974 3.16732H3.9974V13.834H11.9974V5.16732H9.9974V3.16732ZM3.9974 1.83398H10.6641L13.3307 4.50065V13.834C13.3307 14.1876 13.1903 14.5267 12.9402 14.7768C12.6902 15.0268 12.351 15.1673 11.9974 15.1673H3.9974C3.64377 15.1673 3.30464 15.0268 3.05459 14.7768C2.80454 14.5267 2.66406 14.1876 2.66406 13.834V3.16732C2.66406 2.8137 2.80454 2.47456 3.05459 2.22451C3.30464 1.97446 3.64377 1.83398 3.9974 1.83398ZM5.33073 7.83398H10.6641V9.16732H5.33073V7.83398ZM5.33073 10.5007H10.6641V11.834H5.33073V10.5007Z"
-                                                fill="#6D6E6E"
-                                              />
-                                            </svg>
-                                            <span
-                                              className={styles.subsectionTime}
-                                            >
-                                              {subsection.subsection_time}
+                                    const ongoingId = ongoingCourse
+                                      ? ongoingCourse.id
+                                      : null;
+
+                                    console.log("ongoingId", ongoingId);
+                                    return (
+                                      <li
+                                        key={subsection.id}
+                                        className={styles.listSubsection}
+                                        onClick={() =>
+                                          handleSubsectionClick(
+                                            subsection.sub_video_embed.otp,
+                                            subsection.sub_video_embed
+                                              .playbackInfo,
+                                            section?.id,
+                                            subsection?.id,
+                                            ongoingId
+                                          )
+                                        }
+                                      >
+                                        <div
+                                          className={styles.subsectionContainer}
+                                        >
+                                          {ongoing_courses.some(
+                                            (course) =>
+                                              course.user_id ===
+                                                auth.user?.id &&
+                                              course.course_id ===
+                                                singleCourse.id &&
+                                              course.section_id ===
+                                                section.id &&
+                                              course.sub_section_id ===
+                                                subsection.id &&
+                                              course.watching_status === "true"
+                                          ) ? (
+                                            <span className={styles.checkIcon}>
+                                              <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 20 20"
+                                                fill="none"
+                                              >
+                                                <path
+                                                  d="M8.49956 12.3791L15.3936 5.48438L16.4548 6.54488L8.49956 14.5001L3.72656 9.72712L4.78706 8.66663L8.49956 12.3791Z"
+                                                  fill="white"
+                                                />
+                                              </svg>
                                             </span>
+                                          ) : (
+                                            <span
+                                              className={styles.uncheckIcon}
+                                            ></span>
+                                          )}
+
+                                          <div>
+                                            <p
+                                              className={
+                                                styles.subsectionHeading
+                                              }
+                                            >
+                                              {subsection.subsection_heading}
+                                            </p>
+                                            <div
+                                              className={
+                                                styles.subsectionTimeContainer
+                                              }
+                                            >
+                                              <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="16"
+                                                height="17"
+                                                viewBox="0 0 16 17"
+                                                fill="none"
+                                                className={styles.svgIcon}
+                                              >
+                                                <path
+                                                  d="M9.9974 3.16732H3.9974V13.834H11.9974V5.16732H9.9974V3.16732ZM3.9974 1.83398H10.6641L13.3307 4.50065V13.834C13.3307 14.1876 13.1903 14.5267 12.9402 14.7768C12.6902 15.0268 12.351 15.1673 11.9974 15.1673H3.9974C3.64377 15.1673 3.30464 15.0268 3.05459 14.7768C2.80454 14.5267 2.66406 14.1876 2.66406 13.834V3.16732C2.66406 2.8137 2.80454 2.47456 3.05459 2.22451C3.30464 1.97446 3.64377 1.83398 3.9974 1.83398ZM5.33073 7.83398H10.6641V9.16732H5.33073V7.83398ZM5.33073 10.5007H10.6641V11.834H5.33073V10.5007Z"
+                                                  fill="#6D6E6E"
+                                                />
+                                              </svg>
+                                              <span
+                                                className={
+                                                  styles.subsectionTime
+                                                }
+                                              >
+                                                {subsection.subsection_time}
+                                              </span>
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    </li>
-                                  )
+                                      </li>
+                                    );
+                                  }
                                 )}
                               </ul>
                             </div>
@@ -513,8 +583,6 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                 <VideoEmbed
                   otp={videoEmbedInfo.otp}
                   playbackInfo={videoEmbedInfo.playbackInfo}
-                  // onEnded={handleVideoEnd}
-                  onVideoEnd={handleVideoEnd}
                 />
               </div>
             </div>

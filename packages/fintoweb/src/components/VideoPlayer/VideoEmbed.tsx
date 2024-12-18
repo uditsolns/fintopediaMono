@@ -3,34 +3,34 @@ import React, { useEffect, useRef } from "react";
 interface VideoEmbedProps {
   otp: string;
   playbackInfo: string;
-  onVideoEnd: () => void;
+  // onVideoEnd: () => void;
 }
 
-const VideoEmbed: React.FC<VideoEmbedProps> = ({ otp, playbackInfo, onVideoEnd }) => {
+const VideoEmbed: React.FC<VideoEmbedProps> = ({ otp, playbackInfo }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  useEffect(() => {
-    const iframe = iframeRef.current;
+  // useEffect(() => {
+  //   const iframe = iframeRef.current;
 
-    // Listener for postMessage events
-    const messageListener = (event: MessageEvent) => {
-      // Ensure message is from VdoCipher's domain
-      if (event.origin !== "https://player.vdocipher.com") return;
+  //   // Listener for postMessage events
+  //   const messageListener = (event: MessageEvent) => {
+  //     // Ensure message is from VdoCipher's domain
+  //     if (event.origin !== "https://player.vdocipher.com") return;
 
-      // Check if the event indicates the video has ended
-      if (event.data === "videoEnded") {
-        onVideoEnd(); // Trigger the callback passed from parent
-      }
-    };
+  //     // Check if the event indicates the video has ended
+  //     if (event.data === "videoEnded") {
+  //       onVideoEnd(); // Trigger the callback passed from parent
+  //     }
+  //   };
 
-    // Add the event listener for messages
-    window.addEventListener("message", messageListener);
+  //   // Add the event listener for messages
+  //   window.addEventListener("message", messageListener);
 
-    // Cleanup when component unmounts
-    return () => {
-      window.removeEventListener("message", messageListener);
-    };
-  }, [onVideoEnd]);
+  //   // Cleanup when component unmounts
+  //   return () => {
+  //     window.removeEventListener("message", messageListener);
+  //   };
+  // }, [onVideoEnd]);
 
   return (
     <iframe

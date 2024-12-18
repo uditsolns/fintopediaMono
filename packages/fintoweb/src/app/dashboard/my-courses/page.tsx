@@ -11,6 +11,7 @@ import { getCoursesSaveLater } from "shared/src/provider/store/services/coursesa
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 import { useRouter } from "next/navigation";
 import { getUserCertificate } from "shared/src/provider/store/services/UserCertificate.service";
+import { getOngoingCourseStatus } from "shared/src/provider/store/services/ongoing-courses-status.service";
 
 const MyCoursesPage = () => {
   const dispatch = useAppDispatch();
@@ -25,12 +26,16 @@ const MyCoursesPage = () => {
   const { loading: userCertificateLoading } = useAppSelector(
     (state) => state.userCertificate
   );
+  const { loading: ongoingCourseStatusLoading } = useAppSelector(
+    (state) => state.ongoingCourseStatus
+  );
 
   React.useEffect(() => {
     if (token) {
       dispatch(getCourses());
       dispatch(getCoursesSaveLater());
       dispatch(getUserCertificate());
+      dispatch(getOngoingCourseStatus());
     }
   }, []);
 
@@ -44,7 +49,8 @@ const MyCoursesPage = () => {
     <>
       {coursesSavelaterLoading?.courses_save_later ||
       courseLoading?.courses ||
-      userCertificateLoading?.userCertificate ? (
+      userCertificateLoading?.userCertificate ||
+      ongoingCourseStatusLoading?.ongoing_courses_status ? (
         <div className="d-flex justify-content-center p-5">
           <LoadingAtom />
         </div>

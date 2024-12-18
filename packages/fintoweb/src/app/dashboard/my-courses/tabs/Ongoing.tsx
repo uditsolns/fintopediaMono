@@ -6,10 +6,14 @@ import OngoingMolecule from "@src/components/molecules/MycoursesMolecule/Ongoing
 
 const Ongoing = () => {
   const { courses } = useAppSelector((state) => state.courses);
+  const { ongoing_courses_status } = useAppSelector(
+    (state) => state.ongoingCourseStatus
+  );
+  console.log("ongoing_courses_status", ongoing_courses_status);
   return (
     <div>
-      {courses.map((course) => {
-        return <OngoingMolecule course={course} />;
+      {ongoing_courses_status?.map((course) => {
+        return <OngoingMolecule course={course?.ongoing?.course} />;
       })}
     </div>
   );
