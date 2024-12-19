@@ -21,12 +21,8 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {Toast} from 'react-native-toast-notifications';
-<<<<<<< HEAD
 import {getCollege} from '@shared/src/provider/store/services/colleges.service';
 import {ScrollViewAtom} from 'shared/src/components/atoms/ScrollView/ScrollViewAtom';
-=======
-import { getCollege } from '@shared/src/provider/store/services/colleges.service';
->>>>>>> bf0b33e5958f04732bfedcfefedcb7d1ad213b98
 
 interface SignupProps extends NavType<'Singup'> {}
 interface Category {

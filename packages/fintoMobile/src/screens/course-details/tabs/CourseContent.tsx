@@ -19,15 +19,6 @@ export const CourseContent: React.FunctionComponent<CourseContentProps> = ({
   const {course, id} = route.params || {};
   const data = singleCourse ? singleCourse : course;
 
-  const {
-    courses,
-    singleCourse,
-    loading: coursesLoading,
-  } = useAppSelector(state => state.courses);
-  let route = useRoute<any>();
-  const {course, id} = route.params || {};
-  const data = singleCourse ? singleCourse : course;
-
   return (
     <View onLayout={onLayout} style={{flex: 1}}>
       <FlatList
