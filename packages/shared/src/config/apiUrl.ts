@@ -229,4 +229,10 @@ export default {
     UPDATE: buildUrl("contact_support"),
     DELETE: buildUrl("contact_support"),
   },
+  COMPLETION_PERCENTAGE: {
+    GET: buildUrl("CompletionPercentage"),
+    POST: buildUrl("CompletionPercentage"),
+    UPDATE: buildUrl("CompletionPercentage"),
+    DELETE: buildUrl("CompletionPercentage"),
+  },
 };

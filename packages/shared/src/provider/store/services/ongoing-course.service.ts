@@ -9,6 +9,7 @@ import {
   OnErrorInterface,
   OnSuccessInterface,
 } from "../../../utils/types/auth";
+import { getCompletionPercentage } from "./completion-percentage.service";
 
 export const getOngoingCourse = createAsyncThunk<
   OngoingCoursesResponse[],
@@ -113,6 +114,7 @@ export const updateOngoingCourse = createAsyncThunk<
       const data = (await response.json()) as OngoingCoursesResponse;
       onSuccess(data);
       thunkApi.dispatch(getOngoingCourse());
+      thunkApi.dispatch(getCompletionPercentage());
       return data;
     } catch (error) {
       onError(error);

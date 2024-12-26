@@ -32,6 +32,9 @@ import {
   getOngoingCourse,
   updateOngoingCourse,
 } from "shared/src/provider/store/services/ongoing-course.service";
+import { CircularProgress, Typography } from "@mui/material";
+import CourseProgress from "./CourseProgress";
+import { getCompletionPercentage } from "shared/src/provider/store/services/completion-percentage.service";
 
 interface CourseEnrollDetailsProps {
   id?: number;
@@ -63,6 +66,8 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   const { likeCourse, loading: likeCourseLoading } = useAppSelector(
     (state) => state.likeCourse
   );
+  const { completion_percentage, loading: completion_percentage_loading } =
+    useAppSelector((state) => state.completionPercentage);
   const isLiked = likeCourse?.some(
     (like) => like.course_id === singleCourse?.id
   );
@@ -86,6 +91,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     dispatch(getLikeCourse());
     dispatch(getOngoingCourseStatus());
     dispatch(getOngoingCourse());
+    dispatch(getCompletionPercentage());
   }, [id, dispatch]);
 
   const [isAccordionOpen, setIsAccordionOpen] = useState(true);
@@ -111,6 +117,12 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     }
   }, [singleCourse]);
 
+  const completion = Math.floor(
+    completion_percentage?.completion_data?.find(
+      (data) => data.course_id === singleCourse?.id
+    )?.completion_percentage || 0
+  );
+
   const handleSubsectionClick = (
     otp,
     playbackInfo,
@@ -127,106 +139,25 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
       watching_status: "true",
       course_percentage: "0",
     };
-    dispatch(
-      updateOngoingCourse({
-        params,
-        onSuccess(data) {
-          console.log("data");
-          // toast.success("Course Updated Successfully !", {
-          //   position: "top-right",
-          //   theme: "light",
-          // });
-        },
-        onError(error) {},
-      })
-    );
+    if (ongoingId) {
+      dispatch(
+        updateOngoingCourse({
+          params,
+          onSuccess(data) {
+            console.log("data");
+            // toast.success("Course Updated Successfully !", {
+            //   position: "top-right",
+            //   theme: "light",
+            // });
+          },
+          onError(error) {},
+        })
+      );
+    }
+
     setVideoEmbedInfo({ otp, playbackInfo });
   };
-  // const [videoEmbedInfo, setVideoEmbedInfo] = useState({
-  //   otp: null,
-  //   playbackInfo: null,
-  // });
-  // const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
-  // const [currentSubsectionIndex, setCurrentSubsectionIndex] = useState(0);
 
-  // Set the initial video information when the course data is loaded
-  // React.useEffect(() => {
-  //   if (singleCourse?.sections) {
-  //     const initialSection = singleCourse.sections[currentSectionIndex];
-  //     const initialSubsection =
-  //       initialSection.subsections[currentSubsectionIndex];
-  //     if (initialSubsection) {
-  //       setVideoEmbedInfo({
-  //         otp: initialSubsection.sub_video_embed.otp,
-  //         playbackInfo: initialSubsection.sub_video_embed.playbackInfo,
-  //       });
-  //     }
-  //   }
-  // }, [singleCourse, currentSectionIndex, currentSubsectionIndex]);
-
-  // // Handle clicking on a subsection (changes the video)
-  // const handleSubsectionClick = (
-  //   otp,
-  //   playbackInfo,
-  //   sectionIndex,
-  //   subsectionIndex
-  // ) => {
-  //   setVideoEmbedInfo({ otp, playbackInfo });
-  //   setCurrentSectionIndex(sectionIndex);
-  //   setCurrentSubsectionIndex(subsectionIndex);
-  // let params: CourseNotesFields = {
-  //   id: selectedNote?.id,
-  //   user_id: Number(auth?.user?.id),
-  //   course_id: Number(singleCourse?.id),
-  //   notes: notes,
-  // };
-  // dispatch(
-  //   updateOngoingCourseStatus({
-  //     params,
-  //     onSuccess(data) {
-  //       toast.success("Course Updated Successfully !", {
-  //         position: "top-right",
-  //         theme: "light",
-  //       });
-  //     },
-  //     onError(error) {},
-  //   })
-  // );
-  // };
-
-  // // Handle video end to play the next video
-  // const handleVideoEnd = () => {
-  //   console.log("handleVideoEnd");
-  //   // Get the current section and subsection
-  //   const currentSection = singleCourse?.sections[currentSectionIndex];
-  //   const nextSubsectionIndex = currentSubsectionIndex + 1;
-
-  //   console.log("currentSection");
-  //   console.log("nextSubsectionIndex");
-
-  //   // Check if the next subsection exists, otherwise move to the next section
-  //   if (currentSection?.subsections[nextSubsectionIndex]) {
-  //     const nextSubsection = currentSection.subsections[nextSubsectionIndex];
-  //     setVideoEmbedInfo({
-  //       otp: nextSubsection.sub_video_embed.otp,
-  //       playbackInfo: nextSubsection.sub_video_embed.playbackInfo,
-  //     });
-  //     setCurrentSubsectionIndex(nextSubsectionIndex); // Update to the next subsection
-  //   } else {
-  //     const nextSectionIndex = currentSectionIndex + 1;
-  //     if (singleCourse?.sections[nextSectionIndex]) {
-  //       const nextSection = singleCourse.sections[nextSectionIndex];
-  //       setCurrentSectionIndex(nextSectionIndex); // Update to the next section
-  //       setCurrentSubsectionIndex(0); // Reset to the first subsection of the new section
-
-  //       const firstSubsection = nextSection.subsections[0];
-  //       setVideoEmbedInfo({
-  //         otp: firstSubsection.sub_video_embed.otp,
-  //         playbackInfo: firstSubsection.sub_video_embed.playbackInfo,
-  //       });
-  //     }
-  //   }
-  // };
   const handleSubmit = async () => {
     let params = {
       user_id: auth?.user?.id,
@@ -281,7 +212,8 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
       likeCourseLoading?.update ||
       ongoing_courses_status_loading?.ongoing_courses_status ||
       ongoing_courses_loading?.ongoing_courses ||
-      course_review_loading?.course_review ? (
+      course_review_loading?.course_review ||
+      completion_percentage_loading?.completion_percentage ? (
         <div className="fullPageLoading">
           <LoadingAtom
             style={{
@@ -296,7 +228,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
         <div className={styles.enrollHeader}>
           <h2>{singleCourse?.name}</h2>
           <div className={styles.progressSection}>
-            <svg
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -329,8 +261,10 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                   <stop offset="1" stopColor="white" />
                 </radialGradient>
               </defs>
-            </svg>
-            <span>Your progress (12%)</span>
+            </svg> */}
+
+            <CourseProgress progress={completion} />
+            <span>Your progress ({completion}%)</span>
 
             <ShareButton
               title={shareData.title}
@@ -456,14 +390,6 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                               <ul>
                                 {section.subsections?.map(
                                   (subsection, subsectionIndex) => {
-                                    // const ongoingId = ongoing_courses.some(
-                                    //   (course) =>
-                                    //     course.user_id === auth.user?.id &&
-                                    //     course.course_id ===
-                                    //       singleCourse.id &&
-                                    //     course.section_id === section.id &&
-                                    //     course.sub_section_id ===
-                                    //       subsection.id);
                                     const ongoingCourse = ongoing_courses.find(
                                       (course) =>
                                         course.user_id === auth.user?.id &&

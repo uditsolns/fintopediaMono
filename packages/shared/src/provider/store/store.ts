@@ -40,6 +40,7 @@ import couponCodeReducer from "./reducers/coupon-code.reducer";
 import searchCoursesReducer from "./reducers/search-courses.reducer";
 import likeCoursesReducer from "./reducers/course-like.reducer";
 import contactReducer from "./reducers/contact.reducer";
+import completionPercentageReducer from "./reducers/completion-percentage.reducer";
 
 const isNative = Platform.OS !== "web";
 
@@ -86,6 +87,7 @@ const reducers = combineReducers({
   couponCode: couponCodeReducer,
   likeCourse: likeCoursesReducer,
   contact: contactReducer,
+  completionPercentage: completionPercentageReducer,
 });
 
 export const store = configureStore({

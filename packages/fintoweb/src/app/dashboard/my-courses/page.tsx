@@ -12,6 +12,7 @@ import LoadingAtom from "@src/components/loader/LoadingAtom";
 import { useRouter } from "next/navigation";
 import { getUserCertificate } from "shared/src/provider/store/services/UserCertificate.service";
 import { getOngoingCourseStatus } from "shared/src/provider/store/services/ongoing-courses-status.service";
+import { getCompletionPercentage } from "shared/src/provider/store/services/completion-percentage.service";
 
 const MyCoursesPage = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +30,10 @@ const MyCoursesPage = () => {
   const { loading: ongoingCourseStatusLoading } = useAppSelector(
     (state) => state.ongoingCourseStatus
   );
+  const { completion_percentage, loading: completion_percentage_loading } =
+    useAppSelector((state) => state.completionPercentage);
+
+  console.log("completion_percentage", completion_percentage);
 
   React.useEffect(() => {
     if (token) {
@@ -36,6 +41,7 @@ const MyCoursesPage = () => {
       dispatch(getCoursesSaveLater());
       dispatch(getUserCertificate());
       dispatch(getOngoingCourseStatus());
+      dispatch(getCompletionPercentage());
     }
   }, []);
 
@@ -50,7 +56,8 @@ const MyCoursesPage = () => {
       {coursesSavelaterLoading?.courses_save_later ||
       courseLoading?.courses ||
       userCertificateLoading?.userCertificate ||
-      ongoingCourseStatusLoading?.ongoing_courses_status ? (
+      ongoingCourseStatusLoading?.ongoing_courses_status ||
+      completion_percentage_loading?.completion_percentage ? (
         <div className="d-flex justify-content-center p-5">
           <LoadingAtom />
         </div>

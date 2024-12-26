@@ -9,11 +9,30 @@ const Ongoing = () => {
   const { ongoing_courses_status } = useAppSelector(
     (state) => state.ongoingCourseStatus
   );
-  console.log("ongoing_courses_status", ongoing_courses_status);
+  const { completion_percentage } = useAppSelector(
+    (state) => state.completionPercentage
+  );
+  // console.log("completion_percentage", completion_percentage);
+
   return (
     <div>
       {ongoing_courses_status?.map((course) => {
-        return <OngoingMolecule course={course?.ongoing?.course} />;
+        const courseId = course?.ongoing?.course_id;
+
+        const completion = Math.floor(
+          completion_percentage?.completion_data?.find(
+            (data) => data.course_id === courseId
+          )?.completion_percentage || 0
+        );
+
+        // console.log("completion", completion);
+        return (
+          <OngoingMolecule
+            key={courseId}
+            course={course?.ongoing?.course}
+            completionPercentage={completion || 0}
+          />
+        );
       })}
     </div>
   );
