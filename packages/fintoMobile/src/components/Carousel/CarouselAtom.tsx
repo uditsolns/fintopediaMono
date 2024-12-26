@@ -1,7 +1,9 @@
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { colorPresets } from '@shared/src/theme/color';
-import { mScale, WINDOW_HEIGHT, WINDOW_WIDTH } from '@shared/src/theme/metrics';
-import React, { useState } from 'react';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {imageUrl} from '@shared/src/config/imageUrl';
+import {colorPresets} from '@shared/src/theme/color';
+import {mScale, WINDOW_HEIGHT, WINDOW_WIDTH} from '@shared/src/theme/metrics';
+import {BannerResponse} from '@shared/src/utils/types/banner';
+import React, {useState} from 'react';
 import {
   ImageBackground,
   Pressable,
@@ -13,48 +15,52 @@ import {
 } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 
-interface CarouselAtomProps {}
+interface CarouselAtomProps {
+  data: BannerResponse[];
+}
 
-export default function CarouselAtom() {
+export default function CarouselAtom({data}: CarouselAtomProps) {
   const [activeSlide, setActiveSlide] = useState<number>(0);
-
-  const data = [...Array(5)];
-
-  const renderCarousel = ({ item }: { item: CarouselAtomProps }) => (
-    <Pressable style={styles.pressable}>
-      <ImageBackground
-        style={styles.imageBackground}
-        source={require('@shared/src/assets/img/carousel1.png')}
-        resizeMode="cover"
-        blurRadius={0}>
-        <View style={styles.offerBanner}>
-          <TextAtom text="Limited Time Offer" preset="xSmall" />
-        </View>
-        <View style={styles.textContainer}>
-          <TextAtom text="Upto 50% Off" preset="heading1" />
-          <TextAtom
-            text="on all trading & finance courses."
-            preset="xSmall"
-            numberOfLines={2}
-          />
-          <TextAtom
-            text="Explore now"
-            preset="titleBold"
-            style={[styles.exploreText, { color: colorPresets.PRIMARY }]}
-          />
-        </View>
-      </ImageBackground>
-    </Pressable>
-  );
+  const renderCarousel = ({item}: {item: BannerResponse}) => {
+    return (
+      <Pressable style={styles.pressable}>
+        <ImageBackground
+          style={styles.imageBackground}
+          source={
+            item?.name
+              ? {uri: `${imageUrl}/Banners/${item.name}`}
+              : require('@shared/src/assets/img/carousel1.png')
+          }
+          resizeMode="stretch"
+          blurRadius={0}>
+          <View style={styles.offerBanner}>
+            {/* <TextAtom text="Limited Time Offer" preset="xSmall" /> */}
+          </View>
+          <View style={styles.textContainer}>
+            {/* <TextAtom text="Upto 50% Off" preset="heading1" /> */}
+            {/* <TextAtom
+              text="on all trading & finance courses."
+              preset="xSmall"
+              numberOfLines={2}
+            /> */}
+            {/* <TextAtom
+              text="Explore now"
+              preset="titleBold"
+              style={[styles.exploreText, {color: colorPresets.PRIMARY}]}
+            /> */}
+          </View>
+        </ImageBackground>
+      </Pressable>
+    );
+  };
 
   const Pagination = () => {
     return (
       <View style={styles.paginationContainer}>
-        {data.map((_, index) => {
+        {data?.map((_, index) => {
           const isActive = activeSlide === index;
-
-          const dotSize = isActive ? mScale.md : mScale.sm; 
-          const dotColor = isActive ? colorPresets.PRIMARY : colorPresets.CTA; 
+          const dotSize = isActive ? mScale.md : mScale.sm;
+          const dotColor = isActive ? colorPresets.PRIMARY : colorPresets.CTA;
           return (
             <View
               key={index}
@@ -74,7 +80,7 @@ export default function CarouselAtom() {
   };
 
   return (
-    <View style={{ flex: 1, alignSelf: 'center', marginBottom: mScale.lg2 }}>
+    <View style={{flex: 1, alignSelf: 'center', marginBottom: mScale.lg2}}>
       <Carousel
         mode="parallax"
         enabled={true}
@@ -83,7 +89,7 @@ export default function CarouselAtom() {
         height={WINDOW_HEIGHT * 0.22}
         renderItem={renderCarousel}
         onSnapToItem={(index: number) => setActiveSlide(index)}
-        panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
+        panGestureHandlerProps={{activeOffsetX: [-10, 10]}}
         pagingEnabled={false}
         loop={true}
         autoPlay={true}

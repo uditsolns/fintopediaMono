@@ -1,6 +1,7 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {ParamListBase} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
 
 export interface StackParams extends ParamListBase {
   Home: undefined;
@@ -23,8 +24,8 @@ export interface StackParams extends ParamListBase {
   Billing: undefined;
   PaymentSuccess: undefined;
   DontKnowWhereToStart: undefined;
-  BeforeEnrollingCourseDetails: undefined;
-  AfterEnrollingCourseDetails: undefined;
+  BeforeEnrollingCourseDetails: {course?: CoursesResponse; id?: number};
+  AfterEnrollingCourseDetails: {course?: CoursesResponse; id?: number};
   ProfileDetails: undefined;
   Certifications: undefined;
   ReferandEarn: undefined;
@@ -34,12 +35,18 @@ export interface StackParams extends ParamListBase {
   ContactUs: undefined;
   GameWaiting: undefined;
   GameHome: undefined;
+  Trade: undefined;
+  LatestNews: undefined;
+  Portfolio: undefined;
+  History: undefined;
+  PreviousRoundPrice: undefined;
   BuyStocks: undefined;
   SellStocks: undefined;
   GameWinnerLoading: undefined;
   GameWinner: undefined;
   MockTradeBuyStocks: undefined;
   MockTradeSellStocks: undefined;
+  ViewPdf: undefined;
 }
 export interface TabParams extends ParamListBase {
   HomeTab: undefined;

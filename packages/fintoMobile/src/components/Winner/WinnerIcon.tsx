@@ -1,12 +1,12 @@
-import { StyleSheet, Text, View, ViewStyle, ImageStyle } from 'react-native';
+import {StyleSheet, Text, View, ViewStyle, ImageStyle} from 'react-native';
 import React from 'react';
-import { colorPresets } from '@shared/src/theme/color';
+import {colorPresets} from '@shared/src/theme/color';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
-import { moderateScale, mScale } from '@shared/src/theme/metrics';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 
 interface WinnerIconProps {
-  profilePhoto: any; 
+  profilePhoto: any;
   rank: string | number;
   name: string;
   winnerAmount: string | number;
@@ -31,8 +31,7 @@ export default function WinnerIcon({
           alignItems: 'center',
           alignSelf: 'center',
         },
-      ]}
-    >
+      ]}>
       <View
         style={[
           style2,
@@ -40,9 +39,15 @@ export default function WinnerIcon({
             borderColor: colorPresets.CTA,
             borderWidth: 1,
           },
-        ]}
-      >
-        <ImageAtom sourceRequire={profilePhoto} imageStyle={style2} />
+        ]}>
+        <ImageAtom
+          sourceRequire={
+            profilePhoto
+              ? {uri: profilePhoto}
+              : require('@shared/src/assets/img/gameWinnerLoading.png')
+          }
+          imageStyle={style2}
+        />
       </View>
       <View
         style={{
@@ -52,22 +57,29 @@ export default function WinnerIcon({
           borderRadius: moderateScale(21 / 2),
           justifyContent: 'center',
           alignItems: 'center',
-        }}
-      >
+        }}>
         <TextAtom
           text={`${rank}`}
-          style={{ textAlign: 'center', fontWeight: '600',color:colorPresets.BLACK }}
+          style={{
+            textAlign: 'center',
+            fontWeight: '600',
+            color: colorPresets.BLACK,
+          }}
           preset="smallBold"
         />
       </View>
       <TextAtom
         text={name}
-        style={{ textAlign: 'center', fontWeight: '600', marginTop: mScale.sm }}
+        style={{textAlign: 'center', fontWeight: '600', marginTop: mScale.sm}}
         preset="titleBold"
       />
       <TextAtom
         text={`₹ ${winnerAmount}`}
-        style={{ textAlign: 'center', fontWeight: '600',color:colorPresets.SECONDARY }}
+        style={{
+          textAlign: 'center',
+          fontWeight: '600',
+          color: colorPresets.SECONDARY,
+        }}
         preset="smallBold"
       />
     </View>

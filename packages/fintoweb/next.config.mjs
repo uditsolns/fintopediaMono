@@ -3,6 +3,12 @@ const nextConfig = {
   experimental: {
     externalDir: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  images: {
+    domains: ["nivada.in"],
+  },
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),

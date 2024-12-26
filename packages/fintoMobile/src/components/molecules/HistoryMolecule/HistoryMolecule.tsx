@@ -4,9 +4,10 @@ import {commonStyle} from '@shared/src/commonStyle';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {colorPresets} from '@shared/src/theme/color';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {TransactionsResponse} from '@shared/src/utils/types/transactions';
 
-export default function HistoryMolecule({item}:{item:any}) {
+export default function HistoryMolecule({item}: {item: TransactionsResponse}) {
   return (
     <View style={[commonStyle.flexSpaceBetween, {width: '100%'}]}>
       <View
@@ -22,7 +23,7 @@ export default function HistoryMolecule({item}:{item:any}) {
           }}
         />
         <TextAtom
-          text={'Bajaj Finance Stock'}
+          text={item?.stock?.name}
           preset="smallBold"
           style={{fontWeight: '600', width: moderateScale(86)}}
           numberOfLines={2}
@@ -30,20 +31,38 @@ export default function HistoryMolecule({item}:{item:any}) {
       </View>
       <View style={[commonStyle.flexSpaceBetween, {width: '65%'}]}>
         <TextAtom
-          text={'20'}
+          text={`${item?.order_qty ? item?.order_qty : 0}`}
           preset="smallBold"
           style={{fontWeight: '500', width: moderateScale(50)}}
           numberOfLines={1}
         />
         <TextAtom
-          text={`₹ 1500`}
+          text={`₹ ${item?.total_price ? item?.total_price : 0}`}
           preset="smallBold"
           style={{fontWeight: '500', width: moderateScale(70)}}
           numberOfLines={1}
         />
         <View>
-          <View style={[styles.btn,{backgroundColor:true ? '#76D6514D' : '#FF4D004D'}]}>
-          <TextAtom text={true ? "Sell": "Buy"} preset='smallBold' style={{color:true ? '#76D651' : '#FF4D00'}}  />
+          <View
+            style={[
+              styles.btn,
+              {
+                backgroundColor:
+                  item?.order_type?.toLowerCase() == 'buy'
+                    ? '#76D6514D'
+                    : '#FF4D004D',
+              },
+            ]}>
+            <TextAtom
+              text={item?.order_type}
+              preset="smallBold"
+              style={{
+                color:
+                  item?.order_type?.toLowerCase() == 'buy'
+                    ? '#76D651'
+                    : '#FF4D00',
+              }}
+            />
           </View>
         </View>
       </View>

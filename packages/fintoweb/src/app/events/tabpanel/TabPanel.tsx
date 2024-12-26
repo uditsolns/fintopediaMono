@@ -6,6 +6,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import dynamic from "next/dynamic";
+import { EventPageProps } from "../page";
 
 // Dynamically import components with loading fallback
 const LatestNews = dynamic(() => import("./LatestNews"), {
@@ -35,7 +36,11 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
-
+interface BasicTabsProps {
+  gameId: number;
+  roundLevel: number;
+  roundId: number;
+}
 // TabPanel component
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -65,8 +70,11 @@ function a11yProps(index: number) {
   };
 }
 
-// Main BasicTabs component
-const BasicTabs: React.FC = () => {
+const BasicTabs: React.FC<BasicTabsProps> = ({
+  gameId,
+  roundLevel,
+  roundId,
+}) => {
   const [value, setValue] = React.useState<number>(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -98,16 +106,20 @@ const BasicTabs: React.FC = () => {
         <LatestNews />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Trade />
+        <Trade gameId={gameId} roundLevel={roundLevel} roundId={roundId} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Portfolio />
+        <Portfolio gameId={gameId} roundLevel={roundLevel} roundId={roundId} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <History />
+        <History gameId={gameId} roundLevel={roundLevel} roundId={roundId} />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <PreviousData />
+        <PreviousData
+          gameId={gameId}
+          roundLevel={roundLevel}
+          roundId={roundId}
+        />
       </TabPanel>
     </Box>
   );

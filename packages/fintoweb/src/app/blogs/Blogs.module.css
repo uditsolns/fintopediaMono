@@ -1,6 +1,10 @@
 .blogs {
+  background-image: url("../../assets/blogs/bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 80px;
-  background: var(
+
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -10,7 +14,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
 }
 .blogsHeader {
   border-radius: 24px;
@@ -118,8 +122,11 @@
   padding: 10px 100px;
 }
 .subscribeSection {
+  background-image: url("../../assets/blogs/Subscribe\ to\ our\ newsletter.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 80px 230px;
-  background: var(--BG-2, #222431);
+  /* background: var(--BG-2, #222431); */
 }
 .subscribeContent h1 {
   color: var(--Base-Base-White, #f4f5f5);
@@ -219,7 +226,6 @@
   }
   .subscribeSection {
     padding: 10px;
-   
   }
   .subscribeContent p {
     padding: 10px;

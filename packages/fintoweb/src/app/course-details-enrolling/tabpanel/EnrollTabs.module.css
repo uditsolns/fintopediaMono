@@ -39,7 +39,7 @@
   margin-bottom: 20px;
 }
 
-.notesPreview {
+/* .notesPreview {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -68,14 +68,69 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 24px; /* 150% */
+  line-height: 24px; 
+  letter-spacing: -0.15px;
+} */
+.notesSection {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.notesSection::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar for WebKit browsers */
+}
+
+.notesPreview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+.notesPreview div {
+  display: flex;
+}
+
+.notesPreview svg {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.notes {
+  padding: 17.523px 16px;
+  border-radius: 8.761px;
+  border: 1.46px solid var(--Border, #7a7fa2);
+  background: #222431;
+  color: var(--Base-Base-White, #fcfcfc);
+  font-feature-settings: "liga" off, "clig" off;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
   letter-spacing: -0.15px;
 }
+
 /*  Reviews  */
+.reviewsFormCard {
+  display: flex;
+  width: 100%;
+  height: 230px;
+  align-items: flex-start;
+  gap: 17.523px;
+  flex-shrink: 0;
+  border-radius: 8.761px;
+  border: 1.46px solid var(--Border, #7a7fa2);
+  background: #222431;
+}
 .buttonRow {
   height: 52px;
   border-top: 1px solid var(--Border, #7a7fa2);
   background: var(--BG-2, #222431);
+}
+.reviewsForm {
+  width: 100% !important;
 }
 /* .textfield {
   border-radius: 8.761px;
@@ -122,7 +177,17 @@
   background: #0d0f1c;
   backdrop-filter: blur(19.5px);
 }
-
+.seeMore {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.ratingFormgroup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
 .cardHeader {
   display: flex;
   justify-content: space-between;
@@ -246,19 +311,27 @@
   background: #222431;
   color: #fff;
 }
-
-.textfield::placeholder {
+.textareaField {
+  display: flex;
+  padding: 12px 22px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  border-radius: 6px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: #222431;
+  color: #fff;
+}
+.textfield::placeholder,
+.textareaField::placeholder {
   color: #7a7fa2;
 }
 
-.textfield:focus {
+.textfield:focus,
+.textareaField:focus {
   background-color: #2d303d;
   color: #fff;
   outline: none;
-}
-
-.textfield:focus::placeholder {
-  color: #7a7fa2;
 }
 
 .isInvalid {
@@ -347,6 +420,12 @@
   line-height: 22px; /* 137.5% */
   letter-spacing: -0.32px;
 }
+.uploadButton button:disabled {
+  background-color: #808388;
+  color: #090a0b;
+  border: 1px solid #808388;
+  cursor: not-allowed;
+}
 .fileSizeText {
   color: #808388;
   font-size: 16px;
@@ -388,7 +467,37 @@
 .uploadCardLeft svg {
   margin-right: 10px;
 }
-
+.textSmall span {
+  color: #717171;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.4px;
+}
+.browseLinkHover {
+  color: #717171;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.4px;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+}
+.textExtraSmall {
+  text-align: center;
+  color: #808388;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.32px;
+}
 .checkoutBtn {
   display: flex;
   width: 80px;
@@ -477,4 +586,79 @@
   font-weight: 500;
   line-height: normal;
   letter-spacing: -0.24px;
+}
+.resourceActionsBtn {
+  width: 40px;
+  height: 29px;
+  border-radius: 8px;
+  background: white;
+  color: #090a0b;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.24px;
+}
+
+@media screen and (max-width: 435px) {
+  .ratingFormgroup {
+    display: block;
+  }
+}
+/* upload Project */
+.container {
+  color: white;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  padding: 1rem;
+  position: relative;
+  border-radius: 12px;
+  border: 1px solid var(--Border, #7a7fa2);
+  background: var(--BG-2, #222431);
+}
+
+.statusBadge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.cardDate {
+  color: #a8a8a8;
+  font-size: 0.875rem;
+}
+
+.dropdownButton {
+  padding: 0;
+  color: white;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.dropdownItem:hover {
+  background-color: #343a40;
+  color: #fff;
 }

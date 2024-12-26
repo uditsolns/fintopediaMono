@@ -1,35 +1,28 @@
-import {useNavigation} from '@react-navigation/native';
+
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
-import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import {colorPresets} from '@shared/src/theme/color';
 import {mScale} from '@shared/src/theme/metrics';
 import {LinkButton} from '@src/components/Button/LinkButton';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
-import {InputAtom} from '@src/components/Input/InputAtom';
 import TextInputBox from '@src/components/Input/TextInputBox';
 import {RouteKeys} from '@src/navigation/RouteKeys';
+import { NavType } from '@src/navigation/types';
 import * as React from 'react';
 import {View} from 'react-native';
 
-interface TwoFAuthProps {}
+interface TwoFAuthProps extends NavType<'TwoFAuth'> {}
 
-export const TwoFAuth: React.FC<TwoFAuthProps> = ({}) => {
-  const navigation = useNavigation();
+export const TwoFAuth: React.FC<TwoFAuthProps> = ({navigation}) => {
   return (
     <GradientTemplate>
-      <HeaderLeftMolecule />
-
-      <ScrollViewAtom>
+      <ScrollViewAtom contentContainerStyle={{marginTop: mScale.xxl1}}>
         <View>
           <View style={{marginVertical: mScale.base, padding: mScale.md}}>
             <View style={{alignSelf: 'center'}}>
               <Images.SVG.TwoFAuthIcon />
-              {/* <ImageAtom sourceRequire={require('@shared/src/assets/img/lockIcon.png')} /> */}
             </View>
             <TextAtom
               text={`Two-Factor Authentication`}

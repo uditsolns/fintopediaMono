@@ -1,14 +1,100 @@
-.container {
+/* .container {
   margin: auto;
-  padding: 20px;
-  background: linear-gradient(
-    245.33deg,
-    #2d303d 0%,
-    #212330 28.6%,
-    #101320 65.15%,
-    #111521 78%,
-    #0d0f1b 100%
+  padding: 5px;
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
   );
+} */
+.signupLoginontainer {
+  background-image: url("../../../assets/auth/Login-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.loginHeading {
+  color: var(--Base-Base-White, #f4f5f5);
+  text-align: center;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+  padding: 20px;
+}
+.forgotLink {
+  color: #1d90f5;
+  font-size: 16px;
+  padding: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19px;
+  letter-spacing: -0.32px;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+}
+.loginForm {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.loginButton {
+  display: flex;
+  padding: 16px 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 7.765px;
+  align-self: stretch;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.18px;
+}
+.loginotpButton {
+  display: flex;
+  padding: 16px 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 7.765px;
+  align-self: stretch;
+  border-radius: 4px;
+  background: #222431;
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.18px;
+}
+.googleLoginButton {
+  padding: 16px 18px;
+  gap: 10.697px;
+  align-self: stretch;
+  border-radius: 4px;
+  border: 1.07px solid var(--Border, #7a7fa2);
+  background-color: transparent;
+}
+.guestButton {
+  display: flex;
+  padding: 16px 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 7.765px;
+  align-self: stretch;
+  border-radius: 4px;
+  background: #222431;
 }
 .textfield {
   height: 51px;
@@ -39,4 +125,3 @@
 .isInvalid {
   border-color: red;
 }
-

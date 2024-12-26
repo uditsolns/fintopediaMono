@@ -1,0 +1,103 @@
+.container {
+  min-height: 100vh;
+  padding: 50px;
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
+  color: #fff;
+}
+
+.heading {
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+  margin-left: 20px;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  margin: 15px;
+  border-radius: 12px;
+  border: 1px solid var(--BG, #2d303d);
+  background: var(--BG-2, #222431);
+}
+
+.cardBody {
+  padding: 1rem;
+}
+
+.image {
+  border-radius: 0.25rem;
+  width: 200px;
+  height: 120px;
+  cursor: pointer;
+}
+.title {
+  display: flex;
+  justify-content: space-between;
+  color: var(--CTA-1, #fff);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  cursor: pointer;
+
+}
+
+.courseTitle {
+  font-weight: 600;
+}
+
+.courseDetails {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 5px;
+}
+
+.textGray {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 120%;
+}
+
+.actions {
+  margin-top: 25px;
+  gap: 20px;
+  font-size: 0.875rem;
+}
+
+.saveLater {
+  color: #1d90f5;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.remove {
+  color: var(--Secondary-2-Secondary-2600, #f54900);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: underline;
+  margin-left: 15px;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .imageCol {
+    order: -1;
+  }
+  .price {
+    margin-top: 0.5rem;
+  }
+}

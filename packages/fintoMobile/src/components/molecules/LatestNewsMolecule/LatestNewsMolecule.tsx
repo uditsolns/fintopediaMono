@@ -1,14 +1,18 @@
-import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
+import {Pressable, StyleSheet, View, ViewStyle} from 'react-native';
 import * as React from 'react';
-import { mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { colorPresets } from '@shared/src/theme/color';
+import {mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {colorPresets} from '@shared/src/theme/color';
+import {NewsResponse} from '@shared/src/utils/types/news';
 interface LatestNewsMoleculeProps {
-  item: any; 
-  itemWidth?: boolean | string; 
+  item: NewsResponse;
+  itemWidth?: boolean | string;
 }
 
-export default function LatestNewsMolecule({ item, itemWidth }: LatestNewsMoleculeProps) {
+export default function LatestNewsMolecule({
+  item,
+  itemWidth,
+}: LatestNewsMoleculeProps) {
   return (
     <Pressable
       style={[
@@ -16,18 +20,17 @@ export default function LatestNewsMolecule({ item, itemWidth }: LatestNewsMolecu
         {
           width: itemWidth ? WINDOW_WIDTH * 0.5 : undefined,
         },
-      ]}
-    >
+      ]}>
       <View style={styles.content}>
         <TextAtom
-          text={'BSE Sensex recently hit a record high of 79,856'}
+          text={item?.name}
           preset="titleBold"
           style={styles.boldText}
         />
         <TextAtom
-          text="Build your financial through project-driven skills"
+          text={item?.description ? item?.description : ''}
           preset="medium"
-          style={[styles.boldText, { color: colorPresets.GRAY }]}
+          style={[styles.boldText, {color: colorPresets.GRAY}]}
           numberOfLines={3}
         />
       </View>
@@ -49,7 +52,7 @@ const styles = StyleSheet.create({
     padding: mScale.base,
   },
 
-  content: { flex: 1, paddingVertical: mScale.md },
+  content: {flex: 1, paddingVertical: mScale.md},
   boldText: {
     fontWeight: '600',
   },

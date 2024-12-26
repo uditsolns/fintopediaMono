@@ -1,37 +1,46 @@
-import { commonStyle } from '@shared/src/commonStyle';
-import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
+import {commonStyle} from '@shared/src/commonStyle';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { colorPresets } from '@shared/src/theme/color';
-import { moderateScale, mScale } from '@shared/src/theme/metrics';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {imageUrl} from '@shared/src/config/imageUrl';
+import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
+import {colorPresets} from '@shared/src/theme/color';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
+import {isInCart} from '@src/components/Calculate';
 import ProgressBar from '@src/components/ProgressBar';
 import RatingReview from '@src/components/RatingReview';
 import React from 'react';
-import { StyleSheet, View, ViewStyle, ImageStyle } from 'react-native';
-
+import {StyleSheet, View, ViewStyle, ImageStyle} from 'react-native';
 
 interface OngoingMoleculeProps {
-  item?: any;
+  item?: CoursesResponse;
   onPress?: () => void;
 }
 
-export default function CourseMolecule({ item, onPress }: OngoingMoleculeProps) {
+export default function CourseMolecule({item, onPress}: OngoingMoleculeProps) {
+  const {courseCart} = useAppSelector(state => state.courseCart);
   return (
     <View style={[commonStyle.flexStart, styles.container]}>
       <ImageAtom
-        sourceRequire={require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')}
+        sourceRequire={
+          item?.course_image
+            ? {uri: `${imageUrl}/uploads/course_images/${item?.course_image}`}
+            : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')
+        }
         imageStyle={styles.image}
+        resizeMode="stretch"
       />
       <View style={styles.content}>
         <TextAtom
-          text="Swing Trading Basics"
+          text={item?.name || ''}
           preset="titleBold"
           numberOfLines={3}
-          style={{ marginTop: mScale.md }}
+          style={{marginTop: mScale.md}}
         />
         <ProgressBar
-          level="intermediate"
-          hours={'20'}
+          level={item?.course_type?.toLowerCase() || 'intermediate'}
+          hours={item?.duration_time || ''}
           mv={mScale.md}
           textPreset="xSmall"
           imageStyle={{
@@ -39,10 +48,33 @@ export default function CourseMolecule({ item, onPress }: OngoingMoleculeProps) 
             height: mScale.md,
           }}
         />
-        <RatingReview rating={'4.6'} review={'1,000'} />
+        {item?.rating ? (
+          <RatingReview
+            rating={item?.rating || ''}
+            review={item?.reviews || ''}
+          />
+        ) : null}
+
         <View style={[commonStyle.flexSpaceBetween]}>
-          <TextAtom text={`₹ 2,555`} preset="titleBold" />
-          <ButtonAtom title='Add to cart'  />
+          <View style={[commonStyle.flexSpaceBetween]}>
+            <TextAtom text={`₹ ${item?.sale_price || 0}`} preset="titleBold" />
+            <TextAtom
+              style={{
+                paddingStart: mScale.xs,
+                textDecorationLine: 'line-through',
+                color: colorPresets.GRAY2,
+              }}
+              text={`₹ ${item?.actual_price || 0}`}
+              preset="xSmallBold"
+            />
+          </View>
+          <ButtonAtom
+            title={
+              isInCart(courseCart, item?.id!) ? 'Go to cart' : 'Add to cart'
+            }
+            textPreset="xSmallBold"
+            onPress={onPress}
+          />
         </View>
       </View>
     </View>

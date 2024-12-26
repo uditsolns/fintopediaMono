@@ -3,22 +3,25 @@ import {commonStyle} from '@shared/src/commonStyle';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import {mScale} from '@shared/src/theme/metrics';
+import {CouponCodeResponse} from '@shared/src/utils/types/coupon-code';
+import {formatDateMonth} from '@src/components/Calculate';
 import React from 'react';
 import {Pressable, StyleSheet, View, ViewStyle} from 'react-native';
 
 interface CouponMoleculeProps {
-  item?: any;
+  item?: CouponCodeResponse;
   onPress?: () => void;
 }
 
 export default function CouponMolecule({item, onPress}: CouponMoleculeProps) {
+  let formatDate = formatDateMonth(`${item?.expiry_date}`);
   return (
     <View style={[styles.container]}>
       <View style={styles.content}>
         <View style={[commonStyle.flexSpaceBetween]}>
           <Images.SVG.DiscountIcon />
           <TextAtom
-            text={`Valid till 30th July`}
+            text={`Valid till ${formatDate}`}
             preset="title"
             style={{fontWeight: '400'}}
             numberOfLines={2}
@@ -26,15 +29,15 @@ export default function CouponMolecule({item, onPress}: CouponMoleculeProps) {
         </View>
         <View style={{marginTop: mScale.base}}>
           <TextAtom
-            text={'Extra 10% Off'}
+            text={`Extra ${item?.discount} Off`}
             preset="heading3"
-            style={{fontWeight: '500',color:'#D5D5D9'}}
+            style={{fontWeight: '500', color: '#D5D5D9'}}
             numberOfLines={2}
           />
           <TextAtom
-            text={'On all finance courses'}
+            text={`On all ${item?.course?.name}`}
             preset="small"
-            style={{fontWeight: '400', marginTop: mScale.xs,color:'#A2A2A2'}}
+            style={{fontWeight: '400', marginTop: mScale.xs, color: '#A2A2A2'}}
             numberOfLines={2}
           />
         </View>
@@ -56,8 +59,15 @@ export default function CouponMolecule({item, onPress}: CouponMoleculeProps) {
               backgroundColor: '#222431',
             },
           ]}>
-          <TextAtom text="FIRST10" preset="heading3" />
+          <TextAtom
+            text={item?.discount_code}
+            preset="heading3"
+            style={{textTransform: 'uppercase'}}
+          />
+          <Pressable onPress={onPress}>
+
           <Images.SVG.CopyIcon />
+          </Pressable>
         </Pressable>
       </View>
     </View>
