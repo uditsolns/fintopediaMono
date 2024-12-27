@@ -15,6 +15,7 @@ import MockTradeTrade from './tabs/MockTradeTrade';
 import MockTradePortfolio from './tabs/MockTradePortfolio';
 import MockTradeHistory from './tabs/MockTradeHistory';
 import MockTradePreviousRoundPrice from './tabs/MockTradePreviousRoundPrice';
+import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
 
 type RouteParams = {
   tab?: number;
@@ -46,14 +47,15 @@ export const MockTrade: React.FC<MockTradeProps> = () => {
 
   return (
     <GradientTemplate style={{paddingBottom: 0}}>
-      <TabView
+      {/* <TabView
         navigationState={{index, routes}}
         renderTabBar={props => <TabMolecule {...props} />}
         renderScene={renderScene}
         onIndexChange={setIndex}
         initialLayout={{width: WINDOW_WIDTH}}
         lazy={true}
-      />
+      /> */}
+      <TextAtom text='Comming Soon' style={{textAlign:'center',paddingTop:50,fontSize:30}} />
     </GradientTemplate>
   );
 };
