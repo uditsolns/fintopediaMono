@@ -55,7 +55,7 @@ export const Coupon: React.FunctionComponent<CouponProps> = () => {
         onRefresh={onRefresh}
         ListHeaderComponent={
           <View>
-            <View
+            {/* <View
               style={[commonStyle.flexSpaceBetween, {marginTop: mScale.base}]}>
               <TextInput
                 placeholder="Enter promo code"
@@ -91,7 +91,7 @@ export const Coupon: React.FunctionComponent<CouponProps> = () => {
                   style={{color: colorPresets.BLACK}}
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
             <SeparatorAtom
               marginHorizontal={0}
               style={{marginVertical: mScale.lg2}}

@@ -46,7 +46,7 @@ export const ReferFriends: React.FC<ReferFriendsProps> = ({}) => {
             preset="primary"
           />
 
-          <View>
+          {/* <View>
             <ButtonAtom title={'Copy'} textPreset={'titleBold'} />
           </View>
           <View style={[commonStyle.flexCenter, {marginTop: mScale.lg2}]}>
@@ -59,7 +59,7 @@ export const ReferFriends: React.FC<ReferFriendsProps> = ({}) => {
             <Pressable style={{marginStart: mScale.md}}>
               <Images.SVG.LinkedIn2 />
             </Pressable>
-          </View>
+          </View> */}
         </View>
       </ScrollViewAtom>
     </GradientTemplate>

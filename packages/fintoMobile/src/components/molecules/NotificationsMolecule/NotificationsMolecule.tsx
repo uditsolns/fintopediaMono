@@ -55,13 +55,13 @@ export const NotificationsMolecule: React.FC<
             numberOfLines={2}
           />
         </View>
-        <TouchableOpacity style={{marginLeft: 10}}>
+        {/* <TouchableOpacity style={{marginLeft: 10}}>
           <TextAtom
             text={'Start Course'}
             style={[commonStyle.underline, {}]}
             preset="small"
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

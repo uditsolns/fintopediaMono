@@ -182,7 +182,7 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
               <TextAtom text={'Grand Total'} preset="heading3" />
               <TextAtom text={`₹ ${totalPay}`} preset="heading3" />
             </View>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={[commonStyle.flexEnd, {marginTop: mScale.base}]}>
               <Images.SVG.DownloadIcon />
               <TextAtom
@@ -193,7 +193,7 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
                   textDecorationLine: 'underline',
                 }}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={[{paddingVertical: mScale.base}]}>
             <Text style={{...fontPresets.title, color: colorPresets.CTA}}>

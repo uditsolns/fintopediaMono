@@ -130,7 +130,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                   alignItems: 'flex-end',
                   zIndex: 1,
                 }}>
-                <Images.SVG.ShareIcon />
+                {/* <Images.SVG.ShareIcon /> */}
               </View>
               {playVideoStart && video_url ? (
                 <>
@@ -209,10 +209,10 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                 />
               ) : null}
             </View>
-            <ButtonAtom
+            {/* <ButtonAtom
               title={`Course starts from  ₹ ${data?.sale_price}`}
               preset="fourthy"
-            />
+            /> */}
             <TextAtom
               text={'This course includes'}
               preset="heading3"

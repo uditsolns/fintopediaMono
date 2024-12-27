@@ -52,7 +52,7 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({}) => {
           />
         </View>
 
-        <View style={{marginTop: mScale.xxl}}>
+        {/* <View style={{marginTop: mScale.xxl}}>
           <ButtonAtom
             title={'Change Password'}
             preset={'primary'}
@@ -63,7 +63,7 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({}) => {
             preset={'tertiary'}
             textPreset={'titleBold'}
           />
-        </View>
+        </View> */}
       </ScrollViewAtom>
     </GradientTemplate>
   );

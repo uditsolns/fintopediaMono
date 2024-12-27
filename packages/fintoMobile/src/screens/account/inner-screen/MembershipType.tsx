@@ -52,13 +52,13 @@ export const MembershipType: React.FC<MembershipTypeProps> = ({}) => {
                 style={{color: '#D5D5D9'}}
               />
             </View>
-            <ButtonAtom title={'Upgrade'} textPreset={'smallBold'} />
+            {/* <ButtonAtom title={'Upgrade'} textPreset={'smallBold'} />
             <LinkButton
               text={'Cancel membership'}
               style={{marginVertical: mScale.base, alignSelf: 'center'}}
               preset="titleBold"
               linkColor={colorPresets.CTA}
-            />
+            /> */}
           </View>
           <View style={{marginVertical: mScale.base}}>
             <TextAtom text={'Membership plans available'} preset="heading3" />
@@ -115,7 +115,7 @@ export const MembershipType: React.FC<MembershipTypeProps> = ({}) => {
                   />
                 </View>
               </View>
-              <View
+              {/* <View
                 style={[commonStyle.flexStart, {marginVertical: mScale.base}]}>
                 <ButtonAtom title={'Upgrade'} textPreset={'titleBold'} />
                 <TouchableOpacity
@@ -128,7 +128,7 @@ export const MembershipType: React.FC<MembershipTypeProps> = ({}) => {
                     preset="title"
                   />
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View>
             <View style={styles.activePlanDetails}>
               <ImageAtom
@@ -185,7 +185,7 @@ export const MembershipType: React.FC<MembershipTypeProps> = ({}) => {
               </View>
               <View
                 style={[commonStyle.flexStart, {marginVertical: mScale.base}]}>
-                <ButtonAtom title={'Upgrade'} textPreset={'titleBold'} />
+                {/* <ButtonAtom title={'Upgrade'} textPreset={'titleBold'} />
                 <TouchableOpacity
                   style={[
                     {marginHorizontal: mScale.base, alignSelf: 'center'},
@@ -195,7 +195,7 @@ export const MembershipType: React.FC<MembershipTypeProps> = ({}) => {
                     style={styles.underLine}
                     preset="titleBold"
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
           </View>

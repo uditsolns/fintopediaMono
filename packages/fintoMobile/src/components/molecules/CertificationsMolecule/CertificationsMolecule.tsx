@@ -44,9 +44,9 @@ const CertificationsMolecule: React.FC<CertificationsMoleculeProps> = ({
           title={'stockmarketexpert/certificate 13655'}
           preset={'tertiary'}
         />
-        <View style={{marginTop: -mScale.sm}}>
+        {/* <View style={{marginTop: -mScale.sm}}>
           <ButtonAtom title={'Download certificate'} preset={'primary'} />
-        </View>
+        </View> */}
       </View>
     </View>
   );

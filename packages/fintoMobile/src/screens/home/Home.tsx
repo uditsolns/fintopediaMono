@@ -298,7 +298,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
               preset="medium"
               style={{textAlign: 'center', marginBottom: mScale.lg}}
             />
-            <ButtonAtom title="Attempt quiz" />
+            {/* <ButtonAtom title="Attempt quiz" /> */}
           </ImageBackground>
         </View>
         <View style={{marginVertical: mScale.xl}}>

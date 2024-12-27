@@ -136,13 +136,13 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
               autoCapitalize="none"
             />
           </View>
-          <LinkButton
+          {/* <LinkButton
             text="Forgot password?"
             style={{marginTop: mScale.xxl}}
             onPress={() => {
               navigation.navigate(RouteKeys.FORGOTPASSWORDSCREEN);
             }}
-          />
+          /> */}
           <View style={{marginTop: mScale.base}}>
             <ButtonAtom
               title="Login"
@@ -152,7 +152,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
               loading={loading.login}
             />
           </View>
-          <ButtonAtom
+          {/* <ButtonAtom
             title="Login with OTP"
             preset="secondary"
             onPress={() => {
@@ -167,7 +167,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
             preset="tertiary"
             onPress={userGogleLogin}
           />
-          <ButtonAtom title="Continue as guest" preset="secondary" />
+          <ButtonAtom title="Continue as guest" preset="secondary" /> */}
           <View style={[commonStyle.flexCenter, {marginTop: mScale.base}]}>
             <TextAtom text={`Don't have an account ? `} preset="medium" />
             <LinkButton
@@ -178,9 +178,9 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
               }}
             />
           </View>
-          <View style={{marginVertical: mScale.lg}}>
+          {/* <View style={{marginVertical: mScale.lg}}>
             <FollowUsMolecule />
-          </View>
+          </View> */}
         </View>
       </ScrollViewAtom>
     </GradientTemplate>

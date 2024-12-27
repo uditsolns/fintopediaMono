@@ -41,11 +41,11 @@ const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({item, onPress}) => {
           numberOfLines={2}
         />
         <HorizontalProgressBar progress={Number(item?.course_percentage)} />
-        <ButtonAtom
+        {/* <ButtonAtom
           title={'Continue learning'}
           preset="primary"
           onPress={onPress}
-        />
+        /> */}
       </View>
     </View>
   );
