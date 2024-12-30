@@ -32,9 +32,13 @@ import {
   deleteCourseCart,
   getCourseCart,
 } from '@shared/src/provider/store/services/CourseCart.service';
-import {createCoursesSaveLater} from '@shared/src/provider/store/services/coursesavelater.service';
+import {
+  createCoursesSaveLater,
+  getCoursesSaveLater,
+} from '@shared/src/provider/store/services/coursesavelater.service';
 import {CourseCartResponse} from '@shared/src/utils/types/CourseCart';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {Toast} from 'react-native-toast-notifications';
 
 interface CartProps extends NavType<'Cart'> {}
 
@@ -50,9 +54,8 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
     loading: courseCartLoading,
     create,
   } = useAppSelector(state => state.courseCart);
-  const {courses_save_later, loading} = useAppSelector(
-    state => state.coursesSaveLater,
-  );
+  const {courses_save_later, loading: courses_save_later_loading} =
+    useAppSelector(state => state.coursesSaveLater);
 
   const [refreshLoading, setRefreshLoading] = React.useState(false);
   const [subtotal, setSubtotal] = React.useState<number>(0);
@@ -80,10 +83,23 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
     setRefreshLoading(true);
     dispatch(getCourses());
     dispatch(getCourseCart());
+    dispatch(getCoursesSaveLater());
     setRefreshLoading(false);
   };
 
   const renderItem = ({item}: {item: CourseCartResponse}) => {
+    const onRemove = () => {
+      let id = Number(item?.id);
+      dispatch(
+        deleteCourseCart({
+          id,
+          onSuccess: data => {
+            dispatch(getCourseCart());
+          },
+          onError: err => {},
+        }),
+      );
+    };
     return (
       <CartMolecule
         item={item?.course}
@@ -92,7 +108,9 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
           if (
             courses_save_later?.some(el => el?.course_id == item?.course_id)
           ) {
-            Alert.alert('You have already added to save for later.');
+            Toast.show('You have already added to save for later.', {
+              type: 'success',
+            });
           }
           let params = {
             user_id: Number(auth?.user?.id),
@@ -103,24 +121,20 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             createCoursesSaveLater({
               params,
               onSuccess(data) {
-                console.log('createCoursesSaveLater');
+                console.log('on save for later');
+                Toast.show('Your course added to save for later.', {
+                  type: 'success',
+                });
+                onRemove();
               },
               onError(error) {},
             }),
           );
         }}
         onRemove={() => {
-          let id = Number(item?.id);
-          dispatch(
-            deleteCourseCart({
-              id,
-              onSuccess: data => {
-                console.log('delete cart');
-              },
-              onError: err => {},
-            }),
-          );
+          onRemove();
         }}
+        saveForLaterBoolean={true}
       />
     );
   };
@@ -163,7 +177,8 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
       {coursesLoading?.courses ||
       courseCartLoading?.courseCart ||
       courseCartLoading?.create ||
-      courseCartLoading?.delete ? (
+      courseCartLoading?.delete ||
+      courses_save_later_loading?.create ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>

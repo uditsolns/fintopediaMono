@@ -62,8 +62,7 @@ const MyCourse: React.FunctionComponent<MyCourseInterface> = () => {
         <FlatList
           data={
             user_course_history?.length
-              ? // ? user_course_history?.filter(el => el?.user_id == auth?.user?.id)
-                user_course_history
+              ? user_course_history?.filter(el => el?.user_id == auth?.user?.id)
               : []
           }
           renderItem={renderItem}

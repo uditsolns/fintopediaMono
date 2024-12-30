@@ -26,7 +26,7 @@ export default function CartMolecule({
   onRemove,
   saveForLaterBoolean = true,
 }: CartMoleculeProps) {
-  const {courses_save_later, loading} = useAppSelector(
+  const {courses_save_later} = useAppSelector(
     state => state.coursesSaveLater,
   );
 

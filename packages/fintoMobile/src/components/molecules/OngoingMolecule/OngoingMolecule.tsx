@@ -12,9 +12,14 @@ import {OngoingCoursesResponse} from '@shared/src/utils/types/ongoing-course';
 interface OngoingMoleculeProps {
   item: OngoingCoursesResponse;
   onPress?: () => void;
+  completionPercentage?: string | null;
 }
 
-const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({item, onPress}) => {
+const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({
+  item,
+  onPress,
+  completionPercentage,
+}) => {
   return (
     <View
       style={[
@@ -35,12 +40,12 @@ const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({item, onPress}) => {
       />
       <View style={styles.content}>
         <TextAtom
-          text={item?.courses_section?.section_heading || ''}
+          text={item?.course?.name || ''}
           preset="heading4"
           style={styles.boldText}
           numberOfLines={2}
         />
-        <HorizontalProgressBar progress={Number(item?.course_percentage)} />
+        <HorizontalProgressBar progress={Number(completionPercentage)} />
         <ButtonAtom
           title={'Continue learning'}
           preset="primary"

@@ -2,7 +2,7 @@ import {Platform, PermissionsAndroid, Alert} from 'react-native';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import Share from 'react-native-share';
 
-interface PdfProps {
+export interface PdfProps {
   mime: string | null;
   url: string | null;
   title: string | null;

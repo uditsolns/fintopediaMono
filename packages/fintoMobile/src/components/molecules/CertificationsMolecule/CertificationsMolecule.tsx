@@ -45,7 +45,7 @@ const CertificationsMolecule: React.FC<CertificationsMoleculeProps> = ({
           preset={'tertiary'}
         />
         <View style={{marginTop: -mScale.sm}}>
-          <ButtonAtom title={'Download certificate'} preset={'primary'} />
+          <ButtonAtom title={'Download certificate'} preset={'primary'} onPress={onPress} />
         </View>
       </View>
     </View>

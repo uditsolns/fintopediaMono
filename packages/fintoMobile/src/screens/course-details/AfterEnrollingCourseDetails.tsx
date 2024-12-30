@@ -71,11 +71,11 @@ export const AfterEnrollingCourseDetails: React.FC<
   const dispatch = useAppDispatch();
   const {auth} = useAppSelector(state => state.auth);
   const {
-    courses,
     singleCourse,
     video_url,
     loading: coursesLoading,
   } = useAppSelector(state => state.courses);
+  console.log("video_url",video_url)
   const [index, setIndex] = React.useState(route.params?.tab ?? 0);
   const [routes] = React.useState(CourseDetailsRouteKeys);
   const [width, setWidth] = React.useState(WINDOW_WIDTH);
@@ -99,6 +99,7 @@ export const AfterEnrollingCourseDetails: React.FC<
   );
 
   React.useEffect(() => {
+    console.log("-------------------------")
     setEmbedInfo(video_url);
   }, [video_url]);
 
@@ -265,8 +266,8 @@ export const AfterEnrollingCourseDetails: React.FC<
           />
         </View>
       </ScrollView>
-      {/* <View style={{marginVertical: mScale.xl}}>
-          <ViewAll title="Frequently Bought Together" visible={false} />
+      <View style={{marginVertical: mScale.xl}}>
+        {/* <ViewAll title="Frequently Bought Together" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
               data={
@@ -287,8 +288,8 @@ export const AfterEnrollingCourseDetails: React.FC<
               }}
               showsHorizontalScrollIndicator={false}
             />
-          </View>
-        </View> */}
+          </View> */}
+      </View>
     </GradientTemplate>
   );
 };
