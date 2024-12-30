@@ -11,11 +11,13 @@ import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
 interface OngoingMoleculeProps {
   course?: CoursesResponse;
+  completionPercentage: number;
   onClick?: () => void;
   loading?: boolean;
 }
 const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({
   course,
+  completionPercentage,
   onClick,
   loading = false,
 }) => {
@@ -41,9 +43,16 @@ const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({
         </div>
         <div className={styles.right}>
           <div className="space-y-2">
-            <h3 className={styles.title} onClick={handleNavigation}>{course.name}</h3>
-            <Progress value={10} className={styles.progress} />
-            <p className={styles.progressTitle}>10% complete</p>
+            <h3 className={styles.title} onClick={handleNavigation}>
+              {course.name}
+            </h3>
+            <Progress
+              value={completionPercentage}
+              className={styles.progress}
+            />
+            <p className={styles.progressTitle}>
+              {completionPercentage}% complete
+            </p>
           </div>
           <Button className={styles.continueButton} onClick={handleNavigation}>
             Continue learning

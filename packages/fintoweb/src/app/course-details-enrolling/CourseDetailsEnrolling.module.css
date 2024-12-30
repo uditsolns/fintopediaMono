@@ -25,9 +25,9 @@
   font-weight: 500;
   line-height: normal;
 }
-.progressSection svg {
+/* .progressSection svg {
   margin-right: 10px;
-}
+} */
 
 .shareButton {
   display: flex;

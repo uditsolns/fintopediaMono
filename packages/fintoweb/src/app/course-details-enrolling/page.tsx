@@ -24,6 +24,17 @@ import {
   getLikeCourse,
 } from "shared/src/provider/store/services/course-like.service";
 import { toast } from "react-toastify";
+import {
+  getOngoingCourseStatus,
+  updateOngoingCourseStatus,
+} from "shared/src/provider/store/services/ongoing-courses-status.service";
+import {
+  getOngoingCourse,
+  updateOngoingCourse,
+} from "shared/src/provider/store/services/ongoing-course.service";
+import { CircularProgress, Typography } from "@mui/material";
+import CourseProgress from "./CourseProgress";
+import { getCompletionPercentage } from "shared/src/provider/store/services/completion-percentage.service";
 
 interface CourseEnrollDetailsProps {
   id?: number;
@@ -35,6 +46,13 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     courses,
     loading: courseLoading,
   } = useAppSelector((state) => state.courses);
+  const { ongoing_courses_status, loading: ongoing_courses_status_loading } =
+    useAppSelector((state) => state.ongoingCourseStatus);
+  console.log("ongoing_courses_status", ongoing_courses_status);
+
+  const { ongoing_courses, loading: ongoing_courses_loading } = useAppSelector(
+    (state) => state.ongoingCourse
+  );
   const { auth } = useAppSelector((state) => state.auth);
   const { loading: course_notes_loading } = useAppSelector(
     (state) => state.courseNotes
@@ -48,6 +66,8 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   const { likeCourse, loading: likeCourseLoading } = useAppSelector(
     (state) => state.likeCourse
   );
+  const { completion_percentage, loading: completion_percentage_loading } =
+    useAppSelector((state) => state.completionPercentage);
   const isLiked = likeCourse?.some(
     (like) => like.course_id === singleCourse?.id
   );
@@ -69,6 +89,9 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     dispatch(getCourses());
     dispatch(getCourseUploadFile());
     dispatch(getLikeCourse());
+    dispatch(getOngoingCourseStatus());
+    dispatch(getOngoingCourse());
+    dispatch(getCompletionPercentage());
   }, [id, dispatch]);
 
   const [isAccordionOpen, setIsAccordionOpen] = useState(true);
@@ -94,9 +117,47 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     }
   }, [singleCourse]);
 
-  const handleSubsectionClick = (otp, playbackInfo) => {
+  const completion = Math.floor(
+    completion_percentage?.completion_data?.find(
+      (data) => data.course_id === singleCourse?.id
+    )?.completion_percentage || 0
+  );
+
+  const handleSubsectionClick = (
+    otp,
+    playbackInfo,
+    sectionId,
+    subsectionId,
+    ongoingId
+  ) => {
+    let params = {
+      id: ongoingId,
+      user_id: Number(auth?.user?.id),
+      course_id: Number(singleCourse?.id),
+      section_id: sectionId,
+      sub_section_id: subsectionId,
+      watching_status: "true",
+      course_percentage: "0",
+    };
+    if (ongoingId) {
+      dispatch(
+        updateOngoingCourse({
+          params,
+          onSuccess(data) {
+            console.log("data");
+            // toast.success("Course Updated Successfully !", {
+            //   position: "top-right",
+            //   theme: "light",
+            // });
+          },
+          onError(error) {},
+        })
+      );
+    }
+
     setVideoEmbedInfo({ otp, playbackInfo });
   };
+
   const handleSubmit = async () => {
     let params = {
       user_id: auth?.user?.id,
@@ -135,6 +196,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
       })
     );
   };
+
   return (
     <>
       {courseLoading.singleCourse ||
@@ -148,7 +210,10 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
       likeCourseLoading?.likeCourse ||
       likeCourseLoading?.create ||
       likeCourseLoading?.update ||
-      course_review_loading?.course_review ? (
+      ongoing_courses_status_loading?.ongoing_courses_status ||
+      ongoing_courses_loading?.ongoing_courses ||
+      course_review_loading?.course_review ||
+      completion_percentage_loading?.completion_percentage ? (
         <div className="fullPageLoading">
           <LoadingAtom
             style={{
@@ -163,7 +228,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
         <div className={styles.enrollHeader}>
           <h2>{singleCourse?.name}</h2>
           <div className={styles.progressSection}>
-            <svg
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -196,8 +261,10 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                   <stop offset="1" stopColor="white" />
                 </radialGradient>
               </defs>
-            </svg>
-            <span>Your progress (12%)</span>
+            </svg> */}
+
+            <CourseProgress progress={completion} />
+            <span>Your progress ({completion}%)</span>
 
             <ShareButton
               title={shareData.title}
@@ -281,16 +348,16 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                 {isAccordionOpen && (
                   <div className={styles.accordionContent}>
                     <div className={styles.accordion}>
-                      {singleCourse?.sections?.map((section, index) => (
-                        <div key={index} className={styles.item}>
+                      {singleCourse?.sections?.map((section, sectionIndex) => (
+                        <div key={sectionIndex} className={styles.item}>
                           <button
                             className={styles.accordionButton}
-                            onClick={() => handleToggle(index)}
+                            onClick={() => handleToggle(sectionIndex)}
                           >
                             <span className={styles.title}>
                               {section.section_heading}
                             </span>
-                            {openIndex === index ? (
+                            {openIndex === sectionIndex ? (
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="20"
@@ -318,74 +385,115 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                               </svg>
                             )}
                           </button>
-                          {openIndex === index && (
+                          {openIndex === sectionIndex && (
                             <div className={styles.content}>
                               <ul>
-                                {section.subsections?.map((subsection) => (
-                                  <li
-                                    key={subsection.id}
-                                    className={styles.listSubsection}
-                                    onClick={() =>
-                                      handleSubsectionClick(
-                                        subsection.sub_video_embed.otp,
-                                        subsection.sub_video_embed.playbackInfo
-                                      )
-                                    }
-                                  >
-                                    <div className={styles.subsectionContainer}>
-                                      {index === 1 ? (
-                                        <span className={styles.checkIcon}>
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="20"
-                                            height="20"
-                                            viewBox="0 0 20 20"
-                                            fill="none"
-                                          >
-                                            <path
-                                              d="M8.49956 12.3791L15.3936 5.48438L16.4548 6.54488L8.49956 14.5001L3.72656 9.72712L4.78706 8.66663L8.49956 12.3791Z"
-                                              fill="white"
-                                            />
-                                          </svg>
-                                        </span>
-                                      ) : (
-                                        <span
-                                          className={styles.uncheckIcon}
-                                        ></span>
-                                      )}
+                                {section.subsections?.map(
+                                  (subsection, subsectionIndex) => {
+                                    const ongoingCourse = ongoing_courses.find(
+                                      (course) =>
+                                        course.user_id === auth.user?.id &&
+                                        course.course_id === singleCourse.id &&
+                                        course.section_id === section.id &&
+                                        course.sub_section_id === subsection.id
+                                    );
+                                    console.log("ongoingCourse", ongoingCourse);
 
-                                      <div>
-                                        <p className={styles.subsectionHeading}>
-                                          {subsection.subsection_heading}
-                                        </p>
+                                    const ongoingId = ongoingCourse
+                                      ? ongoingCourse.id
+                                      : null;
+
+                                    console.log("ongoingId", ongoingId);
+                                    return (
+                                      <li
+                                        key={subsection.id}
+                                        className={styles.listSubsection}
+                                        onClick={() =>
+                                          handleSubsectionClick(
+                                            subsection.sub_video_embed.otp,
+                                            subsection.sub_video_embed
+                                              .playbackInfo,
+                                            section?.id,
+                                            subsection?.id,
+                                            ongoingId
+                                          )
+                                        }
+                                      >
                                         <div
-                                          className={
-                                            styles.subsectionTimeContainer
-                                          }
+                                          className={styles.subsectionContainer}
                                         >
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="16"
-                                            height="17"
-                                            viewBox="0 0 16 17"
-                                            fill="none"
-                                            className={styles.svgIcon}
-                                          >
-                                            <path
-                                              d="M9.9974 3.16732H3.9974V13.834H11.9974V5.16732H9.9974V3.16732ZM3.9974 1.83398H10.6641L13.3307 4.50065V13.834C13.3307 14.1876 13.1903 14.5267 12.9402 14.7768C12.6902 15.0268 12.351 15.1673 11.9974 15.1673H3.9974C3.64377 15.1673 3.30464 15.0268 3.05459 14.7768C2.80454 14.5267 2.66406 14.1876 2.66406 13.834V3.16732C2.66406 2.8137 2.80454 2.47456 3.05459 2.22451C3.30464 1.97446 3.64377 1.83398 3.9974 1.83398ZM5.33073 7.83398H10.6641V9.16732H5.33073V7.83398ZM5.33073 10.5007H10.6641V11.834H5.33073V10.5007Z"
-                                              fill="#6D6E6E"
-                                            />
-                                          </svg>
-                                          <span
-                                            className={styles.subsectionTime}
-                                          >
-                                            {subsection.subsection_time}
-                                          </span>
+                                          {ongoing_courses.some(
+                                            (course) =>
+                                              course.user_id ===
+                                                auth.user?.id &&
+                                              course.course_id ===
+                                                singleCourse.id &&
+                                              course.section_id ===
+                                                section.id &&
+                                              course.sub_section_id ===
+                                                subsection.id &&
+                                              course.watching_status === "true"
+                                          ) ? (
+                                            <span className={styles.checkIcon}>
+                                              <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 20 20"
+                                                fill="none"
+                                              >
+                                                <path
+                                                  d="M8.49956 12.3791L15.3936 5.48438L16.4548 6.54488L8.49956 14.5001L3.72656 9.72712L4.78706 8.66663L8.49956 12.3791Z"
+                                                  fill="white"
+                                                />
+                                              </svg>
+                                            </span>
+                                          ) : (
+                                            <span
+                                              className={styles.uncheckIcon}
+                                            ></span>
+                                          )}
+
+                                          <div>
+                                            <p
+                                              className={
+                                                styles.subsectionHeading
+                                              }
+                                            >
+                                              {subsection.subsection_heading}
+                                            </p>
+                                            <div
+                                              className={
+                                                styles.subsectionTimeContainer
+                                              }
+                                            >
+                                              <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="16"
+                                                height="17"
+                                                viewBox="0 0 16 17"
+                                                fill="none"
+                                                className={styles.svgIcon}
+                                              >
+                                                <path
+                                                  d="M9.9974 3.16732H3.9974V13.834H11.9974V5.16732H9.9974V3.16732ZM3.9974 1.83398H10.6641L13.3307 4.50065V13.834C13.3307 14.1876 13.1903 14.5267 12.9402 14.7768C12.6902 15.0268 12.351 15.1673 11.9974 15.1673H3.9974C3.64377 15.1673 3.30464 15.0268 3.05459 14.7768C2.80454 14.5267 2.66406 14.1876 2.66406 13.834V3.16732C2.66406 2.8137 2.80454 2.47456 3.05459 2.22451C3.30464 1.97446 3.64377 1.83398 3.9974 1.83398ZM5.33073 7.83398H10.6641V9.16732H5.33073V7.83398ZM5.33073 10.5007H10.6641V11.834H5.33073V10.5007Z"
+                                                  fill="#6D6E6E"
+                                                />
+                                              </svg>
+                                              <span
+                                                className={
+                                                  styles.subsectionTime
+                                                }
+                                              >
+                                                {subsection.subsection_time}
+                                              </span>
+                                            </div>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </div>
-                                  </li>
-                                ))}
+                                      </li>
+                                    );
+                                  }
+                                )}
                               </ul>
                             </div>
                           )}
