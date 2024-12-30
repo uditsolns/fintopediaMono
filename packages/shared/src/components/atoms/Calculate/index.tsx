@@ -50,38 +50,55 @@ export function formatDateMonthTime(isoString: string): string {
   const date = new Date(isoString);
   const day = date.getUTCDate();
   const monthNames = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
   const month = monthNames[date.getUTCMonth()];
-  const hours = String(date.getUTCHours()).padStart(2, '0');
-  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
 
   return `${day} ${month} ${hours}:${minutes}`;
 }
 
-export const ENVIRONMENT: string = false ? 'PRODUCTION' : 'SANDBOX';
-export const MERCHANT_ID: string = false
-  ? 'AURAHEALINGONLINE'
-  : 'AURAHONLINEUAT';
-export const SALT_KEY: string = false
-  ? '8fe7d793-540e-40df-87cf-8118912f40f7'
-  : 'c9170f9e-85bc-4055-8cec-812bf1b73f53';
-export const SALT_INDEX: number = 1;
-export const API_ENDPOINT: string = '/pg/v1/pay';
-export const PRODUCTION_HOST_URL: string = true
-  ? 'https://api.phonepe.com/apis/hermes'
-  : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
+// export const ENVIRONMENT: string = false ? 'PRODUCTION' : 'SANDBOX';
+// export const MERCHANT_ID: string = false
+//   ? 'AURAHEALINGONLINE'
+//   : 'AURAHONLINEUAT';
 
-export const REDIRECT_URL = 'https://aurahealing.in/';
-export const CALLBACK_URL = 'https://aurahealing.in/';
+// export const SALT_KEY: string = false
+//   ? '8fe7d793-540e-40df-87cf-8118912f40f7'
+//   : 'c9170f9e-85bc-4055-8cec-812bf1b73f53';
+// export const SALT_INDEX: number = 1;
+// export const API_ENDPOINT: string = '/pg/v1/pay';
+// export const PRODUCTION_HOST_URL: string = true
+//   ? 'https://api.phonepe.com/apis/hermes'
+//   : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
+
+// export const REDIRECT_URL = 'https://aurahealing.in/';
+// export const CALLBACK_URL = 'https://aurahealing.in/';
+
+export const ENVIRONMENT: string = false ? "PRODUCTION" : "SANDBOX";
+export const MERCHANT_ID: string = "PGTESTPAYUAT";
+
+export const SALT_KEY: string = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
+export const SALT_INDEX: number = 1;
+export const API_ENDPOINT: string = "/pg/v1/pay";
+
+
+
+export const PRODUCTION_HOST_URL: string = true
+  ? "https://api.phonepe.com/apis/hermes"
+  : "https://api-preprod.phonepe.com/apis/pg-sandbox";
+
+export const REDIRECT_URL = "https://aurahealing.in/";
+export const CALLBACK_URL = "https://aurahealing.in/";
