@@ -23,7 +23,7 @@ import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollView
 const options = [
   {label: 'Beginner', value: 'beginner'},
   {label: 'Intermediate', value: 'intermediate'},
-  {label: 'Pro', value: 'expert'},
+  {label: 'Expert', value: 'expert'},
 ];
 
 interface DontKnowWhereToStartProps extends NavType<'DontKnowWhereToStart'> {}

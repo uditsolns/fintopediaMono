@@ -1,3 +1,4 @@
+import {Images} from '@shared/src/assets';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
@@ -6,6 +7,7 @@ import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
+import ButtonIconAtom from '@src/components/Button/ButtonIconAtom';
 import {isInCart} from '@src/components/Calculate';
 import CoursePrice from '@src/components/CoursePrice';
 import ProgressBar from '@src/components/ProgressBar';
@@ -38,31 +40,42 @@ export default function PopularCourseMolecule({
           imageStyle={styles.image}
           resizeMode="contain"
         />
-        {/* <ButtonImageLeftAtom
-          sourceRequire={require('../../../assets/images/languages.png')}
-          preset={'smallBoldTitle'}
-          btnTitle={'ENGLISH'}
-          color={'#40474F'}
-          fontWeight={'600'}
-          style={{position: 'absolute', bottom: mScale.base, right: mScale.lg}}
-        /> */}
+        <ButtonIconAtom
+          btnTitle={`ENGLISH`}
+          preset="xSmallBold"
+          color={colorPresets.BLACK}
+          style={{
+            position: 'absolute',
+            bottom: mScale.base,
+            right: mScale.lg,
+            backgroundColor: colorPresets.CTA,
+            padding: mScale.md,
+            borderRadius: mScale.xs,
+          }}
+          ml={mScale.xs}
+          leftIcon={<Images.SVG.WorldIcon />}
+          textStyle={{paddingLeft: mScale.xs}}
+        />
       </View>
       <View style={styles.content}>
         <TextAtom text={item?.name} preset="heading2" />
-        <ProgressBar
-          level={
-            item?.course_type
-              ? item?.course_type?.toLowerCase()
-              : 'intermediate'
-          }
-          hours={36}
-        />
-        {item?.rating ? (
-          <RatingReview
-            rating={item?.rating || ''}
-            review={item?.reviews || ''}
+        <View>
+          <ProgressBar
+            level={
+              item?.course_type
+                ? item?.course_type?.toLowerCase()
+                : 'intermediate'
+            }
+            hours={36}
           />
-        ) : null}
+          {item?.rating ? (
+            <RatingReview
+              rating={item?.rating || ''}
+              review={item?.reviews || ''}
+              textStyle={{paddingTop:mScale.xs}}
+            />
+          ) : null}
+        </View>
         <CoursePrice
           price={item?.sale_price}
           discount_price={item?.actual_price}
@@ -72,7 +85,7 @@ export default function PopularCourseMolecule({
           onPress={onPress}
         />
       </View>
-    </Pressable> 
+    </Pressable>
   );
 }
 

@@ -14,6 +14,7 @@ import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import {imageUrl} from '@shared/src/config/imageUrl';
 import { OngoingCoursesResponse } from '@shared/src/utils/types/ongoing-course';
+import { OngoingCoursesStatusResponse } from '@shared/src/utils/types/ongoing-courses-status';
 
 interface ContinueLearningMoleculeProps {
   item: OngoingCoursesResponse;

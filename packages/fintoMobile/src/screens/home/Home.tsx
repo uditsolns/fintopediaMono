@@ -7,12 +7,14 @@ import {
   storeSingleCourse,
   storeVideoUrl,
 } from '@shared/src/provider/store/reducers/courses.reducer';
+import {storeSingleOngoingCourse} from '@shared/src/provider/store/reducers/ongoing.course.reducer';
 import {
   createCourseCart,
   getCourseCart,
 } from '@shared/src/provider/store/services/CourseCart.service';
 import {getCourses} from '@shared/src/provider/store/services/courses.service';
 import {getOngoingCourse} from '@shared/src/provider/store/services/ongoing-course.service';
+import {getOngoingCourseStatus} from '@shared/src/provider/store/services/ongoing-courses-status.service';
 import {getUserById} from '@shared/src/provider/store/services/user.service';
 import {
   useAppDispatch,
@@ -22,6 +24,7 @@ import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CategoriesResponse} from '@shared/src/utils/types/categories';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {OngoingCoursesResponse} from '@shared/src/utils/types/ongoing-course';
+import {OngoingCoursesStatusResponse} from '@shared/src/utils/types/ongoing-courses-status';
 import {UserCourseHistoryResponse} from '@shared/src/utils/types/UserCourseHistory';
 import {isInCart} from '@src/components/Calculate';
 import CarouselAtom from '@src/components/Carousel/CarouselAtom';
@@ -70,6 +73,8 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   const {ongoing_courses, loading: ongoing_courses_loading} = useAppSelector(
     state => state.ongoingCourse,
   );
+  const {ongoing_courses_status, loading: ongoingCourseStatusLoading} =
+    useAppSelector(state => state.ongoingCourseStatus);
   const [refreshLoading, setRefreshLoading] = React.useState(false);
 
   const [categoriesSelected, setCategoriesSelected] = React.useState<
@@ -93,6 +98,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     dispatch(getCourses());
     dispatch(getCourseCart());
     dispatch(getOngoingCourse());
+    dispatch(getOngoingCourseStatus());
     setRefreshLoading(false);
   };
 
@@ -105,17 +111,18 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   const continueLearningRenderItem = ({
     item,
   }: {
-    item: OngoingCoursesResponse;
+    item: OngoingCoursesStatusResponse;
   }) => {
     return (
       <ContinueLearningMolecule
-        item={item}
+        item={item?.ongoing}
         onPress={() => {
-          if (item?.course?.course_video_embed) {
-            dispatch(storeVideoUrl(item?.course?.course_video_embed));
-          }
+          // if (item?.course?.course_video_embed) {
+          //   dispatch(storeVideoUrl(item?.course?.course_video_embed));
+          // }
+          dispatch(storeSingleOngoingCourse(item?.ongoing));
           navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
-            id: item?.course_id,
+            id: item?.ongoing?.course_id,
           });
         }}
       />
@@ -206,7 +213,9 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
             <ViewAll title="Continue Learning" visible={false} />
             <View style={{paddingLeft: mScale.base}}>
               <FlatList
-                data={ongoing_courses?.length ? ongoing_courses : []}
+                data={
+                  ongoing_courses_status?.length ? ongoing_courses_status : []
+                }
                 renderItem={continueLearningRenderItem}
                 horizontal={true}
                 contentContainerStyle={{

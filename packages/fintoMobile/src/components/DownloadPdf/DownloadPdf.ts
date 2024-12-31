@@ -38,8 +38,8 @@ const pdfPermission = async ({
         {
           title: 'Storage Permission',
           message: 'This app needs access to your storage to download PDFs.',
-          buttonPositive: 'OK', // Mandatory for Android Rationale
-          buttonNegative: 'Cancel', // Optional but good practice
+          buttonPositive: 'OK',
+          buttonNegative: 'Cancel',
         },
       );
 
@@ -83,9 +83,9 @@ const downloadPDF = async ({
         notification: true,
         mime,
         description,
+        title
       },
     };
-
     const res = await ReactNativeBlobUtil.config(config).fetch(
       'GET',
       url || '',
@@ -107,7 +107,6 @@ const downloadPDF = async ({
         throw err;
       }
     } else {
-      console.log(title);
       const androidConfig = {fileCache: true};
 
       const res = await ReactNativeBlobUtil.config(androidConfig).fetch(

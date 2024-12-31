@@ -71,15 +71,14 @@ export const AfterEnrollingCourseDetails: React.FC<
   const dispatch = useAppDispatch();
   const {auth} = useAppSelector(state => state.auth);
   const {
+    courses,
     singleCourse,
     video_url,
     loading: coursesLoading,
   } = useAppSelector(state => state.courses);
-  console.log("video_url",video_url)
   const [index, setIndex] = React.useState(route.params?.tab ?? 0);
   const [routes] = React.useState(CourseDetailsRouteKeys);
   const [width, setWidth] = React.useState(WINDOW_WIDTH);
-  // const [height, setHeight] = React.useState(WINDOW_HEIGHT / 2);
   const [height2, setHeight2] = React.useState<string | number>(220);
   const [playVideoStart, setPlayVideoStart] = React.useState(false);
   const [embedInfo, setEmbedInfo] = React.useState<any>(video_url);
@@ -99,7 +98,6 @@ export const AfterEnrollingCourseDetails: React.FC<
   );
 
   React.useEffect(() => {
-    console.log("-------------------------")
     setEmbedInfo(video_url);
   }, [video_url]);
 
@@ -123,7 +121,7 @@ export const AfterEnrollingCourseDetails: React.FC<
     dispatch(getCourseReviews());
     Orientation.unlockAllOrientations();
     return () => {
-      // dispatch(clearVideoUrl());
+      dispatch(clearVideoUrl());
       Orientation.lockToPortrait();
     };
   }, []);
@@ -185,7 +183,7 @@ export const AfterEnrollingCourseDetails: React.FC<
             paddingVertical: mScale.lg,
             backgroundColor: '#060A18',
           }}>
-          <TextAtom text={`${singleCourse?.name}`} preset="heading2" />
+          <TextAtom text={`${singleCourse?.name|| 'Loading...'}`} preset="heading2" />
         </View>
         <View>
           <View
@@ -268,27 +266,26 @@ export const AfterEnrollingCourseDetails: React.FC<
       </ScrollView>
       <View style={{marginVertical: mScale.xl}}>
         {/* <ViewAll title="Frequently Bought Together" visible={false} />
-          <View style={{paddingLeft: mScale.base}}>
-            <FlatList
-              data={
-                courses?.length
-                  ? courses?.filter(
-                      el =>
-                        el?.category_id == data?.category_id &&
-                        el.id != data?.id,
-                    )
-                  : []
-              }
-              renderItem={innerCategoriesRenderItem}
-              horizontal={true}
-              contentContainerStyle={{
-                columnGap: 20,
-                flexGrow: 1,
-                paddingEnd: mScale.lg,
-              }}
-              showsHorizontalScrollIndicator={false}
-            />
-          </View> */}
+        <View style={{paddingLeft: mScale.base}}>
+          <FlatList
+            data={
+              courses?.length
+                ? courses?.filter(
+                    el =>
+                      el?.category_id == data?.category_id && el.id != data?.id,
+                  )
+                : []
+            }
+            renderItem={innerCategoriesRenderItem}
+            horizontal={true}
+            contentContainerStyle={{
+              columnGap: 20,
+              flexGrow: 1,
+              paddingEnd: mScale.lg,
+            }}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View> */}
       </View>
     </GradientTemplate>
   );

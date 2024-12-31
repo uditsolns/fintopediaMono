@@ -9,12 +9,14 @@ interface RatingReviewProps {
   rating?: number | string;
   review?: number | string;
   mb?: number | undefined;
+  textStyle?: TextStyle;
 }
 
 const RatingReview: React.FC<RatingReviewProps> = ({
   rating,
   review,
   mb = mScale.base,
+  textStyle,
 }) => {
   return (
     <View
@@ -22,11 +24,11 @@ const RatingReview: React.FC<RatingReviewProps> = ({
         commonStyle.flexSpaceBetween,
         {alignSelf: 'flex-start', flex: 1, marginBottom: mb},
       ]}>
-      <RatingAtom ratingTitle={`${rating || ""}`} preset="titleBold" />
+      <RatingAtom ratingTitle={`${rating || ''}`} preset="titleBold" />
       <TextAtom
         text={`(${review} reviews)`}
         preset="medium"
-        style={{marginStart: mScale.sm,color:'#71717A'} as TextStyle}
+        style={[{marginStart: mScale.sm, color: '#71717A'}, textStyle]}
       />
     </View>
   );

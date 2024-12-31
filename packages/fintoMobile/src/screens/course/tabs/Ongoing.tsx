@@ -28,7 +28,6 @@ const Ongoing: React.FunctionComponent<OngoingInterface> = () => {
   const {completion_percentage, loading: completion_percentage_loading} =
     useAppSelector(state => state.completionPercentage);
   const [refreshLoading, setRefreshLoading] = React.useState<boolean>(false);
-  console.log(ongoingCourseStatusLoading);
 
   React.useEffect(() => {
     onRefresh();
@@ -49,10 +48,10 @@ const Ongoing: React.FunctionComponent<OngoingInterface> = () => {
       <OngoingMolecule
         item={item?.ongoing}
         completionPercentage={complete_percentage || 0}
-        onPress={() => {
+        onPress={() => {          
           dispatch(storeSingleOngoingCourse(item?.ongoing));
           navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
-            id: item?.course?.id,
+            id: item?.ongoing?.course_id,
           });
         }}
       />

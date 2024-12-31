@@ -1,19 +1,21 @@
-import { commonStyle } from '@shared/src/commonStyle';
-import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { TextPresetType } from '@shared/src/components/atoms/Text/TextPresets';
-import { colorPresets } from '@shared/src/theme/color';
-import { moderateScale, mScale } from '@shared/src/theme/metrics';
+import {commonStyle} from '@shared/src/commonStyle';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {TextPresetType} from '@shared/src/components/atoms/Text/TextPresets';
+import {colorPresets} from '@shared/src/theme/color';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import React from 'react';
 import {StyleSheet, View, ViewStyle, TextStyle} from 'react-native';
+import ButtonIconAtom from './Button/ButtonIconAtom';
+import {Images} from '@shared/src/assets';
 
 interface ProgressBarProps {
-  level?: 'beginner' | 'intermediate' | 'expert' | string;
+  level?: 'beginner' | 'intermediate' | 'expert' | 'advanced' | string;
   hours?: number | string;
-  mv?:number | undefined,
-  textPreset?:TextPresetType,
-  imageStyle?:ViewStyle,
-  flex?:number
+  mv?: number | undefined;
+  textPreset?: TextPresetType;
+  imageStyle?: ViewStyle;
+  flex?: number;
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = ({
@@ -28,7 +30,12 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
     <View
       style={[
         commonStyle.flexSpaceBetween,
-        {alignSelf: 'flex-start', flex: flex, marginVertical: mv,alignItems:'flex-start',},
+        {
+          alignSelf: 'flex-start',
+          flex: flex,
+          marginVertical: mv,
+          alignItems: 'flex-start',
+        },
       ]}>
       <View
         style={[
@@ -41,7 +48,10 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
               styles.segment,
               (level === 'beginner' ||
                 level === 'intermediate' ||
-                level === 'expert') && {backgroundColor: colorPresets.PRIMARY},
+                level === 'expert' ||
+                level === 'advanced') && {
+                backgroundColor: colorPresets.PRIMARY,
+              },
               {borderTopLeftRadius: 8, borderBottomLeftRadius: 8},
             ]}
           />
@@ -50,7 +60,9 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
               styles.segment,
               {
                 backgroundColor:
-                  level === 'intermediate' || level === 'expert'
+                  level === 'intermediate' ||
+                  level === 'expert' ||
+                  level === 'advanced'
                     ? '#FFA11A'
                     : colorPresets.GRAY,
               },
@@ -61,7 +73,9 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
               styles.segment,
               {
                 backgroundColor:
-                  level === 'expert' ? colorPresets.PRIMARY : colorPresets.GRAY,
+                  level === 'expert' || level === 'advanced'
+                    ? 'red'
+                    : colorPresets.GRAY,
               },
               {borderTopRightRadius: 8, borderBottomRightRadius: 8},
             ]}
@@ -75,20 +89,19 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
           }
         />
       </View>
-      {/* <ButtonImageLeftAtom
-        sourceRequire={require('../../assets/images/clock.png')}
-        btnColor={'transparent'}
+      <ButtonIconAtom
         btnTitle={`${hours} hrs`}
-        color={colorPresets.WHITE}
-        preset={textPreset}
-        ml={mScale.xs}
+        preset="xSmallBold"
+        color={colorPresets.CTA}
         style={{
           paddingVertical: 0,
           paddingHorizontal: 0,
           marginStart: mScale.xs,
         }}
-        imageStyle={imageStyle}
-      /> */}
+        ml={mScale.xs}
+        leftIcon={<Images.SVG.Clock />}
+        textStyle={{paddingLeft:mScale.xs}}
+      />
     </View>
   );
 };

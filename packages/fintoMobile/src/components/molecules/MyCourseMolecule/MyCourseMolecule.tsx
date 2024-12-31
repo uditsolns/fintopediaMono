@@ -4,8 +4,8 @@ import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {imageUrl} from '@shared/src/config/imageUrl';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
-import { CoursesResponse } from '@shared/src/utils/types/courses';
-import { UserCourseHistoryResponse } from '@shared/src/utils/types/UserCourseHistory';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
+import {UserCourseHistoryResponse} from '@shared/src/utils/types/UserCourseHistory';
 import ProgressBar from '@src/components/ProgressBar';
 import RatingReview from '@src/components/RatingReview';
 import React from 'react';
@@ -52,14 +52,11 @@ export default function MyCourseMolecule({
           <RatingReview
             rating={item?.rating || ''}
             review={item?.reviews || ''}
+            textStyle={{paddingTop: mScale.xxs}}
           />
         ) : null}
 
-        <ButtonAtom
-          title={'Start course'}
-          preset="primary"
-          onPress={onPress}
-        />
+        <ButtonAtom title={'Start course'} preset="primary" onPress={onPress} />
       </View>
     </View>
   );

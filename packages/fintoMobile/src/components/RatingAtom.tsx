@@ -20,7 +20,7 @@ export const RatingAtom: React.FC<RatingAtomProps> = ({
       <TextAtom
         text={ratingTitle}
         preset={preset}
-        style={{marginStart: mScale.xs}}
+        style={{marginStart: mScale.xs,paddingTop:mScale.xxs}}
       />
     </View>
   );

@@ -13,9 +13,6 @@ import {Text, View} from 'react-native';
 interface ChangePasswordProps {}
 
 export const ChangePassword: React.FC<ChangePasswordProps> = ({}) => {
-  const [oldPassword, setOldPassword] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
   return (
     <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70)}}>
       {false ? (
