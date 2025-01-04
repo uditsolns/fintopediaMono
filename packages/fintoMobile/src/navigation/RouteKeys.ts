@@ -5,6 +5,7 @@ export const RouteKeys = {
   LOGINSCREEN: 'Login',
   SIGNUPSCREEN: 'Signup',
   FORGOTPASSWORDSCREEN: 'ForgotPassword',
+  FORGOTPASSWORDOTPSCREEN:"ForgotPasswordOTP",
   RESETPASSWORDSCREEN: 'ResetPassword',
   EMAILVERIFICATIONSCREEN: 'EmailVerification',
   TWOFACTORAUTHSCREEN: 'TwoFAuth',

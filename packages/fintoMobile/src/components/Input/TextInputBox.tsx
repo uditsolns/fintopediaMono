@@ -1,4 +1,3 @@
-import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import {TextPresets} from '@shared/src/components/atoms/Text/TextPresets';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
@@ -9,41 +8,78 @@ import {
   StyleSheet,
   ViewStyle,
   TextStyle,
-  TextInputProps,
 } from 'react-native';
 
 interface TextInputBoxProps {
   style?: ViewStyle;
   textInputStyle?: TextStyle;
   maxLength?: number;
+  onChange?: (values: string[]) => void;
 }
 
 const TextInputBox: React.FC<TextInputBoxProps> = ({
   style,
   textInputStyle,
   maxLength = 1,
+  onChange,
 }) => {
-  const renderTextInput = () => (
+  const [values, setValues] = React.useState<string[]>(Array(6).fill(''));
+  const inputRefs = React.useRef<(TextInput | null)[]>([]);
+
+  const handleInputChange = (index: number, value: string) => {
+    const newValues = [...values];
+    newValues[index] = value;
+    setValues(newValues);
+    if (onChange) {
+      onChange(newValues);
+    }
+    if (value.length === maxLength && index < inputRefs.current.length - 1) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyPress = (
+    index: number,
+    event: NativeSyntheticEvent<TextInputKeyPressEventData>
+  ) => {
+    if (event.nativeEvent.key === 'Backspace') {
+      const newValues = [...values];
+      if (values[index] === '' && index > 0) {
+        inputRefs.current[index - 1]?.focus();
+        newValues[index - 1] = ''; // Clear the previous input value
+      }
+      setValues(newValues);
+      if (onChange) {
+        onChange(newValues);
+      }
+    }
+  };
+
+  const renderTextInput = (index: number) => (
     <TextInput
+      key={index}
+      ref={(ref) => (inputRefs.current[index] = ref)}
       maxLength={maxLength}
       keyboardType="numeric"
       placeholderTextColor={colorPresets.CTA}
       style={[styles.textInput, textInputStyle]}
+      value={values[index]}
+      onChangeText={(value) => handleInputChange(index, value)}
+      onKeyPress={(event) => handleKeyPress(index, event)}
+      selectTextOnFocus={true}
     />
   );
 
   return (
     <View style={[styles.container, style]}>
-      {renderTextInput()}
-      {renderTextInput()}
-      {renderTextInput()}
+      {Array.from({ length: 3 }).map((_, i) => renderTextInput(i))}
       <View style={styles.divider} />
-      {renderTextInput()}
-      {renderTextInput()}
-      {renderTextInput()}
+      {Array.from({ length: 3 }).map((_, i) => renderTextInput(i + 3))}
     </View>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -69,7 +105,7 @@ const styles = StyleSheet.create({
   divider: {
     height: 2,
     width: 5,
-    backgroundColor: '#fff',
+    backgroundColor: colorPresets.CTA,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',

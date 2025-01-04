@@ -1,15 +1,14 @@
 import { useFormik } from "formik";
-import { AuthParams, ForgotPasswordParams } from "../../../utils/types/auth";
+import { ForgotPasswordParams } from "../../../utils/types/auth";
 import { FORGOT_VALUES, forgotValidation } from "./forgotModel";
 import { useAppDispatch } from "../../../provider/store/types/storeTypes";
-import { forgotPassword, signIn } from "../../../provider/store/services/auth.service";
+import { forgotPassword, } from "../../../provider/store/services/auth.service";
 import { InputAtomProps } from "../../atoms/Input/InputAtom";
 
 export const useForgotHelper = () => {
   type dataType = keyof typeof FORGOT_VALUES;
 
   const dispatch = useAppDispatch();
-
   const forgotFormik = useFormik({
     initialValues: FORGOT_VALUES,
     validationSchema: forgotValidation,

@@ -44,7 +44,6 @@ const authSlice = createSlice({
       return initialState;
     },
     storeCurrentUser: (state, action) => {
-      console.log("store current action payload", action.payload);
       state.current_user = action.payload;
     },
   },
@@ -110,7 +109,6 @@ const authSlice = createSlice({
         state.loading.confirm = false;
         state.err.confirmErr = action?.payload;
       })
-      // VerifyOtp
       .addCase(VerifyOtp.pending, (state) => {
         state.loading.verifyOtp = true;
       })

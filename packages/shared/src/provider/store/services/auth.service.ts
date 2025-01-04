@@ -6,14 +6,16 @@ import {
   AuthResponse,
   ForgotPasswordParams,
   ForgotPasswordResponse,
+  OnSuccessInterface,
   SignupParams,
+  UpdatePasswordParameter,
   UpdatePasswordParams,
   UpdatePasswordResponse,
   UserInfo,
   VerifyOtpParams,
   VerifyOtpResponse,
 } from "../../../utils/types/auth";
-import { storeCurrentUser, logout } from "../reducers/auth.reducer"; 
+import { storeCurrentUser, logout } from "../reducers/auth.reducer";
 
 export const signIn = createAsyncThunk<
   AuthResponse,
@@ -91,7 +93,7 @@ export const forgotPassword = createAsyncThunk<
         "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
-    }); 
+    });
 
     const data = (await response.json()) as ForgotPasswordResponse;
 
@@ -103,9 +105,9 @@ export const forgotPassword = createAsyncThunk<
 
 export const confirmPassword = createAsyncThunk<
   UpdatePasswordResponse,
-  UpdatePasswordParams,
+  UpdatePasswordParameter & OnSuccessInterface,
   { state: RootState }
->("auth/confirm", async (params, thunkApi) => {
+>("auth/confirm", async ({ params, onSuccess }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
@@ -119,7 +121,7 @@ export const confirmPassword = createAsyncThunk<
     });
 
     const data = (await response.json()) as UpdatePasswordResponse;
-    console.log("data---------", data);
+    onSuccess(data);
     if (data?.code === 200) {
       thunkApi.dispatch(logout());
     }
@@ -134,6 +136,7 @@ export const VerifyOtp = createAsyncThunk<
   VerifyOtpParams,
   { state: RootState }
 >("auth/verifyOtp", async (params, thunkApi) => {
+  console.log("body", params);
   try {
     const response = await fetch(apiUrl.AUTH.VERIFYOTP, {
       method: "POST",

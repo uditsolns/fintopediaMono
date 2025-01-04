@@ -2,6 +2,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {imageUrl} from '@shared/src/config/imageUrl';
 import {
@@ -16,10 +17,12 @@ import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale, WINDOW_HEIGHT} from '@shared/src/theme/metrics';
 import {fontPresets} from '@shared/src/theme/typography';
 import {CourseUploadFileResponse} from '@shared/src/utils/types/course-upload-file';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {ImageType} from '@shared/src/utils/types/main';
 import {pdfPermission} from '@src/components/DownloadPdf/DownloadPdf';
 import LoaderAtom from '@src/components/LoaderAtom';
 import PdfMolecule from '@src/components/molecules/PdfMolecule/PdfMolecule';
+import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import {DeletePopup} from '@src/components/Popup/DeletePopup';
 import {PopupUpload} from '@src/components/Popup/PopupUpload';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
@@ -36,9 +39,11 @@ export const UploadProject: React.FunctionComponent<UploadProjectProps> = ({
   const dispatch = useAppDispatch();
   const navigation = useNavigation<any>();
   const {auth} = useAppSelector(state => state.auth);
-  const {singleCourse, loading: coursesLoading} = useAppSelector(
-    state => state.courses,
-  );
+  const {
+    courses,
+    singleCourse,
+    loading: coursesLoading,
+  } = useAppSelector(state => state.courses);
   const {upload_file, loading: upload_file_loading} = useAppSelector(
     state => state.courseUploadFile,
   );
@@ -69,9 +74,11 @@ export const UploadProject: React.FunctionComponent<UploadProjectProps> = ({
     );
   };
 
+  const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
+    return <PopularCourseMolecule item={item} />;
+  };
   return (
     <View
-      onLayout={onLayout}
       style={{
         flex: 1,
         flexGrow: 1,
@@ -85,7 +92,7 @@ export const UploadProject: React.FunctionComponent<UploadProjectProps> = ({
       upload_file_loading?.upload_file ? (
         <LoaderAtom size="large" />
       ) : null}
-      <View>
+      <ScrollViewAtom>
         <View>
           <TextAtom text={'Upload Project'} preset="heading4" />
           <TextAtom
@@ -151,12 +158,13 @@ export const UploadProject: React.FunctionComponent<UploadProjectProps> = ({
         </View>
         <View style={{marginVertical: mScale.base}}>
           <View style={{marginStart: -mScale.md2}}>
-            {upload_file?.length ? (
+            {upload_file?.filter(el => el?.course_id == singleCourse?.id)
+              ?.length ? (
               <ViewAll title="Previously Uploaded Projects" visible={false} />
             ) : null}
           </View>
           {upload_file?.length ? (
-            <View style={{marginVertical: mScale.base, height: WINDOW_HEIGHT}}>
+            <View style={{marginVertical: mScale.base}}>
               <FlatList
                 data={upload_file?.filter(
                   el => el?.course_id == singleCourse?.id,
@@ -164,7 +172,7 @@ export const UploadProject: React.FunctionComponent<UploadProjectProps> = ({
                 renderItem={renderItem}
                 contentContainerStyle={{
                   rowGap: mScale.base,
-                  paddingBottom: moderateScale(WINDOW_HEIGHT * 0.6),
+                  // paddingBottom: moderateScale(WINDOW_HEIGHT * 0.6),
                   zIndex: 1,
                 }}
                 showsVerticalScrollIndicator={false}
@@ -231,7 +239,35 @@ export const UploadProject: React.FunctionComponent<UploadProjectProps> = ({
             );
           }}
         />
-      </View>
+        <View style={{marginVertical: mScale.xl}}>
+          <ViewAll
+            title="Frequently Bought Together"
+            visible={false}
+            paddingHorizontal={0}
+          />
+          <View>
+            <FlatList
+              data={
+                courses?.length
+                  ? courses?.filter(
+                      el =>
+                        el?.category_id == data?.category_id &&
+                        el.id != data?.id,
+                    )
+                  : []
+              }
+              renderItem={innerCategoriesRenderItem}
+              horizontal={true}
+              contentContainerStyle={{
+                columnGap: 20,
+                flexGrow: 1,
+                paddingEnd: mScale.lg,
+              }}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </View>
+      </ScrollViewAtom>
     </View>
   );
 };

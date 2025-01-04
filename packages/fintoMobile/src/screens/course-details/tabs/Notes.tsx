@@ -7,7 +7,7 @@ import {
   useAppSelector,
 } from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
-import {moderateScale, mScale, WINDOW_HEIGHT} from '@shared/src/theme/metrics';
+import {mScale} from '@shared/src/theme/metrics';
 import {
   CourseNotesFields,
   CourseNotesResponse,
@@ -30,6 +30,10 @@ import {
   deleteCourseNotes,
   updateCourseNotes,
 } from '@shared/src/provider/store/services/course-note.service';
+import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ViewAll} from '@src/components/ViewAll/ViewAll';
 
 interface NotesProps {
   onLayout: (event: LayoutChangeEvent) => void;
@@ -38,9 +42,11 @@ interface NotesProps {
 export const Notes: React.FunctionComponent<NotesProps> = ({onLayout}) => {
   const dispatch = useAppDispatch();
   const {auth} = useAppSelector(state => state.auth);
-  const {singleCourse, loading: coursesLoading} = useAppSelector(
-    state => state.courses,
-  );
+  const {
+    courses,
+    singleCourse,
+    loading: coursesLoading,
+  } = useAppSelector(state => state.courses);
   const {course_notes, loading: course_notes_loading} = useAppSelector(
     state => state.courseNotes,
   );
@@ -54,8 +60,12 @@ export const Notes: React.FunctionComponent<NotesProps> = ({onLayout}) => {
   const [selectedNote, setSelectedNote] =
     React.useState<CourseNotesResponse | null>(null);
 
+  const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
+    return <PopularCourseMolecule item={item} />;
+  };
+
   return (
-    <View onLayout={onLayout} style={{flex: 1, padding: mScale.base}}>
+    <View style={{flex: 1, padding: mScale.base}}>
       {coursesLoading.singleCourse ||
       coursesLoading.courses ||
       course_notes_loading.create ||
@@ -64,7 +74,7 @@ export const Notes: React.FunctionComponent<NotesProps> = ({onLayout}) => {
       course_notes_loading.delete ? (
         <LoaderAtom size="large" />
       ) : null}
-      <View>
+      <ScrollViewAtom>
         <MultilineTextInputAtom
           placeholderTitle="Add a note at 0.15"
           onCancel={() => {
@@ -105,7 +115,6 @@ export const Notes: React.FunctionComponent<NotesProps> = ({onLayout}) => {
           value={notes}
           onChangeText={setNotes}
         />
-
         {course_notes?.length ? (
           <FlatList
             data={
@@ -199,13 +208,41 @@ export const Notes: React.FunctionComponent<NotesProps> = ({onLayout}) => {
             }}
             contentContainerStyle={{
               rowGap: mScale.base,
-              paddingBottom: moderateScale(WINDOW_HEIGHT * 0.5),
+              // paddingBottom: moderateScale(WINDOW_HEIGHT * 0.5),
             }}
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled={true}
           />
         ) : null}
-      </View>
+        <View style={{marginVertical: mScale.xl}}>
+          <ViewAll
+            title="Frequently Bought Together"
+            visible={false}
+            paddingHorizontal={0}
+          />
+          <View>
+            <FlatList
+              data={
+                courses?.length
+                  ? courses?.filter(
+                      el =>
+                        el?.category_id == data?.category_id &&
+                        el.id != data?.id,
+                    )
+                  : []
+              }
+              renderItem={innerCategoriesRenderItem}
+              horizontal={true}
+              contentContainerStyle={{
+                columnGap: 20,
+                flexGrow: 1,
+                paddingEnd: mScale.lg,
+              }}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </View>
+      </ScrollViewAtom>
     </View>
   );
 };

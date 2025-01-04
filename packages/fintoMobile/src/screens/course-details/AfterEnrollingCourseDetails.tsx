@@ -167,11 +167,7 @@ export const AfterEnrollingCourseDetails: React.FC<
     }
   };
 
-  const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
-    return <PopularCourseMolecule item={item} />;
-  };
-
-  return (
+   return (
     <GradientTemplate
       style={{paddingHorizontal: 0, paddingTop: moderateScale(60)}}>
       <ScrollView
@@ -183,7 +179,10 @@ export const AfterEnrollingCourseDetails: React.FC<
             paddingVertical: mScale.lg,
             backgroundColor: '#060A18',
           }}>
-          <TextAtom text={`${singleCourse?.name|| 'Loading...'}`} preset="heading2" />
+          <TextAtom
+            text={`${singleCourse?.name || 'Loading...'}`}
+            preset="heading2"
+          />
         </View>
         <View>
           <View
@@ -264,29 +263,6 @@ export const AfterEnrollingCourseDetails: React.FC<
           />
         </View>
       </ScrollView>
-      <View style={{marginVertical: mScale.xl}}>
-        {/* <ViewAll title="Frequently Bought Together" visible={false} />
-        <View style={{paddingLeft: mScale.base}}>
-          <FlatList
-            data={
-              courses?.length
-                ? courses?.filter(
-                    el =>
-                      el?.category_id == data?.category_id && el.id != data?.id,
-                  )
-                : []
-            }
-            renderItem={innerCategoriesRenderItem}
-            horizontal={true}
-            contentContainerStyle={{
-              columnGap: 20,
-              flexGrow: 1,
-              paddingEnd: mScale.lg,
-            }}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View> */}
-      </View>
     </GradientTemplate>
   );
 };

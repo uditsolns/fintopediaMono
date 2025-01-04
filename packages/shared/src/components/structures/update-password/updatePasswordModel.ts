@@ -7,12 +7,6 @@ type UpdatePasswordField = Pick<
 >;
 
 export const updatePasswordField: UpdatePasswordField = {
-  // old_password: {
-  //   name: "old_password",
-  //   label: "Old Password",
-  //   placeHolder: "Enter your old password",
-  //   requiredErr: "Old password is required",
-  // },
   user_id: {
     name: "user_id",
     label: "User ID",
@@ -38,22 +32,19 @@ export type UpdatePasswordValues = {
 };
 
 export const UPDATE_PASSWORD_VALUES = {
-  // [updatePasswordField.old_password.name]: "",
+  [updatePasswordField.user_id.name]: "",
   [updatePasswordField.new_password.name]: "",
   [updatePasswordField.new_password_confirmation.name]: "",
 };
 
 export const updatePasswordValidation = Yup.object().shape({
-  // [updatePasswordField.old_password.name]: Yup.string().required(
-  //   `${updatePasswordField.old_password.requiredErr}`
-  // ),
   [updatePasswordField.new_password.name]: Yup.string()
     .min(8, "Password must be at least 8 characters")
     .required(`${updatePasswordField.new_password.requiredErr}`),
   [updatePasswordField.new_password_confirmation.name]: Yup.string()
     .required(`${updatePasswordField.new_password_confirmation.requiredErr}`)
     .oneOf(
-      [Yup.ref(`${updatePasswordField.new_password_confirmation.name}`), ""],
+      [Yup.ref(`${updatePasswordField.new_password.name}`), ""],
       "Passwords must match"
     ),
  

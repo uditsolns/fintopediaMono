@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
 import { useAppDispatch } from "../../../provider/store/types/storeTypes";
-import {  VerifyOtp } from "../../../provider/store/services/auth.service";
+import { VerifyOtp } from "../../../provider/store/services/auth.service";
 import { InputAtomProps } from "../../atoms/Input/InputAtom";
 import { RESET_VALUES, resetValidation } from "./reset.passwordModel";
-import {  VerifyOtpParams } from "../../../utils/types/auth";
+import { VerifyOtpParams } from "../../../utils/types/auth";
 
 export const useResetPasswordHelper = () => {
   type dataType = keyof typeof RESET_VALUES;
@@ -21,9 +21,9 @@ export const useResetPasswordHelper = () => {
         new_password_confirmation: values.new_password_confirmation,
       };
       dispatch(VerifyOtp(data));
-      resetFormik.resetForm()
-    }, 
-  }); 
+      resetFormik.resetForm();
+    },
+  });
 
   const { setFieldTouched, values, touched, errors, handleChange } =
     resetFormik;

@@ -9,21 +9,23 @@ interface LinkButtonProps {
   linkColor?: string;
   preset?: TextPresetType;
   onPress?: () => void;
+  loading?: boolean;
 }
 export const LinkButton: React.FC<LinkButtonProps> = ({
   text,
   style,
   linkColor = colorPresets.PRIMARY,
   preset = 'title',
+  loading = false,
   onPress,
   ...rest
 }) => {
   return (
-    <Pressable style={[style, {zIndex: 1}]} {...rest} onPress={onPress}>
+    <Pressable style={[style, {zIndex: 1}]} {...rest} onPress={onPress} disabled={loading}>
       <TextAtom
         text={text}
         preset={preset}
-        style={{textDecorationLine: 'underline',color:linkColor}}
+        style={{textDecorationLine: 'underline', color: linkColor}}
       />
     </Pressable>
   );

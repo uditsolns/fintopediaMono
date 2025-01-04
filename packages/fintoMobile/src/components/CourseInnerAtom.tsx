@@ -92,23 +92,23 @@ export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
         <FlatList
           data={item?.subsections}
           renderItem={({item}) => {
-            const ongoingCourse = ongoing_courses.find(
+            const ongoingCourse = ongoing_courses?.find(
               el =>
-                el?.user_id === auth.user?.id &&
-                el?.course_id === singleCourse.id &&
+                el?.user_id === auth?.user?.id &&
+                el?.course_id === singleCourse?.id &&
                 el?.section_id === section_id &&
                 el?.sub_section_id === item?.id,
             );
+
             const ongoingId = ongoingCourse?.id || null;
-            const check_icon_course_section = ongoing_courses.some(
+            const check_icon_course_section = ongoing_courses?.some(
               e2 =>
-                e2?.user_id === auth.user?.id &&
-                e2?.course_id === singleCourse.id &&
+                e2?.user_id === auth?.user?.id &&
+                e2?.course_id === singleCourse?.id &&
                 e2?.section_id === section_id &&
                 e2?.sub_section_id === item?.id &&
                 e2?.watching_status === 'true',
             );
-
             return (
               <LessonItem
                 el={item}
@@ -126,7 +126,12 @@ export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
                     dispatch(
                       updateOngoingCourse({
                         params,
-                        onSuccess(data) {},
+                        onSuccess(data) {
+                          console.log(
+                            'succes of update ongoing copurses',
+                            data,
+                          );
+                        },
                         onError(error) {},
                       }),
                     );

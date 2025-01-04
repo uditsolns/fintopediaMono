@@ -93,9 +93,9 @@ export const getContactSupportById = createAsyncThunk<
 // );
 export const createContactSupport = createAsyncThunk<
   ContactResponse,
-  ContactParams,
+  ContactParams & OnSuccessInterface,
   { state: RootState }
->("createContactSupport/post", async (params, thunkApi) => {
+>("createContactSupport/post", async ({params,onSuccess}, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
@@ -111,7 +111,6 @@ export const createContactSupport = createAsyncThunk<
     const data = (await response.json()) as ContactResponse;
     thunkApi.dispatch(clearContact());
     thunkApi.dispatch(getContactSupport());
-
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);

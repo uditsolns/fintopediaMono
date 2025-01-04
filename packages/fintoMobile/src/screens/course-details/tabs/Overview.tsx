@@ -1,11 +1,15 @@
 import {useRoute} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
+import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import SeparatorAtom from '@src/components/SeperatorAtom';
+import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import React from 'react';
-import {LayoutChangeEvent, View} from 'react-native';
+import {FlatList, LayoutChangeEvent, ScrollView, View} from 'react-native';
 
 interface OverviewProps {
   onLayout: (event: LayoutChangeEvent) => void;
@@ -22,9 +26,14 @@ export const Overview: React.FunctionComponent<OverviewProps> = ({
   let route = useRoute<any>();
   const {course, id} = route.params || {};
   const data = singleCourse ? singleCourse : course;
+
+  const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
+    return <PopularCourseMolecule item={item} />;
+  };
+
   return (
-    <View onLayout={onLayout} style={{flex: 1, padding: mScale.base}}>
-      <View>
+    <View style={{flex: 1, padding: mScale.base}}>
+      <ScrollViewAtom>
         <View style={{marginBottom: mScale.base}}>
           <TextAtom text={'About this course'} preset="heading3" />
           <View style={{marginTop: mScale.xs}}>
@@ -112,7 +121,35 @@ export const Overview: React.FunctionComponent<OverviewProps> = ({
             />
           </View>
         </View>
-      </View>
+        <View style={{marginVertical: mScale.xl}}>
+          <ViewAll
+            title="Frequently Bought Together"
+            visible={false}
+            paddingHorizontal={0}
+          />
+          <View>
+            <FlatList
+              data={
+                courses?.length
+                  ? courses?.filter(
+                      el =>
+                        el?.category_id == data?.category_id &&
+                        el.id != data?.id,
+                    )
+                  : []
+              }
+              renderItem={innerCategoriesRenderItem}
+              horizontal={true}
+              contentContainerStyle={{
+                columnGap: 20,
+                flexGrow: 1,
+                paddingEnd: mScale.lg,
+              }}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </View>
+      </ScrollViewAtom>
     </View>
   );
 };

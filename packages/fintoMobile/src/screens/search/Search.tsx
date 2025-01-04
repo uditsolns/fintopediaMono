@@ -44,7 +44,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
   const [sortBySelectedVisible, setSortBySelectedVisible] =
     React.useState<boolean>(false);
 
-  React.useEffect(() => { 
+  React.useEffect(() => {
     let params = {
       name: '',
       sale_price: '',
@@ -53,9 +53,9 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
       max_sale_price: '',
       course_language: '',
       sort_rating: '',
-    }; 
+    };
     dispatch(
-      postSeachCourses({ 
+      postSeachCourses({
         params,
         onSuccess(data) {},
         onError(error) {
@@ -144,7 +144,11 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
                 <TextAtom preset="heading3" text={filterByCourse || ''} />
                 <TextAtom
                   preset="large"
-                  text={`(${search_courses?.length || ''})`}
+                  text={
+                    search_courses?.length
+                      ? `(${search_courses?.length || ''})`
+                      : ''
+                  }
                   style={{color: colorPresets.GRAY, marginStart: mScale.sm}}
                 />
               </View>
@@ -210,6 +214,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
           setIsFullPageModalVisible(!isFullPageModalVisible);
         }}
         bodyPayload={(payload: any) => {
+          console.log(payload.rating?.rating);
           setSortByRating(payload?.rating?.rating);
           setFilterByCourse(payload?.categories?.category_name);
           let [minSal, maxSal] = payload?.price?.price
@@ -222,8 +227,10 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
             min_sale_price: minSal || '',
             max_sale_price: maxSal || '',
             course_language: '',
-            sort_rating: sortBySelectedVisible ? payload?.rating?.value : '',
+            // sort_rating: sortBySelectedVisible ? payload?.rating?.value : '',
+            sort_rating: payload?.rating?.value,
           };
+          console.log(JSON.stringify(params));
           dispatch(
             postSeachCourses({
               params,

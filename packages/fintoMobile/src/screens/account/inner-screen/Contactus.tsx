@@ -14,6 +14,8 @@ import {contactSupportField} from '@shared/src/components/structures/contact-sup
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
+import {Toast} from 'react-native-toast-notifications';
 
 interface ContactusProps {}
 
@@ -22,6 +24,15 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
     useContactSupportHelper();
   const {handleSubmit, setFieldValue} = contactSupportFormik;
   const [show, setShow] = React.useState(false);
+  const {create, loading} = useAppSelector(state => state.contact);
+
+  React.useEffect(() => {
+    if (create) {
+      Toast.show('Contact details send successfully', {
+        type: 'success',
+      });
+    }
+  }, [create]);
 
   const renderItem = ({item}: {item: any}) => <FrequentlyAskMolecule />;
 
@@ -50,7 +61,7 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
                 onPress={() => {
                   setShow(!show);
                 }}>
-                {!show ? (
+                {show ? (
                   <Images.SVG.CircleChevronDownIcon />
                 ) : (
                   <Images.SVG.CircleChevronUpIcon />
@@ -83,10 +94,10 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
                   <InputAtom
                     shape="square"
                     {...contactSupportInputProps(
-                      contactSupportField.email.name,
+                      contactSupportField.email_id.name,
                     )}
-                    label={contactSupportField.email.label}
-                    placeholder={contactSupportField.email.placeHolder}
+                    label={contactSupportField.email_id.label}
+                    placeholder={contactSupportField.email_id.placeHolder}
                     autoCapitalize="none"
                   />
                 </View>
@@ -94,10 +105,10 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
                   <InputAtom
                     shape="square"
                     {...contactSupportInputProps(
-                      contactSupportField.phone.name,
+                      contactSupportField.phone_no.name,
                     )}
-                    label={contactSupportField.phone.label}
-                    placeholder={contactSupportField.phone.placeHolder}
+                    label={contactSupportField.phone_no.label}
+                    placeholder={contactSupportField.phone_no.placeHolder}
                     keyboardType="numeric"
                   />
                 </View>
@@ -120,8 +131,9 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
                     title="Submit"
                     onPress={() => {
                       handleSubmit();
+                      setShow(false);
                     }}
-                    // loading={loading?.signup}
+                    loading={loading?.create}
                   />
                 </View>
               </View>

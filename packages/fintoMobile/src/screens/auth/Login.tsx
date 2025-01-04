@@ -140,6 +140,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
             text="Forgot password?"
             style={{marginTop: mScale.xxl}}
             onPress={() => {
+              dispatch(logout());
               navigation.navigate(RouteKeys.FORGOTPASSWORDSCREEN);
             }}
           />

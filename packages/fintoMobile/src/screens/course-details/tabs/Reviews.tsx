@@ -1,4 +1,5 @@
 import {useRoute} from '@react-navigation/native';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {createCourseReview} from '@shared/src/provider/store/services/course-review.service';
 import {
   useAppDispatch,
@@ -6,9 +7,11 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CourseReviewResponse} from '@shared/src/utils/types/course-review';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {CoursesRatingReviewsFields} from '@shared/src/utils/types/CoursesRatingReviews';
 import {MultilineTextInputAtom} from '@src/components/Input/MultilineTextInputAtom';
 import LoaderAtom from '@src/components/LoaderAtom';
+import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import ReviewMolecule from '@src/components/molecules/ReviewMolecule/ReviewMolecule';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import React from 'react';
@@ -21,9 +24,11 @@ interface ReviewsProps {
 export const Reviews: React.FunctionComponent<ReviewsProps> = ({onLayout}) => {
   const dispatch = useAppDispatch();
   const {auth} = useAppSelector(state => state.auth);
-  const {singleCourse, loading: coursesLoading} = useAppSelector(
-    state => state.courses,
-  );
+  const {
+    courses,
+    singleCourse,
+    loading: coursesLoading,
+  } = useAppSelector(state => state.courses);
   const {course_review, loading: course_review_loading} = useAppSelector(
     state => state.courseReviews,
   );
@@ -64,14 +69,17 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = ({onLayout}) => {
       }),
     );
   };
+  const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
+    return <PopularCourseMolecule item={item} />;
+  };
   return (
-    <View onLayout={onLayout} style={{flex: 1}}>
+    <View style={{flex: 1}}>
       {coursesLoading.singleCourse ||
       coursesLoading.courses ||
       course_review_loading.create ? (
         <LoaderAtom size="large" />
       ) : null}
-      <View>
+      <ScrollViewAtom>
         <View style={{paddingHorizontal: mScale.base}}>
           <MultilineTextInputAtom
             placeholderTitle="Write a review...."
@@ -109,7 +117,35 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = ({onLayout}) => {
             />
           </View>
         </View>
-      </View>
+        <View style={{marginVertical: mScale.xl}}>
+          <ViewAll
+            title="Frequently Bought Together"
+            visible={false}
+            paddingHorizontal={0}
+          />
+          <View>
+            <FlatList
+              data={
+                courses?.length
+                  ? courses?.filter(
+                      el =>
+                        el?.category_id == data?.category_id &&
+                        el.id != data?.id,
+                    )
+                  : []
+              }
+              renderItem={innerCategoriesRenderItem}
+              horizontal={true}
+              contentContainerStyle={{
+                columnGap: 20,
+                flexGrow: 1,
+                paddingEnd: mScale.lg,
+              }}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </View>
+      </ScrollViewAtom>
     </View>
   );
 };
