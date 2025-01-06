@@ -178,7 +178,8 @@ export default function Cart() {
     }
   };
 
-  const handlePayment = async () => {
+  const handlePayment = async (e) => {
+    e.preventDefault();
     if (!totalPay || totalPay <= 0) {
       alert("Invalid payment amount.");
       return;
@@ -199,53 +200,82 @@ export default function Cart() {
       },
     };
 
-    // let requestJSONBody = JSON.stringify(requestBody);
+    // const dataPayload = JSON.stringify(payload);
+    // console.log("dataPayload", dataPayload);
 
-    // let dataBase64 = Base64.encode(requestJSONBody);
+    // const dataBase64 = Buffer.from(dataPayload).toString("base64");
+    // console.log("dataBase64", dataBase64);
 
-    // const fullUrl = dataBase64 + API_ENDPOINT + SALT_KEY;
+    // const fullURL = dataBase64 + "/pg/v1/pay" + SALT_KEY;
+    // const dataSha256 = sha256(fullURL);
+    // console.log("fullURL", fullURL);
 
-    // const dataSha256 = sha256(fullUrl);
+    // const checksum = dataSha256 + "###" + SALT_INDEX;
+    // console.log("c====", checksum);
 
-    // const checksum = `${dataSha256}###${SALT_INDEX}`;
-    // console.log("checksum", checksum);
+    // const UAT_PAY_API_URL =
+    //   "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
+
+    // const response = await fetch(UAT_PAY_API_URL, {
+    //   method: "POST",
+    //   headers: {
+    //     accept: "application/json",
+    //     "Content-Type": "application/json",
+    //     "X-VERIFY": checksum,
+    //   },
+    //   body: JSON.stringify({
+    //     request: dataBase64,
+    //   }),
+    // });
+
+    // if (!response.ok) {
+    //   throw new Error(`HTTP error! Status: ${response.status}`);
+    // }
+
+    // const result = await response.json();
+    // console.log("result", result);
+    // const redirect = result.data?.instrumentResponse?.redirectInfo?.url;
+
+    // router.push(redirect);
     const dataPayload = JSON.stringify(payload);
-    console.log("dataPayload", dataPayload);
+    console.log(dataPayload);
 
     const dataBase64 = Buffer.from(dataPayload).toString("base64");
-    console.log("dataBase64", dataBase64);
+    console.log(dataBase64);
 
-    const fullURL = dataBase64 + "/pg/v1/pay" + SALT_KEY;
+    const fullURL =
+      dataBase64 + "/pg/v1/pay" + process.env.NEXT_PUBLIC_SALT_KEY;
     const dataSha256 = sha256(fullURL);
-    console.log("fullURL", fullURL);
 
-    const checksum = dataSha256 + "###" + SALT_INDEX;
+    const checksum = dataSha256 + "###" + process.env.NEXT_PUBLIC_SALT_INDEX;
     console.log("c====", checksum);
 
     const UAT_PAY_API_URL =
       "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
 
-    const response = await fetch(UAT_PAY_API_URL, {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
-        "X-VERIFY": checksum,
-      },
-      body: JSON.stringify({
-        request: dataBase64,
-      }),
-    });
+    try {
+      const response = await fetch(UAT_PAY_API_URL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "X-VERIFY": checksum,
+        },
+        body: JSON.stringify({
+          request: dataBase64,
+        }),
+      });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      const redirect = responseData.data.instrumentResponse.redirectInfo.url;
+      router.push(redirect);
+    } catch (error) {
+      console.error("Error occurred:", error);
     }
-
-    const result = await response.json();
-    console.log("result", result);
-    const redirect = result.data?.instrumentResponse?.redirectInfo?.url;
-
-    router.push(redirect);
   };
 
   return (
@@ -541,7 +571,8 @@ export default function Cart() {
                     <div className={styles.buttons}>
                       <Button
                         className={styles.checkoutButton}
-                        onClick={handlePayment}
+                        // onClick={handlePayment}
+                        onClick={(e) => handlePayment(e)}
                       >
                         Proceed to checkout
                       </Button>

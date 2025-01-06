@@ -28,7 +28,7 @@ const ButtonWithIcons: React.FC<ButtonWithIconsProps> = ({
       setIsLoading(true);
       router.push(path);
     }
-  };
+  }; 
 
   useEffect(() => {
     const handleComplete = () => setIsLoading(false);
