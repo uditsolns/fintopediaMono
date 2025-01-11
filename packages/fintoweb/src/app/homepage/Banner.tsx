@@ -27,10 +27,6 @@ const Banner = () => {
           rightIcon={<FaArrowRight />}
         />
 
-        {/* <button>
-          Explore All Courses
-          <FaArrowRight />
-        </button> */}
       </div>
       <div className={styles.imageContainer}>
         <Image src={Back} alt="Logo" />
