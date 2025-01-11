@@ -9,6 +9,7 @@ import Downloaded from './tabs/Downloaded';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {moderateScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import {MyCourseTabMolecule} from '@src/components/molecules/MyCourseTabMolecule/MyCourseTabMolecule';
+import MyCourse from './tabs/MyCourse';
 type RouteParams = {
   tab?: number;
 };
@@ -28,6 +29,7 @@ export const MyCourses: React.FC<MyCoursesProps> = () => {
   }, [route.params?.tab]);
 
   const renderScene = SceneMap({
+    myCourse:MyCourse,
     ongoing: Ongoing,
     completed: Completed,
     saveForLater: SaveForLater,

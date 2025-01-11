@@ -12,7 +12,7 @@ import LoadingAtom from "@src/components/loader/LoadingAtom";
 import Image from "next/image";
 import { imageUrl } from "shared/src/config/imageUrl";
 
-const page = () => {
+const Notifications = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { auth } = useAppSelector((state) => state.auth);
@@ -21,7 +21,7 @@ const page = () => {
     (state) => state.notifications
   );
   const handleExploreClick = (courseId) => {
-    router.push(`/courses/course-details/${courseId}`); 
+    router.push(`/courses/course-details/${courseId}`);
   };
   React.useEffect(() => {
     if (token) {
@@ -49,7 +49,7 @@ const page = () => {
         <div>
           {notifications?.map((item, index) => {
             return (
-              <div className={styles.notificationCard}>
+              <div key={index} className={styles.notificationCard}>
                 <div className={styles.notificationIcon}>
                   <Image
                     width={50}
@@ -63,7 +63,12 @@ const page = () => {
                   <h3>{item.title}</h3>
                   <p>{item.description}</p>
                 </div>
-                <div className={styles.explore} onClick={() => handleExploreClick(item?.course_id)}>Explore now</div>
+                <div
+                  className={styles.explore}
+                  onClick={() => handleExploreClick(item?.course_id)}
+                >
+                  Explore now
+                </div>
               </div>
             );
           })}
@@ -73,4 +78,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Notifications;

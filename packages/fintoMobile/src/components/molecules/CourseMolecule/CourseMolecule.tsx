@@ -13,12 +13,12 @@ import RatingReview from '@src/components/RatingReview';
 import React from 'react';
 import {StyleSheet, View, ViewStyle, ImageStyle} from 'react-native';
 
-interface OngoingMoleculeProps {
+interface CourseMoleculeProps {
   item?: CoursesResponse;
   onPress?: () => void;
 }
 
-export default function CourseMolecule({item, onPress}: OngoingMoleculeProps) {
+export default function CourseMolecule({item, onPress}: CourseMoleculeProps) {
   const {courseCart} = useAppSelector(state => state.courseCart);
   return (
     <View style={[commonStyle.flexStart, styles.container]}>

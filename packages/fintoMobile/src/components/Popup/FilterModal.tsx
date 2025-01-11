@@ -10,7 +10,6 @@ import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
@@ -19,6 +18,7 @@ import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CollapsibleAtom} from '@src/components/CollasibleAtom';
 import SeparatorAtom from '@src/components/SeperatorAtom';
 import {CategoriesResponse} from '@shared/src/utils/types/categories';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface FilterModalInterface {
   isFullPageModalVisible: boolean;

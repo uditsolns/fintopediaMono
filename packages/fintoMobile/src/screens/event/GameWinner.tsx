@@ -1,5 +1,5 @@
 import {useFocusEffect} from '@react-navigation/native';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {imageUrl} from '@shared/src/config/imageUrl';
 import {
@@ -143,7 +143,7 @@ export const GameWinner: React.FC<GameWinnerProps> = ({navigation}) => {
                       el?.user?.photo
                         ? `${imageUrl}/uploads/user_photo/${el?.user?.photo}`
                         : null
-                    } 
+                    }
                     rank={index + 1}
                     name={
                       el?.user

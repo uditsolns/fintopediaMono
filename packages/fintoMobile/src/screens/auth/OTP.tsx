@@ -1,7 +1,7 @@
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {mScale} from '@shared/src/theme/metrics';
@@ -17,7 +17,7 @@ interface OTPProps extends NavType<'Otp'> {}
 export const OTP: React.FC<OTPProps> = ({navigation}) => {
   return (
     <GradientTemplate>
-     <ScrollViewAtom contentContainerStyle={{marginTop: mScale.xxl1}}>
+      <ScrollViewAtom contentContainerStyle={{marginTop: mScale.xxl1}}>
         <View>
           <View style={{marginVertical: mScale.base, padding: mScale.md}}>
             <View style={{alignSelf: 'center'}}>

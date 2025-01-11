@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
-import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {colorPresets} from '@shared/src/theme/color';
@@ -9,7 +9,7 @@ import {mScale} from '@shared/src/theme/metrics';
 import {CollapsibleAtom} from '@src/components/CollasibleAtom';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import SeparatorAtom from '@src/components/SeperatorAtom';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 interface FilterByCourseInterface {}
@@ -35,14 +35,11 @@ export const FilterByCourse: React.FC<FilterByCourseInterface> = () => {
                     marginEnd: mScale.base,
                   }}
                 />
-                <TextAtom
-                  text={'Investment Strategy '}
-                  preset="large"
-                />
+                <TextAtom text={'Investment Strategy '} preset="large" />
                 <TextAtom
                   text={'(1,203)'}
                   preset="large"
-                  style={{color:colorPresets.GRAY}}
+                  style={{color: colorPresets.GRAY}}
                 />
               </View>
             );
@@ -82,10 +79,12 @@ export const FilterByCourse: React.FC<FilterByCourseInterface> = () => {
               navigation.navigate(RouteKeys.COURSECATEGORY)
             }}
           /> */}
-          <ButtonAtom title='Save'  onPress={()=>{
-              navigation.navigate(RouteKeys.COURSECATEGORYSCREEN)
-            }} />
-         
+          <ButtonAtom
+            title="Save"
+            onPress={() => {
+              navigation.navigate(RouteKeys.COURSECATEGORYSCREEN);
+            }}
+          />
         </View>
       </ScrollViewAtom>
     </GradientTemplate>

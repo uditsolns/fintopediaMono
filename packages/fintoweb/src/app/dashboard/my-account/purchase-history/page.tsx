@@ -11,7 +11,7 @@ import {
 import { getUserCourseHistory } from "shared/src/provider/store/services/UserCourseHistory.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 
-const page = () => {
+const PurchaseHistory = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { auth } = useAppSelector((state) => state.auth);
@@ -95,4 +95,4 @@ const page = () => {
     </>
   );
 };
-export default page;
+export default PurchaseHistory;

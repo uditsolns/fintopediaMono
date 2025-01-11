@@ -9,9 +9,15 @@ import PdfMolecule from '@src/components/molecules/PdfMolecule/PdfMolecule';
 import {DeletePopup} from '@src/components/Popup/DeletePopup';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
-import {Alert, FlatList, View} from 'react-native';
-interface ResourcesProps {}
-export const Resources: React.FunctionComponent<ResourcesProps> = () => {
+import {Alert, FlatList, LayoutChangeEvent, View} from 'react-native';
+
+interface ResourcesProps {
+  onLayout: (event: LayoutChangeEvent) => void;
+}
+
+export const Resources: React.FunctionComponent<ResourcesProps> = ({
+  onLayout,
+}) => {
   const navigation = useNavigation<any>();
   const {singleCourse} = useAppSelector(state => state.courses);
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -35,6 +41,7 @@ export const Resources: React.FunctionComponent<ResourcesProps> = () => {
   };
   return (
     <View
+      onLayout={onLayout}
       style={{
         flex: 1,
         flexGrow: 1,

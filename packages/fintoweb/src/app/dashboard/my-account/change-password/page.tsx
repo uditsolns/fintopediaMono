@@ -11,7 +11,7 @@ import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import { toast } from "react-toastify";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 
-const page = () => {
+const ChangePassword = () => {
   const router = useRouter();
   const { auth, confirm, loading } = useAppSelector((state) => state.auth);
   console.log("confirm", confirm);
@@ -24,7 +24,7 @@ const page = () => {
     setFieldValue(updatePasswordField.user_id.name, auth?.user?.id || "");
   }, [auth, setFieldValue]);
   // status_message
-  React.useEffect(() => { 
+  React.useEffect(() => {
     if (confirm?.code === 200) {
       toast.success(confirm?.status_message, {
         position: "top-right",
@@ -92,7 +92,6 @@ const page = () => {
           <button
             type="submit"
             className={styles.ChangePasswordbutton}
-            
             onClick={() => {
               handleSubmit();
             }}
@@ -109,4 +108,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ChangePassword;

@@ -5,12 +5,12 @@ import LoaderAtom from '@src/components/LoaderAtom';
 import {commonStyle} from '@shared/src/commonStyle';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import {mScale} from '@shared/src/theme/metrics';
 import LatestNewsMolecule from '@src/components/molecules/LatestNewsMolecule/LatestNewsMolecule';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface MockSellStocksProps {}
 
@@ -20,27 +20,17 @@ export const MockSellStocks: React.FC<MockSellStocksProps> = () => {
   const [totalPrice, setTotalPrice] = React.useState('');
   const [remarks, setRemarks] = React.useState('');
 
-  const onEndEditing = (value: string) => {
-   
-  };
+  const onEndEditing = (value: string) => {};
 
-  const sellStocks = async () => {
-    
-  };
+  const sellStocks = async () => {};
 
-  const checkSingleGameFinish = () => {
-   
-  };
+  const checkSingleGameFinish = () => {};
 
-  const getAllRoundLevelGamesData = () => {
-   
-  };
+  const getAllRoundLevelGamesData = () => {};
 
   useFocusEffect(
     React.useCallback(() => {
-      let interval = setInterval(() => {
-       
-      }, 10000);
+      let interval = setInterval(() => {}, 10000);
       return () => {
         clearInterval(interval);
       };
@@ -102,7 +92,7 @@ export const MockSellStocks: React.FC<MockSellStocksProps> = () => {
             onPress={sellStocks}
           />
 
-          <View style={{marginTop:mScale.xxl}}>
+          <View style={{marginTop: mScale.xxl}}>
             <TextAtom
               text={'Catch up with latest news'}
               preset="heading2"

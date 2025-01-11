@@ -9,18 +9,18 @@ export const RouteKeys = {
   EMAILVERIFICATIONSCREEN: 'EmailVerification',
   TWOFACTORAUTHSCREEN: 'TwoFAuth',
   OTPSCREEN: 'Otp',
-  SEARCHSCREEN:'Search',
-  NOTIFICATIONSCREEN:'Notification',
-  CARTSCREEN:'Cart',
-  FILTERBYCOURSESCREEN:"FilterByCourse",
-  COURSECATEGORYSCREEN:"CourseCategory",
-  COUPONSCREEN:'Coupon',
-  CHECKOUTSCREEN:'Checkout',
-  BILLINGSCREEN:'Billing',
-  PAYMENTSUCCESSSCREEN:'PaymentSuccess',
-  DONTKNOWWHERETOSTARTSCREEN:'DontKnowWhereToStart',
-  BEFOREENROLLINGCOURSEDETAILSSCREEN:'BeforeEnrollingCourseDetails',
-  AFTERENROLLINGCOURSEDETAILSSCREEN:'AfterEnrollingCourseDetails',
+  SEARCHSCREEN: 'Search',
+  NOTIFICATIONSCREEN: 'Notification',
+  CARTSCREEN: 'Cart',
+  FILTERBYCOURSESCREEN: 'FilterByCourse',
+  COURSECATEGORYSCREEN: 'CourseCategory',
+  COUPONSCREEN: 'Coupon',
+  CHECKOUTSCREEN: 'Checkout',
+  BILLINGSCREEN: 'Billing',
+  PAYMENTSUCCESSSCREEN: 'PaymentSuccess',
+  DONTKNOWWHERETOSTARTSCREEN: 'DontKnowWhereToStart',
+  BEFOREENROLLINGCOURSEDETAILSSCREEN: 'BeforeEnrollingCourseDetails',
+  AFTERENROLLINGCOURSEDETAILSSCREEN: 'AfterEnrollingCourseDetails',
   PROFILEDETAILSSCREEN: 'ProfileDetails',
   CERTIFICATIONSSCREEN: 'Certifications',
   REFERANDEARNSCREEN: 'ReferandEarn',
@@ -36,7 +36,7 @@ export const RouteKeys = {
   GAMEWINNERSCREEN: 'GameWinner',
   MOCKTRADEBUYSTOCKSSCREEN: 'MockTradeBuyStocks',
   MOCKTRADESELLSTOCKSSCREEN: 'MockTradeSellStocks',
-  VIEWPDFSCREEN:"ViewPdf"
+  VIEWPDFSCREEN: 'ViewPdf',
 };
 
 export const TabKeys = {
@@ -46,7 +46,6 @@ export const TabKeys = {
   EVENTSCREEN: 'Events',
   ACCOUNTSCREEN: 'Account',
 };
-
 
 export const GameRouteKeys = [
   {key: 'latestNews', title: 'Latest News'},
@@ -65,6 +64,7 @@ export const MockTradeRouteKeys = [
 ];
 
 export const MyCourseRouteKeys = [
+  {key: 'myCourse', title: 'My Course'},
   {key: 'ongoing', title: 'Ongoing'},
   {key: 'completed', title: 'Completed'},
   {key: 'saveForLater', title: 'Save For Later'},
@@ -80,5 +80,3 @@ export const CourseDetailsRouteKeys = [
   {key: 'uploadProject', title: 'Upload Project'},
   {key: 'resources', title: 'Resources'},
 ];
-
-

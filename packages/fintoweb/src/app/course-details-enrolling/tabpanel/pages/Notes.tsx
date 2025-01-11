@@ -168,7 +168,7 @@ const Notes: React.FC = () => {
         <div className={styles.notesSection}>
           {course_notes && course_notes.length > 0 ? (
             course_notes.map((note, index) => (
-              <div>
+              <div key={index}>
                 <div key={note.id} className={styles.notesPreview}>
                   <span>
                     {note?.updated_at

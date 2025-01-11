@@ -2,7 +2,6 @@ import {StyleSheet, View, ViewStyle, TextStyle, ImageStyle} from 'react-native';
 import React from 'react';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import ProfileIcon from '@src/components/Profile/ProfileIcon';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import SeparatorAtom from '@src/components/SeperatorAtom';
@@ -21,6 +20,7 @@ import {PopupUpload} from '@src/components/Popup/PopupUpload';
 import {ImageType} from '@shared/src/utils/types/main';
 import {updateUser} from '@shared/src/provider/store/services/user.service';
 import {imageUrl} from '@shared/src/config/imageUrl';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 export const avatarUrl =
   'https://st4.depositphotos.com/4329009/19956/v/450/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg';

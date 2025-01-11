@@ -1,7 +1,7 @@
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from 'shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import { createCourseCart } from '@shared/src/provider/store/services/CourseCart.service';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -14,7 +14,7 @@ import Dropdown from '@src/components/Dropdown/Dropdown';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import TagsAtom from '@src/components/TagsAtom';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import * as React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
@@ -38,30 +38,40 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
   }: {
     item: CoursesResponse;
   }) => {
-    return <PopularCourseMolecule item={item}  onPress={async () => {
-      let params = {
-        user_id: Number(auth?.user?.id),
-        course_id: Number(item?.id),
-        status: '1',
-      };
-      if (isInCart(courseCart, item?.id)) {
-        navigation.navigate(RouteKeys.CARTSCREEN);
-      } else {
-        await dispatch(
-          createCourseCart({
-            params,
-            onSuccess: data => {
-              navigation.navigate(RouteKeys.CARTSCREEN);
-            },
-            onError: err => {},
-          }),
-        ).unwrap();
-      }
-    }} />;
+    return (
+      <PopularCourseMolecule
+        item={item}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+            navigation.navigate(RouteKeys.CARTSCREEN);
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                },
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
+        }}
+      />
+    );
   };
 
   return (
-    <GradientTemplate style={{paddingHorizontal: 0, paddingBottom: 0,paddingTop:moderateScale(70)}}>
+    <GradientTemplate
+      style={{
+        paddingHorizontal: 0,
+        paddingBottom: 0,
+        paddingTop: moderateScale(70),
+      }}>
       <ScrollViewAtom nestedScrollEnabled={true}>
         <View style={{marginBottom: mScale.xs}}>
           <ViewAll title="All Categories" visible={false} />

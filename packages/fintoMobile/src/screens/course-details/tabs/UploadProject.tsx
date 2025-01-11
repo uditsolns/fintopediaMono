@@ -11,7 +11,7 @@ import {
 import {
   useAppDispatch,
   useAppSelector,
-} from '@shared/src/provider/store/types/storeTypes'; 
+} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale, WINDOW_HEIGHT} from '@shared/src/theme/metrics';
 import {fontPresets} from '@shared/src/theme/typography';
@@ -25,12 +25,14 @@ import {PopupUpload} from '@src/components/Popup/PopupUpload';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
-import {Alert, FlatList, Text, View} from 'react-native';
+import {Alert, FlatList, LayoutChangeEvent, Text, View} from 'react-native';
 
-interface UploadProjectProps {}
-export const UploadProject: React.FunctionComponent<
-  UploadProjectProps
-> = () => {
+interface UploadProjectProps {
+  onLayout: (event: LayoutChangeEvent) => void;
+}
+export const UploadProject: React.FunctionComponent<UploadProjectProps> = ({
+  onLayout,
+}) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<any>();
   const {auth} = useAppSelector(state => state.auth);
@@ -69,6 +71,7 @@ export const UploadProject: React.FunctionComponent<
 
   return (
     <View
+      onLayout={onLayout}
       style={{
         flex: 1,
         flexGrow: 1,
@@ -79,8 +82,8 @@ export const UploadProject: React.FunctionComponent<
       {coursesLoading.singleCourse ||
       coursesLoading.courses ||
       upload_file_loading.create ||
-      upload_file_loading?.upload_file ? ( 
-        <LoaderAtom size="large" /> 
+      upload_file_loading?.upload_file ? (
+        <LoaderAtom size="large" />
       ) : null}
       <View>
         <View>
@@ -190,7 +193,7 @@ export const UploadProject: React.FunctionComponent<
                 }),
               );
             }
-          }} 
+          }}
         />
         <DeletePopup
           isVisible={modalVisible2}
