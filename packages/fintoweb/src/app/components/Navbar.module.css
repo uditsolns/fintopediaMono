@@ -1,7 +1,9 @@
 .cartContainer {
   position: relative;
 }
-
+.navigationbar{
+  height: 85px !important;
+}
 .cartIcon {
   margin-right: 8px;
   width: 23px;

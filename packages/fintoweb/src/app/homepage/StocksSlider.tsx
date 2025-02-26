@@ -13,7 +13,7 @@ const StocksSlider: React.FC = () => {
     slidesToShow: 5,
     slidesToScroll: 1,
     draggable: true,
-    swipeToSlide: true,
+    swipeToSlide: true, 
     touchMove: true,
     responsive: [
       {
@@ -49,7 +49,7 @@ const StocksSlider: React.FC = () => {
             <div className={styles.widgetHeader}>S&P Futures</div>
             <div className={styles.widgetValue}>3145.0</div>
             <div className={styles.changeContainer}>
-              <span className={styles.positiveChange}>+18.7 (0.57%)</span>
+              <span className={styles.positiveChange}>+18.7 <small className={styles.percentValue} >(0.57%)</small></span>
               <div className={styles.iconContainer}>
                 <svg
                   width="64"
@@ -70,7 +70,7 @@ const StocksSlider: React.FC = () => {
             <div className={styles.widgetHeader}>S&P Futures</div>
             <div className={styles.widgetValue}>3145.0</div>
             <div className={styles.changeContainer}>
-              <span className={styles.negativeChange}>-18.7 (0.57%)</span>
+              <span className={styles.negativeChange}>-18.7 <small className={styles.percentValue} >(0.57%)</small></span>
               <div className={styles.iconContainer}>
                 <svg
                   width="64"
@@ -91,7 +91,7 @@ const StocksSlider: React.FC = () => {
             <div className={styles.widgetHeader}>S&P Futures</div>
             <div className={styles.widgetValue}>3145.0</div>
             <div className={styles.changeContainer}>
-              <span className={styles.positiveChange}>+18.7 (0.57%)</span>
+              <span className={styles.positiveChange}>+18.7 <small className={styles.percentValue} >(0.57%)</small></span>
               <div className={styles.iconContainer}>
                 <svg
                   width="64"
@@ -112,7 +112,7 @@ const StocksSlider: React.FC = () => {
             <div className={styles.widgetHeader}>S&P Futures</div>
             <div className={styles.widgetValue}>3145.0</div>
             <div className={styles.changeContainer}>
-              <span className={styles.negativeChange}>-18.7 (0.57%)</span>
+              <span className={styles.negativeChange}>-18.7 <small className={styles.percentValue} >(0.57%)</small></span>
               <div className={styles.iconContainer}>
                 <svg
                   width="64"
@@ -133,7 +133,7 @@ const StocksSlider: React.FC = () => {
             <div className={styles.widgetHeader}>S&P Futures</div>
             <div className={styles.widgetValue}>3145.0</div>
             <div className={styles.changeContainer}>
-              <span className={styles.positiveChange}>+18.7 (0.57%)</span>
+              <span className={styles.positiveChange}>+18.7 <small className={styles.percentValue} >(0.57%)</small></span>
               <div className={styles.iconContainer}>
                 <svg
                   width="64"
@@ -154,7 +154,7 @@ const StocksSlider: React.FC = () => {
             <div className={styles.widgetHeader}>S&P Futures</div>
             <div className={styles.widgetValue}>3145.0</div>
             <div className={styles.changeContainer}>
-              <span className={styles.negativeChange}>-18.7 (0.57%)</span>
+              <span className={styles.negativeChange}>-18.7 <small className={styles.percentValue} >(0.57%)</small></span>
               <div className={styles.iconContainer}>
                 <svg
                   width="64"

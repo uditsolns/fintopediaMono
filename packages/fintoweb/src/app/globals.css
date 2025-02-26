@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Apply the Inter Tight font globally */
+* {
+  font-family: "Inter Tight", sans-serif;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
 /* styles/global.css */
 body {
   min-height: 100vh;
@@ -150,4 +176,3 @@ body {
 .dropdown-toggle::after {
   display: none;
 }
-

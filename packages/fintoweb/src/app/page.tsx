@@ -57,7 +57,7 @@ const page = () => {
     dispatch(getCourseReviews());
   }, [dispatch]);
   return (
-    <>
+    <> 
       {categoriesLoading?.categories ||
       coursesLoading?.courses ||
       coursesReviewLoading?.course_review ? (

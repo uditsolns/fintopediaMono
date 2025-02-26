@@ -157,7 +157,7 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
         <button
           className={`${styles.categoryButton} ${
             categoriesSelected === "all" ? styles.active : ""
-          }`}
+          }`} 
           onClick={() => {
             setCategoriesSelected("all");
             setFilterCourses(
@@ -192,7 +192,7 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
       <Slider key={categoriesSelected} {...settings}>
         {filterCourses?.map((course, index) => {
           return (
-            <CoursesMolecule
+            <CoursesMolecule 
               key={course.id}
               course={course}
               loading={loadingCourseId === course.id}

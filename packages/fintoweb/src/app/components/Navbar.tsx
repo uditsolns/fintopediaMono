@@ -49,10 +49,10 @@ export const Navbar = () => {
     setTimeout(() => setLoading(false), 1000); // Reset loading after 1 second (or use Next.js router events to control)
     closeMenu(); // Close the menu after clicking a link
   };
-  return (
+  return ( 
     <>
       <LoadingOverlay isLoading={loading} />
-      <nav className="background-gradient text-white p-4 sm:p-6 flex justify-between items-center border-b border-gray-400">
+      <nav className="navigationbar background-gradient text-white p-4 sm:p-6 flex justify-between items-center border-b border-gray-400">
         <div className={`flex items-center ${styles.browseLink}`}>
           <span className="font-bold">Browse</span>
           <Image src={Arrow} alt="Arrow" className="ml-2 inline-block" />
