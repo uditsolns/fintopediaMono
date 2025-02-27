@@ -184,7 +184,7 @@ const LearnSlider: React.FC = () => {
     } else if (window.innerWidth <= 650) {
       setSlideToShow(1);
     }
-  };
+  }; 
 
   useEffect(() => {
     setSlides();

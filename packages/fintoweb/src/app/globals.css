@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --Border: #7a7fa2; /* Default border color */
+  --BG: linear-gradient(
+    245deg,
+    #2d303d 0%,
+    #212330 28.6%,
+    #101320 65.15%,
+    #111521 78%,
+    #0d0f1b 100%
+  ); /* Background gradient */
+}
+
+.someClass {
+  border-radius: 24px;
+  border: 1px solid var(--Border);
+  background: var(--BG);
+}
+
 /* Apply the Inter Tight font globally */
 * {
   font-family: "Inter Tight", sans-serif;

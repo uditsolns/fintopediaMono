@@ -102,19 +102,6 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
             </Link>
           </div>
           <div className={styles.CourseDetailsHeader}>
-            {/* <div className={styles.links}>
-              <Link href="/" className={styles.link}>
-                Home
-              </Link> 
-              <span> &gt; </span>
-              <Link href="#" className={styles.link}>
-                {singleCourse?.category?.category_name}
-              </Link>
-              <span> &gt; </span>
-              <Link href="#" className={styles.link}>
-                {singleCourse?.name}
-              </Link>
-            </div> */}
             <div className="courseDetailsContent">
               <h2 className={styles.heading}>{singleCourse?.name}</h2>
               <p className={styles.subHeading}>
@@ -123,8 +110,9 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
               </p>
               <div className={styles.CourseDetailsHeaderButton}>
                 <button>
-                  Course starts from ₹ {singleCourse?.sale_price}{" "}
-                  <span
+                  Course starts from{" "}
+                  <span className={styles.CourseDetailsHeaderButtonSpan}>&#8377; {singleCourse?.sale_price}</span>
+                  {/* <span
                     style={{
                       textDecoration: "line-through",
                       color: "lightgray",
@@ -132,7 +120,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
                     }}
                   >
                     ₹ {singleCourse?.actual_price}
-                  </span>
+                  </span> */}
                 </button>
               </div>
               <div className={styles.offerText}>
@@ -161,7 +149,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
         </div>
 
         <div className={styles.learnSlider}>
-          <LearnSlider />
+          <LearnSlider /> 
         </div>
         <div className={styles.lessons}>
           <Lessons

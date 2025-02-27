@@ -15,6 +15,7 @@
   background-image: url("../../../assets/courses/course-details/Course-details-new.png");
   background-size: cover;
   background-repeat: no-repeat;
+  padding: 0px 0px 80px 0px;
 }
 .CourseDetailsHeader {
   /* padding: 50px; */
@@ -30,7 +31,10 @@
   padding: 20px 300px;
 }
 .links {
-  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 .links span {
   margin-right: 5px;
@@ -62,6 +66,7 @@
   font-weight: 400;
   line-height: 26px;
   letter-spacing: -0.18px;
+  margin-top: 16px;
 }
 .CourseDetailsHeaderButton,
 .offerText {
@@ -72,13 +77,27 @@
 }
 .CourseDetailsHeaderButton button {
   padding: 14.976px 25.673px;
-  gap: 10.697px;
+  margin-top: 32px;
   border-radius: 4.279px;
   background: var(--1-d-90-f-5, #1d90f5);
   color: var(--Base-Base-White, #f4f5f5);
   font-size: 17.115px;
   font-style: normal;
   font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.171px;
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 17.115px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.171px;
+}
+.CourseDetailsHeaderButtonSpan {
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 17.115px;
+  font-style: normal;
+  font-weight: 900;
   line-height: normal;
   letter-spacing: -0.171px;
 }

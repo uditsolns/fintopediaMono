@@ -18,6 +18,9 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
+.loginCard{
+  padding: 102px 0px;
+}
 .loginHeading {
   color: var(--Base-Base-White, #f4f5f5);
   text-align: center;
