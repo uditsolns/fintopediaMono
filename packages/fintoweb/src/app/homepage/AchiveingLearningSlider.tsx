@@ -165,8 +165,8 @@ const AchiveingLearningSlider = () => {
                         <stop offset="1" stop-color="#0D0D0C" />
                       </linearGradient>
                     </defs>
-                  </svg>{" "}&nbsp;
-                  Enrolled in: <a href="">{card.courseLink}</a>
+                  </svg>{" "}
+                  &nbsp; Enrolled in: <a href="">{card.courseLink}</a>
                 </div>
               </div>
             </div>

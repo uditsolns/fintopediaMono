@@ -9,7 +9,7 @@ const BasicStockmarketBanner = () => {
   return (
     <div className={styles.stockmarketBanner}>
       <div className={styles.overlay}>
-        <div className={styles.stockmarketBannerContent}>
+        <div className={styles.stockmarketBannerContent}> 
           <h2>
             Explore Top Finance Courses
             <br /> to Boost Your Career

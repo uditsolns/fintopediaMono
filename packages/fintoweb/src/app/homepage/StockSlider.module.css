@@ -106,36 +106,48 @@
 
 /* Styles for the stock slider */
 .widget {
+  display: flex;
+  height: 99px;
+  flex-shrink: 0;
   border-radius: 4px;
   border: 1px solid var(--gradient, #7a7fa2);
+  background: #262a40;
   backdrop-filter: blur(19.5px);
-  color: #fff !important;
-  background-color: #262a40 !important;
-  padding: 5px 15px !important;
+  padding: 16px;
   margin: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(19.5px);
+  gap: 20px;
 }
 
+.widgetContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  flex-grow: 1;
+}
 .widgetHeader {
-  font-size: 1rem;
   color: #fff;
-  font-weight: bold;
-  margin-bottom: 0.25rem;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
 }
-
 .widgetValue {
-  font-size: 1.125rem;
-  color: #4b5270;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
+  color: #5b6186;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
 }
 .percentValue {
-  font-size: 13px;
-  color: #4b5270;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
+  color: #5b6186;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
 }
 .changeContainer {
   display: flex;
@@ -143,26 +155,30 @@
   align-items: center;
 }
 .positiveChange {
-  color: #34d399;
-  font-size: 0.875rem;
+  color: #1fe400;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
 }
 
 .negativeChange {
-  color: #f87171;
-  font-size: 0.875rem;
+  color: #ff0820;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
 }
 
 .iconContainer {
-  width: 4rem;
-  height: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.positiveIcon path {
-  stroke: #34d399;
-  stroke-width: 2;
-}
-
-.negativeIcon path {
-  stroke: #f87171;
-  stroke-width: 2;
+.iconContainer img {
+  width: 71px;
+  height: 55x;
 }
