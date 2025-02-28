@@ -133,6 +133,7 @@ const WheretoStart: React.FC = () => {
           />
         </div>
       ) : null}
+      <div className={styles.whereTostart}>
       <div className={styles.headerHowitWorks}>
         <div className={styles.headerContentsHowitWorks}>
           <h2>
@@ -254,6 +255,7 @@ const WheretoStart: React.FC = () => {
             )
           )}
         </Row>
+      </div>
       </div>
     </>
   );

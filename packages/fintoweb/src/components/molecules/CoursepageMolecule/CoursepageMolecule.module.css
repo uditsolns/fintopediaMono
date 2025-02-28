@@ -14,7 +14,7 @@
 
 .cardImage img {
   width: 100%;
-  height: 200px;
+  height: 178px;
 }
 
 .languageBadge {
@@ -37,7 +37,8 @@
 }
 
 .cardContent {
-  padding: 16px;
+  padding: 24px;
+  gap: 24px;
 }
 
 .cardTitle {
@@ -57,7 +58,7 @@
 .iconRow {
   display: flex;
   justify-content: space-between;
-  margin: 12px 0;
+  margin: 24px 0;
   overflow: hidden;
   color: #fff;
   font-size: 12px;
@@ -88,7 +89,7 @@
 .priceContainer {
   display: flex;
   align-items: center; 
-  margin: 20px 0;
+  gap: 5px;
 }
 .priceContainer h3 {
   color: #fff;

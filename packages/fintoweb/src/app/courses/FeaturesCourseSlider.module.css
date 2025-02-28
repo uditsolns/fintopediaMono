@@ -21,7 +21,7 @@
 }
 .courseCard {
   border-radius: 12px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border:1px solid rgba(255, 255, 255, 0.1);
   background: #121622;
   display: flex;
   padding-right: 29px;

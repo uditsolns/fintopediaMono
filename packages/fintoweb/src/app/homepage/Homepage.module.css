@@ -325,12 +325,9 @@
     #111521 78%,
     #0d0f1b 100%
   );
-  border: 1px solid #7a7fa2;
-  /* border-image-source: linear-gradient(
-    257.31deg,
-    #7a7fa2 -10.81%,
-    #141622 113.5%
-  ); */
+  /* border: 1px solid #7a7fa2; */
+  border: 0.94px solid rgba(255, 255, 255, 0.1);
+
   padding: 40px 40px;
 }
 .categoryForm p {
@@ -549,10 +546,11 @@
   font-style: normal;
   font-weight: 700;
   line-height: 120%; /* 48px */
-}
+} 
 .profileCard {
   border-radius: 12px;
-  border: 1px solid #7a7fa2;
+  /* border: 1px solid #7a7fa2; */
+  border:1px solid rgba(255, 255, 255, 0.1);
   background: #0d0f1c;
   backdrop-filter: blur(19.5px);
   backdrop-filter: blur(19.5px);

@@ -18,7 +18,7 @@
 }
 .courseCard {
   border-radius: 12px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #121622;
   display: flex;
   padding-right: 29px;
@@ -28,19 +28,20 @@
   margin: 10px;
 }
 .courseImageContainer {
-  flex: 0 0 50%;
+  flex: 0 0 48%;
   overflow: hidden;
 }
 .image {
   object-fit: cover;
   border-radius: 10px;
   width: 100% !important;
-  height: 170px !important;
+  height: 220px !important;
   cursor: pointer;
 }
 
 .cardBody {
   flex: 1 0 50%;
+  padding: 24px;
 }
 .cardBody h3 {
   color: #fff;
@@ -87,7 +88,8 @@
 .featurePriceContainer {
   display: flex;
   align-items: center;
-  margin: 8px 0;
+  /* margin: 8px 0; */
+  margin: 24px 0px 0px;
   gap: 15px;
 }
 
@@ -108,7 +110,8 @@
   text-decoration-line: strikethrough;
 }
 .featurecardContent {
-  padding: 5px;
+  /* padding: 5px; */
+  padding: 24px 5px;
   gap: 10px;
 }
 

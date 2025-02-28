@@ -77,7 +77,7 @@ const CourseFilter: React.FC = () => {
       window.removeEventListener("resize", setSlides);
     };
   }, []);
-  React.useEffect(() => {
+  React.useEffect(() => { 
     if (auth?.token) {
       dispatch(getCourseCart());
     }
@@ -258,7 +258,7 @@ const CourseFilter: React.FC = () => {
         </div>
       ) : (
         <>
-          <div className={styles.headerCourseFilter}>
+          <div className={styles.headerCourseFilter}>  
             <div className={styles.headerContentsCourseFilter}>
               <h2>Investing & Trading Courses</h2>
               <p>
@@ -346,7 +346,7 @@ const CourseFilter: React.FC = () => {
           </div>
           <div className={styles.tradingCourses}>
             <div className="row mb-3">
-              <div className="col-md-6">
+              <div className="col-md-6"> 
                 <h1>All Investing & Trading Courses</h1>
               </div>
               <div className="col-md-6">

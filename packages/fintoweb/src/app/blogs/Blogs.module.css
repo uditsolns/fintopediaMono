@@ -18,7 +18,7 @@
 }
 .blogsHeader {
   border-radius: 24px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(
     --BG,
     linear-gradient(
@@ -145,7 +145,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
-  font-size: 48px; 
+  font-size: 48px;
   font-style: normal;
   font-weight: 700;
   line-height: 120%;
@@ -190,7 +190,7 @@
   gap: 12px;
   align-self: stretch;
   border-radius: 6px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #222431;
 }
 .textfieldBlog::placeholder {

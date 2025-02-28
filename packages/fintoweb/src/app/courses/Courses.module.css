@@ -2,21 +2,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30px 100px;
+  padding: 79px 150px 79px 72px;
   background-image: url("../../assets/courses/headingBanner.png");
   background-size: cover;
   background-repeat: no-repeat;
-  /* background: var(
-    --BG,
-    linear-gradient(
-      245deg,
-      #2d303d 0%,
-      #212330 28.6%,
-      #101320 65.15%,
-      #111521 78%,
-      #0d0f1b 100%
-    )
-  ); */
 }
 .headerContentsCourseFilter h2 {
   color: var(--Base-Base-White, #f4f5f5);
@@ -47,7 +36,7 @@
   align-items: flex-start;
   gap: 32px;
   border-radius: 12px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border:1px solid rgba(255, 255, 255, 0.1);
   background: #0e101d;
 }
 .formContainer h2 {
@@ -63,7 +52,7 @@
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
-  margin-top: 10px;
+  margin-top: 18px;
 }
 .textfield {
   display: flex !important;
@@ -197,7 +186,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: 32px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 /* active style Course type */
 .filterButtons {

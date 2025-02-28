@@ -35,7 +35,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 24px;
-  /* border: 1px solid var(--Border, #7a7fa2);
+  /*  border:1px solid rgba(255, 255, 255, 0.1);
   background: var(
     --BG,
     linear-gradient( 
@@ -74,7 +74,7 @@
   align-items: center;
   gap: 20px;
   border-radius: 24px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(
     --BG,
     linear-gradient(
@@ -102,7 +102,7 @@
   align-items: center;
   gap: 24px;
   border-radius: 6px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #222431;
 }
 .socialIcon div {
@@ -123,7 +123,7 @@
   margin-top: 20px;
   flex-shrink: 0;
   border-radius: 24px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(
     --BG,
     linear-gradient(
@@ -145,7 +145,7 @@
   flex-shrink: 0;
   align-self: stretch;
   border-radius: 6px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #222431;
 }
 .contactIcon {
@@ -205,7 +205,7 @@
   justify-content: space-between;
   align-items: center;
   border-radius: 12px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(--BG-2, #222431);
   color: #fff;
 }

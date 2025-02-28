@@ -24,7 +24,7 @@
   align-items: flex-start;
   gap: 16px;
   border-radius: 12px;
-  border: 1px solid #7a7fa2;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(--BG-2, #222431);
   backdrop-filter: blur(19.5px);
 }

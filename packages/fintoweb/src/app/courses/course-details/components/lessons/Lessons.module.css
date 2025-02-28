@@ -134,7 +134,7 @@
   padding: 55px 41px;
   gap: 16px;
   border-radius: 18px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border:1px solid rgba(255, 255, 255, 0.1);
   margin-top: 10px;
   background: var(
     --BG,

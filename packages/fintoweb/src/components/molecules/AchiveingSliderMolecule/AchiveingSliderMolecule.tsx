@@ -25,7 +25,7 @@ const AchiveingSliderMolecule = () => {
       setSlideToShow(3);
     } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
       setSlideToShow(2);
-    } else if (window.innerWidth <= 650) {
+    } else if (window.innerWidth <= 650) { 
       setSlideToShow(1); 
     }
   };

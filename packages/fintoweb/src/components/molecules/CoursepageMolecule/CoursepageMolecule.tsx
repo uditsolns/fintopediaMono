@@ -18,7 +18,7 @@ interface CoursepageMoleculeProps {
 const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
   course,
   onClick,
-  loading = false,
+  loading = false, 
 }) => {
   const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);
@@ -36,7 +36,7 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
             src={`${imageUrl}/uploads/course_images/${course.course_image}`}
             alt={course.name} 
             width={350}
-            height={200}
+            height={178}
             className={styles.image}
           />
           <div className={styles.languageBadge}>
