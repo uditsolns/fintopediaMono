@@ -6,7 +6,7 @@ import { FaArrowRight } from "react-icons/fa";
 import ButtonWithIcons from "../../components/button/ButtonWithIcons";
 
 const Banner = () => {
-  return (
+  return ( 
     <div className={styles.header}>
       <div className={styles.headerContents}>
         <div className={styles.headerCount}>

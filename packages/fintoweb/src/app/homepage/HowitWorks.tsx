@@ -12,7 +12,7 @@ const HowitWorks = () => {
     } else {
       setActiveIndex(index);
     }
-  };
+  }; 
   return (
     <div className={styles.howitWorks}>
       <div className="row">
@@ -26,7 +26,7 @@ const HowitWorks = () => {
             <Image
               src={WorkImage}
               alt="Work Image"
-              className={styles.worksImage}
+              className={styles.worksImage} 
             />
           </div>
         </div>
@@ -40,7 +40,7 @@ const HowitWorks = () => {
               >
                 <span>1</span> Take Online Courses
               </div>
-            )}
+            )} 
             {activeIndex === 1 && (
               <div
                 className={`${styles.howitWorksContentDivActive}`}

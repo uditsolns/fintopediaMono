@@ -121,7 +121,7 @@ const BlogsSlider: React.FC = () => {
 
   return (
     <div className={styles.blogsContainer}>
-      <h2>Blogs</h2>
+      <h2>Blogs</h2> 
       <Slider {...settings}>
         {stocks.map((stock) => (
           <div key={stock.id}>

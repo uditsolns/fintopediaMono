@@ -42,11 +42,13 @@ const CategoryBanner: React.FC<CategoryBannerProps> = ({ categories }) => {
             </Row> */}
             <Row className="mt-2">
               <Col md={12}>
-                <ButtonWithIcons
-                  label="Get Started"
-                  path="/where-to-start"
-                  width="100%"
-                />
+                <div className={styles.getStartedBtn}>
+                  <ButtonWithIcons
+                    label="Get Started"
+                    path="/where-to-start"
+                    width="100%"
+                  />
+                </div>
               </Col>
             </Row>
           </Col>

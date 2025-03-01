@@ -6,14 +6,6 @@
   background-image: url("../../assets/homepage/Banner-bg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  /* background: linear-gradient(
-    245.33deg,
-    #2d303d 0%,
-    #212330 28.6%,
-    #101320 66.05%,
-    #111521 83.68%, 
-    #0d0f1b 100%
-  ); */
 }
 .quizHeader {
   display: flex;
@@ -430,13 +422,6 @@
   background: #0c0c0c;
 } */
 .howitWorksContentDiv {
-  /* overflow: hidden;
-  color: #d5d5d9;
-  text-overflow: ellipsis;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal; */
   display: flex;
   width: 521px;
   padding: 22px 28px;
@@ -546,11 +531,11 @@
   font-style: normal;
   font-weight: 700;
   line-height: 120%; /* 48px */
-} 
+}
 .profileCard {
   border-radius: 12px;
   /* border: 1px solid #7a7fa2; */
-  border:1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #0d0f1c;
   backdrop-filter: blur(19.5px);
   backdrop-filter: blur(19.5px);
@@ -794,7 +779,7 @@
   font-weight: 600;
   line-height: normal;
   letter-spacing: -0.16px;
-  transition: background-color 0.3s ease, color 0.3s ease; 
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .stockmarketBannerContent button:hover {
   background-color: #fff60d;
@@ -881,7 +866,9 @@
   .stockmarketBannerContent p {
     font-size: 0.9rem;
   }
-
+  .howitWorksImageContent {
+    padding-right: 0px;
+  }
   .stockmarketBannerRightContent h2 {
     font-size: 1.5rem;
   }
@@ -896,6 +883,10 @@
 
   .countBtn h6 {
     font-size: 0.8rem;
+  }
+  .blogsContainer h2 {
+    font-size: 30px;
+    padding: 30px 10px;
   }
 }
 @media (max-width: 1050px) {
@@ -915,22 +906,31 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) { 
   .header,
   .quizHeader {
     flex-direction: column;
+    padding: 56px 20px;
+    gap: 30px;
   }
   .headerContents h2,
   .quizContents h2 {
     font-weight: bold;
     color: white;
-    font-size: max(4vw, 25px);
+    font-size: max(4vw, 30px);
   }
   .headerContents,
   .quizContents,
   .imageContainer {
     flex: none;
     width: 100%;
+  }
+  .quizContents p {
+    margin-top: 10px;
+  }
+  .quizContents button {
+    margin-top: 16px;
+
   }
 }
 @media screen and (max-width: 435px) {
@@ -944,6 +944,9 @@
     cursor: pointer;
     border-radius: 4px;
   }
+  .headerCount{
+    margin-bottom: 12px;
+  }
   .howitWorks {
     background-color: #0c0c0c;
     padding: 23px;
@@ -952,11 +955,14 @@
   .howitWorksContent {
     padding: 15px;
   }
+
   .howitWorksContentDiv {
     padding: 10px 16px;
+    width: 100%;
   }
   .howitWorksContentDivActive {
     padding: 10px 16px;
+    width: 100%;
   }
   .howitWorksImage {
     border-radius: 30px;
@@ -984,9 +990,9 @@
   .worksImage {
     position: absolute;
     bottom: -55px;
-    left: -40px;
-    width: 40%;
+    left: -39px;
+    width: 35%;
     height: auto;
-    margin-top: -40px;
+    margin-top: 20px;
   }
 }

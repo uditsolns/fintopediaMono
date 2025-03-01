@@ -27,8 +27,8 @@ const About = () => {
         </div>
       </div>
       <div className={styles.aboutStory}>
-        <div className="row">
-          <div className="col-md-6">
+        <div className="row p-0">
+          <div className={`col-md-6 ${styles.aboutStoryImage}`}>
             <Image src={AboutStory} alt="AboutStory" />
           </div>
           <div className="col-md-6">
@@ -54,7 +54,7 @@ const About = () => {
               <p></p>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
 
       <div className={styles.aboutMissionVision}>

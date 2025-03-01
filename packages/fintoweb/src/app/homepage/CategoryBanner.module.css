@@ -8,25 +8,13 @@
   background-image: url("../../assets/homepage/where-to-star.png");
   background-size: cover;
   background-repeat: no-repeat;
-  /* border: 1px solid var(--L2, #7a7fa2); */
-  /* background: var(
-    --BG,
-    linear-gradient(
-      245deg,
-      #2d303d 0%,
-      #212330 28.6%,
-      #101320 65.15%,
-      #111521 78%,
-      #0d0f1b 100%
-    )
-  ); */
 }
 .mainRow h1 {
   color: #fff;
   font-size: 45px;
   font-style: normal;
   font-weight: 700;
-  line-height: 120%; 
+  line-height: 120%;
   letter-spacing: -0.48px;
 }
 .mainRow p {
@@ -34,7 +22,7 @@
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
-  line-height: 28px; 
+  line-height: 28px;
   letter-spacing: -0.2px;
 }
 .textfield {
@@ -74,5 +62,15 @@
   }
   .mainRow {
     padding: 25px;
+  }
+  .mainRow h1 {
+    font-size: 30px;
+  }
+  .mainRow p {
+    font-size: 16px;
+    margin-top: 12px;
+  }
+  .getStartedBtn {
+    margin-top: 18px;
   }
 }

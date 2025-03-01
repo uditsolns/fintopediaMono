@@ -26,7 +26,7 @@ interface FeaturedCoursesProps {
 
 const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
   courses,
-  categories,
+  categories, 
   label,
 }) => {
   const dispatch = useAppDispatch();

@@ -102,8 +102,8 @@ const Contact: React.FC = () => {
           <div className={styles.contactForm}>
             <div className="row">
               <div className={`col-md-8 mt-3 ${styles.colLeft}`}>
-                <Row className="form-group mt-3">
-                  <Col md={6}>
+                <Row className="form-group">
+                  <Col md={6} className="mt-3">
                     <InputAtom
                       label={contactSupportField.first_name.label}
                       placeholder={contactSupportField.first_name.placeHolder}
@@ -112,7 +112,7 @@ const Contact: React.FC = () => {
                       )}
                     />
                   </Col>
-                  <Col md={6}>
+                  <Col md={6} className="mt-3">
                     <InputAtom
                       label={contactSupportField.last_name.label}
                       placeholder={contactSupportField.last_name.placeHolder}
@@ -122,8 +122,8 @@ const Contact: React.FC = () => {
                     />
                   </Col>
                 </Row>
-                <Row className="form-group mt-3">
-                  <Col md={6}>
+                <Row className="form-group">
+                  <Col md={6} className="mt-3">
                     <InputAtom
                       label={contactSupportField.email_id.label}
                       placeholder={contactSupportField.email_id.placeHolder}
@@ -132,7 +132,7 @@ const Contact: React.FC = () => {
                       )}
                     />
                   </Col>
-                  <Col md={6}>
+                  <Col md={6} className="mt-3">
                     <InputAtom
                       label={contactSupportField.phone_no.label}
                       placeholder={contactSupportField.phone_no.placeHolder}
@@ -142,8 +142,8 @@ const Contact: React.FC = () => {
                     />
                   </Col>
                 </Row>
-                <Row className="form-group mt-3">
-                  <Col md={12}>
+                <Row className="form-group">
+                  <Col md={12} className="mt-3">
                     <InputAtom
                       label={contactSupportField.message.label}
                       placeholder={contactSupportField.message.placeHolder}
@@ -154,8 +154,8 @@ const Contact: React.FC = () => {
                     />
                   </Col>
                 </Row>
-                <Row className="form-group mt-3">
-                  <Col md={12}>
+                <Row className="form-group">
+                  <Col md={12} className="mt-3">
                     <Button
                       type="submit"
                       className={styles.contactButton}
@@ -175,8 +175,8 @@ const Contact: React.FC = () => {
                   </Col>
                 </Row>
               </div>
-              <div className="col-md-4 mt-3">
-                <div className={styles.socialCard}>
+              <div className="col-md-4">
+                <div className={`mt-5 ${styles.socialCard}`}>
                   <div className={styles.socialText}>
                     Follow Us on Social Media
                   </div>
@@ -239,7 +239,7 @@ const Contact: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <div className={styles.socialContact}>
+                <div className={`mt-5 ${styles.socialContact}`}>
                   <div className={styles.socialContactIcon}>
                     <div className={styles.contactIcon}>
                       <svg
@@ -307,7 +307,7 @@ const Contact: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div> 
+            </div>
           </div>
         </div>
         <AchiveingSliderMolecule />

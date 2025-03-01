@@ -63,9 +63,9 @@
 .AboutStoryContent {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Vertically center the content */
-  height: 100%; /* Ensure it takes the full height of its container */
-  padding: 20px; /* Add some padding for better spacing */
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
 }
 .AboutStoryContent h1 {
   color: #fff;
@@ -156,14 +156,10 @@
 .guidePrincipleContent p {
   color: var(--Base-Base-White, #f4f5f5);
   text-align: center;
-  font-feature-settings: "liga" off, "clig" off;
-
-  /* Text/18 */
-  font-family: Inter;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
-  line-height: 28px; /* 155.556% */
+  line-height: 28px;
   letter-spacing: -0.2px;
 }
 .guideCard {
@@ -198,7 +194,7 @@
 @media screen and (max-width: 435px) {
   .aboutBanner {
     display: block;
-    padding: 10px;
+    padding: 56px 20px;
     background: var(
       --BG,
       linear-gradient(
@@ -211,13 +207,47 @@
       )
     );
   }
+  .aboutContents h2 {
+    font-size: 30px;
+  }
+  .aboutContents p {
+    font-size: 16px;
+    margin-top: 8px;
+  }
   .aboutStory {
-    padding: 10px;
+    padding: 0px !important;
+  }
+  .aboutStoryImage {
+    padding: 0px !important;
   }
   .aboutMissionVision {
     padding: 10px;
   }
+  .aboutMissionVisionContent {
+    padding: 56px 20px;
+  }
+  .aboutMissionVisionText h1 {
+    font-size: 30px;
+  }
+  .aboutMissionVisionText p {
+    font-size: 16px;
+    margin-top: 10px;
+  }
   .guidePrinciple {
-    padding: 10px;
+    padding: 56px 20px;
+  }
+  .guidePrincipleContent h1 {
+    font-size: 30px;
+  }
+  .guidePrincipleContent p {
+    font-size: 16px;
+    padding: 10px 50px;
+  }
+  .AboutStoryContent h1 {
+    font-size: 30px;
+  }
+  .AboutStoryContent p {
+    font-size: 16px;
+    margin-top: 8px;
   }
 }
