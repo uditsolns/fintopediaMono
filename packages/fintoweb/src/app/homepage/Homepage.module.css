@@ -850,7 +850,7 @@
   }
 
   .stockmarketBannerRightContent h2 {
-    font-size: 2rem;
+    font-size: 30px;
   }
 
   .stockmarketBannerRightContent h3 {
@@ -870,7 +870,7 @@
     padding-right: 0px;
   }
   .stockmarketBannerRightContent h2 {
-    font-size: 1.5rem;
+    font-size: 30px;
   }
 
   .stockmarketBannerRightContent h3 {
@@ -879,6 +879,9 @@
 
   .countBtn {
     font-size: 1.2rem;
+    margin: auto;
+    padding: 18px;
+    margin-top: 20px;
   }
 
   .countBtn h6 {
@@ -906,7 +909,7 @@
   }
 }
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
   .header,
   .quizHeader {
     flex-direction: column;
@@ -930,7 +933,6 @@
   }
   .quizContents button {
     margin-top: 16px;
-
   }
 }
 @media screen and (max-width: 435px) {
@@ -944,7 +946,7 @@
     cursor: pointer;
     border-radius: 4px;
   }
-  .headerCount{
+  .headerCount {
     margin-bottom: 12px;
   }
   .howitWorks {
@@ -977,7 +979,7 @@
     padding: 20px;
   }
   .stockmarketBannerContent {
-    max-width: 45%;
+    max-width: 100%;
   }
   .stockmarketBanner {
     width: 100%;
@@ -985,7 +987,18 @@
   }
 
   .stockmarketBannerContent button {
-    padding: 2vw 4vw;
+    padding: 15px;
+    margin: auto;
+  }
+  .stockmarketBanner {
+    display: block;
+    height: 70vh;
+  }
+
+  .overlay {
+    display: block;
+    padding: 56px 10%;
+    height: 70vh;
   }
   .worksImage {
     position: absolute;
@@ -994,5 +1007,8 @@
     width: 35%;
     height: auto;
     margin-top: 20px;
+  }
+  .stockmarketBannerRightContent img {
+    margin-top: 80px;
   }
 }

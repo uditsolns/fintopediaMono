@@ -4,12 +4,11 @@ import Image from "next/image";
 import BasicStock from "../../assets/basic-stock-text-image.png";
 import subscribers from "../../assets/subscribers.png";
 
-
 const BasicStockmarketBanner = () => {
   return (
     <div className={styles.stockmarketBanner}>
       <div className={styles.overlay}>
-        <div className={styles.stockmarketBannerContent}> 
+        <div className={styles.stockmarketBannerContent}>
           <h2>
             Explore Top Finance Courses
             <br /> to Boost Your Career
@@ -21,7 +20,7 @@ const BasicStockmarketBanner = () => {
           <button>Explore Menu</button>
           <div className={styles.countBtn}>
             <div>
-            <Image src={subscribers} alt="subscribers" />
+              <Image src={subscribers} alt="subscribers" />
             </div>
             <div>
               10,000 +<br />

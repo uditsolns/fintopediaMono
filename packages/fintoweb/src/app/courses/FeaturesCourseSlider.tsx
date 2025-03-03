@@ -103,7 +103,7 @@ const FeaturesCourseSlider: React.FC<FeaturesCourseSliderProps> = ({
       ).unwrap();
     } finally {
       setLoadingCourseId(null);
-    }
+    } 
   };
   return (
     <div className={styles.sliderContainer}>
