@@ -3,18 +3,6 @@
   background-size: cover;
   background-repeat: no-repeat;
   padding: 80px;
-
-  /* background: var(
-    --BG,
-    linear-gradient(
-      245deg,
-      #2d303d 0%,
-      #212330 28.6%,
-      #101320 65.15%,
-      #111521 78%,
-      #0d0f1b 100%
-    )
-  ); */
 }
 .blogsHeader {
   border-radius: 24px;
@@ -117,6 +105,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 35px;
+  margin-bottom: 35px;
 }
 .loadMore button {
   width: 189px;
@@ -237,13 +226,23 @@
   .blogsListing {
     padding: 15px;
   }
+  .blogsContent h1 {
+    font-size: 30px;
+  }
   .blogsForm {
     padding: 10px;
   }
   .subscribeSection {
-    padding: 10px;
+    padding: 30px;
+  }
+  .subscribeSection h1 {
+    font-size: 30px;
   }
   .subscribeContent p {
     padding: 10px;
+    margin: 0px;
+  }
+  .bolgsColumns {
+    padding: 10px 35px !important;
   }
 }

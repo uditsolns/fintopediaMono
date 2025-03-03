@@ -258,7 +258,7 @@ const CourseFilter: React.FC = () => {
         </div>
       ) : (
         <>
-          <div className={styles.headerCourseFilter}>  
+          <div className={styles.headerCourseFilter}>   
             <div className={styles.headerContentsCourseFilter}>
               <h2>Investing & Trading Courses</h2>
               <p>
@@ -300,7 +300,7 @@ const CourseFilter: React.FC = () => {
                       </div>
                     </Col>
                   </Row> */}
-                  <Row className="mt-3">
+                  <Row className="mt-5">
                     <Col md={12}>
                       <ButtonWithIcons
                         label="Let's Go"
@@ -341,17 +341,17 @@ const CourseFilter: React.FC = () => {
               ))}
             </Slider>
           </div>
-          <div className={styles.featureCourses}>
+          <div className={styles.featureCourses}> 
             <FeaturesCourseSlider courses={courses} />
           </div>
-          <div className={styles.tradingCourses}>
+          <div className={styles.tradingCourses}> 
             <div className="row mb-3">
               <div className="col-md-6"> 
                 <h1>All Investing & Trading Courses</h1>
               </div>
               <div className="col-md-6">
                 <input
-                  type="text"
+                  type="text" 
                   id="name"
                   name="name"
                   placeholder="Search by name"

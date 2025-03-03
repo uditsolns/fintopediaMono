@@ -76,9 +76,9 @@
 }
 @media screen and (max-width: 435px) {
   .AchiveingLearningSlider {
-    padding: 20px;
+    padding: 56px 30px;
   }
   .AchiveingLearningSlider h1 {
-    font-size: 22px;
+    font-size: 30px;
   }
 }

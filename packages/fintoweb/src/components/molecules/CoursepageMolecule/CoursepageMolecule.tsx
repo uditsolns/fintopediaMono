@@ -29,7 +29,7 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
     }
   };
   return (
-    <div key={course.id}>
+    <div key={course.id} className={styles.coursepageMolecule}>
       <Card className={styles.card}>
         <div className={styles.cardImage} onClick={handleNavigation}>
           <Image

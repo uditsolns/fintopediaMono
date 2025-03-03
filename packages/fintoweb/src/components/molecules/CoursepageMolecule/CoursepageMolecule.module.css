@@ -133,3 +133,8 @@
   padding: 50px;
   background: #0e121d;
 }
+@media screen and (max-width: 435px) {
+  .coursepageMolecule{
+    padding: 10px 25px;
+  }
+}

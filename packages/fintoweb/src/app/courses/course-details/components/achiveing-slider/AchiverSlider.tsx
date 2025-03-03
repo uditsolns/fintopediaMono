@@ -47,7 +47,8 @@ const AchiverSlider = () => {
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
-
+    autoplay: true,  
+    autoplaySpeed: 3000, 
     responsive: [
       {
         breakpoint: 1280,

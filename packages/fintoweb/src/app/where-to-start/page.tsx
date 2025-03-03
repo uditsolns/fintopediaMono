@@ -132,130 +132,133 @@ const WheretoStart: React.FC = () => {
             }}
           />
         </div>
-      ) : null}
+      ) : null} 
       <div className={styles.whereTostart}>
-      <div className={styles.headerHowitWorks}>
-        <div className={styles.headerContentsHowitWorks}>
-          <h2>
-            Don’t know where
-            <br />
-            to start?
-          </h2>
-          <p>
-            Create screens directly in Method or add your images from Sketch{" "}
-            <br />
-            or Figma. You can even sync designs from your cloud storage!
-          </p>
-          <form onSubmit={handleSubmit} className="form">
-            <Row className="form-group mt-3">
-              <Col md={12}>
-                <div className="custom-select">
-                  <select
-                    id="categorySelect"
-                    name="college_id"
-                    className="textfield form-control"
-                    onChange={handleInputChange}
-                    value={formData.college_id}
-                  >
-                    <option value="">Select a Category</option>
-                    {categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.category_name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </Col>
-            </Row>
-            <Row className="form-group mt-3">
-              <Col md={12}>
-                <Label
-                  htmlFor="beginner"
-                  className="form-check-label text-white m-2"
-                >
-                  I am:
-                </Label>
-                <div className="form-check form-check-inline">
-                  <input
-                    type="radio"
-                    name="level"
-                    value="Beginner"
-                    id="beginner"
-                    className="form-check-input"
-                    onChange={handleInputChange}
-                    checked={formData.level === "Beginner"}
-                  />
+        <div className={styles.headerHowitWorks}> 
+          <div className={styles.headerContentsHowitWorks}>
+            <h2>
+              Don’t know where
+              <br />
+              to start?
+            </h2>
+            <p>
+              Create screens directly in Method or add your images from Sketch{" "}
+              <br />
+              or Figma. You can even sync designs from your cloud storage!
+            </p>
+            <form onSubmit={handleSubmit} className="form">
+              <Row className="form-group mt-3">
+                <Col md={12}>
+                  <div className="custom-select">
+                    <select
+                      id="categorySelect"
+                      name="college_id"
+                      className="textfield form-control"
+                      onChange={handleInputChange}
+                      value={formData.college_id}
+                    >
+                      <option value="">Select a Category</option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.category_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </Col>
+              </Row>
+              <Row className="form-group mt-3">
+                <Col md={12}>
                   <Label
                     htmlFor="beginner"
-                    className="form-check-label text-white"
+                    className="form-check-label text-white m-2"
                   >
-                    Beginner
+                    I am:
                   </Label>
-                </div>
-                <div className="form-check form-check-inline">
-                  <input
-                    type="radio"
-                    name="level"
-                    value="Intermediate"
-                    id="intermediate"
-                    className="form-check-input"
-                    onChange={handleInputChange}
-                    checked={formData.level === "Intermediate"}
+                  <div className="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      name="level"
+                      value="Beginner"
+                      id="beginner"
+                      className="form-check-input"
+                      onChange={handleInputChange}
+                      checked={formData.level === "Beginner"}
+                    />
+                    <Label
+                      htmlFor="beginner"
+                      className="form-check-label text-white"
+                    >
+                      Beginner
+                    </Label>
+                  </div>
+                  <div className="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      name="level"
+                      value="Intermediate"
+                      id="intermediate"
+                      className="form-check-input"
+                      onChange={handleInputChange}
+                      checked={formData.level === "Intermediate"}
+                    />
+                    <Label
+                      htmlFor="intermediate"
+                      className="form-check-label text-white"
+                    >
+                      Intermediate
+                    </Label>
+                  </div>
+                  <div className="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      name="level"
+                      value="Expert"
+                      id="pro"
+                      className="form-check-input"
+                      onChange={handleInputChange}
+                      checked={formData.level === "Expert"}
+                    />
+                    <Label
+                      htmlFor="pro"
+                      className="form-check-label text-white"
+                    >
+                      Expert
+                    </Label>
+                  </div>
+                </Col>
+              </Row>
+              <Row className="mt-2">
+                <Col md={12}>
+                  <ButtonWithIcons
+                    label="Let's go"
+                    width="100%"
+                    onClick={handleSubmitWrapper}
                   />
-                  <Label
-                    htmlFor="intermediate"
-                    className="form-check-label text-white"
-                  >
-                    Intermediate
-                  </Label>
-                </div>
-                <div className="form-check form-check-inline">
-                  <input
-                    type="radio"
-                    name="level"
-                    value="Expert"
-                    id="pro"
-                    className="form-check-input"
-                    onChange={handleInputChange}
-                    checked={formData.level === "Expert"}
+                </Col>
+              </Row>
+            </form>
+          </div>
+          <div className={styles.imageContainer}>
+            <Image src={Back} alt="Logo" />
+          </div>
+        </div>
+        <div className={styles.cards}>
+          <h2 className={styles.cardsHeading}>Recommended Courses</h2>
+          <Row className="mt-3">
+            {(filteredCourses.length > 0 ? filteredCourses : courses).map(
+              (course) => (
+                <Col md={4} key={course.id}>
+                  <CoursesMolecule
+                    course={course}
+                    loading={loadingCourseId === course.id}
+                    onClick={() => handleCourseClick(course)}
                   />
-                  <Label htmlFor="pro" className="form-check-label text-white">
-                    Expert
-                  </Label>
-                </div>
-              </Col>
-            </Row>
-            <Row className="mt-2">
-              <Col md={12}>
-                <ButtonWithIcons
-                  label="Let's go"
-                  width="100%"
-                  onClick={handleSubmitWrapper}
-                />
-              </Col>
-            </Row>
-          </form>
+                </Col>
+              )
+            )}
+          </Row>
         </div>
-        <div className={styles.imageContainer}>
-          <Image src={Back} alt="Logo" />
-        </div>
-      </div>
-      <div className={styles.cards}>
-        <h2 className={styles.cardsHeading}>Recommended Courses</h2>
-        <Row className="mt-3">
-          {(filteredCourses.length > 0 ? filteredCourses : courses).map(
-            (course) => (
-              <Col md={4} key={course.id}>
-                <CoursesMolecule
-                  course={course}
-                  loading={loadingCourseId === course.id}
-                  onClick={() => handleCourseClick(course)}
-                />
-              </Col>
-            )
-          )}
-        </Row>
-      </div>
       </div>
     </>
   );

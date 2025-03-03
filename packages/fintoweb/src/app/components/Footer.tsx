@@ -97,32 +97,8 @@ export const Footer = () => {
                 {/* onClick={(e) => handleRouteClick(e, link.path)} */}
                 <div className={styles.footerLinks}>
                   <h3>Quick Links</h3>
-                  {/* <Link href="/" prefetch={true} className={styles.links}>
-                    Home
-                  </Link>
-                  <Link
-                    href="/about-us"
-                    prefetch={true}
-                    className={styles.links}
-                  >
-                    About Us
-                  </Link>
-                  <Link
-                    href="/courses"
-                    prefetch={true}
-                    className={styles.links}
-                  >
-                    Courses
-                  </Link>
-                  <Link
-                    href="/contact-us"
-                    prefetch={true}
-                    className={styles.links}
-                  >
-                    Contact Us
-                  </Link> */}
                   {links.map((link) => (
-                    <Link
+                    <Link 
                       key={link.path}
                       href={link.path}
                       prefetch={true}

@@ -82,11 +82,11 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
             style={{
               height: "5rem",
               width: "5rem",
-            }}
+            }} 
           />
         </div>
       ) : null}
-      <div className={styles.CourseDetails}>
+      <div className={styles.CourseDetails}> 
         <div className={styles.CourseDetailsIntro}>
           <div className={styles.links}>
             <Link href="/" className={styles.link}>
@@ -148,7 +148,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
           </div>
         </div>
 
-        <div className={styles.learnSlider}>
+        <div className={styles.learnSlider}> 
           <LearnSlider /> 
         </div>
         <div className={styles.lessons}>

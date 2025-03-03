@@ -107,7 +107,7 @@ const FeaturesCourseSlider: React.FC<FeaturesCourseSliderProps> = ({
   };
   return (
     <div className={styles.sliderContainer}>
-      <h1>Featured Courses</h1>
+      <h1>Featured Courses</h1> 
       {courses.length > 0 ? (
         <Slider {...settings}>
           {courses

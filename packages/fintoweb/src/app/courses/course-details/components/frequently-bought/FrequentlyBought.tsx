@@ -80,8 +80,8 @@ const FrequentlyBought: React.FC<FrequentlyBoughtProps> = ({
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
-    autoplay: true, 
-    autoplaySpeed: 3000, 
+    autoplay: true,  
+    autoplaySpeed: 3000,  
     pauseOnHover: true, 
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
@@ -92,7 +92,7 @@ const FrequentlyBought: React.FC<FrequentlyBoughtProps> = ({
         (100 / (totalSlides - slideToShow + 1)) * (current + 1);
       setProgress(progressPercentage);
     },
-    responsive: [
+    responsive: [ 
       {
         breakpoint: 1280,
         settings: {

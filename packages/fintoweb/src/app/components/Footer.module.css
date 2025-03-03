@@ -78,4 +78,13 @@
   .footerContainer {
     display: block;
   }
+  .footerLinks{
+    margin-top: 20px;
+  }
+  .links{
+    margin-top: 5px;
+  }
+  .ratingFooter{
+    padding: 5px;
+  }
 }

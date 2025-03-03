@@ -53,7 +53,7 @@ const stocks = [
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
     reviews: 800,
-    price: 4000,
+    price: 4000, 
     originalPrice: 5000,
   },
   {
@@ -154,7 +154,7 @@ const Blogs: React.FC = () => {
         <Row>
           {stocks.map((stock) => {
             return (
-              <Col md={3} key={stock.id} className="mt-3">
+              <Col md={3} key={stock.id} className={`${styles.bolgsColumns} mt-3`}>
                 <Card className={styles.blogsCard}>
                   <Image
                     src={stock.image}
