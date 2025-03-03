@@ -60,16 +60,19 @@ const CourseFilter: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
+  
   const setSlides = () => {
-    if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
-      setSlideToShow(3);
-    } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
-      setSlideToShow(2);
-    } else if (window.innerWidth <= 650) {
+    const width = window.innerWidth;
+    if (width <= 650) {
       setSlideToShow(1);
+    } else if (width <= 1000) {
+      setSlideToShow(2);
+    } else if (width <= 1280) {
+      setSlideToShow(3);
+    } else {
+      setSlideToShow(3);
     }
   };
-
   useEffect(() => {
     setSlides();
     window.addEventListener("resize", setSlides);
@@ -77,7 +80,7 @@ const CourseFilter: React.FC = () => {
       window.removeEventListener("resize", setSlides);
     };
   }, []);
-  React.useEffect(() => { 
+  React.useEffect(() => {
     if (auth?.token) {
       dispatch(getCourseCart());
     }
@@ -258,7 +261,7 @@ const CourseFilter: React.FC = () => {
         </div>
       ) : (
         <>
-          <div className={styles.headerCourseFilter}>   
+          <div className={styles.headerCourseFilter}>
             <div className={styles.headerContentsCourseFilter}>
               <h2>Investing & Trading Courses</h2>
               <p>
@@ -341,17 +344,17 @@ const CourseFilter: React.FC = () => {
               ))}
             </Slider>
           </div>
-          <div className={styles.featureCourses}> 
+          <div className={styles.featureCourses}>
             <FeaturesCourseSlider courses={courses} />
           </div>
-          <div className={styles.tradingCourses}> 
+          <div className={styles.tradingCourses}>
             <div className="row mb-3">
-              <div className="col-md-6"> 
+              <div className="col-md-6">
                 <h1>All Investing & Trading Courses</h1>
               </div>
               <div className="col-md-6">
                 <input
-                  type="text" 
+                  type="text"
                   id="name"
                   name="name"
                   placeholder="Search by name"
