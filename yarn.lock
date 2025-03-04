@@ -3856,6 +3856,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/crypto-js@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "@types/crypto-js@npm:4.2.2"
+  checksum: 727daa0d2db35f0abefbab865c23213b6ee6a270e27e177939bbe4b70d1e84c2202d9fac4ea84859c4b4d49a4ee50f948f601327a39b69ec013288018ba07ca5
+  languageName: node
+  linkType: hard
+
 "@types/graceful-fs@npm:^4.1.3":
   version: 4.1.9
   resolution: "@types/graceful-fs@npm:4.1.9"
@@ -3968,6 +3975,13 @@ __metadata:
   dependencies:
     "@types/react": "*"
   checksum: ad28ecce3915d30dc76adc2a1373fda1745ba429cea290e16c6628df9a05fd80b6403c8e87d78b45e6c60e51df7a67add389ab62b90070fbfdc9bda8307d9953
+  languageName: node
+  linkType: hard
+
+"@types/react-native-base64@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@types/react-native-base64@npm:0.2.2"
+  checksum: fa3b730b21cff86d026c3a867e3dabe59482db02d128dd69a42e69016a699d426938b48d3b935a47ae6493e9c9de73ba75a5ce2bef8608c2b94254e5a0debbb1
   languageName: node
   linkType: hard
 
@@ -6958,7 +6972,9 @@ __metadata:
     "@react-navigation/native-stack": ^6.11.0
     "@reduxjs/toolkit": ^2.2.7
     "@shopify/react-native-skia": ^1.3.10
+    "@types/crypto-js": ^4.2.2
     "@types/react": ^18.2.6
+    "@types/react-native-base64": ^0.2.2
     "@types/react-test-renderer": ^18.0.0
     babel-jest: ^29.6.3
     babel-plugin-module-resolver: ^5.0.2
@@ -6975,9 +6991,9 @@ __metadata:
     react-native-document-picker: ^9.3.1
     react-native-gesture-handler: ^2.19.0
     react-native-image-crop-picker: ^0.41.4
+    react-native-orientation-locker: ^1.7.0
     react-native-pager-view: ^6.4.1
     react-native-pdf: ^6.7.5
-    react-native-phonepe-pg: "https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz"
     react-native-reanimated: ^3.15.1
     react-native-reanimated-carousel: ^3.5.1
     react-native-safe-area-context: ^4.10.8
@@ -6992,6 +7008,7 @@ __metadata:
     redux-persist: ^6.0.0
     shared: "*"
     typescript: 5.0.4
+    vdocipher-rn-bridge: ^1.20.8
     yup: ^1.4.0
   languageName: unknown
   linkType: soft
@@ -7003,7 +7020,6 @@ __metadata:
     next: "*"
     react-dom: "*"
     react-native: "*"
-    react-native-phonepe-pg: "https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz"
     react-native-web: "*"
   languageName: unknown
   linkType: soft
@@ -11031,6 +11047,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-orientation-locker@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "react-native-orientation-locker@npm:1.7.0"
+  peerDependencies:
+    react: ">=16.13.1"
+    react-native: ">=0.63.2"
+    react-native-windows: ">=0.63.3"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: 495010b3150adcbc1dcb24e0ca5c13838f02dbcee7c6ec391fe07bd47f9b75ac57b0ec1144aaab5d6ed62e7a354497e9fa5399359d896099ecbea439908817cf
+  languageName: node
+  linkType: hard
+
 "react-native-pager-view@npm:^6.4.1":
   version: 6.5.0
   resolution: "react-native-pager-view@npm:6.5.0"
@@ -11052,16 +11082,6 @@ __metadata:
     react-native: "*"
     react-native-blob-util: ">=0.13.7"
   checksum: fa07d2e972efd0fd4f8b8d061ffbc63306766e4f792855f7010fc28814692c62b7ab942777b914a4d471a45044013793a854357fab19740596ad64034832f368
-  languageName: node
-  linkType: hard
-
-"react-native-phonepe-pg@https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz":
-  version: 2.0.1
-  resolution: "react-native-phonepe-pg@https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz"
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 1aac40cf4227d52d2445c9e877da6afbbef21561cfea1f58835c0d2c1ab22b65c0225f106deed7dfe6c8775c3ac17c5f340e8ffa32237e49cf618d794d9b8073
   languageName: node
   linkType: hard
 
@@ -13255,6 +13275,18 @@ __metadata:
   version: 1.1.2
   resolution: "vary@npm:1.1.2"
   checksum: ae0123222c6df65b437669d63dfa8c36cee20a504101b2fcd97b8bf76f91259c17f9f2b4d70a1e3c6bbcee7f51b28392833adb6b2770b23b01abec84e369660b
+  languageName: node
+  linkType: hard
+
+"vdocipher-rn-bridge@npm:^1.20.8":
+  version: 1.21.2
+  resolution: "vdocipher-rn-bridge@npm:1.21.2"
+  dependencies:
+    deprecated-react-native-prop-types: ^2.3.0
+    prop-types: ^15.6.2
+  peerDependencies:
+    react-native: 0.68 - 0.76
+  checksum: 414a8991e4061a65a11de1bd8624bf64f6535cdbbab8fa2864cf1bace52307c5c0610599f37951e427058fe4011078daa49082460bc30b2bc08d96e291c86625
   languageName: node
   linkType: hard
 
