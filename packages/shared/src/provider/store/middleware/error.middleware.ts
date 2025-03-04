@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import { Toast } from "react-native-toast-notifications";
+// import { Toast } from "react-native-toast-notifications";
 import { toast } from "react-toastify";
 
 export const errorMiddleware =
@@ -12,10 +12,10 @@ export const errorMiddleware =
             position: "top-right",
             theme: "light",
           });
-        } else {
-          Toast.show(action.payload.message, {
-            type: "error",
-          });
+          // } else {
+          //   Toast.show(action.payload.message, {
+          //     type: "error",
+          //   });
         }
       } else {
         if (Platform.OS === "web") {
@@ -23,10 +23,10 @@ export const errorMiddleware =
             position: "top-right",
             theme: "light",
           });
-        } else {
-          Toast.show(action.error.message, {
-            type: "error",
-          });
+          // } else {
+          //   Toast.show(action.error.message, {
+          //     type: "error",
+          //   });
         }
       }
     }
