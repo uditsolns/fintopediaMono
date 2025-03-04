@@ -1,6 +1,5 @@
-import {useNavigation, useRoute} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {
   deleteCourseCart,
@@ -119,7 +118,7 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
               totalPay: totalPay,
               totalDiscount: totalDiscount,
               totalSubTotal: subtotal,
-              actualPrice:actualPricetotal,
+              actualPrice: actualPricetotal,
               gst: gst,
             };
             navigation.navigate(RouteKeys.BILLINGSCREEN, {cartData: cartData});

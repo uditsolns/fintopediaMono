@@ -1,14 +1,18 @@
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {
+  storeSingleCourse,
+  storeVideoUrl,
+} from '@shared/src/provider/store/reducers/courses.reducer';
 import {
   createCourseCart,
   getCourseCart,
 } from '@shared/src/provider/store/services/CourseCart.service';
 import {getCourses} from '@shared/src/provider/store/services/courses.service';
-import { getOngoingCourse } from '@shared/src/provider/store/services/ongoing-course.service';
+import {getOngoingCourse} from '@shared/src/provider/store/services/ongoing-course.service';
 import {getUserById} from '@shared/src/provider/store/services/user.service';
 import {
   useAppDispatch,
@@ -17,8 +21,8 @@ import {
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CategoriesResponse} from '@shared/src/utils/types/categories';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
-import { OngoingCoursesResponse } from '@shared/src/utils/types/ongoing-course';
-import { UserCourseHistoryResponse } from '@shared/src/utils/types/UserCourseHistory';
+import {OngoingCoursesResponse} from '@shared/src/utils/types/ongoing-course';
+import {UserCourseHistoryResponse} from '@shared/src/utils/types/UserCourseHistory';
 import {isInCart} from '@src/components/Calculate';
 import CarouselAtom from '@src/components/Carousel/CarouselAtom';
 import GetStarted from '@src/components/GetStarted';
@@ -61,9 +65,8 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   const {courseCart, loading: courseCartLoading} = useAppSelector(
     state => state.courseCart,
   );
-  const {user_course_history, loading: user_course_history_loading} = useAppSelector(
-    state => state.userCourseHistory,
-  );
+  const {user_course_history, loading: user_course_history_loading} =
+    useAppSelector(state => state.userCourseHistory);
   const {ongoing_courses, loading: ongoing_courses_loading} = useAppSelector(
     state => state.ongoingCourse,
   );
@@ -99,11 +102,18 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     }
   }, [courses]);
 
-  const continueLearningRenderItem = ({item}: {item: OngoingCoursesResponse}) => {
+  const continueLearningRenderItem = ({
+    item,
+  }: {
+    item: OngoingCoursesResponse;
+  }) => {
     return (
       <ContinueLearningMolecule
         item={item}
         onPress={() => {
+          if (item?.course?.course_video_embed) {
+            dispatch(storeVideoUrl(item?.course?.course_video_embed));
+          }
           navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
             id: item?.course_id,
           });
@@ -133,6 +143,9 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       <PopularCourseMolecule
         item={item}
         onView={() => {
+          if (item?.course_video_embed) {
+            dispatch(storeVideoUrl(item?.course_video_embed));
+          }
           navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
             id: item?.id,
           });
@@ -172,7 +185,9 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       categoriesLoading?.categories ||
       coursesLoading?.courses ||
       courseCartLoading?.courseCart ||
-      courseCartLoading.create || user_course_history_loading?.user_course_history || ongoing_courses_loading?.ongoing_courses ? (
+      courseCartLoading.create ||
+      user_course_history_loading?.user_course_history ||
+      ongoing_courses_loading?.ongoing_courses ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>

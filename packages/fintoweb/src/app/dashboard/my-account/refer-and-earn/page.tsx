@@ -7,7 +7,7 @@ import styles from "./Refer.module.css";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
-const page = () => {
+const ReferEarn = () => {
   const router = useRouter();
   const { auth } = useAppSelector((state) => state.auth);
   const token = auth?.token;
@@ -113,4 +113,4 @@ const page = () => {
     </div>
   );
 };
-export default page;
+export default ReferEarn;

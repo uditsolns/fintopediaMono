@@ -1,6 +1,5 @@
 import {Images} from '@shared/src/assets';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
@@ -13,12 +12,12 @@ import {useResetHelper} from '@shared/src/components/structures/reset/reset.help
 import {resetField} from '@shared/src/components/structures/reset/resetModel';
 import {NavType} from '@src/navigation/types';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface ResetPasswordProps extends NavType<'ResetPassword'> {}
 
 export const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
   const {confirm, loading} = useAppSelector(state => state.auth);
-  console.log(confirm)
   const {resetFormik, resetInputProps} = useResetHelper();
   const {handleSubmit, setFieldValue} = resetFormik;
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);

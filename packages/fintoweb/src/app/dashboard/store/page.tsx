@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
-const page = () => {
+const Store = () => {
   const router = useRouter();
   const { auth } = useAppSelector((state) => state.auth);
   const token = auth?.token;
@@ -17,4 +17,4 @@ const page = () => {
   return <div>Store Page</div>;
 };
 
-export default page;
+export default Store;

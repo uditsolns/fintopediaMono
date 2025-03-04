@@ -1,7 +1,6 @@
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {
   useAppDispatch,
@@ -18,6 +17,7 @@ import {userField} from '@shared/src/components/structures/user/userModel';
 import {PopupUpload} from '@src/components/Popup/PopupUpload';
 import {imageUrl} from '@shared/src/config/imageUrl';
 import {ImageType} from '@shared/src/utils/types/main';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 const avatarUrl =
   'https://st4.depositphotos.com/4329009/19956/v/450/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg';

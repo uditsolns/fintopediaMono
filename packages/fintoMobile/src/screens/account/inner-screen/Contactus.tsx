@@ -1,6 +1,5 @@
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {colorPresets} from '@shared/src/theme/color';
@@ -14,6 +13,7 @@ import {useContactSupportHelper} from '@shared/src/components/structures/contact
 import {contactSupportField} from '@shared/src/components/structures/contact-support/contactSupportModel';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface ContactusProps {}
 
@@ -109,7 +109,10 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
                     )}
                     label={contactSupportField.message.label}
                     placeholder={contactSupportField.message.placeHolder}
-                    style={{minHeight: moderateScale(150), textAlignVertical: 'top'}}
+                    style={{
+                      minHeight: moderateScale(150),
+                      textAlignVertical: 'top',
+                    }}
                   />
                 </View>
                 <View>

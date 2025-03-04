@@ -14,7 +14,7 @@ const initialState: CoursesState = {
     delete: false,
     update: false,
     courses: false,
-    singleCourse: false, 
+    singleCourse: false,
   },
   err: {
     createErr: null,
@@ -28,6 +28,7 @@ const initialState: CoursesState = {
   update: null,
   courses: [],
   singleCourse: null,
+  video_url: null,
 };
 
 const coursesSlice = createSlice({
@@ -41,6 +42,12 @@ const coursesSlice = createSlice({
       state.create = null;
       state.update = null;
       state.delete = null;
+    },
+    storeVideoUrl: (state, action) => {
+      state.video_url = action.payload;
+    },
+    clearVideoUrl: (state) => {
+      state.video_url = null;
     },
   },
   extraReducers: (builder) => {
@@ -57,7 +64,7 @@ const coursesSlice = createSlice({
         state.loading.courses = false;
         state.err.coursesErr = action?.payload;
       })
-      // single  course 
+      // single  course
       .addCase(getCoursesById.pending, (state) => {
         state.loading.singleCourse = true;
       })
@@ -110,5 +117,6 @@ const coursesSlice = createSlice({
       });
   },
 });
-export const { storeSingleCourse, clearCourse } = coursesSlice.actions;
+export const { storeSingleCourse, clearCourse, storeVideoUrl,clearVideoUrl } =
+  coursesSlice.actions;
 export default coursesSlice.reducer;

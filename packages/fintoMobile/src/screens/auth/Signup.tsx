@@ -11,7 +11,6 @@ import FollowUsMolecule from '@src/components/molecules/FollowUsMolecule/FollowU
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import Dropdown from '@src/components/Dropdown/Dropdown';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {NavType} from '@src/navigation/types';
 import {useSignupHelper} from '@shared/src/components/structures/signup/signup.helper';
@@ -22,7 +21,8 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {Toast} from 'react-native-toast-notifications';
-import { getCollege } from '@shared/src/provider/store/services/colleges.service';
+import {getCollege} from '@shared/src/provider/store/services/colleges.service';
+import {ScrollViewAtom} from 'shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface SignupProps extends NavType<'Singup'> {}
 interface Category {
@@ -72,7 +72,7 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
   };
 
   React.useEffect(() => {
-    dispatch(getCollege())
+    dispatch(getCollege());
     setFieldValue(signupField.role.name, 'app-user');
   }, []);
 

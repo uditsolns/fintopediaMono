@@ -2,7 +2,7 @@ import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
@@ -13,7 +13,7 @@ interface ReferFriendsProps {}
 
 export const ReferFriends: React.FC<ReferFriendsProps> = ({}) => {
   return (
-    <GradientTemplate style={{paddingBottom: 0,paddingTop:moderateScale(70)}}>
+    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70)}}>
       <ScrollViewAtom>
         <View
           style={{

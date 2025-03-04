@@ -15,7 +15,13 @@ import {
 import {formatDateMonthTime} from '@src/components/Calculate';
 import {MultilineTextInputAtom} from '@src/components/Input/MultilineTextInputAtom';
 import React from 'react';
-import {Alert, FlatList, Pressable, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  LayoutChangeEvent,
+  Pressable,
+  View,
+} from 'react-native';
 import {useCourseNotesHelper} from '@shared/src/components/structures/course-notes/courseNotes.helper';
 import {courseNotesField} from '@shared/src/components/structures/course-notes/courseNotesModel';
 import LoaderAtom from '@src/components/LoaderAtom';
@@ -24,8 +30,12 @@ import {
   deleteCourseNotes,
   updateCourseNotes,
 } from '@shared/src/provider/store/services/course-note.service';
-interface NotesProps {}
-export const Notes: React.FunctionComponent<NotesProps> = () => {
+
+interface NotesProps {
+  onLayout: (event: LayoutChangeEvent) => void;
+}
+
+export const Notes: React.FunctionComponent<NotesProps> = ({onLayout}) => {
   const dispatch = useAppDispatch();
   const {auth} = useAppSelector(state => state.auth);
   const {singleCourse, loading: coursesLoading} = useAppSelector(
@@ -45,7 +55,7 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
     React.useState<CourseNotesResponse | null>(null);
 
   return (
-    <View style={{flex: 1, padding: mScale.base}}>
+    <View onLayout={onLayout} style={{flex: 1, padding: mScale.base}}>
       {coursesLoading.singleCourse ||
       coursesLoading.courses ||
       course_notes_loading.create ||
@@ -53,7 +63,7 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
       course_notes_loading.update ||
       course_notes_loading.delete ? (
         <LoaderAtom size="large" />
-      ) : null} 
+      ) : null}
       <View>
         <MultilineTextInputAtom
           placeholderTitle="Add a note at 0.15"
@@ -93,7 +103,7 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
             setSelectedNote(null);
           }}
           value={notes}
-          onChangeText={setNotes} 
+          onChangeText={setNotes}
         />
 
         {course_notes?.length ? (
@@ -154,7 +164,7 @@ export const Notes: React.FunctionComponent<NotesProps> = () => {
                               .replace(/&nbsp;/g, ' ');
                             setNotes(note2);
                             setSelectedNote(item);
-                          }}> 
+                          }}>
                           <Images.SVG.Pencil />
                         </Pressable>
                         <Pressable

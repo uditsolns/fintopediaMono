@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  ActivityIndicator,
-  Pressable,
-  PressableProps,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Pressable, PressableProps, StyleSheet, View } from "react-native";
 import { colorPresets } from "../../../theme/color";
 import { WINDOW_WIDTH, mScale } from "../../../theme/metrics";
 import { LinearGradientMolecule } from "../../molecules/Gradient/LinearGradientMolecule";
@@ -17,15 +11,15 @@ interface ButtonAtomProps extends PressableProps {
   title: string;
   preset?: ButtonPresets;
   loading?: boolean;
-  textPreset?:TextPresetType,
-  loadingColor?:string
+  textPreset?: TextPresetType;
+  loadingColor?: string;
 }
 
 export const ButtonAtom = ({
   title,
   preset = "primary",
-  textPreset = 'smallBold',
-  loading,
+  textPreset = "smallBold",
+  loading = false,
   loadingColor = colorPresets.BLACK,
   ...rest
 }: ButtonAtomProps) => {
@@ -58,14 +52,16 @@ export const ButtonAtom = ({
         </View>
       ) : null}
       <Pressable
+        disabled={loading}
         style={({ pressed }) => [presetData, { opacity: pressed ? 0.7 : 1 }]}
         {...rest}
       >
-        {loading ? (
-          <ActivityIndicator color={loadingColor} size={"small"} />
-        ) : (
-          <TextAtom style={textStyle} preset={textPreset} text={title} numberOfLines={1}  />
-        )}
+        <TextAtom
+          style={textStyle}
+          preset={textPreset}
+          text={title}
+          numberOfLines={1}
+        />
       </Pressable>
     </View>
   );
