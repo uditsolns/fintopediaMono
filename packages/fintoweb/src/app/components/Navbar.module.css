@@ -1,7 +1,9 @@
 .cartContainer {
   position: relative;
 }
-
+.navigationbar{
+  height: 85px !important;
+}
 .cartIcon {
   margin-right: 8px;
   width: 23px;
@@ -28,5 +30,13 @@
 @media screen and (max-width: 435px) {
   .browseLink {
     width: auto;
+    font-size: 14px !important;
+  }
+  .navigationNav{
+    padding: 12px !important;
+  }
+  .navLogo{
+    margin: 0px !important;
+    height: 45px !important;
   }
 }

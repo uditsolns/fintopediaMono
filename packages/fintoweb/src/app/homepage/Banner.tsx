@@ -6,18 +6,18 @@ import { FaArrowRight } from "react-icons/fa";
 import ButtonWithIcons from "../../components/button/ButtonWithIcons";
 
 const Banner = () => {
-  return (
+  return ( 
     <div className={styles.header}>
       <div className={styles.headerContents}>
         <div className={styles.headerCount}>
           <h4 className={styles.count}>10,000+ </h4>
-          <span>Traders Trusted Us</span>
-        </div>
+          <span>Traders Trusted Us</span>  
+        </div> 
         <h2>
           India&apos;s top experts
           <br /> courses on Investing
         </h2>
-        <p>
+        <p className="mt-3"> 
           Discover a diverse range of online courses designed to cater to <br />
           learners of all levels, interests and ambitions.
         </p>

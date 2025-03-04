@@ -1,5 +1,5 @@
 .lessonsContainer {
-  padding: 50px;
+  padding: 72px;
   background-image: url("../../../../../assets/courses/course-details/Lessons-bg.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -134,7 +134,7 @@
   padding: 55px 41px;
   gap: 16px;
   border-radius: 18px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border:1px solid rgba(255, 255, 255, 0.1);
   margin-top: 10px;
   background: var(
     --BG,
@@ -191,6 +191,6 @@
 }
 @media screen and (max-width: 435px) {
   .lessonsContainer {
-    padding: 5px;
+    padding: 56px 5px;
   }
 }

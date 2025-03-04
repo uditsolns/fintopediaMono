@@ -26,7 +26,7 @@ interface FeaturedCoursesProps {
 
 const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
   courses,
-  categories,
+  categories, 
   label,
 }) => {
   const dispatch = useAppDispatch();
@@ -47,13 +47,26 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
   );
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
+  // const setSlides = () => {
+  //   if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
+  //     setSlideToShow(3);
+  //   } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
+  //     setSlideToShow(2);
+  //   } else if (window.innerWidth <= 650) {
+  //     setSlideToShow(1);
+  //   }
+  // };
+
   const setSlides = () => {
-    if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
-      setSlideToShow(3);
-    } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
-      setSlideToShow(2);
-    } else if (window.innerWidth <= 650) {
+    const width = window.innerWidth;
+    if (width <= 650) {
       setSlideToShow(1);
+    } else if (width <= 1000) {
+      setSlideToShow(2);
+    } else if (width <= 1280) {
+      setSlideToShow(3);
+    } else {
+      setSlideToShow(3);
     }
   };
 
@@ -157,7 +170,7 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
         <button
           className={`${styles.categoryButton} ${
             categoriesSelected === "all" ? styles.active : ""
-          }`}
+          }`} 
           onClick={() => {
             setCategoriesSelected("all");
             setFilterCourses(
@@ -192,7 +205,7 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
       <Slider key={categoriesSelected} {...settings}>
         {filterCourses?.map((course, index) => {
           return (
-            <CoursesMolecule
+            <CoursesMolecule 
               key={course.id}
               course={course}
               loading={loadingCourseId === course.id}

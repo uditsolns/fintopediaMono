@@ -12,10 +12,10 @@ export const errorMiddleware =
             position: "top-right",
             theme: "light",
           });
-        } else {
-          // Toast.show(action.payload.message, {
-          //   type: "error",
-          // });
+          // } else {
+          //   Toast.show(action.payload.message, {
+          //     type: "error",
+          //   });
         }
       } else {
         if (Platform.OS === "web") {
@@ -23,10 +23,10 @@ export const errorMiddleware =
             position: "top-right",
             theme: "light",
           });
-        } else {
-          // Toast.show(action.error.message, {
-          //   type: "error",
-          // });
+          // } else {
+          //   Toast.show(action.error.message, {
+          //     type: "error",
+          //   });
         }
       }
     }

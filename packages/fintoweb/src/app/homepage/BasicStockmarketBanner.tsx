@@ -4,7 +4,6 @@ import Image from "next/image";
 import BasicStock from "../../assets/basic-stock-text-image.png";
 import subscribers from "../../assets/subscribers.png";
 
-
 const BasicStockmarketBanner = () => {
   return (
     <div className={styles.stockmarketBanner}>
@@ -21,7 +20,7 @@ const BasicStockmarketBanner = () => {
           <button>Explore Menu</button>
           <div className={styles.countBtn}>
             <div>
-            <Image src={subscribers} alt="subscribers" />
+              <Image src={subscribers} alt="subscribers" />
             </div>
             <div>
               10,000 +<br />

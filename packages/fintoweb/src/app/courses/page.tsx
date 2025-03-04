@@ -60,16 +60,19 @@ const CourseFilter: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
+  
   const setSlides = () => {
-    if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
-      setSlideToShow(3);
-    } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
-      setSlideToShow(2);
-    } else if (window.innerWidth <= 650) {
+    const width = window.innerWidth;
+    if (width <= 650) {
       setSlideToShow(1);
+    } else if (width <= 1000) {
+      setSlideToShow(2);
+    } else if (width <= 1280) {
+      setSlideToShow(3);
+    } else {
+      setSlideToShow(3);
     }
   };
-
   useEffect(() => {
     setSlides();
     window.addEventListener("resize", setSlides);
@@ -300,7 +303,7 @@ const CourseFilter: React.FC = () => {
                       </div>
                     </Col>
                   </Row> */}
-                  <Row className="mt-3">
+                  <Row className="mt-5">
                     <Col md={12}>
                       <ButtonWithIcons
                         label="Let's Go"

@@ -18,7 +18,7 @@ export const InputAtom = ({
   errorMessage,
   rightIcon,
   leftIcon,
-  type = "text",
+  type = "text", 
   ...rest
 }: InputAtomProps) => {
   return (

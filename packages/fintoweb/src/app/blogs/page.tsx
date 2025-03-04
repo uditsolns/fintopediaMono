@@ -11,7 +11,7 @@ import {
   CardImg,
   CardTitle,
   Col,
-  InputGroup,
+  InputGroup, 
   Label,
   Row,
 } from "reactstrap";
@@ -26,7 +26,7 @@ const stocks = [
   {
     id: 1,
     image: Blog1,
-    title: "Mastering Option Trading",
+    title: "Mastering Option",
     description:
       "Explore key strategies and concepts to enhance your option trading skills. Gain insights from expert Jyoti Budhia.Lorem ispum",
     rating: 4.6,
@@ -48,18 +48,18 @@ const stocks = [
   {
     id: 3,
     image: Blog3,
-    title: "Leveraging Trading Technology",
+    title: "Leveraging Trading ",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
     reviews: 800,
-    price: 4000,
+    price: 4000, 
     originalPrice: 5000,
   },
   {
     id: 4,
     image: Blog4,
-    title: "Fundamental Analysis for Traders",
+    title: "Fundamental Analysis",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
@@ -154,7 +154,7 @@ const Blogs: React.FC = () => {
         <Row>
           {stocks.map((stock) => {
             return (
-              <Col md={3} key={stock.id} className="mt-3">
+              <Col md={3} key={stock.id} className={`${styles.bolgsColumns} mt-3`}>
                 <Card className={styles.blogsCard}>
                   <Image
                     src={stock.image}
@@ -183,7 +183,7 @@ const Blogs: React.FC = () => {
           <button>Load More</button>
         </div>
       </div>
-      <div className={styles.subscribeSection}>
+      <div className={styles.subscribeSection}> 
         <div className={styles.subscribeContent}>
           <h1>Subscribe to our newsletter</h1>
           <p>

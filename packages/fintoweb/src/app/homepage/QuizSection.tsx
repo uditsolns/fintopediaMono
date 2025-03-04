@@ -12,9 +12,9 @@ const QuizSection = () => {
           Navigate your financial journey,
           <br /> take the finance quiz
         </h2>
-        <p className="text-gray">
-          Join <span className="text-light">now</span> in discovering your
-          financial strengths through our interactive quiz
+        <p className={styles.quizContentsText}>
+          Join <span className="text-light"> 6000+</span> in discovering your
+          financial strengths through our interactive quiz.
         </p>
         <button>Attempt Quiz, It will only take 2 mins</button>
         <div className={styles.quizCount}>

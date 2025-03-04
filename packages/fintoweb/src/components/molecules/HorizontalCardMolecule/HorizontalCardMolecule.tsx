@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 interface CartsliderProps {
   course?: CoursesResponse;
   onClick?: () => void;
-  loading: boolean;
+  loading: boolean; 
 }
 const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
   course,
@@ -37,7 +37,7 @@ const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
             src={`${imageUrl}/uploads/course_images/${course.course_image}`}
             alt={course.name}
             width={350}
-            height={250}
+            height={220}
             className={styles.image}
           />
         </div>

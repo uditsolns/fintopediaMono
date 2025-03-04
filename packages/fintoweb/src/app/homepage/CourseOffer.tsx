@@ -89,7 +89,7 @@ const CourseOffer: React.FC = () => {
               </p>
             </CardBody>
           </Card>
-        </div>
+        </div> 
         <div>
           <Card className={styles.offerCard}>
             <CardBody>

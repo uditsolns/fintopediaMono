@@ -37,7 +37,7 @@ const FeaturesCourseSlider: React.FC<FeaturesCourseSliderProps> = ({
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 1,
-    draggable: true,
+    draggable: true, 
     swipeToSlide: true,
     touchMove: true,
     nextArrow: <NextArrow />,
@@ -103,11 +103,11 @@ const FeaturesCourseSlider: React.FC<FeaturesCourseSliderProps> = ({
       ).unwrap();
     } finally {
       setLoadingCourseId(null);
-    }
+    } 
   };
   return (
     <div className={styles.sliderContainer}>
-      <h1>Featured Courses</h1>
+      <h1>Featured Courses</h1> 
       {courses.length > 0 ? (
         <Slider {...settings}>
           {courses

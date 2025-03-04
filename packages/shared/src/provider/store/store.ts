@@ -37,7 +37,6 @@ import completedCourseReducer from "./reducers/completed-course.reducer";
 import previousViewCourseReducer from "./reducers/previous-view-course.reducer";
 import couponCodeReducer from "./reducers/coupon-code.reducer";
 import searchCoursesReducer from "./reducers/search-courses.reducer";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import likeCoursesReducer from "./reducers/course-like.reducer";
 import contactReducer from "./reducers/contact.reducer";
 import completionPercentageReducer from "./reducers/completion-percentage.reducer";
@@ -46,7 +45,7 @@ const isNative = Platform.OS !== "web";
 
 const persistConfig: any = {
   key: "fintopedia",
-  storage: AsyncStorage,
+  storage,
   timeout: null,
   whitelist: ["auth"],
 };

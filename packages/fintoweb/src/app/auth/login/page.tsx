@@ -46,7 +46,7 @@ const Login: React.FC<LoginProps> = () => {
     <div className={styles.signupLoginontainer}>
       <div className="container main-login-div">
         <div className="no-gutters justify-content-center row">
-          <div className="col-md-6 col-lg-6 login-card">
+          <div className={`col-md-6 col-lg-6 ${styles.loginCard}`}> 
             <h1 className={styles.loginHeading}>Welcome back!</h1>
             <div className="main-content">
               <div className={styles.loginForm}>
@@ -130,7 +130,7 @@ const Login: React.FC<LoginProps> = () => {
                       Login with Google
                     </Button>
                   </div>
-                </div>
+                </div> 
                 <div className="mt-3 mb-5 row">
                   <div className="col-12">
                     <Button

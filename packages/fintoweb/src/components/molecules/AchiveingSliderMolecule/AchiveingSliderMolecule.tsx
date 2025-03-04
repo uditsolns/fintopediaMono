@@ -21,12 +21,15 @@ const AchiveingSliderMolecule = () => {
   const [slideToShow, setSlideToShow] = useState(3);
 
   const setSlides = () => {
-    if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
-      setSlideToShow(3);
-    } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
-      setSlideToShow(2);
-    } else if (window.innerWidth <= 650) {
+    const width = window.innerWidth;
+    if (width <= 650) {
       setSlideToShow(1);
+    } else if (width <= 1000) {
+      setSlideToShow(2);
+    } else if (width <= 1280) {
+      setSlideToShow(3);
+    } else {
+      setSlideToShow(3);
     }
   };
 
@@ -61,7 +64,7 @@ const AchiveingSliderMolecule = () => {
         See what others are <br />
         achieving through learning
       </h1>
-      <div className="mt-4">
+      <div className="mt-4"> 
         <Slider {...settings}>
           {course_review.map((review, index) => (
             <ProfileCard key={index} review={review} />
