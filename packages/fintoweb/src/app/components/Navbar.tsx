@@ -31,7 +31,7 @@ export const Navbar = () => {
         "w-full",
         "p-4",
         "left-0",
-        "gap-10",
+        "gap-3",
         "flex-col",
         "z-50",
       ];

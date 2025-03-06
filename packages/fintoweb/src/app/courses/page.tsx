@@ -60,7 +60,7 @@ const CourseFilter: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
-  
+
   const setSlides = () => {
     const width = window.innerWidth;
     if (width <= 650) {

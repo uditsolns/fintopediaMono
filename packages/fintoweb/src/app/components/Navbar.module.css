@@ -1,7 +1,7 @@
 .cartContainer {
   position: relative;
 }
-.navigationbar{
+.navigationbar {
   height: 85px !important;
 }
 .cartIcon {
@@ -9,7 +9,7 @@
   width: 23px;
 }
 
-.cartBadge {
+.cartBadge { 
   position: absolute;
   top: -11px;
   right: -4px;
@@ -32,11 +32,25 @@
     width: auto;
     font-size: 14px !important;
   }
-  .navigationNav{
+  .navigationNav {
     padding: 12px !important;
   }
-  .navLogo{
+  .navLogo {
     margin: 0px !important;
     height: 45px !important;
+  }
+  .cartBadge {
+    position: absolute;
+    top: -6px;
+    left: -2px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
   }
 }

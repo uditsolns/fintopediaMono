@@ -28,7 +28,7 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
     }
   };
 
-  return (
+  return ( 
     <>
       <div key={course.id} className={styles.card}>
         <div className={styles.cardImage} onClick={handleNavigation}>
@@ -136,7 +136,7 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
               <span className={styles.originalPrice}>
                 ₹{course.actual_price}
               </span>
-            </div>
+            </div> 
 
             <button
               className={styles.button}

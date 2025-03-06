@@ -16,6 +16,7 @@ export const Footer = () => {
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
   );
+  const currentYear = new Date().getFullYear();
   const links = [
     { path: "/", label: "Home" },
     { path: "/about-us", label: "About Us" },
@@ -98,7 +99,7 @@ export const Footer = () => {
                 <div className={styles.footerLinks}>
                   <h3>Quick Links</h3>
                   {links.map((link) => (
-                    <Link 
+                    <Link
                       key={link.path}
                       href={link.path}
                       prefetch={true}
@@ -165,7 +166,7 @@ export const Footer = () => {
         </div>
 
         <div className={styles.footerContainer}>
-          <h5>© 2024 Fintopedia</h5>
+          <h5>© {currentYear} Fintopedia</h5>
           <div className={styles.footerLinksRow}>
             <Link href="/privacy-policy" prefetch={true}>
               Privacy Policy
@@ -207,7 +208,6 @@ export const Footer = () => {
                 />
               </svg>
             </a>
-
             <a
               href="https://www.facebook.com/profile.php?id=61551172396495"
               target="_blank"

@@ -78,7 +78,7 @@
   .footerContainer {
     display: block;
   }
-  .footerLinks{
+  .footerLinks,.footerIcons{
     margin-top: 20px;
   }
   .links{

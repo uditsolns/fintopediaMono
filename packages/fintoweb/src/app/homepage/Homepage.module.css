@@ -862,7 +862,10 @@
   .stockmarketBannerContent h2 {
     font-size: 1.5rem;
   }
-
+  .headerContents button,
+  .quizContents button {
+    padding: 13px 14px;
+  }
   .stockmarketBannerContent p {
     font-size: 0.9rem;
   }
@@ -990,16 +993,30 @@
     padding: 15px;
     margin: auto;
   }
-  .stockmarketBanner {
+  /* .stockmarketBanner {
     display: block;
-    height: 70vh;
   }
 
   .overlay {
     display: block;
     padding: 56px 10%;
-    height: 70vh;
+  } */
+  .stockmarketBanner {
+    position: relative;
+    display: block;
+    height: 80vh;
   }
+
+  .overlay {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 56px 10%;
+    box-sizing: border-box;
+  }
+
   .worksImage {
     position: absolute;
     bottom: -55px;
