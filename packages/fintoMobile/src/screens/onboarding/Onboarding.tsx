@@ -1,7 +1,7 @@
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import * as React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -10,14 +10,14 @@ import {
   TextStyle,
   View,
 } from 'react-native';
-import { moderateScale, mScale, WINDOW_WIDTH } from '@shared/src/theme/metrics';
-import { commonStyle } from '@shared/src/commonStyle/index';
-import { colorPresets } from '@shared/src/theme/color';
+import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
+import {commonStyle} from '@shared/src/commonStyle/index';
+import {colorPresets} from '@shared/src/theme/color';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
-import { RouteKeys } from '@src/navigation/RouteKeys';
-import { LinkButton } from '@src/components/Button/LinkButton';
-import { ButtonAtom } from '@shared/src/components/atoms/Button/ButtonAtom';
-import { NavType } from '@src/navigation/types';
+import {RouteKeys} from '@src/navigation/RouteKeys';
+import {LinkButton} from '@src/components/Button/LinkButton';
+import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {NavType} from '@src/navigation/types';
 
 interface OnboardingProps extends NavType<'Onboarding'> {}
 
@@ -48,7 +48,7 @@ const data: OnboardingData[] = [
   },
 ];
 
-export const Onboarding: React.FC<OnboardingProps> = ({ navigation }) => {
+export const Onboarding: React.FC<OnboardingProps> = ({navigation}) => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const scrollViewRef = React.useRef<ScrollView>(null);
 
@@ -67,7 +67,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ navigation }) => {
   };
 
   const handleSkip = () => {
-    scrollViewRef.current?.scrollToEnd({ animated: true });
+    scrollViewRef.current?.scrollToEnd({animated: true});
   };
 
   return (
@@ -76,7 +76,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ navigation }) => {
         {currentIndex === data.length - 1 ? null : (
           <LinkButton
             text="Skip"
-            style={[commonStyle.flexEnd, { padding: mScale.base }]}
+            style={[commonStyle.flexEnd, {padding: mScale.base}]}
             onPress={handleSkip}
           />
         )}
@@ -88,13 +88,10 @@ export const Onboarding: React.FC<OnboardingProps> = ({ navigation }) => {
           scrollEventThrottle={16}
           ref={scrollViewRef}
           style={styles.flex}
-          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
-          {data.map((item, index) => (
+          contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
+          {data?.map((item, index) => (
             <View style={styles.slide} key={index}>
-              <ImageAtom
-                sourceRequire={item.image}
-                imageStyle={styles.image}
-              />
+              <ImageAtom sourceRequire={item.image} imageStyle={styles.image} />
               <View style={styles.textContainer}>
                 <TextAtom
                   text={item.title}
@@ -112,18 +109,18 @@ export const Onboarding: React.FC<OnboardingProps> = ({ navigation }) => {
         </ScrollView>
         <View style={styles.buttonsWrapper}>
           <View style={styles.pagination}>
-            {data.map((_, index) => (
+            {data?.map((_, index) => (
               <View
                 key={index}
                 style={[
                   styles.dot,
-                  { backgroundColor: index === currentIndex ? '#fff' : '#888' },
+                  {backgroundColor: index === currentIndex ? '#fff' : '#888'},
                 ]}
               />
             ))}
           </View>
           <View style={styles.buttonsContainer}>
-            {currentIndex < data.length - 1 ? (
+            {currentIndex < data?.length - 1 ? (
               <ButtonAtom title="Next" onPress={handleNext} />
             ) : (
               <View style={styles.finalButtons}>
@@ -148,6 +145,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
+    // padding:mScale.md3
   },
   slide: {
     flex: 1,
@@ -161,19 +159,27 @@ const styles = StyleSheet.create({
     marginBottom: mScale.lg2,
   },
   textContainer: {
-    paddingHorizontal: mScale.md,
+    alignSelf: 'center',
+    width: WINDOW_WIDTH * 0.93,
+    justifyContent:'center',
+    alignItems:"center"
   },
   titleText: {
     textAlign: 'center',
+    width: WINDOW_WIDTH * 0.93,
   },
   descriptionText: {
     textAlign: 'center',
     marginTop: mScale.base,
     color: '#D5D5D9',
+    width: WINDOW_WIDTH * 0.93,
+    paddingHorizontal:mScale.sm,
+    flexGrow:1,
+    flex:1
   },
   buttonsWrapper: {
     rowGap: mScale.lg,
-    paddingHorizontal: mScale.base,
+    paddingHorizontal: mScale.sm,
     marginBottom: mScale.base,
   },
   pagination: {
