@@ -76,7 +76,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({navigation}) => {
         {currentIndex === data.length - 1 ? null : (
           <LinkButton
             text="Skip"
-            style={[commonStyle.flexEnd, {padding: mScale.base}]}
+            style={[commonStyle.flexEnd, {padding: 0}]}
             onPress={handleSkip}
           />
         )}
@@ -121,17 +121,23 @@ export const Onboarding: React.FC<OnboardingProps> = ({navigation}) => {
           </View>
           <View style={styles.buttonsContainer}>
             {currentIndex < data?.length - 1 ? (
-              <ButtonAtom title="Next" onPress={handleNext} />
+              <ButtonAtom
+                title="Next"
+                onPress={handleNext}
+                textPreset="bodySemiBold"
+              />
             ) : (
               <View style={styles.finalButtons}>
                 <ButtonAtom
-                  title="Login"
+                  title="Log In"
                   onPress={() => navigation.navigate(RouteKeys.LOGINSCREEN)}
+                  textPreset="bodySemiBold"
                 />
                 <ButtonAtom
                   preset="tertiary"
                   title="Sign Up"
                   onPress={() => navigation.navigate(RouteKeys.SIGNUPSCREEN)}
+                  textPreset="bodySemiBold"
                 />
               </View>
             )}
@@ -145,7 +151,6 @@ export const Onboarding: React.FC<OnboardingProps> = ({navigation}) => {
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
-    // padding:mScale.md3
   },
   slide: {
     flex: 1,
@@ -160,9 +165,8 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     alignSelf: 'center',
-    width: WINDOW_WIDTH * 0.93,
-    justifyContent:'center',
-    alignItems:"center"
+    width: WINDOW_WIDTH*0.93,
+    marginLeft:-mScale.md
   },
   titleText: {
     textAlign: 'center',
@@ -173,9 +177,6 @@ const styles = StyleSheet.create({
     marginTop: mScale.base,
     color: '#D5D5D9',
     width: WINDOW_WIDTH * 0.93,
-    paddingHorizontal:mScale.sm,
-    flexGrow:1,
-    flex:1
   },
   buttonsWrapper: {
     rowGap: mScale.lg,
@@ -187,8 +188,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   dot: {
-    height: mScale.md,
-    width: mScale.md,
+    height: mScale.sm,
+    width: mScale.sm,
     borderRadius: mScale.xs,
     marginHorizontal: mScale.xs,
   },
@@ -196,6 +197,6 @@ const styles = StyleSheet.create({
     marginBottom: mScale.lg,
   },
   finalButtons: {
-    rowGap: mScale.lg,
+    rowGap: mScale.xxs,
   },
 });

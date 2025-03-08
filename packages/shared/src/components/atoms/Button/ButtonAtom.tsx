@@ -37,7 +37,7 @@ export const ButtonAtom = ({
       }}
       style={[
         preset === "tertiary"
-          ? { borderRadius: mScale.sm, marginVertical: mScale.md }
+          ? { borderRadius: 4, marginVertical: mScale.md }
           : undefined,
       ]}
     >
@@ -46,8 +46,7 @@ export const ButtonAtom = ({
           <LinearGradientMolecule
             width={width}
             height={height}
-            radius={mScale.sm}
-            colors={[colorPresets.GRAY3, colorPresets.GRAY3]}
+            radius={4}
           />
         </View>
       ) : null}
