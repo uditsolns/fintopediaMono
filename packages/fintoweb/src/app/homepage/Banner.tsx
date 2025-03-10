@@ -17,7 +17,7 @@ const Banner = () => {
           India&apos;s top experts
           <br /> courses on Investing
         </h2>
-        <p className="mt-3"> 
+        <p> 
           Discover a diverse range of online courses designed to cater to <br />
           learners of all levels, interests and ambitions.
         </p>

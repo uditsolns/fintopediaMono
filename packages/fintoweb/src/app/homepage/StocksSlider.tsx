@@ -16,6 +16,9 @@ const StocksSlider: React.FC = () => {
     slidesToShow: 5,
     slidesToScroll: 1,
     draggable: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
     swipeToSlide: true,
     touchMove: true,
     responsive: [

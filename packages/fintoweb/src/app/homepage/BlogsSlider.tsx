@@ -81,7 +81,7 @@ const BlogsSlider: React.FC = () => {
     } else if (width <= 1280) {
       setSlideToShow(4);
     } else {
-      setSlideToShow(4); 
+      setSlideToShow(4);
     }
   };
 
@@ -100,6 +100,9 @@ const BlogsSlider: React.FC = () => {
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     afterChange: (current: number) => {
@@ -134,12 +137,12 @@ const BlogsSlider: React.FC = () => {
 
   return (
     <div className={styles.blogsContainer}>
-      <h2>Blogs</h2> 
+      <h2>Blogs</h2>
       <Slider {...settings}>
         {stocks.map((stock) => (
           <div key={stock.id}>
             <Card className={styles.blogsCard}>
-              <Image 
+              <Image
                 src={stock.image}
                 alt={stock.title}
                 className={styles.blogsCardImage}
@@ -167,11 +170,13 @@ const BlogsSlider: React.FC = () => {
         ></div>
       </div>
       <div className={styles.viewAllCourses}>
-        <Link href="/blogs" className={styles.blogButton}>View all Blogs</Link>
-        {/* <button>View all Blogs</button> */} 
+        <Link href="/blogs" className={styles.blogButton}>
+          View all Blogs
+        </Link>
+        {/* <button>View all Blogs</button> */}
       </div>
     </div>
-  ); 
+  );
 };
 
 export default BlogsSlider;

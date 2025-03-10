@@ -12,6 +12,9 @@ const CourseOffer: React.FC = () => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
     draggable: true,
     swipeToSlide: true,
     touchMove: true,
@@ -47,7 +50,7 @@ const CourseOffer: React.FC = () => {
         <div>
           <Card className={styles.offerCard}>
             <CardBody>
-              <CardTitle tag="h5">
+              <CardTitle tag="h5" className="mb-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="38"
@@ -93,7 +96,7 @@ const CourseOffer: React.FC = () => {
         <div>
           <Card className={styles.offerCard}>
             <CardBody>
-              <CardTitle tag="h5">
+              <CardTitle tag="h5" className="mb-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="41"
@@ -163,7 +166,7 @@ const CourseOffer: React.FC = () => {
         <div>
           <Card className={styles.offerCard}>
             <CardBody>
-              <CardTitle tag="h5">
+              <CardTitle tag="h5" className="mb-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="41"
@@ -233,7 +236,7 @@ const CourseOffer: React.FC = () => {
         <div>
           <Card className={styles.offerCard}>
             <CardBody>
-              <CardTitle tag="h5">
+              <CardTitle tag="h5" className="mb-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="38"
@@ -277,9 +280,9 @@ const CourseOffer: React.FC = () => {
           </Card>
         </div>
         <div>
-          <Card className={styles.offerCard}>
+          <Card className={styles.offerCard}> 
             <CardBody>
-              <CardTitle tag="h5">
+              <CardTitle tag="h5" className="mb-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="41"

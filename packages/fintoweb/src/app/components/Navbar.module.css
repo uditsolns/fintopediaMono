@@ -21,10 +21,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: 12px; 
 }
 .browseLink {
   width: 230px;
+}
+.navigationNav{
+  /* border-bottom: 1px solid red; */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
 }
 
 @media screen and (max-width: 435px) {

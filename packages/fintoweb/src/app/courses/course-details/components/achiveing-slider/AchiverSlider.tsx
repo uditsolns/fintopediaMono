@@ -59,8 +59,9 @@ const AchiverSlider = () => {
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
-    autoplay: true,  
-    autoplaySpeed: 3000, 
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
     responsive: [
       {
         breakpoint: 1280,
@@ -125,7 +126,6 @@ const AchiverSlider = () => {
                     {review?.review_description.length > 150
                       ? `${review.review_description.slice(0, 150)}... `
                       : review.review_description}
-                   
                   </p>
                 </div>
               </div>

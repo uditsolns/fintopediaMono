@@ -78,6 +78,7 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
     autoplay: true, 
     autoplaySpeed: 3000, 
     pauseOnHover: true, 
+    
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     afterChange: (current: number) => {

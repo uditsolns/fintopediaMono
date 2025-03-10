@@ -47,6 +47,9 @@ const AchiveingSliderMolecule = () => {
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     afterChange: (current) => {
@@ -64,7 +67,7 @@ const AchiveingSliderMolecule = () => {
         See what others are <br />
         achieving through learning
       </h1>
-      <div className="mt-4"> 
+      <div className="mt-4">
         <Slider {...settings}>
           {course_review.map((review, index) => (
             <ProfileCard key={index} review={review} />

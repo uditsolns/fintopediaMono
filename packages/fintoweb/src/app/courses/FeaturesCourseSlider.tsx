@@ -40,6 +40,9 @@ const FeaturesCourseSlider: React.FC<FeaturesCourseSliderProps> = ({
     draggable: true, 
     swipeToSlide: true,
     touchMove: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [

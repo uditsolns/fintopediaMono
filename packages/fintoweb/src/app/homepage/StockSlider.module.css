@@ -106,6 +106,9 @@
   .offerContainer h1 {
     font-size: 28px;
   }
+  .offerCard{
+    height: 350px !important;
+  }
 }
 
 /* Styles for the stock slider */
