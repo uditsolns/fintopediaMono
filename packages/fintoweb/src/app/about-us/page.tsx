@@ -14,7 +14,7 @@ const About = () => {
       <div className={styles.aboutBanner}>
         <div className={styles.aboutContents}>
           <h2>
-            Get to know more  
+            Get to know more
             <br /> about us
           </h2>
           <p className="text-gray">
@@ -54,7 +54,7 @@ const About = () => {
               <p></p>
             </div>
           </div>
-        </div> 
+        </div>
       </div>
 
       <div className={styles.aboutMissionVision}>
@@ -177,8 +177,7 @@ const About = () => {
                 <p>
                   We are committed to providing top-tier finance education that
                   is easily accessible to learners from diverse backgrounds and
-                  locations, ensuring that everyone has the opportunity 
-                 
+                  locations, ensuring that everyone has the opportunity
                 </p>
               </CardBody>
             </Card>

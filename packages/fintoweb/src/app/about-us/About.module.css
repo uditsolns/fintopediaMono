@@ -65,7 +65,9 @@
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  padding: 20px;
+  /* padding: 20px; */
+  padding: 20px 20px 56px 20px;
+
 }
 .AboutStoryContent h1 {
   color: #fff;
