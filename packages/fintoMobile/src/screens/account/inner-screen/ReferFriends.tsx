@@ -5,7 +5,13 @@ import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {
+  FONT_BOLD,
+  FONT_MEDIUM,
+  FONT_SEMIBOLD,
+} from '@shared/src/theme/typography';
 import React from 'react';
 import {Pressable, View} from 'react-native';
 
@@ -20,7 +26,7 @@ export const ReferFriends: React.FC<ReferFriendsProps> = ({}) => {
             flex: 1,
             marginTop: moderateScale(100),
           }}>
-          <View style={{padding: mScale.base, marginBottom: mScale.md}}>
+          <View style={{padding: mScale.base,}}>
             <TextAtom
               text={'Invite Friends, Get 500 credits of Fintopedia'}
               preset="banner"
@@ -36,28 +42,36 @@ export const ReferFriends: React.FC<ReferFriendsProps> = ({}) => {
                 color: '#C8C8CC',
                 fontWeight: '400',
                 marginTop: mScale.base,
+                lineHeight: 20,
               }}
             />
           </View>
-          <InputAtom
-            shape="square"
-            editable={false}
-            placeholder="https//www.fintopedia.com/urvashirefer10"
-            preset="primary"
-          />
-
-          <View>
-            <ButtonAtom title={'Copy'} textPreset={'titleBold'} />
+          <View style={{marginTop: moderateScale(36)}}>
+            <InputAtom
+              shape="square"
+              editable={false}
+              placeholder="https//www.fintopedia.com/urvashirefer10"
+              placeholderTextColor={colorPresets.CTA}
+              preset="primary"
+            />
+            <View>
+              <ButtonAtom
+                preset="primary"
+                title={'Copy URL'}
+                textPreset={'titleBold'}
+                iconLeft={<Images.SVG.CopyIcon width={24} color="#000" />}
+              />
+            </View>
           </View>
           <View style={[commonStyle.flexCenter, {marginTop: mScale.lg2}]}>
             <Pressable>
               <Images.SVG.Fb2 />
             </Pressable>
             <Pressable style={{marginStart: mScale.md}}>
-              <Images.SVG.Twitter2 />
+              <Images.SVG.LinkedIn2 />
             </Pressable>
             <Pressable style={{marginStart: mScale.md}}>
-              <Images.SVG.LinkedIn2 />
+              <Images.SVG.Insta3 />
             </Pressable>
           </View>
         </View>

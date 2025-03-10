@@ -25,7 +25,7 @@ export default function EventMolecule({
             : require('@shared/src/assets/img/gameImage.png')
         }
         style={styles.image}
-        resizeMode="contain"
+        resizeMode="cover"
       />
       <View style={styles.content}>
         <TextAtom
@@ -37,11 +37,19 @@ export default function EventMolecule({
         <TextAtom
           text={item?.game_desc ? item?.game_desc : ''}
           preset="small"
-          style={[styles.boldText, {color: colorPresets.GRAY}]}
+          style={[
+            styles.boldText,
+            {color: colorPresets.GRAY, fontWeight: '400',marginTop:mScale.xxs},
+          ]}
           numberOfLines={3}
         />
-        <View style={{marginTop: mScale.xl}}>
-          <ButtonAtom title="Play game" onPress={onPress} />
+        <View style={{}}>
+          <ButtonAtom
+            title="Play game"
+            onPress={onPress}
+            textPreset="smallSemiBold"
+            style={styles.button}
+          />
         </View>
       </View>
     </View>
@@ -53,26 +61,31 @@ const styles = StyleSheet.create({
     columnGap: mScale.base,
     paddingEnd: mScale.base,
     borderRightWidth: 1,
-    borderBottomWidth: 0.75,
-    borderTopWidth: 1,
-    borderLeftWidth: 0.5,
-    borderColor: '#7A7FA2',
-    borderRadius: 8,
+    borderBottomWidth: 0.45,
+    borderTopWidth: 0.5,
+    borderLeftWidth: 0.25,
+    borderColor: colorPresets.GRAY3,
+    borderRadius: mScale.sm,
     overflow: 'hidden',
-    backgroundColor: colorPresets.TEXT,
+    backgroundColor: '#0C0C0C',
   },
   image: {
     width: moderateScale(139),
-    height: moderateScale(156),
+    height: moderateScale(160),
     overflow: 'hidden',
+    resizeMode:'cover'
   },
-  content: {flex: 1, paddingVertical: mScale.md},
+  content: {flexGrow: 1,flex:1, paddingVertical: mScale.base,alignItems:'flex-start'},
   boldText: {
     fontWeight: '600',
     textTransform: 'capitalize',
   },
   button: {
-    width: moderateScale(94),
-    marginTop: mScale.base,
-  },
+    backgroundColor: colorPresets.CTA,
+    width: moderateScale(115),
+    borderRadius: 4,
+    paddingVertical: mScale.md,
+    paddingHorizontal: mScale.lg1,
+    marginTop: mScale.xxl,
+  }
 });

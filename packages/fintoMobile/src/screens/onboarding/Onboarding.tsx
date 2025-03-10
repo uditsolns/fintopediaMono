@@ -78,6 +78,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({navigation}) => {
             text="Skip"
             style={[commonStyle.flexEnd, {padding: 0}]}
             onPress={handleSkip}
+            preset='bodySemiBold'
           />
         )}
         <ScrollView
@@ -100,7 +101,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({navigation}) => {
                 />
                 <TextAtom
                   text={item.description}
-                  preset="medium"
+                  preset="body"
                   style={styles.descriptionText as TextStyle}
                 />
               </View>
@@ -150,6 +151,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({navigation}) => {
 
 const styles = StyleSheet.create({
   flex: {
+    flexGrow: 1,
     flex: 1,
   },
   slide: {
@@ -165,8 +167,8 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     alignSelf: 'center',
-    width: WINDOW_WIDTH*0.93,
-    marginLeft:-mScale.md
+    width: WINDOW_WIDTH * 0.93,
+    marginLeft: -mScale.md,
   },
   titleText: {
     textAlign: 'center',
@@ -176,12 +178,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: mScale.base,
     color: '#D5D5D9',
-    width: WINDOW_WIDTH * 0.93,
+    width: '96%',
+    letterSpacing: -0.2,
+    lineHeight: mScale.lg2,
   },
   buttonsWrapper: {
     rowGap: mScale.lg,
     paddingHorizontal: mScale.sm,
     marginBottom: mScale.base,
+    width: WINDOW_WIDTH * 0.94,
   },
   pagination: {
     flexDirection: 'row',

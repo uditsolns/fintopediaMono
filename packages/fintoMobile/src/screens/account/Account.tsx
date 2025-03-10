@@ -21,7 +21,8 @@ import {ImageType} from '@shared/src/utils/types/main';
 import {updateUser} from '@shared/src/provider/store/services/user.service';
 import {imageUrl} from '@shared/src/config/imageUrl';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
-import { clearContact } from '@shared/src/provider/store/reducers/contact.reducer';
+import {clearContact} from '@shared/src/provider/store/reducers/contact.reducer';
+import BorderWithThickness from '@src/components/Border';
 
 export const avatarUrl =
   'https://st4.depositphotos.com/4329009/19956/v/450/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg';
@@ -83,7 +84,7 @@ export const Account: React.FC<AccountProps> = ({navigation}) => {
 
   const navigateTo = (route: any) => {
     navigation.navigate(route);
-    dispatch(clearContact())
+    dispatch(clearContact());
   };
 
   return (
@@ -117,7 +118,7 @@ export const Account: React.FC<AccountProps> = ({navigation}) => {
             style={[styles.phoneText, {color: '#C8C8CC', marginTop: mScale.xs}]}
           />
         </View>
-        <SeparatorAtom style={styles.separator} />
+        <BorderWithThickness />
         <View>
           <View style={styles.profileItemsContainer}>
             {profileItems.map((item, index) => (
@@ -129,7 +130,7 @@ export const Account: React.FC<AccountProps> = ({navigation}) => {
               />
             ))}
           </View>
-          <SeparatorAtom style={styles.separator} />
+          <BorderWithThickness mv={0} />
           <View style={styles.logoutContainer}>
             <ProfileItemAtom
               component={<Images.SVG.LogoutIcon />}
@@ -175,6 +176,8 @@ export const Account: React.FC<AccountProps> = ({navigation}) => {
 const styles = StyleSheet.create({
   centeredView: {
     alignSelf: 'center',
+    marginTop: mScale.lg1,
+    marginBottom: moderateScale(32),
   } as ViewStyle,
   iconButton: {
     width: moderateScale(36),
@@ -193,7 +196,7 @@ const styles = StyleSheet.create({
   } as TextStyle,
   emailText: {
     fontWeight: '400',
-    marginTop: mScale.xs,
+    marginTop: mScale.sm,
     textAlign: 'center',
   } as TextStyle,
   phoneText: {
@@ -206,10 +209,11 @@ const styles = StyleSheet.create({
     marginVertical: mScale.lg,
   } as ViewStyle,
   profileItemsContainer: {
-    paddingHorizontal: mScale.base,
+    paddingHorizontal: moderateScale(22),
+    paddingVertical: mScale.lg,
   } as ViewStyle,
   logoutContainer: {
-    paddingHorizontal: mScale.base,
-    paddingBottom: mScale.base,
+    paddingHorizontal: moderateScale(22),
+    paddingVertical: mScale.lg,
   } as ViewStyle,
 });
