@@ -11,7 +11,7 @@ import {
   CardImg,
   CardTitle,
   Col,
-  InputGroup, 
+  InputGroup,
   Label,
   Row,
 } from "reactstrap";
@@ -53,7 +53,7 @@ const stocks = [
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
     reviews: 800,
-    price: 4000, 
+    price: 4000,
     originalPrice: 5000,
   },
   {
@@ -126,6 +126,17 @@ const Blogs: React.FC = () => {
     // dispatch(actions.postRegister(register, () => router.push('/login')));
     setSubmitting(false);
   };
+  const categories = [
+    { id: 1, category_name: "Budgeting and Saving" },
+    { id: 2, category_name: "Personal Investing" },
+    { id: 3, category_name: "Retirement Planning" },
+    { id: 4, category_name: "Credit and Debt Management" },
+    { id: 5, category_name: "Personal Investing" },
+  ];
+  const [categoriesSelected, setCategoriesSelected] = React.useState<
+    number | string
+  >("all");
+
   return (
     <>
       <div className={styles.blogs}>
@@ -150,11 +161,52 @@ const Blogs: React.FC = () => {
           </div>
         </div>
       </div>
+
       <div className={styles.blogsListing}>
+        <div className={styles.categories}>
+          <button
+            className={`${styles.categoryButton} ${
+              categoriesSelected === "all" ? styles.active : ""
+            }`}
+            onClick={() => {
+              setCategoriesSelected("all");
+              // setFilterCourses(
+              //   courses.filter((course) => course.is_popular === 1)
+              // );
+              // setCurrentSlide(0);
+              // setProgress(0);
+            }}
+          >
+            All
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              className={`${styles.categoryButton} ${
+                categoriesSelected === cat.id ? styles.active : ""
+              }`}
+              onClick={() => {
+                setCategoriesSelected(cat.id);
+                // let filterCourseRes = courses.filter(
+                //   (el) => el.category_id == cat.id && el.is_popular === 1
+                // );
+                // setFilterCourses(filterCourseRes);
+                // setCurrentSlide(0);
+                // setProgress(0);
+              }}
+            >
+              {cat.category_name}
+            </button>
+          ))}
+        </div>
         <Row>
           {stocks.map((stock) => {
             return (
-              <Col md={3} key={stock.id} className={`${styles.bolgsColumns} mt-3`}>
+              <Col
+                md={3}
+                key={stock.id}
+                className={`${styles.bolgsColumns} mt-3`}
+              >
                 <Card className={styles.blogsCard}>
                   <Image
                     src={stock.image}
@@ -183,7 +235,7 @@ const Blogs: React.FC = () => {
           <button>Load More</button>
         </div>
       </div>
-      <div className={styles.subscribeSection}> 
+      <div className={styles.subscribeSection}>
         <div className={styles.subscribeContent}>
           <h1>Subscribe to our newsletter</h1>
           <p>

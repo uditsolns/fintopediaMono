@@ -32,7 +32,7 @@
 .SelectBox {
   color: #fff !important;
   border-radius: 6px !important;
-  border: 1px solid var(--Border, #7a7fa2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   background: #222431 !important;
 }
 .sector-btn:hover {
@@ -47,7 +47,7 @@
 .search-textfield {
   gap: 8px !important;
   border-radius: 5px !important;
-  border: 1px solid var(--Border, #7a7fa2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   background: #121622 !important;
   width: 100% !important;
 }

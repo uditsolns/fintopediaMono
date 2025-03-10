@@ -176,7 +176,7 @@ const Contact: React.FC = () => {
                 </Row>
               </div>
               <div className="col-md-4">
-                <div className={`mt-5 ${styles.socialCard}`}>
+                <div className={`mt-3 ${styles.socialCard}`}>
                   <div className={styles.socialText}>
                     Follow Us on Social Media
                   </div>

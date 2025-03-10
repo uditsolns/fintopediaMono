@@ -42,11 +42,23 @@
 }
 
 /* -----categories--------- */
+/* .categories {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 30px;
+} */
 .categories {
   display: flex;
   overflow-x: auto;
   white-space: nowrap;
   margin-bottom: 30px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.categories::-webkit-scrollbar {
+  display: none;
 }
 .categoryButton {
   color: #a4a4a4;
@@ -71,7 +83,7 @@
 }
 .active {
   display: flex;
-  width: 203px;
+  width: auto;
   padding: 13px 20px;
   justify-content: center;
   align-items: center;
@@ -92,13 +104,13 @@
   .courseContainer {
     padding: 15px;
   }
-  .courseContainerHeading{
+  .courseContainerHeading {
     font-size: 30px;
     padding: 18px;
   }
-  .categoryButton,.active{
+  .categoryButton,
+  .active {
     padding: 5px 15px;
     width: auto;
   }
-  
 }

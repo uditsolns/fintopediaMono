@@ -201,7 +201,8 @@
   
   .featureaddToCartButton {
     display: flex;
-    width: 110px;
+    width: 90px;
+    margin-left: 10px;
     padding: 8px 18px;
     justify-content: center;
     align-items: center;

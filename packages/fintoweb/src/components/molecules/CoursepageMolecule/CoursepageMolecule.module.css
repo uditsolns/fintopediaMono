@@ -110,7 +110,7 @@
 
 .addToCartButton {
   display: flex;
-  width: 127.352px;
+  width: auto;
   padding: 10.872px 18.637px;
   justify-content: center;
   align-items: center;

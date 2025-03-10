@@ -66,11 +66,11 @@ const CourseFilter: React.FC = () => {
     if (width <= 650) {
       setSlideToShow(1);
     } else if (width <= 1000) {
-      setSlideToShow(2);
+      setSlideToShow(4);
     } else if (width <= 1280) {
-      setSlideToShow(3);
+      setSlideToShow(4);
     } else {
-      setSlideToShow(3);
+      setSlideToShow(4);
     }
   };
   useEffect(() => {
@@ -107,13 +107,13 @@ const CourseFilter: React.FC = () => {
       {
         breakpoint: 1280,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
         },
       },
       {
         breakpoint: 1000,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 4,
         },
       },
       {

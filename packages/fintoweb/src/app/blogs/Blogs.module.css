@@ -216,6 +216,67 @@
   line-height: 120%;
   text-decoration-line: underline;
 }
+/* -----categories--------- */
+/* .categories {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 30px;
+
+} */
+.categories {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 30px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.categories::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryButton {
+  color: #a4a4a4;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  display: flex;
+  padding: 18px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  margin: 10px;
+}
+
+.categoryButton:hover {
+  background-color: #545664;
+  color: #fff;
+  font-weight: 500;
+}
+.active {
+  display: flex;
+  width: auto;
+  padding: 13px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid #b8bccb;
+  background: #545664;
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.16px;
+}
 @media screen and (max-width: 435px) {
   .blogs {
     padding: 15px;
@@ -244,5 +305,10 @@
   }
   .bolgsColumns {
     padding: 10px 35px !important;
+  }
+  .categoryButton,
+  .active {
+    padding: 5px 15px;
+    width: auto;
   }
 }

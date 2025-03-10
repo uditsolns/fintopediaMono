@@ -9,6 +9,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@100;400;700&display=swap"
             rel="stylesheet"
           />
+          <link rel="icon" href="../assets/Fintopedia logo-White.png" />
           {/* Swiper CSS */}
           <link
             rel="stylesheet"
