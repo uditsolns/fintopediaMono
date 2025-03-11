@@ -38,7 +38,7 @@ export default function PopularCourseMolecule({
               : require('@shared/src/assets/img/coursePlaceHolder.png')
           }
           imageStyle={styles.image}
-          resizeMode="contain"
+          resizeMode="cover"
         />
         <ButtonIconAtom
           btnTitle={`ENGLISH`}
@@ -58,7 +58,7 @@ export default function PopularCourseMolecule({
         />
       </View>
       <View style={styles.content}>
-        <TextAtom text={item?.name} preset="heading2" />
+        <TextAtom text={item?.name} preset="heading3" style={{fontWeight:'600',lineHeight:21}} />
         <View>
           <ProgressBar
             level={
@@ -67,13 +67,16 @@ export default function PopularCourseMolecule({
                 : 'intermediate'
             }
             hours={36}
+            textPreset='titleBold'
           />
           {item?.rating ? (
-            <RatingReview
-              rating={item?.rating || ''}
-              review={item?.reviews || ''}
-              textStyle={{paddingTop:mScale.xs}}
-            />
+            <View style={{marginTop:moderateScale(26)}}>
+              <RatingReview
+                rating={item?.rating || ''}
+                review={item?.reviews || ''}
+                textStyle={{paddingTop:mScale.xs}}
+              />
+              </View>
           ) : null}
         </View>
         <CoursePrice
@@ -91,10 +94,10 @@ export default function PopularCourseMolecule({
 
 const styles = StyleSheet.create({
   activePlanDetails: {
-    borderRadius: 10,
-    marginTop: mScale.base,
-    backgroundColor: '#121622',
-    width: moderateScale(251),
+    borderRadius: mScale.md,
+    marginTop: moderateScale(27),
+    backgroundColor: '#0D0F1C',
+    // width: moderateScale(251),
     overflow: 'hidden',
   } as ViewStyle,
   image: {
@@ -102,8 +105,9 @@ const styles = StyleSheet.create({
     height: moderateScale(151),
   } as ImageStyle,
   content: {
-    paddingHorizontal: mScale.md3,
-    paddingVertical: mScale.lg,
+    paddingTop: mScale.lg1,
+    paddingHorizontal:mScale.lg2,
+    paddingBottom: moderateScale(32),
     backgroundColor: '#0D0F1C',
     flex: 1,
   } as ViewStyle,

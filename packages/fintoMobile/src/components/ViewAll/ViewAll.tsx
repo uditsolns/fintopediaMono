@@ -24,15 +24,15 @@ export const ViewAll: React.FC<ViewAllInterfaceProps> = ({
     <View
       style={[
         commonStyle.flexSpaceBetween,
-        { paddingHorizontal:paddingHorizontal, marginBottom: mScale.md},
+        { paddingHorizontal:paddingHorizontal},
       ]}>
       <TextAtom text={title} preset="heading3" style={{color:colorPresets.CTA}} />
       {visible ? (
         <TouchableOpacity onPress={onPress}>
           <TextAtom
             text={viewTitle}
-            preset="smallBold"
-            style={{textDecorationLine: 'underline'}}
+            preset="smallSemiBold"
+            style={{textDecorationLine: 'underline',fontWeight:"500"}}
           />
         </TouchableOpacity>
       ) : (

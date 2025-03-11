@@ -33,7 +33,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
         {
           alignSelf: 'flex-start',
           flex: flex,
-          marginVertical: mv,
+          marginTop: mv,
           alignItems: 'flex-start',
         },
       ]}>
@@ -91,14 +91,14 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
       </View>
       <ButtonIconAtom
         btnTitle={`${hours} hrs`}
-        preset="xSmallBold"
+        preset="titleBold"
         color={colorPresets.CTA}
         style={{
           paddingVertical: 0,
           paddingHorizontal: 0,
           marginStart: mScale.xs,
         }}
-        ml={mScale.xs}
+        ml={mScale.base}
         leftIcon={<Images.SVG.Clock />}
         textStyle={{paddingLeft:mScale.xs}}
       />

@@ -16,12 +16,12 @@ export const RatingAtom: React.FC<RatingAtomProps> = ({
 }) => {
   return (
     <View style={[commonStyle.flexCenter, {alignSelf: 'flex-start'}]}>
-      <Images.SVG.Star1 />
       <TextAtom
         text={ratingTitle}
         preset={preset}
-        style={{marginStart: mScale.xs,paddingTop:mScale.xxs}}
+        style={{marginEnd: mScale.xxs,paddingTop:mScale.xxs}}
       />
+      <Images.SVG.Star1 />
     </View>
   );
 };

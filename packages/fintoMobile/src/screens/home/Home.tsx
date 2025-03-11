@@ -205,13 +205,13 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
         refreshControl={
           <RefreshControl refreshing={refreshLoading} onRefresh={onRefresh} />
         }>
-        <View>
+        <View style={{paddingTop: moderateScale(22)}}>
           <CarouselAtom data={banner?.length ? banner : []} />
         </View>
         {auth?.token ? (
-          <View>
+          <View style={{marginTop: moderateScale(32)}}>
             <ViewAll title="Continue Learning" visible={false} />
-            <View style={{paddingLeft: mScale.base}}>
+            <View style={{paddingLeft: mScale.base, marginTop: mScale.lg}}>
               <FlatList
                 data={
                   ongoing_courses_status?.length ? ongoing_courses_status : []
@@ -228,7 +228,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
             </View>
           </View>
         ) : null}
-        <View style={{marginVertical: mScale.xl}}>
+        <View style={{marginTop: moderateScale(38)}}>
           {categories?.length ? (
             <>
               <ViewAll
@@ -237,7 +237,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
                   navigation.navigate(RouteKeys.COURSECATEGORYSCREEN);
                 }}
               />
-              <View style={{paddingLeft: mScale.base}}>
+              <View style={{paddingLeft: mScale.base, marginTop: mScale.lg}}>
                 <FlatList
                   data={categories?.length ? categories : []}
                   renderItem={categoriesRenderItem}
@@ -256,9 +256,11 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
                           categoriesSelected == 'all' && {
                             backgroundColor: '#545664',
                             borderRadius: 4,
-                            borderWidth: 1,
+                            borderTopWidth: 0.5,
+                            borderLeftWidth: 0.35,
+                            borderRightWidth: 1,
+                            borderBottomWidth: 0.4,
                             borderColor: '#B8BCCB',
-                            paddingHorizontal: mScale.base,
                           },
                         ]}
                         onPress={() => {
@@ -267,7 +269,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
                         }}>
                         <TextAtom
                           text={'All'}
-                          preset="titleBold"
+                          preset="smallBold"
                           style={styles.boldText}
                         />
                       </Pressable>

@@ -54,6 +54,8 @@ export const PurchaseHistory: React.FC<PurchaseHistoryProps> = ({
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
+      <View style={{marginTop:mScale.lg}}>
+
       <FlatList
         data={
           user_course_history?.length
@@ -62,13 +64,13 @@ export const PurchaseHistory: React.FC<PurchaseHistoryProps> = ({
         }
         renderItem={renderItem}
         contentContainerStyle={{
-          rowGap: mScale.base,
-          paddingBottom: mScale.base,
+          gap: mScale.lg1,
         }}
         refreshing={refreshLoading}
         onRefresh={onRefresh}
         showsVerticalScrollIndicator={false}
       />
+      </View>
     </GradientTemplate>
   );
 };

@@ -41,13 +41,13 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({navigation}) => {
   }, [auth, confirm]);
 
   return (
-    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70)}}>
+    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70),padding:mScale.lg1}}>
       {loading?.confirm ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
-      <ScrollViewAtom>
+      <ScrollViewAtom contentContainerStyle={{paddingTop:moderateScale(44)}}>
         <View style={{marginBottom: mScale.lg}}>
           <InputAtom
             shape="square"
@@ -67,7 +67,7 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({navigation}) => {
             autoCapitalize="none"
           />
         </View>
-        <View style={{marginBottom: mScale.lg}}>
+        <View style={{marginBottom: 0}}>
           <InputAtom
             shape="square"
             {...updatePasswordInputProps(
@@ -91,7 +91,7 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({navigation}) => {
           />
         </View>
 
-        <View style={{marginTop: mScale.xxl}}>
+        <View style={{marginTop: moderateScale(64)}}>
           <ButtonAtom
             title={'Change Password'}
             preset={'primary'}
