@@ -38,7 +38,7 @@ const HorizontalProgressBar: React.FC<HorizontalProgressBarProps> = ({ progress 
       <TextAtom 
         text={`${progress?.toFixed(0)}% Completed`} 
         preset='smallBold' 
-        style={{ marginTop: mScale.xs }}
+        style={{ marginTop: mScale.md3 }}
       />
     </View>
   );

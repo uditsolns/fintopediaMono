@@ -65,12 +65,12 @@ const Ongoing: React.FunctionComponent<OngoingInterface> = () => {
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
-      <View style={{alignSelf: 'center', paddingLeft: mScale.base}}>
+      <View style={{alignSelf: 'center', paddingLeft: mScale.base,marginTop:mScale.base}}>
         <FlatList
           data={ongoing_courses_status?.length ? ongoing_courses_status : []}
           renderItem={renderItem}
           contentContainerStyle={{
-            rowGap: mScale.base,
+            gap: mScale.lg3,
             paddingBottom: mScale.base,
           }}
           ListFooterComponent={

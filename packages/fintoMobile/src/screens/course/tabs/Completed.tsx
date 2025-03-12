@@ -52,7 +52,7 @@ const Completed: React.FunctionComponent<CompletedInterface> = () => {
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
-      <View style={{alignSelf: 'center', paddingLeft: mScale.base}}>
+      <View style={{alignSelf: 'center', paddingLeft: mScale.base,marginTop:mScale.base}}>
         <FlatList
           data={
             userCertificate?.length
@@ -61,7 +61,7 @@ const Completed: React.FunctionComponent<CompletedInterface> = () => {
           }
           renderItem={renderItem}
           contentContainerStyle={{
-            rowGap: mScale.base,
+            gap: mScale.lg3,
             paddingBottom: mScale.base,
           }}
           refreshing={refreshLoading}

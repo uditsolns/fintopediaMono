@@ -70,7 +70,7 @@ export default function PopularCourseMolecule({
             textPreset='titleBold'
           />
           {item?.rating ? (
-            <View style={{marginTop:moderateScale(26)}}>
+            <View style={{marginTop:moderateScale(24),marginBottom:mScale.md}}>
               <RatingReview
                 rating={item?.rating || ''}
                 review={item?.reviews || ''}
@@ -79,10 +79,11 @@ export default function PopularCourseMolecule({
               </View>
           ) : null}
         </View>
+        {item?.sale_price  ? 
         <CoursePrice
           price={item?.sale_price}
           discount_price={item?.actual_price}
-        />
+        /> : null }
         <ButtonAtom
           title={isInCart(courseCart, item?.id) ? 'Go to cart' : 'Add to cart'}
           onPress={onPress}

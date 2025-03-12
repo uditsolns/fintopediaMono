@@ -90,8 +90,8 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
         />
       </View>
       <ButtonIconAtom
-        btnTitle={`${hours} hrs`}
-        preset="titleBold"
+        btnTitle={`${hours} Hours`}
+        preset={textPreset}
         color={colorPresets.CTA}
         style={{
           paddingVertical: 0,

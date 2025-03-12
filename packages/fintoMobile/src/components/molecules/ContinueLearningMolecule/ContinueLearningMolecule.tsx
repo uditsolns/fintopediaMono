@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: WINDOW_WIDTH * 0.92,
     alignSelf: 'center',
+    borderRadius:8
   } as ViewStyle,
   image: {
     width: moderateScale(139),

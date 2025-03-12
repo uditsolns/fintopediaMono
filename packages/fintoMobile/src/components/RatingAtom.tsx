@@ -7,21 +7,24 @@ import React from 'react';
 import {View} from 'react-native';
 interface RatingAtomProps {
   preset?: TextPresetType;
-  ratingTitle?:string;
+  ratingTitle?: string;
+  direction?: boolean;
 }
 
 export const RatingAtom: React.FC<RatingAtomProps> = ({
   preset = 'smallBold',
-  ratingTitle
+  ratingTitle,
+  direction = false,
 }) => {
   return (
     <View style={[commonStyle.flexCenter, {alignSelf: 'flex-start'}]}>
+      {direction ? <Images.SVG.Star1 /> : null }
       <TextAtom
         text={ratingTitle}
         preset={preset}
-        style={{marginEnd: mScale.xxs,paddingTop:mScale.xxs}}
+        style={{marginEnd: mScale.xxs, paddingTop: mScale.xxs}}
       />
-      <Images.SVG.Star1 />
+      {!direction ? <Images.SVG.Star1 /> : null}
     </View>
   );
 };

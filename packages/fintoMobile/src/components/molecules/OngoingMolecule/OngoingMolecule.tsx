@@ -8,6 +8,7 @@ import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import HorizontalProgressBar from '@src/components/HorizontalProgressBar';
 import {imageUrl} from '@shared/src/config/imageUrl';
 import {OngoingCoursesResponse} from '@shared/src/utils/types/ongoing-course';
+import { Images } from '@shared/src/assets';
 
 interface OngoingMoleculeProps {
   item: OngoingCoursesResponse;
@@ -42,15 +43,19 @@ const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({
         <TextAtom
           text={item?.course?.name || ''}
           preset="heading4"
-          style={styles.boldText}
+          style={[styles.boldText,{fontWeight:'600',marginTop:mScale.sm}]}
           numberOfLines={2}
         />
         <HorizontalProgressBar progress={Number(completionPercentage)} />
+        <View style={{marginTop:mScale.xs}}>
+
         <ButtonAtom
           title={'Continue learning'}
           preset="primary"
           onPress={onPress}
+          iconRight={<Images.SVG.CameraIcon />}
         />
+        </View>
       </View>
     </View>
   );
@@ -65,7 +70,9 @@ const styles = StyleSheet.create({
   },
   image: {
     width: moderateScale(115),
-    height: moderateScale(133),
+    height: moderateScale(145),
+    borderRadius:4,
+    overflow:'hidden'
   },
   content: {flex: 1},
   boldText: {

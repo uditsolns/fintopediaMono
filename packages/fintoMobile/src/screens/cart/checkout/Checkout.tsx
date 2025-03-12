@@ -85,6 +85,7 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
         paddingBottom: 0,
         paddingHorizontal: 0,
         paddingTop: moderateScale(70),
+        padding:mScale.lg1
       }}>
       {courseCartLoading?.delete || courseCartLoading?.courseCart ? (
         <View style={commonStyle.fullPageLoading}>
@@ -92,7 +93,7 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
         </View>
       ) : null}
       <ScrollViewAtom nestedScrollEnabled={true}>
-        <View>
+        <View style={{marginTop:mScale.base}}>
           <CheckoutStep activeStep={1} />
         </View>
         <View style={{padding: mScale.base}}>

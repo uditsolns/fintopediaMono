@@ -5,27 +5,34 @@ import LinearGradient from 'react-native-linear-gradient';
 
 interface GradientBorderBoxProps {
   children?: ReactNode;
+  linearColor2?: any;
   linearColor?: any;
-  borderRadium?:number
+  borderRadium?: number;
+  width?: any;
+  style?:any
 }
 
 const GradientBorderBox: React.FC<GradientBorderBoxProps> = ({
   children,
+  width = '100%',
+  linearColor2 = ['#7A7FA2', '#141622'],
   linearColor = ['#2D303D', '#212330', '#101320', '#111521', '#0D0F1B'],
-  borderRadium = 12
+  borderRadium = 12,
+  style
 }) => {
   return (
-    <View style={styles.wrapper}>
+    <View style={[{width: width},style]}>
       <LinearGradient
-        colors={['#7A7FA2', '#7A7FA2']}
-        start={{x: 0, y: 0.85}}
-        end={{x: 0, y: 0.2}}
-        style={[styles.border,{borderRadius:borderRadium}]}>
+        colors={linearColor2}
+        locations={[0, 1]}
+        start={{x: 1, y: 0.35}}
+        end={{x: 0, y: 0.9}}
+        style={[styles.border, {borderRadius: borderRadium}]}>
         <LinearGradient
           colors={linearColor}
           start={{x: 0.95, y: -0.42}}
           end={{x: 0, y: 0.5}}
-          style={[styles.innerContainer,{borderRadius:borderRadium}]}>
+          style={[styles.innerContainer, {borderRadius: borderRadium}]}>
           {children}
         </LinearGradient>
       </LinearGradient>
@@ -34,18 +41,14 @@ const GradientBorderBox: React.FC<GradientBorderBoxProps> = ({
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    width: '100%',
-  },
   border: {
-    paddingLeft: 0.3,
-    paddingTop: 0.55,
+    paddingVertical: 1,
+    paddingLeft: 2,
     paddingRight: 1,
-    paddingBottom: 0.5,
   },
   innerContainer: {
     flexGrow: 1,
-    flex: 1
+    flex: 1,
   },
 });
 

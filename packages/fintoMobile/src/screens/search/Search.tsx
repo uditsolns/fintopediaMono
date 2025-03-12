@@ -21,6 +21,7 @@ import {
 import {postSeachCourses} from '@shared/src/provider/store/services/search-courses.service';
 import {FilterModal} from '@src/components/Popup/FilterModal';
 import LoaderAtom from '@src/components/LoaderAtom';
+import { getRandomItem } from '@src/components/Calculate';
 
 interface SearchProps extends NavType<'Search'> {}
 
@@ -75,7 +76,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <View style={{width: WINDOW_WIDTH * 0.8}}>
+          <View style={{width: WINDOW_WIDTH * 0.8, height: 100, marginTop: 30}}>
             <InputAtom
               shape="square"
               placeholder="Search courses"
@@ -83,7 +84,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
                 <Images.SVG.Search width={22} color={colorPresets.GRAY} />
               }
               autoCapitalize="none"
-              style={{width: WINDOW_WIDTH}}
+              style={{width: WINDOW_WIDTH, height: 10}}
               value={search}
               onChangeText={text => filterSearchByStockName(text)}
             />
@@ -131,7 +132,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
       <FlatList
         data={filterCourses?.length ? filterCourses : []}
         renderItem={renderItem}
-        contentContainerStyle={{rowGap: mScale.base, paddingBottom: mScale.lg}}
+        contentContainerStyle={{gap: mScale.lg1, paddingBottom: mScale.lg}}
         ListHeaderComponent={
           <View
             style={{
@@ -184,24 +185,28 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
             {false && (
               <View
                 style={{
-                  marginTop: mScale.md,
+                  marginTop: mScale.xl,
                   paddingLeft: mScale.base,
                   paddingRight: mScale.md,
                 }}>
                 <ViewAll
-                  title="Top Searches"
+                  title="Top searches"
                   visible={false}
-                  paddingHorizontal={0}
+                  preset="heading2"
                 />
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    gap: mScale.md,
-                  }}>
-                  {categories?.map((data, index) => {
-                    return <TagsAtom title={data?.category_name} key={index} />;
-                  })}
+                <View style={{paddingLeft: mScale.base, marginTop: mScale.xl}}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flexWrap: 'wrap',
+                      gap: mScale.lg3,
+                    }}>
+                    {getRandomItem(categories)
+                      ?.slice(0, 5)
+                      ?.map((data, index) => (
+                        <TagsAtom title={data?.category_name} key={index} />
+                      ))}
+                  </View>
                 </View>
               </View>
             )}

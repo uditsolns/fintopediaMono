@@ -6,7 +6,9 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {imageUrl} from '@shared/src/config/imageUrl';
-import { UserCertificateResponse } from '@shared/src/utils/types/UserCertificate';
+import {UserCertificateResponse} from '@shared/src/utils/types/UserCertificate';
+import {Images} from '@shared/src/assets';
+import {colorPresets} from '@shared/src/theme/color';
 
 interface CertificationsMoleculeProps {
   item: UserCertificateResponse;
@@ -27,7 +29,9 @@ const CertificationsMolecule: React.FC<CertificationsMoleculeProps> = ({
       <ImageAtom
         sourceRequire={
           item?.course?.course_image
-            ? {uri: `${imageUrl}/uploads/course_images/${item?.course?.course_image}`}
+            ? {
+                uri: `${imageUrl}/uploads/course_images/${item?.course?.course_image}`,
+              }
             : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')
         }
         imageStyle={styles.image}
@@ -42,10 +46,28 @@ const CertificationsMolecule: React.FC<CertificationsMoleculeProps> = ({
         />
         <ButtonAtom
           title={'stockmarketexpert/certificate 13655'}
-          preset={'tertiary'}
+          iconRight={<Images.SVG.CopyIcon color="#fff" />}
+          style={[
+            styles.button,
+            {
+              backgroundColor: '#222431',
+              borderWidth: 1,
+              borderColor: colorPresets.GRAY,
+            },
+          ]}
         />
-        <View style={{marginTop: -mScale.sm}}>
-          <ButtonAtom title={'Download certificate'} preset={'primary'} onPress={onPress} />
+        <View style={{marginTop: -mScale.xs}}>
+          <ButtonAtom
+            title={'Download certificate'}
+            preset={'primary'}
+            onPress={onPress}
+            style={[
+              styles.button,
+              {
+                backgroundColor: '#222431',
+              },
+            ]}
+          />
         </View>
       </View>
     </View>
@@ -61,12 +83,20 @@ const styles = StyleSheet.create({
   },
   image: {
     width: moderateScale(115),
-    height: moderateScale(133),
+    height: moderateScale(145),
+    borderRadius: 4,
+    overflow: 'hidden',
   },
   content: {flex: 1},
   boldText: {
     fontWeight: '600',
     marginBottom: mScale.xs,
+  },
+  button: {
+    width: moderateScale(200),
+    borderRadius: 4,
+    paddingVertical: mScale.md,
+    paddingHorizontal: mScale.lg1,
   },
 });
 

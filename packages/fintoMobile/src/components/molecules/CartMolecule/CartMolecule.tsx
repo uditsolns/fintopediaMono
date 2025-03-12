@@ -19,16 +19,14 @@ interface CartMoleculeProps {
   saveForLaterBoolean?: boolean;
 }
 
-export default function CartMolecule({ 
+export default function CartMolecule({
   item,
   onPress,
   onSaveLater,
   onRemove,
   saveForLaterBoolean = true,
 }: CartMoleculeProps) {
-  const {courses_save_later} = useAppSelector(
-    state => state.coursesSaveLater,
-  );
+  const {courses_save_later} = useAppSelector(state => state.coursesSaveLater);
 
   return (
     <Pressable
@@ -64,32 +62,25 @@ export default function CartMolecule({
             /> */}
           </View>
         </View>
+
         <ProgressBar
-          level={item?.course_type?.toLowerCase() || "intermediate"}
+          level={item?.course_type?.toLowerCase() || 'intermediate'}
           hours={'20'}
-          mv={mScale.md}
-          textPreset="xSmall"
+          mv={mScale.md3}
+          textPreset="smallBold"
           imageStyle={{
             width: mScale.md2,
             height: mScale.md2,
           }}
         />
-        {/* <ButtonIconRightAtom
-          btnColor="transparent"
-          btnTitle={`4.6/5`}
-          color={colorPresets.WHITE}
-          preset="smallBold"
-          iconName="star"
-          iconColor="#FFA11A"
-          style={{
-            paddingVertical: 0,
-            paddingHorizontal: 0,
-            alignSelf: 'flex-start',
-          }}
-        /> */}
 
         {item?.rating ? (
-          <RatingAtom ratingTitle={item?.rating ? `${item?.rating}` : ''} />
+          <View style={{marginTop: mScale.md}}>
+            <RatingAtom
+              ratingTitle={item?.rating ? `${item?.rating}` : ''}
+              direction={true}
+            />
+          </View>
         ) : null}
         <View style={[commonStyle.flexStart, {marginTop: mScale.base}]}>
           {saveForLaterBoolean ? (
@@ -118,16 +109,19 @@ export default function CartMolecule({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 8,
+    borderRadius: 4,
     overflow: 'hidden',
     flex: 1,
     width: '100%',
     alignSelf: 'center',
     backgroundColor: '#111521',
+    padding: mScale.md,
   } as ViewStyle,
   image: {
     width: moderateScale(115),
     height: moderateScale(123),
+    borderRadius: 5,
+    overflow: 'hidden',
   } as ImageStyle,
   content: {
     flex: 1,

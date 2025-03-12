@@ -184,6 +184,7 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
         paddingBottom: 0,
         paddingHorizontal: 0,
         paddingTop: moderateScale(70),
+        padding:mScale.lg1
       }}>
       {loading?.singlePurchaseHistory || loading.create ? (
         <View style={commonStyle.fullPageLoading}>
@@ -239,7 +240,7 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
               style={[
                 commonStyle.flexStart,
                 {
-                  borderWidth: 1,
+                  borderWidth: 0.5,
                   borderColor: colorPresets.GRAY3,
                   marginTop: mScale.xxl,
                   padding: mScale.md2,

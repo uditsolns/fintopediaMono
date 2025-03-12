@@ -58,7 +58,7 @@ const MyCourse: React.FunctionComponent<MyCourseInterface> = () => {
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
-      <View style={{alignSelf: 'center', paddingLeft: mScale.base}}>
+      <View style={{alignSelf: 'center', paddingLeft: mScale.base,marginTop:mScale.base}}>
         <FlatList
           data={
             user_course_history?.length
@@ -67,7 +67,7 @@ const MyCourse: React.FunctionComponent<MyCourseInterface> = () => {
           }
           renderItem={renderItem}
           contentContainerStyle={{
-            rowGap: mScale.base,
+            gap: mScale.lg3,
             paddingBottom: mScale.base,
           }}
           ListFooterComponent={

@@ -33,21 +33,23 @@ export default function CourseMolecule({item, onPress}: CourseMoleculeProps) {
       />
       <View style={styles.content}>
         <TextAtom
-          text={item?.name || ''}
+          text={item?.name  || ''}
           preset="titleBold"
           numberOfLines={3}
-          style={{marginTop: mScale.md}}
+          style={{marginTop: mScale.md,fontWeight:'600'}}
         />
-        <ProgressBar
-          level={item?.course_type?.toLowerCase() || 'intermediate'}
-          hours={item?.duration_time || ''}
-          mv={mScale.md}
-          textPreset="xSmall"
-          imageStyle={{
-            width: mScale.md,
-            height: mScale.md,
-          }}
-        />
+        <View style={{marginVertical:mScale.md2}}>
+          <ProgressBar
+            level={item?.course_type?.toLowerCase() || 'intermediate'}
+            hours={item?.duration_time?.replace(/\D+/g, "") || ''}
+            mv={mScale.md}
+            textPreset="smallBold"
+            imageStyle={{
+              width: mScale.md,
+              height: mScale.md,
+            }}
+          />
+        </View>
         {item?.rating ? (
           <RatingReview
             rating={item?.rating || ''}
@@ -65,7 +67,7 @@ export default function CourseMolecule({item, onPress}: CourseMoleculeProps) {
                 color: colorPresets.GRAY2,
               }}
               text={`₹ ${item?.actual_price || 0}`}
-              preset="xSmallBold"
+              preset="smallBold"
             />
           </View>
           <ButtonAtom
@@ -74,6 +76,13 @@ export default function CourseMolecule({item, onPress}: CourseMoleculeProps) {
             }
             textPreset="xSmallBold"
             onPress={onPress}
+            style={{
+              backgroundColor: colorPresets.CTA,
+              width: moderateScale(115),
+              borderRadius: 4,
+              paddingVertical: mScale.md,
+              paddingHorizontal: mScale.lg1,
+            }}
           />
         </View>
       </View>
@@ -83,22 +92,26 @@ export default function CourseMolecule({item, onPress}: CourseMoleculeProps) {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 8,
+    borderRadius: 4,
     overflow: 'hidden',
     flex: 1,
     width: '100%',
     alignSelf: 'center',
     backgroundColor: '#111521',
+    padding:mScale.md2
   } as ViewStyle,
   image: {
     width: moderateScale(115),
     height: moderateScale(123),
+    borderRadius:4,
+    overflow:'hidden'
   } as ImageStyle,
   content: {
     flex: 1,
     flexGrow: 1,
     alignSelf: 'flex-start',
-    padding: mScale.base,
+    paddingStart: mScale.base,
+    paddingEnd: mScale.xs,
   } as ViewStyle,
   boldText: {
     fontWeight: '400',

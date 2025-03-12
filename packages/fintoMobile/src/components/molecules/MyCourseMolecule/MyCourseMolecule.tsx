@@ -3,6 +3,7 @@ import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {imageUrl} from '@shared/src/config/imageUrl';
+import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {UserCourseHistoryResponse} from '@shared/src/utils/types/UserCourseHistory';
@@ -36,27 +37,28 @@ export default function MyCourseMolecule({
           text={item?.name || ''}
           preset="titleBold"
           numberOfLines={3}
-          style={{marginTop: mScale.md}}
+          style={{marginTop: mScale.md, fontWeight: '600'}}
         />
-        <ProgressBar
-          level={item?.course_type?.toLowerCase() || 'intermediate'}
-          hours={item?.duration_time || ''}
-          mv={mScale.md}
-          textPreset="xSmall"
-          imageStyle={{
-            width: mScale.md,
-            height: mScale.md,
-          }}
-        />
+        <View style={{marginVertical: mScale.md2}}>
+          <ProgressBar
+            level={item?.course_type?.toLowerCase() || 'intermediate'}
+            hours={item?.duration_time?.replace(/\D+/g, '') || ''}
+            mv={mScale.md}
+            textPreset="smallBold"
+            imageStyle={{
+              width: mScale.md,
+              height: mScale.md,
+            }}
+          />
+        </View>
         {item?.rating ? (
           <RatingReview
             rating={item?.rating || ''}
             review={item?.reviews || ''}
-            textStyle={{paddingTop: mScale.xxs}}
           />
         ) : null}
 
-        <ButtonAtom title={'Start course'} preset="primary" onPress={onPress} />
+        <ButtonAtom title={'Start course'} onPress={onPress} />
       </View>
     </View>
   );
@@ -64,22 +66,26 @@ export default function MyCourseMolecule({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 8,
+    borderRadius: 4,
     overflow: 'hidden',
     flex: 1,
     width: '100%',
     alignSelf: 'center',
     backgroundColor: '#111521',
+    padding: mScale.md2,
   } as ViewStyle,
   image: {
     width: moderateScale(115),
     height: moderateScale(123),
+    borderRadius: 4,
+    overflow: 'hidden',
   } as ImageStyle,
   content: {
     flex: 1,
     flexGrow: 1,
     alignSelf: 'flex-start',
-    padding: mScale.base,
+    paddingStart: mScale.base,
+    paddingEnd: mScale.xs,
   } as ViewStyle,
   boldText: {
     fontWeight: '400',

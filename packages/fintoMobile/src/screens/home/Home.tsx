@@ -208,7 +208,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
         <View style={{paddingTop: moderateScale(22)}}>
           <CarouselAtom data={banner?.length ? banner : []} />
         </View>
-        {auth?.token ? (
+        {auth?.token && ongoing_courses_status?.length ? (
           <View style={{marginTop: moderateScale(32)}}>
             <ViewAll title="Continue Learning" visible={false} />
             <View style={{paddingLeft: mScale.base, marginTop: mScale.lg}}>
