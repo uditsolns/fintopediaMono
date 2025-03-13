@@ -215,7 +215,8 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
                   style={{
                     ...fontPresets.body,
                     marginBottom: mScale.md2,
-                    fontWeight: '400',
+                    fontWeight: '300',
+                    color:colorPresets.GRAY
                   }}>
                   You have{' '}
                   <Text

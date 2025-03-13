@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   } as ViewStyle,
   image: {
-    width: moderateScale(251),
+    width: undefined,
     height: moderateScale(151),
   } as ImageStyle,
   content: {

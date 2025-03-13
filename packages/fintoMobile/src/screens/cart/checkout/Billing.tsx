@@ -162,6 +162,7 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
                 getPurchaseHistoryById({
                   params,
                   onSuccess(data) {
+                    console.log(data)
                     navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN);
                   },
                   onError(error) {},
