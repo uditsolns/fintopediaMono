@@ -94,7 +94,7 @@ export const DontKnowWhereToStart: React.FunctionComponent<
         paddingTop: moderateScale(75),
       }}>
       <ScrollViewAtom>
-        <View>
+        <View style={{marginTop:mScale.xxl}}>
           <View style={{paddingHorizontal: mScale.base}}>
             <TextAtom
               text={`Don’t know where\nto start?`}
@@ -105,12 +105,15 @@ export const DontKnowWhereToStart: React.FunctionComponent<
               text={
                 'Create screens directly in Method or add your images from Sketch or Figma. You can even sync designs from your cloud storage!'
               }
-              preset="medium"
+              preset="body"
               style={
                 {
                   textAlign: 'center',
                   marginTop: mScale.base,
                   marginBottom: mScale.lg2,
+                  color:"D5D5D9",
+                  letterSpacing:-0.2,
+                  lineHeight:24,
                 } as TextStyle
               }
             />
@@ -152,7 +155,7 @@ export const DontKnowWhereToStart: React.FunctionComponent<
               <TextAtom
                 text={`Become a Finance Manager\n in 3 months`}
                 preset="heading2"
-                style={{textAlign: 'center'}}
+                style={{textAlign: 'center',fontWeight:'700'}}
               />
             </View>
           </View>

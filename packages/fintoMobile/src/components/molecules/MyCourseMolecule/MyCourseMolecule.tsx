@@ -1,3 +1,4 @@
+import { Images } from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
@@ -58,7 +59,7 @@ export default function MyCourseMolecule({
           />
         ) : null}
 
-        <ButtonAtom title={'Start course'} onPress={onPress} />
+        <ButtonAtom title={'Start course'} onPress={onPress}   iconRight={<Images.SVG.RightArrow />} />
       </View>
     </View>
   );

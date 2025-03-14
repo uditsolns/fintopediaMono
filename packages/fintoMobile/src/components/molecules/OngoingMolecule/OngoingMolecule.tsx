@@ -53,7 +53,7 @@ const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({
           title={'Continue learning'}
           preset="primary"
           onPress={onPress}
-          iconRight={<Images.SVG.CameraIcon />}
+          iconRight={<Images.SVG.RightArrow />}
         />
         </View>
       </View>

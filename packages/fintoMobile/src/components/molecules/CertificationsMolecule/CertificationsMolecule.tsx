@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {commonStyle} from '@shared/src/commonStyle';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
@@ -9,6 +9,7 @@ import {imageUrl} from '@shared/src/config/imageUrl';
 import {UserCertificateResponse} from '@shared/src/utils/types/UserCertificate';
 import {Images} from '@shared/src/assets';
 import {colorPresets} from '@shared/src/theme/color';
+import GradientBorderBox from '@src/components/Border/GradientBorderBox';
 
 interface CertificationsMoleculeProps {
   item: UserCertificateResponse;
@@ -44,29 +45,34 @@ const CertificationsMolecule: React.FC<CertificationsMoleculeProps> = ({
           style={styles.boldText}
           numberOfLines={2}
         />
-        <ButtonAtom
-          title={'stockmarketexpert/certificate 13655'}
-          iconRight={<Images.SVG.CopyIcon color="#fff" />}
-          style={[
-            styles.button,
-            {
-              backgroundColor: '#222431',
-              borderWidth: 1,
-              borderColor: colorPresets.GRAY,
-            },
-          ]}
-        />
-        <View style={{marginTop: -mScale.xs}}>
+        <View style={{marginTop: mScale.lg1}}>
+          <GradientBorderBox
+            borderRadium={4}
+            linearColor2={['#7A7FA2', '#7A7FA2']}
+            linearColor={['#222431', '#222431']}>
+            <Pressable
+              style={[
+                commonStyle.flexSpaceBetween,
+                {paddingVertical: mScale.sm, paddingHorizontal: mScale.md2},
+              ]}>
+              <TextAtom
+                text="stockmarketexpert/certificate 13655"
+                preset="small"
+                numberOfLines={1}
+                style={{width: moderateScale(150), fontWeight: '400'}}
+              />
+              <Images.SVG.CopyIcon color="white" />
+            </Pressable>
+          </GradientBorderBox>
+        </View>
+
+        <View style={{marginTop: mScale.md}}>
           <ButtonAtom
             title={'Download certificate'}
             preset={'primary'}
             onPress={onPress}
-            style={[
-              styles.button,
-              {
-                backgroundColor: '#222431',
-              },
-            ]}
+            textPreset="smallBold"
+            iconLeft={<Images.SVG.DownloadIcon color="#000" />}
           />
         </View>
       </View>

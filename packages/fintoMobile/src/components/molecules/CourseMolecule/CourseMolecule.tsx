@@ -57,10 +57,10 @@ export default function CourseMolecule({item, onPress}: CourseMoleculeProps) {
           />
         ) : null}
 
-        <View style={[commonStyle.flexSpaceBetween]}>
+        <View style={[commonStyle.flexSpaceBetween,{marginTop:mScale.md3}]}>
           <View style={[commonStyle.flexSpaceBetween]}>
             <TextAtom text={`₹ ${item?.sale_price || 0}`} preset="titleBold" />
-            <TextAtom
+            {/* <TextAtom
               style={{
                 paddingStart: mScale.xs,
                 textDecorationLine: 'line-through',
@@ -68,7 +68,7 @@ export default function CourseMolecule({item, onPress}: CourseMoleculeProps) {
               }}
               text={`₹ ${item?.actual_price || 0}`}
               preset="smallBold"
-            />
+            /> */}
           </View>
           <ButtonAtom
             title={
@@ -82,6 +82,7 @@ export default function CourseMolecule({item, onPress}: CourseMoleculeProps) {
               borderRadius: 4,
               paddingVertical: mScale.md,
               paddingHorizontal: mScale.lg1,
+              
             }}
           />
         </View>
@@ -92,7 +93,7 @@ export default function CourseMolecule({item, onPress}: CourseMoleculeProps) {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 4,
+    borderRadius: mScale.sm,
     overflow: 'hidden',
     flex: 1,
     width: '100%',

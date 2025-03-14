@@ -76,6 +76,7 @@ import { WorldIcon } from "./svg/WorldIcon";
 import { Fb3 } from "./svg/Fb3";
 import { LinkedLn3 } from "./svg/LinkedLn3";
 import { Insta3 } from "./svg/Insta3";
+import { RightArrow } from "./svg/RightArrow";
 
 export const Images = {
   SVG: {
@@ -156,6 +157,7 @@ export const Images = {
     WorldIcon,
     Fb3,
     LinkedLn3,
-    Insta3
+    Insta3,
+    RightArrow
   },
 };
