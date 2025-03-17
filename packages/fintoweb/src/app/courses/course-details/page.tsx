@@ -82,11 +82,11 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
             style={{
               height: "5rem",
               width: "5rem",
-            }} 
+            }}
           />
         </div>
       ) : null}
-      <div className={styles.CourseDetails}> 
+      <div className={styles.CourseDetails}>
         <div className={styles.CourseDetailsIntro}>
           <div className={styles.links}>
             <Link href="/" className={styles.link}>
@@ -111,22 +111,12 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
               <div className={styles.CourseDetailsHeaderButton}>
                 <button>
                   Course starts from{" "}
-                  <span className={styles.CourseDetailsHeaderButtonSpan}>&#8377; {singleCourse?.sale_price}</span>
-                  {/* <span
-                    style={{
-                      textDecoration: "line-through",
-                      color: "lightgray",
-                      marginLeft: "5px",
-                    }}
-                  >
-                    ₹ {singleCourse?.actual_price}
-                  </span> */}
+                  <span className={styles.CourseDetailsHeaderButtonSpan}>
+                    &#8377; {singleCourse?.sale_price}
+                  </span>
                 </button>
               </div>
               <div className={styles.offerText}>
-                {/* <h6>
-                  Offer ends in <span> 01d : 09h : 20m : 06s</span>
-                </h6> */}
                 <OfferCountdown
                   offerStartDate={singleCourse?.offer_start_date}
                   offerEndDate={singleCourse?.offer_end_date}
@@ -148,8 +138,8 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
           </div>
         </div>
 
-        <div className={styles.learnSlider}> 
-          <LearnSlider /> 
+        <div className={styles.learnSlider}>
+          <LearnSlider />
         </div>
         <div className={styles.lessons}>
           <Lessons

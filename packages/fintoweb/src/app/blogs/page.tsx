@@ -266,6 +266,7 @@ const Blogs: React.FC = () => {
                         className={`${styles.textfieldBlog} form-control ${
                           errors.email && touched.email ? "is-invalid" : ""
                         }`}
+                        autoComplete="off"
                       />
                       <ErrorMessage
                         name="email"

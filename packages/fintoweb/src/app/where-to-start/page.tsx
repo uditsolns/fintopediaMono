@@ -258,7 +258,7 @@ const WheretoStart: React.FC = () => {
               )
             )}
           </Row>
-        </div>
+        </div> 
       </div>
     </>
   );

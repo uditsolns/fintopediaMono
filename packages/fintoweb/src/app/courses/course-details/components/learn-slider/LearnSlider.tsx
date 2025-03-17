@@ -184,7 +184,7 @@ const LearnSlider: React.FC = () => {
   //   } else if (window.innerWidth <= 650) {
   //     setSlideToShow(1);
   //   }
-  // }; 
+  // };
   const setSlides = () => {
     const width = window.innerWidth;
     if (width <= 650) {
@@ -255,7 +255,7 @@ const LearnSlider: React.FC = () => {
           <div key={card.id}>
             <Card className={styles.stockCard}>
               <CardBody>
-                {card.svg}
+                <div className={styles.stockCardSvg}>{card.svg}</div>
                 <CardTitle className={styles.cardTitle}>{card.title}</CardTitle>
                 <CardText className={styles.cardText}>{card.text}</CardText>
               </CardBody>

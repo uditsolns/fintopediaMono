@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 88px 180px;
+  padding: 88px 120px;
   background-image: url("../../assets/about/About-us-banner-bg.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -39,7 +39,7 @@
 }
 
 .imageContainer img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
   border-radius: 10px;
 }
@@ -48,17 +48,6 @@
   background-image: url("../../assets/about/Our-story.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  /* background: var(
-    --BG,
-    linear-gradient(
-      245deg,
-      #2d303d 0%,
-      #212330 28.6%,
-      #101320 65.15%,
-      #111521 78%,
-      #0d0f1b 100%
-    )
-  ); */
 }
 .AboutStoryContent {
   display: flex;
@@ -67,7 +56,6 @@
   height: 100%;
   /* padding: 20px; */
   padding: 20px 20px 56px 20px;
-
 }
 .AboutStoryContent h1 {
   color: #fff;
@@ -182,7 +170,8 @@
   font-size: 22px;
   font-style: normal;
   font-weight: 600;
-  line-height: 26px; /* 118.182% */
+  line-height: 26px;
+  margin: 0 0 8px;
 }
 .guideCard p {
   overflow: hidden;

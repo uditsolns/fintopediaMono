@@ -216,6 +216,10 @@
   border-radius: 12px;
   background: var(--BG-2, #222431);
 }
+/* .socialImage {
+  width: 20px !important;
+  height: 20px !important;
+} */
 @media screen and (max-width: 435px) {
   .contactSection {
     padding: 56px 10px;

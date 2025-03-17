@@ -69,6 +69,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: 105%;
+  padding: 0px 0px 12px 0px;
 }
 .quizContents h2 {
   font-size: 40px;
@@ -77,7 +78,7 @@
   line-height: 120%;
 }
 .headerContents p {
-  margin-top: 12px;
+  /* margin-top: 12px; */
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -835,7 +836,7 @@
 @media (max-width: 768px) {
   .stockmarketBannerContent,
   .stockmarketBannerRightContent {
-    max-width: 100%;
+    width: 100%;
     text-align: center; /* Center content on smaller screens */
   }
 
@@ -984,7 +985,7 @@
     padding: 20px;
   }
   .stockmarketBannerContent {
-    max-width: 100%;
+    width: 100%;
   }
   .stockmarketBanner {
     width: 100%;

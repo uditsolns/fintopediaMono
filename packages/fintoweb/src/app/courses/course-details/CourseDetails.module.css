@@ -22,7 +22,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 80px 20px 20px 20px;
 }
 .links span {
   margin-right: 5px;
@@ -58,9 +58,6 @@
 }
 .CourseDetailsHeaderButton,
 .offerText {
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
   padding: 10px;
 }
 .CourseDetailsHeaderButton button {
@@ -176,17 +173,6 @@
   background-image: url("../../../assets/courses/course-details/FrequentlyAskedQuestionsbg.png");
   background-size: cover;
   background-repeat: no-repeat;
-  /* background: var(
-    --BG,
-    linear-gradient(
-      245deg,
-      #2d303d 0%,
-      #212330 28.6%,
-      #101320 65.15%,
-      #111521 78%,
-      #0d0f1b 100%
-    )
-  ); */
   padding: 50px 150px;
 }
 .contactAccordion h1 {
