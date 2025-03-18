@@ -278,7 +278,7 @@ const CourseFilter: React.FC = () => {
               </p>
             </div>
             <div className={styles.formContainer}>
-              <div className="form">
+              <div className="form"> 
                 <h2>
                   Don’t know where to
                   <br /> start?

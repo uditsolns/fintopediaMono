@@ -17,7 +17,7 @@ interface CoursepageMoleculeProps {
 }
 const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
   course,
-  onClick,
+  onClick, 
   loading = false, 
 }) => {
   const router = useRouter();

@@ -3,12 +3,13 @@
   overflow: hidden;
   margin: 10px;
   border-radius: 12px;
-  border: 0.737px solid var(--Border, #7a7fa2);
+  /* border: 0.737px solid var(--Border, #7a7fa2); */
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #111521;
   box-shadow: 0px 5.892px 11.784px 0px rgba(127, 127, 127, 0.1);
 }
 .cardImage {
-  position: relative;
+  position: relative; 
   cursor: pointer;
 }
 
