@@ -9,6 +9,11 @@ import { Card, CardBody, CardImg, CardTitle, Col, Row } from "reactstrap";
 import BlogCourse from "../../../assets/blogCourse.png";
 import User from "../../../assets/userCircle.png";
 import Logo from "../../../assets/meta.png";
+import { FaInstagram } from "react-icons/fa";
+import Blog1 from "../../../assets/blogs/Blog1.png";
+import Blog2 from "../../../assets/blogs/Blog2.png";
+import Blog3 from "../../../assets/blogs/Blog3.png";
+import Blog4 from "../../../assets/blogs/Blog4.png";
 
 const stocks = new Array(2).fill({
   userName: "Priyam Sharma",
@@ -23,8 +28,8 @@ const stocks = new Array(2).fill({
 const stocksData = [
   {
     id: 1,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Mastering Option Trading",
+    image: Blog1,
+    title: "Mastering Option",
     description:
       "Explore key strategies and concepts to enhance your option trading skills. Gain insights from expert Jyoti Budhia.Lorem ispum",
     rating: 4.6,
@@ -34,7 +39,7 @@ const stocksData = [
   },
   {
     id: 2,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog2,
     title: "Decoding Market Trends",
     description:
       "Stay ahead with the latest market analysis and trend predictions. Learn how to make informed trading decisions.",
@@ -45,8 +50,8 @@ const stocksData = [
   },
   {
     id: 3,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Leveraging Trading Technology",
+    image: Blog3,
+    title: "Leveraging Trading ",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
@@ -56,8 +61,52 @@ const stocksData = [
   },
   {
     id: 4,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Fundamental Analysis for Traders",
+    image: Blog4,
+    title: "Fundamental Analysis",
+    description:
+      "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
+    rating: 4.2,
+    reviews: 800,
+    price: 4000,
+    originalPrice: 5000,
+  },
+  {
+    id: 5,
+    image: Blog1,
+    title: "Basic of Stock Market",
+    description:
+      "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
+    rating: 4.2,
+    reviews: 800,
+    price: 4000,
+    originalPrice: 5000,
+  },
+  {
+    id: 6,
+    image: Blog2,
+    title: "Basic of Stock Market",
+    description:
+      "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
+    rating: 4.2,
+    reviews: 800,
+    price: 4000,
+    originalPrice: 5000,
+  },
+  {
+    id: 7,
+    image: Blog3,
+    title: "Basic of Stock Market",
+    description:
+      "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
+    rating: 4.2,
+    reviews: 800,
+    price: 4000,
+    originalPrice: 5000,
+  },
+  {
+    id: 8,
+    image: Blog4,
+    title: "Basic of Stock Market",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
@@ -66,6 +115,52 @@ const stocksData = [
     originalPrice: 5000,
   },
 ];
+// const stocksData = [
+//   {
+//     id: 1,
+//     imageSrc: "https://via.placeholder.com/300x200",
+//     title: "Mastering Option Trading",
+//     description:
+//       "Explore key strategies and concepts to enhance your option trading skills. Gain insights from expert Jyoti Budhia.Lorem ispum",
+//     rating: 4.6,
+//     reviews: 1000,
+//     price: 5000,
+//     originalPrice: 6000,
+//   },
+//   {
+//     id: 2,
+//     imageSrc: "https://via.placeholder.com/300x200",
+//     title: "Decoding Market Trends",
+//     description:
+//       "Stay ahead with the latest market analysis and trend predictions. Learn how to make informed trading decisions.",
+//     rating: 4.8,
+//     reviews: 1500,
+//     price: 4500,
+//     originalPrice: 5500,
+//   },
+//   {
+//     id: 3,
+//     imageSrc: "https://via.placeholder.com/300x200",
+//     title: "Leveraging Trading Technology",
+//     description:
+//       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
+//     rating: 4.2,
+//     reviews: 800,
+//     price: 4000,
+//     originalPrice: 5000,
+//   },
+//   {
+//     id: 4,
+//     imageSrc: "https://via.placeholder.com/300x200",
+//     title: "Fundamental Analysis for Traders",
+//     description:
+//       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
+//     rating: 4.2,
+//     reviews: 800,
+//     price: 4000,
+//     originalPrice: 5000,
+//   },
+// ];
 
 const BlogDetails = () => {
   return (
@@ -361,6 +456,9 @@ const BlogDetails = () => {
                     </defs>
                   </svg>
                 </div>
+                <div>
+                  <FaInstagram size={24} />
+                </div>
               </div>
             </div>
           </div>
@@ -370,14 +468,14 @@ const BlogDetails = () => {
         <h1>Related Blogs</h1>
         <div className={styles.blogsListing}>
           <Row>
-            {stocksData.map((stock) => {
+            {/* {stocksData.map((stock) => {
               return (
                 <Col md={3} key={stock.id} className="mt-3">
                   <Card className={styles.blogsCard}>
                     <CardImg
                       top
                       width="100%"
-                      src={stock.imageSrc}
+                      src={stock.image}
                       alt={stock.title}
                       className={styles.blogsCardImage}
                     />
@@ -390,6 +488,39 @@ const BlogDetails = () => {
                       </div>
                       <div className={styles.blogsFooter}>
                         <a href="/blogs-details" className={styles.readmore}>
+                          Read More
+                        </a>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              );
+            })} */}
+            {stocksData.map((stock) => {
+              return (
+                <Col
+                  md={3}
+                  key={stock.id}
+                  className={`${styles.bolgsColumns} mt-3`}
+                >
+                  <Card className={styles.blogsCard}>
+                    <Image
+                      src={stock.image}
+                      alt={stock.title}
+                      className={styles.blogsCardImage}
+                    />
+                    <CardBody className={styles.blogsCardContent}>
+                      <CardTitle tag="h3" className={styles.blogsCardTitle}>
+                        {stock.title}
+                      </CardTitle>
+                      <div className={styles.blogsCardText}>
+                        <p>{stock.description}</p>
+                      </div>
+                      <div className={styles.blogsFooter}>
+                        <a
+                          href="/blogs/blog-details"
+                          className={styles.readmore}
+                        >
                           Read More
                         </a>
                       </div>

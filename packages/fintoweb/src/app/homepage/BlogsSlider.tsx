@@ -100,8 +100,8 @@ const BlogsSlider: React.FC = () => {
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
+    // autoplay: true,
+    // autoplaySpeed: 3000,
     pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
@@ -143,15 +143,15 @@ const BlogsSlider: React.FC = () => {
           <div key={stock.id}>
             <Card className={styles.blogsCard}>
               <Image
-                src={stock.image}
+                src={stock.image}  
                 alt={stock.title}
                 className={styles.blogsCardImage}
               />
               <CardBody className={styles.blogsCardContent}>
-                <p>Options Trading</p>
+                <p>Options Trading</p> 
                 <CardTitle tag="h3" className={styles.blogsCardTitle}>
                   {stock.title}
-                </CardTitle>
+                </CardTitle> 
                 <div className={styles.blogsCardText}>
                   <p>{stock.description}</p>
                 </div>
