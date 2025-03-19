@@ -240,7 +240,7 @@
     padding: 56px 10px;
   }
   .courseContainer {
-    padding: 20px;
+    padding: 56px 20px;
     margin-top: 15px;
   }
   .headerContentsCourseFilter p {
@@ -254,7 +254,8 @@
     padding: 56px 15px;
   }
   .filterButtons {
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
+    padding: 30px;
   }
   .filterButton {
     padding: 10px;

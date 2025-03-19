@@ -104,7 +104,7 @@ const CourseFilter: React.FC = () => {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
-      {
+      { 
         breakpoint: 1280,
         settings: {
           slidesToShow: 4,

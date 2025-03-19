@@ -16,7 +16,7 @@ const BasicStockmarketBanner = () => {
           <p>
             Discover a diverse range of online courses designed to cater to
             learners of all levels, interests, and ambitions.
-          </p>
+          </p> 
           <button>Explore Menu</button>
           <div className={styles.countBtn}>
             <div>

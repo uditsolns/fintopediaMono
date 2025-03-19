@@ -150,7 +150,10 @@
     margin-top: 10px;
   }
   .imageContainer {
-    margin-top: 10px;
+    margin-top: 40px;
+  }
+  .imageContainer img {
+    margin: auto;
   }
   .cards {
     padding: 56px 20px;

@@ -671,7 +671,7 @@
   padding: 15px;
   border-radius: 25px;  
 } */
-.blogsCardImage { 
+.blogsCardImage {
   height: auto;
   width: 100%;
   height: 179px !important;
@@ -841,14 +841,19 @@
 }
 /* Responsive styles */
 @media (max-width: 768px) {
-  .stockmarketBannerContent,
   .stockmarketBannerRightContent {
-    width: 100%;
-    text-align: center; /* Center content on smaller screens */
+    max-width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    margin: auto;
   }
 
-  .stockmarketBannerRightContent {
-    margin-top: 20px;
+  .stockmarketBannerContent {
+    max-width: 100%;
+    text-align: center;
+    color: white;
+    margin: auto;
+    z-index: 1;
   }
 
   .stockmarketBannerContent h2 {
@@ -1003,14 +1008,7 @@
     padding: 15px;
     margin: auto;
   }
-  /* .stockmarketBanner {
-    display: block;
-  }
 
-  .overlay {
-    display: block;
-    padding: 56px 10%;
-  } */
   .stockmarketBanner {
     position: relative;
     display: block;
