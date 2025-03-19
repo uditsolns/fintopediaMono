@@ -4,12 +4,14 @@ import {mScale} from '@shared/src/theme/metrics';
 import React from 'react';
 import {StyleSheet, View, ViewStyle, TextStyle} from 'react-native';
 import {RatingAtom} from './RatingAtom';
+import {TextPresetType} from '@shared/src/components/atoms/Text/TextPresets';
 
 interface RatingReviewProps {
   rating?: number | string;
   review?: number | string;
   mb?: number | undefined;
   textStyle?: TextStyle;
+  textPreset?: TextPresetType;
 }
 
 const RatingReview: React.FC<RatingReviewProps> = ({
@@ -17,6 +19,7 @@ const RatingReview: React.FC<RatingReviewProps> = ({
   review,
   mb = mScale.base,
   textStyle,
+  textPreset = 'medium',
 }) => {
   return (
     <View
@@ -27,7 +30,7 @@ const RatingReview: React.FC<RatingReviewProps> = ({
       <RatingAtom ratingTitle={`${rating || ''}`} preset="titleBold" />
       <TextAtom
         text={`(${review} reviews)`}
-        preset="medium"
+        preset={textPreset}
         style={[{marginStart: mScale.xxs, color: '#71717A'}, textStyle]}
       />
     </View>

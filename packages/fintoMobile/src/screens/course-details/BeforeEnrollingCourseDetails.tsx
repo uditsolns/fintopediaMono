@@ -34,6 +34,7 @@ import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {clearVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
 import Orientation from 'react-native-orientation-locker';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import GradientBorderBox from '@src/components/Border/GradientBorderBox';
 
 interface BeforeEnrollingCourseDetailsProps
   extends NavType<'BeforeEnrollingCourseDetails'> {}
@@ -196,27 +197,37 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               style={{color: '#D5D5D9'}}
             />
 
-            <View>
+            <View
+              style={{
+                marginTop: mScale.md3,
+                marginBottom: mScale.lg1,
+              }}>
               <ProgressBar
                 level={data?.course_type?.toLowerCase()}
-                hours={data?.duration_time || ''}
-                mv={mScale.sm}
+                hours={data?.duration_time?.replace(/\D+/g, '') || ''}
+                textPreset="smallBold"
+                mv={5}
               />
-              {data?.rating ? (
-                <RatingReview
-                  rating={data?.rating || ''}
-                  review={data?.reviews || ''}
-                />
-              ) : null}
+              <View style={{position: 'absolute', right: 0}}>
+                {data?.rating ? (
+                  <RatingReview
+                    rating={data?.rating || ''}
+                    review={data?.reviews || ''}
+                    textPreset="smallBold"
+                    mb={0}
+                  />
+                ) : null}
+              </View>
             </View>
             <ButtonAtom
               title={`Course starts from  ₹ ${data?.sale_price}`}
               preset="fourthy"
             />
+
             <TextAtom
               text={'This course includes'}
               preset="heading3"
-              style={{marginVertical: mScale.md}}
+              style={{marginBottom: mScale.md, marginTop: moderateScale(60)}}
             />
             {data?.sections?.map((el, index) => {
               return (
@@ -244,7 +255,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               );
             })}
           </View>
-          <View style={{padding: mScale.base, backgroundColor: '#0D0F1C'}}>
+          <View style={{padding: mScale.base, paddingVertical:mScale.xxl, backgroundColor: '#0D0F1C'}}>
             <TextAtom
               text={'This course includes'}
               preset="heading3"
@@ -255,55 +266,76 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                 commonStyle.flexSpaceBetween,
                 {flexWrap: 'wrap', rowGap: 20},
               ]}>
-              <Pressable
-                style={{
-                  backgroundColor: '#222431',
-                  padding: mScale.base,
-                  borderWidth: 1,
-                  borderColor: colorPresets.GRAY3,
-                  borderRadius: 9,
-                  width: moderateScale(150),
-                  height: moderateScale(150),
-                  marginEnd: mScale.md,
-                }}>
-                <Images.SVG.YearAccess width={24} height={24} />
-                <View style={{marginVertical: mScale.md}}>
-                  <TextAtom text={'1 Year Access'} preset="titleBold" />
-                  <TextAtom
-                    preset="small"
-                    text={
-                      'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
-                    }
-                    numberOfLines={2}
-                  />
-                </View>
-              </Pressable>
-              <Pressable
-                style={{
-                  backgroundColor: '#222431',
-                  padding: mScale.base,
-                  borderWidth: 1,
-                  borderColor: colorPresets.GRAY3,
-                  borderRadius: 9,
-                  width: moderateScale(150),
-                  height: moderateScale(150),
-                  marginEnd: mScale.md,
-                }}>
-                <Images.SVG.Certificate width={24} height={24} />
-                <View style={{marginVertical: mScale.md}}>
-                  <TextAtom
-                    text={'Certificate of completion'}
-                    preset="titleBold"
-                  />
-                  <TextAtom
-                    preset="small"
-                    text={
-                      'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
-                    }
-                    numberOfLines={2}
-                  />
-                </View>
-              </Pressable>
+              <GradientBorderBox
+                borderRadium={9}
+                linearColor={['#222431', '#222431']}
+                width={'47%'}>
+                <Pressable
+                  style={{
+                    backgroundColor: '#222431',
+                    padding: mScale.base,
+                    borderRadius: 9,
+                    width: moderateScale(150),
+                    height: moderateScale(150),
+                    marginEnd: mScale.md,
+                  }}>
+                  <Images.SVG.YearAccess width={24} height={24} />
+                  <View style={{marginVertical: mScale.md}}>
+                    <TextAtom
+                      text={'1 Year Access'}
+                      preset="titleBold"
+                      style={{marginTop: mScale.md}}
+                    />
+                    <TextAtom
+                      preset="small"
+                      text={
+                        'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
+                      }
+                      numberOfLines={2}
+                      style={{
+                        color: '#D5D5D9',
+                        fontWeight: '400',
+                        marginTop: mScale.md,
+                      }}
+                    />
+                  </View>
+                </Pressable>
+              </GradientBorderBox>
+              <GradientBorderBox
+                borderRadium={9}
+                linearColor={['#222431', '#222431']}
+                width={'47%'}>
+                <Pressable
+                  style={{
+                    backgroundColor: '#222431',
+                    padding: mScale.base,
+                    borderRadius: 9,
+                    width: moderateScale(150),
+                    height: moderateScale(150),
+                    marginEnd: mScale.md,
+                  }}>
+                  <Images.SVG.Certificate width={24} height={24} />
+                  <View style={{marginVertical: mScale.md}}>
+                    <TextAtom
+                      text={'Certificate of completion'}
+                      preset="titleBold"
+                      style={{marginTop: mScale.md}}
+                    />
+                    <TextAtom
+                      preset="small"
+                      text={
+                        'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
+                      }
+                      numberOfLines={2}
+                      style={{
+                        color: '#D5D5D9',
+                        fontWeight: '400',
+                        marginTop: mScale.md,
+                      }}
+                    />
+                  </View>
+                </Pressable>
+              </GradientBorderBox>
             </View>
           </View>
           <View style={{paddingHorizontal: mScale.base, flex: 1}}>
