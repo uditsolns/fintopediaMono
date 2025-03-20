@@ -35,12 +35,14 @@ import {
 import { CircularProgress, Typography } from "@mui/material";
 import CourseProgress from "./CourseProgress";
 import { getCompletionPercentage } from "shared/src/provider/store/services/completion-percentage.service";
+import { useRouter } from "next/navigation";
 
 interface CourseEnrollDetailsProps {
   id?: number;
 }
 const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const {
     singleCourse,
     courses,
@@ -48,7 +50,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   } = useAppSelector((state) => state.courses);
   const { ongoing_courses_status, loading: ongoing_courses_status_loading } =
     useAppSelector((state) => state.ongoingCourseStatus);
-  console.log("ongoing_courses_status", ongoing_courses_status);
+  // console.log("ongoing_courses_status", ongoing_courses_status);
 
   const { ongoing_courses, loading: ongoing_courses_loading } = useAppSelector(
     (state) => state.ongoingCourse
@@ -80,19 +82,35 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     text: "This is a fantastic page I found!",
     url: window.location.href,
   };
+  // React.useEffect(() => {
+  //   if (id !== undefined) {
+  //     dispatch(getCoursesById({ id }));
+  //   }
+  //   dispatch(getCourseNotes());
+  //   dispatch(getCourseReviews());
+  //   dispatch(getCourses());
+  //   dispatch(getCourseUploadFile());
+  //   dispatch(getLikeCourse());
+  //   dispatch(getOngoingCourseStatus());
+  //   dispatch(getOngoingCourse());
+  //   dispatch(getCompletionPercentage());
+  // }, [id, dispatch]);
   React.useEffect(() => {
-    if (id !== undefined) {
+    if (auth?.token && id !== undefined) {
       dispatch(getCoursesById({ id }));
+      dispatch(getCourseNotes());
+      dispatch(getCourseReviews());
+      dispatch(getCourses());
+      dispatch(getCourseUploadFile());
+      dispatch(getLikeCourse());
+      dispatch(getOngoingCourseStatus());
+      dispatch(getOngoingCourse());
+      dispatch(getCompletionPercentage());
+    } else {
+      router.push('/auth/login');
+      // console.log("User not authenticated or ID is missing");
     }
-    dispatch(getCourseNotes());
-    dispatch(getCourseReviews());
-    dispatch(getCourses());
-    dispatch(getCourseUploadFile());
-    dispatch(getLikeCourse());
-    dispatch(getOngoingCourseStatus());
-    dispatch(getOngoingCourse());
-    dispatch(getCompletionPercentage());
-  }, [id, dispatch]);
+  }, [id, auth?.token, dispatch]);
 
   const [isAccordionOpen, setIsAccordionOpen] = useState(true);
 
@@ -144,7 +162,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
         updateOngoingCourse({
           params,
           onSuccess(data) {
-            console.log("data");
+            // console.log("data");
             // toast.success("Course Updated Successfully !", {
             //   position: "top-right",
             //   theme: "light",
@@ -361,13 +379,13 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                                         course.section_id === section.id &&
                                         course.sub_section_id === subsection.id
                                     );
-                                    console.log("ongoingCourse", ongoingCourse);
+                                    // console.log("ongoingCourse", ongoingCourse);
 
                                     const ongoingId = ongoingCourse
                                       ? ongoingCourse.id
                                       : null;
 
-                                    console.log("ongoingId", ongoingId);
+                                    // console.log("ongoingId", ongoingId);
                                     return (
                                       <li
                                         key={subsection.id}
