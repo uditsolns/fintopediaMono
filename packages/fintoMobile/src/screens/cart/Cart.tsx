@@ -199,6 +199,44 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
       />
     );
   };
+
+  const wishlistRenderItem = ({
+    item,
+  }: {
+    item: any;
+  }) => {
+    return (
+      <PopularCourseMolecule
+        item={item?.course}
+        onView={() => {
+          if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.id,
+          });
+        }}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {},
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
+        }}
+      />
+    );
+  };
   return (
     <GradientTemplate
       style={{
@@ -343,12 +381,13 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
           ) : null}
         </View>
         <BorderWithThickness style={{marginTop: mScale.xxl}} />
+        {courses_save_later?.length ?
         <View style={{marginVertical: mScale.xl}}>
           <ViewAll title="Wishlist" visible={false} preset="heading2" />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={courses?.length ? filteredCourses(courses, courseCart) : []}
-              renderItem={innerCategoriesCoursesRenderItem}
+              data={courses_save_later?.length ? courses_save_later : []}
+              renderItem={wishlistRenderItem}
               horizontal={true}
               contentContainerStyle={{
                 columnGap: mScale.lg1,
@@ -358,7 +397,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
               keyExtractor={(item, index) => index.toString()}
             />
           </View>
-        </View>
+        </View> : null }
         <View style={{marginVertical: mScale.xl}}>
           <ViewAll
             title="Your might also like"
