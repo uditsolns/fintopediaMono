@@ -1,5 +1,6 @@
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import { PressableAtom } from '@shared/src/components/atoms/Button/PressableAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {imageUrl} from '@shared/src/config/imageUrl';
@@ -16,12 +17,13 @@ import {StyleSheet, View, ViewStyle, ImageStyle} from 'react-native';
 interface CourseMoleculeProps {
   item?: CoursesResponse;
   onPress?: () => void;
+  onView?: () => void;
 }
 
-export default function CourseMolecule({item, onPress}: CourseMoleculeProps) {
+export default function CourseMolecule({item, onPress,onView}: CourseMoleculeProps) {
   const {courseCart} = useAppSelector(state => state.courseCart);
   return (
-    <View style={[commonStyle.flexStart, styles.container]}>
+    <PressableAtom style={[commonStyle.flexStart, styles.container]} onPress={onView}>
       <ImageAtom
         sourceRequire={
           item?.course_image
@@ -87,7 +89,7 @@ export default function CourseMolecule({item, onPress}: CourseMoleculeProps) {
           />
         </View>
       </View>
-    </View>
+    </PressableAtom>
   );
 }
 
