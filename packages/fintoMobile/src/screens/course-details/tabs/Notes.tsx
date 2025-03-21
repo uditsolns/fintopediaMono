@@ -1,4 +1,4 @@
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
@@ -12,7 +12,7 @@ import {
   CourseNotesFields,
   CourseNotesResponse,
 } from '@shared/src/utils/types/course-notes';
-import {formatDateMonthTime} from '@src/components/Calculate';
+import {formatDateMonthTime, isInCart} from '@src/components/Calculate';
 import {MultilineTextInputAtom} from '@src/components/Input/MultilineTextInputAtom';
 import React from 'react';
 import {
@@ -34,6 +34,9 @@ import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecu
 import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 
 interface NotesProps {
   onLayout: (event: LayoutChangeEvent) => void;
@@ -60,8 +63,50 @@ export const Notes: React.FunctionComponent<NotesProps> = ({onLayout}) => {
   const [selectedNote, setSelectedNote] =
     React.useState<CourseNotesResponse | null>(null);
 
+  const navigation = useNavigation();
+  const {
+    setVideoPlayerBeforePurchaseUrl,
+    setPlayVideoStartBeforePurchaseLoading,
+  } = useVideoPlayerContext();
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
+    state => state.courseCart,
+  );
+
   const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
-    return <PopularCourseMolecule item={item} />;
+    return (
+      <PopularCourseMolecule
+        item={item}
+        onView={() => {
+          if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.id,
+          });
+        }}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+            navigation.navigate(RouteKeys.CARTSCREEN);
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                },
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
+        }}
+      />
+    );
   };
 
   return (

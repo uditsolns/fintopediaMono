@@ -1,8 +1,9 @@
 const baseUrl = "https://nivada.in/hiring-management-backend/public/api/";
 const version = "v1/";
+export const ONESIGNAL_APP_ID = "68193542-f006-48da-8ed9-34111ef4cd74"
 
 const buildUrl = (endpoint: string) => {
-  return `${baseUrl}${version}${endpoint}`;
+  return `${baseUrl}${version}${endpoint}`; 
 };
 
 export default {

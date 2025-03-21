@@ -13,7 +13,7 @@ import { Images } from '@shared/src/assets';
 interface OngoingMoleculeProps {
   item: OngoingCoursesResponse;
   onPress?: () => void;
-  completionPercentage?: string | null;
+  completionPercentage?: string | null | number;
 }
 
 const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({

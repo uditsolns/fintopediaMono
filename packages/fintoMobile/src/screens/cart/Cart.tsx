@@ -49,6 +49,7 @@ import {Toast} from 'react-native-toast-notifications';
 import {fontPresets} from '@shared/src/theme/typography';
 import GradientBorderBox from '@src/components/Border/GradientBorderBox';
 import BorderWithThickness from '@src/components/Border';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 
 interface CartProps extends NavType<'Cart'> {}
 
@@ -67,6 +68,10 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
   const {courses_save_later, loading: courses_save_later_loading} =
     useAppSelector(state => state.coursesSaveLater);
 
+  const {
+    setVideoPlayerBeforePurchaseUrl,
+    setPlayVideoStartBeforePurchaseLoading,
+  } = useVideoPlayerContext();
   const [refreshLoading, setRefreshLoading] = React.useState(false);
   const [subtotal, setSubtotal] = React.useState<number>(0);
   const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
@@ -113,7 +118,15 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
     return (
       <CartMolecule
         item={item?.course}
-        onPress={() => {}}
+        onPress={() => {
+          if (item?.course?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.course_id,
+          });
+        }}
         onSaveLater={() => {
           if (
             courses_save_later?.some(el => el?.course_id == item?.course_id)
@@ -157,6 +170,15 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
     return (
       <PopularCourseMolecule
         item={item}
+        onView={() => {
+          if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.id,
+          });
+        }}
         onPress={async () => {
           let params = {
             user_id: Number(auth?.user?.id),
@@ -216,7 +238,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
                     ...fontPresets.body,
                     marginBottom: mScale.md2,
                     fontWeight: '300',
-                    color:colorPresets.GRAY
+                    color: colorPresets.GRAY,
                   }}>
                   You have{' '}
                   <Text
@@ -320,7 +342,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             </>
           ) : null}
         </View>
-        <BorderWithThickness  style={{marginTop:mScale.xxl}} />
+        <BorderWithThickness style={{marginTop: mScale.xxl}} />
         <View style={{marginVertical: mScale.xl}}>
           <ViewAll title="Wishlist" visible={false} preset="heading2" />
           <View style={{paddingLeft: mScale.base}}>
@@ -404,7 +426,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
           />
           <TextAtom text={`₹ ${totalPay}`} preset="heading3" />
         </View>
-        <View style={{width:moderateScale(228),borderRadius:4}}>
+        <View style={{width: moderateScale(228), borderRadius: 4}}>
           <ButtonAtom
             title={'Proceed to checkout'}
             onPress={() => {

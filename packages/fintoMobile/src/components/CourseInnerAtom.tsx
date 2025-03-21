@@ -18,6 +18,7 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {storeVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
 import {updateOngoingCourse} from '@shared/src/provider/store/services/ongoing-course.service';
+import {useVideoPlayerContext} from './context/VideoPlayerContextApi';
 interface CourseInnerAtomProps {
   item: CourseSections;
 }
@@ -25,18 +26,20 @@ interface CourseInnerAtomProps {
 export interface CourseLessonItem {
   el?: CourseSubSections;
   onPress?: () => void;
-  courseChecked?: boolean;
+  courseChecked?: boolean | string;
 }
 export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
   let section_id = item?.id;
-
-  const {ongoing_courses, loading: ongoing_courses_loading} = useAppSelector(
-    state => state.ongoingCourse,
-  );
+  const dispatch = useAppDispatch();
+  const {
+    ongoing_courses,
+    single_ongoing_courses,
+    loading: ongoing_courses_loading,
+  } = useAppSelector(state => state.ongoingCourse);
   const {auth} = useAppSelector(state => state.auth);
   const {singleCourse} = useAppSelector(state => state.courses);
   const [expanded, setExpanded] = React.useState<boolean>(false);
-  const dispatch = useAppDispatch();
+  const {setVideoPlayerUrl, setPlayVideoStartLoading} = useVideoPlayerContext();
 
   const LessonItem = ({el, onPress, courseChecked}: CourseLessonItem) => {
     return (
@@ -95,7 +98,7 @@ export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
             const ongoingCourse = ongoing_courses?.find(
               el =>
                 el?.user_id === auth?.user?.id &&
-                el?.course_id === singleCourse?.id &&
+                el?.course_id === single_ongoing_courses?.course_id &&
                 el?.section_id === section_id &&
                 el?.sub_section_id === item?.id,
             );
@@ -104,7 +107,7 @@ export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
             const check_icon_course_section = ongoing_courses?.some(
               e2 =>
                 e2?.user_id === auth?.user?.id &&
-                e2?.course_id === singleCourse?.id &&
+                e2?.course_id === single_ongoing_courses?.course_id &&
                 e2?.section_id === section_id &&
                 e2?.sub_section_id === item?.id &&
                 e2?.watching_status === 'true',
@@ -136,9 +139,11 @@ export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
                       }),
                     );
                   }
+                  setVideoPlayerUrl(item?.sub_video_embed);
+                  setPlayVideoStartLoading(true);
                   dispatch(storeVideoUrl(item?.sub_video_embed));
                 }}
-                courseChecked={check_icon_course_section}
+                courseChecked={check_icon_course_section ? true : false}
               />
             );
           }}

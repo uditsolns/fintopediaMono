@@ -35,6 +35,10 @@ import {clearVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer
 import Orientation from 'react-native-orientation-locker';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import GradientBorderBox from '@src/components/Border/GradientBorderBox';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
+import {isInCart} from '@src/components/Calculate';
+import {RouteKeys} from '@src/navigation/RouteKeys';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 
 interface BeforeEnrollingCourseDetailsProps
   extends NavType<'BeforeEnrollingCourseDetails'> {}
@@ -50,11 +54,20 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
   const dispatch = useAppDispatch();
   const {course, id} = route.params || {};
   const {
+    videoPlayerBeforePurchaseUrl,
+    setVideoPlayerBeforePurchaseUrl,
+    playVideoStartBeforePurchaseLoading,
+    setPlayVideoStartBeforePurchaseLoading,
+  } = useVideoPlayerContext();
+  const {
     courses,
     singleCourse,
     video_url,
     loading: coursesLoading,
   } = useAppSelector(state => state.courses);
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
+    state => state.courseCart,
+  );
   const {coursesSection, loading: coursesSectionLoading} = useAppSelector(
     state => state.coursesSection,
   );
@@ -62,11 +75,13 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
     state => state.courseReviews,
   );
 
+  const {auth} = useAppSelector(state => state.auth);
+
   const [refreshLoading, setRefreshLoading] = React.useState(false);
   const [playVideoStart, setPlayVideoStart] = React.useState(false);
-  const [height, setHeight] = React.useState<string | number>(220);
+  const [height2, setHeight2] = React.useState<string | number>(220);
   const [embedInfo, setEmbedInfo] = React.useState<any>(video_url);
-  const videoPlayer = React.useRef<any>(null);
+  const videoPlayerRef = React.useRef<any>(null);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -83,7 +98,6 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
 
   React.useEffect(() => {
     onRefresh();
-    Orientation.unlockAllOrientations();
     return () => {
       dispatch(clearVideoUrl());
       Orientation.lockToPortrait();
@@ -106,7 +120,41 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
   }: {
     item: CoursesResponse;
   }) => {
-    return <PopularCourseMolecule item={item} />;
+    return (
+      <PopularCourseMolecule
+        item={item}
+        onView={() => {
+          let params = {
+            id: Number(item?.id),
+          };
+          dispatch(getCoursesById(params));
+          if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+        }}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+            navigation.navigate(RouteKeys.CARTSCREEN);
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                },
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
+        }}
+      />
+    );
   };
 
   return (
@@ -133,13 +181,21 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                 }}>
                 <Images.SVG.ShareIcon />
               </View>
-              {playVideoStart && video_url ? (
+              {playVideoStartBeforePurchaseLoading &&
+              videoPlayerBeforePurchaseUrl ? (
                 <>
                   <VdoPlayerView
-                    ref={videoPlayer}
-                    style={{height: height, width: '100%'} as ViewStyle}
-                    embedInfo={embedInfo ? embedInfo : video_url}
+                    ref={videoPlayerRef}
+                    style={{height: height2, width: '100%'} as ViewStyle}
+                    embedInfo={
+                      videoPlayerBeforePurchaseUrl
+                        ? videoPlayerBeforePurchaseUrl
+                        : embedInfo
+                        ? embedInfo
+                        : video_url
+                    }
                     onLoaded={data => {
+                      Orientation.unlockAllOrientations();
                       console.log('on loaded :', data);
                     }}
                     onLoadError={e => {
@@ -149,9 +205,26 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                       console.log('progress', time);
                     }}
                     onMediaEnded={data => {
+                      Orientation.lockToPortrait();
+                      setPlayVideoStartBeforePurchaseLoading(false);
                       console.log('onmediaended called', data);
                     }}
-                    onEnterFullscreen={() => setHeight('100%')}
+                    onEnterFullscreen={() => {
+                      setHeight2('100%');
+                      Orientation.unlockAllOrientations();
+                    }}
+                    onVdoEnterFullscreen={() => {
+                      setHeight2('100%');
+                      Orientation.unlockAllOrientations();
+                    }}
+                    onExitFullscreen={() => {
+                      Orientation.lockToPortrait();
+                      setHeight2(220);
+                    }}
+                    onVdoExitFullscreen={() => {
+                      Orientation.lockToPortrait();
+                      setHeight2(220);
+                    }}
                     onPlaybackProperties={data =>
                       console.log('onPlaybackProperties', data)
                     }
@@ -172,7 +245,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                     style={[commonStyle.play]}
                     onPress={() => {
                       if (data?.course_video_embed) {
-                        setPlayVideoStart(true);
+                        setPlayVideoStartBeforePurchaseLoading(true);
                       } else {
                         Alert.alert("This course doesn't contain any videos.");
                       }
@@ -255,7 +328,12 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               );
             })}
           </View>
-          <View style={{padding: mScale.base, paddingVertical:mScale.xxl, backgroundColor: '#0D0F1C'}}>
+          <View
+            style={{
+              padding: mScale.base,
+              paddingVertical: mScale.xxl,
+              backgroundColor: '#0D0F1C',
+            }}>
             <TextAtom
               text={'This course includes'}
               preset="heading3"

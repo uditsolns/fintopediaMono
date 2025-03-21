@@ -58,7 +58,7 @@ export default function ContinueLearningMolecule({
             style={{marginTop: mScale.sm}}
           />
           {item?.courses_section?.section_time ? (
-            <View style={[commonStyle.flexStart, {marginTop: moderateScale(55)}]}>
+            <View style={[commonStyle.flexStart, {marginTop: moderateScale(40)}]}>
               <TextAtom
                 text={'Lecture'}
                 preset="medium"

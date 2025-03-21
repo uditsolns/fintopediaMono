@@ -1,6 +1,7 @@
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {createCourseReview} from '@shared/src/provider/store/services/course-review.service';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -9,11 +10,14 @@ import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CourseReviewResponse} from '@shared/src/utils/types/course-review';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {CoursesRatingReviewsFields} from '@shared/src/utils/types/CoursesRatingReviews';
+import {isInCart} from '@src/components/Calculate';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import {MultilineTextInputAtom} from '@src/components/Input/MultilineTextInputAtom';
 import LoaderAtom from '@src/components/LoaderAtom';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import ReviewMolecule from '@src/components/molecules/ReviewMolecule/ReviewMolecule';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
 import {Alert, FlatList, LayoutChangeEvent, View} from 'react-native';
 
@@ -31,6 +35,14 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = ({onLayout}) => {
   } = useAppSelector(state => state.courses);
   const {course_review, loading: course_review_loading} = useAppSelector(
     state => state.courseReviews,
+  );
+  const navigation = useNavigation<any>();
+  const {
+    setVideoPlayerBeforePurchaseUrl,
+    setPlayVideoStartBeforePurchaseLoading,
+  } = useVideoPlayerContext();
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
+    state => state.courseCart,
   );
   let route = useRoute<any>();
 
@@ -70,7 +82,40 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = ({onLayout}) => {
     );
   };
   const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
-    return <PopularCourseMolecule item={item} />;
+    return (
+      <PopularCourseMolecule
+        item={item}
+        onView={() => {
+          if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.id,
+          });
+        }}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+            navigation.navigate(RouteKeys.CARTSCREEN);
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                },
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
+        }}
+      />
+    );
   };
   return (
     <View style={{flex: 1}}>

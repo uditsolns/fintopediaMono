@@ -16,9 +16,15 @@ import {
 import {colorPresets} from '@shared/src/theme/color';
 import {AppNavigation} from './navigation/AppNavigation';
 import {AppProvider} from '@shared/src/provider/AppProvider';
+import { VideoPlayerContextProvider } from '@src/components/context/VideoPlayerContextApi';
+import Orientation from 'react-native-orientation-locker';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+
+  React.useEffect(() => {
+    Orientation.lockToPortrait();
+  }, []);
 
   const backgroundStyle = {
     backgroundColor: colorPresets.TRANSPARENT,
@@ -27,6 +33,7 @@ function App(): React.JSX.Element {
 
   return (
     <AppProvider>
+      <VideoPlayerContextProvider>
       <SafeAreaView style={backgroundStyle}>
         <StatusBar
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
@@ -34,6 +41,7 @@ function App(): React.JSX.Element {
         />
         <AppNavigation />
       </SafeAreaView>
+      </VideoPlayerContextProvider>
     </AppProvider>
   );
 }

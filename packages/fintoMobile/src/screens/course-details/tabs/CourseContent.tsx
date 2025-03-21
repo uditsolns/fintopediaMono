@@ -1,11 +1,19 @@
-import {useRoute} from '@react-navigation/native';
-import { ScrollViewAtom } from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
-import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {storeVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
+import { createCourseCart } from '@shared/src/provider/store/services/CourseCart.service';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
 import {mScale} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
+import { isInCart } from '@src/components/Calculate';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import {CourseInnerAtom} from '@src/components/CourseInnerAtom';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
 import {FlatList, LayoutChangeEvent, View} from 'react-native';
 
@@ -23,9 +31,52 @@ export const CourseContent: React.FunctionComponent<CourseContentProps> = ({
   let route = useRoute<any>();
   const {course, id} = route.params || {};
   const data = singleCourse ? singleCourse : course;
+  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const {
+    setVideoPlayerBeforePurchaseUrl,
+    setPlayVideoStartBeforePurchaseLoading,
+  } = useVideoPlayerContext();
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
+    state => state.courseCart,
+  );
+  const {auth} = useAppSelector(state => state.auth);
 
   const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
-    return <PopularCourseMolecule item={item} />;
+    return (
+      <PopularCourseMolecule
+        item={item}
+        onView={() => {
+          if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.id,
+          });
+        }}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+            navigation.navigate(RouteKeys.CARTSCREEN);
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                },
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
+        }}
+      />
+    );
   };
 
   return (

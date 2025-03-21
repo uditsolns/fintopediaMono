@@ -1,10 +1,10 @@
-import { Images } from '@shared/src/assets';
-import { colorPresets } from '@shared/src/theme/color';
+import {Images} from '@shared/src/assets';
+import {colorPresets} from '@shared/src/theme/color';
 import React from 'react';
-import { TouchableOpacity, View, StyleSheet } from 'react-native';
+import {TouchableOpacity, View, StyleSheet} from 'react-native';
 
 interface CustomCheckboxProps {
-  isChecked?: boolean;
+  isChecked?: boolean | string;
   onPress?: () => void;
 }
 
@@ -33,9 +33,7 @@ export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.checkbox}>
-        {isChecked && (
-          <Images.SVG.RightTickIcon />
-        )}
+        {isChecked && <Images.SVG.RightTickIcon width={15} />}
       </View>
     </TouchableOpacity>
   );

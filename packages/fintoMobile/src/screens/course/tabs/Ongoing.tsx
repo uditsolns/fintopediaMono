@@ -43,7 +43,7 @@ const Ongoing: React.FunctionComponent<OngoingInterface> = () => {
     let complete_percentage_data = completion_percentage?.completion_data?.find(
       el => el?.course_id == item?.course?.id,
     );
-    let complete_percentage = complete_percentage_data?.completion_percentage;
+    let complete_percentage = Math.floor(complete_percentage_data?.completion_percentage);
     return (
       <OngoingMolecule
         item={item?.ongoing}

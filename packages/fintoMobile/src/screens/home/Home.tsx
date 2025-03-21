@@ -28,6 +28,7 @@ import {OngoingCoursesStatusResponse} from '@shared/src/utils/types/ongoing-cour
 import {UserCourseHistoryResponse} from '@shared/src/utils/types/UserCourseHistory';
 import {isInCart} from '@src/components/Calculate';
 import CarouselAtom from '@src/components/Carousel/CarouselAtom';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import GetStarted from '@src/components/GetStarted';
 import Header from '@src/components/Header/Header';
 import LoaderAtom from '@src/components/LoaderAtom';
@@ -55,6 +56,12 @@ interface HomeProps extends NavType<'Home'> {}
 
 export const Home: React.FC<HomeProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
+  const {
+    setPlayVideoStartLoading,
+    setVideoPlayerBeforePurchaseUrl,
+    setPlayVideoStartBeforePurchaseLoading,
+  } = useVideoPlayerContext();
+
   const {auth} = useAppSelector(state => state.auth);
   const {banner, loading: bannerLoading} = useAppSelector(
     state => state.banner,
@@ -120,6 +127,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
           // if (item?.course?.course_video_embed) {
           //   dispatch(storeVideoUrl(item?.course?.course_video_embed));
           // }
+          setPlayVideoStartLoading(false)
           dispatch(storeSingleOngoingCourse(item?.ongoing));
           navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
             id: item?.ongoing?.course_id,
@@ -151,6 +159,8 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
         item={item}
         onView={() => {
           if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
             dispatch(storeVideoUrl(item?.course_video_embed));
           }
           navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {

@@ -19,6 +19,7 @@ import {isInCart} from '@src/components/Calculate';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 
 const options = [
   {label: 'Beginner', value: 'beginner'},
@@ -47,6 +48,10 @@ export const DontKnowWhereToStart: React.FunctionComponent<
   const [dropdownSelected, setDropdownSelected] =
     React.useState<CategoriesResponse | null>(null);
   const [radioSelected, setRadioSelected] = React.useState<string>('beginner');
+  const {
+    setVideoPlayerBeforePurchaseUrl,
+    setPlayVideoStartBeforePurchaseLoading,
+  } = useVideoPlayerContext();
 
   React.useEffect(() => {
     if (courses?.length) {
@@ -82,6 +87,15 @@ export const DontKnowWhereToStart: React.FunctionComponent<
             ).unwrap();
           }
         }}
+        onView={() => {
+          if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.id,
+          });
+        }}
       />
     );
   };
@@ -94,7 +108,7 @@ export const DontKnowWhereToStart: React.FunctionComponent<
         paddingTop: moderateScale(75),
       }}>
       <ScrollViewAtom>
-        <View style={{marginTop:mScale.xxl}}>
+        <View style={{marginTop: mScale.xxl}}>
           <View style={{paddingHorizontal: mScale.base}}>
             <TextAtom
               text={`Don’t know where\nto start?`}
@@ -111,9 +125,9 @@ export const DontKnowWhereToStart: React.FunctionComponent<
                   textAlign: 'center',
                   marginTop: mScale.base,
                   marginBottom: mScale.lg2,
-                  color:"D5D5D9",
-                  letterSpacing:-0.2,
-                  lineHeight:24,
+                  color: 'D5D5D9',
+                  letterSpacing: -0.2,
+                  lineHeight: 24,
                 } as TextStyle
               }
             />
@@ -155,7 +169,7 @@ export const DontKnowWhereToStart: React.FunctionComponent<
               <TextAtom
                 text={`Become a Finance Manager\n in 3 months`}
                 preset="heading2"
-                style={{textAlign: 'center',fontWeight:'700'}}
+                style={{textAlign: 'center', fontWeight: '700'}}
               />
             </View>
           </View>
