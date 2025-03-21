@@ -279,6 +279,7 @@ const PurchaseCourse = ({el}: {el: CoursesResponse}) => {
             <ButtonAtom
               title={'Start this course now'}
               textPreset="titleBold"
+              iconRight={<Images.SVG.RightArrow />}
             />
           </View>
         </View>

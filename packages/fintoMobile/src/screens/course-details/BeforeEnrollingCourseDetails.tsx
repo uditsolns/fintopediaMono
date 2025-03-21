@@ -245,6 +245,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                     style={[commonStyle.play]}
                     onPress={() => {
                       if (data?.course_video_embed) {
+                        setVideoPlayerBeforePurchaseUrl(data?.course_video_embed);
                         setPlayVideoStartBeforePurchaseLoading(true);
                       } else {
                         Alert.alert("This course doesn't contain any videos.");
