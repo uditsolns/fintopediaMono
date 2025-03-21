@@ -37,6 +37,9 @@ export interface AuthResponse {
   user: UserInfo;
   token: string;
 }
+// export interface AuthErrorResponse {
+//   message: string;
+// }
 
 export interface UpdatePasswordResponse {
   code: number;

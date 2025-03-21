@@ -177,7 +177,7 @@ export const Footer = () => {
             <Link href="/sitemap" prefetch={true}>
               Sitemap
             </Link>
-            <Link href="/terms-of-use" prefetch={true}>
+            <Link href="/terms-conditions" prefetch={true}>
               Terms of Use
             </Link>
           </div>

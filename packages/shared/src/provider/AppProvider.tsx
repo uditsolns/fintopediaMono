@@ -20,7 +20,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       <Provider store={store}>
         <PersistGate persistor={persistor} loading={null}>
           {children}
-        </PersistGate>
+        </PersistGate> 
         <ToastContainer />
       </Provider>
     );

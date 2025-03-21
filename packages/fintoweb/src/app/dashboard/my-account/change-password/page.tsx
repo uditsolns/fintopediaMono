@@ -14,7 +14,7 @@ import LoadingAtom from "@src/components/loader/LoadingAtom";
 const page = () => {
   const router = useRouter();
   const { auth, confirm, loading } = useAppSelector((state) => state.auth);
-  console.log("confirm", confirm);
+  console.log("confirm", confirm,auth);
   const token = auth?.token;
   const { updatePasswordFormik, updatePasswordInputProps } =
     useUpdatePasswordHelper();

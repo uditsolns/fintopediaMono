@@ -172,7 +172,6 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
         })
       );
     }
-
     setVideoEmbedInfo({ otp, playbackInfo });
   };
 

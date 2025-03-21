@@ -13,7 +13,7 @@ import {
   VerifyOtpParams,
   VerifyOtpResponse,
 } from "../../../utils/types/auth";
-import { storeCurrentUser, logout } from "../reducers/auth.reducer"; 
+import { storeCurrentUser, logout } from "../reducers/auth.reducer";
 
 export const signIn = createAsyncThunk<
   AuthResponse,
@@ -28,6 +28,9 @@ export const signIn = createAsyncThunk<
       },
       body: JSON.stringify(params),
     });
+    if(response.status !== 201){
+      return thunkApi.rejectWithValue(await response.json());
+    }
     const data = (await response.json()) as AuthResponse;
     thunkApi.dispatch(storeCurrentUser(data?.user));
     return data;
@@ -91,7 +94,7 @@ export const forgotPassword = createAsyncThunk<
         "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
-    }); 
+    });
 
     const data = (await response.json()) as ForgotPasswordResponse;
 
