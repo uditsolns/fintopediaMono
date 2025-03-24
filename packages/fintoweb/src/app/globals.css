@@ -189,6 +189,10 @@ body {
     line-height: 120%;
     margin: 25px;
   }
+  .shareButton {
+    width: 120px;
+    padding: 10px 20px;
+  }
 }
 
 .dropdown-toggle::after {
