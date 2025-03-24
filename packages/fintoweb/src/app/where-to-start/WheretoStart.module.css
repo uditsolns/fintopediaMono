@@ -1,19 +1,13 @@
+.whereTostart {
+  background-image: url("../../assets/where-tostart-bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .headerHowitWorks {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30px 60px;
-  background: var(
-    --BG,
-    linear-gradient(
-      245deg,
-      #2d303d 0%,
-      #212330 28.6%,
-      #101320 65.15%,
-      #111521 78%,
-      #0d0f1b 100%
-    )
-  );
+  padding: 80px 140px 80px 86px;
 }
 .headerContentsHowitWorks h2 {
   font-size: 56px;
@@ -24,6 +18,7 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  margin: 0px 0px 16px;
 }
 .headerContentsHowitWorks p {
   color: #d5d5d9;
@@ -59,17 +54,6 @@
 /* cards */
 .cards {
   padding: 50px;
-  background: var(
-    --BG,
-    linear-gradient(
-      245deg,
-      #2d303d 0%,
-      #212330 28.6%,
-      #101320 65.15%,
-      #111521 78%,
-      #0d0f1b 100%
-    )
-  );
 }
 .cardsHeading {
   color: #fff;
@@ -78,6 +62,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: 120%;
+  padding: 30px;
 }
 .card {
   color: #fff !important;
@@ -150,4 +135,30 @@
 }
 .addToCartButton:hover {
   background-color: #ccc;
+}
+@media screen and (max-width: 435px) {
+  .headerHowitWorks {
+    display: block;
+    padding: 56px 20px;
+  }
+  .headerContentsHowitWorks h2 {
+    font-size: 30px;
+  }
+  .headerContentsHowitWorks p {
+    font-size: 16px;
+    line-height: 22px;
+    margin-top: 10px;
+  }
+  .imageContainer {
+    margin-top: 40px;
+  }
+  .imageContainer img {
+    margin: auto;
+  }
+  .cards {
+    padding: 56px 20px;
+  }
+  .cardsHeading {
+    font-size: 30px;
+  }
 }

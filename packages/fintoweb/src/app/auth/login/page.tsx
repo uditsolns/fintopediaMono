@@ -19,11 +19,12 @@ interface LoginProps {}
 const Login: React.FC<LoginProps> = () => {
   const router = useRouter();
 
-  const { auth, loading } = useAppSelector((state) => state.auth);
+  const { auth, loading, err } = useAppSelector((state) => state.auth);
   const { authFormik, authInputProps } = useAuthHelper();
   const { handleSubmit, isSubmitting } = authFormik;
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
 
+  console.log("err?.loginErr", err?.loginErr);
   React.useEffect(() => {
     if (auth) {
       if (auth?.token) {
@@ -33,12 +34,12 @@ const Login: React.FC<LoginProps> = () => {
         });
         router.push("/");
       }
-      // if (auth?.message) {
-      //   toast.error(auth?.message, {
-      //     position: "top-right",
-      //     theme: "light",
-      //   });
-      // }
+      if (err?.loginErr?.message) {
+        toast.error(err?.loginErr?.message, {
+          position: "top-right",
+          theme: "light",
+        });
+      }
     }
   }, [auth, router]);
 
@@ -46,7 +47,7 @@ const Login: React.FC<LoginProps> = () => {
     <div className={styles.signupLoginontainer}>
       <div className="container main-login-div">
         <div className="no-gutters justify-content-center row">
-          <div className="col-md-6 col-lg-6 login-card">
+          <div className={`col-md-6 col-lg-6 ${styles.loginCard}`}>
             <h1 className={styles.loginHeading}>Welcome back!</h1>
             <div className="main-content">
               <div className={styles.loginForm}>

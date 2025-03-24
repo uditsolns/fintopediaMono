@@ -2,7 +2,8 @@
 .sliderContainer {
   width: 100%;
   overflow: hidden;
-  padding: 30px;
+  padding: 72px 30px;
+  /* padding: 30px 30px 60px 30px; */
   background: #0d0f1c;
 }
 .sliderContainer h3 {
@@ -23,9 +24,12 @@
   align-items: flex-start;
   gap: 16px;
   border-radius: 12px;
-  border: 1px solid #7a7fa2;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(--BG-2, #222431);
   backdrop-filter: blur(19.5px);
+}
+.stockCardSvg{
+  margin-bottom: 8px !important;
 }
 .cardTitle {
   overflow: hidden;
@@ -79,6 +83,6 @@
 }
 @media screen and (max-width: 435px) {
   .sliderContainer {
-    padding: 10px;
+    padding: 56px 10px;
   }
 }

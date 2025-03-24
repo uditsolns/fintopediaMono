@@ -26,7 +26,12 @@ export const InputAtom = ({
       {label ? <Label>{label}</Label> : null}
       <InputGroup>
         {leftIcon ? leftIcon : null}
-        <Input className={styles.textfield} type={type} {...rest} />
+        <Input
+          // className={styles.textfield}
+          className={`${styles.textfield} ${type === 'textarea' ? styles.textarea : ''}`}
+          type={type}
+          {...rest}
+        />
         {rightIcon ? rightIcon : null}
       </InputGroup>
       {error && errorMessage && (

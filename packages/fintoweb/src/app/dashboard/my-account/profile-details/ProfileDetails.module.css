@@ -107,7 +107,7 @@
   align-items: center;
   gap: 10.697px;
   border-radius: 4px;
-  border: 1.07px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   margin-top: 10px;
 }
 
@@ -134,10 +134,10 @@
 .saveButtonContainer {
   margin-top: 20px;
   display: flex;
-  justify-content: flex-end;  
-  width: 100%;                
+  justify-content: flex-end;
+  width: 100%;
 }
-.saveButton  {
+.saveButton {
   display: flex;
   width: 227px;
   padding: 14px 18px;
@@ -146,5 +146,5 @@
   gap: 7.765px;
   border-radius: 4px;
   background: #fff;
-  color: #0C0C0C;
+  color: #0c0c0c;
 }

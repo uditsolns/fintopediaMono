@@ -60,16 +60,19 @@ const CourseFilter: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
+
   const setSlides = () => {
-    if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
-      setSlideToShow(3);
-    } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
-      setSlideToShow(2);
-    } else if (window.innerWidth <= 650) {
+    const width = window.innerWidth;
+    if (width <= 650) {
       setSlideToShow(1);
+    } else if (width <= 1000) {
+      setSlideToShow(4);
+    } else if (width <= 1280) {
+      setSlideToShow(4);
+    } else {
+      setSlideToShow(4);
     }
   };
-
   useEffect(() => {
     setSlides();
     window.addEventListener("resize", setSlides);
@@ -95,19 +98,22 @@ const CourseFilter: React.FC = () => {
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
+    // autoplay: true,
+    // autoplaySpeed: 3000,
+    pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
-      {
+      { 
         breakpoint: 1280,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
         },
       },
       {
         breakpoint: 1000,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 4,
         },
       },
       {
@@ -272,7 +278,7 @@ const CourseFilter: React.FC = () => {
               </p>
             </div>
             <div className={styles.formContainer}>
-              <div className="form">
+              <div className="form"> 
                 <h2>
                   Don’t know where to
                   <br /> start?
@@ -300,7 +306,7 @@ const CourseFilter: React.FC = () => {
                       </div>
                     </Col>
                   </Row> */}
-                  <Row className="mt-3">
+                  <Row className="mt-5">
                     <Col md={12}>
                       <ButtonWithIcons
                         label="Let's Go"

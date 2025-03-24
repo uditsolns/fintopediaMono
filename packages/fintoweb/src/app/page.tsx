@@ -55,7 +55,7 @@ export default function Home() {
     dispatch(getCourseReviews());
   }, [dispatch]);
   return (
-    <>
+    <> 
       {categoriesLoading?.categories ||
       coursesLoading?.courses ||
       coursesReviewLoading?.course_review ? (

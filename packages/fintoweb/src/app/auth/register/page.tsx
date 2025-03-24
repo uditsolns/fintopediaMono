@@ -58,7 +58,7 @@ const Register: React.FC = () => {
     <div className={styles.signupLoginontainer}>
       <div className="container main-login-div">
         <div className="no-gutters justify-content-center row">
-          <div className="col-md-6 col-lg-6 login-card">
+          <div className={`col-md-6 col-lg-6 ${styles.loginCard}`}>
             <h1 className={styles.loginHeading}>Create Account</h1>
             <div className="main-content">
               <div className={styles.loginForm}>

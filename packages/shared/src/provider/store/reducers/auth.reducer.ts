@@ -51,6 +51,7 @@ const authSlice = createSlice({
     builder
       .addCase(signIn.pending, (state) => {
         state.loading.login = true;
+        state.err.loginErr = null; 
       })
       .addCase(signIn.fulfilled, (state, action) => {
         state.loading.login = false;
@@ -75,6 +76,7 @@ const authSlice = createSlice({
       })
       .addCase(signUp.pending, (state) => {
         state.loading.signup = true;
+        state.err.loginErr = null;
       })
       .addCase(signUp.fulfilled, (state, action) => {
         state.loading.signup = false;

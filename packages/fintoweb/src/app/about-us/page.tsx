@@ -14,7 +14,7 @@ const About = () => {
       <div className={styles.aboutBanner}>
         <div className={styles.aboutContents}>
           <h2>
-            Get to know more 
+            Get to know more
             <br /> about us
           </h2>
           <p className="text-gray">
@@ -27,8 +27,8 @@ const About = () => {
         </div>
       </div>
       <div className={styles.aboutStory}>
-        <div className="row">
-          <div className="col-md-6">
+        <div className="row p-0">
+          <div className={`col-md-6 ${styles.aboutStoryImage}`}>
             <Image src={AboutStory} alt="AboutStory" />
           </div>
           <div className="col-md-6">
@@ -56,6 +56,7 @@ const About = () => {
           </div>
         </div>
       </div>
+
       <div className={styles.aboutMissionVision}>
         <div className={styles.aboutMissionVisionContent}>
           <div className="row">
@@ -79,7 +80,7 @@ const About = () => {
             </div>
           </div>
         </div>
-        <div className={styles.aboutMissionVisionContent}>
+        <div className={`${styles.aboutMissionVisionContent} mt-5`}>
           <div className="row">
             <div className="col-md-8">
               <div className={styles.aboutMissionVisionText}>
@@ -101,6 +102,7 @@ const About = () => {
           </div>
         </div>
       </div>
+
       <div className={styles.guidePrinciple}>
         <div className={styles.guidePrincipleContent}>
           <h1>Guiding Principles</h1>
@@ -175,8 +177,7 @@ const About = () => {
                 <p>
                   We are committed to providing top-tier finance education that
                   is easily accessible to learners from diverse backgrounds and
-                  locations, ensuring that everyone has the opportunity 
-                 
+                  locations, ensuring that everyone has the opportunity
                 </p>
               </CardBody>
             </Card>

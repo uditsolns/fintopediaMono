@@ -12,6 +12,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: 120%;
+  padding: 40px;
 }
 .container {
   background-color: #1f2937;
@@ -71,10 +72,10 @@
 }
 @media screen and (max-width: 435px) {
   .courseContainer {
-    padding: 15px;
+    padding: 56px 20px;
   }
   .courseContainerHeading {
-    font-size: 26px;
+    font-size: 30px;
     margin-bottom: 35px;
   }
 }

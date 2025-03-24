@@ -3,6 +3,9 @@ import React from "react";
 import Slider from "react-slick";
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 import styles from "./StockSlider.module.css";
+import RedLine from "../../assets/redLine.png";
+import GreenLine from "../../assets/GreenLine.png";
+import Image from "next/image";
 
 const StocksSlider: React.FC = () => {
   const settings = {
@@ -13,6 +16,9 @@ const StocksSlider: React.FC = () => {
     slidesToShow: 5,
     slidesToScroll: 1,
     draggable: true,
+    // autoplay: true,
+    // autoplaySpeed: 3000,
+    pauseOnHover: true,
     swipeToSlide: true,
     touchMove: true,
     responsive: [
@@ -46,127 +52,97 @@ const StocksSlider: React.FC = () => {
       <Slider {...settings}>
         <div>
           <div className={styles.widget}>
-            <div className={styles.widgetHeader}>S&P Futures</div>
-            <div className={styles.widgetValue}>3145.0</div>
-            <div className={styles.changeContainer}>
-              <span className={styles.positiveChange}>+18.7 (0.57%)</span>
-              <div className={styles.iconContainer}>
-                <svg
-                  width="64"
-                  height="32"
-                  viewBox="0 0 64 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={styles.positiveIcon}
-                >
-                  <path d="M1 31L16 24L32 16L48 8L63 1" />
-                </svg>
+            <div className={styles.widgetContent}>
+              <div className={styles.widgetHeader}>S&P Futures</div>
+              <div className={styles.widgetValue}>3145.0</div>
+              <div className={styles.changeContainer}>
+                <span className={styles.positiveChange}>
+                  +18.7 <small className={styles.percentValue}>(0.57%)</small>
+                </span>
               </div>
+            </div>
+            <div className={styles.iconContainer}>
+              <Image src={GreenLine} alt="Green Line" />
             </div>
           </div>
         </div>
         <div>
           <div className={styles.widget}>
-            <div className={styles.widgetHeader}>S&P Futures</div>
-            <div className={styles.widgetValue}>3145.0</div>
-            <div className={styles.changeContainer}>
-              <span className={styles.negativeChange}>-18.7 (0.57%)</span>
-              <div className={styles.iconContainer}>
-                <svg
-                  width="64"
-                  height="32"
-                  viewBox="0 0 64 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={styles.negativeIcon}
-                >
-                  <path d="M1 1L16 8L32 16L48 24L63 31" />
-                </svg>
+            <div className={styles.widgetContent}>
+              <div className={styles.widgetHeader}>S&P Futures</div>
+              <div className={styles.widgetValue}>3145.0</div>
+              <div className={styles.changeContainer}>
+                <span className={styles.negativeChange}>
+                  -18.7 <small className={styles.percentValue}>(0.57%)</small>
+                </span>
               </div>
+            </div>
+            <div className={styles.iconContainer}>
+              <Image src={RedLine} alt="Red Line" />
             </div>
           </div>
         </div>
         <div>
           <div className={styles.widget}>
-            <div className={styles.widgetHeader}>S&P Futures</div>
-            <div className={styles.widgetValue}>3145.0</div>
-            <div className={styles.changeContainer}>
-              <span className={styles.positiveChange}>+18.7 (0.57%)</span>
-              <div className={styles.iconContainer}>
-                <svg
-                  width="64"
-                  height="32"
-                  viewBox="0 0 64 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={styles.positiveIcon}
-                >
-                  <path d="M1 31L16 24L32 16L48 8L63 1" />
-                </svg>
+            <div className={styles.widgetContent}>
+              <div className={styles.widgetHeader}>S&P Futures</div>
+              <div className={styles.widgetValue}>5145.0</div>
+              <div className={styles.changeContainer}>
+                <span className={styles.negativeChange}>
+                  -15.7 <small className={styles.percentValue}>(0.47%)</small>
+                </span>
               </div>
+            </div>
+            <div className={styles.iconContainer}>
+              <Image src={RedLine} alt="Red Line" />
             </div>
           </div>
         </div>
         <div>
           <div className={styles.widget}>
-            <div className={styles.widgetHeader}>S&P Futures</div>
-            <div className={styles.widgetValue}>3145.0</div>
-            <div className={styles.changeContainer}>
-              <span className={styles.negativeChange}>-18.7 (0.57%)</span>
-              <div className={styles.iconContainer}>
-                <svg
-                  width="64"
-                  height="32"
-                  viewBox="0 0 64 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={styles.negativeIcon}
-                >
-                  <path d="M1 1L16 8L32 16L48 24L63 31" />
-                </svg>
+            <div className={styles.widgetContent}>
+              <div className={styles.widgetHeader}>S&P Futures</div>
+              <div className={styles.widgetValue}>5145.0</div>
+              <div className={styles.changeContainer}>
+                <span className={styles.negativeChange}>
+                  -15.7 <small className={styles.percentValue}>(0.47%)</small>
+                </span>
               </div>
+            </div>
+            <div className={styles.iconContainer}>
+              <Image src={RedLine} alt="Red Line" />
             </div>
           </div>
         </div>
         <div>
           <div className={styles.widget}>
-            <div className={styles.widgetHeader}>S&P Futures</div>
-            <div className={styles.widgetValue}>3145.0</div>
-            <div className={styles.changeContainer}>
-              <span className={styles.positiveChange}>+18.7 (0.57%)</span>
-              <div className={styles.iconContainer}>
-                <svg
-                  width="64"
-                  height="32"
-                  viewBox="0 0 64 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={styles.positiveIcon}
-                >
-                  <path d="M1 31L16 24L32 16L48 8L63 1" />
-                </svg>
+            <div className={styles.widgetContent}>
+              <div className={styles.widgetHeader}>S&P Futures</div>
+              <div className={styles.widgetValue}>3145.0</div>
+              <div className={styles.changeContainer}>
+                <span className={styles.positiveChange}>
+                  +18.7 <small className={styles.percentValue}>(0.57%)</small>
+                </span>
               </div>
+            </div>
+            <div className={styles.iconContainer}>
+              <Image src={GreenLine} alt="Green Line" />
             </div>
           </div>
         </div>
         <div>
           <div className={styles.widget}>
-            <div className={styles.widgetHeader}>S&P Futures</div>
-            <div className={styles.widgetValue}>3145.0</div>
-            <div className={styles.changeContainer}>
-              <span className={styles.negativeChange}>-18.7 (0.57%)</span>
-              <div className={styles.iconContainer}>
-                <svg
-                  width="64"
-                  height="32"
-                  viewBox="0 0 64 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={styles.negativeIcon}
-                >
-                  <path d="M1 1L16 8L32 16L48 24L63 31" />
-                </svg>
+            <div className={styles.widgetContent}>
+              <div className={styles.widgetHeader}>S&P Futures</div>
+              <div className={styles.widgetValue}>3145.0</div>
+              <div className={styles.changeContainer}>
+                <span className={styles.positiveChange}>
+                  +18.7 <small className={styles.percentValue}>(0.57%)</small>
+                </span>
               </div>
+            </div>
+            <div className={styles.iconContainer}>
+              <Image src={GreenLine} alt="Green Line" />
             </div>
           </div>
         </div>

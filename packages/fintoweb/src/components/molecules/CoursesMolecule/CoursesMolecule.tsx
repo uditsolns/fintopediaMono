@@ -28,7 +28,7 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
     }
   };
 
-  return (
+  return ( 
     <>
       <div key={course.id} className={styles.card}>
         <div className={styles.cardImage} onClick={handleNavigation}>
@@ -36,7 +36,7 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
             src={`${imageUrl}/uploads/course_images/${course.course_image}`}
             alt={course.name}
             width={350}
-            height={200}
+            height={242}
             className={styles.image}
           />
           <div className={styles.languageBadge}>
@@ -117,8 +117,8 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
             <span className={styles.star}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="19"
+                height="18"
                 viewBox="0 0 20 20"
                 fill="none"
               >
@@ -136,7 +136,7 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
               <span className={styles.originalPrice}>
                 ₹{course.actual_price}
               </span>
-            </div>
+            </div> 
 
             <button
               className={styles.button}

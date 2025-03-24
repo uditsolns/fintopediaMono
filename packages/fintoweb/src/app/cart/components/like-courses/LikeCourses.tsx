@@ -36,13 +36,18 @@ const LikeCourses: React.FC<LikeCoursesProps> = ({ courses }) => {
     null
   );
 
+  
   const setSlides = () => {
-    if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
-      setSlideToShow(3);
-    } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
-      setSlideToShow(2);
-    } else if (window.innerWidth <= 650) {
-      setSlideToShow(1);
+    const width = window.innerWidth;
+
+    if (width <= 650) {
+      setSlideToShow(1); // For mobile view
+    } else if (width <= 1000) {
+      setSlideToShow(2); // For tablet view
+    } else if (width <= 1280) {
+      setSlideToShow(3); // For smaller desktops
+    } else {
+      setSlideToShow(3); // For larger desktops
     }
   };
 
@@ -61,6 +66,9 @@ const LikeCourses: React.FC<LikeCoursesProps> = ({ courses }) => {
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
+    // autoplay: true,
+    // autoplaySpeed: 3000,
+    pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     afterChange: (current: number) => {

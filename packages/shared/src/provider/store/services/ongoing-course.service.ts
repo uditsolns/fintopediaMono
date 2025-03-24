@@ -97,7 +97,7 @@ export const updateOngoingCourse = createAsyncThunk<
   "updateOngoingCourse/update",
   async ({ params, onSuccess, onError }, thunkApi) => {
     try {
-      const state = thunkApi.getState();
+      const state = thunkApi.getState(); 
       const token = state.auth?.auth?.token;
       const response = await fetch(
         apiUrl.ONGOING_COURSES.UPDATE + "/" + params?.id,

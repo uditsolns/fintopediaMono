@@ -26,7 +26,7 @@ const stocks = [
   {
     id: 1,
     image: Blog1,
-    title: "Mastering Option Trading",
+    title: "Mastering Option",
     description:
       "Explore key strategies and concepts to enhance your option trading skills. Gain insights from expert Jyoti Budhia.Lorem ispum",
     rating: 4.6,
@@ -48,7 +48,7 @@ const stocks = [
   {
     id: 3,
     image: Blog3,
-    title: "Leveraging Trading Technology",
+    title: "Leveraging Trading ",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
@@ -59,7 +59,7 @@ const stocks = [
   {
     id: 4,
     image: Blog4,
-    title: "Fundamental Analysis for Traders",
+    title: "Fundamental Analysis",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
@@ -126,6 +126,17 @@ const Blogs: React.FC = () => {
     // dispatch(actions.postRegister(register, () => router.push('/login')));
     setSubmitting(false);
   };
+  const categories = [
+    { id: 1, category_name: "Budgeting and Saving" },
+    { id: 2, category_name: "Personal Investing" },
+    { id: 3, category_name: "Retirement Planning" },
+    { id: 4, category_name: "Credit and Debt Management" },
+    { id: 5, category_name: "Personal Investing" },
+  ];
+  const [categoriesSelected, setCategoriesSelected] = React.useState<
+    number | string
+  >("all");
+
   return (
     <>
       <div className={styles.blogs}>
@@ -150,11 +161,52 @@ const Blogs: React.FC = () => {
           </div>
         </div>
       </div>
+
       <div className={styles.blogsListing}>
+        <div className={styles.categories}>
+          <button
+            className={`${styles.categoryButton} ${
+              categoriesSelected === "all" ? styles.active : ""
+            }`}
+            onClick={() => {
+              setCategoriesSelected("all");
+              // setFilterCourses(
+              //   courses.filter((course) => course.is_popular === 1)
+              // );
+              // setCurrentSlide(0);
+              // setProgress(0);
+            }}
+          >
+            All
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              className={`${styles.categoryButton} ${
+                categoriesSelected === cat.id ? styles.active : ""
+              }`}
+              onClick={() => {
+                setCategoriesSelected(cat.id);
+                // let filterCourseRes = courses.filter(
+                //   (el) => el.category_id == cat.id && el.is_popular === 1
+                // );
+                // setFilterCourses(filterCourseRes);
+                // setCurrentSlide(0);
+                // setProgress(0);
+              }}
+            >
+              {cat.category_name}
+            </button>
+          ))}
+        </div>
         <Row>
           {stocks.map((stock) => {
             return (
-              <Col md={3} key={stock.id} className="mt-3">
+              <Col
+                md={3}
+                key={stock.id}
+                className={`${styles.bolgsColumns} mt-3`}
+              >
                 <Card className={styles.blogsCard}>
                   <Image
                     src={stock.image}
@@ -214,6 +266,7 @@ const Blogs: React.FC = () => {
                         className={`${styles.textfieldBlog} form-control ${
                           errors.email && touched.email ? "is-invalid" : ""
                         }`}
+                        autoComplete="off"
                       />
                       <ErrorMessage
                         name="email"

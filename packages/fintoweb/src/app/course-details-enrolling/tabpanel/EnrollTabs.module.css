@@ -173,7 +173,7 @@
   padding: 25px;
   gap: 25px;
   border-radius: 12px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #0d0f1c;
   backdrop-filter: blur(19.5px);
 }
@@ -307,7 +307,7 @@
   gap: 12px;
   align-self: stretch;
   border-radius: 6px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #222431;
   color: #fff;
 }
@@ -318,7 +318,7 @@
   gap: 12px;
   align-self: stretch;
   border-radius: 6px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #222431;
   color: #fff;
 }
@@ -448,7 +448,7 @@
 }
 .uploadFiles {
   padding: 31px 29px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(--BG-2, #222431);
   border-radius: 12px;
   margin-top: 15px;
@@ -626,7 +626,7 @@
   padding: 1rem;
   position: relative;
   border-radius: 12px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(--BG-2, #222431);
 }
 

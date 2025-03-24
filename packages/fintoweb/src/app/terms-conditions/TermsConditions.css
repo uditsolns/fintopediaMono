@@ -1,0 +1,45 @@
+.privacy-policy-header {
+  padding: 50px;
+}
+.privacy-policy-content {
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.privacy-policy-content h1 {
+  background: linear-gradient(180deg, #fff 11.18%, #818181 227.3%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 105%;
+  padding: 0px 0px 12px 0px;
+  margin-bottom: 16px;
+}
+.privacy-policy-content h6 {
+  background: linear-gradient(180deg, #fff 11.18%, #818181 227.3%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 105%;
+  padding: 0px 0px 12px 0px;
+  margin-bottom: 16px;
+}
+.privacy-paragraph {
+  font-size: 16px;
+  font-style: normal;
+  line-height: 143%;
+  margin-bottom: 16px;
+}
+
+@media screen and (max-width: 435px) {
+  .privacy-policy-header {
+    padding: 56px 20px;
+  }
+}

@@ -35,12 +35,14 @@ import {
 import { CircularProgress, Typography } from "@mui/material";
 import CourseProgress from "./CourseProgress";
 import { getCompletionPercentage } from "shared/src/provider/store/services/completion-percentage.service";
+import { useRouter } from "next/navigation";
 
 interface CourseEnrollDetailsProps {
   id?: number;
 }
 const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const {
     singleCourse,
     courses,
@@ -48,7 +50,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
   } = useAppSelector((state) => state.courses);
   const { ongoing_courses_status, loading: ongoing_courses_status_loading } =
     useAppSelector((state) => state.ongoingCourseStatus);
-  console.log("ongoing_courses_status", ongoing_courses_status);
+  // console.log("ongoing_courses_status", ongoing_courses_status);
 
   const { ongoing_courses, loading: ongoing_courses_loading } = useAppSelector(
     (state) => state.ongoingCourse
@@ -80,19 +82,35 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
     text: "This is a fantastic page I found!",
     url: window.location.href,
   };
+  // React.useEffect(() => {
+  //   if (id !== undefined) {
+  //     dispatch(getCoursesById({ id }));
+  //   }
+  //   dispatch(getCourseNotes());
+  //   dispatch(getCourseReviews());
+  //   dispatch(getCourses());
+  //   dispatch(getCourseUploadFile());
+  //   dispatch(getLikeCourse());
+  //   dispatch(getOngoingCourseStatus());
+  //   dispatch(getOngoingCourse());
+  //   dispatch(getCompletionPercentage());
+  // }, [id, dispatch]);
   React.useEffect(() => {
-    if (id !== undefined) {
+    if (auth?.token && id !== undefined) {
       dispatch(getCoursesById({ id }));
+      dispatch(getCourseNotes());
+      dispatch(getCourseReviews());
+      dispatch(getCourses());
+      dispatch(getCourseUploadFile());
+      dispatch(getLikeCourse());
+      dispatch(getOngoingCourseStatus());
+      dispatch(getOngoingCourse());
+      dispatch(getCompletionPercentage());
+    } else {
+      router.push('/auth/login');
+      // console.log("User not authenticated or ID is missing");
     }
-    dispatch(getCourseNotes());
-    dispatch(getCourseReviews());
-    dispatch(getCourses());
-    dispatch(getCourseUploadFile());
-    dispatch(getLikeCourse());
-    dispatch(getOngoingCourseStatus());
-    dispatch(getOngoingCourse());
-    dispatch(getCompletionPercentage());
-  }, [id, dispatch]);
+  }, [id, auth?.token, dispatch]);
 
   const [isAccordionOpen, setIsAccordionOpen] = useState(true);
 
@@ -144,7 +162,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
         updateOngoingCourse({
           params,
           onSuccess(data) {
-            console.log("data");
+            // console.log("data");
             // toast.success("Course Updated Successfully !", {
             //   position: "top-right",
             //   theme: "light",
@@ -154,7 +172,6 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
         })
       );
     }
-
     setVideoEmbedInfo({ otp, playbackInfo });
   };
 
@@ -228,44 +245,8 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
         <div className={styles.enrollHeader}>
           <h2>{singleCourse?.name}</h2>
           <div className={styles.progressSection}>
-            {/* <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24ZM12.0022 22C17.5251 22 22.0022 17.5229 22.0022 12C22.0022 6.47716 17.5251 2.00001 12.0022 2.00001C6.47938 2.00001 2.00223 6.47716 2.00223 12C2.00223 17.5229 6.47938 22 12.0022 22Z"
-                fill="url(#paint0_angular_1727_26010)"
-              />
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M22.7765 9.60013C23.3242 9.52946 23.8255 9.91621 23.8962 10.464C23.9619 10.9731 23.9948 11.486 23.9948 11.9994C23.9948 12.5517 23.5471 12.9994 22.9948 12.9994C22.4425 12.9994 21.9948 12.5517 21.9948 11.9994C21.9948 11.5716 21.9674 11.1442 21.9126 10.7199C21.842 10.1721 22.2287 9.6708 22.7765 9.60013Z"
-                fill="#545F71"
-              />
-              <defs>
-                <radialGradient
-                  id="paint0_angular_1727_26010"
-                  cx="0"
-                  cy="0"
-                  r="1"
-                  gradientUnits="userSpaceOnUse"
-                  gradientTransform="translate(12 12) scale(12)"
-                >
-                  <stop offset="0.0001" stopColor="white" stopOpacity="0" />
-                  <stop offset="0.631363" stopColor="white" />
-                  <stop offset="1" stopColor="white" />
-                </radialGradient>
-              </defs>
-            </svg> */}
-
             <CourseProgress progress={completion} />
             <span>Your progress ({completion}%)</span>
-
             <ShareButton
               title={shareData.title}
               text={shareData.text}
@@ -397,13 +378,13 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
                                         course.section_id === section.id &&
                                         course.sub_section_id === subsection.id
                                     );
-                                    console.log("ongoingCourse", ongoingCourse);
+                                    // console.log("ongoingCourse", ongoingCourse);
 
                                     const ongoingId = ongoingCourse
                                       ? ongoingCourse.id
                                       : null;
 
-                                    console.log("ongoingId", ongoingId);
+                                    // console.log("ongoingId", ongoingId);
                                     return (
                                       <li
                                         key={subsection.id}

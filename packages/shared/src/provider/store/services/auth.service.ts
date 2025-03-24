@@ -30,6 +30,9 @@ export const signIn = createAsyncThunk<
       },
       body: JSON.stringify(params),
     });
+    if(response.status !== 201){
+      return thunkApi.rejectWithValue(await response.json());
+    }
     const data = (await response.json()) as AuthResponse;
     thunkApi.dispatch(storeCurrentUser(data?.user));
     return data;

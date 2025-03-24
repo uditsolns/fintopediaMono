@@ -35,7 +35,7 @@ import {
   createCoursesSaveLater,
   getCoursesSaveLater,
 } from "shared/src/provider/store/services/coursesavelater.service";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import { toast } from "react-toastify";
 import sha256 from "crypto-js/sha256";
@@ -43,10 +43,13 @@ import { Base64 } from "js-base64";
 import { CoursesSaveLaterResponse } from "shared/src/utils/types/courses-save-later";
 import CourseSaveLaterMolecule from "@src/components/molecules/CoursesMolecule/CourseSaveLaterMolecule";
 import { getLikeCourse } from "shared/src/provider/store/services/course-like.service";
+import Result_ from "postcss/lib/result";
+// import axios from "axios";
 
 export default function Cart() {
   const dispatch = useAppDispatch();
   const router = useRouter();
+
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
   );
@@ -174,285 +177,107 @@ export default function Cart() {
       setLoadingCourseId(null);
     }
   };
-  // const handlePayment = () => {
-  //   if (!totalPay || totalPay <= 0) {
-  //     alert("Invalid payment amount.");
-  //     return;
-  //   }
-  //   const requestBody = {
-  //     merchantId: MERCHANT_ID,
-  //     merchantTransactionId: `${new Date().getTime()}`,
-  //     merchantUserId: `${auth?.user?.id}`,
-  //     amount: totalPay * 100,
-  //     redirectUrl: REDIRECT_URL,
-  //     redirectMode: "REDIRECT",
-  //     callbackUrl: CALLBACK_URL,
-  //     // redirectUrl: "http://localhost:3000/cart",
-  //     // redirectMode: "REDIRECT",
-  //     // callbackUrl: "https://webhook.site/callback-url",
-  //     mobileNumber: `${auth?.user?.phone}`,
-  //     paymentInstrument: {
-  //       type: "PAY_PAGE",
-  //     },
-  //   };
-  //   let requestJSONBody = JSON.stringify(requestBody);
-  //   let requestBase64Body = Base64.encode(requestJSONBody);
-  //   const input = requestBase64Body + API_ENDPOINT + SALT_KEY;
-  //   const sha256Res = sha256(requestBase64Body + API_ENDPOINT + SALT_KEY);
-  //   const finalXHeader = `${sha256Res}###${SALT_INDEX}`;
-  //   paymentForWeb(finalXHeader, requestBase64Body);
-  // };
-  // const paymentForWeb = (finalXHeader, requestBase64Body) => {
-  //   fetch("https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "X-VERIFY": finalXHeader,
-  //     },
-  //     body: JSON.stringify({ request: requestBase64Body }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((responseJson) => {
-  //       console.log(
-  //         "JSON.stringify(responseJson)",
-  //         JSON.stringify(responseJson)
-  //       );
-  //       const sha256Res2 = sha256(
-  //         `/pg/v1/status/${MERCHANT_ID}/${responseJson?.data?.merchantTransactionId}` +
-  //           SALT_KEY
-  //       );
-  //       const finalXHeader2 = `${sha256Res2}###${SALT_INDEX}`;
-  //       paymentCheckStaus(
-  //         finalXHeader2,
-  //         MERCHANT_ID,
-  //         responseJson?.data?.merchantTransactionId
-  //       );
-  //       let UrlData = responseJson?.data?.instrumentResponse?.redirectInfo?.url;
-  //       if (UrlData) {
-  //         window.open(UrlData, "_blank");
-  //       }
-  //       console.log("UrlData", UrlData);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // };
 
-  // const paymentCheckStaus = (
-  //   finalXHeader2: string,
-  //   merchantId: string,
-  //   merchantTransactionId: string
-  // ) => {
-  //   console.log(
-  //     "paymentCheckStaus",
-  //     finalXHeader2,
-  //     merchantId,
-  //     merchantTransactionId
-  //   );
-  //   fetch(
-  //     `${PRODUCTION_HOST_URL}/pg/v1/status/${merchantId}/${merchantTransactionId}`,
-  //     {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "X-VERIFY": finalXHeader2,
-  //         "X-MERCHANT-ID": merchantId,
-  //       },
-  //     }
-  //   )
-  //     .then((response) => response.json())
-  //     .then(async (res) => {
-  //       console.log("payment success res----------------", res);
-
-  //       console.log("payment success response", JSON.stringify(res));
-
-  //       const formData = new FormData();
-  //       formData.append(
-  //         "status",
-  //         res?.code == "PAYMENT_SUCCESS" ? "paid" : "failed"
-  //       );
-  //       formData.append(
-  //         "payment_status",
-  //         res?.code == "PAYMENT_SUCCESS" ? "paid" : "failed"
-  //       );
-  //       formData.append(
-  //         "phone_pe_payment_id",
-  //         res?.data?.transactionId ||
-  //           res?.data?.paymentInstrument?.pgServiceTransactionId ||
-  //           ""
-  //       );
-  //       formData.append(
-  //         "payment_type",
-  //         res?.data?.paymentInstrument?.type || ""
-  //       );
-  //       formData.append("utr", res?.data?.paymentInstrument?.utr || "");
-  //       formData.append(
-  //         "upiTransactionId",
-  //         res?.data?.paymentInstrument?.upiTransactionId || ""
-  //       );
-  //       formData.append(
-  //         "accountHolderName",
-  //         res?.data?.paymentInstrument?.accountHolderName || ""
-  //       );
-  //       formData.append(
-  //         "accountType",
-  //         res?.data?.paymentInstrument?.accountType || ""
-  //       );
-  //       formData.append(
-  //         "pgTransactionId",
-  //         res?.data?.paymentInstrument?.pgTransactionId || ""
-  //       );
-  //       formData.append(
-  //         "pgServiceTransactionId",
-  //         res?.data?.paymentInstrument?.pgServiceTransactionId || ""
-  //       );
-  //       formData.append("arn", res?.data?.paymentInstrument?.arn || "");
-  //       formData.append(
-  //         "cardType",
-  //         res?.data?.paymentInstrument?.cardType || ""
-  //       );
-  //       formData.append("brn", res?.data?.paymentInstrument?.brn || "");
-
-  //       // await updateTransactionMethod(id, formData,res);
-  //       // await getAllTransactionsMethod(token, navigation);
-  //     })
-  //     .catch((error) => {
-  //       console.error(JSON.stringify(error));
-  //     });
-  // };
-  const handlePayment = () => {
+  const handlePayment = async (e) => {
+    e.preventDefault();
     if (!totalPay || totalPay <= 0) {
       alert("Invalid payment amount.");
       return;
     }
-  
-    const requestBody = {
+    const transactionId = `${new Date().getTime()}`;
+
+    const payload = {
       merchantId: MERCHANT_ID,
-      merchantTransactionId: `${new Date().getTime()}`,
+      merchantTransactionId: transactionId,
       merchantUserId: `${auth?.user?.id}`,
-      amount: totalPay * 100, // Amount in paise (100 paise = 1 INR)
-      redirectUrl: REDIRECT_URL,
-      redirectMode: "REDIRECT",
-      callbackUrl: CALLBACK_URL,
+      amount: totalPay * 100,
+      redirectUrl: `http://localhost:3000/api/status/${transactionId}`,
+      redirectMode: "POST",
+      callbackUrl: `http://localhost:3000/api/status/${transactionId}`,
       mobileNumber: `${auth?.user?.phone}`,
       paymentInstrument: {
         type: "PAY_PAGE",
       },
     };
-  
-    let requestJSONBody = JSON.stringify(requestBody);
-    let requestBase64Body = Base64.encode(requestJSONBody);
-    const input = requestBase64Body + API_ENDPOINT + SALT_KEY;
-    const sha256Res = sha256(requestBase64Body + API_ENDPOINT + SALT_KEY);
-    const finalXHeader = `${sha256Res}###${SALT_INDEX}`;
-  
-    // Call paymentForWeb with the finalXHeader and requestBase64Body
-    paymentForWeb(finalXHeader, requestBase64Body);
-  };
-  
-  const paymentForWeb = (finalXHeader, requestBase64Body) => {
-    fetch("https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-VERIFY": finalXHeader,
-      },
-      body: JSON.stringify({ request: requestBase64Body }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log("Response received: ", responseJson);
-  
-        const sha256Res2 = sha256(
-          `/pg/v1/status/${MERCHANT_ID}/${responseJson?.data?.merchantTransactionId}` +
-            SALT_KEY
-        );
-        const finalXHeader2 = `${sha256Res2}###${SALT_INDEX}`;
-  
-        // Check payment status after the initial request
-        paymentCheckStaus(
-          finalXHeader2,
-          MERCHANT_ID,
-          responseJson?.data?.merchantTransactionId
-        );
-  
-        let UrlData = responseJson?.data?.instrumentResponse?.redirectInfo?.url;
-  
-        // Only open URL if necessary (e.g., in case of successful payment)
-        if (UrlData) {
-          console.log("Redirecting to: ", UrlData);
-          window.open(UrlData, "_blank");
-        }
-      })
-      .catch((error) => {
-        console.error("Payment request error: ", error);
-      });
-  };
-  
-  const paymentCheckStaus = (
-    finalXHeader2: string,
-    merchantId: string,
-    merchantTransactionId: string
-  ) => {
-    console.log(
-      "Checking payment status...",
-      finalXHeader2,
-      merchantId,
-      merchantTransactionId
-    );
-    fetch(
-      `${PRODUCTION_HOST_URL}/pg/v1/status/${merchantId}/${merchantTransactionId}`,
-      {
-        method: "GET",
+
+    // const dataPayload = JSON.stringify(payload);
+    // console.log("dataPayload", dataPayload);
+
+    // const dataBase64 = Buffer.from(dataPayload).toString("base64");
+    // console.log("dataBase64", dataBase64);
+
+    // const fullURL = dataBase64 + "/pg/v1/pay" + SALT_KEY;
+    // const dataSha256 = sha256(fullURL);
+    // console.log("fullURL", fullURL);
+
+    // const checksum = dataSha256 + "###" + SALT_INDEX;
+    // console.log("c====", checksum);
+
+    // const UAT_PAY_API_URL =
+    //   "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
+
+    // const response = await fetch(UAT_PAY_API_URL, {
+    //   method: "POST",
+    //   headers: {
+    //     accept: "application/json",
+    //     "Content-Type": "application/json",
+    //     "X-VERIFY": checksum,
+    //   },
+    //   body: JSON.stringify({
+    //     request: dataBase64,
+    //   }),
+    // });
+
+    // if (!response.ok) {
+    //   throw new Error(`HTTP error! Status: ${response.status}`);
+    // }
+
+    // const result = await response.json();
+    // console.log("result", result);
+    // const redirect = result.data?.instrumentResponse?.redirectInfo?.url;
+
+    // router.push(redirect);
+    const dataPayload = JSON.stringify(payload);
+    console.log(dataPayload);
+
+    const dataBase64 = Buffer.from(dataPayload).toString("base64");
+    console.log(dataBase64);
+
+    const fullURL =
+      dataBase64 + "/pg/v1/pay" + process.env.NEXT_PUBLIC_SALT_KEY;
+    const dataSha256 = sha256(fullURL);
+
+    const checksum = dataSha256 + "###" + process.env.NEXT_PUBLIC_SALT_INDEX;
+    console.log("c====", checksum);
+
+    const UAT_PAY_API_URL =
+      "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
+
+    try {
+      const response = await fetch(UAT_PAY_API_URL, {
+        method: "POST",
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "X-VERIFY": finalXHeader2,
-          "X-MERCHANT-ID": merchantId,
+          "X-VERIFY": checksum,
         },
-      }
-    )
-      .then((response) => response.json())
-      .then(async (res) => {
-        console.log("Payment status response: ", res);
-  
-        // Update based on the payment success/failure status
-        const formData = new FormData();
-        formData.append(
-          "status",
-          res?.code == "PAYMENT_SUCCESS" ? "paid" : "failed"
-        );
-        formData.append(
-          "payment_status",
-          res?.code == "PAYMENT_SUCCESS" ? "paid" : "failed"
-        );
-        formData.append(
-          "phone_pe_payment_id",
-          res?.data?.transactionId ||
-            res?.data?.paymentInstrument?.pgServiceTransactionId ||
-            ""
-        );
-  
-        // Additional data processing for the payment result
-        formData.append(
-          "payment_type",
-          res?.data?.paymentInstrument?.type || ""
-        );
-  
-        formData.append(
-          "upiTransactionId",
-          res?.data?.paymentInstrument?.upiTransactionId || ""
-        );
-  
-        // Optional: Use this data to update your transaction system
-        // await updateTransactionMethod(id, formData, res);
-        // await getAllTransactionsMethod(token, navigation);
-      })
-      .catch((error) => {
-        console.error("Error checking payment status: ", JSON.stringify(error));
+        body: JSON.stringify({
+          request: dataBase64,
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      const redirect = responseData.data.instrumentResponse.redirectInfo.url;
+      router.push(redirect);
+    } catch (error) {
+      console.error("Error occurred:", error);
+    }
   };
-  
-  
+
   return (
     <>
       {courseCartLoading?.courseCart ||
@@ -746,7 +571,8 @@ export default function Cart() {
                     <div className={styles.buttons}>
                       <Button
                         className={styles.checkoutButton}
-                        onClick={handlePayment}
+                        // onClick={handlePayment}
+                        onClick={(e) => handlePayment(e)}
                       >
                         Proceed to checkout
                       </Button>

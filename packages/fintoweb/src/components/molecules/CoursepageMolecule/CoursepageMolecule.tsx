@@ -17,8 +17,8 @@ interface CoursepageMoleculeProps {
 }
 const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
   course,
-  onClick,
-  loading = false,
+  onClick, 
+  loading = false, 
 }) => {
   const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);
@@ -29,14 +29,14 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
     }
   };
   return (
-    <div key={course.id}>
+    <div key={course.id} className={styles.coursepageMolecule}>
       <Card className={styles.card}>
         <div className={styles.cardImage} onClick={handleNavigation}>
           <Image
             src={`${imageUrl}/uploads/course_images/${course.course_image}`}
             alt={course.name} 
             width={350}
-            height={200}
+            height={178}
             className={styles.image}
           />
           <div className={styles.languageBadge}>

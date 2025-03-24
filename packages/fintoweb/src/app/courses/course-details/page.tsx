@@ -102,19 +102,6 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
             </Link>
           </div>
           <div className={styles.CourseDetailsHeader}>
-            {/* <div className={styles.links}>
-              <Link href="/" className={styles.link}>
-                Home
-              </Link> 
-              <span> &gt; </span>
-              <Link href="#" className={styles.link}>
-                {singleCourse?.category?.category_name}
-              </Link>
-              <span> &gt; </span>
-              <Link href="#" className={styles.link}>
-                {singleCourse?.name}
-              </Link>
-            </div> */}
             <div className="courseDetailsContent">
               <h2 className={styles.heading}>{singleCourse?.name}</h2>
               <p className={styles.subHeading}>
@@ -123,22 +110,13 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
               </p>
               <div className={styles.CourseDetailsHeaderButton}>
                 <button>
-                  Course starts from ₹ {singleCourse?.sale_price}{" "}
-                  <span
-                    style={{
-                      textDecoration: "line-through",
-                      color: "lightgray",
-                      marginLeft: "5px",
-                    }}
-                  >
-                    ₹ {singleCourse?.actual_price}
+                  Course starts from{" "}
+                  <span className={styles.CourseDetailsHeaderButtonSpan}>
+                    &#8377; {singleCourse?.sale_price}
                   </span>
                 </button>
               </div>
               <div className={styles.offerText}>
-                {/* <h6>
-                  Offer ends in <span> 01d : 09h : 20m : 06s</span>
-                </h6> */}
                 <OfferCountdown
                   offerStartDate={singleCourse?.offer_start_date}
                   offerEndDate={singleCourse?.offer_end_date}

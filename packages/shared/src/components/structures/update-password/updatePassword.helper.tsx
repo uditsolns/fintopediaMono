@@ -30,6 +30,8 @@ export const useUpdatePasswordHelper = () => {
           },
         })
       );
+      console.log("data--------", data);
+      updatePasswordFormik.resetForm();
     },
   });
 
