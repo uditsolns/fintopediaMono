@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 class MyDocument extends Document {
   render() {
@@ -19,8 +20,16 @@ class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
-
-          <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+          {/* Load OTPLESS SDK using the Script component */}
+          {/* <Script
+            id="otpless-sdk"
+            src="https://otpless.com/v4/headless.js"
+            data-appid="8TU4ZOYC6S9Q6VMC5LLF"
+            strategy="beforeInteractive" // Ensures it loads before interactivity
+            onLoad={() => console.log("OTPless script loaded")}
+            onError={(e) => console.log("OTPless script load error:", e)}
+          /> */}
+          
         </body>
       </Html>
     );

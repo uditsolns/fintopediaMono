@@ -44,7 +44,7 @@ const page = () => {
   const { course_review, loading: coursesReviewLoading } = useAppSelector(
     (state) => state.courseReviews
   );
-  console.log("🚀 ~ page ~ course_review:", course_review);
+  // console.log("🚀 ~ page ~ course_review:", course_review);
   React.useEffect(() => {
     if (token) {
       dispatch(getCourseCart());
