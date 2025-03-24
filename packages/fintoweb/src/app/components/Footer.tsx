@@ -171,12 +171,12 @@ export const Footer = () => {
             <Link href="/privacy-policy" prefetch={true}>
               Privacy Policy
             </Link>
-            <Link href="/cookie-policy" prefetch={true}>
-              Cookie Policy
+            <Link href="/refund-policy" prefetch={true}>
+              Disclaimer
             </Link>
-            <Link href="/sitemap" prefetch={true}>
+            {/* <Link href="/sitemap" prefetch={true}>
               Sitemap
-            </Link>
+            </Link> */}
             <Link href="/terms-conditions" prefetch={true}>
               Terms of Use
             </Link>
