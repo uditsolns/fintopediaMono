@@ -40,11 +40,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    GoogleSignin.configure({
-      webClientId:
-        '1086429717269-pqt2o5l783a0dadn2gqjolrksdjanghj.apps.googleusercontent.com',
-      offlineAccess: true,
-    });
+    GoogleSignin.configure();
   }, []);
   React.useEffect(() => {
     if (auth) {
@@ -68,6 +64,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
         let params = {
           email: response?.data?.user?.email,
         };
+        console.log('params', params);
         dispatch(googleSignIn(params));
         GoogleSignin.signOut();
       } else {

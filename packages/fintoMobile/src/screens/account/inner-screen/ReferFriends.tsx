@@ -12,8 +12,9 @@ import {
   FONT_MEDIUM,
   FONT_SEMIBOLD,
 } from '@shared/src/theme/typography';
+import ImageAtom from '@src/components/Image/ImageAtom';
 import React from 'react';
-import {Pressable, View} from 'react-native';
+import {Linking, Pressable, View} from 'react-native';
 
 interface ReferFriendsProps {}
 
@@ -64,14 +65,14 @@ export const ReferFriends: React.FC<ReferFriendsProps> = ({}) => {
             </View>
           </View>
           <View style={[commonStyle.flexCenter, {marginTop: mScale.lg2}]}>
-            <Pressable>
-              <Images.SVG.Fb2 />
+            <Pressable onPress={() => {Linking.openURL('https://www.facebook.com/people/Fintopedia/61551172396495/')}}>
+              <ImageAtom sourceRequire={require('@shared/src/assets/img/facebook.png')} style={{width:moderateScale(36),height:moderateScale(36)}}  />
             </Pressable>
-            <Pressable style={{marginStart: mScale.md}}>
-              <Images.SVG.LinkedIn2 />
+            <Pressable style={{marginStart: mScale.base}} onPress={() => {Linking.openURL('https://www.linkedin.com/company/fintopedia/?originalSubdomain=in')}}>  
+            <ImageAtom sourceRequire={require('@shared/src/assets/img/linkedln.png')} style={{width:moderateScale(36),height:moderateScale(36)}}  />
             </Pressable>
-            <Pressable style={{marginStart: mScale.md}}>
-              <Images.SVG.Insta3 />
+            <Pressable style={{marginStart: mScale.base}} onPress={() => {Linking.openURL('https://www.instagram.com/fintopedia_official/')}}>
+            <ImageAtom sourceRequire={require('@shared/src/assets/img/instagram.png')} style={{width:moderateScale(36),height:moderateScale(36)}}  />
             </Pressable>
           </View>
         </View>

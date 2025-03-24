@@ -26,7 +26,7 @@ import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {OngoingCoursesResponse} from '@shared/src/utils/types/ongoing-course';
 import {OngoingCoursesStatusResponse} from '@shared/src/utils/types/ongoing-courses-status';
 import {UserCourseHistoryResponse} from '@shared/src/utils/types/UserCourseHistory';
-import {isInCart} from '@src/components/Calculate';
+import {crashReport, isInCart} from '@src/components/Calculate';
 import CarouselAtom from '@src/components/Carousel/CarouselAtom';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import GetStarted from '@src/components/GetStarted';
@@ -62,7 +62,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     setPlayVideoStartBeforePurchaseLoading,
   } = useVideoPlayerContext();
 
-  const {auth} = useAppSelector(state => state.auth);
+  const {auth, current_user} = useAppSelector(state => state.auth);
   const {banner, loading: bannerLoading} = useAppSelector(
     state => state.banner,
   );
@@ -106,6 +106,8 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     dispatch(getCourseCart());
     dispatch(getOngoingCourse());
     dispatch(getOngoingCourseStatus());
+    console.log('crashReport ----------------------------------------------------------------------');
+    crashReport(current_user);
     setRefreshLoading(false);
   };
 
@@ -127,7 +129,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
           // if (item?.course?.course_video_embed) {
           //   dispatch(storeVideoUrl(item?.course?.course_video_embed));
           // }
-          setPlayVideoStartLoading(false)
+          setPlayVideoStartLoading(false);
           dispatch(storeSingleOngoingCourse(item?.ongoing));
           navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
             id: item?.ongoing?.course_id,

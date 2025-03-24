@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "392824957862",
+    "project_id": "fintopedia-7b8a6",
+    "storage_bucket": "fintopedia-7b8a6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392824957862:android:b78fa4063224187bf43d67",
+        "android_client_info": {
+          "package_name": "com.fintomobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392824957862-vj8og74huehuee1f7avauj3ui61empgd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fintomobile",
+            "certificate_hash": "7e2868e3cb0bf880d0c1c1d5857787b41049124b"
+          }
+        },
+        {
+          "client_id": "392824957862-vr327p65u7jasf9r6h34q3un36q41kn6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByUnwfvYcLSouy4XYd-g5dDenmT60o57M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392824957862-vr327p65u7jasf9r6h34q3un36q41kn6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

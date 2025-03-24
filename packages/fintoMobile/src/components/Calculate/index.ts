@@ -1,3 +1,5 @@
+import crashlytics from '@react-native-firebase/crashlytics';
+
 export const sumCalculate = (arr: any[], priceKey: string) => {
   const sum =
     arr?.length &&
@@ -99,3 +101,21 @@ export const getCurrentGreeting = () => {
     return 'Good Night';
   }
 };
+
+export async function crashReport(login:any) {
+  console.log('crashReport------------------------', login);
+  
+  try {
+    await Promise.all([
+      crashlytics().setUserId(`${login?.id ?? ''}`),
+      crashlytics().setAttributes({
+        Name: `${login?.first_name ?? ''} ${login?.surname_name ?? ''}`,
+        Email: `${login?.email ?? ''}`,
+        Phone: `${login?.phone ?? ''}`,
+      }),
+    ]);
+    // crashlytics().crash();
+  } catch (error) {
+    console.log('crashReport------------------------', error);
+  }
+}

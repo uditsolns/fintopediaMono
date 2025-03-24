@@ -7,7 +7,7 @@ import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import FrequentlyAskMolecule from '@src/components/molecules/FrequentlyAskMolecule/FrequentlyAskMolecule';
 import SeparatorAtom from '@src/components/SeperatorAtom';
 import React from 'react';
-import {FlatList, Pressable, StyleSheet, View} from 'react-native';
+import {FlatList, Linking, Pressable, StyleSheet, View} from 'react-native';
 import {NavType} from '@src/navigation/types';
 import {useContactSupportHelper} from '@shared/src/components/structures/contact-support/contactSupport.helper';
 import {contactSupportField} from '@shared/src/components/structures/contact-support/contactSupportModel';
@@ -181,13 +181,29 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
               style={{fontWeight: '600'}}
             />
             <View style={styles.socialMediaIcons}>
-              <Pressable>
+              <Pressable
+                onPress={() => {
+                  Linking.openURL(
+                    'https://www.facebook.com/people/Fintopedia/61551172396495/',
+                  );
+                }}
+                >
                 <Images.SVG.Fb2 />
               </Pressable>
-              <Pressable style={styles.iconMargin}>
+              <Pressable
+                style={styles.iconMargin}
+                onPress={() => {
+                  Linking.openURL('https://x.com/fintopedia');
+                }}>
                 <Images.SVG.Twitter2 />
               </Pressable>
-              <Pressable style={styles.iconMargin}>
+              <Pressable
+                style={styles.iconMargin}
+                onPress={() => {
+                  Linking.openURL(
+                    'https://www.linkedin.com/company/fintopedia/?originalSubdomain=in',
+                  );
+                }}>
                 <Images.SVG.LinkedIn2 />
               </Pressable>
             </View>
@@ -204,9 +220,7 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
                   data={[...Array(5).keys()]}
                   renderItem={renderItem}
                   keyExtractor={item => item.toString()}
-                  ItemSeparatorComponent={() => (
-                     <BorderWithThickness mv={0} />
-                  )}
+                  ItemSeparatorComponent={() => <BorderWithThickness mv={0} />}
                   contentContainerStyle={{rowGap: mScale.md}}
                 />
               </View>
@@ -234,10 +248,10 @@ const styles = StyleSheet.create({
   socialMediaSection: {marginTop: mScale.xxl},
   socialMediaIcons: {...commonStyle.flexStart, marginVertical: mScale.lg2},
   iconMargin: {marginStart: mScale.md},
-  faqSection: {marginTop: mScale.md,marginBottom:moderateScale(60)},
+  faqSection: {marginTop: mScale.md, marginBottom: moderateScale(60)},
   faqTitle: {marginBottom: mScale.md},
   faqContainer: {
-    paddingVertical:mScale.lg2,
-    paddingHorizontal:mScale.base
+    paddingVertical: mScale.lg2,
+    paddingHorizontal: mScale.base,
   },
 });
