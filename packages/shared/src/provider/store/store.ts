@@ -53,7 +53,7 @@ const persistConfig: any = {
 
 const reducers = combineReducers({
   auth: persistReducer(persistConfig, authReducer),
-  users: usersReducer,
+  users: persistReducer(persistConfig, usersReducer),
   banner: bannerReducer,
   categories: categoriesReducer,
   college: collegesReducer,

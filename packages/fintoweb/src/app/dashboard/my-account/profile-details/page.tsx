@@ -19,16 +19,11 @@ const page = () => {
   const { auth, current_user } = useAppSelector((state) => state.auth);
   const { user, loading, update } = useAppSelector((state) => state.users);
 
-  console.log("current_user", current_user);
   const { userFormik, userInputProps } = useUserHelper();
   const { handleSubmit, setFieldValue, isSubmitting } = userFormik;
 
   const [image, setImage] = useState<string | null>(null);
   const [imagevalue, setImagevalue] = useState(null);
-  // const [imagevalue, setImagevalue] = useState<string | null>(
-  //   auth?.user?.photo || null
-  // );
-  // console.log("imagevalue", imagevalue);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -97,7 +92,7 @@ const page = () => {
     setFieldValue(userField.linkedin.name, current_user?.linkedin ?? "");
     setFieldValue(userField.designation.name, current_user?.designation ?? "");
     setFieldValue(userField.photo.name, imagevalue || current_user?.photo);
-  }, [auth,current_user, image, setFieldValue]);
+  }, [auth, current_user, image, setFieldValue]);
 
   React.useEffect(() => {
     if (update) {

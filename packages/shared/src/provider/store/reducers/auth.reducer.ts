@@ -58,6 +58,7 @@ const authSlice = createSlice({
         state.loading.login = false;
         state.auth = action.payload;
         state.err.loginErr = null;
+        state.current_user = action.payload.user; 
       })
       .addCase(signIn.rejected, (state, action) => {
         state.loading.login = false;
@@ -70,6 +71,7 @@ const authSlice = createSlice({
         state.loading.google_login = false;
         state.auth = action.payload;
         state.err.google_login_err = null;
+        
       })
       .addCase(googleSignIn.rejected, (state, action) => {
         state.loading.forgot = false;
