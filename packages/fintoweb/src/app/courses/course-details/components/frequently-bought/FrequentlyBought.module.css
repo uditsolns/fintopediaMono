@@ -1,0 +1,81 @@
+.courseContainer {
+  background-image: url("../../../../../assets/courses/course-details/FrequentlyBoughtTogetherbg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 50px;
+  /* background: var(--BG-2, #222431); */
+}
+.courseContainerHeading {
+  color: #fff;
+  text-align: center;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  padding: 40px;
+}
+.container {
+  background-color: #1f2937;
+  color: white;
+  padding: 30px;
+}
+.slick-slide > div {
+  margin: 0 30px;
+}
+.slick-slide > div:nth-child(1) {
+  margin-left: 0;
+}
+.slick-list {
+  margin-right: -30px;
+  margin: 0 -10px;
+}
+
+.progressContainer {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background-color: #333;
+  margin-top: 20px;
+}
+.progressBar {
+  background-color: #007bff;
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+/* -----categories--------- */
+.categories {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 30px;
+}
+.categoryButton {
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  margin: 10px;
+}
+
+.categoryButton:hover {
+  background-color: #6a6d7b;
+}
+.active {
+  border: 1px solid #b8bccb;
+  background-color: #545664;
+  color: white;
+}
+@media screen and (max-width: 435px) {
+  .courseContainer {
+    padding: 56px 20px;
+  }
+  .courseContainerHeading {
+    font-size: 30px;
+    margin-bottom: 35px;
+  }
+}

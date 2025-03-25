@@ -4,6 +4,10 @@ import styles from "../Auth.module.css";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import { Button, Col, Row } from "reactstrap";
 import * as Yup from "yup";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import LoadingAtom from "@src/components/loader/LoadingAtom";
 
 interface OTPFormValues {
   otp1: string;
@@ -12,11 +16,41 @@ interface OTPFormValues {
   otp4: string;
   otp5: string;
   otp6: string;
+  forgotOtp: number;
 }
 
 const TwoFactorAuth: React.FC = () => {
+  const router = useRouter();
+  const { auth, forgot, loading } = useAppSelector((state) => state.auth);
+  console.log("forgot", forgot);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
-
+  const [isLoading, setIsLoading] = React.useState(false);
+  let forgotOtp = forgot?.opt;
+  // const handleSubmit = (
+  //   values: OTPFormValues,
+  //   { setSubmitting }: FormikHelpers<OTPFormValues>
+  // ) => {
+  //   const otp =
+  //     values.otp1 +
+  //     values.otp2 +
+  //     values.otp3 +
+  //     values.otp4 +
+  //     values.otp5 +
+  //     values.otp6;
+  //   setIsLoading(true);
+  //   setTimeout(() => {
+  //     if (otp === forgot.opt) {
+  //       toast.success("OTP Successfully Verified!"); // Show success message
+  //       router.push("/auth/reset-password"); // Redirect to reset password page
+  //     } else {
+  //       toast.error("Invalid OTP. Please try again."); // Show error message
+  //     }
+  //     setSubmitting(false); // Set submitting to false
+  //     setIsLoading(false); // Set loading state to false after verification is done
+  //   }, 2000); // Simulating a delay (e.g., an API call)
+  //   setSubmitting(false);
+  //   console.log("OTP Submitted:", otp);
+  // };
   const handleSubmit = (
     values: OTPFormValues,
     { setSubmitting }: FormikHelpers<OTPFormValues>
@@ -28,8 +62,22 @@ const TwoFactorAuth: React.FC = () => {
       values.otp4 +
       values.otp5 +
       values.otp6;
-    setSubmitting(false);
-    console.log("OTP Submitted:", otp);
+    setIsLoading(true);
+
+    console.log("Submitted OTP:", otp);
+    console.log("Expected OTP:", forgot?.opt);
+    console.log("forgotOtp", forgotOtp);
+
+    // Direct OTP comparison and redirect without setTimeout
+    if (Number(otp) === Number(values.forgotOtp)) {
+      toast.success("OTP Successfully Verified!"); // Show success message
+      router.push("/auth/reset-password"); // Redirect to reset password page
+    } else {
+      toast.error("Invalid OTP. Please try again."); // Show error message
+    }
+
+    setSubmitting(false); // Set submitting to false
+    setIsLoading(false); // Set loading state to false
   };
 
   const handleOtpInput = (
@@ -66,6 +114,7 @@ const TwoFactorAuth: React.FC = () => {
                     otp4: "",
                     otp5: "",
                     otp6: "",
+                    forgotOtp: forgot?.otp,
                   }}
                   validationSchema={Yup.object().shape({
                     otp1: Yup.string()
@@ -128,16 +177,29 @@ const TwoFactorAuth: React.FC = () => {
                         style={{ justifyContent: "center", marginTop: "30px" }}
                       >
                         <Col md={6} className="mt-3">
-                          <Button type="reset" disabled={isSubmitting} block className={styles.twofactorCancleBtn}>
+                          <Button
+                            type="reset"
+                            disabled={isSubmitting}
+                            block
+                            className={styles.twofactorCancleBtn}
+                          >
                             Cancle
                           </Button>
                         </Col>
                         <Col md={6} className="mt-3">
-                          <Button type="submit" disabled={isSubmitting} block className={styles.twofactorVerifyBtn}>
-                            Verify
+                          <Button
+                            type="submit"
+                            disabled={isSubmitting}
+                            block
+                            className={styles.twofactorVerifyBtn}
+                          >
+                            {isLoading ? (
+                              <LoadingAtom size="sm" color="dark" />
+                            ) : (
+                              "Verify"
+                            )}
                           </Button>
                         </Col>
-                        
                       </Row>
                     </Form>
                   )}

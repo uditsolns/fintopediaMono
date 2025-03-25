@@ -66,13 +66,26 @@ const FeaturedCourses: React.FC = () => {
   const [progress, setProgress] = useState(0);
   const [slideToShow, setSlideToShow] = useState(3);
 
+  // const setSlides = () => {
+  //   if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
+  //     setSlideToShow(3);
+  //   } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
+  //     setSlideToShow(2);
+  //   } else if (window.innerWidth <= 650) {
+  //     setSlideToShow(1);
+  //   }
+  // };
+
   const setSlides = () => {
-    if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
-      setSlideToShow(3);
-    } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
-      setSlideToShow(2);
-    } else if (window.innerWidth <= 650) {
+    const width = window.innerWidth;
+    if (width <= 650) {
       setSlideToShow(1);
+    } else if (width <= 1000) {
+      setSlideToShow(2);
+    } else if (width <= 1280) {
+      setSlideToShow(3);
+    } else {
+      setSlideToShow(3);
     }
   };
 
@@ -91,6 +104,9 @@ const FeaturedCourses: React.FC = () => {
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
+    // autoplay: true,
+    // autoplaySpeed: 3000,
+    pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     afterChange: (current: number) => {

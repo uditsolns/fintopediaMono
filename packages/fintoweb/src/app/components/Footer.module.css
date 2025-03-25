@@ -52,6 +52,7 @@
   line-height: 138%;
   display: flex;
   margin-top: 12px;
+  cursor: pointer;
 }
 .links:hover {
   color: lightgray;
@@ -76,5 +77,14 @@
 @media screen and (max-width: 435px) {
   .footerContainer {
     display: block;
+  }
+  .footerLinks,.footerIcons{
+    margin-top: 20px;
+  }
+  .links{
+    margin-top: 5px;
+  }
+  .ratingFooter{
+    padding: 5px;
   }
 }

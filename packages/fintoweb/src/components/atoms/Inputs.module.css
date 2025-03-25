@@ -6,11 +6,13 @@
   gap: 12px;
   align-self: stretch;
   border-radius: 6px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #222431;
   color: #fff;
 }
-
+.textfield:disabled {
+  background-color: #121622 !important;
+}
 .textfield::placeholder {
   color: #7a7fa2;
 }
@@ -27,4 +29,34 @@
 
 .isInvalid {
   border-color: red;
+}
+/* textarea */
+.textarea {
+  width: 100%;
+  height: 120px;
+  resize: vertical;
+  padding: 12px 22px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #222431;
+  color: #fff;
+}
+.textarea:disabled {
+  background-color: #121622 !important;
+}
+.textarea::placeholder {
+  color: #7a7fa2;
+}
+
+.textarea:focus {
+  background-color: #2d303d;
+  color: #fff;
+  outline: none;
+}
+
+.textarea:focus::placeholder {
+  color: #7a7fa2;
 }

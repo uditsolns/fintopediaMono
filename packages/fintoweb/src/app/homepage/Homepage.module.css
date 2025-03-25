@@ -2,22 +2,58 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
-  background: linear-gradient(
-    245.33deg,
-    #2d303d 0%,
-    #212330 28.6%,
-    #101320 66.05%,
-    #111521 83.68%,
-    #0d0f1b 100%
-  );
+  padding: 55px;
+  background-image: url("../../assets/homepage/Banner-bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .quizHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
-  background: linear-gradient(265.31deg, #717171 -37.14%, #0d0d0c 103.52%);
+  padding: 50px;
+  background-image: url("../../assets/homepage/Quiz-section-bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  /* background: linear-gradient(265.31deg, #717171 -37.14%, #0d0d0c 103.52%); */
+}
+.headerCount {
+  display: flex;
+  width: 260px;
+  padding: 7.524px;
+  margin-bottom: 16px;
+  align-items: center;
+  border-radius: 44.202px;
+  border: 0.94px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+}
+.headerCount h4 {
+  display: flex;
+  padding: 7.524px;
+  justify-content: center;
+  align-items: center;
+  gap: 7.524px;
+  border-radius: 27.274px;
+  border: 0.47px solid rgba(0, 194, 255, 0.52);
+  background: rgba(0, 194, 255, 0.18);
+  color: #00c2ff;
+  text-align: center;
+  font-size: 13.167px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 105%;
+  text-transform: uppercase;
+}
+.headerCount span {
+  color: #fff;
+  text-align: center;
+  margin-left: 10px;
+  font-size: 13.167px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 105%;
+  text-transform: uppercase;
 }
 .headerContents,
 .quizContents {
@@ -25,22 +61,34 @@
   padding: 20px;
 }
 .headerContents h2 {
-  font-size: 54px;
+  background: linear-gradient(180deg, #fff 11.18%, #818181 227.3%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 57px;
   font-style: normal;
   font-weight: 700;
   line-height: 105%;
+  padding: 0px 0px 12px 0px;
 }
 .quizContents h2 {
   font-size: 40px;
   font-style: normal;
   font-weight: 700;
-  line-height: 105%;
+  line-height: 120%;
 }
-.headerContents p,
+.headerContents p {
+  /* margin-top: 12px; */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 143%; /* 25.74px */
+}
+
 .quizContents p {
-  margin-top: 5px;
-  color: var(--f-3-f-4-f-7, #f3f4f7);
-  font-size: 18px;
+  margin-top: 24px;
+  /* color: var(--f-3-f-4-f-7, #f3f4f7); */
+  font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: 143%; /* 25.74px */
@@ -48,9 +96,9 @@
 .headerContents button,
 .quizContents button {
   display: flex;
-  margin-top: 20px;
+  margin-top: 30px;
   cursor: pointer;
-  padding: 16px 24px;
+  padding: 16px 20px;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -87,12 +135,13 @@
   border-radius: 10px;
 }
 .quizCount {
+  display: flex;
   padding: 16px 30px;
   align-items: center;
   gap: 16px;
   width: 300px;
   border-radius: 12px;
-  margin-top: 25px;
+  margin-top: 35px;
   border: 1px solid var(--L2, #7a7fa2);
   background: var(
     --BG,
@@ -122,16 +171,29 @@
   line-height: normal;
   letter-spacing: -0.12px;
 }
-/* feature card and category form */
+.quizContentsText {
+  color: #cfcfd3;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+}
+.quizContentsText span {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
 .viewAllCourses {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 35px;
 }
-.viewAllCourses button {
+.blogButton {
   width: 189px;
   padding: 16px 18px;
+  text-align: center;
   gap: 7.765px;
   border-radius: 4px;
   background: #fff;
@@ -256,12 +318,9 @@
     #111521 78%,
     #0d0f1b 100%
   );
-  border: 1px solid #7a7fa2;
-  /* border-image-source: linear-gradient(
-    257.31deg,
-    #7a7fa2 -10.81%,
-    #141622 113.5%
-  ); */
+  /* border: 1px solid #7a7fa2; */
+  border: 0.94px solid rgba(255, 255, 255, 0.1);
+
   padding: 40px 40px;
 }
 .categoryForm p {
@@ -301,8 +360,12 @@
 /* -------How it Works -------- */
 
 .howitWorks {
-  background-color: #050a18;
-  padding: 120px;
+  /* background-color: #050a18; */
+  background-image: url("../../assets/homepage/How-it-Works.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* padding: 120px; */
+  padding: 138px 155px;
   margin-top: 15px;
 }
 /* .howitWorksImage {
@@ -311,24 +374,34 @@
   height: 504px;
 } */
 .howitWorksImage {
-  width: 100%;
+  width: 504px;
+  height: 450px !important;
   height: auto;
-  border-radius: 30px;
   position: relative;
+  border-radius: 24px;
+  border: 3px solid var(--Border, #7a7fa2);
+  /* background: url(<path-to-image>) lightgray 50% / cover no-repeat; */
 }
 
 .worksImage {
   position: absolute;
-  bottom: 30px;
-  left: -77px;
-  width: 45%; /* Adjust the size of the WorkImage as needed */
+  top: 330px;
+  left: -65px;
   height: auto;
-  margin-top: -40px;
+  width: 213px;
+  height: 213px;
+  flex-shrink: 0;
 }
 
-
 .howitWorksContent {
-  padding: 30px;
+  padding-left: 51px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.howitWorksImageContent {
+  padding-right: 51px;
 }
 .howitWorksContent h3 {
   color: #fff;
@@ -339,7 +412,7 @@
   padding: 10px 28px;
 }
 
-.howitWorksContentDiv {
+/* .howitWorksContentDiv {
   display: flex;
   padding: 22px 28px;
   align-items: center;
@@ -348,8 +421,16 @@
   border-radius: 8px;
   opacity: 0.5;
   background: #0c0c0c;
-}
+} */
 .howitWorksContentDiv {
+  display: flex;
+  width: 521px;
+  padding: 22px 28px;
+  align-items: center;
+  gap: 16px;
+  border-radius: 8px;
+  opacity: 0.5;
+  background: #0c0c0c;
   overflow: hidden;
   color: #d5d5d9;
   text-overflow: ellipsis;
@@ -357,12 +438,17 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  cursor: pointer;
 }
 .howitWorksContentDiv span {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #000;
+  font-size: 18px;
   stroke-width: 1.5px;
   stroke: var(--l3, #717171);
   text-align: center;
@@ -371,14 +457,15 @@
 }
 .howitWorksContentDivActive {
   display: flex;
+  width: 521px;
   padding: 28px;
   align-items: flex-start;
   gap: 16px;
-  font-size: 20px;
+  font-size: 18px;
   border-radius: 8px;
   background: #222431;
   box-shadow: 0px 29px 30px 0px rgba(0, 0, 0, 0.06);
-  position: relative; /* Add this to position the pseudo-element absolutely */
+  position: relative;
 }
 .howitWorksContentDivActive h6 {
   overflow: hidden;
@@ -394,6 +481,7 @@
   color: #d5d5d9;
   text-overflow: ellipsis;
   font-size: 16px;
+  margin-top: 8px;
   font-style: normal;
   font-weight: 400;
   line-height: 138%;
@@ -423,8 +511,11 @@
 
 /* AchiveingLearningSlider css */
 .AchiveingLearningSlider {
+  background-image: url("../../assets/contact/Testimonials.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 50px;
-  background: var(
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -434,7 +525,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
 }
 .AchiveingLearningSlider h1 {
   color: #fff;
@@ -446,11 +537,13 @@
 }
 .profileCard {
   border-radius: 12px;
-  border: 1px solid #7a7fa2;
+  /* border: 1px solid #7a7fa2; */
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #0d0f1c;
   backdrop-filter: blur(19.5px);
+  backdrop-filter: blur(19.5px);
   padding: 18px;
-  margin: 0 20px;
+  margin: 0 10px;
   margin-top: 10px;
 }
 
@@ -511,6 +604,7 @@
   font-style: normal;
   font-weight: 600;
   line-height: 26px;
+  margin-bottom: 10px;
 }
 
 .subHeading {
@@ -524,6 +618,7 @@
   line-height: 26px;
 }
 .cardLink {
+  display: flex;
   margin-top: 20px;
   color: #fff;
   font-size: 18px;
@@ -571,10 +666,17 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: #0e1323;
 }
-.blogsCardImage {
+/* .blogsCardImage {
   height: auto;
   padding: 15px;
-  border-radius: 25px;
+  border-radius: 25px;  
+} */
+.blogsCardImage {
+  height: auto;
+  width: 100%;
+  height: 179px !important;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 .blogsCardContent {
   padding: 16px;
@@ -610,11 +712,10 @@
   margin-top: 20px;
 }
 /* ------BasicStockmarketBanner-------- */
-
 .stockmarketBanner {
   width: 100%;
-  height: 100vh; /* Full screen height */
-  background-image: url("../../assets/stockmarketBanner.jpg"); /* Update with your image path */
+  height: 75vh;
+  background-image: url("../../assets/stockmarketBanner.jpg");
   background-size: cover;
   background-position: center;
   position: relative;
@@ -629,24 +730,24 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Black overlay with 50% opacity */
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Distribute content to both sides */
-  padding: 0 10%; /* Add padding for spacing on the sides */
+  justify-content: space-between;
+  padding: 0 10%;
 }
 
 .stockmarketBannerContent {
   text-align: left;
   color: white;
-  max-width: 50%; /* Restricts content to the left side */
+  max-width: 50%;
   z-index: 1;
 }
 
 .stockmarketBannerRightContent {
   text-align: right;
   color: white;
-  max-width: 40%; /* Restricts right content to a reasonable width */
+  max-width: 40%;
   z-index: 1;
 }
 
@@ -657,34 +758,52 @@
 }
 
 .stockmarketBannerContent h2 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
+  color: #fff;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  margin-bottom: 16px;
 }
 
 .stockmarketBannerContent p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
+  color: var(--cfcfd-3, #cfcfd3);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 143%;
+  margin-bottom: 24px;
 }
 
 .stockmarketBannerContent button {
-  padding: 10px 20px;
-  font-size: 1rem;
+  display: flex;
+  padding: 16px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   border-radius: 4px;
   background: var(--1-d-90-f-5, #1d90f5);
-  border: none;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.stockmarketBannerContent button:hover {
+  background-color: #fff60d;
+  color: #000;
 }
 .countBtn {
-  width: 241px;
+  width: 300px;
+  display: flex;
   padding: 16px 18px;
   align-items: center;
   gap: 26px;
   border-radius: 8px;
   background: #fff;
   margin-top: 30px;
-
   color: var(--18181-a, #18181a);
   font-size: 21px;
   font-style: normal;
@@ -699,10 +818,6 @@
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.12px;
-}
-
-.stockmarketBannerContent button:hover {
-  background-color: #e68a00;
 }
 .stockmarketBannerRightContent {
   position: relative;
@@ -726,14 +841,19 @@
 }
 /* Responsive styles */
 @media (max-width: 768px) {
-  .stockmarketBannerContent,
   .stockmarketBannerRightContent {
     max-width: 100%;
-    text-align: center; /* Center content on smaller screens */
+    text-align: center;
+    margin-top: 20px;
+    margin: auto;
   }
 
-  .stockmarketBannerRightContent {
-    margin-top: 20px;
+  .stockmarketBannerContent {
+    max-width: 100%;
+    text-align: center;
+    color: white;
+    margin: auto;
+    z-index: 1;
   }
 
   .stockmarketBannerContent h2 {
@@ -745,7 +865,7 @@
   }
 
   .stockmarketBannerRightContent h2 {
-    font-size: 2rem;
+    font-size: 30px;
   }
 
   .stockmarketBannerRightContent h3 {
@@ -757,13 +877,18 @@
   .stockmarketBannerContent h2 {
     font-size: 1.5rem;
   }
-
+  .headerContents button,
+  .quizContents button {
+    padding: 13px 14px;
+  }
   .stockmarketBannerContent p {
     font-size: 0.9rem;
   }
-
+  .howitWorksImageContent {
+    padding-right: 0px;
+  }
   .stockmarketBannerRightContent h2 {
-    font-size: 1.5rem;
+    font-size: 30px;
   }
 
   .stockmarketBannerRightContent h3 {
@@ -772,10 +897,17 @@
 
   .countBtn {
     font-size: 1.2rem;
+    margin: auto;
+    padding: 18px;
+    margin-top: 20px;
   }
 
   .countBtn h6 {
     font-size: 0.8rem;
+  }
+  .blogsContainer h2 {
+    font-size: 30px;
+    padding: 30px 10px;
   }
 }
 @media (max-width: 1050px) {
@@ -799,18 +931,26 @@
   .header,
   .quizHeader {
     flex-direction: column;
+    padding: 56px 20px;
+    gap: 30px;
   }
   .headerContents h2,
   .quizContents h2 {
     font-weight: bold;
     color: white;
-    font-size: max(4vw, 25px);
+    font-size: max(4vw, 30px);
   }
   .headerContents,
   .quizContents,
   .imageContainer {
     flex: none;
     width: 100%;
+  }
+  .quizContents p {
+    margin-top: 10px;
+  }
+  .quizContents button {
+    margin-top: 16px;
   }
 }
 @media screen and (max-width: 435px) {
@@ -824,6 +964,9 @@
     cursor: pointer;
     border-radius: 4px;
   }
+  .headerCount {
+    margin-bottom: 12px;
+  }
   .howitWorks {
     background-color: #0c0c0c;
     padding: 23px;
@@ -832,11 +975,14 @@
   .howitWorksContent {
     padding: 15px;
   }
+
   .howitWorksContentDiv {
     padding: 10px 16px;
+    width: 100%;
   }
   .howitWorksContentDivActive {
     padding: 10px 16px;
+    width: 100%;
   }
   .howitWorksImage {
     border-radius: 30px;
@@ -851,20 +997,43 @@
     padding: 20px;
   }
   .stockmarketBannerContent {
-    max-width: 45%;
+    width: 100%;
   }
-  /* .stockmarketBannerContent p {
-    display: none;
-  } */
+  .stockmarketBanner {
+    width: 100%;
+    height: 100vh;
+  }
+
   .stockmarketBannerContent button {
-    padding: 2vw 4vw;
+    padding: 15px;
+    margin: auto;
   }
-  .worksImage{
+
+  .stockmarketBanner {
+    position: relative;
+    display: block;
+    height: 80vh;
+  }
+
+  .overlay {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 56px 10%;
+    box-sizing: border-box;
+  }
+
+  .worksImage {
     position: absolute;
     bottom: -55px;
-    left: -40px;
-    width: 40%;
+    left: -39px;
+    width: 35%;
     height: auto;
-    margin-top: -40px;
+    margin-top: 20px;
+  }
+  .stockmarketBannerRightContent img {
+    margin-top: 80px;
   }
 }

@@ -17,11 +17,16 @@ import {
 } from "reactstrap";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import CustomInput from "../../custom/CustomInput";
+import Blog1 from "../../assets/blogs/Blog1.png";
+import Blog2 from "../../assets/blogs/Blog2.png";
+import Blog3 from "../../assets/blogs/Blog3.png";
+import Blog4 from "../../assets/blogs/Blog4.png";
+
 const stocks = [
   {
     id: 1,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Mastering Option Trading",
+    image: Blog1,
+    title: "Mastering Option",
     description:
       "Explore key strategies and concepts to enhance your option trading skills. Gain insights from expert Jyoti Budhia.Lorem ispum",
     rating: 4.6,
@@ -31,7 +36,7 @@ const stocks = [
   },
   {
     id: 2,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog2,
     title: "Decoding Market Trends",
     description:
       "Stay ahead with the latest market analysis and trend predictions. Learn how to make informed trading decisions.",
@@ -42,8 +47,8 @@ const stocks = [
   },
   {
     id: 3,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Leveraging Trading Technology",
+    image: Blog3,
+    title: "Leveraging Trading ",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
@@ -53,8 +58,8 @@ const stocks = [
   },
   {
     id: 4,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Fundamental Analysis for Traders",
+    image: Blog4,
+    title: "Fundamental Analysis",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
@@ -64,7 +69,7 @@ const stocks = [
   },
   {
     id: 5,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog1,
     title: "Basic of Stock Market",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
@@ -75,7 +80,7 @@ const stocks = [
   },
   {
     id: 6,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog2,
     title: "Basic of Stock Market",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
@@ -86,7 +91,7 @@ const stocks = [
   },
   {
     id: 7,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog3,
     title: "Basic of Stock Market",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
@@ -97,7 +102,7 @@ const stocks = [
   },
   {
     id: 8,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog4,
     title: "Basic of Stock Market",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
@@ -121,6 +126,17 @@ const Blogs: React.FC = () => {
     // dispatch(actions.postRegister(register, () => router.push('/login')));
     setSubmitting(false);
   };
+  const categories = [
+    { id: 1, category_name: "Budgeting and Saving" },
+    { id: 2, category_name: "Personal Investing" },
+    { id: 3, category_name: "Retirement Planning" },
+    { id: 4, category_name: "Credit and Debt Management" },
+    { id: 5, category_name: "Personal Investing" },
+  ];
+  const [categoriesSelected, setCategoriesSelected] = React.useState<
+    number | string
+  >("all");
+
   return (
     <>
       <div className={styles.blogs}>
@@ -135,9 +151,9 @@ const Blogs: React.FC = () => {
               fragrances and elegance. Dive into the art of perfumery, discover
               the impact of scents on your life, and explore sustainable
               practices that define our brand. From styling tips to the science
-              of aromas, we're here to enrich your fragrance journey. Join us as
-              we delve into the essence of ZAura, where every scent tells a
-              story.
+              of aromas, we&apos;re here to enrich your fragrance journey. Join
+              us as we delve into the essence of ZAura, where every scent tells
+              a story.
             </p>
           </div>
           <div className={styles.blogsImage}>
@@ -145,16 +161,55 @@ const Blogs: React.FC = () => {
           </div>
         </div>
       </div>
+
       <div className={styles.blogsListing}>
+        <div className={styles.categories}>
+          <button
+            className={`${styles.categoryButton} ${
+              categoriesSelected === "all" ? styles.active : ""
+            }`}
+            onClick={() => {
+              setCategoriesSelected("all");
+              // setFilterCourses(
+              //   courses.filter((course) => course.is_popular === 1)
+              // );
+              // setCurrentSlide(0);
+              // setProgress(0);
+            }}
+          >
+            All
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              className={`${styles.categoryButton} ${
+                categoriesSelected === cat.id ? styles.active : ""
+              }`}
+              onClick={() => {
+                setCategoriesSelected(cat.id);
+                // let filterCourseRes = courses.filter(
+                //   (el) => el.category_id == cat.id && el.is_popular === 1
+                // );
+                // setFilterCourses(filterCourseRes);
+                // setCurrentSlide(0);
+                // setProgress(0);
+              }}
+            >
+              {cat.category_name}
+            </button>
+          ))}
+        </div>
         <Row>
           {stocks.map((stock) => {
             return (
-              <Col md={3} key={stock.id} className="mt-3">
+              <Col
+                md={3}
+                key={stock.id}
+                className={`${styles.bolgsColumns} mt-3`}
+              >
                 <Card className={styles.blogsCard}>
-                  <CardImg
-                    top
-                    width="100%"
-                    src={stock.imageSrc}
+                  <Image
+                    src={stock.image}
                     alt={stock.title}
                     className={styles.blogsCardImage}
                   />
@@ -166,7 +221,7 @@ const Blogs: React.FC = () => {
                       <p>{stock.description}</p>
                     </div>
                     <div className={styles.blogsFooter}>
-                      <a href="/blogs-details" className={styles.readmore}>
+                      <a href="/blogs/blog-details" className={styles.readmore}>
                         Read More
                       </a>
                     </div>
@@ -211,6 +266,7 @@ const Blogs: React.FC = () => {
                         className={`${styles.textfieldBlog} form-control ${
                           errors.email && touched.email ? "is-invalid" : ""
                         }`}
+                        autoComplete="off"
                       />
                       <ErrorMessage
                         name="email"
@@ -236,7 +292,8 @@ const Blogs: React.FC = () => {
           </Formik>
         </div>
         <div className={styles.subscribeFooter}>
-        By signing in you agree with the <b>Terms and Conditions</b> and <b>Privacy Policy</b>
+          By signing in you agree with the <b>Terms and Conditions</b> and{" "}
+          <b>Privacy Policy</b>
         </div>
       </div>
     </>

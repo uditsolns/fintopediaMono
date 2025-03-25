@@ -1,7 +1,14 @@
+"use client";
+
 import React from "react";
 import styles from "./InvoiceScreen.module.css";
+import { useRouter } from "next/navigation";
 
 export default function InvoiceScreen() {
+  const router = useRouter();
+  const handleHomeClick = () => {
+    router.push("/");
+  };
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
@@ -175,8 +182,9 @@ export default function InvoiceScreen() {
           </a>{" "}
           or call <span className={styles.link}>+91 7391 739 7890</span>
         </p>
-
-        <button className={styles.homeButton}>Back to home</button>
+        <button className={styles.homeButton} onClick={handleHomeClick}>
+          Back to home
+        </button>
       </div>
     </div>
   );

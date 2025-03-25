@@ -1,0 +1,73 @@
+.container {
+    min-height: 100vh;
+    background-color: #1e1e2f; /* Dark background */
+    color: white;
+    padding: 2rem; /* Padding */
+  }
+  
+  .title {
+    font-size: 1.5rem; /* Title size */
+    font-weight: bold;
+    margin-bottom: 1.5rem; /* Spacing below title */
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem; /* Gap between grid items */
+  }
+  
+  .card {
+    background-color: #2d2d44; /* Card background color */
+    border-radius: 0.5rem; /* Rounded corners */
+    padding: 1rem; /* Padding inside card */
+    position: relative; /* Position for dropdown */
+  }
+  
+  .statusBadge {
+    padding: 0.25rem 0.5rem; /* Padding for status badge */
+    border-radius: 0.25rem; /* Rounded badge */
+    font-size: 0.75rem; /* Smaller font size */
+  }
+  
+  .checked {
+    background-color: #28a745; /* Green */
+    color: white; /* Text color for checked */
+  }
+  
+  .pending {
+    background-color: #ffc107; /* Yellow */
+    color: #212529; /* Dark text for contrast */
+  }
+  
+  .inProgress {
+    background-color: #007bff; /* Blue */
+    color: white; /* Text color for in progress */
+  }
+  
+  .cardTitle {
+    display: flex;
+    align-items: center; /* Center icon and title vertically */
+    margin-bottom: 0.5rem; /* Spacing below title */
+  }
+  
+  .cardDate {
+    color: #a8a8a8; /* Lighter gray for date */
+    font-size: 0.875rem; /* Smaller font size for date */
+  }
+  
+  .dropdownButton {
+    padding: 0; /* Remove padding for dropdown button */
+    color: white; /* Dropdown icon color */
+  }
+  
+  .dropdownItem {
+    display: flex; /* Flex layout for dropdown items */
+    align-items: center; /* Center icon and text vertically */
+    padding: 0.5rem 1rem; /* Padding for dropdown items */
+  }
+  
+  .dropdownItem:hover {
+    background-color: #343a40; /* Darker background on hover */
+  }
+  

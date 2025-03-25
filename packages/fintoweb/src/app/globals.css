@@ -2,6 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --Border: #7a7fa2; /* Default border color */
+  --BG: linear-gradient(
+    245deg,
+    #2d303d 0%,
+    #212330 28.6%,
+    #101320 65.15%,
+    #111521 78%,
+    #0d0f1b 100%
+  ); /* Background gradient */
+}
+
+.someClass {
+  border-radius: 24px;
+  border: 1px solid var(--Border);
+  background: var(--BG);
+}
+
+/* Apply the Inter Tight font globally */
+* {
+  font-family: "Inter Tight", sans-serif;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
 /* styles/global.css */
 body {
   min-height: 100vh;
@@ -107,6 +151,34 @@ body {
   line-height: normal;
   letter-spacing: -0.16px;
 }
+.fullPageLoading {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+.shareButton {
+  display: flex;
+  width: 134px;
+  padding: 14px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  margin: 0 10px;
+}
 @media screen and (max-width: 435px) {
   .Heading {
     color: #fff;
@@ -117,4 +189,12 @@ body {
     line-height: 120%;
     margin: 25px;
   }
+  .shareButton {
+    width: 120px;
+    padding: 10px 20px;
+  }
+}
+
+.dropdown-toggle::after {
+  display: none;
 }

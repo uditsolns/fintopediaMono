@@ -11,6 +11,7 @@ type SignupField = Pick<
   | "password_confirmation"
   | "email"
   | "college"
+  | "designation"
 >;
 
 export const signupField: SignupField = {
@@ -43,6 +44,12 @@ export const signupField: SignupField = {
     label: "Role",
     placeHolder: "Role",
     requiredErr: "Role is required",
+  },
+  designation: {
+    name: "designation",
+    label: "Designation",
+    placeHolder: "Enter your Designation",
+    requiredErr: "Designation is required",
   },
   password: {
     name: "password",
@@ -77,6 +84,8 @@ export const SIGNUP_VALUES = {
   [signupField.password.name]: "",
   [signupField.password_confirmation.name]: "",
   [signupField.college.name]: "",
+  [signupField.designation.name]: "",
+
 };
 
 export const signupValidation = Yup.object().shape({
@@ -86,23 +95,30 @@ export const signupValidation = Yup.object().shape({
   [signupField.surname_name.name]: Yup.string().required(
     `${signupField.surname_name.requiredErr}`
   ),
+  // [signupField.designation.name]: Yup.string().required(
+  //   `${signupField.designation.requiredErr}`
+  // ),
   [signupField.email.name]: Yup.string()
-  .email("Invalid email")
-  .required(`${signupField.email.requiredErr}`),
-  [signupField.phone.name]: Yup.number()
+    .email("Invalid email")
+    .required(`${signupField.email.requiredErr}`),
+
+  [signupField.phone.name]: Yup.string()
+    .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
     .required(`${signupField.phone.requiredErr}`),
-  [signupField.role.name]: Yup.string().required(
-    `${signupField.role.requiredErr}`
-  ),
-  [signupField.password.name]: Yup.string().required(
-    `${signupField.password.requiredErr}`
-  ),
+  // [signupField.role.name]: Yup.string().required(
+  //   `${signupField.role.requiredErr}`
+  // ),
+
+  [signupField.password.name]: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .required(`${signupField.password.requiredErr}`),
   [signupField.password_confirmation.name]: Yup.string()
     .required(`${signupField.password_confirmation.requiredErr}`)
     .oneOf(
       [Yup.ref(`${signupField.password.name}`), ""],
       "Passwords must match"
     ),
- 
-  [signupField.college.name]: Yup.string(),
+  // [signupField.college.name]: Yup.string().required(
+  //   `${signupField.college.requiredErr}`
+  // ),
 });

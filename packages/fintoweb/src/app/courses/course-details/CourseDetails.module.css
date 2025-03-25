@@ -1,30 +1,28 @@
-.CourseDetails {
-  background: var(
-    --BG,
-    linear-gradient(
-      245deg,
-      #2d303d 0%,
-      #212330 28.6%,
-      #101320 65.15%,
-      #111521 78%,
-      #0d0f1b 100%
-    )
-  );
+
+.CourseDetailsIntro {
+  background-image: url("../../../assets/courses/course-details/Course-details-new.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 0px 0px 80px 0px;
 }
 .CourseDetailsHeader {
-  padding: 50px;
+  /* padding: 50px; */
+  padding-left: 50px;
+  padding-right: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
   text-align: center;
 }
-
+.courseDetailsVideo {
+  padding: 20px 300px;
+}
 .links {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  padding: 80px 20px 20px 20px;
 }
 .links span {
   margin-right: 5px;
@@ -56,23 +54,36 @@
   font-weight: 400;
   line-height: 26px;
   letter-spacing: -0.18px;
+  margin-top: 16px;
+  padding: 0px 240px;
 }
 .CourseDetailsHeaderButton,
 .offerText {
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
   padding: 10px;
 }
 .CourseDetailsHeaderButton button {
   padding: 14.976px 25.673px;
-  gap: 10.697px;
+  margin-top: 32px;
   border-radius: 4.279px;
   background: var(--1-d-90-f-5, #1d90f5);
   color: var(--Base-Base-White, #f4f5f5);
   font-size: 17.115px;
   font-style: normal;
   font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.171px;
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 17.115px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.171px;
+}
+.CourseDetailsHeaderButtonSpan {
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 17.115px;
+  font-style: normal;
+  font-weight: 900;
   line-height: normal;
   letter-spacing: -0.171px;
 }
@@ -100,7 +111,6 @@
   object-fit: cover;
 }
 
-
 .svgWrapper {
   position: absolute;
   top: 50%;
@@ -123,13 +133,12 @@
   height: 80px;
   flex-shrink: 0;
   border-radius: 12px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #121622;
 }
-.rating svg{
+.rating svg {
   width: 25px;
   height: 25px;
-
 }
 .rating h4 {
   overflow: hidden;
@@ -150,7 +159,7 @@
   font-weight: 400;
   line-height: 120%;
 }
-.subscribe{
+.subscribe {
   padding: 10px;
 }
 .subscribe p {
@@ -162,17 +171,9 @@
 }
 /* accordion */
 .contactAccordion {
-  background: var(
-    --BG,
-    linear-gradient(
-      245deg,
-      #2d303d 0%,
-      #212330 28.6%,
-      #101320 65.15%,
-      #111521 78%,
-      #0d0f1b 100%
-    )
-  );
+  background-image: url("../../../assets/courses/course-details/FrequentlyAskedQuestionsbg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 50px 150px;
 }
 .contactAccordion h1 {
@@ -198,7 +199,7 @@
   justify-content: space-between;
   align-items: center;
   border-radius: 12px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(--BG-2, #222431);
   color: #fff;
 }
@@ -222,11 +223,42 @@
   border-radius: 12px;
   background: var(--BG-2, #222431);
 }
-@media screen and (max-width: 435px) {
+.countCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  /* margin-bottom: 20px; */
+}
+@media screen and (max-width: 435px) { 
+  .CourseDetailsIntro{
+    padding: 56px 15px;
+  }
+  .heading{
+    font-size: 30px;
+  }
+  .subHeading{
+    font-size: 16px;
+    margin-top: 8px;
+    padding: 10px;
+  }
   .contactSection {
     padding: 10px;
   }
   .contactAccordion {
-    padding: 30px 30px;
+    padding: 56px 20px;
   }
+  .courseDetailsVideo {
+    padding: 0px;
+  }
+  .CourseDetailsHeader {
+    padding: 15px;
+  }
+  .links {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    padding: 5px;
+  }
+
 }

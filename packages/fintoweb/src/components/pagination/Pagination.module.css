@@ -1,0 +1,43 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.button {
+  display: flex;
+  width: 51.467px;
+  height: 51.467px;
+  padding: 16.083px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16.083px;
+  border-radius: 12.867px;
+  border: 1.608px solid rgba(255, 255, 255, 0.1);
+  background: #0e101d;
+}
+
+.button:hover {
+  background-color: #374151;
+  color: #ffffff;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.activeButton {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+.dots {
+  color: #9ca3af;
+  padding: 0 0.5rem;
+}

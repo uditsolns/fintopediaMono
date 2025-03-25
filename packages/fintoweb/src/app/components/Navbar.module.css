@@ -1,0 +1,61 @@
+.cartContainer {
+  position: relative;
+}
+.navigationbar {
+  height: 85px !important;
+}
+.cartIcon {
+  margin-right: 8px;
+  width: 23px;
+}
+
+.cartBadge { 
+  position: absolute;
+  top: -11px;
+  right: -4px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px; 
+}
+.browseLink {
+  width: 230px;
+}
+.navigationNav{
+  /* border-bottom: 1px solid red; */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+}
+
+@media screen and (max-width: 435px) {
+  .browseLink {
+    width: auto;
+    font-size: 14px !important;
+  }
+  .navigationNav {
+    padding: 12px !important;
+  }
+  .navLogo {
+    margin: 0px !important;
+    height: 45px !important;
+  }
+  .cartBadge {
+    position: absolute;
+    top: -6px;
+    left: -2px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+  }
+}

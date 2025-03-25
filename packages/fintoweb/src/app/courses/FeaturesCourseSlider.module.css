@@ -10,6 +10,7 @@
 .slick-slide > div:nth-child(1) {
   margin-left: 0;
 }
+
 .sliderContainer h1 {
   color: #fff;
   font-size: 28px;
@@ -17,10 +18,11 @@
   font-weight: 700;
   line-height: 32px;
   margin-bottom: 20px;
+  padding: 10px;
 }
 .courseCard {
   border-radius: 12px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border:1px solid rgba(255, 255, 255, 0.1);
   background: #121622;
   display: flex;
   padding-right: 29px;
@@ -199,7 +201,8 @@
   
   .featureaddToCartButton {
     display: flex;
-    width: 110px;
+    width: 90px;
+    margin-left: 10px;
     padding: 8px 18px;
     justify-content: center;
     align-items: center;

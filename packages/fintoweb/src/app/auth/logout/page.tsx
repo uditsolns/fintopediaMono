@@ -6,6 +6,7 @@ import styles from "../Auth.module.css";
 import { useAppDispatch } from "shared/src/provider/store/types/storeTypes";
 import { logout } from "shared/src/provider/store/reducers/auth.reducer";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Logout: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -87,7 +88,13 @@ const Logout: React.FC = () => {
             </svg>{" "}
             <span> Logout</span>
           </Button>
-          <h6>Cancel</h6>
+          <div className="mt-3">
+            <Link href={"/"} className="mt-3">
+              Cancle
+            </Link>
+          </div>
+
+          {/* <h6>Cancel</h6> */}
         </div>
         {/* </ModalBody> */}
       </Modal>

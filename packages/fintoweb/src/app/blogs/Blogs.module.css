@@ -1,20 +1,12 @@
 .blogs {
+  background-image: url("../../assets/blogs/bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 80px;
-  background: var(
-    --BG,
-    linear-gradient(
-      245deg,
-      #2d303d 0%,
-      #212330 28.6%,
-      #101320 65.15%,
-      #111521 78%,
-      #0d0f1b 100%
-    )
-  );
 }
 .blogsHeader {
   border-radius: 24px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(
     --BG,
     linear-gradient(
@@ -68,28 +60,32 @@
 .blogsCardImage {
   height: auto;
   width: 100%;
+  height: 179px !important;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 .blogsCardContent {
-  padding: 16px;
+  padding: 24px 17px;
 }
 
 .blogsCardTitle {
   color: #fff;
-  font-size: 22px;
+  font-size: 20px;
   font-style: normal;
-  font-weight: 600;
-  line-height: 26px;
-  margin-top: 12px;
+  font-weight: 700;
+  line-height: 120%;
 }
 .blogsCardText p {
-  color: var(--cfcfd-3, #cfcfd3);
+  overflow: hidden;
+  color: #d5d5d9;
+  text-overflow: ellipsis;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 24px; /* 150% */
+  line-height: 24px;
 }
 .blogsFooter {
-  margin-top: 25px;
+  margin-top: 39px;
 }
 .readmore {
   color: #1d90f5;
@@ -98,12 +94,18 @@
   font-weight: 600;
   line-height: 120%;
   text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
 }
 .loadMore {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 35px;
+  margin-bottom: 35px;
 }
 .loadMore button {
   width: 189px;
@@ -115,14 +117,22 @@
   font-weight: bold;
 }
 .blogsForm {
-  padding: 10px 100px;
+  padding: 0px 100px;
+  margin-top: 20px;
 }
 .subscribeSection {
+  background-image: url("../../assets/blogs/Subscribe\ to\ our\ newsletter.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 80px 230px;
-  background: var(--BG-2, #222431);
+  /* background: var(--BG-2, #222431); */
 }
 .subscribeContent h1 {
-  color: var(--Base-Base-White, #f4f5f5);
+  /* color: var(--Base-Base-White, #f4f5f5);  */
+  background: linear-gradient(180deg, #fff 11.18%, #818181 227.3%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-align: center;
   font-size: 48px;
   font-style: normal;
@@ -139,11 +149,13 @@
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
-  padding: 10px 140px;
+  margin-top: 20px;
+  padding: 0px 140px;
 }
 .subscribeButton {
   display: flex;
   width: 197px;
+  height: 51px;
   padding: 16px 18px;
   justify-content: center;
   align-items: center;
@@ -157,7 +169,7 @@
   font-weight: 600;
   line-height: normal;
   letter-spacing: -0.18px;
-  margin-top: 25px;
+  margin-top: 31px;
 }
 .textfieldBlog {
   display: flex;
@@ -167,7 +179,7 @@
   gap: 12px;
   align-self: stretch;
   border-radius: 6px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #222431;
 }
 .textfieldBlog::placeholder {
@@ -204,6 +216,67 @@
   line-height: 120%;
   text-decoration-line: underline;
 }
+/* -----categories--------- */
+/* .categories {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 30px;
+
+} */
+.categories {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 30px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.categories::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryButton {
+  color: #a4a4a4;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  display: flex;
+  padding: 18px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  margin: 10px;
+}
+
+.categoryButton:hover {
+  background-color: #545664;
+  color: #fff;
+  font-weight: 500;
+}
+.active {
+  display: flex;
+  width: auto;
+  padding: 13px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid #b8bccb;
+  background: #545664;
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.16px;
+}
 @media screen and (max-width: 435px) {
   .blogs {
     padding: 15px;
@@ -214,14 +287,28 @@
   .blogsListing {
     padding: 15px;
   }
+  .blogsContent h1 {
+    font-size: 30px;
+  }
   .blogsForm {
     padding: 10px;
   }
   .subscribeSection {
-    padding: 10px;
-   
+    padding: 30px;
+  }
+  .subscribeSection h1 {
+    font-size: 30px;
   }
   .subscribeContent p {
     padding: 10px;
+    margin: 0px;
+  }
+  .bolgsColumns {
+    padding: 10px 35px !important;
+  }
+  .categoryButton,
+  .active {
+    padding: 5px 15px;
+    width: auto;
   }
 }

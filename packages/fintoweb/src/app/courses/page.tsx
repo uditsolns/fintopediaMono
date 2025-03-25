@@ -1,146 +1,119 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import styles from "./Courses.module.css";
-import Back from "../../assets/whereto-start.png";
-import { FaArrowRight, FaClock, FaStar } from "react-icons/fa";
-import {
-  Button,
-  Col,
-  InputGroup,
-  Row,
-  Card,
-  CardImg,
-  CardBody,
-  CardTitle,
-  Label,
-} from "reactstrap";
-import { ErrorMessage, Form, Field, Formik, FormikHelpers } from "formik";
-import CustomSelect from "@src/custom/CustomSelect";
-import { TbAntennaBars1 } from "react-icons/tb";
+import { Col, Row } from "reactstrap";
 import Slider from "react-slick";
 import NextArrow from "../components/NextArrow";
 import PrevArrow from "../components/PrevArrow";
 import FeaturesCourseSlider from "./FeaturesCourseSlider";
 import AchiveingLearningSlider from "../homepage/AchiveingLearningSlider";
+import CoursepageMolecule from "@src/components/molecules/CoursepageMolecule/CoursepageMolecule";
+import { getCourses } from "shared/src/provider/store/services/courses.service";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
+import LoadingAtom from "@src/components/loader/LoadingAtom";
+import { getCategories } from "shared/src/provider/store/services/categories.service";
+import ButtonWithIcons from "@src/components/button/ButtonWithIcons";
+import {
+  createCourseCart,
+  getCourseCart,
+} from "shared/src/provider/store/services/CourseCart.service";
+import { isInCart } from "shared/src/components/atoms/Calculate";
+import { CoursesResponse } from "shared/src/utils/types/courses";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { postSeachCourses } from "shared/src/provider/store/services/search-courses.service";
+import Pagination from "@src/components/pagination/Pagination";
+import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
+import AchiveingSliderMolecule from "@src/components/molecules/AchiveingSliderMolecule/AchiveingSliderMolecule";
 
-const stocks = [
-  {
-    id: 1,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Basic of Stock Market",
-    description: "A brief description of Company A.",
-    rating: 4.6,
-    reviews: 1000,
-    price: 5000,
-    originalPrice: 6000,
-  },
-  {
-    id: 2,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Mastering of Money",
-    description: "A brief description of Company B.",
-    rating: 4.8,
-    reviews: 1500,
-    price: 4500,
-    originalPrice: 5500,
-  },
-  {
-    id: 3,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Basic of Stock Market",
-    description: "A brief description of Company C.",
-    rating: 4.2,
-    reviews: 800,
-    price: 4000,
-    originalPrice: 5000,
-  },
-  {
-    id: 4,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Basic of Stock Market",
-    description: "A brief description of Company C.",
-    rating: 4.2,
-    reviews: 800,
-    price: 4000,
-    originalPrice: 5000,
-  },
-  {
-    id: 5,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Basic of Stock Market",
-    description: "A brief description of Company C.",
-    rating: 4.2,
-    reviews: 800,
-    price: 4000,
-    originalPrice: 5000,
-  },
-];
-
-interface RegisterFormValues {
-  college_id: string;
-}
 const CourseFilter: React.FC = () => {
-  const handleSubmit = (
-    values: RegisterFormValues,
-    { setSubmitting }: FormikHelpers<RegisterFormValues>
-  ) => {
-    const register = {
-      college_id: values.college_id,
-    };
-    // dispatch(actions.postRegister(register, () => router.push('/login')));
-    setSubmitting(false);
-  };
-  const [progress, setProgress] = useState(0);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { auth } = useAppSelector((state) => state.auth);
+  const { courses, loading: coursesLoading } = useAppSelector(
+    (state) => state.courses
+  );
+  const { courseCart, loading: courseCartLoading } = useAppSelector(
+    (state) => state.courseCart
+  );
+  console.log("courseCart", courseCart);
+  const { categories, loading: categoriesLoading } = useAppSelector(
+    (state) => state.categories
+  );
+  const [loadingCourseId, setLoadingCourseId] = React.useState<number | null>(
+    null
+  );
+  const { search_courses, loading: search_courses_loading } = useAppSelector(
+    (state) => state.searchCourses
+  );
+  const { course_review, loading: coursesReviewLoading } = useAppSelector(
+    (state) => state.courseReviews
+  );
+  const [searchTerm, setSearchTerm] = useState("");
   const [slideToShow, setSlideToShow] = useState(4);
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
 
   const setSlides = () => {
-    if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
-      setSlideToShow(3);
-    } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
-      setSlideToShow(2);
-    } else if (window.innerWidth <= 650) {
+    const width = window.innerWidth;
+    if (width <= 650) {
       setSlideToShow(1);
+    } else if (width <= 1000) {
+      setSlideToShow(4);
+    } else if (width <= 1280) {
+      setSlideToShow(4);
+    } else {
+      setSlideToShow(4);
     }
   };
-
   useEffect(() => {
     setSlides();
     window.addEventListener("resize", setSlides);
-
     return () => {
       window.removeEventListener("resize", setSlides);
     };
   }, []);
+  React.useEffect(() => {
+    if (auth?.token) {
+      dispatch(getCourseCart());
+    }
+    dispatch(getCourses());
+    dispatch(getCategories());
+    dispatch(getCourseReviews());
+  }, []);
 
+  const filteredCourses = courses.filter(
+    (course) => activeFilter === "All" || course.course_type === activeFilter
+  );
   const settings = {
     arrows: true,
     infinite: false,
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
+    // autoplay: true,
+    // autoplaySpeed: 3000,
+    pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    afterChange: (current: number) => {
-      const totalSlides = stocks.length;
-      const totalSlidesToShow = slideToShow;
-      const progressPercentage =
-        (100 / (totalSlides - totalSlidesToShow + 1)) * (current + 1);
-      setProgress(progressPercentage);
-      console.log(totalSlidesToShow); // Ensure to use correct variable
-    },
     responsive: [
-      {
+      { 
         breakpoint: 1280,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
         },
       },
       {
         breakpoint: 1000,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 4,
         },
       },
       {
@@ -151,205 +124,336 @@ const CourseFilter: React.FC = () => {
       },
     ],
   };
+  const handleCourseClick = async (course: CoursesResponse) => {
+    setLoadingCourseId(course.id);
+    if (!auth?.token) {
+      router.push("/auth/login");
+      setLoadingCourseId(null);
+      return;
+    }
+    if (isInCart(courseCart, course?.id)) {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        router.push("/cart");
+      } finally {
+        setLoadingCourseId(null);
+      }
+      return;
+    }
+    const params = {
+      user_id: Number(auth?.user?.id),
+      course_id: Number(course?.id),
+      status: "1",
+    };
+    try {
+      await dispatch(
+        createCourseCart({
+          params,
+          onSuccess: (data) => {
+            toast.success(data.message, {
+              position: "top-right",
+              theme: "light",
+            });
+            router.push("/cart");
+          },
+          onError: (err) => {},
+        })
+      ).unwrap();
+    } finally {
+      setLoadingCourseId(null);
+    }
+  };
+
+  const [filter, setFilter] = useState({
+    name: "",
+    sale_price: "",
+    category_name: "",
+    course_language: "",
+    sort_rating: "",
+  });
+  console.log("filter", filter);
+  const languages = ["English"];
+  const ratingArr = [
+    { id: 1, rating: "Low to high", value: "asc" },
+    { id: 2, rating: "High to low", value: "desc" },
+  ];
+  const priceArr = [
+    { id: 1, price: "0 - 4000", price_level: "Rs. 0 - Rs. 4000" },
+    { id: 2, price: "4000 - 8000", price_level: "Rs. 4000 - Rs. 8000" },
+    { id: 3, price: "8000 - 12000", price_level: "Rs. 8000 - Rs. 12000" },
+    { id: 4, price: "12000 - 100000", price_level: "Rs. 12000 and Above" },
+  ];
+  const handleFilter = () => {
+    let [minSal, maxSal] = filter?.sale_price
+      ? filter?.sale_price.split(" - ").map(Number) || []
+      : [];
+    let params = {
+      name: "",
+      sale_price: "",
+      min_sale_price: minSal || "",
+      max_sale_price: maxSal || "",
+      category_name: filter?.category_name || "",
+      course_language: "",
+      sort_rating: filter?.sort_rating || "",
+    };
+    console.log("params", params);
+    dispatch(
+      postSeachCourses({
+        params,
+        onSuccess(data) {
+          console.log(data);
+        },
+        onError(error) {
+          console.log(error);
+        },
+      })
+    );
+  };
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentCourses = (
+    search_courses.length > 0 ? search_courses : search_courses
+  ).slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(
+    (search_courses.length > 0
+      ? search_courses.length
+      : search_courses.length) / itemsPerPage
+  );
+
+  const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
+  React.useEffect(() => {
+    let params = {
+      name: "",
+      sale_price: "",
+      category_name: "",
+      min_sale_price: "",
+      max_sale_price: "",
+      course_language: "",
+      sort_rating: "",
+    };
+    dispatch(
+      postSeachCourses({
+        params,
+        onSuccess(data) {},
+        onError(error) {
+          console.log(error);
+        },
+      })
+    );
+  }, []);
   return (
     <>
-      <div className={styles.headerCourseFilter}>
-        <div className={styles.headerContentsCourseFilter}>
-          <h2>Investing & Trading Courses</h2>
-          <p>
-            Master the art of investing and trading, from beginner to advanced
-            levels, in stocks, mutual funds, bonds, options, forex, and
-            cryptocurrencies. Build your financial acumen through project-driven
-            courses, and gain valuable skills by selecting courses from top
-            platforms like NPTEL, Coursera, Udacity, Edx, CFA Institute, NYIF,
-            and MIT. Compare and read reviews to find the best course for your
-            investment and trading journey.
-          </p>
-        </div>
-        <div className={styles.formContainer}>
-          <div className="form">
-            <h2>
-              Don’t know where to
-              <br /> start?
-            </h2>
-            <p>
-              Create screens directly in Method or add your images from Sketch
-              or Figma. You can even sync designs from your cloud storage!
-            </p>
-            <Formik
-              initialValues={{
-                college_id: "",
-                level: "",
+      {coursesLoading?.courses ||
+      categoriesLoading?.categories ||
+      coursesReviewLoading?.course_review ||
+      courseCartLoading?.courseCart ? (
+        <div className={styles.loadingContainer}>
+          <div className="fullPageLoading">
+            <LoadingAtom
+              style={{
+                height: "5rem",
+                width: "5rem",
               }}
-              onSubmit={handleSubmit}
-            >
-              {({ errors, touched, isSubmitting }) => (
-                <Form className="mt-3">
-                  <Row className="form-group mt-3">
-                    <Col md={12}>
-                      <InputGroup>
-                        <Field
-                          component={CustomSelect}
-                          name="college_id"
-                          id="college_id"
-                          className={`${styles.textfield} form-control ${
-                            errors.college_id && touched.college_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                        >
-                          <option>Select Category</option>
-                        </Field>
-                        <ErrorMessage
-                          name="college_id"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </InputGroup>
-                    </Col>
-                  </Row>
-                  <Row className="mt-3">
-                    <Col md={12}>
-                      <Button
-                        type="submit"
-                        className={styles.letsgoButton}
-                        size="md"
-                        block
-                        disabled={isSubmitting}
-                      >
-                        Let's go
-                      </Button>
-                    </Col>
-                  </Row>
-                </Form>
-              )}
-            </Formik>
+            />
           </div>
         </div>
-      </div>
-      <div className={styles.courseContainer}>
-        <Slider {...settings}>
-          {stocks.map((stock) => (
-            <div key={stock.id}>
-              <Card className={styles.card}>
-                <CardImg
-                  top
-                  width="100%"
-                  src={stock.imageSrc}
-                  alt={stock.title}
-                  className={styles.cardImage}
-                />
-                <CardBody className={styles.cardContent}>
-                  <CardTitle tag="h3" className={styles.cardTitle}>
-                    {stock.title}
-                  </CardTitle>
-                  <div className={styles.iconRow}>
-                    <div className={styles.iconText}>
-                      <TbAntennaBars1 className={styles.icon} /> Beginner
-                    </div>
-                    <div className={styles.iconText}>
-                      <FaClock className={styles.icon} /> 20 Hours
-                    </div>
-                    <div className={styles.cardRating}>
-                      {stock.rating}{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="13"
-                        height="12"
-                        viewBox="0 0 13 12"
-                        fill="none"
-                      >
-                        <path
-                          d="M0.507883 5.45225C0.3669 5.34722 0.262323 5.20071 0.208815 5.03325C0.155305 4.86579 0.155546 4.68578 0.209506 4.51846C0.263466 4.35114 0.368438 4.20491 0.509702 4.10026C0.650966 3.99562 0.821438 3.9378 0.997217 3.93493L4.41118 3.80596C4.42797 3.8048 4.44406 3.79881 4.45752 3.78872C4.47098 3.77862 4.48123 3.76485 4.48705 3.74906L5.66676 0.562696C5.72604 0.400585 5.83369 0.260604 5.97515 0.161705C6.11662 0.0628059 6.28506 0.00976563 6.45766 0.00976562C6.63027 0.00976562 6.79871 0.0628059 6.94017 0.161705C7.08164 0.260604 7.18929 0.400585 7.24857 0.562696L8.42449 3.76044C8.4303 3.77623 8.44055 3.79 8.45401 3.8001C8.46747 3.81019 8.48357 3.81618 8.50035 3.81734L11.9143 3.94631C12.0901 3.94918 12.2606 4.007 12.4018 4.11164C12.5431 4.21629 12.6481 4.36252 12.702 4.52984C12.756 4.69716 12.7562 4.87717 12.7027 5.04463C12.6492 5.21209 12.5446 5.3586 12.4037 5.46363L9.72559 7.56891C9.71218 7.57946 9.70217 7.5937 9.69677 7.60988C9.69138 7.62606 9.69085 7.64347 9.69524 7.65995L10.617 10.926C10.6648 11.0923 10.6601 11.2693 10.6038 11.4329C10.5474 11.5965 10.4419 11.7387 10.3018 11.8403C10.1617 11.9418 9.99376 11.9977 9.82074 12.0004C9.64772 12.0031 9.47808 11.9525 9.33488 11.8553L6.50508 9.95868C6.49114 9.94906 6.4746 9.9439 6.45766 9.9439C6.44072 9.9439 6.42419 9.94906 6.41025 9.95868L3.58045 11.8553C3.43919 11.9558 3.27015 12.0098 3.09681 12.0098C2.92346 12.0098 2.75442 11.9558 2.61316 11.8553C2.47302 11.7547 2.3675 11.6132 2.31112 11.4501C2.25474 11.2871 2.25027 11.1106 2.29832 10.9449L3.22767 7.66753C3.2326 7.65108 3.23233 7.63351 3.2269 7.61722C3.22146 7.60092 3.21114 7.5867 3.19733 7.57649L0.507883 5.45225Z"
-                          fill="#FFA11A"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-
-                  <div className={styles.priceContainer}>
-                    <h3>&#8377;{stock.price}</h3>{" "}
-                    <s>&#8377;{stock.originalPrice}</s>
-                    <button className={styles.addToCartButton}>
-                      Add to Cart
-                    </button>
-                  </div>
-                </CardBody>
-              </Card>
+      ) : (
+        <>
+          <div className={styles.headerCourseFilter}>
+            <div className={styles.headerContentsCourseFilter}>
+              <h2>Investing & Trading Courses</h2>
+              <p>
+                Master the art of investing and trading, from beginner to
+                advanced levels, in stocks, mutual funds, bonds, options, forex,
+                and cryptocurrencies. Build your financial acumen through
+                project-driven courses, and gain valuable skills by selecting
+                courses from top platforms like NPTEL, Coursera, Udacity, Edx,
+                CFA Institute, NYIF, and MIT. Compare and read reviews to find
+                the best course for your investment and trading journey.
+              </p>
             </div>
-          ))}
-        </Slider>
-        <div className={styles.progressContainer}>
-          <div
-            className={styles.progressBar}
-            style={{ width: `${progress}%` }}
-          ></div>
-        </div>
-      </div>
-      <div className={styles.featureCourses}>
-        <FeaturesCourseSlider />
-      </div>
-      <div className={styles.tradingCourses}>
-        <h1>All Investing & Trading Courses</h1>
-        <div className={styles.tradingCoursesListing}>
-          <Row className="mt-3">
-            {stocks.map((stock) => {
-              return (
-                <Col md={3}>
-                  <div key={stock.id}>
-                    <Card className={styles.card}>
-                      <CardImg
-                        top
+            <div className={styles.formContainer}>
+              <div className="form"> 
+                <h2>
+                  Don’t know where to
+                  <br /> start?
+                </h2>
+                <p>
+                  Create screens directly in Method or add your images from
+                  Sketch or Figma. You can even sync designs from your cloud
+                  storage!
+                </p>
+                <div className="form">
+                  {/* <Row className="form-group mt-3">
+                    <Col md={12}>
+                      <div className="custom-select">
+                        <select
+                          id="categorySelect"
+                          className={`${styles.textfield} form-control`}
+                        >
+                          <option value="">Select Category</option>
+                          {categories.map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {category.category_name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </Col>
+                  </Row> */}
+                  <Row className="mt-5">
+                    <Col md={12}>
+                      <ButtonWithIcons
+                        label="Let's Go"
+                        path="/where-to-start"
                         width="100%"
-                        src={stock.imageSrc}
-                        alt={stock.title}
-                        className={styles.cardImage}
                       />
-                      <CardBody className={styles.cardContent}>
-                        <CardTitle tag="h3" className={styles.cardTitle}>
-                          {stock.title}
-                        </CardTitle>
-                        <div className={styles.iconRow}>
-                          <div className={styles.iconText}>
-                            <TbAntennaBars1 className={styles.icon} /> Beginner
-                          </div>
-                          <div className={styles.iconText}>
-                            <FaClock className={styles.icon} /> 20 Hours
-                          </div>
-                          <div className={styles.cardRating}>
-                            {stock.rating}{" "}
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="13"
-                              height="12"
-                              viewBox="0 0 13 12"
-                              fill="none"
-                            >
-                              <path
-                                d="M0.507883 5.45225C0.3669 5.34722 0.262323 5.20071 0.208815 5.03325C0.155305 4.86579 0.155546 4.68578 0.209506 4.51846C0.263466 4.35114 0.368438 4.20491 0.509702 4.10026C0.650966 3.99562 0.821438 3.9378 0.997217 3.93493L4.41118 3.80596C4.42797 3.8048 4.44406 3.79881 4.45752 3.78872C4.47098 3.77862 4.48123 3.76485 4.48705 3.74906L5.66676 0.562696C5.72604 0.400585 5.83369 0.260604 5.97515 0.161705C6.11662 0.0628059 6.28506 0.00976563 6.45766 0.00976562C6.63027 0.00976562 6.79871 0.0628059 6.94017 0.161705C7.08164 0.260604 7.18929 0.400585 7.24857 0.562696L8.42449 3.76044C8.4303 3.77623 8.44055 3.79 8.45401 3.8001C8.46747 3.81019 8.48357 3.81618 8.50035 3.81734L11.9143 3.94631C12.0901 3.94918 12.2606 4.007 12.4018 4.11164C12.5431 4.21629 12.6481 4.36252 12.702 4.52984C12.756 4.69716 12.7562 4.87717 12.7027 5.04463C12.6492 5.21209 12.5446 5.3586 12.4037 5.46363L9.72559 7.56891C9.71218 7.57946 9.70217 7.5937 9.69677 7.60988C9.69138 7.62606 9.69085 7.64347 9.69524 7.65995L10.617 10.926C10.6648 11.0923 10.6601 11.2693 10.6038 11.4329C10.5474 11.5965 10.4419 11.7387 10.3018 11.8403C10.1617 11.9418 9.99376 11.9977 9.82074 12.0004C9.64772 12.0031 9.47808 11.9525 9.33488 11.8553L6.50508 9.95868C6.49114 9.94906 6.4746 9.9439 6.45766 9.9439C6.44072 9.9439 6.42419 9.94906 6.41025 9.95868L3.58045 11.8553C3.43919 11.9558 3.27015 12.0098 3.09681 12.0098C2.92346 12.0098 2.75442 11.9558 2.61316 11.8553C2.47302 11.7547 2.3675 11.6132 2.31112 11.4501C2.25474 11.2871 2.25027 11.1106 2.29832 10.9449L3.22767 7.66753C3.2326 7.65108 3.23233 7.63351 3.2269 7.61722C3.22146 7.60092 3.21114 7.5867 3.19733 7.57649L0.507883 5.45225Z"
-                                fill="#FFA11A"
-                              />
-                            </svg>
-                          </div>
-                        </div>
+                    </Col>
+                  </Row>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                        <div className={styles.priceContainer}>
-                          <h3>&#8377;{stock.price}</h3>{" "}
-                          <s>&#8377;{stock.originalPrice}</s>
-                          <button className={styles.addToCartButton}>
-                            Add to Cart
-                          </button>
-                        </div>
-                      </CardBody>
-                    </Card>
+          <div className={styles.courseContainer}>
+            <div className={styles.courseFilterHeader}>
+              <div className={styles.filterButtons}>
+                {["All", "Beginner", "Intermediate", "Expert"].map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setActiveFilter(type)}
+                    className={`${styles.filterButton} ${
+                      activeFilter === type ? styles.activeFilter : ""
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <Slider key={activeFilter} {...settings}>
+              {filteredCourses.map((course) => (
+                <CoursepageMolecule
+                  key={course.id}
+                  course={course}
+                  loading={loadingCourseId === course.id}
+                  onClick={() => handleCourseClick(course)}
+                />
+              ))}
+            </Slider>
+          </div>
+          <div className={styles.featureCourses}>
+            <FeaturesCourseSlider courses={courses} />
+          </div>
+          <div className={styles.tradingCourses}>
+            <div className="row mb-3">
+              <div className="col-md-6">
+                <h1>All Investing & Trading Courses</h1>
+              </div>
+              <div className="col-md-6">
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Search by name"
+                  className={`${styles.textfield} form-control`}
+                  value={searchTerm}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div className={styles.tradingCoursesListing}>
+              <div className={styles.filter}>
+                <select
+                  value={filter.sale_price}
+                  className={`${styles.textfield} form-control`}
+                  onChange={(e) =>
+                    setFilter({ ...filter, sale_price: e.target.value })
+                  }
+                >
+                  <option value="">Filter by price</option>
+                  {priceArr.map((price) => (
+                    <option key={price.id} value={price.price}>
+                      {price.price_level}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={filter.category_name}
+                  className={`${styles.textfield} form-control`}
+                  onChange={(e) =>
+                    setFilter({ ...filter, category_name: e.target.value })
+                  }
+                >
+                  <option value="">Filter by category</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.category_name}>
+                      {category.category_name}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={filter.sort_rating}
+                  className={`${styles.textfield} form-control`}
+                  onChange={(e) =>
+                    setFilter({ ...filter, sort_rating: e.target.value })
+                  }
+                >
+                  <option value={""}>Sort by rating</option>
+                  {ratingArr.map((rate) => (
+                    <option key={rate.id} value={rate.value}>
+                      {rate.rating}
+                    </option>
+                  ))}
+                </select>
+                <button onClick={handleFilter} className={styles.searchButton}>
+                  Filter
+                </button>
+              </div>
+
+              <Row className="mt-3">
+                {search_courses_loading?.search_courses ? (
+                  <div
+                    className="d-flex justify-content-center align-items-center"
+                    style={{ height: "25vh" }}
+                  >
+                    <LoadingAtom />
                   </div>
-                </Col>
-              );
-            })}
-          </Row>
-        </div>
-      </div>
-      <AchiveingLearningSlider />
+                ) : null}
+
+                {!search_courses_loading?.search_courses &&
+                  currentCourses
+                    ?.filter((course) =>
+                      course.name
+                        .trim()
+                        .toLowerCase()
+                        .includes(searchTerm.trim().toLowerCase())
+                    )
+                    ?.map((course) => (
+                      <Col md={4} key={course.id}>
+                        <CoursepageMolecule
+                          course={course}
+                          loading={loadingCourseId === course.id}
+                          onClick={() => handleCourseClick(course)}
+                        />
+                      </Col>
+                    ))}
+              </Row>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          </div>
+          <AchiveingSliderMolecule />
+        </>
+      )}
     </>
   );
 };

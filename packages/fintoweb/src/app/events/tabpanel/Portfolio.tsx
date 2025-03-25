@@ -5,58 +5,99 @@ import { Row, Col, Button, Table } from "reactstrap";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import BuyStocks from "./BuyStocks";
 import styles from "./Event.module.css";
 import { FaArrowRotateRight } from "react-icons/fa6";
 import SellStocks from "./SellStocks";
+import {
+  useAppSelector,
+  useAppDispatch,
+} from "shared/src/provider/store/types/storeTypes";
+import { getTransactions } from "shared/src/provider/store/services/transactions.service";
+import { toast } from "react-toastify";
+import { resetTransaction } from "shared/src/provider/store/reducers/transactions.reducer";
+import { getGameUserByLoginIDGameID } from "shared/src/provider/store/services/gameusers.service";
+import { storeUserGameAmount } from "shared/src/provider/store/reducers/gameusers.reducer";
 
-const Portfolio: React.FC = () => {
-  const dummyStockData = [
-    {
-      stock_id: 1,
-      stock: { name: "Dr. Reddy's Laboratories Ltd.", industry: "Technology" },
-      stock_current_price: 145.3,
-      qty: 14,
-      buying_price: 141.3,
-      total_price: 2034.2, // Example: qty * buying_price
-      round_level: 1,
-      game_id: 101,
-      remark: "Test Remark", // Example remark
-    },
-    {
-      stock_id: 2,
-      stock: { name: "Tesla", industry: "Automobile" },
-      stock_current_price: 720.5,
-      qty: 25,
-      buying_price: 400.3,
-      total_price: 10007.5, // Example: qty * buying_price
-      round_level: 1,
-      game_id: 102,
-      remark: "Test Remark", // Example remark
-    },
-    {
-      stock_id: 3,
-      stock: { name: "Google", industry: "Technology" },
-      stock_current_price: 2720.3,
-      qty: 65,
-      buying_price: 2141.3,
-      total_price: 139184.5, // Example: qty * buying_price
-      round_level: 1,
-      game_id: 103,
-      remark: "Test Remark", // Example remark
-    },
-  ];
-  
+interface PortfolioProps {
+  gameId: number;
+  roundLevel: number;
+  roundId: number;
+}
+const Portfolio: React.FC<PortfolioProps> = (props) => {
+  const gameId = props.gameId;
 
-  const filterRoundLevelData = { round_level: 1, game_id: 101 };
+  const dispatch = useAppDispatch();
+  const { transactions, loading, create } = useAppSelector(
+    (state) => state.transactions
+  );
+  const { auth } = useAppSelector((state) => state.auth);
+  const { filterRoundLevelData } = useAppSelector((state) => state.roundLevel);
+  const { gameUserByLoginIDGameID, user_game_amount } = useAppSelector(
+    (state) => state.gameUsers
+  );
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [data, setData] = useState(dummyStockData);
-  const [allData, setAllData] = useState(dummyStockData);
+  const [filterData, setFilterData] = useState<any[]>([]);
+  const [data, setData] = useState<any[]>([]);
+
+  useEffect(() => {
+    dispatch(getTransactions());
+  }, []);
+
+  const key: keyof (typeof transactions)[number] = "stock_id";
+
+  useEffect(() => {
+    if (transactions) {
+      const filteredData = transactions.filter((item) => {
+        const userTransaction = item.user?.user_transactions?.find(
+          (el) => el.stock_id === item.stock_id
+        );
+
+        const orderQty = userTransaction?.order_qty;
+        return (
+          item.user_id === auth?.user?.id &&
+          item.order_type === "Buy" &&
+          orderQty !== undefined &&
+          parseInt(orderQty) > 0
+        );
+      });
+
+      const reverseData = [...filteredData].reverse();
+      const uniqueMap = new Map(reverseData.map((item) => [item[key], item]));
+      const uniqueFilteredData = Array.from(uniqueMap.values());
+
+      setFilterData(uniqueFilteredData);
+      setData(uniqueFilteredData);
+    }
+  }, [transactions, auth]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
+
+  React.useEffect(() => {
+    if (create?.id) {
+      toast.success("Sell successfully !", {
+        position: "top-right",
+        theme: "light",
+      });
+      dispatch(resetTransaction());
+      let user_id = Number(auth?.user?.id);
+      let game_id = Number(gameId);
+      dispatch(
+        getGameUserByLoginIDGameID({
+          user_id,
+          game_id,
+          onSuccess: (data) => {
+            if (user_game_amount == 0) {
+              dispatch(storeUserGameAmount(data?.amount));
+            }
+          },
+          onError: () => {},
+        })
+      );
+    }
+  }, [create]);
 
   return (
     <React.Fragment>
@@ -82,10 +123,7 @@ const Portfolio: React.FC = () => {
           }}
           variant="outlined"
         />
-        <Button
-          onClick={() => setData(allData)}
-          className={`${styles["search-button"]}`}
-        >
+        <Button className={`${styles["search-button"]}`}>
           <FaArrowRotateRight />
         </Button>
       </div>
@@ -116,43 +154,41 @@ const Portfolio: React.FC = () => {
                       .includes(searchTerm.trim().toLowerCase())
                   )
                   .map((el, index) => {
-                    if (
-                      el.round_level === filterRoundLevelData.round_level &&
-                      el.game_id === filterRoundLevelData.game_id
-                    )
-                      return (
-                        <tr key={index}>
-                          <td>{el.stock.name}</td>
-                          <td>{el.qty}</td>
-                          <td>{el.buying_price}</td>
-                          <td>
-                            {Math.round(el.stock_current_price * 10) / 10}
-                          </td>
-                          <td>
-                            <SellStocks data={el}/>
-                          </td>
-                        </tr>
-                      );
+                    let stock_filter_amount = el?.stock?.stock_datas!.find(
+                      (e3) => {
+                        return (
+                          e3?.game_id == gameId &&
+                          e3?.round_level == props?.roundLevel
+                        );
+                      }
+                    );
+
+                    return (
+                      <tr key={index}>
+                        <td>{el?.stock?.name}</td>
+                        <td>
+                          {el?.user?.user_transactions
+                            .filter((i) => i.stock_id == el.stock_id)
+                            .map((itm) => itm.order_qty)}
+                        </td>
+                        <td>{el?.stock_current_price}</td>
+                        <td>
+                          {stock_filter_amount
+                            ? stock_filter_amount?.stock_current_price
+                            : 0}
+                        </td>
+                        <td>
+                          <SellStocks data={el} />
+                        </td>
+                      </tr>
+                    );
                   })
               ) : (
                 <tr>
-                  <td colSpan={3}>
-                    <div className="row mt-3">
-                      <div
-                        className="p-1"
-                        style={{
-                          width: "100%",
-                          backgroundColor: "lightblue",
-                        }}
-                      >
-                        <div
-                          className="alert alert-warning mt-3 text-center"
-                          role="alert"
-                        >
-                          <i className="fas fa-exclamation-triangle" /> No Data
-                          Found... :(
-                        </div>
-                      </div>
+                  <td colSpan={5}>
+                    <div className="alert alert-warning mt-3 text-center">
+                      <i className="fas fa-exclamation-triangle" /> No Data
+                      Found... :(
                     </div>
                   </td>
                 </tr>

@@ -13,6 +13,9 @@ import {Account} from '@src/screens/account/Account';
 import {fontPresets} from '@shared/src/theme/typography';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {NavTabBar} from '../components/Navbar/NavTabBar';
+import {HeaderBar} from '../components/Header/HeaderBar';
+import Header from '@src/components/Header/Header';
+import {colorPresets} from '@shared/src/theme/color';
 
 interface TabsRoutesProps {}
 
@@ -34,26 +37,38 @@ export const TabsRoutes: React.FC<TabsRoutesProps> = ({}) => {
         tabBarIconStyle: {
           padding: mScale.xxs,
         },
+        headerTransparent: true,
+        headerStyle: {
+          backgroundColor: colorPresets.TRANSPARENT,
+          elevation: 0,
+          shadowOpacity: 0,
+        },
       }}
-      backBehavior="initialRoute">
+      backBehavior="history">
       <Tabs.Screen
         options={{
-          headerShown: false,
+          headerShown: true,
           tabBarIcon: props => (
             <Images.SVG.Home width={props.size} color={props.color} />
           ),
           tabBarLabel: 'Home',
+          header: () => {
+            return <Header text={'Good Morning'} visible={false} />;
+          },
         }}
         name={TabKeys.HOMETABSCREEN}
         component={Home as React.FC}
       />
       <Tabs.Screen
         options={{
-          headerShown: false,
+          headerShown: true,
           tabBarIcon: props => (
             <Images.SVG.Courses width={props.size} color={props.color} />
           ),
           tabBarLabel: 'My Courses',
+          header: () => {
+            return <Header text={'My Courses'} visible={false} />;
+          },
         }}
         name={TabKeys.MYCOURSESSCREEN}
         component={MyCourses as React.FC}
@@ -76,6 +91,9 @@ export const TabsRoutes: React.FC<TabsRoutesProps> = ({}) => {
             <Images.SVG.Event width={props.size} color={props.color} />
           ),
           tabBarLabel: 'Events',
+          header: () => {
+            return <Header text={'My Courses'} visible={false} />;
+          },
         }}
         name={TabKeys.EVENTSCREEN}
         component={Events as React.FC}

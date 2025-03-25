@@ -4,7 +4,6 @@ import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {LinearGradientMolecule} from '@shared/src/components/molecules/Gradient/LinearGradientMolecule';
-import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {colorPresets} from '@shared/src/theme/color';
 import {
   moderateScale,
@@ -21,12 +20,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  Canvas,
-  RoundedRect,
-  vec,
-  LinearGradient,
-} from '@shopify/react-native-skia';
 
 let dailyReminderArr = [
   {

@@ -1,0 +1,221 @@
+.slick-list {
+  margin-right: -30px;
+  margin: 0 -10px;
+}
+.slick-slide > div {
+  margin: 0 30px;
+}
+.slick-slide > div:nth-child(1) {
+  margin-left: 0;
+}
+.sliderContainer h1 {
+  color: #fff;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  margin-bottom: 20px;
+}
+.courseCard {
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #121622;
+  display: flex;
+  padding-right: 29px;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 10px;
+}
+.courseImageContainer {
+  flex: 0 0 48%;
+  overflow: hidden;
+}
+.image {
+  object-fit: cover;
+  border-radius: 10px;
+  width: 100% !important;
+  height: 220px !important;
+  cursor: pointer;
+}
+
+.cardBody {
+  flex: 1 0 50%;
+  padding: 24px;
+}
+.cardBody h3 {
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  cursor: pointer;
+}
+.cardBody h4 {
+  overflow: hidden;
+  color: #fff;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 120%;
+}
+
+.cardBody span {
+  overflow: hidden;
+  color: var(--71717-a, #71717a);
+  text-overflow: ellipsis;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 120%;
+}
+.cardBody b {
+  width: 5px;
+  height: 12.857px;
+  flex: 1 0 0;
+  background: var(--Secondary-1-Secondary-1, #ffa11a);
+}
+.featurereviewContainer {
+  overflow: hidden;
+  color: #fff;
+  text-overflow: ellipsis;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  gap: 10px;
+}
+/* Price container */
+.featurePriceContainer {
+  display: flex;
+  align-items: center;
+  /* margin: 8px 0; */
+  margin: 24px 0px 0px;
+  gap: 15px;
+}
+
+.featurePriceContainer h3 {
+  color: #fff;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+
+.featurePriceContainer s {
+  color: #71717a;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  text-decoration-line: strikethrough;
+}
+.featurecardContent {
+  /* padding: 5px; */
+  padding: 24px 5px;
+  gap: 10px;
+}
+
+/* Add to cart button */
+.featureaddToCartButton {
+  display: flex;
+  width: 130px;
+  padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.16px;
+}
+.blogdetailsCardsFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.leftIcons,
+.rightIcons {
+  display: flex;
+  gap: 15px;
+}
+
+.leftIcons svg,
+.rightIcons svg {
+  width: 24px;
+  height: 24px;
+}
+@media screen and (max-width: 435px) {
+  .cardBody {
+    padding: 0px !important;
+  }
+  .cardBody h3 {
+    color: #fff;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+  }
+  .cardBody h4 {
+    overflow: hidden;
+    color: #fff;
+    text-overflow: ellipsis;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 120%;
+  }
+
+  .cardBody span {
+    overflow: hidden;
+    color: var(--71717-a, #71717a);
+    text-overflow: ellipsis;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 120%;
+  }
+  .featurePriceContainer {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    gap: 5px;
+  }
+
+  .featurePriceContainer h3 {
+    color: #fff;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+  }
+
+  .featurePriceContainer s {
+    color: #71717a;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    text-decoration-line: strikethrough;
+  }
+
+  .featureaddToCartButton {
+    display: flex;
+    width: 90px;
+    margin-left: 10px;
+    padding: 8px 18px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 4px;
+    background: #fff;
+    color: #0c0c0c;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.16px;
+  }
+}

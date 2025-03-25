@@ -1,4 +1,9 @@
-import {useRoute, RouteProp} from '@react-navigation/native';
+import {
+  useRoute,
+  RouteProp,
+  useNavigation,
+  useFocusEffect,
+} from '@react-navigation/native';
 import {CourseDetailsRouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
 import {SceneMap, TabView} from 'react-native-tab-view';
@@ -25,21 +30,63 @@ import {Images} from '@shared/src/assets';
 import ImageAtom from '@src/components/Image/ImageAtom';
 import {MyCourseTabMolecule} from '@src/components/molecules/MyCourseTabMolecule/MyCourseTabMolecule';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
+import {NavType} from '@src/navigation/types';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
+import {
+  getCourses,
+  getCoursesById,
+} from '@shared/src/provider/store/services/courses.service';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
+import {getCourseNotes} from '@shared/src/provider/store/services/course-note.service';
+import {getCourseUploadFile} from '@shared/src/provider/store/services/course-upload-file.service';
+import {getCourseReviews} from '@shared/src/provider/store/services/course-review.service';
 
 type RouteParams = {
   tab?: number;
 };
 
-interface AfterEnrollingCourseDetailsProps {}
+interface AfterEnrollingCourseDetailsProps
+  extends NavType<'AfterEnrollingCourseDetails'> {}
 
 export const AfterEnrollingCourseDetails: React.FC<
   AfterEnrollingCourseDetailsProps
 > = () => {
-  let route = useRoute<RouteProp<{params: RouteParams}>>();
+  let route = useRoute<any>();
+  const dispatch = useAppDispatch();
+  const {auth} = useAppSelector(state => state.auth);
+  const {
+    courses,
+    singleCourse,
+    loading: coursesLoading,
+  } = useAppSelector(state => state.courses);
   const [index, setIndex] = React.useState(route.params?.tab ?? 0);
   const [routes] = React.useState(CourseDetailsRouteKeys);
   const [width, setWidth] = React.useState(WINDOW_WIDTH);
   const [height, setHeight] = React.useState(WINDOW_HEIGHT);
+  const {course, id} = route.params || {};
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let params = {
+        id: Number(id),
+      };
+      if (id) {
+        dispatch(getCoursesById(params));
+      }
+    }, [id]),
+  );
+
+  const data = singleCourse ? singleCourse : course;
+
+  React.useEffect(() => {
+    dispatch(getCourses());
+    dispatch(getCourseNotes());
+    dispatch(getCourseUploadFile());
+    dispatch(getCourseReviews());
+  }, []);
 
   React.useEffect(() => {
     if (route.params?.tab) {
@@ -59,24 +106,27 @@ export const AfterEnrollingCourseDetails: React.FC<
     resources: Resources,
   });
 
-  const innerCategoriesRenderItem = ({item}: {item: any}) => {
+  const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
     return <PopularCourseMolecule item={item} />;
   };
 
   return (
-    <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0}}>
-      <Header />
-      <ScrollViewAtom >
+    <GradientTemplate
+      style={{
+        paddingBottom: 0,
+        paddingHorizontal: 0,
+        flex: 1,
+        flexGrow: 1,
+        paddingTop: moderateScale(60),
+      }}>
+      <ScrollViewAtom>
         <View
           style={{
             paddingHorizontal: mScale.base,
             paddingVertical: mScale.lg,
             backgroundColor: '#060A18',
           }}>
-          <TextAtom
-            text={`Stock Market Trading & Investing: 8 Courses In 1 Bundle!`}
-            preset="heading2"
-          />
+          <TextAtom text={`${singleCourse?.name}`} preset="heading2" />
         </View>
         <View style={{alignSelf: 'center', position: 'relative'}}>
           <View
@@ -110,7 +160,7 @@ export const AfterEnrollingCourseDetails: React.FC<
           </View>
         </View>
         <View
-          style={{flex: 1,height: height}}
+          style={{flex: 1, height: height}}
           onLayout={event => {
             const {width, height} = event.nativeEvent.layout;
             setWidth(width);
@@ -129,7 +179,15 @@ export const AfterEnrollingCourseDetails: React.FC<
           <ViewAll title="Frequently Bought Together" visible={false} />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
-              data={[...Array(5)]}
+              data={
+                courses?.length
+                  ? courses?.filter(
+                      el =>
+                        el?.category_id == data?.category_id &&
+                        el.id != data?.id,
+                    )
+                  : []
+              }
               renderItem={innerCategoriesRenderItem}
               horizontal={true}
               contentContainerStyle={{

@@ -1,6 +1,9 @@
 .lessonsContainer {
-  padding: 50px;
-  background: var(
+  padding: 72px;
+  background-image: url("../../../../../assets/courses/course-details/Lessons-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -10,7 +13,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
 }
 .lessonContent h2 {
   color: #fff;
@@ -69,7 +72,11 @@
   color: #fff;
   border-radius: 12px;
   border: 1px solid #4d4f5c;
-  background: #474853;
+  background: rgba(243, 244, 247, 0.2);
+}
+.header.open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .icon {
@@ -83,6 +90,11 @@
   font-style: normal;
   font-weight: 600;
   line-height: 120%;
+}
+.showMoreLink {
+  color: #1d90f5;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .content {
@@ -99,6 +111,17 @@
   line-height: 120%;
   letter-spacing: -0.16px;
 }
+.content ul li {
+  display: flex;
+  color: var(--Base-Base-White, #f4f5f5);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: -0.16px;
+  gap: 10px;
+  padding: 10px;
+}
 .content span {
   width: 12.896px;
   height: 12.896px;
@@ -111,7 +134,7 @@
   padding: 55px 41px;
   gap: 16px;
   border-radius: 18px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border:1px solid rgba(255, 255, 255, 0.1);
   margin-top: 10px;
   background: var(
     --BG,
@@ -165,4 +188,9 @@
   font-weight: 600;
   line-height: 120%;
   text-decoration-line: underline;
+}
+@media screen and (max-width: 435px) {
+  .lessonsContainer {
+    padding: 56px 5px;
+  }
 }
