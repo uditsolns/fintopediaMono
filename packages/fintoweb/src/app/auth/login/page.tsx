@@ -83,9 +83,9 @@ const Login: React.FC<LoginProps> = () => {
   // Use useEffect to wait until OTPLESS SDK is loaded
 
   // Phone authentication function
-  // const phoneAuth = () => {
-  //   initiateLogin("9076049013", "+91");
-  // };
+  const phoneAuth2 = () => {
+    initiateLogin("9076049013", "+91");
+  };
   const phoneAuth = () => {
     initiateLogin(mobileNumber, countryCode);
   };
@@ -193,6 +193,8 @@ const Login: React.FC<LoginProps> = () => {
                   </div>
                 </div>
                 <button onClick={phoneAuth}>Request OTP</button>
+                <button onClick={phoneAuth2}>Request Sujit</button>
+
               </div>
               {/* <div className="mt-1 mb-3 p-3">
                 <h3 className="text-center font-bold text-white mb-3">

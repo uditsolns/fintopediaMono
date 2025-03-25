@@ -277,6 +277,10 @@ export default function Cart() {
       console.error("Error occurred:", error);
     }
   };
+  const handleDeliveryClick = () => {
+    // Navigate to the invoice screen
+    router.push("/checkout/invoice-screen");
+  };
 
   return (
     <>
@@ -575,6 +579,12 @@ export default function Cart() {
                         onClick={(e) => handlePayment(e)}
                       >
                         Proceed to checkout
+                      </Button>
+                      <Button
+                        className={styles.checkoutButton}
+                        onClick={handleDeliveryClick}
+                      >
+                        Cash on Delivery
                       </Button>
                       <Button className={styles.shoppingButton}>
                         Continue Shopping

@@ -55,6 +55,7 @@
   line-height: 26px;
   letter-spacing: -0.18px;
   margin-top: 16px;
+  padding: 0px 240px;
 }
 .CourseDetailsHeaderButton,
 .offerText {
@@ -239,6 +240,7 @@
   .subHeading{
     font-size: 16px;
     margin-top: 8px;
+    padding: 10px;
   }
   .contactSection {
     padding: 10px;

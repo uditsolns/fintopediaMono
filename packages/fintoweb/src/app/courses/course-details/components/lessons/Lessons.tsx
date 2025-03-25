@@ -20,6 +20,20 @@ const Lessons: React.FC<LessonsProps> = ({ sections, about_me }) => {
   const handleShowMore = () => {
     setShowMore(!showMore);
   };
+  const totalTime = sections?.reduce((acc, section) => {
+    const timeString = section?.section_time.replace(" mins", "");
+    const [minutes, seconds] = timeString.split(":").map(Number);
+
+    // Convert everything to seconds and add to accumulator
+    return acc + minutes * 60 + seconds;
+  }, 0);
+
+  // Convert total time in seconds to minutes and seconds for display
+  const minutes = Math.floor(totalTime / 60);
+  const seconds = totalTime % 60;
+
+  console.log(`${minutes}:${seconds < 10 ? "0" : ""}${seconds} mins`);
+
   return (
     <div className={styles.lessonsContainer}>
       <Row>
@@ -33,11 +47,11 @@ const Lessons: React.FC<LessonsProps> = ({ sections, about_me }) => {
                 0
               )}{" "}
               topics •{" "}
-              {sections?.reduce(
+              {/* {sections?.reduce(
                 (acc, section) => acc + parseFloat(section.section_time),
                 0
-              )}{" "}
-              content
+              )}{" "} */}
+              {`${minutes}:${seconds < 10 ? "0" : ""}${seconds} mins`} content
             </p>
           </div>
 
@@ -54,7 +68,7 @@ const Lessons: React.FC<LessonsProps> = ({ sections, about_me }) => {
                     {section.section_number}. {section.section_heading} •
                     <span style={{ color: "#1D90F5" }}>
                       {section.subsections?.length} topics •{" "}
-                      {section.section_time} 
+                      {section.section_time}
                     </span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +146,7 @@ const Lessons: React.FC<LessonsProps> = ({ sections, about_me }) => {
                 )}
               </>
             ) : (
-              <p>No Description</p>
+              <p>No About</p>
             )}
           </div>
         </Col>
