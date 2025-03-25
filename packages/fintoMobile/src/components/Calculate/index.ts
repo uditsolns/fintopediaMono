@@ -1,4 +1,5 @@
 import crashlytics from '@react-native-firebase/crashlytics';
+import {number} from 'yup';
 
 export const sumCalculate = (arr: any[], priceKey: string) => {
   const sum =
@@ -24,6 +25,13 @@ export const subtractTwoNumber = (num1: number, num2: number): number => {
 
 export const multiplyTwoNumber = (num1: number, num2: number): number => {
   return num1 * num2;
+};
+
+export const calculatePercetageAmount = (
+  perc: number,
+  amount: number,
+): number => {
+  return (amount * perc) / 100;
 };
 
 export const getRandomItem = <T>(items: T[]): T[] => {
@@ -102,9 +110,7 @@ export const getCurrentGreeting = () => {
   }
 };
 
-export async function crashReport(login:any) {
-  console.log('crashReport------------------------', login);
-  
+export async function crashReport(login: any) {
   try {
     await Promise.all([
       crashlytics().setUserId(`${login?.id ?? ''}`),

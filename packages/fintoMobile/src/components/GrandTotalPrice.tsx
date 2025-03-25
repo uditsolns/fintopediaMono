@@ -33,18 +33,18 @@ export const GrandTotalPrice: React.FunctionComponent<GrandTotalPriceProps> = ({
         ]}>
         <View>
           <TextAtom
-            text={`Grand total (${itemCount} items)`}
+            text={`Grand total (${itemCount ?? ''} items)`}
             preset="medium"
             style={{marginBottom: mScale.xxs, color: '#B5B5B5'}}
           />
           <View style={[commonStyle.flexStart, {}]}>
             <TextAtom
-              text={`₹ ${price}`}
+              text={`₹ ${price ?? ''}`}
               preset="heading3"
               style={{marginEnd: mScale.md}}
             />
             <TextAtom
-              text={`₹ ${discount_price}`}
+              text={`₹ ${discount_price ?? ''}`}
               preset="medium"
               style={{textDecorationLine: 'line-through', color: '#6D6D75'}}
             />

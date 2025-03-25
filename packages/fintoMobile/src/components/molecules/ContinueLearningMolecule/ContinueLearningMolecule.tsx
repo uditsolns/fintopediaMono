@@ -29,7 +29,9 @@ export default function ContinueLearningMolecule({
   return (
     <GradientBorderBox
       linearColor={['#2D303D', '#212330', '#101320', '#111521', '#0D0F1B']}
-      borderRadium={8}>
+      borderRadium={8}
+      width={WINDOW_WIDTH * 0.92}
+      >
       <Pressable
         style={[commonStyle.flexStart, styles.container]}
         onPress={onPress}>
@@ -42,6 +44,7 @@ export default function ContinueLearningMolecule({
               : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')
           }
           style={styles.image}
+
           resizeMode="stretch"
         />
         <View style={styles.content}>

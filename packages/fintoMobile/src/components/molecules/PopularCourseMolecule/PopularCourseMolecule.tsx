@@ -66,7 +66,7 @@ export default function PopularCourseMolecule({
                 ? item?.course_type?.toLowerCase()
                 : 'intermediate'
             }
-            hours={36}
+            hours={item?.duration_time ? item?.duration_time?.replace(/\D+/g, '') : '0'}
             textPreset='titleBold'
           />
           {item?.rating ? (

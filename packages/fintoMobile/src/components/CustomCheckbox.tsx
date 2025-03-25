@@ -31,10 +31,10 @@ export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
   });
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <View style={styles.container}>
       <View style={styles.checkbox}>
         {isChecked && <Images.SVG.RightTickIcon width={15} />}
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };

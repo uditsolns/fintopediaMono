@@ -2,19 +2,17 @@ import React, {createContext, useState, ReactNode, useContext} from 'react';
 
 interface VideoPlayerContextType {
   videoPlayerUrl?: any;
-  setVideoPlayerUrl?: React.Dispatch<React.SetStateAction<any>>;
+  setVideoPlayerUrl?: any;
   playVideoStartLoading?: boolean;
-  setPlayVideoStartLoading?: React.Dispatch<React.SetStateAction<boolean>>;
+  setPlayVideoStartLoading?: any;
   videoPlayerBeforePurchaseUrl?: any;
-  setVideoPlayerBeforePurchaseUrl?: React.Dispatch<React.SetStateAction<any>>;
+  setVideoPlayerBeforePurchaseUrl?: any;
   playVideoStartBeforePurchaseLoading?: boolean;
-  setPlayVideoStartBeforePurchaseLoading?: React.Dispatch<
-    React.SetStateAction<boolean>
-  >;
+  setPlayVideoStartBeforePurchaseLoading?: any
 }
 
 export const VideoPlayerContext = createContext<
-  VideoPlayerContextType | undefined
+  VideoPlayerContextType | undefined | any
 >(undefined);
 
 interface VideoPlayerContextProviderProps {

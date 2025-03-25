@@ -1,6 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { CouponCodeState } from "../../../utils/types/coupon-code";
-import { createCouponCode, deleteCouponCode, getCouponCode, getCouponCodeById, updateCouponCode } from "../services/coupon-code.service";
+import {
+  applyCouponCode,
+  createCouponCode,
+  deleteCouponCode,
+  getCouponCode,
+  getCouponCodeById,
+  updateCouponCode,
+} from "../services/coupon-code.service";
 
 const initialState: CouponCodeState = {
   loading: {
@@ -9,6 +16,7 @@ const initialState: CouponCodeState = {
     update: false,
     coupon_code: false,
     single_coupon_code: false,
+    apply_coupon_code: false,
   },
   err: {
     createErr: null,
@@ -16,12 +24,14 @@ const initialState: CouponCodeState = {
     updateErr: null,
     coupon_code_err: null,
     single_coupon_code_err: null,
+    apply_coupon_code_err: null,
   },
   create: null,
   delete: null,
   update: null,
   coupon_code: [],
   single_coupon_code: null,
+  apply_coupon_code: null,
 };
 
 const couponCodeSlice = createSlice({
@@ -35,6 +45,7 @@ const couponCodeSlice = createSlice({
       state.create = null;
       state.update = null;
       state.delete = null;
+      state.apply_coupon_code = null;
     },
   },
   extraReducers: (builder) => {
@@ -102,6 +113,19 @@ const couponCodeSlice = createSlice({
       .addCase(deleteCouponCode.rejected, (state, action) => {
         state.loading.delete = false;
         state.err.deleteErr = action?.payload;
+      })
+      //   apply coupon code
+      .addCase(applyCouponCode.pending, (state) => {
+        state.loading.apply_coupon_code = true;
+      })
+      .addCase(applyCouponCode.fulfilled, (state, action) => {
+        state.loading.apply_coupon_code = false;
+        state.apply_coupon_code = action.payload;
+        state.err.apply_coupon_code_err = null;
+      })
+      .addCase(applyCouponCode.rejected, (state, action) => {
+        state.loading.apply_coupon_code = false;
+        state.err.apply_coupon_code_err = action?.payload;
       });
   },
 });

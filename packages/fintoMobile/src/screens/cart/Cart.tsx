@@ -29,6 +29,7 @@ import {getCourses} from '@shared/src/provider/store/services/courses.service';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {
   addTwoNumber,
+  calculatePercetageAmount,
   filteredCourses,
   isInCart,
   subtractTwoNumber,
@@ -50,11 +51,21 @@ import {fontPresets} from '@shared/src/theme/typography';
 import GradientBorderBox from '@src/components/Border/GradientBorderBox';
 import BorderWithThickness from '@src/components/Border';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
+import {useCartContext} from '@src/components/context/CartContextApi';
+import {useFocusEffect} from '@react-navigation/native';
 
 interface CartProps extends NavType<'Cart'> {}
 
 export const Cart: React.FC<CartProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
+  const {
+    isCouponCodeApply,
+    totalPaymentAmount,
+    setTotalPaymentAmount,
+    setKeepTotalPaymentAmount,
+    couponCodePercentage,
+    keepTotalPaymentAmount,
+  } = useCartContext();
   const {auth} = useAppSelector(state => state.auth);
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
@@ -80,7 +91,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
   const [gst, setGst] = React.useState<number>(0);
 
   React.useEffect(() => {
-    if (courseCart) {
+    if (courseCart?.length) {
       let sale_price = sumCalculate(courseCart, 'sale_price');
       let actual_price = sumCalculate(courseCart, 'actual_price');
       let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
@@ -91,8 +102,23 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
       setActualPricetotal(actual_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
+      setKeepTotalPaymentAmount(totalPayAmount);
     }
   }, [courseCart, create, deleteCart]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (couponCodePercentage) {
+        let amt = calculatePercetageAmount(
+          couponCodePercentage,
+          keepTotalPaymentAmount,
+        );
+        let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
+        setTotalPaymentAmount(total2);
+        console.log('----------------------------------', total2);
+      }
+    }, [courseCart, create, deleteCart,totalPay, keepTotalPaymentAmount]),
+  );
 
   const onRefresh = () => {
     setRefreshLoading(true);
@@ -200,11 +226,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
     );
   };
 
-  const wishlistRenderItem = ({
-    item,
-  }: {
-    item: any;
-  }) => {
+  const wishlistRenderItem = ({item}: {item: any}) => {
     return (
       <PopularCourseMolecule
         item={item?.course}
@@ -381,23 +403,24 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
           ) : null}
         </View>
         <BorderWithThickness style={{marginTop: mScale.xxl}} />
-        {courses_save_later?.length ?
-        <View style={{marginVertical: mScale.xl}}>
-          <ViewAll title="Wishlist" visible={false} preset="heading2" />
-          <View style={{paddingLeft: mScale.base}}>
-            <FlatList
-              data={courses_save_later?.length ? courses_save_later : []}
-              renderItem={wishlistRenderItem}
-              horizontal={true}
-              contentContainerStyle={{
-                columnGap: mScale.lg1,
-                paddingEnd: mScale.lg,
-              }}
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item, index) => index.toString()}
-            />
+        {courses_save_later?.length ? (
+          <View style={{marginVertical: mScale.xl}}>
+            <ViewAll title="Wishlist" visible={false} preset="heading2" />
+            <View style={{paddingLeft: mScale.base}}>
+              <FlatList
+                data={courses_save_later?.length ? courses_save_later : []}
+                renderItem={wishlistRenderItem}
+                horizontal={true}
+                contentContainerStyle={{
+                  columnGap: mScale.lg1,
+                  paddingEnd: mScale.lg,
+                }}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
           </View>
-        </View> : null }
+        ) : null}
         <View style={{marginVertical: mScale.xl}}>
           <ViewAll
             title="Your might also like"
@@ -463,7 +486,10 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             preset="medium"
             style={{marginBottom: mScale.xxs, color: '#B5B5B5'}}
           />
-          <TextAtom text={`₹ ${totalPay}`} preset="heading3" />
+          <TextAtom
+            text={`₹ ${isCouponCodeApply ? totalPaymentAmount : totalPay}`}
+            preset="heading3"
+          />
         </View>
         <View style={{width: moderateScale(228), borderRadius: 4}}>
           <ButtonAtom
@@ -471,7 +497,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             onPress={() => {
               if (courseCart?.length > 0) {
                 let cartData = {
-                  totalItem: courses?.length,
+                  totalItem: courseCart?.length,
                   totalPay: totalPay,
                   totalDiscount: totalDiscount,
                 };

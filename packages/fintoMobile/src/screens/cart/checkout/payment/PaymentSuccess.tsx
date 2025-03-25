@@ -14,9 +14,11 @@ import BorderWithThickness from '@src/components/Border';
 import GradientBorderBox from '@src/components/Border/GradientBorderBox';
 import {
   addTwoNumber,
+  calculatePercetageAmount,
   subtractTwoNumber,
   sumCalculate,
 } from '@src/components/Calculate';
+import {useCartContext} from '@src/components/context/CartContextApi';
 import LoaderAtom from '@src/components/LoaderAtom';
 import ProgressBar from '@src/components/ProgressBar';
 import {RouteKeys} from '@src/navigation/RouteKeys';
@@ -39,12 +41,21 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
   const {singlePurchaseHistory, loading} = useAppSelector(
     state => state.purchaseHistory,
   );
-  console.log('sinle pures', singlePurchaseHistory);
   const [subtotal, setSubtotal] = React.useState<number>(0);
   const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
   const [totalPay, setTotalPay] = React.useState<number>(0);
   const [gst, setGst] = React.useState<number>(0);
   const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
+  const {
+    isCouponCodeApply,
+    setIsCouponCodeApply,
+    totalPaymentAmount,
+    setTotalPaymentAmount,
+    keepTotalPaymentAmount,
+    setKeepTotalPaymentAmount,
+    couponCodePercentage,
+    setCouponCodePercentage,
+  } = useCartContext();
 
   React.useEffect(() => {
     if (singlePurchaseHistory?.courses?.length) {
@@ -64,9 +75,27 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
       setSubtotal(sale_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
+      setKeepTotalPaymentAmount(totalPayAmount);
     }
+    return () => {
+      setIsCouponCodeApply(false);
+      setTotalPaymentAmount('');
+      setCouponCodePercentage(0);
+    };
   }, [singlePurchaseHistory]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      if (couponCodePercentage) {
+        let amt = calculatePercetageAmount(
+          couponCodePercentage,
+          keepTotalPaymentAmount,
+        );
+        let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
+        setTotalPaymentAmount(total2);
+      }
+    }, [singlePurchaseHistory, totalPay, keepTotalPaymentAmount]),
+  );
   return (
     <GradientTemplate
       style={{
@@ -118,7 +147,9 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
             />
           </View>
           {singlePurchaseHistory?.courses?.map((el, index) => {
-            return <PurchaseCourse el={el} key={index} />;
+            return (
+              <PurchaseCourse el={el} key={index} navigation={navigation} />
+            );
           })}
 
           <View style={{marginTop: mScale.base}}>
@@ -197,7 +228,12 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
                     {marginBottom: mScale.md},
                   ]}>
                   <TextAtom text={'Grand Total'} preset="heading3" />
-                  <TextAtom text={`₹ ${totalPay}`} preset="heading3" />
+                  <TextAtom
+                    text={`₹ ${
+                      isCouponCodeApply ? totalPaymentAmount : totalPay
+                    }`}
+                    preset="heading3"
+                  />
                 </View>
                 <TouchableOpacity
                   style={[commonStyle.flexEnd, {marginTop: mScale.base}]}>
@@ -252,7 +288,13 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
   );
 };
 
-const PurchaseCourse = ({el}: {el: CoursesResponse}) => {
+const PurchaseCourse = ({
+  el,
+  navigation,
+}: {
+  el: CoursesResponse;
+  navigation: any;
+}) => {
   return (
     <GradientBorderBox linearColor={['#121622', '#121622']} borderRadium={12}>
       <View
@@ -280,6 +322,7 @@ const PurchaseCourse = ({el}: {el: CoursesResponse}) => {
               title={'Start this course now'}
               textPreset="titleBold"
               iconRight={<Images.SVG.RightArrow />}
+              onPress={() => navigation.navigate('MyCourses', {tab: 0})}
             />
           </View>
         </View>

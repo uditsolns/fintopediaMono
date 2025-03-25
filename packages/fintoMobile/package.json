@@ -26,6 +26,7 @@
     "@shopify/react-native-skia": "^1.3.10",
     "crypto-js": "^4.2.0",
     "formik": "^2.4.6",
+    "otpless-headless-rn": "^1.0.1",
     "react": "18.3.1",
     "react-native": "0.75.2",
     "react-native-base64": "^0.2.1",

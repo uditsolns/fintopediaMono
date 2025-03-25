@@ -65,7 +65,7 @@ export default function CartMolecule({
 
         <ProgressBar
           level={item?.course_type?.toLowerCase() || 'intermediate'}
-          hours={'20'}
+          hours={item?.duration_time ? item?.duration_time?.replace(/\D+/g, '') : '0'}
           mv={mScale.md3}
           textPreset="smallBold"
           imageStyle={{

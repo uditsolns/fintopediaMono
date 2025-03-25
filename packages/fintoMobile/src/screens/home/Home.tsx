@@ -1,3 +1,4 @@
+import {useFocusEffect} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
@@ -28,6 +29,7 @@ import {OngoingCoursesStatusResponse} from '@shared/src/utils/types/ongoing-cour
 import {UserCourseHistoryResponse} from '@shared/src/utils/types/UserCourseHistory';
 import {crashReport, isInCart} from '@src/components/Calculate';
 import CarouselAtom from '@src/components/Carousel/CarouselAtom';
+import {useCartContext} from '@src/components/context/CartContextApi';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import GetStarted from '@src/components/GetStarted';
 import Header from '@src/components/Header/Header';
@@ -61,6 +63,8 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     setVideoPlayerBeforePurchaseUrl,
     setPlayVideoStartBeforePurchaseLoading,
   } = useVideoPlayerContext();
+  const {setIsCouponCodeApply, setTotalPaymentAmount, setCouponCodePercentage} =
+    useCartContext();
 
   const {auth, current_user} = useAppSelector(state => state.auth);
   const {banner, loading: bannerLoading} = useAppSelector(
@@ -106,10 +110,21 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     dispatch(getCourseCart());
     dispatch(getOngoingCourse());
     dispatch(getOngoingCourseStatus());
-    console.log('crashReport ----------------------------------------------------------------------');
     crashReport(current_user);
     setRefreshLoading(false);
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setIsCouponCodeApply(false);
+      setTotalPaymentAmount('');
+      setCouponCodePercentage(0);
+
+      return () => {
+        console.log('Screen is unfocused');
+      };
+    }, []),
+  );
 
   React.useEffect(() => {
     if (courses?.length) {
