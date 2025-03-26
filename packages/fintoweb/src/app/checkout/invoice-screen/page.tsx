@@ -3,12 +3,66 @@
 import React from "react";
 import styles from "./InvoiceScreen.module.css";
 import { useRouter } from "next/navigation";
+import {
+  addTwoNumber,
+  subtractTwoNumber,
+  sumCalculate,
+} from "shared/src/components/atoms/Calculate";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 
 export default function InvoiceScreen() {
+  const { singlePurchaseHistory: purchaseRes, loading } = useAppSelector(
+    (state) => state.purchaseHistory
+  );
+  console.log("purchaseRes", purchaseRes);
+
+  const data = localStorage.getItem("singlePurchaseHistory");
+
+  const singlePurchaseHistory = data ? JSON.parse(data) : purchaseRes;
+  console.log("singlePurchaseHistory", singlePurchaseHistory);
+
   const router = useRouter();
   const handleHomeClick = () => {
     router.push("/");
+    // localStorage.clear();
+    localStorage.removeItem("transactionId");
+    localStorage.removeItem("singlePurchaseHistory");
+    localStorage.removeItem("courseCartState");
+    localStorage.removeItem("courseCart");
   };
+
+  const [subtotal, setSubtotal] = React.useState<number>(0);
+  const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
+  const [totalPay, setTotalPay] = React.useState<number>(0);
+  const [gst, setGst] = React.useState<number>(0);
+  const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    if (singlePurchaseHistory?.courses?.length) {
+      let sale_price = sumCalculate(
+        singlePurchaseHistory?.courses,
+        "sale_price"
+      );
+      let actual_price = sumCalculate(
+        singlePurchaseHistory?.courses,
+        "actual_price"
+      );
+      let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
+      let gstTotal = (sale_price * 18) / 100;
+      let totalPayAmount = addTwoNumber(sale_price, gstTotal);
+      setGst(gstTotal);
+      setActualPricetotal(actual_price);
+      setSubtotal(sale_price);
+      setTotalDiscount(totalDiscountAmount);
+      setTotalPay(totalPayAmount);
+      // setKeepTotalPaymentAmount(totalPayAmount);
+    }
+    // return () => {
+    //   setIsCouponCodeApply(false);
+    //   setTotalPaymentAmount('');
+    //   setCouponCodePercentage(0);
+    // };
+  }, [singlePurchaseHistory]);
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
@@ -47,52 +101,52 @@ export default function InvoiceScreen() {
             We look forward to helping you achieve your financial goals!
           </p>
         </div>
-
-        <div className={styles.card}>
-          <h2 className={styles.cardTitle}>
-            Comprehensive Finance Masterclass
-          </h2>
-          <p className={styles.cardDescription}>
-            This course provides an introduction to the principles of finance
-            and their application in the business world.
-          </p>
-          <div className={styles.starsContainer}>
-            <div className={styles.stars}>
-              {[1, 2, 3, 4, 5].map((star) => (
-                <svg
-                  key={star}
-                  className={styles.starIcon}
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {/* Star SVG content */}
-                </svg>
-              ))}
+        {singlePurchaseHistory?.courses?.map((el, index) => {
+          return (
+            <div className={styles.card} key={index}>
+              <h2 className={styles.cardTitle}>{el?.name}</h2>
+              <p className={styles.cardDescription}>{el?.description}</p>
+              <div className={styles.starsContainer}>
+                <div className={styles.stars}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <svg
+                      key={star}
+                      className={styles.starIcon}
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      {/* Star SVG content */}
+                    </svg>
+                  ))}
+                </div>
+                <span className={`${styles.textGray} ml-3`}>Intermediate</span>
+                <span className={`${styles.textGray} ml-3`}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 22 22"
+                    fill="none"
+                  >
+                    <path
+                      d="M11.0037 1.04297C9.03528 1.04297 7.11109 1.62667 5.47442 2.72025C3.83776 3.81384 2.56213 5.36819 1.80886 7.18676C1.05558 9.00532 0.858491 11.0064 1.24251 12.937C1.62652 14.8676 2.5744 16.6409 3.96627 18.0328C5.35814 19.4247 7.13149 20.3725 9.06207 20.7566C10.9926 21.1406 12.9937 20.9435 14.8123 20.1902C16.6309 19.4369 18.1852 18.1613 19.2788 16.5246C20.3724 14.888 20.9561 12.9638 20.9561 10.9954C20.953 8.35679 19.9034 5.82717 18.0377 3.9614C16.1719 2.09564 13.6423 1.04608 11.0037 1.04297ZM14.3576 14.3493C14.188 14.519 13.9579 14.6142 13.718 14.6142C13.4781 14.6142 13.248 14.519 13.0783 14.3493L10.364 11.635C10.1943 11.4654 10.099 11.2353 10.0989 10.9954V5.56679C10.0989 5.32683 10.1942 5.0967 10.3639 4.92703C10.5336 4.75735 10.7637 4.66203 11.0037 4.66203C11.2436 4.66203 11.4738 4.75735 11.6435 4.92703C11.8131 5.0967 11.9085 5.32683 11.9085 5.56679V10.6208L14.3576 13.07C14.5273 13.2397 14.6226 13.4698 14.6226 13.7097C14.6226 13.9496 14.5273 14.1797 14.3576 14.3493Z"
+                      fill="white"
+                    />
+                  </svg>
+                  20 hours
+                </span>
+                <span className={`${styles.textGray} ml-3`}>4.8 ⭐</span>
+              </div>
+              <div className={styles.cardFooter}>
+                <span className={styles.price}>₹ {el?.sale_price}</span>
+                <button className={styles.button}>
+                  Start This Course now ➔
+                </button>
+              </div>
             </div>
-            <span className={`${styles.textGray} ml-3`}>Intermediate</span>
-            <span className={`${styles.textGray} ml-3`}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 22 22"
-                fill="none"
-              >
-                <path
-                  d="M11.0037 1.04297C9.03528 1.04297 7.11109 1.62667 5.47442 2.72025C3.83776 3.81384 2.56213 5.36819 1.80886 7.18676C1.05558 9.00532 0.858491 11.0064 1.24251 12.937C1.62652 14.8676 2.5744 16.6409 3.96627 18.0328C5.35814 19.4247 7.13149 20.3725 9.06207 20.7566C10.9926 21.1406 12.9937 20.9435 14.8123 20.1902C16.6309 19.4369 18.1852 18.1613 19.2788 16.5246C20.3724 14.888 20.9561 12.9638 20.9561 10.9954C20.953 8.35679 19.9034 5.82717 18.0377 3.9614C16.1719 2.09564 13.6423 1.04608 11.0037 1.04297ZM14.3576 14.3493C14.188 14.519 13.9579 14.6142 13.718 14.6142C13.4781 14.6142 13.248 14.519 13.0783 14.3493L10.364 11.635C10.1943 11.4654 10.099 11.2353 10.0989 10.9954V5.56679C10.0989 5.32683 10.1942 5.0967 10.3639 4.92703C10.5336 4.75735 10.7637 4.66203 11.0037 4.66203C11.2436 4.66203 11.4738 4.75735 11.6435 4.92703C11.8131 5.0967 11.9085 5.32683 11.9085 5.56679V10.6208L14.3576 13.07C14.5273 13.2397 14.6226 13.4698 14.6226 13.7097C14.6226 13.9496 14.5273 14.1797 14.3576 14.3493Z"
-                  fill="white"
-                />
-              </svg>
-              20 hours
-            </span>
-            <span className={`${styles.textGray} ml-3`}>4.8 ⭐</span>
-          </div>
-          <div className={styles.cardFooter}>
-            <span className={styles.price}>₹ 6,999</span>
-            <button className={styles.button}>Start Udemy course ➔</button>
-          </div>
-        </div>
+          );
+        })}
 
         <h3 className={styles.invoiceDetailsHeading}>Invoice details</h3>
         <div className={styles.card}>
@@ -102,34 +156,37 @@ export default function InvoiceScreen() {
                 Invoice Number: INV-20240628-001
               </span>
             </div>
-            <div className={styles.detailsRow}>
-              <span className={styles.detailsHeading}>
-                Comprehensive Finance Course - Masterclass
-              </span>
-              <span>₹ 8,999</span>
-            </div>
+            {singlePurchaseHistory?.courses?.map((el, index) => {
+              return (
+                <div className={styles.detailsRow}>
+                  <span className={styles.detailsHeading}>{el?.name}</span>
+                  <span>₹ {el?.sale_price}</span>
+                </div>
+              );
+            })}
+
             <div className="p-4">
               <hr />
             </div>
 
             <div className={styles.detailsRow}>
               <span className={styles.detailsGrayText}>Subtotal</span>
-              <span>₹ 8,999</span>
+              <span>₹ {subtotal}</span>
             </div>
             <div className={styles.detailsRow}>
               <span className={styles.detailsGrayText}>Discount</span>
-              <span>- ₹ 1,299</span>
+              <span>- ₹ {totalDiscount}</span>
             </div>
             <div className={styles.detailsRow}>
               <span className={styles.detailsGrayText}>GST</span>
-              <span>- ₹ 100</span>
+              <span>- ₹ {gst}</span>
             </div>
             <div className="p-4">
               <hr />
             </div>
             <div className={`${styles.detailsRow} ${styles.grandTotal}`}>
               <span>Grand total</span>
-              <span>₹ 7,000</span>
+              <span>₹ {totalPay}</span>
             </div>
           </div>
           <div className={styles.downloadButton}>
