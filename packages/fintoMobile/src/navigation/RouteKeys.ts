@@ -8,6 +8,7 @@ export const RouteKeys = {
   FORGOTPASSWORDOTPSCREEN:"ForgotPasswordOTP",
   RESETPASSWORDSCREEN: 'ResetPassword',
   EMAILVERIFICATIONSCREEN: 'EmailVerification',
+  OTPLOGINSCREEN: 'OtpLogin',
   TWOFACTORAUTHSCREEN: 'TwoFAuth',
   OTPSCREEN: 'Otp',
   SEARCHSCREEN: 'Search',

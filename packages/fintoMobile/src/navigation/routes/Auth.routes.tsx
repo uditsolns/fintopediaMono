@@ -16,6 +16,7 @@ import {mScale} from '@shared/src/theme/metrics';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import { ForgotPasswordOTP } from '@src/screens/auth/ForgotPasswordOTP';
+import { OtpLogin } from '@src/screens/auth/OtpLogin';
 
 interface AuthRoutesProps {}
 
@@ -98,6 +99,15 @@ export const AuthRoutes: React.FC<AuthRoutesProps> = ({}) => {
         })}
         name={RouteKeys.EMAILVERIFICATIONSCREEN}
         component={EmailVerification as React.FC}
+      />
+      <Stack.Screen
+        options={({navigation}) => ({
+          headerTitle: '',
+          headerShown: true,
+          headerLeft: () => headerBack(() => navigation.goBack()),
+        })}
+        name={RouteKeys.OTPLOGINSCREEN}
+        component={OtpLogin as React.FC}
       />
       <Stack.Screen
         options={({navigation}) => ({

@@ -7,6 +7,8 @@ import {
   ForgotPasswordParams,
   ForgotPasswordResponse,
   OnSuccessInterface,
+  OtpLoginParams,
+  OtpLoginParams2,
   SignupParams,
   UpdatePasswordParameter,
   UpdatePasswordParams,
@@ -30,7 +32,7 @@ export const signIn = createAsyncThunk<
       },
       body: JSON.stringify(params),
     });
-    if(response.status !== 201){
+    if (response.status !== 201) {
       return thunkApi.rejectWithValue(await response.json());
     }
     const data = (await response.json()) as AuthResponse;
@@ -139,7 +141,6 @@ export const VerifyOtp = createAsyncThunk<
   VerifyOtpParams,
   { state: RootState }
 >("auth/verifyOtp", async (params, thunkApi) => {
-  console.log("body", params);
   try {
     const response = await fetch(apiUrl.AUTH.VERIFYOTP, {
       method: "POST",
@@ -149,7 +150,55 @@ export const VerifyOtp = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as VerifyOtpResponse;
+    const data = (await response.json()) as any;
+
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
+export const verifyPhoneNumber = createAsyncThunk<
+  any,
+  OtpLoginParams,
+  { state: RootState }
+>("auth/verifyPhoneNumber", async (params, thunkApi) => {
+  console.log("verifyPhoneNumber params", params);
+  try {
+    const response = await fetch(apiUrl.AUTH.VERIFYMOBILENUMBER, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    });
+
+    const data = (await response.json()) as any;
+    console.log("verifyPhoneNumber response", data);
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
+export const phoneNumberOtpLogin = createAsyncThunk<
+  any,
+  OtpLoginParams2,
+  { state: RootState }
+>("auth/phoneNumberOtpLogin", async (params, thunkApi) => {
+  console.log("phoneNumberOtpLogin params", params);
+
+  try {
+    const response = await fetch(apiUrl.AUTH.OTPLOGIN, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    });
+
+    const data = (await response.json()) as any;
+    console.log("phoneNumberOtpLogin response", data);
 
     return data;
   } catch (error) {
