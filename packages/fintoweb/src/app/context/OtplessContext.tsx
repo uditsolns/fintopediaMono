@@ -8,6 +8,7 @@ const OtplessContext = createContext(null);
 export const OtplessProvider = ({ children }) => {
   let OTPlessSignin = null;
   const [otp, setOtp] = useState(""); // Store OTP
+  const [transactionId, setTransactionId] = useState("");
 
   useEffect(() => {
     const callback = (eventCallback) => {
@@ -54,9 +55,11 @@ export const OtplessProvider = ({ children }) => {
   };
 
   return (
-    <OtplessContext.Provider value={{ initiateLogin, otp }}>
+    <OtplessContext.Provider
+      value={{ initiateLogin, otp, transactionId, setTransactionId }}
+    >
       {children}
-    </OtplessContext.Provider>
+    </OtplessContext.Provider> 
   );
 };
 

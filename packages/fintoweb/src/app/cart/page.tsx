@@ -39,18 +39,14 @@ import { useRouter, redirect } from "next/navigation";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import { toast } from "react-toastify";
 import sha256 from "crypto-js/sha256";
-import { Base64 } from "js-base64";
 import { CoursesSaveLaterResponse } from "shared/src/utils/types/courses-save-later";
 import CourseSaveLaterMolecule from "@src/components/molecules/CoursesMolecule/CourseSaveLaterMolecule";
 import { getLikeCourse } from "shared/src/provider/store/services/course-like.service";
-import Result_ from "postcss/lib/result";
-import Pay from "../components/Pay";
-// import axios from "axios";
+import { useOtpless } from "../context/OtplessContext";
 
 export default function Cart() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
   );
@@ -67,6 +63,13 @@ export default function Cart() {
     useAppSelector((state) => state.coursesSaveLater);
   const { auth } = useAppSelector((state) => state.auth);
 
+  // Save courseCart to localStorage
+  React.useEffect(() => {
+    if (courseCart && courseCart.length > 0) {
+      localStorage.setItem("courseCart", JSON.stringify(courseCart));
+    }
+  }, [courseCart]); // Re-run effect when courseCart changes
+
   const [subtotal, setSubtotal] = React.useState<number>(0);
   const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
   const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
@@ -75,7 +78,24 @@ export default function Cart() {
   const [loadingCourseId, setLoadingCourseId] = React.useState<number | null>(
     null
   );
-
+  React.useEffect(() => {
+    const dataToStore = {
+      subtotal,
+      actualPricetotal,
+      totalDiscount,
+      totalPay,
+      gst,
+      loadingCourseId,
+    };
+    localStorage.setItem("courseCartState", JSON.stringify(dataToStore));
+  }, [
+    subtotal,
+    actualPricetotal,
+    totalDiscount,
+    totalPay,
+    gst,
+    loadingCourseId,
+  ]);
   React.useEffect(() => {
     if (courseCart) {
       let sale_price = sumCalculate(courseCart, "sale_price");
@@ -207,9 +227,8 @@ export default function Cart() {
   const handlePayment = async (e) => {
     e.preventDefault();
 
-    const transactionid =
-      "TR-" + new Date().toISOString().replace(/[^\d]/g, "").slice(-12);
-
+    const transactionid = `${new Date().getTime()}`;
+    localStorage.setItem("transactionId", transactionid);
     const payload = {
       merchantId: PHONEPE_MERCHANT_ID,
       merchantTransactionId: transactionid,
