@@ -171,7 +171,6 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
                     style={{marginBottom: mScale.md}}
                   />
                   {singlePurchaseHistory?.courses
-                    ?.slice(0, 3)
                     ?.map((el, index) => {
                       return <CourseNameAndPrice el={el} />;
                     })}
