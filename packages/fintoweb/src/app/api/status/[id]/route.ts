@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import sha256 from "crypto-js/sha256";
 
+
 export async function POST(req, res) {
   const data = await req.formData();
   console.log(data);
@@ -44,6 +45,8 @@ export async function POST(req, res) {
     }
 
     const responseData = await response.json();
+    console.log("responseData", responseData);
+
     console.log("r===", responseData.code);
 
     if (responseData.code === "PAYMENT_SUCCESS") {

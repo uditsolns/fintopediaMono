@@ -107,8 +107,7 @@ const CourseDetailsEnrolling: React.FC<CourseEnrollDetailsProps> = ({ id }) => {
       dispatch(getOngoingCourse());
       dispatch(getCompletionPercentage());
     } else {
-      router.push('/auth/login');
-      // console.log("User not authenticated or ID is missing");
+      router.push("/auth/login");
     }
   }, [id, auth?.token, dispatch]);
 

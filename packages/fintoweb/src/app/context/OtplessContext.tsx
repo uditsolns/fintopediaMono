@@ -32,8 +32,8 @@ export const OtplessProvider = ({ children }) => {
         EVENTS_MAP[eventCallback.responseType]?.();
       }
     };
-    console.log("window", window);
-    console.log("window", window.OTPless);
+    // console.log("window", window);
+    // console.log("window", window.OTPless);
 
     if (typeof window !== "undefined" && window.OTPless) {
       OTPlessSignin = new window.OTPless(callback);

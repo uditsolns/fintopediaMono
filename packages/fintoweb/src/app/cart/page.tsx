@@ -92,11 +92,15 @@ export default function Cart() {
   }, [courseCart, create, deleteCart]);
 
   React.useEffect(() => {
-    dispatch(getCourses());
-    dispatch(getCourseCart());
-    dispatch(getCoursesSaveLater());
-    dispatch(getLikeCourse());
-  }, []);
+    if (auth?.token) {
+      dispatch(getCourses());
+      dispatch(getCourseCart());
+      dispatch(getCoursesSaveLater());
+      dispatch(getLikeCourse());
+    } else {
+      router.push("/auth/login");
+    }
+  }, [auth?.token, dispatch]);
 
   const handleCourseClick = async (course: CoursesResponse) => {
     setLoadingCourseId(course.id);
@@ -204,7 +208,7 @@ export default function Cart() {
     e.preventDefault();
 
     const transactionid =
-      "Tr-" + new Date().toISOString().replace(/[^\d]/g, "").slice(-12);
+      "TR-" + new Date().toISOString().replace(/[^\d]/g, "").slice(-12);
 
     const payload = {
       merchantId: PHONEPE_MERCHANT_ID,
@@ -259,6 +263,7 @@ export default function Cart() {
       console.error("Error during payment process:", error);
     }
   };
+
   return (
     <>
       {courseCartLoading?.courseCart ||
