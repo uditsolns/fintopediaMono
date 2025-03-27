@@ -10,12 +10,19 @@ import {
 } from "shared/src/components/atoms/Calculate";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import ProgressBar from "@src/components/progress/ProgressBar";
+import { useCartContext } from "@src/app/context/CartContextApi";
 
 export default function InvoiceScreen() {
   const { singlePurchaseHistory: purchaseRes, loading } = useAppSelector(
     (state) => state.purchaseHistory
   );
   console.log("purchaseRes", purchaseRes);
+  const {
+    setCouponCodePercentage,
+    setIsCouponCodeApply,
+    setTotalPaymentAmount,
+    setKeepTotalPaymentAmount,
+  } = useCartContext();
 
   const data = localStorage.getItem("singlePurchaseHistory");
 
@@ -56,13 +63,13 @@ export default function InvoiceScreen() {
       setSubtotal(sale_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
-      // setKeepTotalPaymentAmount(totalPayAmount);
+      setKeepTotalPaymentAmount(totalPayAmount);
     }
-    // return () => {
-    //   setIsCouponCodeApply(false);
-    //   setTotalPaymentAmount('');
-    //   setCouponCodePercentage(0);
-    // };
+    return () => {
+      setIsCouponCodeApply(false);
+      setTotalPaymentAmount("");
+      setCouponCodePercentage(0);
+    };
   }, [singlePurchaseHistory]);
   return (
     <div className={styles.screen}>

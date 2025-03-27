@@ -4,7 +4,7 @@ import { CoursesResponse } from "./courses";
 export interface CouponCodeParams {
   id?: number;
   course_id?: number;
-  desc?: string;
+  description?: string;
   discount?: null | string;
   expiry_date?: string;
   discount_code?: string;
@@ -13,7 +13,7 @@ export interface CouponCodeParams {
 export interface CouponCodeResponse {
   id?: number;
   course_id?: number;
-  desc?: string;
+  description?: string;
   discount: null | string;
   expiry_date: string;
   discount_code: string;

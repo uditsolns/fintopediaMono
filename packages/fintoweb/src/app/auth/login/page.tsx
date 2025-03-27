@@ -42,7 +42,7 @@ const Login: React.FC<LoginProps> = () => {
         });
       }
     }
-  }, [auth, router]);
+  }, [auth, router]); 
 
   useEffect(() => {
     const callback = (eventCallback: any) => {

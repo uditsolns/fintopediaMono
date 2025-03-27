@@ -46,7 +46,7 @@ const isNative = Platform.OS !== "web";
 
 const persistConfig: any = {
   key: "fintopedia",
-  storage: AsyncStorage,
+  storage: storage,
   timeout: null,
   whitelist: ["auth"],
 };
@@ -90,19 +90,26 @@ const reducers = combineReducers({
   completionPercentage: completionPercentageReducer,
 });
 
-const middleware = (getDefaultMiddleware: any) => {
-  if (
-    process.env.NODE_ENV === "development" ||
-    (typeof __DEV__ !== "undefined" && __DEV__)
-  ) {
-    return getDefaultMiddleware().concat(errorMiddleware);
-  }
-  return getDefaultMiddleware().concat(errorMiddleware);
-};
+// const middleware = (getDefaultMiddleware: any) => {
+//   if (
+//     process.env.NODE_ENV === "development" ||
+//     (typeof __DEV__ !== "undefined" && __DEV__)
+//   ) {
+//     return getDefaultMiddleware().concat(errorMiddleware);
+//   }
+//   return getDefaultMiddleware().concat(errorMiddleware,logger);
+// };
 
+// export const store = configureStore({
+//   reducer: reducers,
+//   middleware,
+// });
 export const store = configureStore({
   reducer: reducers,
-  middleware,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(errorMiddleware, logger),
 });
 
 export const persistor = persistStore(store);

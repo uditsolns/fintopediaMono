@@ -95,7 +95,7 @@ const Page = () => {
           arn: res?.data?.paymentInstrument?.arn || "",
           cardType: res?.data?.paymentInstrument?.cardType || "",
           brn: res?.data?.paymentInstrument?.brn || "",
-          subtotal: parsedState?.subtotal || "",
+          subtotal: parsedState?.subtotal || "", 
           total_discount: parsedState?.totalDiscount || "",
           gst: parsedState?.gst || "",
           grand_total: parsedState?.totalPay || "",

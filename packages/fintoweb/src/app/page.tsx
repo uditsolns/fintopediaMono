@@ -53,9 +53,13 @@ export default function Home() {
     dispatch(getCourses());
     dispatch(getCategories());
     dispatch(getCourseReviews());
+    localStorage.removeItem("transactionId");
+    localStorage.removeItem("singlePurchaseHistory");
+    localStorage.removeItem("courseCartState");
+    localStorage.removeItem("courseCart");
   }, [dispatch]);
   return (
-    <> 
+    <>
       {categoriesLoading?.categories ||
       coursesLoading?.courses ||
       coursesReviewLoading?.course_review ? (
