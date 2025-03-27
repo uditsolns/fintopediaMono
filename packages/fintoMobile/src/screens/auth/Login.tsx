@@ -147,14 +147,14 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
               onPress={() => {
                 handleSubmit();
               }}
-              loading={loading.login}
+              loading={loading.login ? true : false}
             />
           </View>
           <ButtonAtom
             title="Login with OTP"
             preset="secondary"
             onPress={() => {
-              dispatch(logout())
+              dispatch(logout());
               navigation.navigate(RouteKeys.OTPLOGINSCREEN);
             }}
           />
@@ -165,6 +165,8 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
             title="Continue with google"
             preset="tertiary"
             onPress={userGogleLogin}
+            loading={loading.google_login ? true : false}
+            loadingColor={colorPresets.CTA}
           />
           <ButtonAtom title="Continue as guest" preset="secondary" />
           <View style={[commonStyle.flexCenter, {marginTop: mScale.base}]}>

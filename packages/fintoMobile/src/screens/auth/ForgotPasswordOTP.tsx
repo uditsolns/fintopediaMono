@@ -28,7 +28,6 @@ export const ForgotPasswordOTP: React.FC<ForgotPasswordOTPProps> = ({
   const {forgotFormik} = useForgotHelper();
   const {handleSubmit, setFieldValue} = forgotFormik;
   const {forgot, loading} = useAppSelector(state => state.auth);
-  console.log("otp in forgot password otp",data?.otp,forgot?.otp)
   const [textInputValues, setTextInputValues] = React.useState<string[]>([]);
   const [otpData, setOtpData] = React.useState(forgot ? forgot : data);
   const [time, setTime] = React.useState<number>(10);

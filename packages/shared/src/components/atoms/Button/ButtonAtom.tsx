@@ -1,5 +1,11 @@
 import * as React from "react";
-import { Pressable, PressableProps, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  PressableProps,
+  StyleSheet,
+  View,
+} from "react-native";
 import { colorPresets } from "../../../theme/color";
 import { WINDOW_WIDTH, mScale } from "../../../theme/metrics";
 import { LinearGradientMolecule } from "../../molecules/Gradient/LinearGradientMolecule";
@@ -14,8 +20,8 @@ interface ButtonAtomProps extends PressableProps {
   textPreset?: TextPresetType;
   loadingColor?: string;
   numberOfLines?: number;
-  iconLeft?: React.ReactNode; 
-  iconRight?: React.ReactNode; 
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
 }
 
 export const ButtonAtom = ({
@@ -64,20 +70,24 @@ export const ButtonAtom = ({
           presetData,
           {
             opacity: pressed ? 0.7 : 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
           },
         ]}
         {...rest}
       >
         {iconLeft && <View style={{ marginRight: 8 }}>{iconLeft}</View>}
-        <TextAtom
-          style={[textStyle, { textAlign: 'center' }]}
-          preset={textPreset}
-          text={title}
-          numberOfLines={numberOfLines}
-        />
+        {loading ? (
+          <ActivityIndicator size={"small"} color={loadingColor} />
+        ) : (
+          <TextAtom
+            style={[textStyle, { textAlign: "center" }]}
+            preset={textPreset}
+            text={title}
+            numberOfLines={numberOfLines}
+          />
+        )}
         {iconRight && <View style={{ marginLeft: 8 }}>{iconRight}</View>}
       </Pressable>
     </View>

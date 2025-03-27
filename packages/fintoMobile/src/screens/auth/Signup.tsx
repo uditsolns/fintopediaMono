@@ -204,14 +204,13 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
               onPress={() => {
                 handleSubmit();
               }}
-              loading={loading?.signup}
+              loading={loading?.signup ? true : false}
             />
           </View>
           <View style={{marginVertical: mScale.md, alignSelf: 'center'}}>
             <TextAtom text={'or'} preset="medium" />
           </View>
           <ButtonAtom title="Continue as guest" preset="secondary" />
-
           <View style={{marginVertical: mScale.lg}}>
             <FollowUsMolecule />
           </View>

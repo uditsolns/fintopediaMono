@@ -73,7 +73,7 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({navigation}) => {
             onPress={() => {
               handleSubmit();
             }}
-            loading={loading?.forgot}
+            loading={loading?.forgot ? true :false}
           />
 
           <View style={[{marginTop: mScale.base, alignSelf: 'center'}]}>
@@ -88,6 +88,7 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({navigation}) => {
               onPress={() => {
                 handleSubmit();
               }}
+              loading={loading?.forgot ? true :false}
             />
           </View>
         </View>
