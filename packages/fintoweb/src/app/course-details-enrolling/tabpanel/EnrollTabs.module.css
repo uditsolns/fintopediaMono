@@ -28,7 +28,7 @@
 /* notes */
 .editorContainer {
   border-radius: 8.761px;
-  border: 1.46px solid var(--Border, #7a7fa2);
+  border: 1.46px solid rgba(255, 255, 255, 0.1);
   background: #222431;
 }
 .editorContainer {
@@ -61,7 +61,8 @@
   align-items: center;
   gap: 17.523px;
   border-radius: 8.761px;
-  border: 1.46px solid var(--Border, #7a7fa2);
+  border: 1.46px solid rgba(255, 255, 255, 0.1);
+  
   background: #222431;
   color: var(--Base-Base-White, #fcfcfc);
   font-feature-settings: "liga" off, "clig" off;
@@ -101,7 +102,8 @@
 .notes {
   padding: 17.523px 16px;
   border-radius: 8.761px;
-  border: 1.46px solid var(--Border, #7a7fa2);
+  border: 1.46px solid rgba(255, 255, 255, 0.1);
+
   background: #222431;
   color: var(--Base-Base-White, #fcfcfc);
   font-feature-settings: "liga" off, "clig" off;
@@ -121,7 +123,8 @@
   gap: 17.523px;
   flex-shrink: 0;
   border-radius: 8.761px;
-  border: 1.46px solid var(--Border, #7a7fa2);
+  border: 1.46px solid rgba(255, 255, 255, 0.1);
+
   background: #222431;
 }
 .buttonRow {
@@ -134,7 +137,8 @@
 }
 /* .textfield {
   border-radius: 8.761px;
-  border: 1.46px solid var(--Border, #7a7fa2);
+  border: 1.46px solid rgba(255, 255, 255, 0.1);
+  
   background: #222431;
 } */
 .cancleButton {
@@ -257,7 +261,8 @@
   align-items: flex-start;
   gap: 32px;
   border-radius: 8.761px;
-  border: 1.46px solid var(--Border, #7a7fa2);
+  border: 1.46px solid rgba(255, 255, 255, 0.1);
+
   background: #222431;
 }
 .LearningModeHeading {
@@ -296,7 +301,8 @@
   align-items: flex-start;
   gap: 32px;
   border-radius: 8.761px;
-  border: 1.46px solid var(--Border, #7a7fa2);
+  border: 1.46px solid rgba(255, 255, 255, 0.1);
+
   background: #222431;
 }
 .textfield {
@@ -474,6 +480,7 @@
   font-weight: 400;
   line-height: 24px;
   letter-spacing: -0.4px;
+  
 }
 .browseLinkHover {
   color: #717171;
@@ -603,11 +610,20 @@
   .ratingFormgroup {
     display: block;
   }
+  .reviewsFormCard {
+    height: 290px;
+    padding: 10px;
+  }
+  .textSmall{
+    text-align: center;
+    margin-bottom: 10px;
+  }
 }
 /* upload Project */
 .container {
   color: white;
   padding: 2rem;
+  margin-top: 15px;
 }
 
 .title {

@@ -105,8 +105,9 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
             <div className="courseDetailsContent">
               <h2 className={styles.heading}>{singleCourse?.name}</h2>
               <p className={styles.subHeading}>
-                Welcome to our comprehensive Stock Market Course, designed to
-                <br /> empower you with the knowledge and skills needed.
+                {/* Welcome to our comprehensive Stock Market Course, designed to
+                <br /> empower you with the knowledge and skills needed. */}
+                {singleCourse?.about_me}
               </p>
               <div className={styles.CourseDetailsHeaderButton}>
                 <button>

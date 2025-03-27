@@ -60,12 +60,13 @@ const authSlice = createSlice({
     builder
       .addCase(signIn.pending, (state) => {
         state.loading.login = true;
-        state.err.loginErr = null;
+        state.err.loginErr = null; 
       })
       .addCase(signIn.fulfilled, (state, action) => {
         state.loading.login = false;
         state.auth = action.payload;
         state.err.loginErr = null;
+        state.current_user = action.payload.user; 
       })
       .addCase(signIn.rejected, (state, action) => {
         state.loading.login = false;
@@ -78,6 +79,7 @@ const authSlice = createSlice({
         state.loading.google_login = false;
         state.auth = action.payload;
         state.err.google_login_err = null;
+        
       })
       .addCase(googleSignIn.rejected, (state, action) => {
         state.loading.forgot = false;

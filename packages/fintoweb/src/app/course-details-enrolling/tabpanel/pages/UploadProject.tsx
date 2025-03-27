@@ -82,31 +82,6 @@ const UploadProject: React.FC = () => {
     );
   };
 
-  // const handleSubmit = (values: any, { resetForm, setSubmitting }: any) => {
-  //   let formData = new FormData();
-  //   formData.append("user_id", auth?.user?.id.toString());
-  //   formData.append("course_id", singleCourse?.id.toString());
-  //   formData.append("upload_file", values.upload_file);
-
-  //   dispatch(
-  //     createCourseUploadFile({
-  //       formData,
-  //       onSuccess(data) {
-  //         console.log("data");
-  //         toast.success("File Uploaded Successfully!", {
-  //           position: "top-right",
-  //           theme: "light",
-  //         });
-  //         resetForm();
-
-  //         setSubmitting(false);
-  //       },
-  //       onError(error) {
-  //         setSubmitting(false);
-  //       },
-  //     })
-  //   );
-  // };
   const formik = useFormik({
     initialValues: {
       file: null as File | null,
@@ -170,79 +145,6 @@ const UploadProject: React.FC = () => {
         mentor will give feedback in 2-3 days.
       </p>
       <div className={styles.uploadForm}>
-        {/* <Formik
-          initialValues={{
-            upload_file: "",
-          }}
-          onSubmit={handleSubmit}
-        >
-          {(formProps) => {
-            return (
-              <Form>
-                <Row className="form-group pt-2">
-                  <Col md={12}>
-                    <Label for="upload_file">Upload File</Label>
-                    <InputGroup>
-                      <TextField
-                        fullWidth
-                        variant="standard"
-                        id="upload_file"
-                        type="file"
-                        required
-                        name="upload_file"
-                        inputProps={{ multiple: true }}
-                        onChange={(e) => {
-                          const fileInput = e.currentTarget as HTMLInputElement;
-                          formProps.setFieldValue(
-                            "upload_file",
-                            fileInput.files?.[0]
-                          );
-                        }}
-                        error={
-                          formProps.touched.upload_file &&
-                          Boolean(formProps.errors.upload_file)
-                        }
-                      />
-                    </InputGroup>
-                  </Col>
-                </Row>
-                <Row style={{ justifyContent: "center" }} className="mt-3">
-                  <div className={styles.uploadButton}>
-                    <button
-                      type="submit"
-                      // onClick={() => {
-                      //   handleSubmit();
-                      // }}
-                    >
-                      {upload_file_loading?.create ? (
-                        <LoadingAtom size="sm" color="dark" />
-                      ) : (
-                        <>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="25"
-                            height="24"
-                            viewBox="0 0 25 24"
-                            fill="none"
-                          >
-                            <path
-                              d="M4.5 16L4.5 17C4.5 18.6569 5.84315 20 7.5 20L17.5 20C19.1569 20 20.5 18.6569 20.5 17L20.5 16M16.5 8L12.5 4M12.5 4L8.5 8M12.5 4L12.5 16"
-                              stroke="#090A0B"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          Upload a file
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </Row>
-              </Form>
-            );
-          }}
-        </Formik> */}
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <div
             onDrop={handleDrop}
@@ -300,7 +202,6 @@ const UploadProject: React.FC = () => {
               <div className={styles.textExtraSmall}>
                 Format: Pdf, Docx, Zip file
               </div>
-              
             </div>
           </div>
 

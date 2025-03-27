@@ -15,7 +15,7 @@ import { LoadingOverlay } from "@src/components/loader/LoadingOverlay";
 export const Navbar = () => {
   const { auth, loading: authLoading } = useAppSelector((state) => state.auth);
   const { courseCart } = useAppSelector((state) => state.courseCart);
-  console.log("cartCount", courseCart?.length);
+  
 
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);

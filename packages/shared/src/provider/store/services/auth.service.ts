@@ -32,7 +32,7 @@ export const signIn = createAsyncThunk<
       },
       body: JSON.stringify(params),
     });
-    if (response.status !== 201) {
+    if(response.status !== 201){
       return thunkApi.rejectWithValue(await response.json());
     }
     const data = (await response.json()) as AuthResponse;
@@ -42,7 +42,7 @@ export const signIn = createAsyncThunk<
     return thunkApi.rejectWithValue(error);
   }
 });
-
+ 
 export const googleSignIn = createAsyncThunk<
   AuthResponse,
   ForgotPasswordParams,

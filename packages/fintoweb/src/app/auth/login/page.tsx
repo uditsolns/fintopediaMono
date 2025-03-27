@@ -13,12 +13,13 @@ import { toast } from "react-toastify";
 import CircularLoading from "@src/components/loader/CircularLoading";
 import GoogleIcon from "../../../assets/google.png";
 import Image from "next/image";
+import { useOtpless } from "@src/app/context/OtplessContext";
 
 interface LoginProps {}
 
 const Login: React.FC<LoginProps> = () => {
   const router = useRouter();
-
+  const { initiateLogin, otp } = useOtpless();
   const { auth, loading, err } = useAppSelector((state) => state.auth);
   const { authFormik, authInputProps } = useAuthHelper();
   const { handleSubmit, isSubmitting } = authFormik;
@@ -42,6 +43,53 @@ const Login: React.FC<LoginProps> = () => {
       }
     }
   }, [auth, router]);
+
+  useEffect(() => {
+    const callback = (eventCallback: any) => {
+      const EVENTS_MAP = {
+        ONETAP: () => {
+          const { response } = eventCallback;
+          console.log("One Tap Response:", response);
+          const token = response.token;
+          console.log("Token:", token);
+        },
+        OTP_AUTO_READ: () => {
+          const { response } = eventCallback;
+          const otp = response.otp;
+          console.log("Auto-read OTP:", otp);
+        },
+        FAILED: () => {
+          const { response } = eventCallback;
+          console.log("Authentication Failed:", response);
+        },
+        FALLBACK_TRIGGERED: () => {
+          const { response } = eventCallback;
+          console.log("Fallback Triggered:", response);
+        },
+      };
+
+      if ("responseType" in eventCallback) {
+        EVENTS_MAP[eventCallback.responseType]?.();
+      }
+    };
+
+    // Initialize OTPLESS SDK after page load
+    if (typeof window !== "undefined" && window.OTPless) {
+      new window.OTPless(callback);
+    }
+  }, []);
+
+  const [mobileNumber, setMobileNumber] = useState<string>("9767169605");
+  const [countryCode, setCountryCode] = useState<string>("+91");
+  // Use useEffect to wait until OTPLESS SDK is loaded
+
+  // Phone authentication function
+  const phoneAuth2 = () => {
+    initiateLogin("9076049013", "+91");
+  };
+  const phoneAuth = () => {
+    initiateLogin(mobileNumber, countryCode);
+  };
 
   return (
     <div className={styles.signupLoginontainer}>
@@ -145,12 +193,9 @@ const Login: React.FC<LoginProps> = () => {
                     </Button>
                   </div>
                 </div>
-                {/* <div className="mt-3 text-white text-center">
-                  Don&apos;t have an account?{" "}
-                  <a href="/auth/register" className="text-blue-500">
-                    <u>Register Now</u>
-                  </a>
-                </div> */}
+                <button onClick={phoneAuth}>Request OTP</button>
+                <button onClick={phoneAuth2}>Request Sujit</button>
+
               </div>
               {/* <div className="mt-1 mb-3 p-3">
                 <h3 className="text-center font-bold text-white mb-3">

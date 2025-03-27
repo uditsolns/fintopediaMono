@@ -24,10 +24,6 @@ const ProfileDetails = () => {
 
   const [image, setImage] = useState<string | null>(null);
   const [imagevalue, setImagevalue] = useState(null);
-  // const [imagevalue, setImagevalue] = useState<string | null>(
-  //   auth?.user?.photo || null
-  // );
-  // console.log("imagevalue", imagevalue);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);

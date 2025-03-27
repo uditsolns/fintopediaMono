@@ -10,6 +10,8 @@ import { AppProvider } from "shared/src/provider/AppProvider";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import ScrollToTop from "@src/components/scroll-top/ScrollToTop";
+import Script from "next/script";
+import { OtplessProvider } from "@src/app/context/OtplessContext";
 
 export const metadata: Metadata = {
   title: "Fintopedia",
@@ -25,12 +27,22 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${interTight.variable}`}>
         <AppProvider>
-          <Navbar />
-          {children}
-          <ScrollToTop/>
-          <Footer />
+          <OtplessProvider>
+            <Navbar />
+            {children}
+            <ScrollToTop />
+            <Footer />
+          </OtplessProvider>
         </AppProvider>
         <ToastContainer />
+        <Script
+          id="otpless-sdk"
+          src="https://otpless.com/v4/headless.js"
+          data-appid="8TU4ZOYC6S9Q6VMC5LLF"
+          // data-appid="LKAP46LV49BNQYBVIGTE"
+          strategy="beforeInteractive"
+          // onLoad={() => console.log("OTPless script loaded")}
+        />
       </body>
     </html>
   );
