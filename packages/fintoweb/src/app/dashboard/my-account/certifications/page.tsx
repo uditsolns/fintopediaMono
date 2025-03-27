@@ -19,7 +19,7 @@ import {
   CopyToClipboard,
 } from "shared/src/components/certificate-dawnload/DownloadCertificate";
 
-const page = () => {
+const Certifications = () => {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
   const token = auth?.token;
@@ -47,9 +47,9 @@ const page = () => {
         </div>
       ) : (
         <div>
-          {userCertificate.map((course) => {
+          {userCertificate.map((course, index) => {
             return (
-              <Card className={styles.card}>
+              <Card key={index} className={styles.card}>
                 <div className="grid md:grid-cols-2">
                   <div className={styles.left}>
                     <Image
@@ -75,7 +75,7 @@ const page = () => {
                           ?.toLowerCase()
                           .replace(/\s+/g, "_")}
                         /certificate
-                      </div>  
+                      </div>
                       <div
                         onClick={() => {
                           let certificateId = Number(course?.id);
@@ -180,4 +180,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Certifications;

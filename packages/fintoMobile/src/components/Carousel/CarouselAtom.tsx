@@ -59,7 +59,7 @@ export default function CarouselAtom({data}: CarouselAtomProps) {
       <View style={styles.paginationContainer}>
         {data?.map((_, index) => {
           const isActive = activeSlide === index;
-          const dotSize = isActive ? mScale.md : mScale.sm;
+          const dotSize = isActive ? mScale.sm : mScale.sm;
           const dotColor = isActive ? colorPresets.PRIMARY : colorPresets.CTA;
           return (
             <View
@@ -82,7 +82,7 @@ export default function CarouselAtom({data}: CarouselAtomProps) {
   return (
     <View style={{flex: 1, alignSelf: 'center', marginBottom: mScale.lg2}}>
       <Carousel
-        mode="parallax"
+        // mode="parallax"
         enabled={true}
         data={data}
         width={WINDOW_WIDTH * 0.92}
@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
   paginationContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginTop:mScale.base
   } as ViewStyle,
   paginationDot: {
     borderRadius: 25,

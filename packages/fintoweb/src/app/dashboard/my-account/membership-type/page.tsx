@@ -9,7 +9,7 @@ import Membership from "../../../../assets/membership.png";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const MembershipType = () => {
   const router = useRouter();
   const { auth } = useAppSelector((state) => state.auth);
   const token = auth?.token;
@@ -29,7 +29,7 @@ const page = () => {
 
         <div className={styles.activePlansection}>
           <h2 className="h4">Active plans</h2>
-          <p>You don't have any active membership plans</p>
+          <p>You don&apos;t have any active membership plans</p>
         </div>
 
         <div className={styles.MembershipPlanSection}>
@@ -111,4 +111,4 @@ const page = () => {
     </div>
   );
 };
-export default page;
+export default MembershipType;

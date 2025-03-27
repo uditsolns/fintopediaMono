@@ -17,8 +17,15 @@ import {Resources} from './tabs/Resources';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import Header from '@src/components/Header/Header';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
-import {FlatList, SafeAreaView, ScrollView, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  LayoutChangeEvent,
+  SafeAreaView,
+  ScrollView,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {
   moderateScale,
   mScale,
@@ -27,7 +34,6 @@ import {
 } from '@shared/src/theme/metrics';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {Images} from '@shared/src/assets';
-import ImageAtom from '@src/components/Image/ImageAtom';
 import {MyCourseTabMolecule} from '@src/components/molecules/MyCourseTabMolecule/MyCourseTabMolecule';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import {NavType} from '@src/navigation/types';
@@ -43,6 +49,14 @@ import {CoursesResponse} from '@shared/src/utils/types/courses';
 import {getCourseNotes} from '@shared/src/provider/store/services/course-note.service';
 import {getCourseUploadFile} from '@shared/src/provider/store/services/course-upload-file.service';
 import {getCourseReviews} from '@shared/src/provider/store/services/course-review.service';
+import {VdoPlayerView} from 'vdocipher-rn-bridge';
+import Orientation from 'react-native-orientation-locker';
+import {clearVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
+import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
+import {commonStyle} from '@shared/src/commonStyle';
+import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 
 type RouteParams = {
   tab?: number;
@@ -56,17 +70,43 @@ export const AfterEnrollingCourseDetails: React.FC<
 > = () => {
   let route = useRoute<any>();
   const dispatch = useAppDispatch();
+  const {
+    videoPlayerUrl,
+    setVideoPlayerUrl,
+    playVideoStartLoading,
+    setPlayVideoStartLoading,
+  } = useVideoPlayerContext();
   const {auth} = useAppSelector(state => state.auth);
   const {
     courses,
     singleCourse,
+    video_url,
     loading: coursesLoading,
   } = useAppSelector(state => state.courses);
   const [index, setIndex] = React.useState(route.params?.tab ?? 0);
   const [routes] = React.useState(CourseDetailsRouteKeys);
   const [width, setWidth] = React.useState(WINDOW_WIDTH);
-  const [height, setHeight] = React.useState(WINDOW_HEIGHT);
+  const [height2, setHeight2] = React.useState<string | number>(220);
+  const [playVideoStart, setPlayVideoStart] = React.useState(false);
+  const [embedInfo, setEmbedInfo] = React.useState<any>(video_url);
+  const videoPlayerRef = React.useRef<any>(null);
   const {course, id} = route.params || {};
+
+  const [tabHeights, setTabHeights] = React.useState<number[]>([]);
+
+  const setHeight = React.useCallback(
+    (tab: string, height: number) => {
+      setTabHeights(prevHeights => ({
+        ...prevHeights,
+        [tab]: height,
+      }));
+    },
+    [setTabHeights],
+  );
+
+  React.useEffect(() => {
+    setEmbedInfo(video_url);
+  }, [video_url]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -86,6 +126,11 @@ export const AfterEnrollingCourseDetails: React.FC<
     dispatch(getCourseNotes());
     dispatch(getCourseUploadFile());
     dispatch(getCourseReviews());
+
+    return () => {
+      dispatch(clearVideoUrl());
+      Orientation.lockToPortrait();
+    };
   }, []);
 
   React.useEffect(() => {
@@ -96,39 +141,57 @@ export const AfterEnrollingCourseDetails: React.FC<
     }
   }, [route.params?.tab]);
 
-  const renderScene = SceneMap({
-    courseContent: CourseContent,
-    overview: Overview,
-    notes: Notes,
-    reviews: Reviews,
-    learningMode: LearningMode,
-    uploadProject: UploadProject,
-    resources: Resources,
-  });
+  const handleTabLayout = React.useCallback(
+    (index: number) => (event: LayoutChangeEvent) => {
+      const {height} = event.nativeEvent.layout;
+      setTabHeights(prevHeights => {
+        const updatedHeights = [...prevHeights];
+        updatedHeights[index] = height;
+        return updatedHeights;
+      });
+    },
+    [setTabHeights],
+  );
 
-  const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
-    return <PopularCourseMolecule item={item} />;
+  const renderScene = ({route}: {route: {key: string}}) => {
+    switch (route.key) {
+      case 'courseContent':
+        return <CourseContent onLayout={handleTabLayout(0)} />;
+      case 'overview':
+        return <Overview onLayout={handleTabLayout(1)} />;
+      case 'notes':
+        return <Notes onLayout={handleTabLayout(2)} />;
+      case 'reviews':
+        return <Reviews onLayout={handleTabLayout(3)} />;
+      case 'learningMode':
+        return <LearningMode onLayout={handleTabLayout(4)} />;
+      case 'uploadProject':
+        return <UploadProject onLayout={handleTabLayout(5)} />;
+      case 'resources':
+        return <Resources onLayout={handleTabLayout(6)} />;
+      default:
+        return null;
+    }
   };
 
   return (
     <GradientTemplate
-      style={{
-        paddingBottom: 0,
-        paddingHorizontal: 0,
-        flex: 1,
-        flexGrow: 1,
-        paddingTop: moderateScale(60),
-      }}>
-      <ScrollViewAtom>
+      style={{paddingHorizontal: 0, paddingTop: moderateScale(60)}}>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        stickyHeaderIndices={[1]}>
         <View
           style={{
             paddingHorizontal: mScale.base,
             paddingVertical: mScale.lg,
             backgroundColor: '#060A18',
           }}>
-          <TextAtom text={`${singleCourse?.name}`} preset="heading2" />
+          <TextAtom
+            text={`${singleCourse?.name || 'Loading...'}`}
+            preset="heading2"
+          />
         </View>
-        <View style={{alignSelf: 'center', position: 'relative'}}>
+        <View>
           <View
             style={{
               position: 'absolute',
@@ -140,32 +203,82 @@ export const AfterEnrollingCourseDetails: React.FC<
             }}>
             <Images.SVG.ShareIcon />
           </View>
-          <ImageAtom
-            sourceRequire={require('@shared/src/assets/img/courseplaceholder2.png')}
-            style={{width: WINDOW_WIDTH, height: moderateScale(235)}}
-            resizeMode="cover"
-          />
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-              zIndex: 1,
-            }}>
-            <Images.SVG.Play1 />
-          </View>
+          {playVideoStartLoading && videoPlayerUrl ? (
+            <>
+              <VdoPlayerView
+                ref={videoPlayerRef}
+                style={{height: height2, width: '100%'} as ViewStyle}
+                embedInfo={
+                  videoPlayerUrl
+                    ? videoPlayerUrl
+                    : embedInfo
+                    ? embedInfo
+                    : video_url
+                }
+                onLoaded={data => {
+                  Orientation.unlockAllOrientations();
+                  console.log('on loaded :', data);
+                }}
+                onLoadError={e => {
+                  console.log('onLoadError =>', e);
+                }}
+                onProgress={time => {
+                  console.log('progress', time);
+                }}
+                onMediaEnded={data => {
+                  Orientation.lockToPortrait();
+                  setPlayVideoStartLoading(false);
+                  console.log('onmediaended called', data);
+                }}
+                onEnterFullscreen={() => {
+                  setHeight2('100%');
+                  Orientation.unlockAllOrientations();
+                }}
+                onVdoEnterFullscreen={() => {
+                  setHeight2('100%');
+                  Orientation.unlockAllOrientations();
+                }}
+                onExitFullscreen={() => {
+                  Orientation.lockToPortrait();
+                  setHeight2(220);
+                }}
+                onVdoExitFullscreen={() => {
+                  Orientation.lockToPortrait();
+                  setHeight2(220);
+                }}
+                onPlaybackProperties={data =>
+                  console.log('onPlaybackProperties', data)
+                }
+              />
+            </>
+          ) : (
+            <>
+              <ImageAtom
+                sourceRequire={require('@shared/src/assets/img/courseplaceholder2.png')}
+                imageStyle={{
+                  width: WINDOW_WIDTH,
+                  height: moderateScale(235),
+                  borderRadius: mScale.md,
+                }}
+                resizeMode="cover"
+              />
+              <PressableAtom
+                style={[commonStyle.play]}
+                onPress={() => {
+                  if (data?.course_video_embed) {
+                    setPlayVideoStartLoading(true);
+                  } else {
+                    Alert.alert("This course doesn't contain any videos.");
+                  }
+                }}>
+                <ImageAtom
+                  sourceRequire={require('@shared/src/assets/img/play.png')}
+                />
+              </PressableAtom>
+            </>
+          )}
         </View>
-        <View
-          style={{flex: 1, height: height}}
-          onLayout={event => {
-            const {width, height} = event.nativeEvent.layout;
-            setWidth(width);
-            setHeight(height);
-          }}>
+        <View style={{flex: 1, height: tabHeights[index] || WINDOW_HEIGHT / 2}}>
           <TabView
             navigationState={{index, routes}}
             renderTabBar={props => <MyCourseTabMolecule {...props} />}
@@ -175,31 +288,7 @@ export const AfterEnrollingCourseDetails: React.FC<
             lazy={true}
           />
         </View>
-        <View style={{marginVertical: mScale.xl}}>
-          <ViewAll title="Frequently Bought Together" visible={false} />
-          <View style={{paddingLeft: mScale.base}}>
-            <FlatList
-              data={
-                courses?.length
-                  ? courses?.filter(
-                      el =>
-                        el?.category_id == data?.category_id &&
-                        el.id != data?.id,
-                    )
-                  : []
-              }
-              renderItem={innerCategoriesRenderItem}
-              horizontal={true}
-              contentContainerStyle={{
-                columnGap: 20,
-                flexGrow: 1,
-                paddingEnd: mScale.lg,
-              }}
-              showsHorizontalScrollIndicator={false}
-            />
-          </View>
-        </View>
-      </ScrollViewAtom>
+      </ScrollView>
     </GradientTemplate>
   );
 };

@@ -1,6 +1,5 @@
 import {Images} from '@shared/src/assets';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
@@ -13,6 +12,10 @@ import * as React from 'react';
 import {View} from 'react-native';
 import {useForgotHelper} from '@shared/src/components/structures/forgot/forgot.helper';
 import {forgotField} from '@shared/src/components/structures/forgot/forgotModel';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {Toast} from 'react-native-toast-notifications';
+import LoaderAtom from '@src/components/LoaderAtom';
+import {commonStyle} from '@shared/src/commonStyle';
 
 interface ForgotPasswordProps extends NavType<'ForgotPassword'> {}
 
@@ -23,11 +26,22 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({navigation}) => {
 
   React.useEffect(() => {
     if (forgot) {
+      Toast.show(forgot?.status_message, {
+        type: forgot?.status == 'success' ? 'success' : 'error',
+      });
+      if (forgot?.code === 200 && forgot?.status === 'success') {
+        navigation.navigate(RouteKeys.FORGOTPASSWORDOTPSCREEN, {data: forgot});
+      }
     }
   }, [forgot]);
 
   return (
     <GradientTemplate>
+      {loading.forgot ? (
+        <View style={commonStyle.fullPageLoading}>
+          <LoaderAtom size="large" />
+        </View>
+      ) : null}
       <ScrollViewAtom contentContainerStyle={{marginTop: mScale.xxl1}}>
         <View>
           <View style={{marginVertical: mScale.base, padding: mScale.md}}>
@@ -72,7 +86,7 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({navigation}) => {
               text="Send it again?"
               style={{marginVertical: mScale.md, alignSelf: 'center'}}
               onPress={() => {
-                navigation.navigate(RouteKeys.RESETPASSWORDSCREEN);
+                handleSubmit();
               }}
             />
           </View>

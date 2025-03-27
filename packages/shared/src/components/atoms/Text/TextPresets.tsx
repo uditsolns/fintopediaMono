@@ -10,6 +10,7 @@ export const TextPresets = {
   large: { ...fontPresets.large },
   body: { ...fontPresets.body },
   bodyBold: { ...fontPresets.bodyBold },
+  bodySemiBold: { ...fontPresets.bodySemiBold },
   medium: { ...fontPresets.medium },
   title: { ...fontPresets.title },
   titleBold: { ...fontPresets.titleBold },

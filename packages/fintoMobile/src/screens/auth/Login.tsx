@@ -2,7 +2,6 @@ import {GradientTemplate} from '@shared/src/components/templates/GradientTemplat
 import * as React from 'react';
 import {Alert, View} from 'react-native';
 import {commonStyle} from '@shared/src/commonStyle';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {Images} from '@shared/src/assets';
 import {colorPresets} from '@shared/src/theme/color';
 import {InputAtom} from '@src/components/Input/InputAtom';
@@ -28,6 +27,8 @@ import {
   isSuccessResponse,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import {googleSignIn} from '@shared/src/provider/store/services/auth.service';
+import {ScrollViewAtom} from 'shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface LoginProps extends NavType<'Login'> {}
 
@@ -39,11 +40,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    GoogleSignin.configure({
-      webClientId:
-        '1086429717269-pqt2o5l783a0dadn2gqjolrksdjanghj.apps.googleusercontent.com',
-      offlineAccess: true,
-    });
+    GoogleSignin.configure();
   }, []);
   React.useEffect(() => {
     if (auth) {
@@ -63,7 +60,12 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
       await GoogleSignin.hasPlayServices();
       const response = await GoogleSignin.signIn();
       if (isSuccessResponse(response)) {
-        console.log(response?.data);
+        console.log(JSON.stringify(response));
+        let params = {
+          email: response?.data?.user?.email,
+        };
+        console.log('params', params);
+        dispatch(googleSignIn(params));
         GoogleSignin.signOut();
       } else {
         // sign in was cancelled by user
@@ -135,6 +137,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
             text="Forgot password?"
             style={{marginTop: mScale.xxl}}
             onPress={() => {
+              dispatch(logout());
               navigation.navigate(RouteKeys.FORGOTPASSWORDSCREEN);
             }}
           />
@@ -144,14 +147,15 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
               onPress={() => {
                 handleSubmit();
               }}
-              loading={loading?.login}
+              loading={loading.login}
             />
           </View>
           <ButtonAtom
             title="Login with OTP"
             preset="secondary"
             onPress={() => {
-              navigation.navigate(RouteKeys.EMAILVERIFICATIONSCREEN);
+              dispatch(logout())
+              navigation.navigate(RouteKeys.OTPLOGINSCREEN);
             }}
           />
           <View style={{marginVertical: mScale.md, alignSelf: 'center'}}>

@@ -76,6 +76,11 @@ export const fontPresets: Record<string, TextStyle> = {
     ...scaleFont(16),
     letterSpacing: 0,
   },
+  bodySemiBold: {
+    ...semiBold,
+    ...scaleFont(16),
+    letterSpacing: 0,
+  },
   medium: {
     ...regular,
     ...scaleFont(14),

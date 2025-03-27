@@ -1,5 +1,6 @@
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import { PressableAtom } from '@shared/src/components/atoms/Button/PressableAtom';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {imageUrl} from '@shared/src/config/imageUrl';
@@ -13,15 +14,16 @@ import RatingReview from '@src/components/RatingReview';
 import React from 'react';
 import {StyleSheet, View, ViewStyle, ImageStyle} from 'react-native';
 
-interface OngoingMoleculeProps {
+interface CourseMoleculeProps {
   item?: CoursesResponse;
   onPress?: () => void;
+  onView?: () => void;
 }
 
-export default function CourseMolecule({item, onPress}: OngoingMoleculeProps) {
+export default function CourseMolecule({item, onPress,onView}: CourseMoleculeProps) {
   const {courseCart} = useAppSelector(state => state.courseCart);
   return (
-    <View style={[commonStyle.flexStart, styles.container]}>
+    <PressableAtom style={[commonStyle.flexStart, styles.container]} onPress={onView}>
       <ImageAtom
         sourceRequire={
           item?.course_image
@@ -33,21 +35,23 @@ export default function CourseMolecule({item, onPress}: OngoingMoleculeProps) {
       />
       <View style={styles.content}>
         <TextAtom
-          text={item?.name || ''}
+          text={item?.name  || ''}
           preset="titleBold"
           numberOfLines={3}
-          style={{marginTop: mScale.md}}
+          style={{marginTop: mScale.md,fontWeight:'600'}}
         />
-        <ProgressBar
-          level={item?.course_type?.toLowerCase() || 'intermediate'}
-          hours={item?.duration_time || ''}
-          mv={mScale.md}
-          textPreset="xSmall"
-          imageStyle={{
-            width: mScale.md,
-            height: mScale.md,
-          }}
-        />
+        <View style={{marginVertical:mScale.md2}}>
+          <ProgressBar
+            level={item?.course_type?.toLowerCase() || 'intermediate'}
+            hours={item?.duration_time?.replace(/\D+/g, "") || ''}
+            mv={mScale.md}
+            textPreset="smallBold"
+            imageStyle={{
+              width: mScale.md,
+              height: mScale.md,
+            }}
+          />
+        </View>
         {item?.rating ? (
           <RatingReview
             rating={item?.rating || ''}
@@ -55,18 +59,18 @@ export default function CourseMolecule({item, onPress}: OngoingMoleculeProps) {
           />
         ) : null}
 
-        <View style={[commonStyle.flexSpaceBetween]}>
+        <View style={[commonStyle.flexSpaceBetween,{marginTop:mScale.md3}]}>
           <View style={[commonStyle.flexSpaceBetween]}>
             <TextAtom text={`₹ ${item?.sale_price || 0}`} preset="titleBold" />
-            <TextAtom
+            {/* <TextAtom
               style={{
                 paddingStart: mScale.xs,
                 textDecorationLine: 'line-through',
                 color: colorPresets.GRAY2,
               }}
               text={`₹ ${item?.actual_price || 0}`}
-              preset="xSmallBold"
-            />
+              preset="smallBold"
+            /> */}
           </View>
           <ButtonAtom
             title={
@@ -74,31 +78,43 @@ export default function CourseMolecule({item, onPress}: OngoingMoleculeProps) {
             }
             textPreset="xSmallBold"
             onPress={onPress}
+            style={{
+              backgroundColor: colorPresets.CTA,
+              width: moderateScale(115),
+              borderRadius: 4,
+              paddingVertical: mScale.md,
+              paddingHorizontal: mScale.lg1,
+              
+            }}
           />
         </View>
       </View>
-    </View>
+    </PressableAtom>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 8,
+    borderRadius: mScale.sm,
     overflow: 'hidden',
     flex: 1,
     width: '100%',
     alignSelf: 'center',
     backgroundColor: '#111521',
+    padding:mScale.md2
   } as ViewStyle,
   image: {
     width: moderateScale(115),
     height: moderateScale(123),
+    borderRadius:4,
+    overflow:'hidden'
   } as ImageStyle,
   content: {
     flex: 1,
     flexGrow: 1,
     alignSelf: 'flex-start',
-    padding: mScale.base,
+    paddingStart: mScale.base,
+    paddingEnd: mScale.xs,
   } as ViewStyle,
   boldText: {
     fontWeight: '400',

@@ -25,6 +25,7 @@ const Login: React.FC<LoginProps> = () => {
   const { handleSubmit, isSubmitting } = authFormik;
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
 
+  console.log("err?.loginErr", err?.loginErr);
   React.useEffect(() => {
     if (auth) {
       if (auth?.token) {

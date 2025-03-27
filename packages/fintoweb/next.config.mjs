@@ -1,3 +1,5 @@
+import { hostname } from "os";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
@@ -7,7 +9,11 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ["nivada.in"],
+    remotePatterns: [
+      {
+        hostname: "nivada.in",
+      },
+    ],
   },
   webpack: (config) => {
     config.resolve.alias = {

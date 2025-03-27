@@ -1,6 +1,6 @@
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import {mScale} from '@shared/src/theme/metrics';

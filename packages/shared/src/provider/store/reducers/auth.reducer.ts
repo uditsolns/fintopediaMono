@@ -3,9 +3,11 @@ import {
   confirmPassword,
   forgotPassword,
   googleSignIn,
+  phoneNumberOtpLogin,
   signIn,
   signUp,
   VerifyOtp,
+  verifyPhoneNumber,
 } from "../services/auth.service";
 import { AuthState } from "../../../utils/types/auth";
 
@@ -18,6 +20,8 @@ const initialState: AuthState = {
     confirm: false,
     google_login: false,
     verifyOtp: false,
+    verify_mobile: false,
+    otp_login: false,
   },
   err: {
     loginErr: null,
@@ -27,6 +31,8 @@ const initialState: AuthState = {
     confirmErr: null,
     google_login_err: null,
     verifyOtpErr: null,
+    verify_mobile_err: null,
+    otp_login_err: null,
   },
   auth: null,
   signup: null,
@@ -34,6 +40,8 @@ const initialState: AuthState = {
   confirm: null,
   current_user: null,
   verifyOtp: null,
+  verify_mobile: null,
+  otp_login: null,
 };
 
 const authSlice = createSlice({
@@ -41,10 +49,10 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: () => {
+      console.log("logout will be called in reducer")
       return initialState;
     },
     storeCurrentUser: (state, action) => {
-      console.log("store current action payload", action.payload);
       state.current_user = action.payload;
     },
   },
@@ -114,7 +122,6 @@ const authSlice = createSlice({
         state.loading.confirm = false;
         state.err.confirmErr = action?.payload;
       })
-      // VerifyOtp
       .addCase(VerifyOtp.pending, (state) => {
         state.loading.verifyOtp = true;
       })
@@ -126,6 +133,30 @@ const authSlice = createSlice({
       .addCase(VerifyOtp.rejected, (state, action) => {
         state.loading.verifyOtp = false;
         state.err.verifyOtpErr = action?.payload;
+      })
+      .addCase(verifyPhoneNumber.pending, (state) => {
+        state.loading.verify_mobile = true;
+      })
+      .addCase(verifyPhoneNumber.fulfilled, (state, action) => {
+        state.loading.verify_mobile = false;
+        state.verify_mobile = action.payload;
+        state.err.verify_mobile_err = null;
+      })
+      .addCase(verifyPhoneNumber.rejected, (state, action) => {
+        state.loading.verify_mobile = false;
+        state.err.verify_mobile_err = action?.payload;
+      })
+      .addCase(phoneNumberOtpLogin.pending, (state) => {
+        state.loading.otp_login = true;
+      })
+      .addCase(phoneNumberOtpLogin.fulfilled, (state, action) => {
+        state.loading.otp_login = false;
+        state.otp_login = action.payload;
+        state.err.otp_login_err = null;
+      })
+      .addCase(phoneNumberOtpLogin.rejected, (state, action) => {
+        state.loading.otp_login = false;
+        state.err.otp_login_err = action?.payload;
       });
   },
 });

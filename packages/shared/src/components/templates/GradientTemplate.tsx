@@ -37,6 +37,6 @@ export const GradientTemplate: React.FC<GradientTemplateProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: mScale.base,
+    padding: mScale.lg,
   },
 });

@@ -124,7 +124,7 @@ export const deleteCourseCart = createAsyncThunk<
   DeleteParams,
   { state: RootState }
 >("courseCart/delete", async ({ id, onSuccess, onError }, thunkApi) => {
-  console.log(id)
+  console.log(id);
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
@@ -137,7 +137,7 @@ export const deleteCourseCart = createAsyncThunk<
     });
 
     const data = (await response.json()) as any;
-    thunkApi.dispatch(getCourseCart())
+    thunkApi.dispatch(getCourseCart());
     onSuccess(data);
     return data;
   } catch (error) {

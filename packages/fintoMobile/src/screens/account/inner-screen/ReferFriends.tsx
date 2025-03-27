@@ -2,25 +2,32 @@ import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {colorPresets} from '@shared/src/theme/color';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
+import {
+  FONT_BOLD,
+  FONT_MEDIUM,
+  FONT_SEMIBOLD,
+} from '@shared/src/theme/typography';
+import ImageAtom from '@src/components/Image/ImageAtom';
 import React from 'react';
-import {Pressable, View} from 'react-native';
+import {Linking, Pressable, View} from 'react-native';
 
 interface ReferFriendsProps {}
 
 export const ReferFriends: React.FC<ReferFriendsProps> = ({}) => {
   return (
-    <GradientTemplate style={{paddingBottom: 0,paddingTop:moderateScale(70)}}>
+    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70)}}>
       <ScrollViewAtom>
         <View
           style={{
             flex: 1,
             marginTop: moderateScale(100),
           }}>
-          <View style={{padding: mScale.base, marginBottom: mScale.md}}>
+          <View style={{padding: mScale.base,}}>
             <TextAtom
               text={'Invite Friends, Get 500 credits of Fintopedia'}
               preset="banner"
@@ -36,28 +43,36 @@ export const ReferFriends: React.FC<ReferFriendsProps> = ({}) => {
                 color: '#C8C8CC',
                 fontWeight: '400',
                 marginTop: mScale.base,
+                lineHeight: 20,
               }}
             />
           </View>
-          <InputAtom
-            shape="square"
-            editable={false}
-            placeholder="https//www.fintopedia.com/urvashirefer10"
-            preset="primary"
-          />
-
-          <View>
-            <ButtonAtom title={'Copy'} textPreset={'titleBold'} />
+          <View style={{marginTop: moderateScale(36)}}>
+            <InputAtom
+              shape="square"
+              editable={false}
+              placeholder="https//www.fintopedia.com/urvashirefer10"
+              placeholderTextColor={colorPresets.CTA}
+              preset="primary"
+            />
+            <View>
+              <ButtonAtom
+                preset="primary"
+                title={'Copy URL'}
+                textPreset={'titleBold'}
+                iconLeft={<Images.SVG.CopyIcon width={24} color="#000" />}
+              />
+            </View>
           </View>
           <View style={[commonStyle.flexCenter, {marginTop: mScale.lg2}]}>
-            <Pressable>
-              <Images.SVG.Fb2 />
+            <Pressable onPress={() => {Linking.openURL('https://www.facebook.com/people/Fintopedia/61551172396495/')}}>
+              <ImageAtom sourceRequire={require('@shared/src/assets/img/facebook.png')} style={{width:moderateScale(36),height:moderateScale(36)}}  />
             </Pressable>
-            <Pressable style={{marginStart: mScale.md}}>
-              <Images.SVG.Twitter2 />
+            <Pressable style={{marginStart: mScale.base}} onPress={() => {Linking.openURL('https://www.linkedin.com/company/fintopedia/?originalSubdomain=in')}}>  
+            <ImageAtom sourceRequire={require('@shared/src/assets/img/linkedln.png')} style={{width:moderateScale(36),height:moderateScale(36)}}  />
             </Pressable>
-            <Pressable style={{marginStart: mScale.md}}>
-              <Images.SVG.LinkedIn2 />
+            <Pressable style={{marginStart: mScale.base}} onPress={() => {Linking.openURL('https://www.instagram.com/fintopedia_official/')}}>
+            <ImageAtom sourceRequire={require('@shared/src/assets/img/instagram.png')} style={{width:moderateScale(36),height:moderateScale(36)}}  />
             </Pressable>
           </View>
         </View>

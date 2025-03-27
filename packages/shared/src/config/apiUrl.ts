@@ -1,5 +1,7 @@
 const baseUrl = "https://nivada.in/hiring-management-backend/public/api/";
 const version = "v1/";
+export const ONESIGNAL_APP_ID = "68193542-f006-48da-8ed9-34111ef4cd74";
+export const OTPLESS_APP_ID = "8TU4ZOYC6S9Q6VMC5LLF";
 
 const buildUrl = (endpoint: string) => {
   return `${baseUrl}${version}${endpoint}`;
@@ -13,6 +15,8 @@ export default {
     FORGOTCONFIRM: buildUrl("update-password"),
     GOOGLE: buildUrl("google-login"),
     VERIFYOTP: buildUrl("verifyOtp"),
+    VERIFYMOBILENUMBER:buildUrl("verify_mobileno"),
+    OTPLOGIN:buildUrl("login_otp"),
   },
   USER: {
     GET: buildUrl("users"),
@@ -192,6 +196,7 @@ export default {
     POST: buildUrl("coupon_code"),
     UPDATE: buildUrl("coupon_code"),
     DELETE: buildUrl("coupon_code"),
+    APPLY_COUPON_CODE: buildUrl("coupon_code_apply"),
   },
   COURSE_NOTES: {
     GET: buildUrl("courses_notes"),

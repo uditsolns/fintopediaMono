@@ -1,36 +1,119 @@
-
-import { useRoute } from '@react-navigation/native';
-import { useAppSelector } from '@shared/src/provider/store/types/storeTypes';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {storeVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
+import { createCourseCart } from '@shared/src/provider/store/services/CourseCart.service';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
+import {mScale} from '@shared/src/theme/metrics';
+import {CoursesResponse} from '@shared/src/utils/types/courses';
+import { isInCart } from '@src/components/Calculate';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import {CourseInnerAtom} from '@src/components/CourseInnerAtom';
+import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
+import {ViewAll} from '@src/components/ViewAll/ViewAll';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, LayoutChangeEvent, View} from 'react-native';
 
-
-interface CourseContentProps {}
-export const CourseContent: React.FunctionComponent<
-  CourseContentProps
-> = () => {
-
+interface CourseContentProps {
+  onLayout: (event: LayoutChangeEvent) => void;
+}
+export const CourseContent: React.FunctionComponent<CourseContentProps> = ({
+  onLayout,
+}) => {
   const {
     courses,
     singleCourse,
     loading: coursesLoading,
   } = useAppSelector(state => state.courses);
-   let route = useRoute<any>();
-   const {course, id} = route.params || {};
-   const data = singleCourse ? singleCourse : course;
+  let route = useRoute<any>();
+  const {course, id} = route.params || {};
+  const data = singleCourse ? singleCourse : course;
+  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const {
+    setVideoPlayerBeforePurchaseUrl,
+    setPlayVideoStartBeforePurchaseLoading,
+  } = useVideoPlayerContext();
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
+    state => state.courseCart,
+  );
+  const {auth} = useAppSelector(state => state.auth);
+
+  const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
+    return (
+      <PopularCourseMolecule
+        item={item}
+        onView={() => {
+          if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.id,
+          });
+        }}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+            navigation.navigate(RouteKeys.CARTSCREEN);
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                },
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
+        }}
+      />
+    );
+  };
 
   return (
-    <View
-      style={{flex: 1}}>
-      <FlatList
-        data={singleCourse?.sections?.length ? singleCourse?.sections : [] }
-        renderItem={({item}) => (
-          <CourseInnerAtom item={item} />
-        )}
-        keyExtractor={(item, index) => index.toString()}
-        nestedScrollEnabled={false}
-      />
+    <View style={{flex: 1}}>
+      <ScrollViewAtom>
+        <FlatList
+          style={{flex: 1}}
+          data={singleCourse?.sections?.length ? singleCourse?.sections : []}
+          renderItem={({item}) => <CourseInnerAtom item={item} />}
+          keyExtractor={(item, index) => index.toString()}
+          nestedScrollEnabled={false}
+        />
+        <View style={{marginVertical: mScale.xl}}>
+          <ViewAll title="Frequently Bought Together" visible={false} />
+          <View style={{paddingLeft: mScale.base}}>
+            <FlatList
+              data={
+                courses?.length
+                  ? courses?.filter(
+                      el =>
+                        el?.category_id == data?.category_id &&
+                        el.id != data?.id,
+                    )
+                  : []
+              }
+              renderItem={innerCategoriesRenderItem}
+              horizontal={true}
+              contentContainerStyle={{
+                columnGap: 20,
+                flexGrow: 1,
+                paddingEnd: mScale.lg,
+              }}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </View>
+      </ScrollViewAtom>
     </View>
   );
 };

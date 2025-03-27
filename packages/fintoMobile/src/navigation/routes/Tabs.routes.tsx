@@ -16,6 +16,7 @@ import {NavTabBar} from '../components/Navbar/NavTabBar';
 import {HeaderBar} from '../components/Header/HeaderBar';
 import Header from '@src/components/Header/Header';
 import {colorPresets} from '@shared/src/theme/color';
+import {getCurrentGreeting} from '@src/components/Calculate';
 
 interface TabsRoutesProps {}
 
@@ -53,8 +54,9 @@ export const TabsRoutes: React.FC<TabsRoutesProps> = ({}) => {
           ),
           tabBarLabel: 'Home',
           header: () => {
-            return <Header text={'Good Morning'} visible={false} />;
+            return <Header text={getCurrentGreeting()} visible={false} />;
           },
+          
         }}
         name={TabKeys.HOMETABSCREEN}
         component={Home as React.FC}

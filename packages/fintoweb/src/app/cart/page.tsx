@@ -47,6 +47,7 @@ import { useOtpless } from "../context/OtplessContext";
 export default function Cart() {
   const dispatch = useAppDispatch();
   const router = useRouter();
+
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
   );
@@ -606,7 +607,6 @@ export default function Cart() {
         <div className={styles.likeCourses}>
           <LikeCourses courses={likeCourse} />
         </div>
-
         <div className={styles.wishlist}>
           <h1 className={styles.wishlistHeading}>Wishlist</h1>
 

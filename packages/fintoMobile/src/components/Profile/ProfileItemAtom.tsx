@@ -22,7 +22,7 @@ const ProfileItemAtom: React.FC<ProfileItemAtomProps> = ({
       onPress={onPress}
       style={[
         commonStyle.flexSpaceBetween,
-        { flex: 1, marginVertical: mScale.base, zIndex: 1 },
+        { flex: 1, padding: mScale.base, zIndex: 1,marginBottom:mScale.lg1 },
       ]}
     >
       <View style={commonStyle.flexStart}>
@@ -30,7 +30,7 @@ const ProfileItemAtom: React.FC<ProfileItemAtomProps> = ({
         <TextAtom
           text={name}
           preset="body"
-          style={{ fontWeight: '400', marginStart: mScale.base }}
+          style={{ fontWeight: '400', paddingStart: mScale.md }}
         />
       </View>
       <Pressable onPress={onPress}>

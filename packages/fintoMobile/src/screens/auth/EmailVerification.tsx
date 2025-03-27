@@ -2,19 +2,21 @@ import {useNavigation} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {mScale} from '@shared/src/theme/metrics';
 import {LinkButton} from '@src/components/Button/LinkButton';
 import {RouteKeys} from '@src/navigation/RouteKeys';
-import { NavType } from '@src/navigation/types';
+import {NavType} from '@src/navigation/types';
 import * as React from 'react';
 import {View} from 'react-native';
 
 interface EmailVerificationProps extends NavType<'EmailVerification'> {}
 
-export const EmailVerification: React.FC<EmailVerificationProps> = ({navigation}) => {
+export const EmailVerification: React.FC<EmailVerificationProps> = ({
+  navigation,
+}) => {
   return (
     <GradientTemplate>
       <ScrollViewAtom contentContainerStyle={{marginTop: mScale.xxl1}}>

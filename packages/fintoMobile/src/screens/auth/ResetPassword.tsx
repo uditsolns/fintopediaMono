@@ -1,6 +1,5 @@
 import {Images} from '@shared/src/assets';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
@@ -9,28 +8,46 @@ import {mScale} from '@shared/src/theme/metrics';
 import {InputAtom} from '@src/components/Input/InputAtom';
 import * as React from 'react';
 import {View} from 'react-native';
-import {useResetHelper} from '@shared/src/components/structures/reset/reset.helper';
-import {resetField} from '@shared/src/components/structures/reset/resetModel';
+import {useResetPasswordHelper} from '@shared/src/components/structures/reset-password/reset-password.helper';
 import {NavType} from '@src/navigation/types';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {resetField} from '@shared/src/components/structures/reset-password/reset.passwordModel';
+import {number} from 'yup';
+import {Toast} from 'react-native-toast-notifications';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 
 interface ResetPasswordProps extends NavType<'ResetPassword'> {}
 
-export const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
-  const {confirm, loading} = useAppSelector(state => state.auth);
-  console.log(confirm)
-  const {resetFormik, resetInputProps} = useResetHelper();
+export const ResetPassword: React.FC<ResetPasswordProps> = ({
+  navigation,
+  route,
+}) => {
+  const {verifyOtp, loading} = useAppSelector(state => state.auth);
+  const {resetFormik, resetInputProps} = useResetPasswordHelper();
   const {handleSubmit, setFieldValue} = resetFormik;
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);
+  const data = route?.params?.data;
 
   const togglePassword = () => {
     setPasswordVisible(!passwordVisible);
   };
 
   React.useEffect(() => {
-    if (confirm) {
+    if (verifyOtp) {
+      Toast.show(verifyOtp?.status_message, {
+        type: verifyOtp?.status == 'success' ? 'success' : 'error',
+      });
+      if (verifyOtp?.code === 200 && verifyOtp?.status === 'success') {
+        navigation.navigate(RouteKeys.LOGINSCREEN);
+      }
     }
-  }, [confirm]);
+  }, [verifyOtp]);
+
+  React.useEffect(() => {
+    setFieldValue(resetField.email.name, data?.email || '');
+    setFieldValue(resetField.otp.name, `${data?.otp}` || '');
+  }, []);
   return (
     <GradientTemplate>
       <ScrollViewAtom contentContainerStyle={{marginTop: mScale.xxl1}}>
@@ -53,9 +70,9 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               shape="square"
-              {...resetInputProps(resetField.password.name)}
-              label={resetField.password.label}
-              placeholder={resetField.password.placeHolder}
+              {...resetInputProps(resetField.new_password.name)}
+              label={resetField.new_password.label}
+              placeholder={resetField.new_password.placeHolder}
               rightIcon={
                 <PressableAtom onPress={togglePassword}>
                   {passwordVisible ? (
@@ -72,9 +89,9 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               shape="square"
-              {...resetInputProps(resetField.password_confirmation.name)}
-              label={resetField.password_confirmation.label}
-              placeholder={resetField.password_confirmation.placeHolder}
+              {...resetInputProps(resetField.new_password_confirmation.name)}
+              label={resetField.new_password_confirmation.label}
+              placeholder={resetField.new_password_confirmation.placeHolder}
               rightIcon={
                 <PressableAtom onPress={togglePassword}>
                   {passwordVisible ? (
@@ -93,7 +110,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({navigation}) => {
             onPress={() => {
               handleSubmit();
             }}
-            loading={loading?.confirm}
+            loading={loading?.verifyOtp}
           />
         </View>
       </ScrollViewAtom>

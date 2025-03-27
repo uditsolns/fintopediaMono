@@ -1,7 +1,6 @@
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {
   useAppDispatch,
@@ -18,6 +17,8 @@ import {userField} from '@shared/src/components/structures/user/userModel';
 import {PopupUpload} from '@src/components/Popup/PopupUpload';
 import {imageUrl} from '@shared/src/config/imageUrl';
 import {ImageType} from '@shared/src/utils/types/main';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {colorPresets} from '@shared/src/theme/color';
 
 const avatarUrl =
   'https://st4.depositphotos.com/4329009/19956/v/450/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg';
@@ -62,6 +63,14 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({navigation}) => {
             onPress={() => {
               handleSubmit();
             }}
+            style={{
+              backgroundColor: colorPresets.CTA,
+              width: moderateScale(84),
+              borderRadius: 4,
+              paddingVertical: mScale.md,
+              paddingHorizontal: mScale.lg1,
+              marginRight:mScale.sm
+            }}
           />
         );
       },
@@ -69,14 +78,19 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({navigation}) => {
   }, []);
 
   return (
-    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(75)}}>
+    <GradientTemplate
+      style={{
+        paddingBottom: 0,
+        paddingTop: moderateScale(75),
+        padding: moderateScale(28),
+      }}>
       {loading.update ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
       <ScrollViewAtom>
-        <View>
+        <View style={{paddingTop: mScale.xl}}>
           <ProfileIcon
             avatarUrl={
               photo
@@ -87,7 +101,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({navigation}) => {
             }
             onPress={() => setModalVisible(true)}
           />
-          <View style={{marginVertical: mScale.lg}}>
+          <View style={{paddingTop: moderateScale(32)}}>
             <View style={{marginBottom: mScale.lg}}>
               <InputAtom
                 shape="square"

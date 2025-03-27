@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  ActivityIndicator,
-  Pressable,
-  PressableProps,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Pressable, PressableProps, StyleSheet, View } from "react-native";
 import { colorPresets } from "../../../theme/color";
 import { WINDOW_WIDTH, mScale } from "../../../theme/metrics";
 import { LinearGradientMolecule } from "../../molecules/Gradient/LinearGradientMolecule";
@@ -17,16 +11,22 @@ interface ButtonAtomProps extends PressableProps {
   title: string;
   preset?: ButtonPresets;
   loading?: boolean;
-  textPreset?:TextPresetType,
-  loadingColor?:string
+  textPreset?: TextPresetType;
+  loadingColor?: string;
+  numberOfLines?: number;
+  iconLeft?: React.ReactNode; 
+  iconRight?: React.ReactNode; 
 }
 
 export const ButtonAtom = ({
   title,
   preset = "primary",
-  textPreset = 'smallBold',
-  loading,
+  textPreset = "smallBold",
+  loading = false,
   loadingColor = colorPresets.BLACK,
+  numberOfLines = 1,
+  iconLeft,
+  iconRight,
   ...rest
 }: ButtonAtomProps) => {
   const [width, setWidth] = React.useState(WINDOW_WIDTH - mScale.lg3);
@@ -34,6 +34,7 @@ export const ButtonAtom = ({
   const presetData = rest.disabled ? Presets.disabled : Presets[preset];
 
   const textStyle = ButtonText[preset];
+
   return (
     <View
       onLayout={(event) => {
@@ -43,7 +44,7 @@ export const ButtonAtom = ({
       }}
       style={[
         preset === "tertiary"
-          ? { borderRadius: mScale.sm, marginVertical: mScale.md }
+          ? { borderRadius: 4, marginVertical: mScale.md }
           : undefined,
       ]}
     >
@@ -52,20 +53,32 @@ export const ButtonAtom = ({
           <LinearGradientMolecule
             width={width}
             height={height}
-            radius={mScale.sm}
+            radius={4}
             colors={[colorPresets.GRAY3, colorPresets.GRAY3]}
           />
         </View>
       ) : null}
       <Pressable
-        style={({ pressed }) => [presetData, { opacity: pressed ? 0.7 : 1 }]}
+        disabled={loading}
+        style={({ pressed }) => [
+          presetData,
+          {
+            opacity: pressed ? 0.7 : 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+        ]}
         {...rest}
       >
-        {loading ? (
-          <ActivityIndicator color={loadingColor} size={"small"} />
-        ) : (
-          <TextAtom style={textStyle} preset={textPreset} text={title} numberOfLines={1}  />
-        )}
+        {iconLeft && <View style={{ marginRight: 8 }}>{iconLeft}</View>}
+        <TextAtom
+          style={[textStyle, { textAlign: 'center' }]}
+          preset={textPreset}
+          text={title}
+          numberOfLines={numberOfLines}
+        />
+        {iconRight && <View style={{ marginLeft: 8 }}>{iconRight}</View>}
       </Pressable>
     </View>
   );

@@ -1,3 +1,6 @@
+import crashlytics from '@react-native-firebase/crashlytics';
+import {number} from 'yup';
+
 export const sumCalculate = (arr: any[], priceKey: string) => {
   const sum =
     arr?.length &&
@@ -22,6 +25,13 @@ export const subtractTwoNumber = (num1: number, num2: number): number => {
 
 export const multiplyTwoNumber = (num1: number, num2: number): number => {
   return num1 * num2;
+};
+
+export const calculatePercetageAmount = (
+  perc: number,
+  amount: number,
+): number => {
+  return (amount * perc) / 100;
 };
 
 export const getRandomItem = <T>(items: T[]): T[] => {
@@ -85,3 +95,33 @@ export const PRODUCTION_HOST_URL: string = false
 
 export const REDIRECT_URL = 'https://aurahealing.in/';
 export const CALLBACK_URL = 'https://aurahealing.in/';
+
+export const getCurrentGreeting = () => {
+  const currentHour = new Date().getHours();
+
+  if (currentHour >= 5 && currentHour < 12) {
+    return 'Good Morning';
+  } else if (currentHour >= 12 && currentHour < 17) {
+    return 'Good Afternoon';
+  } else if (currentHour >= 17 && currentHour < 21) {
+    return 'Good Evening';
+  } else {
+    return 'Good Night';
+  }
+};
+
+export async function crashReport(login: any) {
+  try {
+    await Promise.all([
+      crashlytics().setUserId(`${login?.id ?? ''}`),
+      crashlytics().setAttributes({
+        Name: `${login?.first_name ?? ''} ${login?.surname_name ?? ''}`,
+        Email: `${login?.email ?? ''}`,
+        Phone: `${login?.phone ?? ''}`,
+      }),
+    ]);
+    // crashlytics().crash();
+  } catch (error) {
+    console.log('crashReport------------------------', error);
+  }
+}

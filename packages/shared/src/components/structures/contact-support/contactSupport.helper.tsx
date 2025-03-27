@@ -6,10 +6,11 @@ import {
   contactSupportValidation,
 } from "./contactSupportModel";
 import { createContactSupport } from "../../../provider/store/services/contact.service";
-import { ContactParams } from "../../../utils/types/contactus";
+import { ContactFields } from "../../../utils/types/contactus";
+import { clearContact } from "../../../provider/store/reducers/contact.reducer";
 
 export const useContactSupportHelper = () => {
-  type dataType = keyof typeof CONTACTSUPPORT_VALUES; 
+  type dataType = keyof typeof CONTACTSUPPORT_VALUES;
 
   const dispatch = useAppDispatch();
 
@@ -17,15 +18,22 @@ export const useContactSupportHelper = () => {
     initialValues: CONTACTSUPPORT_VALUES,
     validationSchema: contactSupportValidation,
     onSubmit: (values) => {
-      let data: ContactParams = {
-        first_name: values.first_name, 
+      let params: ContactFields = {
+        first_name: values.first_name,
         last_name: values.last_name,
         phone_no: values.phone_no,
         email_id: values.email_id,
         message: values.message,
       };
-      dispatch(createContactSupport(data));
-      contactSupportFormik.resetForm();
+      dispatch(
+        createContactSupport({
+          params,
+          onSuccess(data) {
+            dispatch(clearContact());
+            contactSupportFormik.resetForm();
+          },
+        })
+      );
     },
   });
 

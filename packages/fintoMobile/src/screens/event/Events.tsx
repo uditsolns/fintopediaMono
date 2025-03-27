@@ -98,7 +98,7 @@ export const Events: React.FC<EventsProps> = ({navigation}) => {
 
   return (
     <GradientTemplate style={{paddingBottom: 0}}>
-      <View style={{marginVertical: mScale.base}}>
+      <View style={{marginBottom: mScale.lg2,marginTop:mScale.xxl}}>
         <Images.SVG.LogoWhite />
       </View>
       {loading.games || loading.singleGame || startGameLoading.create ? (

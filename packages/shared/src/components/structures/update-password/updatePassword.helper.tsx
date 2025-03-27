@@ -17,15 +17,19 @@ export const useUpdatePasswordHelper = () => {
     initialValues: UPDATE_PASSWORD_VALUES,
     validationSchema: updatePasswordValidation,
     onSubmit: (values) => {
-      let data: UpdatePasswordParams = {
-        // old_password: values.old_password,
+      let params: UpdatePasswordParams = {
         user_id: values.user_id,
         new_password: values.new_password,
         new_password_confirmation: values.new_password_confirmation,
       };
-      console.log("data--------", data);
-      dispatch(confirmPassword(data));
-      updatePasswordFormik.resetForm();
+      dispatch(
+        confirmPassword({
+          params,
+          onSuccess(data) {
+            updatePasswordFormik.resetForm();
+          },
+        })
+      );
     },
   });
 

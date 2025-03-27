@@ -1,7 +1,7 @@
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from 'shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import { createCourseCart } from '@shared/src/provider/store/services/CourseCart.service';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -14,10 +14,11 @@ import Dropdown from '@src/components/Dropdown/Dropdown';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import TagsAtom from '@src/components/TagsAtom';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import * as React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
+import BorderWithThickness from '@src/components/Border';
 
 interface CourseCategoryProps extends NavType<'CourseCategory'> {}
 export default function CourseCategory({navigation}: CourseCategoryProps) {
@@ -38,36 +39,46 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
   }: {
     item: CoursesResponse;
   }) => {
-    return <PopularCourseMolecule item={item}  onPress={async () => {
-      let params = {
-        user_id: Number(auth?.user?.id),
-        course_id: Number(item?.id),
-        status: '1',
-      };
-      if (isInCart(courseCart, item?.id)) {
-        navigation.navigate(RouteKeys.CARTSCREEN);
-      } else {
-        await dispatch(
-          createCourseCart({
-            params,
-            onSuccess: data => {
-              navigation.navigate(RouteKeys.CARTSCREEN);
-            },
-            onError: err => {},
-          }),
-        ).unwrap();
-      }
-    }} />;
+    return (
+      <PopularCourseMolecule
+        item={item}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+            navigation.navigate(RouteKeys.CARTSCREEN);
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                },
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
+        }}
+      />
+    );
   };
 
   return (
-    <GradientTemplate style={{paddingHorizontal: 0, paddingBottom: 0,paddingTop:moderateScale(70)}}>
+    <GradientTemplate
+      style={{
+        paddingHorizontal: 0,
+        paddingBottom: 0,
+        paddingTop: moderateScale(70),
+      }}>
       <ScrollViewAtom nestedScrollEnabled={true}>
-        <View style={{marginBottom: mScale.xs}}>
-          <ViewAll title="All Categories" visible={false} />
-          <View style={{paddingLeft: mScale.base}}>
+        <View style={{marginVertical: mScale.xs}}>
+          <ViewAll title="All Categories" visible={false} preset='heading2' />
+          <View style={{paddingLeft: mScale.base, marginTop: mScale.xl}}>
             <View
-              style={{flexDirection: 'row', flexWrap: 'wrap', gap: mScale.md}}>
+              style={{flexDirection: 'row', flexWrap: 'wrap', gap: mScale.lg3}}>
               {getRandomItem(categories)
                 ?.slice(0, 5)
                 ?.map((data, index) => (
@@ -76,29 +87,27 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
             </View>
           </View>
         </View>
+        <BorderWithThickness mv={0} style={{marginTop: mScale.xl}} />
         <View
           style={[
             {
-              marginVertical: mScale.xl,
               flex: 1,
               backgroundColor: 'transparent',
-              borderTopWidth: 1,
-              borderBottomWidth: 1,
-              borderColor: colorPresets.GRAY3,
+              padding: mScale.xxl
             },
           ]}>
-          <View style={{flex: 1, padding: mScale.xl}}>
+          <View style={{flex: 1}}>
             <TextAtom
               text={'Don’t know where to start?'}
-              preset="heading3"
-              style={{textAlign: 'center', marginBottom: mScale.md}}
+              preset="heading2"
+              style={{textAlign: 'center', marginBottom: mScale.base}}
             />
             <TextAtom
               text={
                 'Create screens directly in Method or add your images from Sketch or Figma.'
               }
-              preset="medium"
-              style={{textAlign: 'center', marginBottom: mScale.lg}}
+              preset="large"
+              style={{textAlign: 'center', marginBottom: mScale.xl,fontWeight:'400',color:'#A4A4A4'}}
             />
 
             <Dropdown
@@ -114,8 +123,9 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
             />
           </View>
         </View>
-        <View style={{marginVertical: mScale.xl}}>
-          <ViewAll title="Popular Courses" visible={false} />
+        <BorderWithThickness mv={0} />
+        <View style={{marginVertical: moderateScale(45)}}>
+          <ViewAll title="Popular Courses" visible={false} preset='heading2' />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
               data={courses?.length ? courses : []}
@@ -132,7 +142,7 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
           </View>
         </View>
         <View style={{marginVertical: mScale.xl}}>
-          <ViewAll title="Previously Viewed Courses" visible={false} />
+          <ViewAll title="Previously Viewed Courses" visible={false}  preset='heading2' />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
               data={courses?.length ? courses : []}

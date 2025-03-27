@@ -21,17 +21,18 @@ const FrequentlyAskMolecule: React.FC = () => {
   return (
     <TouchableOpacity onPress={toggleExpanded} style={styles.container}>
       <View style={[commonStyle.flexStart, styles.header]}>
-        <View style={{flex: 1, paddingTop: 0, paddingHorizontal: mScale.md}}>
+        <View style={{flex: 1, paddingTop: 0}}>
           <TextAtom
             text={'Why opt for an online options trading course?'}
-            preset="heading4"
+            preset="bodySemiBold"
+            style={{fontWeight:'600'}}
           />
           {expanded && (
             <TextAtom
               text={
                 "Reach out to us for inquiries, collaborations, or just to say hello. We're here to listen."
               }
-              style={{color: '#D5D5D9'}}
+              style={{color: '#D5D5D9',fontWeight:'400',lineHeight:20}}
               preset="medium"
             />
           )}

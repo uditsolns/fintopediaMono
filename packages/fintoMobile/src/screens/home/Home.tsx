@@ -1,14 +1,21 @@
+import {useFocusEffect} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
+import {
+  storeSingleCourse,
+  storeVideoUrl,
+} from '@shared/src/provider/store/reducers/courses.reducer';
+import {storeSingleOngoingCourse} from '@shared/src/provider/store/reducers/ongoing.course.reducer';
 import {
   createCourseCart,
   getCourseCart,
 } from '@shared/src/provider/store/services/CourseCart.service';
 import {getCourses} from '@shared/src/provider/store/services/courses.service';
-import { getOngoingCourse } from '@shared/src/provider/store/services/ongoing-course.service';
+import {getOngoingCourse} from '@shared/src/provider/store/services/ongoing-course.service';
+import {getOngoingCourseStatus} from '@shared/src/provider/store/services/ongoing-courses-status.service';
 import {getUserById} from '@shared/src/provider/store/services/user.service';
 import {
   useAppDispatch,
@@ -17,10 +24,13 @@ import {
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CategoriesResponse} from '@shared/src/utils/types/categories';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
-import { OngoingCoursesResponse } from '@shared/src/utils/types/ongoing-course';
-import { UserCourseHistoryResponse } from '@shared/src/utils/types/UserCourseHistory';
-import {isInCart} from '@src/components/Calculate';
+import {OngoingCoursesResponse} from '@shared/src/utils/types/ongoing-course';
+import {OngoingCoursesStatusResponse} from '@shared/src/utils/types/ongoing-courses-status';
+import {UserCourseHistoryResponse} from '@shared/src/utils/types/UserCourseHistory';
+import {crashReport, isInCart} from '@src/components/Calculate';
 import CarouselAtom from '@src/components/Carousel/CarouselAtom';
+import {useCartContext} from '@src/components/context/CartContextApi';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import GetStarted from '@src/components/GetStarted';
 import Header from '@src/components/Header/Header';
 import LoaderAtom from '@src/components/LoaderAtom';
@@ -48,7 +58,15 @@ interface HomeProps extends NavType<'Home'> {}
 
 export const Home: React.FC<HomeProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
-  const {auth} = useAppSelector(state => state.auth);
+  const {
+    setPlayVideoStartLoading,
+    setVideoPlayerBeforePurchaseUrl,
+    setPlayVideoStartBeforePurchaseLoading,
+  } = useVideoPlayerContext();
+  const {setIsCouponCodeApply, setTotalPaymentAmount, setCouponCodePercentage} =
+    useCartContext();
+
+  const {auth, current_user} = useAppSelector(state => state.auth);
   const {banner, loading: bannerLoading} = useAppSelector(
     state => state.banner,
   );
@@ -61,12 +79,13 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   const {courseCart, loading: courseCartLoading} = useAppSelector(
     state => state.courseCart,
   );
-  const {user_course_history, loading: user_course_history_loading} = useAppSelector(
-    state => state.userCourseHistory,
-  );
+  const {user_course_history, loading: user_course_history_loading} =
+    useAppSelector(state => state.userCourseHistory);
   const {ongoing_courses, loading: ongoing_courses_loading} = useAppSelector(
     state => state.ongoingCourse,
   );
+  const {ongoing_courses_status, loading: ongoingCourseStatusLoading} =
+    useAppSelector(state => state.ongoingCourseStatus);
   const [refreshLoading, setRefreshLoading] = React.useState(false);
 
   const [categoriesSelected, setCategoriesSelected] = React.useState<
@@ -90,8 +109,22 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     dispatch(getCourses());
     dispatch(getCourseCart());
     dispatch(getOngoingCourse());
+    dispatch(getOngoingCourseStatus());
+    crashReport(current_user);
     setRefreshLoading(false);
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setIsCouponCodeApply(false);
+      setTotalPaymentAmount('');
+      setCouponCodePercentage(0);
+
+      return () => {
+        console.log('Screen is unfocused');
+      };
+    }, []),
+  );
 
   React.useEffect(() => {
     if (courses?.length) {
@@ -99,13 +132,22 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     }
   }, [courses]);
 
-  const continueLearningRenderItem = ({item}: {item: OngoingCoursesResponse}) => {
+  const continueLearningRenderItem = ({
+    item,
+  }: {
+    item: OngoingCoursesStatusResponse;
+  }) => {
     return (
       <ContinueLearningMolecule
-        item={item}
+        item={item?.ongoing}
         onPress={() => {
+          // if (item?.course?.course_video_embed) {
+          //   dispatch(storeVideoUrl(item?.course?.course_video_embed));
+          // }
+          setPlayVideoStartLoading(false);
+          dispatch(storeSingleOngoingCourse(item?.ongoing));
           navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
-            id: item?.course_id,
+            id: item?.ongoing?.course_id,
           });
         }}
       />
@@ -133,6 +175,11 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       <PopularCourseMolecule
         item={item}
         onView={() => {
+          if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+            dispatch(storeVideoUrl(item?.course_video_embed));
+          }
           navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
             id: item?.id,
           });
@@ -172,7 +219,9 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       categoriesLoading?.categories ||
       coursesLoading?.courses ||
       courseCartLoading?.courseCart ||
-      courseCartLoading.create || user_course_history_loading?.user_course_history || ongoing_courses_loading?.ongoing_courses ? (
+      courseCartLoading.create ||
+      user_course_history_loading?.user_course_history ||
+      ongoing_courses_loading?.ongoing_courses ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>
@@ -183,15 +232,17 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
         refreshControl={
           <RefreshControl refreshing={refreshLoading} onRefresh={onRefresh} />
         }>
-        <View>
+        <View style={{paddingTop: moderateScale(22)}}>
           <CarouselAtom data={banner?.length ? banner : []} />
         </View>
-        {auth?.token ? (
-          <View>
+        {auth?.token && ongoing_courses_status?.length ? (
+          <View style={{marginTop: moderateScale(32)}}>
             <ViewAll title="Continue Learning" visible={false} />
-            <View style={{paddingLeft: mScale.base}}>
+            <View style={{paddingLeft: mScale.base, marginTop: mScale.lg}}>
               <FlatList
-                data={ongoing_courses?.length ? ongoing_courses : []}
+                data={
+                  ongoing_courses_status?.length ? ongoing_courses_status : []
+                }
                 renderItem={continueLearningRenderItem}
                 horizontal={true}
                 contentContainerStyle={{
@@ -204,7 +255,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
             </View>
           </View>
         ) : null}
-        <View style={{marginVertical: mScale.xl}}>
+        <View style={{marginTop: moderateScale(38)}}>
           {categories?.length ? (
             <>
               <ViewAll
@@ -213,7 +264,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
                   navigation.navigate(RouteKeys.COURSECATEGORYSCREEN);
                 }}
               />
-              <View style={{paddingLeft: mScale.base}}>
+              <View style={{paddingLeft: mScale.base, marginTop: mScale.lg}}>
                 <FlatList
                   data={categories?.length ? categories : []}
                   renderItem={categoriesRenderItem}
@@ -232,9 +283,11 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
                           categoriesSelected == 'all' && {
                             backgroundColor: '#545664',
                             borderRadius: 4,
-                            borderWidth: 1,
+                            borderTopWidth: 0.5,
+                            borderLeftWidth: 0.35,
+                            borderRightWidth: 1,
+                            borderBottomWidth: 0.4,
                             borderColor: '#B8BCCB',
-                            paddingHorizontal: mScale.base,
                           },
                         ]}
                         onPress={() => {
@@ -243,7 +296,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
                         }}>
                         <TextAtom
                           text={'All'}
-                          preset="titleBold"
+                          preset="smallBold"
                           style={styles.boldText}
                         />
                       </Pressable>

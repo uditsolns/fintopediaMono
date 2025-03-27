@@ -1,5 +1,10 @@
-import { ScrollView, ScrollViewProps, StyleProp, ViewStyle } from 'react-native';
-import * as React from 'react';
+import {
+  ScrollView,
+  ScrollViewProps,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
+import * as React from "react";
 
 interface ScrollViewAtomProps extends ScrollViewProps {
   showsHorizontalScrollIndicator?: boolean;
@@ -8,13 +13,13 @@ interface ScrollViewAtomProps extends ScrollViewProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export default function ScrollViewAtom({
+export const ScrollViewAtom = ({
   showsHorizontalScrollIndicator = false,
   showsVerticalScrollIndicator = false,
   children,
   style,
   ...rest
-}: ScrollViewAtomProps) {
+}: ScrollViewAtomProps) => {
   return (
     <ScrollView
       showsHorizontalScrollIndicator={showsHorizontalScrollIndicator}
@@ -25,4 +30,4 @@ export default function ScrollViewAtom({
       {children}
     </ScrollView>
   );
-}
+};

@@ -27,7 +27,7 @@ export const resetField: ResetField = {
   },
   new_password_confirmation: {
     name: "new_password_confirmation",
-    label: "Confirm Password",
+    label: "Confirm New Password",
     placeHolder: "Enter your confirm password",
     requiredErr: "Confirm Password is required",
   },
@@ -51,7 +51,7 @@ export const resetValidation = Yup.object().shape({
   [resetField.new_password_confirmation.name]: Yup.string()
     .required(`${resetField.new_password_confirmation.requiredErr}`)
     .oneOf(
-      [Yup.ref(`${resetField.new_password_confirmation.name}`), ""],
+      [Yup.ref(`${resetField.new_password.name}`), ""],
       "Passwords must match"
     ),
 });

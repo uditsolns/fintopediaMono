@@ -1,6 +1,5 @@
 "use client";
-import React from "react";
-// import dynamic from "next/dynamic";
+import * as React from "react";
 import Banner from "./homepage/Banner";
 import StocksSlider from "./homepage/StocksSlider";
 import QuizSection from "./homepage/QuizSection";
@@ -15,7 +14,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
-// import Login from "./auth/login/page";
 import { getCourses } from "shared/src/provider/store/services/courses.service";
 import { getCategories } from "shared/src/provider/store/services/categories.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
@@ -31,7 +29,7 @@ import { getCourseReviews } from "shared/src/provider/store/services/course-revi
 //   ssr: false,
 //   loading: () => <div>Loading...</div>,
 // });
-const page = () => {
+export default function Home() {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
   const token = auth?.token;
@@ -90,6 +88,4 @@ const page = () => {
       </div>
     </>
   );
-};
-
-export default page;
+}
