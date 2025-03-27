@@ -9,6 +9,7 @@ import {
   sumCalculate,
 } from "shared/src/components/atoms/Calculate";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import ProgressBar from "@src/components/progress/ProgressBar";
 
 export default function InvoiceScreen() {
   const { singlePurchaseHistory: purchaseRes, loading } = useAppSelector(
@@ -120,7 +121,9 @@ export default function InvoiceScreen() {
                     </svg>
                   ))}
                 </div>
-                <span className={`${styles.textGray} ml-3`}>Intermediate</span>
+                <span className={`${styles.textGray} ml-3`}>
+                  <ProgressBar level={el?.course_type} />
+                </span>
                 <span className={`${styles.textGray} ml-3`}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
