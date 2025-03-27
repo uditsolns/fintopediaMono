@@ -17,6 +17,8 @@ export const useAuthHelper = () => {
       let data: AuthParams = {
         phone: values.phone,
         password: values.password,
+        device_id: values.device_id || "",
+        device_id_web: values.device_id_web || "",
       };
       dispatch(signIn(data));
     },

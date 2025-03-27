@@ -5,6 +5,8 @@ interface OtplessContextType {
   setOtp: (otp: string) => void;
   phoneNumber: string | number;
   setPhoneNumber: (phone: string) => void;
+  deviceId: string | null;
+  setDeviceId: (phone: string) => void;
 }
 
 interface OtplessContextProviderProps {
@@ -18,6 +20,7 @@ export const OtplessContextProvider: React.FC<OtplessContextProviderProps> = ({
 }) => {
   const [otp, setOtp] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [deviceId, setDeviceId] = useState<string>('');
 
   return (
     <OtplessContext.Provider
@@ -26,6 +29,8 @@ export const OtplessContextProvider: React.FC<OtplessContextProviderProps> = ({
         setOtp,
         phoneNumber,
         setPhoneNumber,
+        deviceId,
+        setDeviceId,
       }}>
       {children}
     </OtplessContext.Provider>

@@ -1,6 +1,6 @@
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import * as React from 'react';
-import {Alert, View} from 'react-native';
+import {Alert, PermissionsAndroid, Platform, View} from 'react-native';
 import {commonStyle} from '@shared/src/commonStyle';
 import {Images} from '@shared/src/assets';
 import {colorPresets} from '@shared/src/theme/color';
@@ -29,6 +29,8 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {googleSignIn} from '@shared/src/provider/store/services/auth.service';
 import {ScrollViewAtom} from 'shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {OneSignal} from 'react-native-onesignal';
+import {useOtplessContext} from '@src/components/context/OtplessContextApi';
 
 interface LoginProps extends NavType<'Login'> {}
 
@@ -38,6 +40,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
   const {authFormik, authInputProps} = useAuthHelper();
   const {handleSubmit, setFieldValue} = authFormik;
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);
+  const {deviceId, setDeviceId} = useOtplessContext();
 
   React.useEffect(() => {
     GoogleSignin.configure();
@@ -54,6 +57,17 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
       }
     }
   }, [auth]);
+
+  const getTokenFromOneSignal = async () => {
+    try {
+      await OneSignal.User.pushSubscription.getIdAsync().then(async token => {
+        let token_data = token;
+        setDeviceId(`${token_data}`);
+      });
+    } catch (error) {
+      console.log('error in OneSignal token generation :', error);
+    }
+  };
 
   const userGogleLogin = async () => {
     try {
@@ -92,6 +106,61 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
         console.log("an error that's not related to google sign in occurred");
       }
     }
+  };
+
+  React.useEffect(() => {
+    getTokenFromOneSignal();
+  }, [deviceId]);
+
+  React.useEffect(() => {
+    const checkPermission = async () => {
+      await requestAllPermissions();
+    };
+
+    checkPermission();
+
+    getTokenFromOneSignal();
+    setFieldValue(authField.device_id.name, deviceId);
+    setFieldValue(authField.device_id_web.name, '');
+  }, []);
+
+  const requestAllPermissions = async () => {
+    const androidVersion: number = Number(Platform.Version);
+
+    try {
+      const permissions = [PermissionsAndroid.PERMISSIONS.CAMERA];
+
+      const android13Permissions = [
+        PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+      ];
+
+      const allPermissions =
+        Number(androidVersion) >= 33
+          ? [...permissions, ...android13Permissions]
+          : [
+              ...permissions,
+              PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+              PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+            ];
+
+      const granted = await PermissionsAndroid.requestMultiple(allPermissions, {
+        title: 'App Permissions',
+        message: 'This app needs access to your storage, and camera.',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      });
+
+      for (const permission in granted) {
+        if (granted[permission] !== PermissionsAndroid.RESULTS.GRANTED) {
+          console.log(`Permission ${permission} denied.`);
+        }
+      }
+      console.log('All requested permissions handled.');
+    } catch (err) {
+      console.log('Permission request error:', err);
+    }
+    return null;
   };
 
   return (
@@ -145,6 +214,8 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
             <ButtonAtom
               title="Login"
               onPress={() => {
+                setFieldValue(authField.device_id.name, deviceId);
+                setFieldValue(authField.device_id_web.name, '');
                 handleSubmit();
               }}
               loading={loading.login ? true : false}
