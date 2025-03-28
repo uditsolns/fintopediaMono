@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./InvoiceScreen.module.css";
 import { useRouter } from "next/navigation";
 import {
@@ -8,22 +8,15 @@ import {
   subtractTwoNumber,
   sumCalculate,
 } from "shared/src/components/atoms/Calculate";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "shared/src/provider/store/types/storeTypes";
+import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import ProgressBar from "@src/components/progress/ProgressBar";
 import { useCartContext } from "@src/app/context/CartContextApi";
-import {
-  createPurchaseHistory,
-  getPurchaseHistoryById,
-} from "shared/src/provider/store/services/PurchaseHistory.service";
-import LoadingAtom from "@src/components/loader/LoadingAtom";
 
 export default function InvoiceScreen() {
   const { singlePurchaseHistory: purchaseRes, loading } = useAppSelector(
     (state) => state.purchaseHistory
   );
+  console.log("purchaseRes", purchaseRes);
   const {
     setCouponCodePercentage,
     setIsCouponCodeApply,
@@ -32,124 +25,52 @@ export default function InvoiceScreen() {
   } = useCartContext();
 
   const data = localStorage.getItem("singlePurchaseHistory");
+
   const singlePurchaseHistory = data ? JSON.parse(data) : purchaseRes;
+  console.log("singlePurchaseHistory", singlePurchaseHistory);
 
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const { auth } = useAppSelector((state) => state.auth);
-  const [purchaseData, setPurchaseData] = useState<any>(null);
-
-  // Invoice Calculation States
-  const [subtotal, setSubtotal] = useState<number>(0);
-  const [totalDiscount, setTotalDiscount] = useState<number>(0);
-  const [totalPay, setTotalPay] = useState<number>(0);
-  const [gst, setGst] = useState<number>(0);
-  const [actualPriceTotal, setActualPriceTotal] = useState<number>(0);
-
-  // Handle navigation
   const handleHomeClick = () => {
     router.push("/");
+    // localStorage.clear();
     localStorage.removeItem("transactionId");
     localStorage.removeItem("singlePurchaseHistory");
     localStorage.removeItem("courseCartState");
     localStorage.removeItem("courseCart");
-    localStorage.removeItem("purchaseData");
-    localStorage.removeItem("paymentStatus");
   };
 
-  useEffect(() => {
-    const paymentStatus = localStorage.getItem("paymentStatus");
-    const storedPurchaseData = localStorage.getItem("purchaseData");
-    setPurchaseData(JSON.parse(storedPurchaseData || "{}"));
-  }, [router]);
+  const [subtotal, setSubtotal] = React.useState<number>(0);
+  const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
+  const [totalPay, setTotalPay] = React.useState<number>(0);
+  const [gst, setGst] = React.useState<number>(0);
+  const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
 
-  // Calculate invoice details
   React.useEffect(() => {
     if (singlePurchaseHistory?.courses?.length) {
-      const salePrice = sumCalculate(
+      let sale_price = sumCalculate(
         singlePurchaseHistory?.courses,
         "sale_price"
       );
-      const actualPrice = sumCalculate(
+      let actual_price = sumCalculate(
         singlePurchaseHistory?.courses,
         "actual_price"
       );
-      const totalDiscountAmount = subtractTwoNumber(salePrice, actualPrice);
-      const gstTotal = (salePrice * 18) / 100;
-      const totalPayAmount = addTwoNumber(salePrice, gstTotal);
-
+      let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
+      let gstTotal = (sale_price * 18) / 100;
+      let totalPayAmount = addTwoNumber(sale_price, gstTotal);
       setGst(gstTotal);
-      setActualPriceTotal(actualPrice);
-      setSubtotal(salePrice);
+      setActualPricetotal(actual_price);
+      setSubtotal(sale_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
       setKeepTotalPaymentAmount(totalPayAmount);
     }
-
     return () => {
       setIsCouponCodeApply(false);
       setTotalPaymentAmount("");
       setCouponCodePercentage(0);
     };
-  }, [
-    singlePurchaseHistory,
-    setIsCouponCodeApply,
-    setTotalPaymentAmount,
-    setCouponCodePercentage,
-    setKeepTotalPaymentAmount,
-  ]);
-
-  // Create purchase history after successful payment
-  React.useEffect(() => {
-    if (purchaseData && purchaseData.payment_status === "paid") {
-      const params = purchaseData;
-      dispatch(
-        createPurchaseHistory({
-          params,
-          onSuccess(data) {
-            const purchaseId = data?.data?.id;
-            if (purchaseId) {
-              const getParams = { id: purchaseId };
-              dispatch(
-                getPurchaseHistoryById({
-                  params: getParams,
-                  onSuccess(historyData) {
-                    localStorage.setItem(
-                      "singlePurchaseHistory",
-                      JSON.stringify(historyData)
-                    );
-                  },
-                  onError(error) {
-                    console.log(
-                      "Error fetching purchase history by ID:",
-                      error
-                    );
-                  },
-                })
-              );
-            }
-          },
-          onError(error) {
-            console.log("Error creating purchase history:", error);
-          },
-        })
-      );
-    }
-  }, [dispatch, purchaseData]);
-
-  // Return loading state if data isn't available
-  if (!purchaseData) {
-    return <div>Loading123...</div>;
-  }
-
-  if (loading?.singlePurchaseHistory) {
-    return (
-      <div className={styles.loadingContainer}>
-        <LoadingAtom size="lg" color="light" />
-      </div>
-    );
-  }
-
+  }, [singlePurchaseHistory]);
   return (
     <div className={styles.screen}>
       <div className={styles.container}>

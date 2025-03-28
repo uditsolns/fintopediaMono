@@ -1,6 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import sha256 from "crypto-js/sha256";
+import {
+  createPurchaseHistory,
+  getPurchaseHistoryById,
+} from "shared/src/provider/store/services/PurchaseHistory.service";
 import { useRouter } from "next/navigation";
 import {
   useAppDispatch,
@@ -18,16 +22,19 @@ interface CourseCartState {
 }
 
 const Page = () => {
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const { auth } = useAppSelector((state) => state.auth);
   const id = localStorage.getItem("transactionId");
   const courseCart = localStorage.getItem("courseCart");
   const savedState = localStorage.getItem("courseCartState");
-
+  const hasCalled = React.useRef(false);
   const [isPaymentStatusFetched, setPaymentStatusFetched] = useState(false);
+
   const PHONEPE_MERCHANT_ID = "AURAHONLINEUAT";
   const PHONEPE_SALT_KEY = "c9170f9e-85bc-4055-8cec-812bf1b73f53";
   const PHONEPE_SALT_INDEX = 1;
+  const PHONEPE_CALLBACK_URL = "http://127.0.0.1:8000/payment/response";
   const PHONEPE_API_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox";
 
   const sha256Res2 = sha256(
@@ -40,14 +47,18 @@ const Page = () => {
     (itm: { course_id: number }) => itm.course_id
   );
   const currentPurchaseDate = new Date().toISOString().split("T")[0];
-
+  const [effectCallCount, setEffectCallCount] = useState(0);
   useEffect(() => {
+    setEffectCallCount((prevCount) => prevCount + 1);
+    if (hasCalled.current) return;
+    hasCalled.current = true;
+
     if (!id || !courseCart || !savedState || isPaymentStatusFetched) {
       return;
     }
 
-    const parsedState: CourseCartState = JSON.parse(savedState);
-    console.log(parsedState);
+    const parsedState = JSON.parse(savedState);
+    console.log("Parsed State:", parsedState);
 
     const fetchPaymentStatus = async () => {
       try {
@@ -62,13 +73,17 @@ const Page = () => {
             },
           }
         );
+
         const res = await response.json();
-        const params = {
+        const paymentStatus =
+          res?.code === "PAYMENT_SUCCESS" ? "paid" : "failed";
+
+        const paymentData = {
           user_id: auth?.user?.id,
           course_id: courseIds,
           purchase_date: currentPurchaseDate,
-          status: res?.code === "PAYMENT_SUCCESS" ? "paid" : "failed",
-          payment_status: res?.code === "PAYMENT_SUCCESS" ? "paid" : "failed",
+          status: paymentStatus,
+          payment_status: paymentStatus,
           phone_pe_payment_id:
             res?.data?.transactionId ||
             res?.data?.paymentInstrument?.pgServiceTransactionId ||
@@ -91,21 +106,54 @@ const Page = () => {
           gst: parsedState?.gst || "",
           grand_total: parsedState?.totalPay || "",
         };
-        localStorage.setItem("purchaseData", JSON.stringify(params));
-        localStorage.setItem(
-          "paymentStatus",
-          res?.code === "PAYMENT_SUCCESS" ? "paid" : "failed"
-        );
-        router.push("/checkout/invoice-screen");
 
-        setPaymentStatusFetched(true);
+        dispatch(
+          createPurchaseHistory({
+            params: paymentData,
+            onSuccess: (data) => {
+              console.log("Purchase history created successfully:", data);
+              const purchaseId = data?.data?.id;
+
+              if (purchaseId) {
+                dispatch(
+                  getPurchaseHistoryById({
+                    params: { id: purchaseId },
+                    onSuccess: (historyData) => {
+                      console.log("Purchase history data:", historyData);
+                      localStorage.setItem(
+                        "singlePurchaseHistory",
+                        JSON.stringify(historyData)
+                      );
+                      router.push("/checkout/invoice-screen");
+                    },
+                    onError: (error) => {
+                      console.error(
+                        "Error fetching purchase history by ID:",
+                        error
+                      );
+                    },
+                  })
+                );
+              } else {
+                console.error("Purchase ID is missing from the response data.");
+              }
+            },
+            onError: (error) => {
+              console.error("Error creating purchase history:", error);
+            },
+          })
+        );
+
+        setPaymentStatusFetched(true); 
       } catch (error) {
         console.error("Error in payment status fetch:", error);
       }
     };
-    fetchPaymentStatus();
-  }, [id, courseCart, savedState, isPaymentStatusFetched]);
 
+    fetchPaymentStatus();
+  }, []);
+
+  console.log(`<p>useEffect has been called ${effectCallCount} times.</p>.`);
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
