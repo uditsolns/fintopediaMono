@@ -5,9 +5,11 @@ import Image from "next/image";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import ProgressBar from "@src/components/progress/ProgressBar";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
-import { isInCart } from "shared/src/components/atoms/Calculate";
+import {
+  isCoursePurchased,
+  isInCart,
+} from "shared/src/components/atoms/Calculate";
 import { useRouter } from "next/navigation";
-import LoadingAtom from "@src/components/loader/LoadingAtom";
 
 interface CoursesMoleculeProps {
   course?: CoursesResponse;
@@ -22,13 +24,35 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
   const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);
 
+  const { courseget_purchase } = useAppSelector(
+    (state) => state.coursesgetPurchase
+  );
+  console.log("courseget_purchase",courseget_purchase)
+
+  // Check if the course is purchased using the reusable function
+  const isCoursePurchasedStatus = isCoursePurchased(
+    courseget_purchase,
+    course?.id
+  );
+
+  // const handleNavigation = async () => {
+  //   if (course?.id) {
+  //     await router.push(`/courses/course-details/${course.id}`);
+  //   }
+  // };
   const handleNavigation = async () => {
     if (course?.id) {
-      await router.push(`/courses/course-details/${course.id}`);
+      // Navigate to 'course-details-enrolling' if the course is purchased
+      if (isCoursePurchasedStatus) {
+        await router.push(`/courses/course-details-enrolling/${course.id}`);
+      } else {
+        // Navigate to the regular 'course-details' page if the course is not purchased
+        await router.push(`/courses/course-details/${course.id}`);
+      }
     }
   };
 
-  return ( 
+  return (
     <>
       <div key={course.id} className={styles.card}>
         <div className={styles.cardImage} onClick={handleNavigation}>
@@ -128,7 +152,9 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
                 />
               </svg>
             </span>
-            <span className={styles.reviewCount}>({course.reviews} reviews)</span>
+            <span className={styles.reviewCount}>
+              ({course.reviews} reviews)
+            </span>
           </div>
           <div className={styles.priceSection}>
             <div>
@@ -136,15 +162,22 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
               <span className={styles.originalPrice}>
                 ₹{course.actual_price}
               </span>
-            </div> 
+            </div>
 
             <button
               className={styles.button}
               onClick={onClick}
               disabled={loading}
             >
+              {/* {loading
+                ? "Loading..."
+                : isInCart(courseCart, course?.id)
+                ? "Go to cart"
+                : "Add to cart"} */}
               {loading
                 ? "Loading..."
+                : isCoursePurchasedStatus
+                ? "Watch Now"
                 : isInCart(courseCart, course?.id)
                 ? "Go to cart"
                 : "Add to cart"}

@@ -41,6 +41,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import likeCoursesReducer from "./reducers/course-like.reducer";
 import contactReducer from "./reducers/contact.reducer";
 import completionPercentageReducer from "./reducers/completion-percentage.reducer";
+import coursesgetPurchaseReducer from "./reducers/coursesget-purchase.reducer";
 
 const isNative = Platform.OS !== "web";
 
@@ -88,6 +89,7 @@ const reducers = combineReducers({
   likeCourse: likeCoursesReducer,
   contact: contactReducer,
   completionPercentage: completionPercentageReducer,
+  coursesgetPurchase: coursesgetPurchaseReducer,
 });
 
 // const middleware = (getDefaultMiddleware: any) => {

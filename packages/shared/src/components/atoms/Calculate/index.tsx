@@ -31,6 +31,9 @@ export const getRandomItem = <T,>(items: T[]): T[] => {
 export const isInCart = (arr: any[], course_id: number) => {
   return arr?.some((item) => item?.course_id === course_id);
 };
+export const isCoursePurchased = (arr: any[], course_id: number) => {
+  return arr?.some((item) => item?.course_id === course_id && item?.is_purchased);
+};
 
 export const filteredCourses = (arr1: any[], arr2: any[]) => {
   let res = arr1?.filter(

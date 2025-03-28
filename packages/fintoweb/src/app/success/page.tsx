@@ -34,7 +34,6 @@ const Page = () => {
   const PHONEPE_MERCHANT_ID = "AURAHONLINEUAT";
   const PHONEPE_SALT_KEY = "c9170f9e-85bc-4055-8cec-812bf1b73f53";
   const PHONEPE_SALT_INDEX = 1;
-  const PHONEPE_CALLBACK_URL = "http://127.0.0.1:8000/payment/response";
   const PHONEPE_API_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox";
 
   const sha256Res2 = sha256(
@@ -144,7 +143,7 @@ const Page = () => {
           })
         );
 
-        setPaymentStatusFetched(true); 
+        setPaymentStatusFetched(true);
       } catch (error) {
         console.error("Error in payment status fetch:", error);
       }
@@ -196,5 +195,4 @@ const Page = () => {
     </div>
   );
 };
-
 export default Page;

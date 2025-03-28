@@ -1,12 +1,16 @@
 export interface CompletionPercentageFields {
-  id?: number; 
+  id?: number;
   course_id: number;
   completion_percentage: number;
 }
 
 export interface CompletionPercentageResponse {
+  course_id: number;
   user_id: number;
   completion_percentage: CompletionPercentageFields[];
+}
+export interface CompletionPercentageParams {
+  params: CompletionPercentageFields;
 }
 
 export interface CompletionPercentageState {
@@ -24,9 +28,9 @@ export interface CompletionPercentageState {
     updateErr: any;
     deleteErr: any;
   };
-  completion_percentage: CompletionPercentageFields[]; 
+  completion_percentage: CompletionPercentageFields[];
   single_completion_percentage: CompletionPercentageFields | null;
-  create: CompletionPercentageFields | null;
-  update: CompletionPercentageFields | null;
+  create: CompletionPercentageFields | null; 
+  update: CompletionPercentageFields | null; 
   delete: string | null;
 }

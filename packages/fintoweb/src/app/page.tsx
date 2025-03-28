@@ -20,6 +20,7 @@ import LoadingAtom from "@src/components/loader/LoadingAtom";
 import { getCourseCart } from "shared/src/provider/store/services/CourseCart.service";
 import AchiveingSliderMolecule from "@src/components/molecules/AchiveingSliderMolecule/AchiveingSliderMolecule";
 import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
+import { getCoursesgetPurchase } from "shared/src/provider/store/services/coursesget-purchase.service";
 
 // const Homepage = dynamic(() => import("./homepage/Homepage"), {
 //   ssr: false,
@@ -42,10 +43,13 @@ export default function Home() {
   const { course_review, loading: coursesReviewLoading } = useAppSelector(
     (state) => state.courseReviews
   );
-  // console.log("🚀 ~ page ~ course_review:", course_review);
+  const { courseget_purchase, loading: coursesgetPurchaseLoading } =
+    useAppSelector((state) => state.coursesgetPurchase);
+  console.log("🚀 ~ page ~ courseget_purchase:", courseget_purchase);
   React.useEffect(() => {
     if (token) {
       dispatch(getCourseCart());
+      dispatch(getCoursesgetPurchase());
     }
   }, [token, dispatch]);
 
@@ -64,7 +68,8 @@ export default function Home() {
     <>
       {categoriesLoading?.categories ||
       coursesLoading?.courses ||
-      coursesReviewLoading?.course_review ? (
+      coursesReviewLoading?.course_review ||
+      coursesgetPurchaseLoading?.courseget_purchase ? (
         <div className="fullPageLoading">
           <LoadingAtom
             style={{
@@ -74,6 +79,7 @@ export default function Home() {
           />
         </div>
       ) : null}
+      
       <div>
         <Banner />
         <StocksSlider />

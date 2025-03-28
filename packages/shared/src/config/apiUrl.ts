@@ -15,8 +15,8 @@ export default {
     FORGOTCONFIRM: buildUrl("update-password"),
     GOOGLE: buildUrl("google-login"),
     VERIFYOTP: buildUrl("verifyOtp"),
-    VERIFYMOBILENUMBER:buildUrl("verify_mobileno"),
-    OTPLOGIN:buildUrl("login_otp"),
+    VERIFYMOBILENUMBER: buildUrl("verify_mobileno"),
+    OTPLOGIN: buildUrl("login_otp"),
   },
   USER: {
     GET: buildUrl("users"),
@@ -239,5 +239,11 @@ export default {
     POST: buildUrl("CompletionPercentage"),
     UPDATE: buildUrl("CompletionPercentage"),
     DELETE: buildUrl("CompletionPercentage"),
+  },
+  COURSE_PURCHASE: {
+    GET: buildUrl("coursesget_purchase"),
+    POST: buildUrl("coursesget_purchase"),
+    UPDATE: buildUrl("coursesget_purchase"),
+    DELETE: buildUrl("coursesget_purchase "),
   },
 };

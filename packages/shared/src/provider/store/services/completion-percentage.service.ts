@@ -45,13 +45,16 @@ export const getCompletionPercentageById = createAsyncThunk<
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
 
-    const response = await fetch(`${apiUrl.COMPLETION_PERCENTAGE.GET}/${params?.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${apiUrl.COMPLETION_PERCENTAGE.GET}/${params?.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = (await response.json()) as CompletionPercentageResponse;
 
@@ -65,28 +68,31 @@ export const createCompletionPercentage = createAsyncThunk<
   CompletionPercentageResponse,
   CompletionPercentageParams & OnSuccessInterface & OnErrorInterface,
   { state: RootState }
->("createCompletionPercentage/post", async ({ params, onSuccess, onError }, thunkApi) => {
-  try {
-    const state = thunkApi.getState();
-    const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.COMPLETION_PERCENTAGE.POST, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(params),
-    });
+>(
+  "createCompletionPercentage/post",
+  async ({ params, onSuccess, onError }, thunkApi) => {
+    try {
+      const state = thunkApi.getState();
+      const token = state.auth?.auth?.token;
+      const response = await fetch(apiUrl.COMPLETION_PERCENTAGE.POST, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+      });
 
-    const data = (await response.json()) as CompletionPercentageResponse;
-    onSuccess(data);
-    thunkApi.dispatch(getCompletionPercentage());
-    return data;
-  } catch (error) {
-    onError(error);
-    return thunkApi.rejectWithValue(error);
+      const data = (await response.json()) as CompletionPercentageResponse;
+      onSuccess(data);
+      thunkApi.dispatch(getCompletionPercentage());
+      return data;
+    } catch (error) {
+      onError(error);
+      return thunkApi.rejectWithValue(error);
+    }
   }
-});
+);
 
 export const updateCompletionPercentage = createAsyncThunk<
   CompletionPercentageResponse,
@@ -125,24 +131,30 @@ export const deleteCompletionPercentage = createAsyncThunk<
   any,
   DeleteParams,
   { state: RootState }
->("deleteCompletionPercentage/delete", async ({ id, onSuccess, onError }, thunkApi) => {
-  try {
-    const state = thunkApi.getState();
-    const token = state.auth?.auth?.token;
-    const response = await fetch(apiUrl.COMPLETION_PERCENTAGE.DELETE + "/" + id, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+>(
+  "deleteCompletionPercentage/delete",
+  async ({ id, onSuccess, onError }, thunkApi) => {
+    try {
+      const state = thunkApi.getState();
+      const token = state.auth?.auth?.token;
+      const response = await fetch(
+        apiUrl.COMPLETION_PERCENTAGE.DELETE + "/" + id,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    const data = (await response.json()) as any;
-    thunkApi.dispatch(getCompletionPercentage());
-    onSuccess(data);
-    return data;
-  } catch (error) {
-    onError(error);
-    return thunkApi.rejectWithValue(error);
+      const data = (await response.json()) as any;
+      thunkApi.dispatch(getCompletionPercentage());
+      onSuccess(data);
+      return data;
+    } catch (error) {
+      onError(error);
+      return thunkApi.rejectWithValue(error);
+    }
   }
-});
+);
