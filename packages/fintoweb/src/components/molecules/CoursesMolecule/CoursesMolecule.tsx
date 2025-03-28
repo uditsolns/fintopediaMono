@@ -27,26 +27,21 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
   const { courseget_purchase } = useAppSelector(
     (state) => state.coursesgetPurchase
   );
-  console.log("courseget_purchase",courseget_purchase)
 
-  // Check if the course is purchased using the reusable function
+  const flattenedCourses = courseget_purchase.flat();
+
   const isCoursePurchasedStatus = isCoursePurchased(
-    courseget_purchase,
+    flattenedCourses,
     course?.id
   );
 
-  // const handleNavigation = async () => {
-  //   if (course?.id) {
-  //     await router.push(`/courses/course-details/${course.id}`);
-  //   }
-  // };
+  // console.log("isCoursePurchasedStatus", isCoursePurchasedStatus);
+
   const handleNavigation = async () => {
     if (course?.id) {
-      // Navigate to 'course-details-enrolling' if the course is purchased
       if (isCoursePurchasedStatus) {
-        await router.push(`/courses/course-details-enrolling/${course.id}`);
+        await router.push(`/course-details-enrolling/${course.id}`);
       } else {
-        // Navigate to the regular 'course-details' page if the course is not purchased
         await router.push(`/courses/course-details/${course.id}`);
       }
     }
@@ -166,14 +161,17 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
 
             <button
               className={styles.button}
-              onClick={onClick}
+              onClick={() => {
+                if (isCoursePurchasedStatus) {
+                  handleNavigation();
+                } else if (isInCart(courseCart, course?.id)) {
+                  router.push("/cart");
+                } else {
+                  onClick && onClick();
+                }
+              }}
               disabled={loading}
             >
-              {/* {loading
-                ? "Loading..."
-                : isInCart(courseCart, course?.id)
-                ? "Go to cart"
-                : "Add to cart"} */}
               {loading
                 ? "Loading..."
                 : isCoursePurchasedStatus

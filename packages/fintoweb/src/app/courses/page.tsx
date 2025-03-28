@@ -29,6 +29,7 @@ import { postSeachCourses } from "shared/src/provider/store/services/search-cour
 import Pagination from "@src/components/pagination/Pagination";
 import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
 import AchiveingSliderMolecule from "@src/components/molecules/AchiveingSliderMolecule/AchiveingSliderMolecule";
+import { getCoursesgetPurchase } from "shared/src/provider/store/services/coursesget-purchase.service";
 
 const CourseFilter: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -40,7 +41,6 @@ const CourseFilter: React.FC = () => {
   const { courseCart, loading: courseCartLoading } = useAppSelector(
     (state) => state.courseCart
   );
-  console.log("courseCart", courseCart);
   const { categories, loading: categoriesLoading } = useAppSelector(
     (state) => state.categories
   );
@@ -53,6 +53,9 @@ const CourseFilter: React.FC = () => {
   const { course_review, loading: coursesReviewLoading } = useAppSelector(
     (state) => state.courseReviews
   );
+  const { courseget_purchase, loading: coursesgetPurchaseLoading } =
+    useAppSelector((state) => state.coursesgetPurchase);
+  console.log("🚀 ~ page ~ courseget_purchase course:", courseget_purchase);
   const [searchTerm, setSearchTerm] = useState("");
   const [slideToShow, setSlideToShow] = useState(4);
   const [activeFilter, setActiveFilter] = useState("All");
@@ -83,6 +86,7 @@ const CourseFilter: React.FC = () => {
   React.useEffect(() => {
     if (auth?.token) {
       dispatch(getCourseCart());
+      dispatch(getCoursesgetPurchase());
     }
     dispatch(getCourses());
     dispatch(getCategories());
@@ -104,7 +108,7 @@ const CourseFilter: React.FC = () => {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
-      { 
+      {
         breakpoint: 1280,
         settings: {
           slidesToShow: 4,
@@ -278,7 +282,7 @@ const CourseFilter: React.FC = () => {
               </p>
             </div>
             <div className={styles.formContainer}>
-              <div className="form"> 
+              <div className="form">
                 <h2>
                   Don’t know where to
                   <br /> start?

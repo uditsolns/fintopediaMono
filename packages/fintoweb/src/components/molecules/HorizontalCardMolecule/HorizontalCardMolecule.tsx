@@ -7,28 +7,45 @@ import Image from "next/image";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import { imageUrl } from "shared/src/config/imageUrl";
 import ProgressBar from "@src/components/progress/ProgressBar";
-import { isInCart } from "shared/src/components/atoms/Calculate";
+import {
+  isCoursePurchased,
+  isInCart,
+} from "shared/src/components/atoms/Calculate";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
 import { useRouter } from "next/navigation";
 
 interface CartsliderProps {
   course?: CoursesResponse;
   onClick?: () => void;
-  loading: boolean; 
+  loading: boolean;
 }
 const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
   course,
   onClick,
   loading = false,
-}) => { 
+}) => {
   const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);
+  const { courseget_purchase } = useAppSelector(
+    (state) => state.coursesgetPurchase
+  );
 
+  const flattenedCourses = courseget_purchase.flat();
+
+  const isCoursePurchasedStatus = isCoursePurchased(
+    flattenedCourses,
+    course?.id
+  );
   const handleNavigation = async () => {
     if (course?.id) {
-      await router.push(`/courses/course-details/${course.id}`);
+      if (isCoursePurchasedStatus) {
+        await router.push(`/courses/course-details-enrolling/${course.id}`);
+      } else {
+        await router.push(`/courses/course-details/${course.id}`);
+      }
     }
   };
+
   return (
     <div>
       <Card className={`${styles.courseCard}`}>
@@ -90,6 +107,8 @@ const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
             >
               {loading
                 ? "Loading..."
+                : isCoursePurchasedStatus
+                ? "Watch Now"
                 : isInCart(courseCart, course?.id)
                 ? "Go to cart"
                 : "Add to cart"}
