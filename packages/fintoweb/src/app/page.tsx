@@ -57,6 +57,8 @@ export default function Home() {
     localStorage.removeItem("singlePurchaseHistory");
     localStorage.removeItem("courseCartState");
     localStorage.removeItem("courseCart");
+    localStorage.removeItem("paymentStatus");
+    localStorage.removeItem("purchaseData");
   }, [dispatch]);
   return (
     <>

@@ -60,7 +60,7 @@
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   border-radius: 12px;
-  border:1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #121622;
 }
 
@@ -154,6 +154,12 @@
 .detailsRow {
   display: flex;
   justify-content: space-between;
+}
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .detailsGrayText {

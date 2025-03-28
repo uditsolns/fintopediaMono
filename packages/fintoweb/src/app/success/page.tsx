@@ -1,10 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import sha256 from "crypto-js/sha256";
-import {
-  createPurchaseHistory,
-  getPurchaseHistoryById,
-} from "shared/src/provider/store/services/PurchaseHistory.service";
 import { useRouter } from "next/navigation";
 import {
   useAppDispatch,
@@ -22,7 +18,6 @@ interface CourseCartState {
 }
 
 const Page = () => {
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const { auth } = useAppSelector((state) => state.auth);
   const id = localStorage.getItem("transactionId");
@@ -30,11 +25,9 @@ const Page = () => {
   const savedState = localStorage.getItem("courseCartState");
 
   const [isPaymentStatusFetched, setPaymentStatusFetched] = useState(false);
-
   const PHONEPE_MERCHANT_ID = "AURAHONLINEUAT";
   const PHONEPE_SALT_KEY = "c9170f9e-85bc-4055-8cec-812bf1b73f53";
   const PHONEPE_SALT_INDEX = 1;
-  const PHONEPE_CALLBACK_URL = "http://127.0.0.1:8000/payment/response";
   const PHONEPE_API_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox";
 
   const sha256Res2 = sha256(
@@ -50,7 +43,7 @@ const Page = () => {
 
   useEffect(() => {
     if (!id || !courseCart || !savedState || isPaymentStatusFetched) {
-      return; // Guard against unnecessary re-renders or fetching again
+      return;
     }
 
     const parsedState: CourseCartState = JSON.parse(savedState);
@@ -69,9 +62,7 @@ const Page = () => {
             },
           }
         );
-
         const res = await response.json();
-
         const params = {
           user_id: auth?.user?.id,
           course_id: courseIds,
@@ -95,59 +86,25 @@ const Page = () => {
           arn: res?.data?.paymentInstrument?.arn || "",
           cardType: res?.data?.paymentInstrument?.cardType || "",
           brn: res?.data?.paymentInstrument?.brn || "",
-          subtotal: parsedState?.subtotal || "", 
+          subtotal: parsedState?.subtotal || "",
           total_discount: parsedState?.totalDiscount || "",
           gst: parsedState?.gst || "",
           grand_total: parsedState?.totalPay || "",
         };
-
-        dispatch(
-          createPurchaseHistory({
-            params,
-            onSuccess(data) {
-              console.log("Purchase history created successfully:", data);
-              const purchaseId = data?.data?.id;
-              console.log("Captured purchase ID:", purchaseId);
-
-              if (purchaseId) {
-                const params = { id: purchaseId };
-                dispatch(
-                  getPurchaseHistoryById({
-                    params,
-                    onSuccess(historyData) {
-                      console.log("Purchase history data:", historyData);
-                      localStorage.setItem(
-                        "singlePurchaseHistory",
-                        JSON.stringify(historyData)
-                      );
-                      router.push("/checkout/invoice-screen");
-                    },
-                    onError(error) {
-                      console.log(
-                        "Error fetching purchase history by ID:",
-                        error
-                      );
-                    },
-                  })
-                );
-              } else {
-                console.error("Purchase ID is missing from the response data.");
-              }
-            },
-            onError(error) {
-              console.log("Error creating purchase history:", error);
-            },
-          })
+        localStorage.setItem("purchaseData", JSON.stringify(params));
+        localStorage.setItem(
+          "paymentStatus",
+          res?.code === "PAYMENT_SUCCESS" ? "paid" : "failed"
         );
+        router.push("/checkout/invoice-screen");
 
-        setPaymentStatusFetched(true); // Mark as fetched to prevent subsequent calls
+        setPaymentStatusFetched(true);
       } catch (error) {
         console.error("Error in payment status fetch:", error);
       }
     };
-
     fetchPaymentStatus();
-  }, [id, courseCart, savedState, isPaymentStatusFetched]); // Add isPaymentStatusFetched as a dependency
+  }, [id, courseCart, savedState, isPaymentStatusFetched]);
 
   return (
     <div className={styles.screen}>
@@ -177,7 +134,7 @@ const Page = () => {
                     transform="translate(0.835449 0.400391)"
                   />
                 </clipPath>
-              </defs> 
+              </defs>
             </svg>
           </div>
           <h1 className={styles.title}>
