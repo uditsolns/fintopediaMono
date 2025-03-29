@@ -39,24 +39,4 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       </Provider>
     );
   }
-<<<<<<< HEAD
 };
-=======
-
-  return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor} loading={null}>
-        {children}
-        {/* <ToastProvider
-          placement="bottom"
-          offsetTop={80}
-          offsetBottom={40}
-          renderToast={(toast: ToastProps) => <ToastMolecule {...toast} />}
-        >
-          
-        </ToastProvider> */}
-      </PersistGate>
-    </Provider>
-  );
-};
->>>>>>> 4a3a4e8a39cc2a754e30a19ea4764669b40d61ca

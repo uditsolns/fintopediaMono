@@ -2,11 +2,12 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {LinearGradientMolecule} from '@shared/src/components/molecules/Gradient/LinearGradientMolecule';
-import { createCourseCart } from '@shared/src/provider/store/services/CourseCart.service';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -14,12 +15,12 @@ import {
 import {colorPresets} from '@shared/src/theme/color';
 import {mScale, WINDOW_HEIGHT, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
-import { isInCart } from '@src/components/Calculate';
+import {isInCart} from '@src/components/Calculate';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import SeparatorAtom from '@src/components/SeperatorAtom';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
 import {
   FlatList,
@@ -78,6 +79,9 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = ({
     state => state.courseCart,
   );
   const {auth} = useAppSelector(state => state.auth);
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
+  );
 
   const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
     return (
@@ -100,6 +104,10 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = ({
           };
           if (isInCart(courseCart, item?.id)) {
             navigation.navigate(RouteKeys.CARTSCREEN);
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({

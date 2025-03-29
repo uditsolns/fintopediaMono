@@ -1,9 +1,10 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {imageUrl} from '@shared/src/config/imageUrl';
-import { createCourseCart } from '@shared/src/provider/store/services/CourseCart.service';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -34,6 +35,7 @@ export const Resources: React.FunctionComponent<ResourcesProps> = ({
     singleCourse,
     loading: coursesLoading,
   } = useAppSelector(state => state.courses);
+
   let route = useRoute<any>();
 
   const {course, id} = route.params || {};
@@ -55,6 +57,9 @@ export const Resources: React.FunctionComponent<ResourcesProps> = ({
     state => state.courseCart,
   );
   const {auth} = useAppSelector(state => state.auth);
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
+  );
 
   const renderItem = ({item}: {item: any}) => {
     return (
@@ -89,6 +94,10 @@ export const Resources: React.FunctionComponent<ResourcesProps> = ({
           };
           if (isInCart(courseCart, item?.id)) {
             navigation.navigate(RouteKeys.CARTSCREEN);
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({

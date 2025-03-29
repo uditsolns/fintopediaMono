@@ -39,6 +39,7 @@ import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextA
 import {isInCart} from '@src/components/Calculate';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 
 interface BeforeEnrollingCourseDetailsProps
   extends NavType<'BeforeEnrollingCourseDetails'> {}
@@ -76,6 +77,9 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
   );
 
   const {auth} = useAppSelector(state => state.auth);
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
+  );
 
   const [refreshLoading, setRefreshLoading] = React.useState(false);
   const [playVideoStart, setPlayVideoStart] = React.useState(false);
@@ -141,6 +145,10 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
           };
           if (isInCart(courseCart, item?.id)) {
             navigation.navigate(RouteKeys.CARTSCREEN);
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({
@@ -245,7 +253,9 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                     style={[commonStyle.play]}
                     onPress={() => {
                       if (data?.course_video_embed) {
-                        setVideoPlayerBeforePurchaseUrl(data?.course_video_embed);
+                        setVideoPlayerBeforePurchaseUrl(
+                          data?.course_video_embed,
+                        );
                         setPlayVideoStartBeforePurchaseLoading(true);
                       } else {
                         Alert.alert("This course doesn't contain any videos.");

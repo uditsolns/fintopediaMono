@@ -37,6 +37,7 @@ import {ViewAll} from '@src/components/ViewAll/ViewAll';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {RouteKeys} from '@src/navigation/RouteKeys';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 
 interface NotesProps {
   onLayout: (event: LayoutChangeEvent) => void;
@@ -71,6 +72,9 @@ export const Notes: React.FunctionComponent<NotesProps> = ({onLayout}) => {
   const {courseCart, loading: courseCartLoading} = useAppSelector(
     state => state.courseCart,
   );
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
+  );
 
   const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
     return (
@@ -93,6 +97,10 @@ export const Notes: React.FunctionComponent<NotesProps> = ({onLayout}) => {
           };
           if (isInCart(courseCart, item?.id)) {
             navigation.navigate(RouteKeys.CARTSCREEN);
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({

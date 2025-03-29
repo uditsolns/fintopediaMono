@@ -1,6 +1,7 @@
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
-import { PressableAtom } from '@shared/src/components/atoms/Button/PressableAtom';
+import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {imageUrl} from '@shared/src/config/imageUrl';
@@ -20,10 +21,19 @@ interface CourseMoleculeProps {
   onView?: () => void;
 }
 
-export default function CourseMolecule({item, onPress,onView}: CourseMoleculeProps) {
+export default function CourseMolecule({
+  item,
+  onPress,
+  onView,
+}: CourseMoleculeProps) {
   const {courseCart} = useAppSelector(state => state.courseCart);
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
+  );
   return (
-    <PressableAtom style={[commonStyle.flexStart, styles.container]} onPress={onView}>
+    <PressableAtom
+      style={[commonStyle.flexStart, styles.container]}
+      onPress={onView}>
       <ImageAtom
         sourceRequire={
           item?.course_image
@@ -35,15 +45,15 @@ export default function CourseMolecule({item, onPress,onView}: CourseMoleculePro
       />
       <View style={styles.content}>
         <TextAtom
-          text={item?.name  || ''}
+          text={item?.name || ''}
           preset="titleBold"
           numberOfLines={3}
-          style={{marginTop: mScale.md,fontWeight:'600'}}
+          style={{marginTop: mScale.md, fontWeight: '600'}}
         />
-        <View style={{marginVertical:mScale.md2}}>
+        <View style={{marginVertical: mScale.md2}}>
           <ProgressBar
             level={item?.course_type?.toLowerCase() || 'intermediate'}
-            hours={item?.duration_time?.replace(/\D+/g, "") || ''}
+            hours={item?.duration_time?.replace(/\D+/g, '') || ''}
             mv={mScale.md}
             textPreset="smallBold"
             imageStyle={{
@@ -59,7 +69,7 @@ export default function CourseMolecule({item, onPress,onView}: CourseMoleculePro
           />
         ) : null}
 
-        <View style={[commonStyle.flexSpaceBetween,{marginTop:mScale.md3}]}>
+        <View style={[commonStyle.flexSpaceBetween, {marginTop: mScale.md3}]}>
           <View style={[commonStyle.flexSpaceBetween]}>
             <TextAtom text={`₹ ${item?.sale_price || 0}`} preset="titleBold" />
             {/* <TextAtom
@@ -74,7 +84,11 @@ export default function CourseMolecule({item, onPress,onView}: CourseMoleculePro
           </View>
           <ButtonAtom
             title={
-              isInCart(courseCart, item?.id!) ? 'Go to cart' : 'Add to cart'
+              isCoursePurchased(courseget_purchase, item?.id!)
+                ? 'Watch now'
+                : isInCart(courseCart, item?.id!)
+                ? 'Go to cart'
+                : 'Add to cart'
             }
             textPreset="xSmallBold"
             onPress={onPress}
@@ -84,7 +98,6 @@ export default function CourseMolecule({item, onPress,onView}: CourseMoleculePro
               borderRadius: 4,
               paddingVertical: mScale.md,
               paddingHorizontal: mScale.lg1,
-              
             }}
           />
         </View>
@@ -101,13 +114,13 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
     backgroundColor: '#111521',
-    padding:mScale.md2
+    padding: mScale.md2,
   } as ViewStyle,
   image: {
     width: moderateScale(115),
     height: moderateScale(123),
-    borderRadius:4,
-    overflow:'hidden'
+    borderRadius: 4,
+    overflow: 'hidden',
   } as ImageStyle,
   content: {
     flex: 1,

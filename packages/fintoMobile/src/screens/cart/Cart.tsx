@@ -51,12 +51,9 @@ import {fontPresets} from '@shared/src/theme/typography';
 import GradientBorderBox from '@src/components/Border/GradientBorderBox';
 import BorderWithThickness from '@src/components/Border';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
-<<<<<<< HEAD
 import {useCartContext} from '@src/components/context/CartContextApi';
-=======
-import {useCartContext} from '@src/components/context/CartContextApi'; 
->>>>>>> 4a3a4e8a39cc2a754e30a19ea4764669b40d61ca
 import {useFocusEffect} from '@react-navigation/native';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 
 interface CartProps extends NavType<'Cart'> {}
 
@@ -82,6 +79,9 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
   } = useAppSelector(state => state.courseCart);
   const {courses_save_later, loading: courses_save_later_loading} =
     useAppSelector(state => state.coursesSaveLater);
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
+  );
 
   const {
     setVideoPlayerBeforePurchaseUrl,
@@ -121,7 +121,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
         setTotalPaymentAmount(total2);
         console.log('----------------------------------', total2);
       }
-    }, [courseCart, create, deleteCart,totalPay, keepTotalPaymentAmount]),
+    }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount]),
   );
 
   const onRefresh = () => {
@@ -216,6 +216,10 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             status: '1',
           };
           if (isInCart(courseCart, item?.id)) {
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({
@@ -250,6 +254,10 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             status: '1',
           };
           if (isInCart(courseCart, item?.id)) {
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({

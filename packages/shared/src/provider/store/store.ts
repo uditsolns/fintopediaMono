@@ -92,20 +92,16 @@ const reducers = combineReducers({
   coursesgetPurchase: coursesgetPurchaseReducer,
 });
 
-// const middleware = (getDefaultMiddleware: any) => {
-//   if (
-//     process.env.NODE_ENV === "development" ||
-//     (typeof __DEV__ !== "undefined" && __DEV__)
-//   ) {
-//     return getDefaultMiddleware().concat(errorMiddleware);
-//   }
-//   return getDefaultMiddleware().concat(errorMiddleware,logger);
-// };
+const middleware = (getDefaultMiddleware: any) => {
+  if (
+    process.env.NODE_ENV === "development" ||
+    (typeof __DEV__ !== "undefined" && __DEV__)
+  ) {
+    return getDefaultMiddleware().concat(errorMiddleware);
+  }
+  return getDefaultMiddleware().concat(errorMiddleware);
+};
 
-// export const store = configureStore({
-//   reducer: reducers,
-//   middleware,
-// });
 export const store = configureStore({
   reducer: reducers,
   middleware,

@@ -19,6 +19,7 @@ import {NavType} from '@src/navigation/types';
 import * as React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import BorderWithThickness from '@src/components/Border';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 
 interface CourseCategoryProps extends NavType<'CourseCategory'> {}
 export default function CourseCategory({navigation}: CourseCategoryProps) {
@@ -31,8 +32,9 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
   const {courseCart, loading: courseCartLoading} = useAppSelector(
     state => state.courseCart,
   );
-
-  React.useEffect(() => {}, []);
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
+  );
 
   const innerCategoriesCoursesRenderItem = ({
     item,
@@ -50,6 +52,10 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
           };
           if (isInCart(courseCart, item?.id)) {
             navigation.navigate(RouteKeys.CARTSCREEN);
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({
@@ -75,7 +81,7 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
       }}>
       <ScrollViewAtom nestedScrollEnabled={true}>
         <View style={{marginVertical: mScale.xs}}>
-          <ViewAll title="All Categories" visible={false} preset='heading2' />
+          <ViewAll title="All Categories" visible={false} preset="heading2" />
           <View style={{paddingLeft: mScale.base, marginTop: mScale.xl}}>
             <View
               style={{flexDirection: 'row', flexWrap: 'wrap', gap: mScale.lg3}}>
@@ -93,7 +99,7 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
             {
               flex: 1,
               backgroundColor: 'transparent',
-              padding: mScale.xxl
+              padding: mScale.xxl,
             },
           ]}>
           <View style={{flex: 1}}>
@@ -107,7 +113,12 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
                 'Create screens directly in Method or add your images from Sketch or Figma.'
               }
               preset="large"
-              style={{textAlign: 'center', marginBottom: mScale.xl,fontWeight:'400',color:'#A4A4A4'}}
+              style={{
+                textAlign: 'center',
+                marginBottom: mScale.xl,
+                fontWeight: '400',
+                color: '#A4A4A4',
+              }}
             />
 
             <Dropdown
@@ -125,7 +136,7 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
         </View>
         <BorderWithThickness mv={0} />
         <View style={{marginVertical: moderateScale(45)}}>
-          <ViewAll title="Popular Courses" visible={false} preset='heading2' />
+          <ViewAll title="Popular Courses" visible={false} preset="heading2" />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
               data={courses?.length ? courses : []}
@@ -142,7 +153,11 @@ export default function CourseCategory({navigation}: CourseCategoryProps) {
           </View>
         </View>
         <View style={{marginVertical: mScale.xl}}>
-          <ViewAll title="Previously Viewed Courses" visible={false}  preset='heading2' />
+          <ViewAll
+            title="Previously Viewed Courses"
+            visible={false}
+            preset="heading2"
+          />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
               data={courses?.length ? courses : []}

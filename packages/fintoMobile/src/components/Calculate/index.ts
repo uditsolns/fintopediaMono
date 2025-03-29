@@ -1,5 +1,4 @@
 import crashlytics from '@react-native-firebase/crashlytics';
-import {number} from 'yup';
 
 export const sumCalculate = (arr: any[], priceKey: string) => {
   const sum =
