@@ -26,6 +26,7 @@ const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
 }) => {
   const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);
+  const { auth } = useAppSelector((state) => state.auth);
   const { courseget_purchase } = useAppSelector(
     (state) => state.coursesgetPurchase
   );
@@ -37,9 +38,13 @@ const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
     course?.id
   );
   const handleNavigation = async () => {
+    if (!auth?.token) {
+      await router.push("/auth/login");
+      return;
+    }
     if (course?.id) {
       if (isCoursePurchasedStatus) {
-        await router.push(`/courses/course-details-enrolling/${course.id}`);
+        await router.push(`/course-details-enrolling/${course.id}`);
       } else {
         await router.push(`/courses/course-details/${course.id}`);
       }

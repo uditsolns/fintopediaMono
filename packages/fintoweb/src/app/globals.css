@@ -179,6 +179,22 @@ body {
   letter-spacing: -0.16px;
   margin: 0 10px;
 }
+.backHome {
+  display: flex;
+  width: 100%;
+  padding: 20px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 6px;
+  border: 2px solid var(--Border, #7a7fa2);
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.4px;
+}
 @media screen and (max-width: 435px) {
   .Heading {
     color: #fff;

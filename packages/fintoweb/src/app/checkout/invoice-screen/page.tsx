@@ -144,13 +144,18 @@ export default function InvoiceScreen() {
                       fill="white"
                     />
                   </svg>
-                  20 hours
+                  {el?.duration_time}
                 </span>
                 <span className={`${styles.textGray} ml-3`}>4.8 ⭐</span>
               </div>
               <div className={styles.cardFooter}>
                 <span className={styles.price}>₹ {el?.sale_price}</span>
-                <button className={styles.button}>
+                <button
+                  className={styles.button}
+                  onClick={() =>
+                    router.push(`/course-details-enrolling/${el?.id}`)
+                  }
+                >
                   Start This Course now ➔
                 </button>
               </div>

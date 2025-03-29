@@ -23,12 +23,14 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
 }) => {
   const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);
+  const { auth } = useAppSelector((state) => state.auth);
 
   const { courseget_purchase } = useAppSelector(
     (state) => state.coursesgetPurchase
   );
 
   const flattenedCourses = courseget_purchase.flat();
+  console.log("flattenedCourses", flattenedCourses);
 
   const isCoursePurchasedStatus = isCoursePurchased(
     flattenedCourses,
@@ -38,6 +40,10 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
   // console.log("isCoursePurchasedStatus", isCoursePurchasedStatus);
 
   const handleNavigation = async () => {
+    if (!auth?.token) {
+      await router.push("/auth/login");
+      return;
+    } 
     if (course?.id) {
       if (isCoursePurchasedStatus) {
         await router.push(`/course-details-enrolling/${course.id}`);
