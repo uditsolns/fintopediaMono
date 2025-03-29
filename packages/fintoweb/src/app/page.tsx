@@ -30,7 +30,6 @@ import { getCoursesgetPurchase } from "shared/src/provider/store/services/course
 //   ssr: false,
 //   loading: () => <div>Loading...</div>,
 // });
-// demo
 export default function Home() {
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state.auth);
