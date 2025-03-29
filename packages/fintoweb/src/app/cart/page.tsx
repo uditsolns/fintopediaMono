@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, CardBody, Row, Col } from "reactstrap";
 import { FaChevronRight } from "react-icons/fa";
 import styles from "./Cart.module.css";
@@ -30,6 +30,7 @@ import {
   SALT_KEY,
   subtractTwoNumber,
   sumCalculate,
+  calculatePercetageAmount,
 } from "shared/src/components/atoms/Calculate";
 import {
   createCoursesSaveLater,
@@ -42,12 +43,19 @@ import sha256 from "crypto-js/sha256";
 import { CoursesSaveLaterResponse } from "shared/src/utils/types/courses-save-later";
 import CourseSaveLaterMolecule from "@src/components/molecules/CoursesMolecule/CourseSaveLaterMolecule";
 import { getLikeCourse } from "shared/src/provider/store/services/course-like.service";
-import { useOtpless } from "../context/OtplessContext";
+import { useCartContext } from "@src/app/context/CartContextApi";
 
 export default function Cart() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-
+  const {
+    isCouponCodeApply,
+    totalPaymentAmount,
+    setTotalPaymentAmount,
+    setKeepTotalPaymentAmount,
+    couponCodePercentage,
+    keepTotalPaymentAmount,
+  } = useCartContext();
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
   );
@@ -79,12 +87,14 @@ export default function Cart() {
   const [loadingCourseId, setLoadingCourseId] = React.useState<number | null>(
     null
   );
+  const totalDiscountAmount = isCouponCodeApply ? totalPaymentAmount : totalPay;
+
   React.useEffect(() => {
     const dataToStore = {
       subtotal,
       actualPricetotal,
       totalDiscount,
-      totalPay,
+      totalPay: totalDiscountAmount,
       gst,
       loadingCourseId,
     };
@@ -96,6 +106,8 @@ export default function Cart() {
     totalPay,
     gst,
     loadingCourseId,
+    totalDiscountAmount,
+    isCouponCodeApply,
   ]);
   React.useEffect(() => {
     if (courseCart) {
@@ -109,8 +121,23 @@ export default function Cart() {
       setActualPricetotal(actual_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
+      setKeepTotalPaymentAmount(totalPayAmount);
     }
   }, [courseCart, create, deleteCart]);
+
+  useEffect(
+    React.useCallback(() => {
+      if (couponCodePercentage) {
+        let amt = calculatePercetageAmount(
+          couponCodePercentage,
+          keepTotalPaymentAmount
+        );
+        let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
+        setTotalPaymentAmount(total2);
+        console.log("----------------------------------", total2);
+      }
+    }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount])
+  );
 
   React.useEffect(() => {
     if (auth?.token) {
@@ -206,6 +233,9 @@ export default function Cart() {
   const handleDeliveryClick = () => {
     router.push("/checkout/invoice-screen");
   };
+  const handleCouponClick = () => {
+    router.push("/checkout/coupon-codes");
+  };
   const PHONEPE_MERCHANT_ID = "AURAHONLINEUAT";
   const PHONEPE_SALT_KEY = "c9170f9e-85bc-4055-8cec-812bf1b73f53";
   const PHONEPE_SALT_INDEX = 1;
@@ -234,7 +264,7 @@ export default function Cart() {
       merchantId: PHONEPE_MERCHANT_ID,
       merchantTransactionId: transactionid,
       merchantUserId: "MUID-" + transactionid,
-      amount: totalPay * 100,
+      amount: isCouponCodeApply ? totalPaymentAmount * 100 : totalPay * 100,
       redirectUrl: `http://localhost:3000/api/status/${transactionid}`,
       redirectMode: "POST",
       callbackUrl: `http://localhost:3000/api/status/${transactionid}`,
@@ -396,6 +426,7 @@ export default function Cart() {
                         outline
                         color="secondary"
                         className={styles.couponButton}
+                        onClick={handleCouponClick}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -573,7 +604,10 @@ export default function Cart() {
                     </div>
                     <div className={styles.totalRow}>
                       <h4>Total</h4>
-                      <h5>₹{totalPay}</h5>
+                      {/* <h5>₹{totalPay}</h5> */}
+                      <h5>{`₹ ${
+                        isCouponCodeApply ? totalPaymentAmount : totalPay
+                      }`}</h5>
                     </div>
                     <div className={styles.buttons}>
                       <Button

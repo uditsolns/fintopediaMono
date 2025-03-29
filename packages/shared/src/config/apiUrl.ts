@@ -240,4 +240,10 @@ export default {
     UPDATE: buildUrl("CompletionPercentage"),
     DELETE: buildUrl("CompletionPercentage"),
   },
+  COURSE_PURCHASE: {
+    GET: buildUrl("coursesget_purchase"),
+    POST: buildUrl("coursesget_purchase"),
+    UPDATE: buildUrl("coursesget_purchase"),
+    DELETE: buildUrl("coursesget_purchase "),
+  },
 };

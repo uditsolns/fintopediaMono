@@ -41,6 +41,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import likeCoursesReducer from "./reducers/course-like.reducer";
 import contactReducer from "./reducers/contact.reducer";
 import completionPercentageReducer from "./reducers/completion-percentage.reducer";
+import coursesgetPurchaseReducer from "./reducers/coursesget-purchase.reducer";
 
 const isNative = Platform.OS !== "web";
 
@@ -88,18 +89,23 @@ const reducers = combineReducers({
   likeCourse: likeCoursesReducer,
   contact: contactReducer,
   completionPercentage: completionPercentageReducer,
+  coursesgetPurchase: coursesgetPurchaseReducer,
 });
 
-const middleware = (getDefaultMiddleware: any) => {
-  if (
-    process.env.NODE_ENV === "development" ||
-    (typeof __DEV__ !== "undefined" && __DEV__)
-  ) {
-    return getDefaultMiddleware().concat(errorMiddleware);
-  }
-  return getDefaultMiddleware().concat(errorMiddleware);
-};
+// const middleware = (getDefaultMiddleware: any) => {
+//   if (
+//     process.env.NODE_ENV === "development" ||
+//     (typeof __DEV__ !== "undefined" && __DEV__)
+//   ) {
+//     return getDefaultMiddleware().concat(errorMiddleware);
+//   }
+//   return getDefaultMiddleware().concat(errorMiddleware,logger);
+// };
 
+// export const store = configureStore({
+//   reducer: reducers,
+//   middleware,
+// });
 export const store = configureStore({
   reducer: reducers,
   middleware,

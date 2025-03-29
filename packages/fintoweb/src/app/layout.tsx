@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 import ScrollToTop from "@src/components/scroll-top/ScrollToTop";
 import Script from "next/script";
 import { OtplessProvider } from "@src/app/context/OtplessContext";
+import { CartContextProvider } from "@src/app/context/CartContextApi";
 
 export const metadata: Metadata = {
   title: "Fintopedia",
@@ -28,10 +29,12 @@ export default function RootLayout({
       <body className={`${interTight.variable}`}>
         <AppProvider>
           <OtplessProvider>
-            <Navbar />
-            {children}
-            <ScrollToTop />
-            <Footer />
+            <CartContextProvider>
+              <Navbar />
+              {children}
+              <ScrollToTop />
+              <Footer />
+            </CartContextProvider>
           </OtplessProvider>
         </AppProvider>
         <ToastContainer />

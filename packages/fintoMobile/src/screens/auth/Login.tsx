@@ -29,8 +29,11 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {googleSignIn} from '@shared/src/provider/store/services/auth.service';
 import {ScrollViewAtom} from 'shared/src/components/atoms/ScrollView/ScrollViewAtom';
+<<<<<<< HEAD
 import {OneSignal} from 'react-native-onesignal';
 import {useOtplessContext} from '@src/components/context/OtplessContextApi';
+=======
+>>>>>>> 4a3a4e8a39cc2a754e30a19ea4764669b40d61ca
 
 interface LoginProps extends NavType<'Login'> {}
 
@@ -218,14 +221,22 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
                 setFieldValue(authField.device_id_web.name, '');
                 handleSubmit();
               }}
+<<<<<<< HEAD
               loading={loading.login ? true : false}
+=======
+              loading={loading.login}
+>>>>>>> 4a3a4e8a39cc2a754e30a19ea4764669b40d61ca
             />
           </View>
           <ButtonAtom
             title="Login with OTP"
             preset="secondary"
             onPress={() => {
+<<<<<<< HEAD
               dispatch(logout());
+=======
+              dispatch(logout())
+>>>>>>> 4a3a4e8a39cc2a754e30a19ea4764669b40d61ca
               navigation.navigate(RouteKeys.OTPLOGINSCREEN);
             }}
           />

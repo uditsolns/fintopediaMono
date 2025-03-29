@@ -42,7 +42,54 @@ const Login: React.FC<LoginProps> = () => {
         });
       }
     }
-  }, [auth, router]);
+  }, [auth, router]); 
+
+  useEffect(() => {
+    const callback = (eventCallback: any) => {
+      const EVENTS_MAP = {
+        ONETAP: () => {
+          const { response } = eventCallback;
+          console.log("One Tap Response:", response);
+          const token = response.token;
+          console.log("Token:", token);
+        },
+        OTP_AUTO_READ: () => {
+          const { response } = eventCallback;
+          const otp = response.otp;
+          console.log("Auto-read OTP:", otp);
+        },
+        FAILED: () => {
+          const { response } = eventCallback;
+          console.log("Authentication Failed:", response);
+        },
+        FALLBACK_TRIGGERED: () => {
+          const { response } = eventCallback;
+          console.log("Fallback Triggered:", response);
+        },
+      };
+
+      if ("responseType" in eventCallback) {
+        EVENTS_MAP[eventCallback.responseType]?.();
+      }
+    };
+
+    // Initialize OTPLESS SDK after page load
+    if (typeof window !== "undefined" && window.OTPless) {
+      new window.OTPless(callback);
+    }
+  }, []);
+
+  const [mobileNumber, setMobileNumber] = useState<string>("9767169605");
+  const [countryCode, setCountryCode] = useState<string>("+91");
+  // Use useEffect to wait until OTPLESS SDK is loaded
+
+  // Phone authentication function
+  const phoneAuth2 = () => {
+    initiateLogin("9076049013", "+91");
+  };
+  const phoneAuth = () => {
+    initiateLogin(mobileNumber, countryCode);
+  };
 
   useEffect(() => {
     const callback = (eventCallback: any) => {

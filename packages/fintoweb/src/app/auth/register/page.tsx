@@ -2,20 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./Signup.module.css";
-import {
-  Button,
-  Col,
-  InputGroup,
-  InputGroupText,
-  Label,
-  Row,
-} from "reactstrap";
+import { Button, Col, InputGroupText, Row } from "reactstrap";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import { signupField } from "shared/src/components/structures/signup/signupModel";
 import { useSignupHelper } from "shared/src/components/structures/signup/signup.helper";
-import { SelectAtom } from "@src/components/atoms/select/SelectAtom";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import {
@@ -31,8 +22,7 @@ const Register: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { auth, loading, signup } = useAppSelector((state) => state.auth);
-
+  const { auth, loading, signup, err } = useAppSelector((state) => state.auth);
   const { college } = useAppSelector((state) => state.college);
 
   const { signupFormik, signupInputProps } = useSignupHelper();
@@ -47,13 +37,31 @@ const Register: React.FC = () => {
 
   useEffect(() => {
     if (signup?.token) {
-      toast.success("Successfully Register !", {
+      toast.success("Successfully Registered!", {
         position: "top-right",
         theme: "light",
       });
       router.push("/auth/login");
     }
-  }, [signup, router]);
+
+    if (err?.signupErr?.error) {
+      const errorMessages = err?.signupErr?.error;
+
+      if (errorMessages?.email?.[0]) {
+        toast.error(errorMessages?.email[0], {
+          position: "top-right",
+          theme: "light",
+        });
+      }
+      if (errorMessages?.phone?.[0]) {
+        toast.error(errorMessages?.phone[0], {
+          position: "top-right",
+          theme: "light",
+        });
+      }
+    }
+  }, [auth, router, signup, err]);
+
   return (
     <div className={styles.signupLoginontainer}>
       <div className="container main-login-div">
@@ -98,38 +106,6 @@ const Register: React.FC = () => {
                     />
                   </Col>
                 </Row>
-                {/* <Row className="form-group mt-3">
-                  <Col md={12}>
-                    <InputAtom
-                      label={signupField.designation.label}
-                      placeholder={signupField.designation.placeHolder}
-                      {...signupInputProps(signupField.designation.name)}
-                    />
-                  </Col>
-                </Row> */}
-                {/* <Row className="form-group mt-3">
-                  <Col md={12}>
-                    <SelectAtom
-                      label={signupField.role.label}
-                      placeholder={signupField.role.placeHolder}
-                      {...signupInputProps(signupField.role.name)}
-                      options={[{ value: "User", label: "User" }]}
-                    />
-                  </Col>
-                </Row> */}
-                {/* <Row className="form-group mt-3">
-                  <Col md={12}>
-                    <SelectAtom
-                      label={signupField.college.label}
-                      placeholder={signupField.college.placeHolder}
-                      {...signupInputProps(signupField.college.name)}
-                      options={college.map((c) => ({
-                        value: c.id,
-                        label: c.name,
-                      }))}
-                    />
-                  </Col>
-                </Row> */}
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom

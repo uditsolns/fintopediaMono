@@ -51,7 +51,11 @@ import {fontPresets} from '@shared/src/theme/typography';
 import GradientBorderBox from '@src/components/Border/GradientBorderBox';
 import BorderWithThickness from '@src/components/Border';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
+<<<<<<< HEAD
 import {useCartContext} from '@src/components/context/CartContextApi';
+=======
+import {useCartContext} from '@src/components/context/CartContextApi'; 
+>>>>>>> 4a3a4e8a39cc2a754e30a19ea4764669b40d61ca
 import {useFocusEffect} from '@react-navigation/native';
 
 interface CartProps extends NavType<'Cart'> {}
