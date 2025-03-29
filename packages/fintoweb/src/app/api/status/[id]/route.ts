@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import sha256 from "crypto-js/sha256";
-
+import {
+  PHONEPE_SALT_KEY,
+  PHONEPE_SALT_INDEX,
+} from "shared/src/config/phonepeConfig";
 
 export async function POST(req, res) {
   const data = await req.formData();
@@ -9,20 +12,12 @@ export async function POST(req, res) {
   const merchantId = data.get("merchantId");
   const transactionId = data.get("transactionId");
 
-  // data
-  const PHONEPE_MERCHANT_ID = "AURAHONLINEUAT";
-  const PHONEPE_SALT_KEY = "c9170f9e-85bc-4055-8cec-812bf1b73f53";
-  const PHONEPE_SALT_INDEX = 1;
-  const PHONEPE_CALLBACK_URL = "http://127.0.0.1:8000/payment/response";
-  const PHONEPE_API_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox/";
-
   const st = `/pg/v1/status/${merchantId}/${transactionId}` + PHONEPE_SALT_KEY;
   const dataSha256 = sha256(st);
 
   const checksum = dataSha256 + "###" + PHONEPE_SALT_INDEX;
   console.log(checksum);
 
-  // Using fetch instead of axios
   const options = {
     method: "GET",
     headers: {
@@ -55,7 +50,6 @@ export async function POST(req, res) {
       });
     } else {
       return NextResponse.redirect("http://localhost:3000/failure", {
-        // a 301 status is required to redirect from a POST to a GET route
         status: 301,
       });
     }

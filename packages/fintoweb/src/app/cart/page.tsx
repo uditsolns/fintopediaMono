@@ -20,14 +20,7 @@ import CourseCartMolecule from "@src/components/molecules/CourseCartMolecule/Cou
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 import {
   addTwoNumber,
-  API_ENDPOINT,
-  CALLBACK_URL,
   isInCart,
-  MERCHANT_ID,
-  PRODUCTION_HOST_URL,
-  REDIRECT_URL,
-  SALT_INDEX,
-  SALT_KEY,
   subtractTwoNumber,
   sumCalculate,
   calculatePercetageAmount,
@@ -44,6 +37,12 @@ import { CoursesSaveLaterResponse } from "shared/src/utils/types/courses-save-la
 import CourseSaveLaterMolecule from "@src/components/molecules/CoursesMolecule/CourseSaveLaterMolecule";
 import { getLikeCourse } from "shared/src/provider/store/services/course-like.service";
 import { useCartContext } from "@src/app/context/CartContextApi";
+import {
+  PHONEPE_MERCHANT_ID,
+  PHONEPE_SALT_KEY,
+  PHONEPE_SALT_INDEX,
+  PHONEPE_API_URL,
+} from "shared/src/config/phonepeConfig";
 
 export default function Cart() {
   const dispatch = useAppDispatch();
@@ -127,19 +126,6 @@ export default function Cart() {
     }
   }, [courseCart, create, deleteCart]);
 
-  // useEffect(() => {
-  //   React.useCallback(() => {
-  //     if (couponCodePercentage) {
-  //       let amt = calculatePercetageAmount(
-  //         couponCodePercentage,
-  //         keepTotalPaymentAmount
-  //       );
-  //       let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
-  //       setTotalPaymentAmount(total2);
-  //       console.log("----------------------------------", total2);
-  //     }
-  //   }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount]);
-  // }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount]);
   useEffect(() => {
     if (couponCodePercentage) {
       // Calculate the percentage amount based on couponCodePercentage
@@ -263,25 +249,7 @@ export default function Cart() {
   const handleCouponClick = () => {
     router.push("/checkout/coupon-codes");
   };
-  const PHONEPE_MERCHANT_ID = "AURAHONLINEUAT";
-  const PHONEPE_SALT_KEY = "c9170f9e-85bc-4055-8cec-812bf1b73f53";
-  const PHONEPE_SALT_INDEX = 1;
-  const PHONEPE_CALLBACK_URL = "http://127.0.0.1:8000/payment/response";
-  const PHONEPE_API_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox/";
 
-  // const payload = {
-  //   merchantId: MERCHANT_ID,
-  //   merchantTransactionId: transactionId,
-  //   merchantUserId: `${auth?.user?.id}`,
-  //   amount: totalPay * 100,
-  //   redirectUrl: `http://localhost:3000/api/status/${transactionId}`,
-  //   redirectMode: "POST",
-  //   callbackUrl: `http://localhost:3000/api/status/${transactionId}`,
-  //   mobileNumber: `${auth?.user?.phone}`,
-  //   paymentInstrument: {
-  //     type: "PAY_PAGE",
-  //   },
-  // };
   const handlePayment = async (e) => {
     e.preventDefault();
 

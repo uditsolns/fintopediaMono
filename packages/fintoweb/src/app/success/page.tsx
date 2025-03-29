@@ -11,15 +11,12 @@ import {
   useAppSelector,
 } from "shared/src/provider/store/types/storeTypes";
 import styles from "@src/app/checkout/invoice-screen/InvoiceScreen.module.css";
-
-interface CourseCartState {
-  subtotal: number;
-  actualPricetotal: number;
-  totalDiscount: number;
-  totalPay: number;
-  gst: number;
-  loadingCourseId: number | null;
-}
+import {
+  PHONEPE_MERCHANT_ID,
+  PHONEPE_SALT_KEY,
+  PHONEPE_SALT_INDEX,
+  PHONEPE_API_URL,
+} from "shared/src/config/phonepeConfig";
 
 const Page = () => {
   const dispatch = useAppDispatch();
@@ -30,11 +27,6 @@ const Page = () => {
   const savedState = localStorage.getItem("courseCartState");
   const hasCalled = React.useRef(false);
   const [isPaymentStatusFetched, setPaymentStatusFetched] = useState(false);
-
-  const PHONEPE_MERCHANT_ID = "AURAHONLINEUAT";
-  const PHONEPE_SALT_KEY = "c9170f9e-85bc-4055-8cec-812bf1b73f53";
-  const PHONEPE_SALT_INDEX = 1;
-  const PHONEPE_API_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox";
 
   const sha256Res2 = sha256(
     `/pg/v1/status/${PHONEPE_MERCHANT_ID}/${id}` + PHONEPE_SALT_KEY
