@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Pressable, PressableProps, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Pressable, PressableProps, StyleSheet, View } from "react-native";
 import { colorPresets } from "../../../theme/color";
 import { WINDOW_WIDTH, mScale } from "../../../theme/metrics";
 import { LinearGradientMolecule } from "../../molecules/Gradient/LinearGradientMolecule";

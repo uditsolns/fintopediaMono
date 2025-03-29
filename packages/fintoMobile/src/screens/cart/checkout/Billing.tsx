@@ -36,6 +36,7 @@ import {
 import LoaderAtom from '@src/components/LoaderAtom';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {useCartContext} from '@src/components/context/CartContextApi';
+import { getCoursesgetPurchase } from '@shared/src/provider/store/services/coursesget-purchase.service';
 
 interface BillingProps extends NavType<'Billing'> {}
 
@@ -195,6 +196,7 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
                     onSuccess(data) {
                       console.log(data);
                       navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN);
+                      dispatch(getCoursesgetPurchase());
                     },
                     onError(error) {},
                   }),

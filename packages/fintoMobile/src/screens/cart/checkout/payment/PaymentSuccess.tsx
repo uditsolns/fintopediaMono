@@ -58,6 +58,24 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
   } = useCartContext();
 
   React.useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, [navigation]);
+
+  const backAction = () => {
+    console.log('Unmounting...');
+    setIsCouponCodeApply(false);
+    setTotalPaymentAmount('');
+    setCouponCodePercentage(0);
+    navigation.navigate(RouteKeys.HOMESCREEN);
+    return true;
+  };
+
+  React.useEffect(() => {
     if (singlePurchaseHistory?.courses?.length) {
       let sale_price = sumCalculate(
         singlePurchaseHistory?.courses,
@@ -77,11 +95,7 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
       setTotalPay(totalPayAmount);
       setKeepTotalPaymentAmount(totalPayAmount);
     }
-    return () => {
-      setIsCouponCodeApply(false);
-      setTotalPaymentAmount('');
-      setCouponCodePercentage(0);
-    };
+    return () => {};
   }, [singlePurchaseHistory]);
 
   useFocusEffect(
@@ -94,7 +108,12 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
         let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
         setTotalPaymentAmount(total2);
       }
-    }, [singlePurchaseHistory, totalPay, keepTotalPaymentAmount]),
+    }, [
+      singlePurchaseHistory,
+      totalPay,
+      keepTotalPaymentAmount,
+      couponCodePercentage,
+    ]),
   );
   return (
     <GradientTemplate
@@ -170,10 +189,9 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
                     preset="medium"
                     style={{marginBottom: mScale.md}}
                   />
-                  {singlePurchaseHistory?.courses
-                    ?.map((el, index) => {
-                      return <CourseNameAndPrice el={el} />;
-                    })}
+                  {singlePurchaseHistory?.courses?.map((el, index) => {
+                    return <CourseNameAndPrice el={el} />;
+                  })}
                 </View>
                 <BorderWithThickness mv={mScale.lg} />
                 <View
@@ -278,9 +296,7 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
           title={'Back to home'}
           preset={'tertiary'}
           textPreset="heading4"
-          onPress={() => {
-            navigation.navigate(RouteKeys.HOMESCREEN);
-          }}
+          onPress={backAction}
         />
       </View>
     </GradientTemplate>
