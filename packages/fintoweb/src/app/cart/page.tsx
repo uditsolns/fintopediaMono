@@ -97,6 +97,7 @@ export default function Cart() {
       totalPay: totalDiscountAmount,
       gst,
       loadingCourseId,
+      couponCodePercentage,
     };
     localStorage.setItem("courseCartState", JSON.stringify(dataToStore));
   }, [
@@ -108,6 +109,7 @@ export default function Cart() {
     loadingCourseId,
     totalDiscountAmount,
     isCouponCodeApply,
+    couponCodePercentage,
   ]);
   React.useEffect(() => {
     if (courseCart) {
@@ -125,19 +127,44 @@ export default function Cart() {
     }
   }, [courseCart, create, deleteCart]);
 
-  useEffect(
-    React.useCallback(() => {
-      if (couponCodePercentage) {
-        let amt = calculatePercetageAmount(
-          couponCodePercentage,
-          keepTotalPaymentAmount
-        );
-        let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
-        setTotalPaymentAmount(total2);
-        console.log("----------------------------------", total2);
-      }
-    }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount])
-  );
+  // useEffect(() => {
+  //   React.useCallback(() => {
+  //     if (couponCodePercentage) {
+  //       let amt = calculatePercetageAmount(
+  //         couponCodePercentage,
+  //         keepTotalPaymentAmount
+  //       );
+  //       let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
+  //       setTotalPaymentAmount(total2);
+  //       console.log("----------------------------------", total2);
+  //     }
+  //   }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount]);
+  // }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount]);
+  useEffect(() => {
+    if (couponCodePercentage) {
+      // Calculate the percentage amount based on couponCodePercentage
+      let amt = calculatePercetageAmount(
+        couponCodePercentage,
+        keepTotalPaymentAmount
+      );
+
+      // Subtract the calculated amount from the total payment
+      let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
+
+      // Update the total payment amount in the state
+      setTotalPaymentAmount(total2);
+
+      // Log the updated total payment amount
+      console.log("----------------------------------", total2);
+    }
+  }, [
+    couponCodePercentage,
+    courseCart,
+    create,
+    deleteCart,
+    totalPay,
+    keepTotalPaymentAmount,
+  ]);
 
   React.useEffect(() => {
     if (auth?.token) {

@@ -5,6 +5,7 @@ import styles from "./InvoiceScreen.module.css";
 import { useRouter } from "next/navigation";
 import {
   addTwoNumber,
+  calculatePercetageAmount,
   subtractTwoNumber,
   sumCalculate,
 } from "shared/src/components/atoms/Calculate";
@@ -18,6 +19,7 @@ export default function InvoiceScreen() {
   );
   console.log("purchaseRes", purchaseRes);
   const {
+    totalPaymentAmount,
     setCouponCodePercentage,
     setIsCouponCodeApply,
     setTotalPaymentAmount,
@@ -45,6 +47,20 @@ export default function InvoiceScreen() {
   const [gst, setGst] = React.useState<number>(0);
   const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
 
+  // Get the saved state from localStorage (it's a string)
+  const savedState = localStorage.getItem("courseCartState");
+
+  // Parse the savedState into an object
+  const parsedState = savedState ? JSON.parse(savedState) : {};
+
+  // Log the parsedState to check if it has the expected values
+  console.log("savedState", parsedState);
+
+  // Extract the couponCodePercentage from parsedState
+  const { couponCodePercentage } = parsedState;
+
+  console.log("couponCodePercentage", couponCodePercentage);
+
   React.useEffect(() => {
     if (singlePurchaseHistory?.courses?.length) {
       let sale_price = sumCalculate(
@@ -71,6 +87,23 @@ export default function InvoiceScreen() {
       setCouponCodePercentage(0);
     };
   }, [singlePurchaseHistory]);
+
+  React.useEffect(() => {
+    if (couponCodePercentage) {
+      // Calculate the percentage amount based on couponCodePercentage
+      let amt = calculatePercetageAmount(couponCodePercentage, totalPay);
+
+      // Subtract the calculated amount from the total payment
+      let total2 = subtractTwoNumber(amt, totalPay);
+      console.log("totalPay", totalPay);
+      // Update the total payment amount in the state
+      setTotalPaymentAmount(total2);
+
+      // Log the updated total payment amount
+      console.log("----------------------------------", total2);
+    }
+  }, [couponCodePercentage, totalPay, totalPaymentAmount]);
+
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
@@ -146,7 +179,9 @@ export default function InvoiceScreen() {
                   </svg>
                   {el?.duration_time}
                 </span>
-                <span className={`${styles.textGray} ml-3`}>4.8 ⭐</span>
+                <span className={`${styles.textGray} ml-3`}>
+                  {el?.rating} ⭐
+                </span>
               </div>
               <div className={styles.cardFooter}>
                 <span className={styles.price}>₹ {el?.sale_price}</span>
@@ -201,7 +236,9 @@ export default function InvoiceScreen() {
             </div>
             <div className={`${styles.detailsRow} ${styles.grandTotal}`}>
               <span>Grand total</span>
-              <span>₹ {totalPay}</span>
+              <span>
+                ₹ {couponCodePercentage ? totalPaymentAmount : totalPay}
+              </span>
             </div>
           </div>
           <div className={styles.downloadButton}>
