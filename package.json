@@ -1,6 +1,6 @@
 {
   "name": "fintopedia",
-  "packageManager": "yarn@4.7.0",
+  "packageManager": "yarn@3.6.4",
   "private": true,
   "main": "index.js",
   "author": "Ankit Singh <aks.11feb@gmail.com>",
