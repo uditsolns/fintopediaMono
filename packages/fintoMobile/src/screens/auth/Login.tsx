@@ -36,27 +36,32 @@ interface LoginProps extends NavType<'Login'> {}
 
 export const Login: React.FC<LoginProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
-  const {auth, loading} = useAppSelector(state => state.auth);
+  const {auth, loading, err} = useAppSelector(state => state.auth);
   const {authFormik, authInputProps} = useAuthHelper();
   const {handleSubmit, setFieldValue} = authFormik;
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);
   const {deviceId, setDeviceId} = useOtplessContext();
-
+  let errorMessages = err?.loginErr?.message ? err?.loginErr?.message : '';
   React.useEffect(() => {
     GoogleSignin.configure();
   }, []);
   React.useEffect(() => {
-    if (auth) {
-      if (auth.token) {
-        navigation.navigate(RouteKeys.HOMESCREEN);
-      }
-      if (auth?.message) {
-        Toast.show(auth?.message, {
-          type: 'error',
-        });
-      }
+    if (auth?.token) {
+      console.log('Login successful:', auth.token);
+      Toast.show('Login successful!', {
+        type: 'success',
+      });
+      navigation.navigate(RouteKeys.HOMESCREEN);
     }
   }, [auth]);
+
+  React.useEffect(() => {
+    if (errorMessages) {
+      Toast.show(errorMessages, {
+        type: 'error',
+      });
+    }
+  }, [errorMessages]);
 
   const getTokenFromOneSignal = async () => {
     try {
@@ -79,10 +84,17 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
           email: response?.data?.user?.email,
         };
         console.log('params', params);
-        dispatch(googleSignIn(params));
-        GoogleSignin.signOut();
+        dispatch(googleSignIn(params))
+          .unwrap()
+          .then(res => {
+            if (res?.token) {
+              Toast.show('Login successful!', {
+                type: 'success',
+              });
+              navigation.navigate(RouteKeys.HOMESCREEN);
+            }
+          });
       } else {
-        // sign in was cancelled by user
       }
     } catch (error) {
       if (isErrorWithCode(error)) {

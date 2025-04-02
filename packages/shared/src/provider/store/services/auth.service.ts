@@ -129,9 +129,6 @@ export const confirmPassword = createAsyncThunk<
 
     const data = (await response.json()) as UpdatePasswordResponse;
     onSuccess(data);
-    if (data?.code === 200) {
-      thunkApi.dispatch(logout());
-    }
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);

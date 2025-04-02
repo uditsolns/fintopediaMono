@@ -53,7 +53,7 @@
     "react-redux": "^9.1.2",
     "redux-persist": "^6.0.0",
     "shared": "*",
-    "vdocipher-rn-bridge": "^1.20.8",
+    "vdocipher-rn-bridge": "^1.21.2",
     "yup": "^1.4.0"
   },
   "devDependencies": {

@@ -55,6 +55,9 @@ const authSlice = createSlice({
     storeCurrentUser: (state, action) => {
       state.current_user = action.payload;
     },
+    clearConfirmPassword: (state) => {
+      state.confirm = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -161,5 +164,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, storeCurrentUser } = authSlice.actions;
+export const { logout, storeCurrentUser,clearConfirmPassword } = authSlice.actions;
 export default authSlice.reducer;

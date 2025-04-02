@@ -33,6 +33,9 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({navigation}) => {
       Toast.show(confirm?.status_message, {
         type: confirm?.status == 'success' ? 'success' : 'error',
       });
+      if(confirm?.status == 'success'){
+        navigation.goBack()
+      }
     }
   }, [confirm]);
 

@@ -112,17 +112,21 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (couponCodePercentage) {
-        let amt = calculatePercetageAmount(
-          couponCodePercentage,
-          keepTotalPaymentAmount,
-        );
-        let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
-        setTotalPaymentAmount(total2);
-        console.log('----------------------------------', total2);
-      }
+      percentAmount();
     }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount]),
   );
+
+  const percentAmount = () => {
+    if (couponCodePercentage) {
+      let amt = calculatePercetageAmount(
+        couponCodePercentage,
+        keepTotalPaymentAmount,
+      );
+      let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
+      setTotalPaymentAmount(total2);
+      console.log('----------------------------------', total2);
+    }
+  };
 
   const onRefresh = () => {
     setRefreshLoading(true);
@@ -139,6 +143,11 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
         deleteCourseCart({
           id,
           onSuccess: data => {
+            console.log('Course removed from cart successfully');
+            Toast.show('Course removed from cart successfully.', {
+              type: 'success',
+            });
+            percentAmount();
             dispatch(getCourseCart());
           },
           onError: err => {},
@@ -184,9 +193,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             }),
           );
         }}
-        onRemove={() => {
-          onRemove();
-        }}
+        onRemove={onRemove}
         saveForLaterBoolean={true}
       />
     );
