@@ -45,17 +45,17 @@ export async function POST(req, res) {
     console.log("r===", responseData.code);
 
     if (responseData.code === "PAYMENT_SUCCESS") {
-      return NextResponse.redirect("http://localhost:3000/success", {
+      return NextResponse.redirect("https://fintopedia.com/success", {
         status: 301,
       });
     } else {
-      return NextResponse.redirect("http://localhost:3000/failure", {
+      return NextResponse.redirect("https://fintopedia.com/failure", {
         status: 301,
       });
     }
   } catch (error) {
     console.error("Error checking payment status:", error);
-    return NextResponse.redirect("http://localhost:3000/failure", {
+    return NextResponse.redirect("https://fintopedia.com/failure", {
       status: 301,
     });
   }
