@@ -25,7 +25,6 @@ const Login: React.FC<LoginProps> = () => {
   const { handleSubmit, isSubmitting } = authFormik;
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
 
-  console.log("err?.loginErr", err?.loginErr);
   React.useEffect(() => {
     if (auth) {
       if (auth?.token) {
@@ -42,7 +41,7 @@ const Login: React.FC<LoginProps> = () => {
         });
       }
     }
-  }, [auth, router]); 
+  }, [auth, router]);
 
   useEffect(() => {
     const callback = (eventCallback: any) => {
@@ -79,17 +78,17 @@ const Login: React.FC<LoginProps> = () => {
     }
   }, []);
 
-  const [mobileNumber, setMobileNumber] = useState<string>("9767169605");
-  const [countryCode, setCountryCode] = useState<string>("+91");
-  // Use useEffect to wait until OTPLESS SDK is loaded
+  // const [mobileNumber, setMobileNumber] = useState<string>("9767169605");
+  // const [countryCode, setCountryCode] = useState<string>("+91");
+  // // Use useEffect to wait until OTPLESS SDK is loaded
 
-  // Phone authentication function
-  const phoneAuth2 = () => {
-    initiateLogin("9076049013", "+91");
-  };
-  const phoneAuth = () => {
-    initiateLogin(mobileNumber, countryCode);
-  };
+  // // Phone authentication function
+  // const phoneAuth2 = () => {
+  //   initiateLogin("9076049013", "+91");
+  // };
+  // const phoneAuth = () => {
+  //   initiateLogin(mobileNumber, countryCode);
+  // };
 
   return (
     <div className={styles.signupLoginontainer}>
@@ -193,9 +192,8 @@ const Login: React.FC<LoginProps> = () => {
                     </Button>
                   </div>
                 </div>
-                <button onClick={phoneAuth}>Request OTP</button>
-                <button onClick={phoneAuth2}>Request Sujit</button>
-
+                {/* <button onClick={phoneAuth}>Request OTP</button>
+                <button onClick={phoneAuth2}>Request Sujit</button> */}
               </div>
               {/* <div className="mt-1 mb-3 p-3">
                 <h3 className="text-center font-bold text-white mb-3">

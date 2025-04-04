@@ -44,6 +44,7 @@ export interface CourseSubSections {
   subsection_time: string | null;
   sub_video: string | null;
   sub_video_embed: VideoEmbed;
+  subsection_number: string | number | null;
 }
 export interface CourseSections {
   id: number;
