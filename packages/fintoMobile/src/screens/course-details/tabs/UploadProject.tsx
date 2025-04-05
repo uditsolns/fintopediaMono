@@ -122,6 +122,7 @@ export const UploadProject: React.FunctionComponent<UploadProjectProps> = ({
   };
   return (
     <View
+      onLayout={onLayout}
       style={{
         flex: 1,
         flexGrow: 1,

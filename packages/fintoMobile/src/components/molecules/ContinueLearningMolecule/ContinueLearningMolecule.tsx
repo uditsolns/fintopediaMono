@@ -30,8 +30,7 @@ export default function ContinueLearningMolecule({
     <GradientBorderBox
       linearColor={['#2D303D', '#212330', '#101320', '#111521', '#0D0F1B']}
       borderRadium={8}
-      width={WINDOW_WIDTH * 0.92}
-      >
+      width={WINDOW_WIDTH * 0.92}>
       <Pressable
         style={[commonStyle.flexStart, styles.container]}
         onPress={onPress}>
@@ -44,14 +43,16 @@ export default function ContinueLearningMolecule({
               : require('@shared/src/assets/img/purchaseHistoryPlaceHolder.png')
           }
           style={styles.image}
-
           resizeMode="stretch"
         />
         <View style={styles.content}>
           <TextAtom
             text={item?.course?.name || ''}
             preset="small"
-            style={[styles.boldText, {color: colorPresets.GRAY,fontWeight:"400"}]}
+            style={[
+              styles.boldText,
+              {color: colorPresets.GRAY, fontWeight: '400'},
+            ]}
             numberOfLines={3}
           />
           <TextAtom
@@ -61,11 +62,15 @@ export default function ContinueLearningMolecule({
             style={{marginTop: mScale.sm}}
           />
           {item?.courses_section?.section_time ? (
-            <View style={[commonStyle.flexStart, {marginTop: moderateScale(40)}]}>
+            <View
+              style={[commonStyle.flexStart, {marginTop: moderateScale(40)}]}>
               <TextAtom
                 text={'Lecture'}
                 preset="medium"
-                style={[styles.boldText, {color: colorPresets.GRAY,fontWeight:'400'}]}
+                style={[
+                  styles.boldText,
+                  {color: colorPresets.GRAY, fontWeight: '400'},
+                ]}
               />
               <TextAtom
                 text={'\u2B24'}
@@ -80,7 +85,11 @@ export default function ContinueLearningMolecule({
                 preset="medium"
                 style={[
                   styles.boldText,
-                  {marginStart: mScale.md, color: colorPresets.GRAY,fontWeight:'400'},
+                  {
+                    marginStart: mScale.md,
+                    color: colorPresets.GRAY,
+                    fontWeight: '400',
+                  },
                 ]}
               />
             </View>
@@ -97,7 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: WINDOW_WIDTH * 0.92,
     alignSelf: 'center',
-    borderRadius:8
+    borderRadius: 8,
   } as ViewStyle,
   image: {
     width: moderateScale(139),
@@ -109,7 +118,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignSelf: 'flex-start',
     paddingLeft: mScale.base,
-    paddingTop:mScale.base
+    paddingTop: mScale.base,
   } as ViewStyle,
   boldText: {
     fontWeight: '400',

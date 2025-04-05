@@ -186,8 +186,7 @@ export const Contactus: React.FC<ContactusProps> = ({}) => {
                   Linking.openURL(
                     'https://www.facebook.com/people/Fintopedia/61551172396495/',
                   );
-                }}
-                >
+                }}>
                 <Images.SVG.Fb2 />
               </Pressable>
               <Pressable

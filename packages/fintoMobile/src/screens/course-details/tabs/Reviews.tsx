@@ -118,7 +118,7 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = ({onLayout}) => {
     );
   };
   return (
-    <View style={{flex: 1}}>
+    <View onLayout={onLayout} style={{flex: 1}}>
       {coursesLoading.singleCourse ||
       coursesLoading.courses ||
       course_review_loading.create ? (

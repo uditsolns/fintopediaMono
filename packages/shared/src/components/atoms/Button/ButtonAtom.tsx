@@ -14,8 +14,8 @@ interface ButtonAtomProps extends PressableProps {
   textPreset?: TextPresetType;
   loadingColor?: string;
   numberOfLines?: number;
-  iconLeft?: React.ReactNode; 
-  iconRight?: React.ReactNode; 
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
 }
 
 export const ButtonAtom = ({
@@ -64,16 +64,16 @@ export const ButtonAtom = ({
           presetData,
           {
             opacity: pressed ? 0.7 : 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
           },
         ]}
         {...rest}
       >
         {iconLeft && <View style={{ marginRight: 8 }}>{iconLeft}</View>}
         <TextAtom
-          style={[textStyle, { textAlign: 'center' }]}
+          style={[textStyle, { textAlign: "center" }]}
           preset={textPreset}
           text={title}
           numberOfLines={numberOfLines}

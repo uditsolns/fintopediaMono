@@ -1,14 +1,14 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {storeVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
-import { createCourseCart } from '@shared/src/provider/store/services/CourseCart.service';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {
   useAppDispatch,
   useAppSelector,
 } from '@shared/src/provider/store/types/storeTypes';
 import {mScale} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
-import { isInCart } from '@src/components/Calculate';
+import {isInCart} from '@src/components/Calculate';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import {CourseInnerAtom} from '@src/components/CourseInnerAtom';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
