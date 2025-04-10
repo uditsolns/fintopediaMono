@@ -1,5 +1,5 @@
-import {useNavigation, useRoute} from '@react-navigation/native';
-import { isCoursePurchased } from '@shared/src/components/atoms/Calculate';
+import {useFocusEffect, useNavigation, useRoute} from '@react-navigation/native';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {storeVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
 import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
@@ -45,7 +45,24 @@ export const CourseContent: React.FunctionComponent<CourseContentProps> = ({
   const {courseget_purchase} = useAppSelector(
     state => state.coursesgetPurchase,
   );
+  const [courseSections, setCourseSections] = React.useState<any>(data || []);
 
+  const sortSections = React.useCallback((sections: any[]) => {
+    return [...sections].sort((a, b) => {
+      const sectionNumberA = Number(a?.section_number);
+      const sectionNumberB = Number(b?.section_number);
+      return sectionNumberA - sectionNumberB;
+    });
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (data?.length) {
+        const sortedSections = sortSections(data);
+        setCourseSections(sortedSections);
+      }
+    }, [data, sortSections])
+  );
   const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
     return (
       <PopularCourseMolecule
@@ -92,7 +109,7 @@ export const CourseContent: React.FunctionComponent<CourseContentProps> = ({
       <ScrollViewAtom>
         <FlatList
           style={{flex: 1}}
-          data={singleCourse?.sections?.length ? singleCourse?.sections : []}
+          data={courseSections?.length ? courseSections : []}
           renderItem={({item}) => <CourseInnerAtom item={item} />}
           keyExtractor={(item, index) => index.toString()}
           nestedScrollEnabled={false}
