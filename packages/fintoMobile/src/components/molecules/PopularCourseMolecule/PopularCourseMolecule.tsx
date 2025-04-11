@@ -81,16 +81,16 @@ export default function PopularCourseMolecule({
             }
             textPreset="titleBold"
           />
-          {item?.rating ? (
-            <View
-              style={{marginTop: moderateScale(24), marginBottom: mScale.md}}>
+
+          <View style={{marginTop: moderateScale(24), marginBottom: mScale.md}}>
+            {item?.rating ? (
               <RatingReview
                 rating={item?.rating || ''}
                 review={item?.reviews || ''}
                 textStyle={{paddingTop: mScale.xs}}
               />
-            </View>
-          ) : null}
+            ) : null}
+          </View>
         </View>
         {item?.sale_price ? (
           <CoursePrice

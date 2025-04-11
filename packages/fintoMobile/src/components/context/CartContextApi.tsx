@@ -9,6 +9,10 @@ interface CartContextType {
   setIsCouponCodeApply: (code: boolean) => void;
   couponCodePercentage: string | number;
   setCouponCodePercentage: (percentage: string | number) => void;
+  couponCodePercentageDiscount: string;
+  setCouponCodePercentageDiscounts: (percentage: string) => void;
+  couponCodePercentageDiscountAmount: number;
+  setCouponCodePercentageDiscountsAmount: (percentage: number) => void;
 }
 
 interface CartContextProviderProps {
@@ -30,6 +34,12 @@ export const CartContextProvider: React.FC<CartContextProviderProps> = ({
   const [couponCodePercentage, setCouponCodePercentage] = useState<
     string | number
   >(0);
+  const [couponCodePercentageDiscount, setCouponCodePercentageDiscount] =
+    useState<string>('');
+  const [
+    couponCodePercentageDiscountAmount,
+    setCouponCodePercentageDiscountsAmount,
+  ] = useState<string | number>('');
 
   return (
     <CartContext.Provider
@@ -42,6 +52,10 @@ export const CartContextProvider: React.FC<CartContextProviderProps> = ({
         setKeepTotalPaymentAmount,
         couponCodePercentage,
         setCouponCodePercentage,
+        couponCodePercentageDiscount,
+        setCouponCodePercentageDiscount,
+        couponCodePercentageDiscountAmount,
+        setCouponCodePercentageDiscountsAmount,
       }}>
       {children}
     </CartContext.Provider>

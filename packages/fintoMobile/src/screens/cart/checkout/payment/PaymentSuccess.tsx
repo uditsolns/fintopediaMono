@@ -14,7 +14,9 @@ import BorderWithThickness from '@src/components/Border';
 import GradientBorderBox from '@src/components/Border/GradientBorderBox';
 import {
   addTwoNumber,
+  calculatePercetage,
   calculatePercetageAmount,
+  roundFigure,
   subtractTwoNumber,
   sumCalculate,
 } from '@src/components/Calculate';
@@ -55,8 +57,12 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
     setKeepTotalPaymentAmount,
     couponCodePercentage,
     setCouponCodePercentage,
+    couponCodePercentageDiscount,
+    couponCodePercentageDiscountAmount,
+    setCouponCodePercentageDiscountsAmount,
   } = useCartContext();
 
+  console.log(couponCodePercentageDiscount, couponCodePercentageDiscountAmount);
   React.useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
@@ -96,23 +102,29 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
       setKeepTotalPaymentAmount(totalPayAmount);
     }
     return () => {};
-  }, [singlePurchaseHistory]);
+  }, [singlePurchaseHistory, isCouponCodeApply]);
 
   useFocusEffect(
     React.useCallback(() => {
       if (couponCodePercentage) {
         let amt = calculatePercetageAmount(
-          couponCodePercentage,
-          keepTotalPaymentAmount,
+          Number(couponCodePercentage),
+          Number(keepTotalPaymentAmount),
         );
-        let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
-        setTotalPaymentAmount(total2);
+        let disAmt = calculatePercetage(
+          Number(couponCodePercentage),
+          Number(keepTotalPaymentAmount),
+        );
+        let total2 = subtractTwoNumber(amt, +keepTotalPaymentAmount);
+        setTotalPaymentAmount(roundFigure(total2));
+        setCouponCodePercentageDiscountsAmount(roundFigure(disAmt));
       }
     }, [
       singlePurchaseHistory,
       totalPay,
       keepTotalPaymentAmount,
       couponCodePercentage,
+      isCouponCodeApply,
     ]),
   );
   return (
@@ -185,7 +197,9 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
                 ]}>
                 <View>
                   <TextAtom
-                    text={'Invoice Number: INV-20240628-001'}
+                    text={`Invoice Number: ${
+                      singlePurchaseHistory?.invoice_no || ''
+                    }`}
                     preset="medium"
                     style={{marginBottom: mScale.md}}
                   />
@@ -238,6 +252,24 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
                     style={{color: '#B5B5B5'}}
                   />
                 </View>
+                {isCouponCodeApply ? (
+                  <View
+                    style={[
+                      commonStyle.flexSpaceBetween,
+                      {marginTop: mScale.md},
+                    ]}>
+                    <TextAtom
+                      text={`${couponCodePercentageDiscount || ''} % discount`}
+                      preset="body"
+                      style={{color: colorPresets.SECONDARY}}
+                    />
+                    <TextAtom
+                      text={`-  ₹ ${couponCodePercentageDiscountAmount}`}
+                      preset="body"
+                      style={{color: colorPresets.SECONDARY}}
+                    />
+                  </View>
+                ) : null}
                 <BorderWithThickness />
                 <View
                   style={[

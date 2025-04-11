@@ -39,6 +39,7 @@ export const Coupon: React.FunctionComponent<CouponProps> = ({navigation}) => {
     setTotalPaymentAmount,
     keepTotalPaymentAmount,
     setCouponCodePercentage,
+    setCouponCodePercentageDiscount,
   } = useCartContext();
   const {courseCart} = useAppSelector(state => state.courseCart);
 
@@ -56,6 +57,7 @@ export const Coupon: React.FunctionComponent<CouponProps> = ({navigation}) => {
       <CouponMolecule
         item={item}
         onPress={() => {
+          setDiscount(`${item?.discount_code}`);
           Clipboard.setString(`${item?.discount_code}`);
         }}
       />
@@ -89,6 +91,7 @@ export const Coupon: React.FunctionComponent<CouponProps> = ({navigation}) => {
           let amt = Number(keepTotalPaymentAmount);
           const discount =
             +originalPromiseResult?.discount?.replace(/\D+/g, '') || 0;
+          setCouponCodePercentageDiscount(originalPromiseResult?.discount_code);
           setCouponCodePercentage(discount);
           const discountAmount = (amt * discount) / 100;
           const finalAmount = amt - discountAmount;

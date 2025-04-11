@@ -33,6 +33,14 @@ export const calculatePercetageAmount = (
   return (amount * perc) / 100;
 };
 
+export const calculatePercetage = (perc: number, amount: number): number => {
+  return (perc / 100) * amount;
+};
+
+export const roundFigure = (amount: number): number => {
+  return Math.ceil(amount)
+};
+
 export const getRandomItem = <T>(items: T[]): T[] => {
   return [...items].sort(() => Math.random() - 0.5);
 };

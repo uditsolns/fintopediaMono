@@ -1,4 +1,8 @@
-import {useFocusEffect, useNavigation, useRoute} from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {storeVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
@@ -57,11 +61,11 @@ export const CourseContent: React.FunctionComponent<CourseContentProps> = ({
 
   useFocusEffect(
     React.useCallback(() => {
-      if (data?.length) {
-        const sortedSections = sortSections(data);
+      if (data?.sections?.length) {
+        const sortedSections = sortSections(data?.sections);
         setCourseSections(sortedSections);
       }
-    }, [data, sortSections])
+    }, [data, sortSections]),
   );
   const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
     return (

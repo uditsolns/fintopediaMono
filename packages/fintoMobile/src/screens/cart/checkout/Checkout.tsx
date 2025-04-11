@@ -15,6 +15,7 @@ import {CourseCartResponse} from '@shared/src/utils/types/CourseCart';
 import {
   addTwoNumber,
   calculatePercetageAmount,
+  roundFigure,
   subtractTwoNumber,
   sumCalculate,
 } from '@src/components/Calculate';
@@ -77,11 +78,11 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
     React.useCallback(() => {
       if (couponCodePercentage) {
         let amt = calculatePercetageAmount(
-          couponCodePercentage,
-          keepTotalPaymentAmount,
+          +couponCodePercentage,
+          +keepTotalPaymentAmount,
         );
-        let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
-        setTotalPaymentAmount(total2);
+        let total2 = subtractTwoNumber(amt, +keepTotalPaymentAmount);
+        setTotalPaymentAmount(roundFigure(total2));
       }
     }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount]),
   );

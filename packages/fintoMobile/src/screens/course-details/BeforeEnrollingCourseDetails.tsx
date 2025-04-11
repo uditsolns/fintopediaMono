@@ -38,8 +38,12 @@ import GradientBorderBox from '@src/components/Border/GradientBorderBox';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import {isInCart} from '@src/components/Calculate';
 import {RouteKeys} from '@src/navigation/RouteKeys';
-import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
+import {
+  createCourseCart,
+  getCourseCart,
+} from '@shared/src/provider/store/services/CourseCart.service';
 import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
+import {getCoursesgetPurchase} from '@shared/src/provider/store/services/coursesget-purchase.service';
 
 interface BeforeEnrollingCourseDetailsProps
   extends NavType<'BeforeEnrollingCourseDetails'> {}
@@ -102,6 +106,7 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
 
   React.useEffect(() => {
     onRefresh();
+
     return () => {
       dispatch(clearVideoUrl());
       Orientation.lockToPortrait();
@@ -113,6 +118,8 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
     dispatch(getCourses());
     dispatch(getCoursesSections());
     dispatch(getCourseReviews());
+    dispatch(getCoursesgetPurchase());
+    dispatch(getCourseCart());
     setRefreshLoading(false);
   };
   const renderItem = ({item}: {item: CourseReviewResponse}) => {
@@ -306,38 +313,72 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
             <ButtonAtom
               title={`Course starts from  ₹ ${data?.sale_price}`}
               preset="fourthy"
-            />
-
-            <TextAtom
-              text={'This course includes'}
-              preset="heading3"
-              style={{marginBottom: mScale.md, marginTop: moderateScale(60)}}
-            />
-            {data?.sections?.map((el, index) => {
-              return (
-                <View
-                  key={index}
-                  style={[
-                    commonStyle.flexStart,
+              onPress={async () => {
+                let params = {
+                  user_id: Number(auth?.user?.id),
+                  course_id: Number(data?.id),
+                  status: '1',
+                };
+                if (isInCart(courseCart, data?.id)) {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                } else if (isCoursePurchased(courseget_purchase, data?.id)) {
+                  navigation.navigate(
+                    RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN,
                     {
-                      alignSelf: 'flex-start',
-                      alignItems: 'center',
-                      marginVertical: mScale.md,
-                      flex: 1,
+                      id: data?.id,
                     },
-                  ]}>
-                  <View style={{marginEnd: mScale.md, marginTop: mScale.xxs}}>
-                    <Images.SVG.CheckBoxIcon2 />
-                  </View>
+                  );
+                } else {
+                  await dispatch(
+                    createCourseCart({
+                      params,
+                      onSuccess: data => {
+                        navigation.navigate(RouteKeys.CARTSCREEN);
+                      },
+                      onError: err => {},
+                    }),
+                  ).unwrap();
+                }
+              }}
+            />
+            {data?.sections?.length ? (
+              <>
+                <TextAtom
+                  text={'This course includes'}
+                  preset="heading3"
+                  style={{
+                    marginBottom: mScale.md,
+                    marginTop: moderateScale(60),
+                  }}
+                />
+                {data?.sections?.map((el, index) => {
+                  return (
+                    <View
+                      key={index}
+                      style={[
+                        commonStyle.flexStart,
+                        {
+                          alignSelf: 'flex-start',
+                          alignItems: 'center',
+                          marginVertical: mScale.md,
+                          flex: 1,
+                        },
+                      ]}>
+                      <View
+                        style={{marginEnd: mScale.md, marginTop: mScale.xxs}}>
+                        <Images.SVG.CheckBoxIcon2 />
+                      </View>
 
-                  <TextAtom
-                    preset="body"
-                    style={{color: '#F3F4F7'}}
-                    text={el?.section_heading || ''}
-                  />
-                </View>
-              );
-            })}
+                      <TextAtom
+                        preset="body"
+                        style={{color: '#F3F4F7'}}
+                        text={el?.section_heading || ''}
+                      />
+                    </View>
+                  );
+                })}
+              </>
+            ) : null}
           </View>
           <View
             style={{
@@ -427,28 +468,38 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               </GradientBorderBox>
             </View>
           </View>
-          <View style={{paddingHorizontal: mScale.base, flex: 1}}>
-            <TextAtom
-              text={'Your Course Overview'}
-              preset="heading3"
-              style={{marginTop: mScale.md}}
-            />
-            {/* <TextAtom
+          {data?.sections?.length ? (
+            <View style={{paddingHorizontal: mScale.base, flex: 1}}>
+              <TextAtom
+                text={'Your Course Overview'}
+                preset="heading3"
+                style={{marginTop: mScale.md}}
+              />
+              {/* <TextAtom
               preset="body"
               text={'3 sections • 24 topics • 4 hrs 38 mins content'}
               style={{color: '#E8EBED'}}
             /> */}
-            <View>
-              <FlatList
-                data={data?.sections?.length ? data?.sections : []}
-                renderItem={({item}) => (
-                  <BeforeEnrollingCourseAtom item={item} />
-                )}
-                keyExtractor={(item, index) => index.toString()}
-                removeClippedSubviews={true}
-              />
+              <View>
+                <FlatList
+                  data={
+                    data?.sections?.length
+                      ? data?.sections?.sort(
+                          (a, b) =>
+                            Number(a?.section_number) -
+                            Number(b?.section_number),
+                        )
+                      : []
+                  }
+                  renderItem={({item}) => (
+                    <BeforeEnrollingCourseAtom item={item} />
+                  )}
+                  keyExtractor={(item, index) => index.toString()}
+                  removeClippedSubviews={true}
+                />
+              </View>
             </View>
-          </View>
+          ) : null}
           {data?.about_me && (
             <View
               style={{
