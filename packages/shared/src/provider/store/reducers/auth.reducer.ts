@@ -85,7 +85,7 @@ const authSlice = createSlice({
         
       })
       .addCase(googleSignIn.rejected, (state, action) => {
-        state.loading.forgot = false;
+        state.loading.google_login = false;
         state.err.google_login_err = action?.payload;
       })
       .addCase(signUp.pending, (state) => {

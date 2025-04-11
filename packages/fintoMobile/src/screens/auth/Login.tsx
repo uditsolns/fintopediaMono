@@ -82,6 +82,8 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
         console.log(JSON.stringify(response));
         let params = {
           email: response?.data?.user?.email,
+          device_id: deviceId,
+          device_id_web:""
         };
         console.log('params', params);
         dispatch(googleSignIn(params))
@@ -91,12 +93,21 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
               Toast.show('Login successful!', {
                 type: 'success',
               });
+              GoogleSignin.signOut();
               navigation.navigate(RouteKeys.HOMESCREEN);
             }
+          })
+          .catch(err => {
+            GoogleSignin.signOut();
+            Toast.show('Bads creds', {
+              type: 'error',
+            });
           });
       } else {
+        GoogleSignin.signOut();
       }
     } catch (error) {
+      GoogleSignin.signOut();
       if (isErrorWithCode(error)) {
         switch (error.code) {
           case statusCodes.IN_PROGRESS:
