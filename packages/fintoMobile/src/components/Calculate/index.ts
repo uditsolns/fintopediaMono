@@ -38,7 +38,7 @@ export const calculatePercetage = (perc: number, amount: number): number => {
 };
 
 export const roundFigure = (amount: number): number => {
-  return Math.ceil(amount)
+  return Math.ceil(amount);
 };
 
 export const getRandomItem = <T>(items: T[]): T[] => {
@@ -88,20 +88,39 @@ export function formatDateMonthTime(isoString: string): string {
 }
 
 export const ENVIRONMENT: string = false ? 'PRODUCTION' : 'SANDBOX';
-export const MERCHANT_ID: string = false
-  ? 'AURAHEALINGONLINE'
-  : 'AURAHONLINEUAT';
-export const SALT_KEY: string = false
-  ? '8fe7d793-540e-40df-87cf-8118912f40f7'
-  : 'c9170f9e-85bc-4055-8cec-812bf1b73f53';
+export const MERCHANT_ID: string = true ? 'M22K03LOEQXU2' : 'M22K03LOEQXU2';
+export const ENABLE_LOGGING: boolean = true ? true : false;
+export const APP_SCHEMA: any = null;
+export const SALT_KEY: string = true
+  ? '4d9e9c56-7f81-4d02-8e43-4c41a0674459'
+  : 'NjJkMGU0YmUtMDIwZS00MWQ0LTllYTUtZjY5OTQ0MDQxYTll';
 export const SALT_INDEX: number = 1;
 export const API_ENDPOINT: string = '/pg/v1/pay';
-export const PRODUCTION_HOST_URL: string = false
+export const PRODUCTION_HOST_URL: string = true
   ? 'https://api.phonepe.com/apis/hermes'
   : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
+export const REDIRECT_URL = 'https://fintomono.netlify.app/';
+export const CALLBACK_URL = 'https://fintomono.netlify.app/';
+export const PACKAGE_NAME = 'com.fintomobile';
+export const FLOW_ID = `${new Date().getTime()}`;
+export const CLIENT_ID = false
+  ? 'SU2504121904093266732422'
+  : 'TEST-M22K03LOEQXU2_25041';
+export const CLIENT_SECRET = false
+  ? '4d9e9c56-7f81-4d02-8e43-4c41a0674459'
+  : 'NjJkMGU0YmUtMDIwZS00MWQ0LTllYTUtZjY5OTQ0MDQxYTll';
+export const CLIENT_VERSION = '1';
+export const AUTH_TOKEN_URL = false
+  ? 'https://api.phonepe.com/apis/identity-manager/v1/oauth/token'
+  : 'https://api-preprod.phonepe.com/apis/pg-sandbox/v1/oauth/token';
 
-export const REDIRECT_URL = 'https://aurahealing.in/';
-export const CALLBACK_URL = 'https://aurahealing.in/';
+export const ORDER_URL = false
+  ? 'https://api.phonepe.com/apis/pg/checkout/v2/sdk/order'
+  : 'https://api-preprod.phonepe.com/apis/pg-sandbox/checkout/v2/sdk/order';
+
+export const ORDER_STATUS_URL = false
+  ? 'https://api.phonepe.com/apis/pg/checkout/v2/order'
+  : 'https://api-preprod.phonepe.com/apis/pg-sandbox/checkout/v2/order';
 
 export const getCurrentGreeting = () => {
   const currentHour = new Date().getHours();

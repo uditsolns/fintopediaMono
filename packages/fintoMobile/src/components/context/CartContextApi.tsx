@@ -1,5 +1,11 @@
 import React, {createContext, ReactNode, useContext, useState} from 'react';
 
+interface OrderType {
+  expireAt: number;
+  orderId: string;
+  state: string;
+  token: string;
+}
 interface CartContextType {
   totalPaymentAmount: string | number;
   setTotalPaymentAmount: (amount: string | number) => void;
@@ -10,9 +16,15 @@ interface CartContextType {
   couponCodePercentage: string | number;
   setCouponCodePercentage: (percentage: string | number) => void;
   couponCodePercentageDiscount: string;
-  setCouponCodePercentageDiscounts: (percentage: string) => void;
-  couponCodePercentageDiscountAmount: number;
+  setCouponCodePercentageDiscount: (percentage: string) => void;
+  couponCodePercentageDiscountAmount: number | string;
   setCouponCodePercentageDiscountsAmount: (percentage: number) => void;
+  orderId: OrderType | null;
+  setOrderId: (order: OrderType | null) => void;
+  merchantOrderID: string;
+  setMerchantOrderID: (order: string) => void;
+  accessToken: string;
+  setAccessToken: (order: string) => void;
 }
 
 interface CartContextProviderProps {
@@ -41,6 +53,9 @@ export const CartContextProvider: React.FC<CartContextProviderProps> = ({
     setCouponCodePercentageDiscountsAmount,
   ] = useState<string | number>('');
 
+  const [orderId, setOrderId] = useState<OrderType | null>(null);
+  const [merchantOrderID, setMerchantOrderID] = useState<string>('');
+  const [accessToken, setAccessToken] = useState<string>('');
   return (
     <CartContext.Provider
       value={{
@@ -56,6 +71,12 @@ export const CartContextProvider: React.FC<CartContextProviderProps> = ({
         setCouponCodePercentageDiscount,
         couponCodePercentageDiscountAmount,
         setCouponCodePercentageDiscountsAmount,
+        orderId,
+        setOrderId,
+        merchantOrderID,
+        setMerchantOrderID,
+        accessToken,
+        setAccessToken,
       }}>
       {children}
     </CartContext.Provider>

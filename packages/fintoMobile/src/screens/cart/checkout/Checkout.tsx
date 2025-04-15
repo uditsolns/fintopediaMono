@@ -14,7 +14,12 @@ import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CourseCartResponse} from '@shared/src/utils/types/CourseCart';
 import {
   addTwoNumber,
+  AUTH_TOKEN_URL,
   calculatePercetageAmount,
+  CLIENT_ID,
+  CLIENT_SECRET,
+  CLIENT_VERSION,
+  ORDER_URL,
   roundFigure,
   subtractTwoNumber,
   sumCalculate,
@@ -53,6 +58,9 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
     setKeepTotalPaymentAmount,
     couponCodePercentage,
     keepTotalPaymentAmount,
+    setOrderId,
+    setMerchantOrderID,
+    setAccessToken
   } = useCartContext();
   React.useEffect(() => {
     try {
@@ -87,6 +95,65 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
     }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount]),
   );
 
+  const createAuthToken = async () => {
+    const formData = new URLSearchParams();
+    formData.append('client_id', CLIENT_ID);
+    formData.append('client_version', CLIENT_VERSION);
+    formData.append('client_secret', CLIENT_SECRET);
+    formData.append('grant_type', 'client_credentials');
+
+    fetch(AUTH_TOKEN_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formData.toString(),
+    })
+      .then(response => response.json())
+      .then(data => {
+        const requestBody = {
+          merchantOrderId: `${new Date().getTime()}`,
+          amount: isCouponCodeApply
+          ? Number(totalPaymentAmount) * 100
+          : Number(totalPay) * 100,
+          expireAfter: data?.expires_in,
+          paymentFlow: {
+            type: 'PG_CHECKOUT',
+          },
+        };
+        setAccessToken(data?.access_token);
+        setMerchantOrderID(requestBody?.merchantOrderId);
+        fetch(ORDER_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `O-Bearer ${data?.access_token}`,
+          },
+          body: JSON.stringify(requestBody),
+        })
+          .then(res => res.json())
+          .then(data => {
+            setOrderId(data);
+            let cartData = {
+              totalItem: courseCart?.length,
+              totalPay: isCouponCodeApply ? totalPaymentAmount : totalPay,
+              totalDiscount: totalDiscount,
+              totalSubTotal: subtotal,
+              actualPrice: actualPricetotal,
+              gst: gst,
+            };
+            navigation.navigate(RouteKeys.BILLINGSCREEN, {
+              cartData: cartData,
+            });
+          })
+          .catch(err => {
+            console.log('Error:', err);
+          });
+      })
+      .catch(error => {
+        console.log('Error:', error);
+      });
+  };
   const renderItem = ({item}: {item: CourseCartResponse}) => {
     return (
       <CartMolecule
@@ -141,20 +208,10 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
         itemCount={courseCart?.length}
         price={isCouponCodeApply ? totalPaymentAmount : totalPay}
         discount_price={actualPricetotal}
-        onPress={() => {
+        onPress={async () => {
           try {
             if (courseCart?.length > 0) {
-              let cartData = {
-                totalItem: courseCart?.length,
-                totalPay: isCouponCodeApply ? totalPaymentAmount : totalPay,
-                totalDiscount: totalDiscount,
-                totalSubTotal: subtotal,
-                actualPrice: actualPricetotal,
-                gst: gst,
-              };
-              navigation.navigate(RouteKeys.BILLINGSCREEN, {
-                cartData: cartData,
-              });
+              await createAuthToken();
             }
           } catch (error) {
             console.log('checkout error', error);

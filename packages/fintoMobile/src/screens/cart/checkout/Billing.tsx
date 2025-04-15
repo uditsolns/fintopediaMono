@@ -13,8 +13,12 @@ import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {
   API_ENDPOINT,
   CALLBACK_URL,
+  ENABLE_LOGGING,
   ENVIRONMENT,
+  FLOW_ID,
   MERCHANT_ID,
+  ORDER_STATUS_URL,
+  PACKAGE_NAME,
   PRODUCTION_HOST_URL,
   REDIRECT_URL,
   SALT_INDEX,
@@ -25,7 +29,7 @@ import {GrandTotalPrice} from '@src/components/GrandTotalPrice';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import React from 'react';
-import {BackHandler, View} from 'react-native';
+import {BackHandler, Platform, View} from 'react-native';
 import PhonePePaymentSDK from 'react-native-phonepe-pg';
 import sha256 from 'crypto-js/sha256';
 import base64 from 'react-native-base64';
@@ -36,13 +40,14 @@ import {
 import LoaderAtom from '@src/components/LoaderAtom';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {useCartContext} from '@src/components/context/CartContextApi';
-import { getCoursesgetPurchase } from '@shared/src/provider/store/services/coursesget-purchase.service';
+import {getCoursesgetPurchase} from '@shared/src/provider/store/services/coursesget-purchase.service';
 
 interface BillingProps extends NavType<'Billing'> {}
 
 export const Billing: React.FunctionComponent<BillingProps> = ({
   navigation,
 }) => {
+  const {orderId, merchantOrderID, accessToken} = useCartContext();
   const routes = useRoute<any>();
   const dispatch = useAppDispatch();
   let cartData = routes?.params?.cartData;
@@ -72,7 +77,7 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
 
   React.useEffect(() => {
     try {
-      PhonePePaymentSDK.init(ENVIRONMENT, MERCHANT_ID, '', true)
+      PhonePePaymentSDK.init(ENVIRONMENT, MERCHANT_ID, FLOW_ID, ENABLE_LOGGING)
         .then(res =>
           console.log(
             `PhonePePaymentSDK initilized of this ${MERCHANT_ID}`,
@@ -87,42 +92,19 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
 
   const handlePayment = () => {
     try {
-      const requestBody = {
+      let request = {
+        orderId: orderId?.orderId,
         merchantId: MERCHANT_ID,
-        merchantTransactionId: `${new Date().getTime()}`,
-        merchantUserId: `${auth?.user?.id}`,
-        amount: cartData?.totalPay * 100,
-        redirectUrl: REDIRECT_URL,
-        redirectMode: 'REDIRECT',
-        callbackUrl: CALLBACK_URL,
-        mobileNumber: `${auth?.user?.phone}`,
-        paymentInstrument: {
+        token: orderId?.token,
+        paymentMode: {
           type: 'PAY_PAGE',
         },
       };
-      let requestJSONBody = JSON.stringify(requestBody);
-      let requestBase64Body = base64.encode(requestJSONBody);
-      const input = requestBase64Body + API_ENDPOINT + SALT_KEY;
-      const sha256Res = sha256(requestBase64Body + API_ENDPOINT + SALT_KEY);
-      const finalXHeader = `${sha256Res}###${SALT_INDEX}`;
-      PhonePePaymentSDK.startTransaction(
-        requestBase64Body,
-        finalXHeader,
-        'com.aurahealing',
-        null,
-      )
-        .then(res => {
-          console.log('startTransaction response ', JSON.stringify(res));
-          const sha256Res2 = sha256(
-            `/pg/v1/status/${MERCHANT_ID}/${requestBody?.merchantTransactionId}` +
-              SALT_KEY,
-          );
-          const finalXHeader2 = `${sha256Res2}###${SALT_INDEX}`;
-          paymentCheckStaus(
-            finalXHeader2,
-            MERCHANT_ID,
-            requestBody?.merchantTransactionId,
-          );
+      let requestJSONBody = JSON.stringify(request);
+      PhonePePaymentSDK.startTransaction(requestJSONBody, null)
+        .then(async res => {
+          console.log('startTransaction response ', res);
+          await paymentCheckStaus();
         })
         .catch(e => {
           console.log('startTransaction err', e);
@@ -135,84 +117,49 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
     }
   };
 
-  const paymentCheckStaus = (
-    finalXHeader2?: string,
-    merchantId?: string,
-    merchantTransactionId?: string,
-  ) => {
+  const paymentCheckStaus = async () => {
+    console.log(`${ORDER_STATUS_URL}/${merchantOrderID}/status?details=true&errorContext=true`,accessToken,MERCHANT_ID)
     try {
-      fetch(
-        `${PRODUCTION_HOST_URL}/pg/v1/status/${merchantId}/${merchantTransactionId}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-VERIFY': finalXHeader2,
-            'X-MERCHANT-ID': merchantId,
-          },
+      fetch(`https://api-preprod.phonepe.com/apis/pg-sandbox/checkout/v2/order/${merchantOrderID}/status?details=true&errorContext=true`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `O-Bearer ${accessToken}`,
+          'X-MERCHANT-ID': MERCHANT_ID,
         },
-      )
+      })
         .then(response => response.json())
-        .then(async res => {
-          const params = {
-            user_id: auth?.user?.id,
-            course_id: course_id_arr,
-            purchase_date: currentPurchaseDate,
-            status: res?.code === 'PAYMENT_SUCCESS' ? 'paid' : 'failed',
-            payment_status: res?.code === 'PAYMENT_SUCCESS' ? 'paid' : 'failed',
-            phone_pe_payment_id:
-              res?.data?.transactionId ||
-              res?.data?.paymentInstrument?.pgServiceTransactionId ||
-              '',
-            payment_type: res?.data?.paymentInstrument?.type || '',
-            utr: res?.data?.paymentInstrument?.utr || '',
-            upiTransactionId:
-              res?.data?.paymentInstrument?.upiTransactionId || '',
-            accountHolderName:
-              res?.data?.paymentInstrument?.accountHolderName || '',
-            accountType: res?.data?.paymentInstrument?.accountType || '',
-            pgTransactionId:
-              res?.data?.paymentInstrument?.pgTransactionId || '',
-            pgServiceTransactionId:
-              res?.data?.paymentInstrument?.pgServiceTransactionId || '',
-            arn: res?.data?.paymentInstrument?.arn || '',
-            cardType: res?.data?.paymentInstrument?.cardType || '',
-            brn: res?.data?.paymentInstrument?.brn || '',
-            subtotal: cartData?.totalSubTotal || '',
-            total_discount: cartData?.totalDiscount || '',
-            gst: cartData?.gst || '',
-            grand_total: cartData?.totalPay || '',
-          };
-          dispatch(
-            createPurchaseHistory({
-              params,
-              onSuccess(data) {
-                let params = {
-                  id: data?.data?.id,
-                };
-                dispatch(
-                  getPurchaseHistoryById({
-                    params,
-                    onSuccess(data) {
-                      console.log(data);
-                      navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN);
-                      dispatch(getCoursesgetPurchase());
-                    },
-                    onError(error) {},
-                  }),
-                );
-              },
-              onError(error) {
-                console.log(error);
-              },
-            }),
-          );
+        .then(res => {
+          console.log('PhonePe Payment Status:', JSON.stringify(res));
         })
         .catch(error => {
-          console.log(JSON.stringify(error));
+          console.log('error', error);
         });
     } catch (error) {
       console.log('paymentCheckStaus error', error);
+    }
+  };
+
+  React.useEffect(() => {
+    getUPIAppsInstalled();
+  }, []);
+  const getUPIAppsInstalled = async () => {
+    if (Platform.OS == 'ios') {
+      PhonePePaymentSDK.getUPIAppsInstalledforIos()
+        .then(a => {
+          console.log(JSON.stringify(a));
+        })
+        .catch(error => {
+          console.log('error:' + error.message);
+        });
+    } else {
+      PhonePePaymentSDK.getUpiAppsForAndroid()
+        .then(a => {
+          console.log(JSON.stringify(a));
+        })
+        .catch(error => {
+          console.log('error:' + error.message);
+        });
     }
   };
   return (
