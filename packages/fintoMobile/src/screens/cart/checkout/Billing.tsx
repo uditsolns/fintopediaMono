@@ -92,7 +92,7 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
 
   const handlePayment = () => {
     try {
-      let request = {
+      let requestBody = {
         orderId: orderId?.orderId,
         merchantId: MERCHANT_ID,
         token: orderId?.token,
@@ -100,14 +100,15 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
           type: 'PAY_PAGE',
         },
       };
-      let requestJSONBody = JSON.stringify(request);
+      console.log(requestBody)
+      let requestJSONBody = JSON.stringify(requestBody);
       PhonePePaymentSDK.startTransaction(requestJSONBody, null)
         .then(async res => {
-          console.log('startTransaction response ', res);
-          await paymentCheckStaus();
+          console.log('startTransaction response', res);
+          await paymentCheckStatus(); 
         })
         .catch(e => {
-          console.log('startTransaction err', e);
+          console.log('startTransaction error', e);
         })
         .finally(() => {
           console.log('startTransaction finally block');
@@ -117,10 +118,9 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
     }
   };
 
-  const paymentCheckStaus = async () => {
-    console.log(`${ORDER_STATUS_URL}/${merchantOrderID}/status?details=true&errorContext=true`,accessToken,MERCHANT_ID)
+  const paymentCheckStatus = async () => {
     try {
-      fetch(`https://api-preprod.phonepe.com/apis/pg-sandbox/checkout/v2/order/${merchantOrderID}/status?details=true&errorContext=true`, {
+      fetch(`${ORDER_STATUS_URL}/${merchantOrderID}/status?details=true&errorContext=true`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -133,10 +133,10 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
           console.log('PhonePe Payment Status:', JSON.stringify(res));
         })
         .catch(error => {
-          console.log('error', error);
+          console.log('paymentCheckStatus error', error);
         });
     } catch (error) {
-      console.log('paymentCheckStaus error', error);
+      console.log('paymentCheckStatus error', error);
     }
   };
 

@@ -18,6 +18,8 @@ import {RouteKeys} from '@src/navigation/RouteKeys';
 import {LinkButton} from '@src/components/Button/LinkButton';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {NavType} from '@src/navigation/types';
+import {useAppDispatch} from '@shared/src/provider/store/types/storeTypes';
+import {logout} from '@shared/src/provider/store/reducers/auth.reducer';
 
 interface OnboardingProps extends NavType<'Onboarding'> {}
 
@@ -49,6 +51,7 @@ const data: OnboardingData[] = [
 ];
 
 export const Onboarding: React.FC<OnboardingProps> = ({navigation}) => {
+  const dispatch = useAppDispatch();
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const scrollViewRef = React.useRef<ScrollView>(null);
 
@@ -78,7 +81,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({navigation}) => {
             text="Skip"
             style={[commonStyle.flexEnd, {padding: 0}]}
             onPress={handleSkip}
-            preset='bodySemiBold'
+            preset="bodySemiBold"
           />
         )}
         <ScrollView
@@ -131,13 +134,19 @@ export const Onboarding: React.FC<OnboardingProps> = ({navigation}) => {
               <View style={styles.finalButtons}>
                 <ButtonAtom
                   title="Log In"
-                  onPress={() => navigation.navigate(RouteKeys.LOGINSCREEN)}
+                  onPress={() => {
+                    dispatch(logout());
+                    navigation.navigate(RouteKeys.LOGINSCREEN);
+                  }}
                   textPreset="bodySemiBold"
                 />
                 <ButtonAtom
                   preset="tertiary"
                   title="Sign Up"
-                  onPress={() => navigation.navigate(RouteKeys.SIGNUPSCREEN)}
+                  onPress={() => {
+                    dispatch(logout());
+                    navigation.navigate(RouteKeys.SIGNUPSCREEN);
+                  }}
                   textPreset="bodySemiBold"
                 />
               </View>

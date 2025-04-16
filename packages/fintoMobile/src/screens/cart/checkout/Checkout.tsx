@@ -62,6 +62,8 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
     setMerchantOrderID,
     setAccessToken
   } = useCartContext();
+
+  const [payloading,setPaymentLoading] = React.useState(false);
   React.useEffect(() => {
     try {
       if (courseCart?.length) {
@@ -96,6 +98,7 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
   );
 
   const createAuthToken = async () => {
+    setPaymentLoading(true)
     const formData = new URLSearchParams();
     formData.append('client_id', CLIENT_ID);
     formData.append('client_version', CLIENT_VERSION);
@@ -112,7 +115,7 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
       .then(response => response.json())
       .then(data => {
         const requestBody = {
-          merchantOrderId: `${new Date().getTime()}`,
+          merchantOrderId: `ORDER${new Date().getTime()}`,
           amount: isCouponCodeApply
           ? Number(totalPaymentAmount) * 100
           : Number(totalPay) * 100,
@@ -133,6 +136,7 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
         })
           .then(res => res.json())
           .then(data => {
+            setPaymentLoading(false);
             setOrderId(data);
             let cartData = {
               totalItem: courseCart?.length,
@@ -148,7 +152,11 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
           })
           .catch(err => {
             console.log('Error:', err);
-          });
+            setPaymentLoading(false)
+          }).
+          finally(()=>{
+            setPaymentLoading(false)
+          })
       })
       .catch(error => {
         console.log('Error:', error);
@@ -183,7 +191,7 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
         paddingTop: moderateScale(70),
         padding: mScale.lg1,
       }}>
-      {courseCartLoading?.delete || courseCartLoading?.courseCart ? (
+      {courseCartLoading?.delete || courseCartLoading?.courseCart || payloading ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>

@@ -49,7 +49,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: () => {
-      console.log("logout will be called in reducer")
+      console.log("logout will be called in reducer");
       return initialState;
     },
     storeCurrentUser: (state, action) => {
@@ -63,13 +63,13 @@ const authSlice = createSlice({
     builder
       .addCase(signIn.pending, (state) => {
         state.loading.login = true;
-        state.err.loginErr = null; 
+        state.err.loginErr = null;
       })
       .addCase(signIn.fulfilled, (state, action) => {
         state.loading.login = false;
         state.auth = action.payload;
         state.err.loginErr = null;
-        state.current_user = action.payload.user; 
+        state.current_user = action.payload.user;
       })
       .addCase(signIn.rejected, (state, action) => {
         state.loading.login = false;
@@ -77,12 +77,12 @@ const authSlice = createSlice({
       })
       .addCase(googleSignIn.pending, (state) => {
         state.loading.google_login = true;
+        state.err.google_login_err = null;
       })
       .addCase(googleSignIn.fulfilled, (state, action) => {
         state.loading.google_login = false;
         state.auth = action.payload;
         state.err.google_login_err = null;
-        
       })
       .addCase(googleSignIn.rejected, (state, action) => {
         state.loading.google_login = false;
@@ -90,12 +90,12 @@ const authSlice = createSlice({
       })
       .addCase(signUp.pending, (state) => {
         state.loading.signup = true;
-        state.err.loginErr = null;
+        state.err.signupErr = null;
       })
       .addCase(signUp.fulfilled, (state, action) => {
         state.loading.signup = false;
         state.signup = action.payload;
-        state.err.loginErr = null;
+        state.err.signupErr = null;
       })
       .addCase(signUp.rejected, (state, action) => {
         state.loading.signup = false;
@@ -103,6 +103,7 @@ const authSlice = createSlice({
       })
       .addCase(forgotPassword.pending, (state) => {
         state.loading.forgot = true;
+        state.err.forgotErr = null;
       })
       .addCase(forgotPassword.fulfilled, (state, action) => {
         state.loading.forgot = false;
@@ -115,6 +116,7 @@ const authSlice = createSlice({
       })
       .addCase(confirmPassword.pending, (state) => {
         state.loading.confirm = true;
+        state.err.confirmErr = null;
       })
       .addCase(confirmPassword.fulfilled, (state, action) => {
         state.loading.confirm = false;
@@ -127,6 +129,7 @@ const authSlice = createSlice({
       })
       .addCase(VerifyOtp.pending, (state) => {
         state.loading.verifyOtp = true;
+        state.err.verifyOtpErr = null;
       })
       .addCase(VerifyOtp.fulfilled, (state, action) => {
         state.loading.verifyOtp = false;
@@ -139,6 +142,7 @@ const authSlice = createSlice({
       })
       .addCase(verifyPhoneNumber.pending, (state) => {
         state.loading.verify_mobile = true;
+        state.err.verify_mobile_err = null;
       })
       .addCase(verifyPhoneNumber.fulfilled, (state, action) => {
         state.loading.verify_mobile = false;
@@ -151,6 +155,7 @@ const authSlice = createSlice({
       })
       .addCase(phoneNumberOtpLogin.pending, (state) => {
         state.loading.otp_login = true;
+        state.err.otp_login_err = null;
       })
       .addCase(phoneNumberOtpLogin.fulfilled, (state, action) => {
         state.loading.otp_login = false;
@@ -164,5 +169,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, storeCurrentUser,clearConfirmPassword } = authSlice.actions;
+export const { logout, storeCurrentUser, clearConfirmPassword } =
+  authSlice.actions;
 export default authSlice.reducer;
