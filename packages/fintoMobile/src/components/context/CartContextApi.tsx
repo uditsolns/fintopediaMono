@@ -6,6 +6,15 @@ interface OrderType {
   state: string;
   token: string;
 }
+
+interface PHONEPEAuth {
+  access_token: string;
+  encrypted_access_token: string;
+  expires_in: number;
+  expires_at: number;
+  session_expires_at: number;
+  token_type: string;
+}
 interface CartContextType {
   totalPaymentAmount: string | number;
   setTotalPaymentAmount: (amount: string | number) => void;
@@ -25,6 +34,8 @@ interface CartContextType {
   setMerchantOrderID: (order: string) => void;
   accessToken: string;
   setAccessToken: (order: string) => void;
+  authResponse: PHONEPEAuth | null;
+  setAuthResponse: (order: PHONEPEAuth | null) => void;
 }
 
 interface CartContextProviderProps {
@@ -54,6 +65,7 @@ export const CartContextProvider: React.FC<CartContextProviderProps> = ({
   ] = useState<string | number>('');
 
   const [orderId, setOrderId] = useState<OrderType | null>(null);
+  const [authResponse, setAuthResponse] = useState<PHONEPEAuth | null>(null);
   const [merchantOrderID, setMerchantOrderID] = useState<string>('');
   const [accessToken, setAccessToken] = useState<string>('');
   return (
@@ -77,6 +89,8 @@ export const CartContextProvider: React.FC<CartContextProviderProps> = ({
         setMerchantOrderID,
         accessToken,
         setAccessToken,
+        authResponse,
+        setAuthResponse,
       }}>
       {children}
     </CartContext.Provider>

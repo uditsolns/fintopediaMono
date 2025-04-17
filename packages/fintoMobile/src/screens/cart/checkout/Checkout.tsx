@@ -60,10 +60,12 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
     keepTotalPaymentAmount,
     setOrderId,
     setMerchantOrderID,
-    setAccessToken
+    setAccessToken,
+    authResponse,
+    setAuthResponse,
   } = useCartContext();
 
-  const [payloading,setPaymentLoading] = React.useState(false);
+  const [payloading, setPaymentLoading] = React.useState(false);
   React.useEffect(() => {
     try {
       if (courseCart?.length) {
@@ -97,70 +99,88 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
     }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount]),
   );
 
+  const handlePaymentFlow = async () => {
+    const now = Math.floor(Date.now() / 1000);
+    let check = now >= Number(authResponse?.expires_at);
+    if (!authResponse || check) {
+      console.log('Token expired or not found. Creating a new one...');
+      await createAuthToken();
+    } else {
+      await createOrder(authResponse?.access_token);
+    }
+  };
+
   const createAuthToken = async () => {
-    setPaymentLoading(true)
+    setPaymentLoading(true);
     const formData = new URLSearchParams();
     formData.append('client_id', CLIENT_ID);
     formData.append('client_version', CLIENT_VERSION);
     formData.append('client_secret', CLIENT_SECRET);
     formData.append('grant_type', 'client_credentials');
-
-    fetch(AUTH_TOKEN_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: formData.toString(),
-    })
-      .then(response => response.json())
-      .then(data => {
-        const requestBody = {
-          merchantOrderId: `ORDER${new Date().getTime()}`,
-          amount: isCouponCodeApply
-          ? Number(totalPaymentAmount) * 100
-          : Number(totalPay) * 100,
-          expireAfter: data?.expires_in,
-          paymentFlow: {
-            type: 'PG_CHECKOUT',
-          },
-        };
-        setAccessToken(data?.access_token);
-        setMerchantOrderID(requestBody?.merchantOrderId);
-        fetch(ORDER_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `O-Bearer ${data?.access_token}`,
-          },
-          body: JSON.stringify(requestBody),
-        })
-          .then(res => res.json())
-          .then(data => {
-            setPaymentLoading(false);
-            setOrderId(data);
-            let cartData = {
-              totalItem: courseCart?.length,
-              totalPay: isCouponCodeApply ? totalPaymentAmount : totalPay,
-              totalDiscount: totalDiscount,
-              totalSubTotal: subtotal,
-              actualPrice: actualPricetotal,
-              gst: gst,
-            };
-            navigation.navigate(RouteKeys.BILLINGSCREEN, {
-              cartData: cartData,
-            });
-          })
-          .catch(err => {
-            console.log('Error:', err);
-            setPaymentLoading(false)
-          }).
-          finally(()=>{
-            setPaymentLoading(false)
-          })
-      })
-      .catch(error => {
-        console.log('Error:', error);
+    try {
+      const response = await fetch(AUTH_TOKEN_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData.toString(),
       });
+
+      const data = await response.json();
+      setAuthResponse(data);
+      await createOrder(data?.access_token);
+    } catch (error) {
+      console.log('Auth Token Error:', error);
+    } finally {
+    }
+  };
+
+  const createOrder = async (token:string) => {
+    setPaymentLoading(true);
+    const requestBody = {
+      merchantOrderId: `ORDER${new Date().getTime()}`,
+      amount: isCouponCodeApply
+        ? Number(totalPaymentAmount) * 100
+        : Number(totalPay) * 100,
+      expireAfter: authResponse?.expires_in,
+      paymentFlow: {
+        type: 'PG_CHECKOUT',
+      },
+    };
+
+    try {
+      setMerchantOrderID(requestBody?.merchantOrderId);
+      const response = await fetch(ORDER_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `O-Bearer ${token}`,
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+      setPaymentLoading(false);
+      console.log('order id response', JSON.stringify(data));
+      setOrderId(data);
+
+      let cartData = {
+        totalItem: courseCart?.length,
+        totalPay: isCouponCodeApply ? totalPaymentAmount : totalPay,
+        totalDiscount: totalDiscount,
+        totalSubTotal: subtotal,
+        actualPrice: actualPricetotal,
+        gst: gst,
+      };
+
+      navigation.navigate(RouteKeys.BILLINGSCREEN, {cartData});
+    } catch (error) {
+      setPaymentLoading(false);
+
+      console.log('Order Error:', error);
+    } finally {
+      setPaymentLoading(false);
+    }
   };
   const renderItem = ({item}: {item: CourseCartResponse}) => {
     return (
@@ -191,7 +211,9 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
         paddingTop: moderateScale(70),
         padding: mScale.lg1,
       }}>
-      {courseCartLoading?.delete || courseCartLoading?.courseCart || payloading ? (
+      {courseCartLoading?.delete ||
+      courseCartLoading?.courseCart ||
+      payloading ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>
@@ -219,7 +241,7 @@ export const Checkout: React.FunctionComponent<CheckoutProps> = ({
         onPress={async () => {
           try {
             if (courseCart?.length > 0) {
-              await createAuthToken();
+              await handlePaymentFlow();
             }
           } catch (error) {
             console.log('checkout error', error);

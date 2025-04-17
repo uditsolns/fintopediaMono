@@ -47,7 +47,8 @@ interface BillingProps extends NavType<'Billing'> {}
 export const Billing: React.FunctionComponent<BillingProps> = ({
   navigation,
 }) => {
-  const {orderId, merchantOrderID, accessToken} = useCartContext();
+  const {orderId, merchantOrderID, accessToken,  authResponse,
+    setAuthResponse,} = useCartContext();
   const routes = useRoute<any>();
   const dispatch = useAppDispatch();
   let cartData = routes?.params?.cartData;
@@ -120,12 +121,11 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
 
   const paymentCheckStatus = async () => {
     try {
-      fetch(`${ORDER_STATUS_URL}/${merchantOrderID}/status?details=true&errorContext=true`, {
+      fetch(`${ORDER_STATUS_URL}/${merchantOrderID}/status`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `O-Bearer ${accessToken}`,
-          'X-MERCHANT-ID': MERCHANT_ID,
+          Authorization: `O-Bearer ${authResponse?.access_token}`,
         },
       })
         .then(response => response.json())
