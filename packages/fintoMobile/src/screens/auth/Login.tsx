@@ -154,7 +154,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
             title="Login with OTP"
             preset="secondary"
             onPress={() => {
-              dispatch(logout())
+              dispatch(logout());
               navigation.navigate(RouteKeys.OTPLOGINSCREEN);
             }}
           />

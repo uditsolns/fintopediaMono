@@ -6,7 +6,7 @@ import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {LinearGradientMolecule} from '@shared/src/components/molecules/Gradient/LinearGradientMolecule';
-import { createCourseCart } from '@shared/src/provider/store/services/CourseCart.service';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -14,12 +14,12 @@ import {
 import {colorPresets} from '@shared/src/theme/color';
 import {mScale, WINDOW_HEIGHT, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
-import { isInCart } from '@src/components/Calculate';
+import {isInCart} from '@src/components/Calculate';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import PopularCourseMolecule from '@src/components/molecules/PopularCourseMolecule/PopularCourseMolecule';
 import SeparatorAtom from '@src/components/SeperatorAtom';
 import {ViewAll} from '@src/components/ViewAll/ViewAll';
-import { RouteKeys } from '@src/navigation/RouteKeys';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
 import {
   FlatList,

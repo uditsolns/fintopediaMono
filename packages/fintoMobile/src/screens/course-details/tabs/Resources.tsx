@@ -3,7 +3,7 @@ import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollView
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {imageUrl} from '@shared/src/config/imageUrl';
-import { createCourseCart } from '@shared/src/provider/store/services/CourseCart.service';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {
   useAppDispatch,
   useAppSelector,

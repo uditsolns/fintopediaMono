@@ -110,7 +110,7 @@ export const Notes: React.FunctionComponent<NotesProps> = ({onLayout}) => {
   };
 
   return (
-    <View style={{flex: 1, padding: mScale.base}}>
+    <View onLayout={onLayout} style={{flex: 1, padding: mScale.base}}>
       {coursesLoading.singleCourse ||
       coursesLoading.courses ||
       course_notes_loading.create ||

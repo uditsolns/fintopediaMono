@@ -208,7 +208,7 @@ export default function InvoiceScreen() {
             </div>
             {singlePurchaseHistory?.courses?.map((el, index) => {
               return (
-                <div className={styles.detailsRow}>
+                <div key={index} className={styles.detailsRow}>
                   <span className={styles.detailsHeading}>{el?.name}</span>
                   <span>₹ {el?.sale_price}</span>
                 </div>

@@ -69,7 +69,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({navigation}) => {
               borderRadius: 4,
               paddingVertical: mScale.md,
               paddingHorizontal: mScale.lg1,
-              marginRight:mScale.sm
+              marginRight: mScale.sm,
             }}
           />
         );

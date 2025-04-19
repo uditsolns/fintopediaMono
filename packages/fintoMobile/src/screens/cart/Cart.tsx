@@ -51,7 +51,7 @@ import {fontPresets} from '@shared/src/theme/typography';
 import GradientBorderBox from '@src/components/Border/GradientBorderBox';
 import BorderWithThickness from '@src/components/Border';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
-import {useCartContext} from '@src/components/context/CartContextApi'; 
+import {useCartContext} from '@src/components/context/CartContextApi';
 import {useFocusEffect} from '@react-navigation/native';
 
 interface CartProps extends NavType<'Cart'> {}
@@ -117,7 +117,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
         setTotalPaymentAmount(total2);
         console.log('----------------------------------', total2);
       }
-    }, [courseCart, create, deleteCart,totalPay, keepTotalPaymentAmount]),
+    }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount]),
   );
 
   const onRefresh = () => {

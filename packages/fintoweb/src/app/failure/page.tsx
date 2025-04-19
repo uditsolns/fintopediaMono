@@ -182,7 +182,7 @@ const Page = () => {
             Oops! Something went wrong with your payment.
           </h1>
           <p className={styles.subtitle}>
-            We couldn't process your payment. Please try again or contact
+            We couldn&apos;t process your payment. Please try again or contact
             support for assistance.
           </p>
         </div>
