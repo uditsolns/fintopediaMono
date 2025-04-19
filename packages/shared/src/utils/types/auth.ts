@@ -11,6 +11,7 @@ export interface AuthState {
     verifyOtp: boolean;
     verify_mobile: boolean;
     otp_login: boolean;
+    send_otp: boolean;
   };
   err: {
     loginErr: any;
@@ -22,6 +23,7 @@ export interface AuthState {
     verifyOtpErr: any;
     verify_mobile_err: any;
     otp_login_err: any;
+    send_otp_err: any;
   };
   token?: string | null;
   auth: AuthResponse | null;
@@ -32,6 +34,7 @@ export interface AuthState {
   verifyOtp: VerifyOtpResponse | null;
   verify_mobile: any;
   otp_login: AuthResponse | null;
+  send_otp: any;
 }
 
 export interface AuthParams {

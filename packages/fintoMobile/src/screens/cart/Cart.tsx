@@ -316,7 +316,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
         paddingTop: moderateScale(70),
       }}>
       {coursesLoading?.courses ||
-      courseCartLoading?.courseCart ||
+      courseCartLoading?.courseCart || 
       courseCartLoading?.create ||
       courseCartLoading?.delete ||
       courses_save_later_loading?.create ? (

@@ -122,7 +122,7 @@ export default function CouponCodes() {
         }
 
         console.log("Coupon applied successfully:", originalPromiseResult);
-
+ 
         const amt = Number(keepTotalPaymentAmount);
         const discountPercentage =
           +originalPromiseResult?.discount?.replace(/\D+/g, "") || 0;

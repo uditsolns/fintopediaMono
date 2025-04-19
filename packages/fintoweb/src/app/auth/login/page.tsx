@@ -205,7 +205,7 @@ const Login: React.FC<LoginProps> = () => {
                       className={styles.loginotpButton}
                       size="lg"
                       block
-                      onClick={() => handleSubmit()}
+                      onClick={() => router.push("/auth/otp-login")}
                     >
                       Login with OTP
                     </Button>

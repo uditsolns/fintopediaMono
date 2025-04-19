@@ -8,6 +8,7 @@ import {
   signUp,
   VerifyOtp,
   verifyPhoneNumber,
+  sendOtpLogin,
 } from "../services/auth.service";
 import { AuthState } from "../../../utils/types/auth";
 
@@ -22,6 +23,7 @@ const initialState: AuthState = {
     verifyOtp: false,
     verify_mobile: false,
     otp_login: false,
+    send_otp: false,
   },
   err: {
     loginErr: null,
@@ -33,6 +35,7 @@ const initialState: AuthState = {
     verifyOtpErr: null,
     verify_mobile_err: null,
     otp_login_err: null,
+    send_otp_err: null,
   },
   auth: null,
   signup: null,
@@ -42,6 +45,7 @@ const initialState: AuthState = {
   verifyOtp: null,
   verify_mobile: null,
   otp_login: null,
+  send_otp: null,
 };
 
 const authSlice = createSlice({
@@ -165,6 +169,20 @@ const authSlice = createSlice({
       .addCase(phoneNumberOtpLogin.rejected, (state, action) => {
         state.loading.otp_login = false;
         state.err.otp_login_err = action?.payload;
+      })
+      // send Otp
+      .addCase(sendOtpLogin.pending, (state) => {
+        state.loading.send_otp = true;
+        state.err.send_otp_err = null;
+      })
+      .addCase(sendOtpLogin.fulfilled, (state, action) => {
+        state.loading.send_otp = false;
+        state.send_otp = action.payload;
+        state.err.send_otp_err = null;
+      })
+      .addCase(sendOtpLogin.rejected, (state, action) => {
+        state.loading.send_otp = false;
+        state.err.send_otp_err = action?.payload;
       });
   },
 });
