@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Pressable, PressableProps, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Pressable, PressableProps, StyleSheet, View } from "react-native";
 import { colorPresets } from "../../../theme/color";
 import { WINDOW_WIDTH, mScale } from "../../../theme/metrics";
 import { LinearGradientMolecule } from "../../molecules/Gradient/LinearGradientMolecule";
@@ -72,12 +72,16 @@ export const ButtonAtom = ({
         {...rest}
       >
         {iconLeft && <View style={{ marginRight: 8 }}>{iconLeft}</View>}
-        <TextAtom
-          style={[textStyle, { textAlign: "center" }]}
-          preset={textPreset}
-          text={title}
-          numberOfLines={numberOfLines}
-        />
+        {loading ? (
+          <ActivityIndicator size={"small"} color={loadingColor} />
+        ) : (
+          <TextAtom
+            style={[textStyle, { textAlign: "center" }]}
+            preset={textPreset}
+            text={title}
+            numberOfLines={numberOfLines}
+          />
+        )}
         {iconRight && <View style={{ marginLeft: 8 }}>{iconRight}</View>}
       </Pressable>
     </View>

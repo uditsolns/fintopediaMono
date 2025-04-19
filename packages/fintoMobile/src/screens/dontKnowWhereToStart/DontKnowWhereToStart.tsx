@@ -20,6 +20,7 @@ import {RouteKeys} from '@src/navigation/RouteKeys';
 import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 
 const options = [
   {label: 'Beginner', value: 'beginner'},
@@ -41,6 +42,9 @@ export const DontKnowWhereToStart: React.FunctionComponent<
   );
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
+  );
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
   );
   const [filterCourses, setFilterCourses] = React.useState<CoursesResponse[]>(
     courses?.length ? courses : [],
@@ -75,6 +79,10 @@ export const DontKnowWhereToStart: React.FunctionComponent<
           };
           if (isInCart(courseCart, item?.id)) {
             navigation.navigate(RouteKeys.CARTSCREEN);
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({

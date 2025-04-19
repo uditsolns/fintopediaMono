@@ -19,6 +19,7 @@ import {imageUrl} from '@shared/src/config/imageUrl';
 import {ImageType} from '@shared/src/utils/types/main';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {colorPresets} from '@shared/src/theme/color';
+import {Toast} from 'react-native-toast-notifications';
 
 const avatarUrl =
   'https://st4.depositphotos.com/4329009/19956/v/450/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg';
@@ -28,7 +29,7 @@ interface ProfileDetailsProps extends NavType<'ProfileDetails'> {}
 export const ProfileDetails: React.FC<ProfileDetailsProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
   const {current_user} = useAppSelector(state => state.auth);
-  const {loading, update} = useAppSelector(state => state.users);
+  const {loading, update, err} = useAppSelector(state => state.users);
   const {userFormik, userInputProps} = useUserHelper();
   const {handleSubmit, setFieldValue} = userFormik;
 
@@ -77,6 +78,31 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({navigation}) => {
     });
   }, []);
 
+  React.useEffect(() => {
+    console.log('update', update);
+    if (update) {
+      Toast.show('Profile updated successfully!', {
+        type: 'success',
+      });
+      navigation.goBack();
+    }
+   
+  }, [update]);
+  React.useEffect(() => {
+    if (err?.updateErr?.error) {
+      const errorMessages = err?.updateErr?.error ?? '';
+      if (errorMessages?.email?.[0]) {
+        Toast.show(errorMessages?.email[0], {
+          type: 'error',
+        });
+      }
+      if (errorMessages?.phone?.[0]) {
+        Toast.show(errorMessages?.phone[0], {
+          type: 'error',
+        });
+      }
+    }
+  }, [err]);
   return (
     <GradientTemplate
       style={{

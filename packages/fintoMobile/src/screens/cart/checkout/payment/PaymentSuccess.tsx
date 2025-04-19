@@ -14,7 +14,9 @@ import BorderWithThickness from '@src/components/Border';
 import GradientBorderBox from '@src/components/Border/GradientBorderBox';
 import {
   addTwoNumber,
+  calculatePercetage,
   calculatePercetageAmount,
+  roundFigure,
   subtractTwoNumber,
   sumCalculate,
 } from '@src/components/Calculate';
@@ -55,7 +57,29 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
     setKeepTotalPaymentAmount,
     couponCodePercentage,
     setCouponCodePercentage,
+    couponCodePercentageDiscount,
+    couponCodePercentageDiscountAmount,
+    setCouponCodePercentageDiscountsAmount,
   } = useCartContext();
+
+  console.log(couponCodePercentageDiscount, couponCodePercentageDiscountAmount);
+  React.useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, [navigation]);
+
+  const backAction = () => {
+    console.log('Unmounting...');
+    setIsCouponCodeApply(false);
+    setTotalPaymentAmount('');
+    setCouponCodePercentage(0);
+    navigation.navigate(RouteKeys.HOMESCREEN);
+    return true;
+  };
 
   React.useEffect(() => {
     if (singlePurchaseHistory?.courses?.length) {
@@ -77,24 +101,31 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
       setTotalPay(totalPayAmount);
       setKeepTotalPaymentAmount(totalPayAmount);
     }
-    return () => {
-      setIsCouponCodeApply(false);
-      setTotalPaymentAmount('');
-      setCouponCodePercentage(0);
-    };
-  }, [singlePurchaseHistory]);
+    return () => {};
+  }, [singlePurchaseHistory, isCouponCodeApply]);
 
   useFocusEffect(
     React.useCallback(() => {
       if (couponCodePercentage) {
         let amt = calculatePercetageAmount(
-          couponCodePercentage,
-          keepTotalPaymentAmount,
+          Number(couponCodePercentage),
+          Number(keepTotalPaymentAmount),
         );
-        let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
-        setTotalPaymentAmount(total2);
+        let disAmt = calculatePercetage(
+          Number(couponCodePercentage),
+          Number(keepTotalPaymentAmount),
+        );
+        let total2 = subtractTwoNumber(amt, +keepTotalPaymentAmount);
+        setTotalPaymentAmount(roundFigure(total2));
+        setCouponCodePercentageDiscountsAmount(roundFigure(disAmt));
       }
-    }, [singlePurchaseHistory, totalPay, keepTotalPaymentAmount]),
+    }, [
+      singlePurchaseHistory,
+      totalPay,
+      keepTotalPaymentAmount,
+      couponCodePercentage,
+      isCouponCodeApply,
+    ]),
   );
   return (
     <GradientTemplate
@@ -166,14 +197,15 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
                 ]}>
                 <View>
                   <TextAtom
-                    text={'Invoice Number: INV-20240628-001'}
+                    text={`Invoice Number: ${
+                      singlePurchaseHistory?.invoice_no || ''
+                    }`}
                     preset="medium"
                     style={{marginBottom: mScale.md}}
                   />
-                  {singlePurchaseHistory?.courses
-                    ?.map((el, index) => {
-                      return <CourseNameAndPrice el={el} />;
-                    })}
+                  {singlePurchaseHistory?.courses?.map((el, index) => {
+                    return <CourseNameAndPrice el={el} />;
+                  })}
                 </View>
                 <BorderWithThickness mv={mScale.lg} />
                 <View
@@ -220,6 +252,24 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
                     style={{color: '#B5B5B5'}}
                   />
                 </View>
+                {isCouponCodeApply ? (
+                  <View
+                    style={[
+                      commonStyle.flexSpaceBetween,
+                      {marginTop: mScale.md},
+                    ]}>
+                    <TextAtom
+                      text={`${couponCodePercentageDiscount || ''} % discount`}
+                      preset="body"
+                      style={{color: colorPresets.SECONDARY}}
+                    />
+                    <TextAtom
+                      text={`-  ₹ ${couponCodePercentageDiscountAmount}`}
+                      preset="body"
+                      style={{color: colorPresets.SECONDARY}}
+                    />
+                  </View>
+                ) : null}
                 <BorderWithThickness />
                 <View
                   style={[
@@ -278,9 +328,7 @@ export const PaymentSuccess: React.FunctionComponent<PaymentSuccessProps> = ({
           title={'Back to home'}
           preset={'tertiary'}
           textPreset="heading4"
-          onPress={() => {
-            navigation.navigate(RouteKeys.HOMESCREEN);
-          }}
+          onPress={backAction}
         />
       </View>
     </GradientTemplate>

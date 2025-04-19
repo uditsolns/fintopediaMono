@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { ModelParams } from "../../../utils/types/main";
 
-type AuthField = Pick<ModelParams, "phone" | "password">;
+type AuthField = Pick<ModelParams, "phone" | "password" | "device_id" | "device_id_web">;
 
 export const authField: AuthField = {
   phone: {
@@ -16,6 +16,18 @@ export const authField: AuthField = {
     placeHolder: "Enter your password",
     requiredErr: "Password is required",
   },
+  device_id: {
+    name: "device_id",
+    label: "device_id",
+    placeHolder: "",
+    requiredErr: "",
+  },
+  device_id_web: {
+    name: "device_id_web",
+    label: "device_id_web",
+    placeHolder: "",
+    requiredErr: "",
+  },
 };
 
 export type LoginValues = {
@@ -25,6 +37,8 @@ export type LoginValues = {
 export const LOGIN_VALUES = {
   [authField.phone.name]: "",
   [authField.password.name]: "",
+  [authField.device_id.name]: "",
+  [authField.device_id_web.name]: "",
 };
 
 export const loginValidation = Yup.object().shape({

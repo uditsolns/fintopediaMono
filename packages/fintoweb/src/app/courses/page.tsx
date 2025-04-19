@@ -108,7 +108,7 @@ const CourseFilter: React.FC = () => {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
-      {
+      { 
         breakpoint: 1280,
         settings: {
           slidesToShow: 4,
@@ -282,7 +282,7 @@ const CourseFilter: React.FC = () => {
               </p>
             </div>
             <div className={styles.formContainer}>
-              <div className="form">
+              <div className="form"> 
                 <h2>
                   Don’t know where to
                   <br /> start?

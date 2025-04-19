@@ -97,7 +97,7 @@ const middleware = (getDefaultMiddleware: any) => {
     process.env.NODE_ENV === "development" ||
     (typeof __DEV__ !== "undefined" && __DEV__)
   ) {
-    return getDefaultMiddleware().concat(errorMiddleware, logger);
+    return getDefaultMiddleware().concat(errorMiddleware);
   }
   return getDefaultMiddleware().concat(errorMiddleware);
 };

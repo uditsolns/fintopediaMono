@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 interface CartsliderProps {
   course?: CoursesResponse;
   onClick?: () => void;
-  loading: boolean;
+  loading: boolean; 
 }
 const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
   course,

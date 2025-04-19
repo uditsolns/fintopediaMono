@@ -59,12 +59,10 @@ export const CategoriesArr: Category[] = [
 
 export const Signup: React.FC<SignupProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
-  const {college, loading: collegeLoading} = useAppSelector(
-    state => state.college,
-  );
   const {signupFormik, signupInputProps} = useSignupHelper();
   const {handleSubmit, setFieldValue} = signupFormik;
-  const {signup, loading} = useAppSelector(state => state.auth);
+  const {signup, loading, err} = useAppSelector(state => state.auth);
+  let errorMessages = err?.signupErr?.error ? err?.signupErr?.error : '';
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);
 
   const togglePassword = () => {
@@ -77,28 +75,28 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
   }, []);
 
   React.useEffect(() => {
-    if (signup) {
-      if (signup.token) {
-        Toast.show('Succeessfully register', {
-          type: 'success',
-        });
-        navigation.navigate(RouteKeys.LOGINSCREEN);
-      }
-      if (signup?.error) {
-        const errors = signup?.error;
-        if (errors.email) {
-          Toast.show(errors.email[0], {
-            type: 'error',
-          });
-        }
-        if (errors.phone) {
-          Toast.show(errors.phone[0], {
-            type: 'error',
-          });
-        }
-      }
+    if (signup?.token) {
+      Toast.show('Succeessfully register', {
+        type: 'success',
+      });
+      navigation.navigate(RouteKeys.LOGINSCREEN);
     }
   }, [signup]);
+
+  React.useEffect(() => {
+    if (errorMessages) {
+      if (errorMessages?.email?.[0]) {
+        Toast.show(errorMessages?.email[0], {
+          type: 'error',
+        });
+      }
+      if (errorMessages?.phone?.[0]) {
+        Toast.show(errorMessages?.phone[0], {
+          type: 'error',
+        });
+      }
+    }
+  }, [errorMessages]);
   return (
     <GradientTemplate style={{paddingTop: moderateScale(60)}}>
       <ScrollViewAtom contentContainerStyle={{marginTop: mScale.base}}>
@@ -204,14 +202,13 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
               onPress={() => {
                 handleSubmit();
               }}
-              loading={loading?.signup}
+              loading={loading?.signup ? true : false}
             />
           </View>
           <View style={{marginVertical: mScale.md, alignSelf: 'center'}}>
             <TextAtom text={'or'} preset="medium" />
           </View>
           <ButtonAtom title="Continue as guest" preset="secondary" />
-
           <View style={{marginVertical: mScale.lg}}>
             <FollowUsMolecule />
           </View>

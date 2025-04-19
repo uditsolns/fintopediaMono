@@ -15,7 +15,7 @@ import {
   useAppSelector,
 } from '@shared/src/provider/store/types/storeTypes';
 import {NavType} from '@src/navigation/types';
-import {logout} from '@shared/src/provider/store/reducers/auth.reducer';
+import {clearConfirmPassword, logout} from '@shared/src/provider/store/reducers/auth.reducer';
 import {PopupUpload} from '@src/components/Popup/PopupUpload';
 import {ImageType} from '@shared/src/utils/types/main';
 import {updateUser} from '@shared/src/provider/store/services/user.service';
@@ -23,6 +23,7 @@ import {imageUrl} from '@shared/src/config/imageUrl';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {clearContact} from '@shared/src/provider/store/reducers/contact.reducer';
 import BorderWithThickness from '@src/components/Border';
+import { clearUserData } from '@shared/src/provider/store/reducers/user.reducer';
 
 export const avatarUrl =
   'https://st4.depositphotos.com/4329009/19956/v/450/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg';
@@ -84,7 +85,9 @@ export const Account: React.FC<AccountProps> = ({navigation}) => {
 
   const navigateTo = (route: any) => {
     navigation.navigate(route);
+    dispatch(clearUserData())
     dispatch(clearContact());
+    dispatch(clearConfirmPassword())
   };
 
   return (

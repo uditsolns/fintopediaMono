@@ -1,6 +1,7 @@
 import {useFocusEffect} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
@@ -14,6 +15,7 @@ import {
   getCourseCart,
 } from '@shared/src/provider/store/services/CourseCart.service';
 import {getCourses} from '@shared/src/provider/store/services/courses.service';
+import {getCoursesgetPurchase} from '@shared/src/provider/store/services/coursesget-purchase.service';
 import {getOngoingCourse} from '@shared/src/provider/store/services/ongoing-course.service';
 import {getOngoingCourseStatus} from '@shared/src/provider/store/services/ongoing-courses-status.service';
 import {getUserById} from '@shared/src/provider/store/services/user.service';
@@ -86,6 +88,8 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   );
   const {ongoing_courses_status, loading: ongoingCourseStatusLoading} =
     useAppSelector(state => state.ongoingCourseStatus);
+  const {courseget_purchase, loading: coursesgetPurchaseLoading} =
+    useAppSelector(state => state.coursesgetPurchase);
   const [refreshLoading, setRefreshLoading] = React.useState(false);
 
   const [categoriesSelected, setCategoriesSelected] = React.useState<
@@ -110,6 +114,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     dispatch(getCourseCart());
     dispatch(getOngoingCourse());
     dispatch(getOngoingCourseStatus());
+    dispatch(getCoursesgetPurchase());
     crashReport(current_user);
     setRefreshLoading(false);
   };
@@ -192,6 +197,10 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
           };
           if (isInCart(courseCart, item?.id)) {
             navigation.navigate(RouteKeys.CARTSCREEN);
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({

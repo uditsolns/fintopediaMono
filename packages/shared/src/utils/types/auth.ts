@@ -9,8 +9,8 @@ export interface AuthState {
     confirm: boolean;
     google_login: boolean;
     verifyOtp: boolean;
-    verify_mobile:boolean,
-    otp_login:boolean
+    verify_mobile: boolean;
+    otp_login: boolean;
   };
   err: {
     loginErr: any;
@@ -20,8 +20,8 @@ export interface AuthState {
     confirmErr: any;
     google_login_err: any;
     verifyOtpErr: any;
-    verify_mobile_err:any,
-    otp_login_err:any
+    verify_mobile_err: any;
+    otp_login_err: any;
   };
   token?: string | null;
   auth: AuthResponse | null;
@@ -30,13 +30,15 @@ export interface AuthState {
   confirm: any;
   current_user: UserInfo | null;
   verifyOtp: VerifyOtpResponse | null;
-  verify_mobile:any,
-  otp_login:AuthResponse | null;
+  verify_mobile: any;
+  otp_login: AuthResponse | null;
 }
 
 export interface AuthParams {
   phone: string;
   password: string;
+  device_id?: string;
+  device_id_web?: string;
 }
 
 export interface AuthResponse {
@@ -142,7 +144,7 @@ export interface OtpLoginParams {
 
 export interface OtpLoginParams2 {
   phone: string | number;
-  device_id:string | null;
+  device_id: string | null;
 }
 export interface OnSuccessInterface {
   onSuccess: (data: any) => void;

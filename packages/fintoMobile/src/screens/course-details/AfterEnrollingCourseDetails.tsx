@@ -192,7 +192,7 @@ export const AfterEnrollingCourseDetails: React.FC<
           />
         </View>
         <View>
-          <View
+          {/* <View
             style={{
               position: 'absolute',
               top: 20,
@@ -202,7 +202,7 @@ export const AfterEnrollingCourseDetails: React.FC<
               zIndex: 1,
             }}>
             <Images.SVG.ShareIcon />
-          </View>
+          </View> */}
           {playVideoStartLoading && videoPlayerUrl ? (
             <>
               <VdoPlayerView

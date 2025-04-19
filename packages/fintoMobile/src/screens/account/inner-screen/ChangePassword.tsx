@@ -33,6 +33,9 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({navigation}) => {
       Toast.show(confirm?.status_message, {
         type: confirm?.status == 'success' ? 'success' : 'error',
       });
+      if(confirm?.status == 'success'){
+        navigation.goBack()
+      }
     }
   }, [confirm]);
 
@@ -41,12 +44,7 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({navigation}) => {
   }, [auth, confirm]);
 
   return (
-    <GradientTemplate
-      style={{
-        paddingBottom: 0,
-        paddingTop: moderateScale(70),
-        padding: mScale.lg1,
-      }}>
+    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70),padding:mScale.lg1}}>
       {loading?.confirm ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size={'large'} />

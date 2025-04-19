@@ -2,6 +2,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
@@ -78,6 +79,9 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = ({
     state => state.courseCart,
   );
   const {auth} = useAppSelector(state => state.auth);
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
+  );
 
   const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
     return (
@@ -100,6 +104,10 @@ export const LearningMode: React.FunctionComponent<LearningModeProps> = ({
           };
           if (isInCart(courseCart, item?.id)) {
             navigation.navigate(RouteKeys.CARTSCREEN);
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({

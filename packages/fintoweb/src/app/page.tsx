@@ -65,7 +65,7 @@ export default function Home() {
     localStorage.removeItem("purchaseData");
   }, [dispatch]);
   return (
-    <>
+    <> 
       {categoriesLoading?.categories ||
       coursesLoading?.courses ||
       coursesReviewLoading?.course_review ||

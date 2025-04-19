@@ -32,7 +32,7 @@ export const isInCart = (arr: any[], course_id: number) => {
   return arr?.some((item) => item?.course_id === course_id);
 };
 export const isCoursePurchased = (arr: any[], course_id:number) => {
-  const flattenedArray = arr.flat();  
+  const flattenedArray = arr.flat(); 
   return flattenedArray?.some((item) => item?.course_id === course_id && item?.is_purchased);
 };
 

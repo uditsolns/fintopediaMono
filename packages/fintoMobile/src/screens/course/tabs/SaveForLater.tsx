@@ -1,5 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 import {
   deleteCoursesSaveLater,
@@ -30,6 +31,9 @@ const SaveForLater: React.FunctionComponent<SaveForLaterInterface> = () => {
   const {courses_save_later, loading} = useAppSelector(
     state => state.coursesSaveLater,
   );
+   const {courseget_purchase} = useAppSelector(
+      state => state.coursesgetPurchase,
+    );
   const [refreshLoading, setRefreshLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -54,6 +58,10 @@ const SaveForLater: React.FunctionComponent<SaveForLaterInterface> = () => {
             };
             if (isInCart(courseCart, item?.course_id)) {
               navigation.navigate(RouteKeys.CARTSCREEN);
+            } else if (isCoursePurchased(courseget_purchase, item?.course_id)) {
+              navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+                id: item?.course_id,
+              });
             } else {
               await dispatch(
                 createCourseCart({

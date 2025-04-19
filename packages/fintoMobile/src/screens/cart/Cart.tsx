@@ -29,9 +29,11 @@ import {getCourses} from '@shared/src/provider/store/services/courses.service';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {
   addTwoNumber,
+  calculatePercetage,
   calculatePercetageAmount,
   filteredCourses,
   isInCart,
+  roundFigure,
   subtractTwoNumber,
   sumCalculate,
 } from '@src/components/Calculate';
@@ -53,6 +55,8 @@ import BorderWithThickness from '@src/components/Border';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import {useCartContext} from '@src/components/context/CartContextApi';
 import {useFocusEffect} from '@react-navigation/native';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
+import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 
 interface CartProps extends NavType<'Cart'> {}
 
@@ -61,10 +65,16 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
   const {
     isCouponCodeApply,
     totalPaymentAmount,
+    keepTotalPaymentAmount,
+    couponCodePercentage,
+    couponCodePercentageDiscount,
+    couponCodePercentageDiscountAmount,
+    setIsCouponCodeApply,
     setTotalPaymentAmount,
     setKeepTotalPaymentAmount,
-    couponCodePercentage,
-    keepTotalPaymentAmount,
+    setCouponCodePercentage,
+    setCouponCodePercentageDiscounts,
+    setCouponCodePercentageDiscountsAmount,
   } = useCartContext();
   const {auth} = useAppSelector(state => state.auth);
   const {courses, loading: coursesLoading} = useAppSelector(
@@ -78,6 +88,9 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
   } = useAppSelector(state => state.courseCart);
   const {courses_save_later, loading: courses_save_later_loading} =
     useAppSelector(state => state.coursesSaveLater);
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
+  );
 
   const {
     setVideoPlayerBeforePurchaseUrl,
@@ -104,21 +117,46 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
       setTotalPay(totalPayAmount);
       setKeepTotalPaymentAmount(totalPayAmount);
     }
-  }, [courseCart, create, deleteCart]);
+  }, [courseCart, create, deleteCart, isCouponCodeApply]);
 
   useFocusEffect(
     React.useCallback(() => {
-      if (couponCodePercentage) {
-        let amt = calculatePercetageAmount(
-          couponCodePercentage,
-          keepTotalPaymentAmount,
-        );
-        let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
-        setTotalPaymentAmount(total2);
-        console.log('----------------------------------', total2);
-      }
-    }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount]),
+      percentAmount();
+    }, [
+      courseCart,
+      create,
+      deleteCart,
+      totalPay,
+      keepTotalPaymentAmount,
+      couponCodePercentage,
+      couponCodePercentageDiscount,
+      couponCodePercentageDiscountAmount,
+      isCouponCodeApply,
+    ]),
   );
+
+  const percentAmount = () => {
+    console.log(
+      "isCouponCodeApply',",
+      isCouponCodeApply,
+      couponCodePercentage,
+      keepTotalPaymentAmount,
+    );
+    if (isCouponCodeApply) {
+      let amt = calculatePercetageAmount(
+        Number(couponCodePercentage),
+        Number(keepTotalPaymentAmount),
+      );
+      let disAmt = calculatePercetage(
+        Number(couponCodePercentage),
+        Number(keepTotalPaymentAmount),
+      );
+      let total2 = subtractTwoNumber(amt, +keepTotalPaymentAmount);
+      setTotalPaymentAmount(roundFigure(total2));
+      setCouponCodePercentageDiscountsAmount(roundFigure(disAmt));
+      console.log(total2, disAmt);
+    }
+  };
 
   const onRefresh = () => {
     setRefreshLoading(true);
@@ -135,6 +173,11 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
         deleteCourseCart({
           id,
           onSuccess: data => {
+            console.log('Course removed from cart successfully');
+            Toast.show('Course removed from cart successfully.', {
+              type: 'success',
+            });
+            percentAmount();
             dispatch(getCourseCart());
           },
           onError: err => {},
@@ -180,9 +223,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             }),
           );
         }}
-        onRemove={() => {
-          onRemove();
-        }}
+        onRemove={onRemove}
         saveForLaterBoolean={true}
       />
     );
@@ -212,6 +253,10 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             status: '1',
           };
           if (isInCart(courseCart, item?.id)) {
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({
@@ -246,6 +291,10 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             status: '1',
           };
           if (isInCart(courseCart, item?.id)) {
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({
@@ -289,6 +338,22 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
               paddingBottom: mScale.lg,
             }}
             nestedScrollEnabled={true}
+            ListEmptyComponent={() => {
+              return (
+                <View>
+                  <TextAtom
+                    text={'Your cart is empty'}
+                    preset="heading2"
+                    style={{
+                      color: colorPresets.CTA,
+                      textAlign: 'center',
+                      marginTop: mScale.md,
+                    }}
+                  />
+                </View>
+              );
+            }}
+            keyExtractor={(item, index) => index.toString()}
           />
           {courseCart?.length > 0 ? (
             <>
@@ -338,6 +403,47 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
                   </View>
                 </GradientBorderBox>
               </View>
+              {isCouponCodeApply ? (
+                <View style={{marginVertical: mScale.md}}>
+                  <GradientBorderBox linearColor={['#121622', '#121622']}>
+                    <PressableAtom
+                      style={[
+                        commonStyle.flexSpaceBetween,
+                        {
+                          padding: mScale.lg1,
+                          borderRadius: 12,
+                          backgroundColor: '#121622',
+                        },
+                      ]}
+                      onPress={() => {
+                        Toast.show('Coupon code removed successfully.', {
+                          type: 'success',
+                        });
+                        setIsCouponCodeApply(false);
+                        setTotalPaymentAmount('');
+                        setKeepTotalPaymentAmount('');
+                        setCouponCodePercentage('');
+                        setCouponCodePercentageDiscountsAmount(0);
+                      }}>
+                      <View style={[commonStyle.flexStart]}>
+                        <Images.SVG.DiscountIcon
+                          color={colorPresets.TERTIARY}
+                        />
+                        <TextAtom
+                          text={'Remove applied coupon code'}
+                          preset="large"
+                          style={{
+                            marginStart: mScale.base,
+                            fontWeight: '500',
+                            color: colorPresets.TERTIARY,
+                          }}
+                        />
+                      </View>
+                      <Images.SVG.ChevronRight color={colorPresets.TERTIARY} />
+                    </PressableAtom>
+                  </GradientBorderBox>
+                </View>
+              ) : null}
               <View style={{marginTop: mScale.lg}}>
                 <GradientBorderBox linearColor={['#121622', '#121622']}>
                   <View
@@ -375,11 +481,31 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
                         style={{color: '#B5B5B5'}}
                       />
                       <TextAtom
-                        text={`+ ₹ ${gst}`}
+                        text={`+  ₹ ${gst}`}
                         preset="body"
                         style={{color: '#B5B5B5'}}
                       />
                     </View>
+                    {isCouponCodeApply ? (
+                      <View
+                        style={[
+                          commonStyle.flexSpaceBetween,
+                          {marginTop: mScale.md},
+                        ]}>
+                        <TextAtom
+                          text={`${
+                            couponCodePercentageDiscount || ''
+                          } % discount`}
+                          preset="body"
+                          style={{color: colorPresets.SECONDARY}}
+                        />
+                        <TextAtom
+                          text={`-  ₹ ${couponCodePercentageDiscountAmount}`}
+                          preset="body"
+                          style={{color: colorPresets.SECONDARY}}
+                        />
+                      </View>
+                    ) : null}
                     <View
                       style={{
                         borderWidth: 1,
@@ -394,7 +520,12 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
                         {marginBottom: mScale.md},
                       ]}>
                       <TextAtom text={'Grand total'} preset="heading3" />
-                      <TextAtom text={`₹ ${totalPay}`} preset="heading3" />
+                      <TextAtom
+                        text={`₹ ${
+                          isCouponCodeApply ? totalPaymentAmount : totalPay
+                        }`}
+                        preset="heading3"
+                      />
                     </View>
                   </View>
                 </GradientBorderBox>
@@ -462,7 +593,14 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
               style={{marginRight: mScale.sm}}
             />
             <TextAtom
-              text={`₹ ${totalDiscount}`}
+              text={`₹ ${
+                isCouponCodeApply
+                  ? addTwoNumber(
+                      totalDiscount,
+                      couponCodePercentageDiscountAmount,
+                    )
+                  : totalDiscount
+              }`}
               preset="titleBold"
               style={{marginRight: mScale.sm, color: colorPresets.SECONDARY}}
             />
@@ -498,7 +636,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
               if (courseCart?.length > 0) {
                 let cartData = {
                   totalItem: courseCart?.length,
-                  totalPay: totalPay,
+                  totalPay: isCouponCodeApply ? totalPaymentAmount : totalPay,
                   totalDiscount: totalDiscount,
                 };
                 navigation.navigate(RouteKeys.CHECKOUTSCREEN, {

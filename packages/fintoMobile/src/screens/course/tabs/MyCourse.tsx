@@ -44,7 +44,7 @@ const MyCourse: React.FunctionComponent<MyCourseInterface> = () => {
           onPress={() => {
             if (item?.course?.course_video_embed?.otp) {
               setVideoPlayerUrl(item?.course?.course_video_embed);
-              setPlayVideoStartLoading(true);
+              setPlayVideoStartLoading(false);
             } else {
               setPlayVideoStartLoading(false);
               setVideoPlayerUrl(null);

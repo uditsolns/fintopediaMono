@@ -110,7 +110,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({
             onPress={() => {
               handleSubmit();
             }}
-            loading={loading?.verifyOtp}
+            loading={loading?.verifyOtp ? true : false}
           />
         </View>
       </ScrollViewAtom>

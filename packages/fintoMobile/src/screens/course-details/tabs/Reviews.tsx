@@ -1,4 +1,5 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
+import { isCoursePurchased } from '@shared/src/components/atoms/Calculate';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {createCourseReview} from '@shared/src/provider/store/services/course-review.service';
 import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
@@ -44,6 +45,9 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = ({onLayout}) => {
   const {courseCart, loading: courseCartLoading} = useAppSelector(
     state => state.courseCart,
   );
+  const {courseget_purchase} = useAppSelector(
+        state => state.coursesgetPurchase,
+      );
   let route = useRoute<any>();
 
   const {course, id} = route.params || {};
@@ -102,7 +106,11 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = ({onLayout}) => {
           };
           if (isInCart(courseCart, item?.id)) {
             navigation.navigate(RouteKeys.CARTSCREEN);
-          } else {
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+                      navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+                        id: item?.id,
+                      });
+                    } else {
             await dispatch(
               createCourseCart({
                 params,
@@ -118,7 +126,7 @@ export const Reviews: React.FunctionComponent<ReviewsProps> = ({onLayout}) => {
     );
   };
   return (
-    <View onLayout={onLayout} style={{flex: 1}}>
+    <View style={{flex: 1}}>
       {coursesLoading.singleCourse ||
       coursesLoading.courses ||
       course_review_loading.create ? (

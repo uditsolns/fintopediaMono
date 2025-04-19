@@ -20,8 +20,8 @@ interface CoursepageMoleculeProps {
 }
 const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
   course,
-  onClick,
-  loading = false,
+  onClick, 
+  loading = false, 
 }) => {
   const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);

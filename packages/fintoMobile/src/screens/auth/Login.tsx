@@ -1,6 +1,6 @@
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import * as React from 'react';
-import {Alert, View} from 'react-native';
+import {Alert, PermissionsAndroid, Platform, View} from 'react-native';
 import {commonStyle} from '@shared/src/commonStyle';
 import {Images} from '@shared/src/assets';
 import {colorPresets} from '@shared/src/theme/color';
@@ -29,31 +29,50 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {googleSignIn} from '@shared/src/provider/store/services/auth.service';
 import {ScrollViewAtom} from 'shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {OneSignal} from 'react-native-onesignal';
+import {useOtplessContext} from '@src/components/context/OtplessContextApi';
 
 interface LoginProps extends NavType<'Login'> {}
 
 export const Login: React.FC<LoginProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
-  const {auth, loading} = useAppSelector(state => state.auth);
+  const {auth, loading, err} = useAppSelector(state => state.auth);
   const {authFormik, authInputProps} = useAuthHelper();
   const {handleSubmit, setFieldValue} = authFormik;
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(true);
-
+  const {deviceId, setDeviceId} = useOtplessContext();
+  let errorMessages = err?.loginErr?.message ? err?.loginErr?.message : '';
   React.useEffect(() => {
     GoogleSignin.configure();
   }, []);
   React.useEffect(() => {
-    if (auth) {
-      if (auth.token) {
-        navigation.navigate(RouteKeys.HOMESCREEN);
-      }
-      if (auth?.message) {
-        Toast.show(auth?.message, {
-          type: 'error',
-        });
-      }
+    if (auth?.token) {
+      console.log('Login successful:', auth.token);
+      Toast.show('Login successful!', {
+        type: 'success',
+      });
+      navigation.navigate(RouteKeys.HOMESCREEN);
     }
   }, [auth]);
+
+  React.useEffect(() => {
+    if (errorMessages) {
+      Toast.show(errorMessages, {
+        type: 'error',
+      });
+    }
+  }, [errorMessages]);
+
+  const getTokenFromOneSignal = async () => {
+    try {
+      await OneSignal.User.pushSubscription.getIdAsync().then(async token => {
+        let token_data = token;
+        setDeviceId(`${token_data}`);
+      });
+    } catch (error) {
+      console.log('error in OneSignal token generation :', error);
+    }
+  };
 
   const userGogleLogin = async () => {
     try {
@@ -63,14 +82,32 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
         console.log(JSON.stringify(response));
         let params = {
           email: response?.data?.user?.email,
+          device_id: deviceId,
+          device_id_web:""
         };
         console.log('params', params);
-        dispatch(googleSignIn(params));
-        GoogleSignin.signOut();
+        dispatch(googleSignIn(params))
+          .unwrap()
+          .then(res => {
+            if (res?.token) {
+              Toast.show('Login successful!', {
+                type: 'success',
+              });
+              GoogleSignin.signOut();
+              navigation.navigate(RouteKeys.HOMESCREEN);
+            }
+          })
+          .catch(err => {
+            GoogleSignin.signOut();
+            Toast.show('Bads creds', {
+              type: 'error',
+            });
+          });
       } else {
-        // sign in was cancelled by user
+        GoogleSignin.signOut();
       }
     } catch (error) {
+      GoogleSignin.signOut();
       if (isErrorWithCode(error)) {
         switch (error.code) {
           case statusCodes.IN_PROGRESS:
@@ -92,6 +129,61 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
         console.log("an error that's not related to google sign in occurred");
       }
     }
+  };
+
+  React.useEffect(() => {
+    getTokenFromOneSignal();
+  }, [deviceId]);
+
+  React.useEffect(() => {
+    const checkPermission = async () => {
+      await requestAllPermissions();
+    };
+
+    checkPermission();
+
+    getTokenFromOneSignal();
+    setFieldValue(authField.device_id.name, deviceId);
+    setFieldValue(authField.device_id_web.name, '');
+  }, []);
+
+  const requestAllPermissions = async () => {
+    const androidVersion: number = Number(Platform.Version);
+
+    try {
+      const permissions = [PermissionsAndroid.PERMISSIONS.CAMERA];
+
+      const android13Permissions = [
+        PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+      ];
+
+      const allPermissions =
+        Number(androidVersion) >= 33
+          ? [...permissions, ...android13Permissions]
+          : [
+              ...permissions,
+              PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+              PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+            ];
+
+      const granted = await PermissionsAndroid.requestMultiple(allPermissions, {
+        title: 'App Permissions',
+        message: 'This app needs access to your storage, and camera.',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      });
+
+      for (const permission in granted) {
+        if (granted[permission] !== PermissionsAndroid.RESULTS.GRANTED) {
+          console.log(`Permission ${permission} denied.`);
+        }
+      }
+      console.log('All requested permissions handled.');
+    } catch (err) {
+      console.log('Permission request error:', err);
+    }
+    return null;
   };
 
   return (
@@ -145,9 +237,11 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
             <ButtonAtom
               title="Login"
               onPress={() => {
+                setFieldValue(authField.device_id.name, deviceId);
+                setFieldValue(authField.device_id_web.name, '');
                 handleSubmit();
               }}
-              loading={loading.login}
+              loading={loading.login ? true : false}
             />
           </View>
           <ButtonAtom
@@ -165,6 +259,8 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
             title="Continue with google"
             preset="tertiary"
             onPress={userGogleLogin}
+            loading={loading.google_login ? true : false}
+            loadingColor={colorPresets.CTA}
           />
           <ButtonAtom title="Continue as guest" preset="secondary" />
           <View style={[commonStyle.flexCenter, {marginTop: mScale.base}]}>

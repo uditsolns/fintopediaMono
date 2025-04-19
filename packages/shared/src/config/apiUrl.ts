@@ -15,8 +15,8 @@ export default {
     FORGOTCONFIRM: buildUrl("update-password"),
     GOOGLE: buildUrl("google-login"),
     VERIFYOTP: buildUrl("verifyOtp"),
-    VERIFYMOBILENUMBER: buildUrl("verify_mobileno"),
-    OTPLOGIN: buildUrl("login_otp"),
+    VERIFYMOBILENUMBER:buildUrl("verify_mobileno"),
+    OTPLOGIN:buildUrl("login_otp"),
   },
   USER: {
     GET: buildUrl("users"),

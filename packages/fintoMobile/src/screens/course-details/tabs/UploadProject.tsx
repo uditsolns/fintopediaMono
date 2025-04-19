@@ -2,6 +2,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {imageUrl} from '@shared/src/config/imageUrl';
@@ -57,6 +58,9 @@ export const UploadProject: React.FunctionComponent<UploadProjectProps> = ({
   const {courseCart, loading: courseCartLoading} = useAppSelector(
     state => state.courseCart,
   );
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
+  );
   let route = useRoute<any>();
 
   const {course, id} = route.params || {};
@@ -105,6 +109,10 @@ export const UploadProject: React.FunctionComponent<UploadProjectProps> = ({
           };
           if (isInCart(courseCart, item?.id)) {
             navigation.navigate(RouteKeys.CARTSCREEN);
+          } else if (isCoursePurchased(courseget_purchase, item?.id)) {
+            navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
+              id: item?.id,
+            });
           } else {
             await dispatch(
               createCourseCart({
@@ -122,7 +130,6 @@ export const UploadProject: React.FunctionComponent<UploadProjectProps> = ({
   };
   return (
     <View
-      onLayout={onLayout}
       style={{
         flex: 1,
         flexGrow: 1,

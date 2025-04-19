@@ -23,7 +23,8 @@ export interface UserCertificateResponse {
   course_id: number;
   status?: number | string;
   user?:UserInfo;
-  course?:CoursesResponse
+  course?:CoursesResponse,
+  certificate_url?:string | null
 }
 export interface UserCertificateState {
   loading: {

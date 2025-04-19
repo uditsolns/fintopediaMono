@@ -1,6 +1,7 @@
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {imageUrl} from '@shared/src/config/imageUrl';
@@ -26,6 +27,9 @@ export default function CourseMolecule({
   onView,
 }: CourseMoleculeProps) {
   const {courseCart} = useAppSelector(state => state.courseCart);
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
+  );
   return (
     <PressableAtom
       style={[commonStyle.flexStart, styles.container]}
@@ -80,7 +84,11 @@ export default function CourseMolecule({
           </View>
           <ButtonAtom
             title={
-              isInCart(courseCart, item?.id!) ? 'Go to cart' : 'Add to cart'
+              isCoursePurchased(courseget_purchase, item?.id!)
+                ? 'Watch now'
+                : isInCart(courseCart, item?.id!)
+                ? 'Go to cart'
+                : 'Add to cart'
             }
             textPreset="xSmallBold"
             onPress={onPress}

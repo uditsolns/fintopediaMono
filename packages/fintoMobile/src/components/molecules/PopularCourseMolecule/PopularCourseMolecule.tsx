@@ -9,6 +9,7 @@ import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {CoursesResponse} from '@shared/src/utils/types/courses';
 import ButtonIconAtom from '@src/components/Button/ButtonIconAtom';
 import {isInCart} from '@src/components/Calculate';
+import {isCoursePurchased} from '@shared/src/components/atoms/Calculate';
 import CoursePrice from '@src/components/CoursePrice';
 import ProgressBar from '@src/components/ProgressBar';
 import RatingReview from '@src/components/RatingReview';
@@ -28,6 +29,9 @@ export default function PopularCourseMolecule({
   ...rest
 }: PopularCourseMoleculeProps) {
   const {courseCart} = useAppSelector(state => state.courseCart);
+  const {courseget_purchase} = useAppSelector(
+    state => state.coursesgetPurchase,
+  );
   return (
     <Pressable style={styles.activePlanDetails} {...rest} onPress={onView}>
       <View>
@@ -58,7 +62,11 @@ export default function PopularCourseMolecule({
         />
       </View>
       <View style={styles.content}>
-        <TextAtom text={item?.name} preset="heading3" style={{fontWeight:'600',lineHeight:21}} />
+        <TextAtom
+          text={item?.name}
+          preset="heading3"
+          style={{fontWeight: '600', lineHeight: 21}}
+        />
         <View>
           <ProgressBar
             level={
@@ -66,26 +74,38 @@ export default function PopularCourseMolecule({
                 ? item?.course_type?.toLowerCase()
                 : 'intermediate'
             }
-            hours={item?.duration_time ? item?.duration_time?.replace(/\D+/g, '') : '0'}
-            textPreset='titleBold'
+            hours={
+              item?.duration_time
+                ? item?.duration_time?.replace(/\D+/g, '')
+                : '0'
+            }
+            textPreset="titleBold"
           />
-          {item?.rating ? (
-            <View style={{marginTop:moderateScale(24),marginBottom:mScale.md}}>
+
+          <View style={{marginTop: moderateScale(24), marginBottom: mScale.md}}>
+            {item?.rating ? (
               <RatingReview
                 rating={item?.rating || ''}
                 review={item?.reviews || ''}
-                textStyle={{paddingTop:mScale.xs}}
+                textStyle={{paddingTop: mScale.xs}}
               />
-              </View>
-          ) : null}
+            ) : null}
+          </View>
         </View>
-        {item?.sale_price  ? 
-        <CoursePrice
-          price={item?.sale_price}
-          discount_price={item?.actual_price}
-        /> : null }
+        {item?.sale_price ? (
+          <CoursePrice
+            price={item?.sale_price}
+            discount_price={item?.actual_price}
+          />
+        ) : null}
         <ButtonAtom
-          title={isInCart(courseCart, item?.id) ? 'Go to cart' : 'Add to cart'}
+          title={
+            isCoursePurchased(courseget_purchase, item?.id)
+              ? 'Watch now'
+              : isInCart(courseCart, item?.id)
+              ? 'Go to cart'
+              : 'Add to cart'
+          }
           onPress={onPress}
         />
       </View>
@@ -107,7 +127,7 @@ const styles = StyleSheet.create({
   } as ImageStyle,
   content: {
     paddingTop: mScale.lg1,
-    paddingHorizontal:mScale.lg2,
+    paddingHorizontal: mScale.lg2,
     paddingBottom: moderateScale(32),
     backgroundColor: '#0D0F1C',
     flex: 1,
