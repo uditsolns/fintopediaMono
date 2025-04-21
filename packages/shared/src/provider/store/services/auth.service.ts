@@ -180,13 +180,35 @@ export const verifyPhoneNumber = createAsyncThunk<
   }
 });
 
+// export const phoneNumberOtpLogin = createAsyncThunk<
+//   any,
+//   OtpLoginParams2,
+//   { state: RootState }
+// >("auth/phoneNumberOtpLogin", async (params, thunkApi) => {
+//   console.log("phoneNumberOtpLogin params", params);
+
+//   try {
+//     const response = await fetch(apiUrl.AUTH.OTPLOGIN, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(params),
+//     });
+
+//     const data = (await response.json()) as any;
+//     console.log("phoneNumberOtpLogin response", data);
+
+//     return data;
+//   } catch (error) {
+//     return thunkApi.rejectWithValue(error);
+//   }
+// });
 export const phoneNumberOtpLogin = createAsyncThunk<
-  any,
-  OtpLoginParams2,
+  AuthResponse,
+  AuthParams,
   { state: RootState }
 >("auth/phoneNumberOtpLogin", async (params, thunkApi) => {
-  console.log("phoneNumberOtpLogin params", params);
-
   try {
     const response = await fetch(apiUrl.AUTH.OTPLOGIN, {
       method: "POST",
@@ -195,10 +217,11 @@ export const phoneNumberOtpLogin = createAsyncThunk<
       },
       body: JSON.stringify(params),
     });
-
-    const data = (await response.json()) as any;
-    console.log("phoneNumberOtpLogin response", data);
-
+    if (response.status !== 200) {
+      return thunkApi.rejectWithValue(await response.json());
+    }
+    const data = (await response.json()) as AuthResponse;
+    thunkApi.dispatch(storeCurrentUser(data?.user));
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);
@@ -210,8 +233,6 @@ export const sendOtpLogin = createAsyncThunk<
   OtpLoginParams,
   { state: RootState }
 >("auth/sendOtpLogin", async (params, thunkApi) => {
-  console.log("sendOtpLogin params", params);
-
   try {
     const response = await fetch(apiUrl.AUTH.SENDOTP, {
       method: "POST",
@@ -220,7 +241,7 @@ export const sendOtpLogin = createAsyncThunk<
       },
       body: JSON.stringify(params),
     });
-    if (response.status !== 201) {
+    if (response.status !== 200) {
       return thunkApi.rejectWithValue(await response.json());
     }
     const data = (await response.json()) as any;

@@ -20,15 +20,14 @@ const page: React.FC<LoginProps> = () => {
   const { handleSubmit, isSubmitting } = sendOtpFormik;
 
   React.useEffect(() => {
-    if (send_otp) {
-      if (send_otp?.token) {
-        toast.success("Login successful!", {
-          position: "top-right",
-          theme: "light",
-        });
-        router.push("/");
-      }
+    if (send_otp?.code === 200) {
+      toast.success(send_otp?.status_message, {
+        position: "top-right",
+        theme: "light",
+      });
+      router.push("/auth/verify-otp");
     }
+
     if (err?.send_otp_err?.status_message) {
       toast.error(err?.send_otp_err?.status_message, {
         position: "top-right",

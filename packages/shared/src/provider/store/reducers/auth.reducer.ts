@@ -79,6 +79,22 @@ const authSlice = createSlice({
         state.loading.login = false;
         state.err.loginErr = action?.payload;
       })
+      // otp login
+      .addCase(phoneNumberOtpLogin.pending, (state) => {
+        state.loading.login = true;
+        state.err.loginErr = null;
+      })
+      .addCase(phoneNumberOtpLogin.fulfilled, (state, action) => {
+        state.loading.login = false;
+        state.auth = action.payload;
+        state.err.loginErr = null;
+        state.current_user = action.payload.user;
+      })
+      .addCase(phoneNumberOtpLogin.rejected, (state, action) => {
+        state.loading.login = false;
+        state.err.loginErr = action?.payload;
+      })
+      // google sign in
       .addCase(googleSignIn.pending, (state) => {
         state.loading.google_login = true;
         state.err.google_login_err = null;
@@ -157,19 +173,7 @@ const authSlice = createSlice({
         state.loading.verify_mobile = false;
         state.err.verify_mobile_err = action?.payload;
       })
-      .addCase(phoneNumberOtpLogin.pending, (state) => {
-        state.loading.otp_login = true;
-        state.err.otp_login_err = null;
-      })
-      .addCase(phoneNumberOtpLogin.fulfilled, (state, action) => {
-        state.loading.otp_login = false;
-        state.otp_login = action.payload;
-        state.err.otp_login_err = null;
-      })
-      .addCase(phoneNumberOtpLogin.rejected, (state, action) => {
-        state.loading.otp_login = false;
-        state.err.otp_login_err = action?.payload;
-      })
+
       // send Otp
       .addCase(sendOtpLogin.pending, (state) => {
         state.loading.send_otp = true;

@@ -4,30 +4,36 @@ import styles from "../Auth.module.css";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import { Button, Col, Row } from "reactstrap";
 import * as Yup from "yup";
-import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "shared/src/provider/store/types/storeTypes";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
-// import { useSendOtpHelper } from "shared/src/components/structures/send-otp-login/send-otp.helper";
-// import { sendOtpField } from "shared/src/components/structures/send-otp-login/sendOtpModal";
+import { phoneNumberOtpLogin } from "shared/src/provider/store/services/auth.service";
 
-interface OTPFormValues { 
+interface OTPFormValues {
   otp1: string;
-  otp2: string; 
+  otp2: string;
   otp3: string;
   otp4: string;
   otp5: string;
   otp6: string;
-  forgotOtp: number;
+  // forgotOtp: number;
 }
 
 const page: React.FC = () => {
   const router = useRouter();
-  const { auth, forgot, loading } = useAppSelector((state) => state.auth);
-  console.log("forgot", forgot);
+  const dispatch = useAppDispatch();
+  // const { auth, forgot } = useAppSelector((state) => state.auth);
+  const { auth, loading, err } = useAppSelector((state) => state.auth);
+  const { send_otp } = useAppSelector((state) => state.auth);
+  // const { otp_login, err, loading } = useAppSelector((state) => state.auth);
+  console.log("auth", auth);
+  console.log("send_otp", send_otp);
+
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
-  const [isLoading, setIsLoading] = React.useState(false);
-  let forgotOtp = forgot?.opt;
 
   const handleSubmit = (
     values: OTPFormValues,
@@ -40,22 +46,14 @@ const page: React.FC = () => {
       values.otp4 +
       values.otp5 +
       values.otp6;
-    setIsLoading(true);
 
-    console.log("Submitted OTP:", otp);
-    console.log("Expected OTP:", forgot?.opt);
-    console.log("forgotOtp", forgotOtp);
-
-    // Direct OTP comparison and redirect without setTimeout
-    if (Number(otp) === Number(values.forgotOtp)) {
-      toast.success("OTP Successfully Verified!"); // Show success message
-      router.push("/auth/reset-password"); // Redirect to reset password page
-    } else {
-      toast.error("Invalid OTP. Please try again."); // Show error message
-    }
-
+    const params = {
+      phone: send_otp?.phone,
+      otp: otp,
+      device_id: "test",
+    };
+    dispatch(phoneNumberOtpLogin(params));
     setSubmitting(false); // Set submitting to false
-    setIsLoading(false); // Set loading state to false
   };
 
   const handleOtpInput = (
@@ -70,6 +68,41 @@ const page: React.FC = () => {
     }
   };
 
+  // React.useEffect(() => {
+  //   if (otp_login) {
+  //     if (otp_login?.token) {
+  //       toast.success("Login successful!", {
+  //         position: "top-right",
+  //         theme: "light",
+  //       });
+  //       router.push("/");
+  //     }
+  //     if (err?.otp_login_err?.message) {
+  //       toast.error(err?.otp_login_err?.message, {
+  //         position: "top-right",
+  //         theme: "light",
+  //       });
+  //     }
+  //   }
+  // }, [otp_login, router]);
+  React.useEffect(() => {
+    if (auth) {
+      if (auth?.token) {
+        toast.success("Login successful!", {
+          position: "top-right",
+          theme: "light",
+        });
+        router.push("/");
+      }
+      if (err?.loginErr?.message) {
+        toast.error(err?.loginErr?.message, {
+          position: "top-right",
+          theme: "light",
+        });
+      }
+    }
+  }, [auth, router]);
+
   return (
     <div className={styles.twofactorContainer}>
       <div className="container main-login-div">
@@ -80,7 +113,7 @@ const page: React.FC = () => {
             </h1>
             <p className={styles.twofactorSubHeading}>
               Enter the 6-digit code sent to your phone
-              <br /> number +9180*****890
+              <br /> number {send_otp?.phone}
             </p>
             <div className="main-content">
               <div className="p-3">
@@ -92,7 +125,7 @@ const page: React.FC = () => {
                     otp4: "",
                     otp5: "",
                     otp6: "",
-                    forgotOtp: forgot?.otp,
+                    // forgotOtp: forgot?.otp,
                   }}
                   validationSchema={Yup.object().shape({
                     otp1: Yup.string()
@@ -171,7 +204,7 @@ const page: React.FC = () => {
                             block
                             className={styles.twofactorVerifyBtn}
                           >
-                            {isLoading ? (
+                            {loading?.login ? (
                               <LoadingAtom size="sm" color="dark" />
                             ) : (
                               "Verify"

@@ -147,8 +147,10 @@ export interface OtpLoginParams {
 
 export interface OtpLoginParams2 {
   phone: string | number;
+  otp: string | number;
   device_id: string | null;
 }
+
 export interface OnSuccessInterface {
   onSuccess: (data: any) => void;
 }

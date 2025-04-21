@@ -52,6 +52,11 @@ const persistConfig: any = {
   whitelist: ["auth"],
 };
 
+// const persistConfig: any = {
+//   key: "auth",
+//   storage,
+//   timeout: null,
+// };
 const reducers = combineReducers({
   auth: persistReducer(persistConfig, authReducer),
   users: persistReducer(persistConfig, usersReducer),
@@ -97,7 +102,7 @@ const middleware = (getDefaultMiddleware: any) => {
     process.env.NODE_ENV === "development" ||
     (typeof __DEV__ !== "undefined" && __DEV__)
   ) {
-    return getDefaultMiddleware().concat(errorMiddleware);
+    return getDefaultMiddleware().concat(errorMiddleware,logger);
   }
   return getDefaultMiddleware().concat(errorMiddleware);
 };
