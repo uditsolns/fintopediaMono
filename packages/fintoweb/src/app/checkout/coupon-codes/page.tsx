@@ -39,6 +39,7 @@ export default function CouponCodes() {
     setTotalPaymentAmount,
     keepTotalPaymentAmount,
     setCouponCodePercentage,
+    setCouponCodePercentageDiscount,
   } = useCartContext();
 
   React.useEffect(() => {
@@ -122,7 +123,7 @@ export default function CouponCodes() {
         }
 
         console.log("Coupon applied successfully:", originalPromiseResult);
- 
+
         const amt = Number(keepTotalPaymentAmount);
         const discountPercentage =
           +originalPromiseResult?.discount?.replace(/\D+/g, "") || 0;
@@ -132,6 +133,8 @@ export default function CouponCodes() {
         setCouponCodePercentage(discountPercentage);
         setIsCouponCodeApply(true);
         setTotalPaymentAmount(finalAmount);
+        setCouponCodePercentageDiscount(originalPromiseResult?.discount_code);
+
         toast.success("Coupon code applied successfully", {
           position: "top-right",
           theme: "light",

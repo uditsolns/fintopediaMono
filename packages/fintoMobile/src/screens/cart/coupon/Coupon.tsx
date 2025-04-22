@@ -70,7 +70,7 @@ export const Coupon: React.FunctionComponent<CouponProps> = ({navigation}) => {
       .unwrap()
       .then((originalPromiseResult: any) => {
         if (!discount) {
-          Toast.show('Please enter your coupon code', { 
+          Toast.show('Please enter your coupon code', {
             type: 'error',
           });
         } else if (originalPromiseResult?.message) {
@@ -89,11 +89,11 @@ export const Coupon: React.FunctionComponent<CouponProps> = ({navigation}) => {
           // console.log('subs2', subs2);
           console.log('originalPromiseResult', originalPromiseResult);
           let amt = Number(keepTotalPaymentAmount);
-          const discount =  
+          const discount =
             +originalPromiseResult?.discount?.replace(/\D+/g, '') || 0;
           setCouponCodePercentageDiscount(originalPromiseResult?.discount_code);
           setCouponCodePercentage(discount);
-          const discountAmount = (amt * discount) / 100; 
+          const discountAmount = (amt * discount) / 100;
           const finalAmount = amt - discountAmount;
           setIsCouponCodeApply(true);
           setTotalPaymentAmount(finalAmount);

@@ -11,7 +11,10 @@ import {
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
-import { phoneNumberOtpLogin } from "shared/src/provider/store/services/auth.service";
+import {
+  phoneNumberOtpLogin,
+  sendOtpLogin,
+} from "shared/src/provider/store/services/auth.service";
 
 interface OTPFormValues {
   otp1: string;
@@ -67,7 +70,24 @@ const page: React.FC = () => {
       inputRefs.current[index - 1]?.focus(); // Move to the previous input on backspace
     }
   };
-
+  const handleResendCode = () => {
+    const params = {
+      phone: send_otp?.phone,
+    };
+    dispatch(sendOtpLogin(params))
+      .then(() => {
+        toast.success("OTP has been resent successfully!", {
+          position: "top-right",
+          theme: "light",
+        });
+      })
+      .catch((error) => {
+        toast.error("Failed to resend OTP. Please try again.", {
+          position: "top-right",
+          theme: "light",
+        });
+      });
+  };
   // React.useEffect(() => {
   //   if (otp_login) {
   //     if (otp_login?.token) {
@@ -180,7 +200,14 @@ const page: React.FC = () => {
                       </Row>
                       <div className={styles.twofactorResendlink}>
                         Didn’t get the code?
-                        <a href="#" className="text-blue-500">
+                        <a
+                          className="text-blue-500"
+                          style={{ cursor: "pointer" }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleResendCode();
+                          }}
+                        >
                           <u>Resend Code</u>
                         </a>
                       </div>

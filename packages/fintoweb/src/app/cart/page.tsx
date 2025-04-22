@@ -53,7 +53,10 @@ export default function Cart() {
     setTotalPaymentAmount,
     setKeepTotalPaymentAmount,
     couponCodePercentage,
+    couponCodePercentageDiscount,
+    couponCodePercentageDiscountAmount,
     keepTotalPaymentAmount,
+    setCouponCodePercentageDiscount,
   } = useCartContext();
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
