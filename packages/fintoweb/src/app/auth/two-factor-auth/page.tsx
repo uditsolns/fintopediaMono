@@ -26,31 +26,7 @@ const TwoFactorAuth: React.FC = () => {
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   let forgotOtp = forgot?.opt;
-  // const handleSubmit = (
-  //   values: OTPFormValues,
-  //   { setSubmitting }: FormikHelpers<OTPFormValues>
-  // ) => {
-  //   const otp =
-  //     values.otp1 +
-  //     values.otp2 +
-  //     values.otp3 +
-  //     values.otp4 +
-  //     values.otp5 +
-  //     values.otp6;
-  //   setIsLoading(true);
-  //   setTimeout(() => {
-  //     if (otp === forgot.opt) {
-  //       toast.success("OTP Successfully Verified!"); // Show success message
-  //       router.push("/auth/reset-password"); // Redirect to reset password page
-  //     } else {
-  //       toast.error("Invalid OTP. Please try again."); // Show error message
-  //     }
-  //     setSubmitting(false); // Set submitting to false
-  //     setIsLoading(false); // Set loading state to false after verification is done
-  //   }, 2000); // Simulating a delay (e.g., an API call)
-  //   setSubmitting(false);
-  //   console.log("OTP Submitted:", otp);
-  // };
+
   const handleSubmit = (
     values: OTPFormValues,
     { setSubmitting }: FormikHelpers<OTPFormValues>
@@ -64,10 +40,6 @@ const TwoFactorAuth: React.FC = () => {
       values.otp6;
     setIsLoading(true);
 
-    console.log("Submitted OTP:", otp);
-    console.log("Expected OTP:", forgot?.opt);
-    console.log("forgotOtp", forgotOtp);
-
     // Direct OTP comparison and redirect without setTimeout
     if (Number(otp) === Number(values.forgotOtp)) {
       toast.success("OTP Successfully Verified!"); // Show success message
@@ -78,6 +50,14 @@ const TwoFactorAuth: React.FC = () => {
 
     setSubmitting(false); // Set submitting to false
     setIsLoading(false); // Set loading state to false
+  };
+
+  const maskPhoneNumber = (phone: string | undefined): string => {
+    if (!phone) return "";
+    console.log("Original Phone:", phone); // Debugging
+    const maskedPhone = phone.replace(/(\+91\d{2})\d{5}(\d{3})/, "$1*****$2");
+    console.log("Masked Phone:", maskedPhone); // Debugging
+    return maskedPhone;
   };
 
   const handleOtpInput = (
@@ -102,7 +82,7 @@ const TwoFactorAuth: React.FC = () => {
             </h1>
             <p className={styles.twofactorSubHeading}>
               Enter the 6-digit code sent to your phone
-              <br /> number +9180*****890
+              <br /> number {maskPhoneNumber(forgot?.phone)}
             </p>
             <div className="main-content">
               <div className="p-3">

@@ -66,7 +66,7 @@ export interface ForgotPasswordResponse {
   otp: number;
 }
 export interface VerifyOtpParams {
-  email: string;
+  phone: string;
   otp: string;
   new_password: string;
   new_password_confirmation: string;
@@ -163,8 +163,8 @@ export interface ResetPasswordParams {
   confirmation_password?: string;
 }
 export interface ResetPasswordParams2 {
-  email: string;
-  otp: number;
+  phone: string;
+  otp: string;
   new_password: string;
   new_password_confirmation: string;
 }

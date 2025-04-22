@@ -65,18 +65,22 @@ const ForgotPassword: React.FC = () => {
               </svg>
             </div>
             <h1>Forgot Password?</h1>
-            <h6>
+            {/* <h6>
               Enter your email address and we&apos;ll send you the
               <br /> reset password link
+            </h6> */}
+            <h6>
+              Enter your Mobile Number and we&apos;ll send you the
+              <br /> OTP in your registered mobile number.
             </h6>
             <div className={styles.forgotForm}>
               <div className="p-3">
                 <Row className="form-group mt-3">
                   <Col md={12}>
                     <InputAtom
-                      label={forgotField.email.label}
-                      placeholder={forgotField.email.placeHolder}
-                      {...forgotInputProps(forgotField.email.name)}
+                      label={forgotField.phone.label}
+                      placeholder={forgotField.phone.placeHolder}
+                      {...forgotInputProps(forgotField.phone.name)}
                     />
                   </Col>
                 </Row>
@@ -95,13 +99,19 @@ const ForgotPassword: React.FC = () => {
                       {loading.forgot ? (
                         <LoadingAtom size="sm" color="dark" />
                       ) : (
-                        " Send Link"
+                        " Send OTP"
                       )}
                     </Button>
                   </div>
                   <div className={styles.forgotFooterText}>
-                    <h6>Didn’t get email? Kindly check spam box too</h6>
-                    <p>Send it again?</p>
+                    <h6>Didn’t get OTP ? Kindly check Message Box</h6>
+                    <p
+                      onClick={() => {
+                        handleSubmit();
+                      }}
+                    >
+                      Send it again?
+                    </p>
                   </div>
                 </div>
               </div>

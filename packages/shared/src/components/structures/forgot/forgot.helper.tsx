@@ -14,7 +14,7 @@ export const useForgotHelper = () => {
     validationSchema: forgotValidation,
     onSubmit: (values) => {
       let data: ForgotPasswordParams = {
-        email: values.email,
+        phone: values.phone,
       };
       dispatch(forgotPassword(data));
     },

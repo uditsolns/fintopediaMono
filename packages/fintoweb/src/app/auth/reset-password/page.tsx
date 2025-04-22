@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import styles from "../Auth.module.css";
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import {
   Button,
   Col,
@@ -11,11 +10,7 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import CustomInput from "../../../custom/CustomInput";
-import CustomSelect from "../../../custom/CustomSelect";
-import * as Yup from "yup";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { InputAtom } from "@src/components/atoms/Input/InputAtom";
 import { resetField } from "shared/src/components/structures/reset-password/reset.passwordModel";
 import { useResetPasswordHelper } from "shared/src/components/structures/reset-password/reset-password.helper";
@@ -40,7 +35,7 @@ const ResetPassword: React.FC = () => {
   const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false);
   const [isRevealPwd1, setIsRevealPwd1] = useState<boolean>(false);
   React.useEffect(() => {
-    setFieldValue(resetField.email.name, forgot?.email || "");
+    setFieldValue(resetField.phone.name, forgot?.phone || "");
     setFieldValue(resetField.otp.name, forgot?.otp || "");
   }, [auth, forgot, setFieldValue]);
 

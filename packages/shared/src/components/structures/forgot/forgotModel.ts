@@ -1,15 +1,15 @@
 import * as Yup from "yup";
 import { ModelParams } from "../../../utils/types/main";
 
-type ForgotField = Pick<ModelParams, "email">;
+type ForgotField = Pick<ModelParams, "phone">;
 
 export const forgotField: ForgotField = {
-  email: {
-    name: "email",
-    label: "Email your email",
-    placeHolder: "Enter your email",
-    requiredErr: "Email is required",
-  }
+  phone: {
+    name: "phone",
+    label: "Phone Number",
+    placeHolder: "Enter your phone number",
+    requiredErr: "Phone Number is required",
+  },
 };
 
 export type ForgotValues = {
@@ -17,11 +17,11 @@ export type ForgotValues = {
 };
 
 export const FORGOT_VALUES = {
-  [forgotField.email.name]: "",
+  [forgotField.phone.name]: "",
 };
 
 export const forgotValidation = Yup.object().shape({
-  [forgotField.email.name]: Yup.string()
-  .email("Invalid email")
-  .required(`${forgotField.email.requiredErr}`),
+  [forgotField.phone.name]: Yup.string()
+    .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
+    .required(`${forgotField.phone.requiredErr}`),
 });
