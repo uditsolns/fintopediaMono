@@ -1,7 +1,8 @@
 import apiUrl from "../../config/apiUrl";
 import { toast } from "react-toastify";
 
-export const DownloadCertificate = (certificateId: number): void => {
+export const DownloadCertificate = (certificateId: string): void => {
+  console.log("certificateId", certificateId);
   const downloadUrl: string = `${apiUrl.DOWNLOAD_CERTIFICATE.GET}/${certificateId}`;
   const link: HTMLAnchorElement = document.createElement("a");
   link.href = downloadUrl;
@@ -9,7 +10,16 @@ export const DownloadCertificate = (certificateId: number): void => {
   link.click();
 };
 
-export const CopyToClipboard = (certificateId: number) => {
+export const DownloadReceipt = (receiptId: string): void => {
+  console.log("receiptId", receiptId);
+  const downloadUrl: string = `${apiUrl.DOWNLOAD_RECEIPT.GET}/${receiptId}`;
+  const link: HTMLAnchorElement = document.createElement("a");
+  link.href = downloadUrl;
+  link.target = "_blank";
+  link.click();
+};
+
+export const CopyToClipboard = (certificateId: string) => {
   const certificateUrl = `${apiUrl.DOWNLOAD_CERTIFICATE.GET}/${certificateId}`;
   navigator.clipboard
     .writeText(certificateUrl)

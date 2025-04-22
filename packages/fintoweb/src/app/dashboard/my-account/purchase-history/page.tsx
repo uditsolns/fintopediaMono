@@ -10,6 +10,7 @@ import {
 } from "shared/src/provider/store/types/storeTypes";
 import { getUserCourseHistory } from "shared/src/provider/store/services/UserCourseHistory.service";
 import LoadingAtom from "@src/components/loader/LoadingAtom";
+import { DownloadReceipt } from "shared/src/components/certificate-dawnload/DownloadCertificate";
 
 const PurchaseHistory = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ const PurchaseHistory = () => {
   const { user_course_history, loading } = useAppSelector(
     (state) => state.userCourseHistory
   );
-
+  console.log("user_course_history", user_course_history);
   const token = auth?.token;
 
   React.useEffect(() => {
@@ -81,7 +82,17 @@ const PurchaseHistory = () => {
                     <td>{transaction.purchase_history?.grand_total}</td>
                     <td>{transaction.purchase_history?.payment_type}</td>
                     <td>
-                      <Button outline color="light" className={styles.Receipt}>
+                      <Button
+                        outline
+                        color="light"
+                        className={styles.Receipt}
+                        onClick={() => {
+                          let receiptId =
+                            transaction?.purchase_history?.receipt_no;
+                          DownloadReceipt(receiptId);
+                        }}
+                        disabled={!transaction?.purchase_history?.receipt_no}
+                      >
                         Receipt
                       </Button>
                     </td>

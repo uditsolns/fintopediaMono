@@ -38,6 +38,27 @@
   margin-bottom: 16px;
 }
 
+.privacy-policy-content h2 {
+  background: linear-gradient(180deg, #fff 11.18%, #818181 227.3%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 105%;
+  padding: 0px 0px 12px 0px;
+}
+.privacy-policy-content p  {
+  margin-bottom: 12px;
+}
+.privacy-policy-content ul  {
+  margin-left: 20px;
+}
+
+.privacy-policy-content ul li {
+  list-style-type: disc;
+}
 @media screen and (max-width: 435px) {
   .privacy-policy-header {
     padding: 56px 20px;

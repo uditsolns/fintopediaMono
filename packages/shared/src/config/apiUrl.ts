@@ -73,7 +73,10 @@ export default {
     DELETE: buildUrl("user_certificate"),
   },
   DOWNLOAD_CERTIFICATE: {
-    GET: buildUrl("downloadcertificate"),
+    GET: buildUrl("downloadcertificate_view"),
+  },
+  DOWNLOAD_RECEIPT: {
+    GET: buildUrl("receipt_view"),
   },
   COURSE_SAVE_LATER: {
     GET: buildUrl("courses_save_later"),

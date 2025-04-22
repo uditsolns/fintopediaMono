@@ -19,6 +19,7 @@ export interface PurchaseHistoryFields {
   arn?: string;
   cardType?: string;
   brn?: string;
+  
   subtotal?: number | string;
   total_discount?: number | string;
   gst?: number | string;
@@ -42,6 +43,7 @@ export interface PurchaseHistoryResponse {
   accountType: string;
   pgTransactionId: string;
   pgServiceTransactionId: string;
+  receipt_no?: string;
   cardType: string;
   grand_total?:number | string;
   user?: UserInfo | null;
