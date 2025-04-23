@@ -18,20 +18,45 @@ const Completed = () => {
   const [selectedCertificate, setSelectedCertificate] = React.useState<
     string | null
   >(null);
+  const [certificateImage, setCertificateImage] = React.useState<string | null>(
+    null
+  );
 
   const toggleModal = () => setModal(!modal);
 
-  const handleViewCertificate = (certificateUrl: string) => {
-    setSelectedCertificate(certificateUrl);
-    toggleModal();
-  };
+  const handleViewCertificate = async (certificateUrl: string) => {
+    try {
+      // Construct the full API URL
+      const apiUrl = `https://nivada.in/hiring-management-backend/public/api/v1/downloadcertificate_view/${certificateUrl}`;
 
-  const handlePrint = () => {
-    if (selectedCertificate) {
-      const printWindow = window.open(selectedCertificate, "_blank");
-      if (printWindow) {
-        printWindow.print();
+      // Fetch the certificate
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        // Convert the response to a Blob
+        const blob = await response.blob();
+
+        // Create an object URL for the Blob
+        const imageUrl = URL.createObjectURL(blob);
+
+        // Set the image URL to state
+        setCertificateImage(imageUrl);
+
+        // Open the modal
+        toggleModal();
+      } else {
+        console.error(
+          "Failed to fetch certificate image. Status:",
+          response.status
+        );
       }
+    } catch (error) {
+      console.error("Error fetching certificate image:", error);
     }
   };
 
@@ -153,8 +178,36 @@ const Completed = () => {
                     </svg>
                     Download certificate
                   </Button>
+                  {/* <Button
+                    className={styles.continueButton}
+                    onClick={() =>
+                      handleViewCertificate(course?.certificate_url)
+                    }
+                  >
+                    View Certificate
+                  </Button> */}
                   {/* <ViewCertiicate image={course?.certificate_url} /> */}
                 </div>
+                {/* Modal for displaying the certificate */}
+                <Modal isOpen={modal} toggle={toggleModal} size="lg">
+                  <ModalHeader toggle={toggleModal}>Certificate</ModalHeader>
+                  <ModalBody>
+                    {certificateImage ? (
+                      <img
+                        src={certificateImage}
+                        alt="Certificate"
+                        style={{ width: "100%", height: "auto" }}
+                      />
+                    ) : (
+                      <p>Loading certificate...</p>
+                    )}
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="secondary" onClick={toggleModal}>
+                      Close
+                    </Button>
+                  </ModalFooter>
+                </Modal>
               </div>
             </Card>
           );

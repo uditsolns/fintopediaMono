@@ -66,8 +66,9 @@ export const CartContextProvider: React.FC<CartContextProviderProps> = ({
         setKeepTotalPaymentAmount,
         couponCodePercentage,
         setCouponCodePercentage,
+        couponCodePercentageDiscount,
         setCouponCodePercentageDiscount,
-
+        couponCodePercentageDiscountAmount,
         setCouponCodePercentageDiscountsAmount,
       }}
     >

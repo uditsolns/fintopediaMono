@@ -45,7 +45,7 @@ export default function Home() {
   );
   const { courseget_purchase, loading: coursesgetPurchaseLoading } =
     useAppSelector((state) => state.coursesgetPurchase);
-  console.log("🚀 ~ page ~ courseget_purchase:", courseget_purchase);
+  const { courseCart } = useAppSelector((state) => state.courseCart);
   React.useEffect(() => {
     if (token) {
       dispatch(getCourseCart());
@@ -65,7 +65,7 @@ export default function Home() {
     localStorage.removeItem("purchaseData");
   }, [dispatch]);
   return (
-    <> 
+    <>
       {categoriesLoading?.categories ||
       coursesLoading?.courses ||
       coursesReviewLoading?.course_review ||
@@ -79,7 +79,7 @@ export default function Home() {
           />
         </div>
       ) : null}
-      
+
       <div>
         <Banner />
         <StocksSlider />

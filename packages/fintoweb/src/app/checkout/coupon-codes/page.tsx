@@ -61,43 +61,7 @@ export default function CouponCodes() {
     }
   };
 
-  // const handleApplyCoupon = () => {
-  //   let params = { discountCode: discount };
-  //   dispatch(applyCouponCode(params))
-  //     .unwrap()
-  //     .then((originalPromiseResult: any) => {
-  //       if (!discount) {
-  //         toast.warning("Please enter your coupon code", {
-  //           position: "top-right",
-  //           theme: "light",
-  //         });
-  //       } else if (originalPromiseResult?.message) {
-  //         toast.error(originalPromiseResult?.message, {
-  //           position: "top-right",
-  //           theme: "light",
-  //         });
-  //       } else {
-  //         console.log("originalPromiseResult", originalPromiseResult);
-  //         let amt = Number(keepTotalPaymentAmount);
-  //         const discount =
-  //           +originalPromiseResult?.discount?.replace(/\D+/g, "") || 0;
-  //         setCouponCodePercentage(discount);
-  //         const discountAmount = (amt * discount) / 100;
-  //         const finalAmount = amt - discountAmount;
-  //         setIsCouponCodeApply(true);
-  //         setTotalPaymentAmount(finalAmount);
-
-  //         toast.success("Coupon code applied successfully", {
-  //           position: "top-right",
-  //           theme: "light",
-  //         });
-  //         router.push("/cart");
-  //       }
-  //     })
-  //     .catch((error: any) => {
-  //       console.log("rejectedValueOrSerializedError", JSON.stringify(error));
-  //     });
-  // };
+  
   const handleApplyCoupon = () => {
     if (!discount) {
       // If no coupon code is entered, show a warning message
@@ -127,11 +91,11 @@ export default function CouponCodes() {
         const amt = Number(keepTotalPaymentAmount);
         const discountPercentage =
           +originalPromiseResult?.discount?.replace(/\D+/g, "") || 0;
-
+ 
         const discountAmount = (amt * discountPercentage) / 100;
         const finalAmount = amt - discountAmount;
         setCouponCodePercentage(discountPercentage);
-        setIsCouponCodeApply(true);
+        setIsCouponCodeApply(true); 
         setTotalPaymentAmount(finalAmount);
         setCouponCodePercentageDiscount(originalPromiseResult?.discount_code);
 

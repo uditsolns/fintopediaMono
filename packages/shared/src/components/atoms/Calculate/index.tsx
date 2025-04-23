@@ -31,11 +31,12 @@ export const getRandomItem = <T,>(items: T[]): T[] => {
 export const isInCart = (arr: any[], course_id: number) => {
   return arr?.some((item) => item?.course_id === course_id);
 };
-export const isCoursePurchased = (arr: any[], course_id:number) => {
-  const flattenedArray = arr.flat(); 
-  return flattenedArray?.some((item) => item?.course_id === course_id && item?.is_purchased);
+export const isCoursePurchased = (arr: any[], course_id: number) => {
+  const flattenedArray = arr.flat();
+  return flattenedArray?.some(
+    (item) => item?.course_id === course_id && item?.is_purchased
+  );
 };
-
 
 export const filteredCourses = (arr1: any[], arr2: any[]) => {
   let res = arr1?.filter(
@@ -80,6 +81,16 @@ export const calculatePercetageAmount = (
 ): number => {
   return (amount * perc) / 100;
 };
+
+
+export const calculatePercetage = (perc: number, amount: number): number => {
+  return (perc / 100) * amount;
+};
+
+export const roundFigure = (amount: number): number => {
+  return Math.ceil(amount);
+};
+
 export const ENVIRONMENT: string = false ? "PRODUCTION" : "SANDBOX";
 export const MERCHANT_ID: string = "PGTESTPAYUAT";
 

@@ -24,6 +24,8 @@ import {
   subtractTwoNumber,
   sumCalculate,
   calculatePercetageAmount,
+  roundFigure,
+  calculatePercetage,
 } from "shared/src/components/atoms/Calculate";
 import {
   createCoursesSaveLater,
@@ -57,6 +59,7 @@ export default function Cart() {
     couponCodePercentageDiscountAmount,
     keepTotalPaymentAmount,
     setCouponCodePercentageDiscount,
+    setCouponCodePercentageDiscountsAmount,
   } = useCartContext();
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
@@ -165,6 +168,45 @@ export default function Cart() {
       router.push("/auth/login");
     }
   }, [auth?.token, dispatch]);
+
+  useEffect(
+    React.useCallback(() => {
+      percentAmount();
+    }, [
+      courseCart,
+      create,
+      deleteCart,
+      totalPay,
+      keepTotalPaymentAmount,
+      couponCodePercentage,
+      couponCodePercentageDiscount,
+      couponCodePercentageDiscountAmount,
+      isCouponCodeApply,
+    ])
+  );
+
+  const percentAmount = () => {
+    console.log(
+      "isCouponCodeApply',",
+      isCouponCodeApply,
+      couponCodePercentage,
+      keepTotalPaymentAmount
+    );
+    if (isCouponCodeApply) {
+      let amt = calculatePercetageAmount(
+        Number(couponCodePercentage),
+        Number(keepTotalPaymentAmount)
+      );
+      let disAmt = calculatePercetage(
+        Number(couponCodePercentage),
+        Number(keepTotalPaymentAmount)
+      );
+      let total2 = subtractTwoNumber(amt, +keepTotalPaymentAmount);
+      setTotalPaymentAmount(roundFigure(total2));
+      setCouponCodePercentageDiscountsAmount(roundFigure(disAmt));
+      console.log(total2, disAmt);
+    }
+  };
 
   const handleCourseClick = async (course: CoursesResponse) => {
     setLoadingCourseId(course.id);
@@ -499,6 +541,16 @@ export default function Cart() {
                           <span className={styles.textLightGray}>GST</span>
                           <span className={styles.textLightGray}>+ ₹{gst}</span>
                         </div>
+                        {isCouponCodeApply && (
+                          <div className="d-flex justify-content-between mt-3">
+                            <span className={styles.textLightGray}>
+                              {couponCodePercentageDiscount} % Discount
+                            </span>
+                            <span className={styles.textLightGray}>
+                              - ₹{couponCodePercentageDiscountAmount}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className={styles.separator}>
