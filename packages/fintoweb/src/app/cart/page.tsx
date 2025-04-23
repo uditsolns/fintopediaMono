@@ -51,10 +51,12 @@ export default function Cart() {
   const router = useRouter();
   const {
     isCouponCodeApply,
+    setIsCouponCodeApply,
     totalPaymentAmount,
     setTotalPaymentAmount,
     setKeepTotalPaymentAmount,
     couponCodePercentage,
+    setCouponCodePercentage,
     couponCodePercentageDiscount,
     couponCodePercentageDiscountAmount,
     keepTotalPaymentAmount,
@@ -93,6 +95,9 @@ export default function Cart() {
     null
   );
   const totalDiscountAmount = isCouponCodeApply ? totalPaymentAmount : totalPay;
+  const [couponData, setCouponData] = React.useState<object | null>(null);
+
+  console.log("couponData", couponData);
 
   React.useEffect(() => {
     const dataToStore = {
@@ -103,6 +108,8 @@ export default function Cart() {
       gst,
       loadingCourseId,
       couponCodePercentage,
+      couponCodePercentageDiscount,
+      couponCodePercentageDiscountAmount,
     };
     localStorage.setItem("courseCartState", JSON.stringify(dataToStore));
   }, [
@@ -115,6 +122,8 @@ export default function Cart() {
     totalDiscountAmount,
     isCouponCodeApply,
     couponCodePercentage,
+    couponCodePercentageDiscount,
+    couponCodePercentageDiscountAmount,
   ]);
   React.useEffect(() => {
     if (courseCart) {
@@ -131,7 +140,20 @@ export default function Cart() {
       setKeepTotalPaymentAmount(totalPayAmount);
     }
   }, [courseCart, create, deleteCart]);
-
+  React.useEffect(() => {
+    // Retrieve couponData from localStorage on component mount
+    const storedCouponData = localStorage.getItem("couponData");
+    if (storedCouponData) {
+      const parsedData = JSON.parse(storedCouponData);
+      setCouponData(parsedData);
+      setCouponCodePercentage(parsedData.couponCodePercentage || 0);
+      setIsCouponCodeApply(parsedData.isCouponCodeApply || false);
+      setTotalPaymentAmount(parsedData.totalPaymentAmount || 0);
+      setCouponCodePercentageDiscount(
+        parsedData.couponCodePercentageDiscount || ""
+      );
+    }
+  }, []);
   useEffect(() => {
     if (couponCodePercentage) {
       // Calculate the percentage amount based on couponCodePercentage
@@ -186,12 +208,6 @@ export default function Cart() {
   );
 
   const percentAmount = () => {
-    console.log(
-      "isCouponCodeApply',",
-      isCouponCodeApply,
-      couponCodePercentage,
-      keepTotalPaymentAmount
-    );
     if (isCouponCodeApply) {
       let amt = calculatePercetageAmount(
         Number(couponCodePercentage),
@@ -204,7 +220,7 @@ export default function Cart() {
       let total2 = subtractTwoNumber(amt, +keepTotalPaymentAmount);
       setTotalPaymentAmount(roundFigure(total2));
       setCouponCodePercentageDiscountsAmount(roundFigure(disAmt));
-      console.log(total2, disAmt);
+      // console.log(total2, disAmt);
     }
   };
 
@@ -413,7 +429,7 @@ export default function Cart() {
                                     theme: "light",
                                   }
                                 );
-                                console.log("createCoursesSaveLater");
+                                // console.log("createCoursesSaveLater");
                               },
                               onError(error) {
                                 toast.error("Failed to course Save Later.", {
@@ -430,14 +446,14 @@ export default function Cart() {
                             deleteCourseCart({
                               id,
                               onSuccess: (data) => {
-                                console.log("delete cart", data);
+                                // console.log("delete cart", data);
                                 toast.success(data.message, {
                                   position: "top-right",
                                   theme: "light",
                                 });
                               },
                               onError: (err) => {
-                                console.log("delete cart err", err);
+                                // console.log("delete cart err", err);
                                 toast.error(
                                   "Failed to delete course from cart.",
                                   {
@@ -531,12 +547,7 @@ export default function Cart() {
                             ₹{subtotal}
                           </span>
                         </div>
-                        {/* <div
-                          className={`${styles.discount} d-flex justify-content-between mt-3`}
-                        >
-                          <span className={styles.textLightGray}>Discount</span>
-                          <h6>- ₹{totalDiscount}</h6>
-                        </div> */}
+
                         <div className="d-flex justify-content-between mt-3">
                           <span className={styles.textLightGray}>GST</span>
                           <span className={styles.textLightGray}>+ ₹{gst}</span>
@@ -654,7 +665,7 @@ export default function Cart() {
                     </div>
                     <div className={styles.totalRow}>
                       <h4>Total</h4>
-                      {/* <h5>₹{totalPay}</h5> */}
+
                       <h5>{`₹ ${
                         isCouponCodeApply ? totalPaymentAmount : totalPay
                       }`}</h5>
@@ -662,17 +673,16 @@ export default function Cart() {
                     <div className={styles.buttons}>
                       <Button
                         className={styles.checkoutButton}
-                        // onClick={handlePayment}
                         onClick={(e) => handlePayment(e)}
                       >
                         Proceed to checkout
                       </Button>
-                      <Button
+                      {/* <Button
                         className={styles.checkoutButton}
                         onClick={handleDeliveryClick}
                       >
                         Cash on Delivery
-                      </Button>
+                      </Button> */}
                       <Button className={styles.shoppingButton}>
                         Continue Shopping
                       </Button>

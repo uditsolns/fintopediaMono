@@ -61,7 +61,6 @@ export default function CouponCodes() {
     }
   };
 
-  
   const handleApplyCoupon = () => {
     if (!discount) {
       // If no coupon code is entered, show a warning message
@@ -91,13 +90,22 @@ export default function CouponCodes() {
         const amt = Number(keepTotalPaymentAmount);
         const discountPercentage =
           +originalPromiseResult?.discount?.replace(/\D+/g, "") || 0;
- 
+
         const discountAmount = (amt * discountPercentage) / 100;
         const finalAmount = amt - discountAmount;
         setCouponCodePercentage(discountPercentage);
-        setIsCouponCodeApply(true); 
+        setIsCouponCodeApply(true);
         setTotalPaymentAmount(finalAmount);
         setCouponCodePercentageDiscount(originalPromiseResult?.discount_code);
+
+        // Save coupon data to localStorage
+        const couponData = {
+          couponCodePercentage: discountPercentage,
+          isCouponCodeApply: true,
+          totalPaymentAmount: finalAmount,
+          couponCodePercentageDiscount: originalPromiseResult?.discount_code,
+        };
+        localStorage.setItem("couponData", JSON.stringify(couponData));
 
         toast.success("Coupon code applied successfully", {
           position: "top-right",

@@ -55,6 +55,40 @@ export const CartContextProvider: React.FC<CartContextProviderProps> = ({
     setCouponCodePercentageDiscountsAmount,
   ] = useState<string | number>("");
 
+  React.useEffect(() => {
+    // Retrieve couponData from localStorage on component mount
+    const storedCouponData = localStorage.getItem("couponData");
+    if (storedCouponData) {
+      const parsedData = JSON.parse(storedCouponData);
+      // setCouponData(parsedData);
+      setCouponCodePercentage(parsedData.couponCodePercentage || 0);
+      setIsCouponCodeApply(parsedData.isCouponCodeApply || false);
+      setTotalPaymentAmount(parsedData.totalPaymentAmount || 0);
+      setCouponCodePercentageDiscount(
+        parsedData.couponCodePercentageDiscount || ""
+      );
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const dataToStore = {
+      couponCodePercentage,
+      couponCodePercentageDiscount,
+      couponCodePercentageDiscountAmount,
+      isCouponCodeApply,
+      totalPaymentAmount,
+      keepTotalPaymentAmount,
+    };
+    localStorage.setItem("cartContextState", JSON.stringify(dataToStore));
+  }, [
+    couponCodePercentage,
+    couponCodePercentageDiscount,
+    couponCodePercentageDiscountAmount,
+    isCouponCodeApply,
+    totalPaymentAmount,
+    keepTotalPaymentAmount,
+  ]);
+
   return (
     <CartContext.Provider
       value={{

@@ -33,7 +33,9 @@ const page: React.FC = () => {
   const { auth, loading, err } = useAppSelector((state) => state.auth);
   const { send_otp } = useAppSelector((state) => state.auth);
   // const { otp_login, err, loading } = useAppSelector((state) => state.auth);
-  console.log("auth", auth);
+  console.log("auth---", auth);
+  console.log("auth err---", err);
+
   console.log("send_otp", send_otp);
 
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
@@ -55,7 +57,18 @@ const page: React.FC = () => {
       otp: otp,
       device_id: "test",
     };
-    dispatch(phoneNumberOtpLogin(params));
+    // dispatch(phoneNumberOtpLogin(params));
+    dispatch(phoneNumberOtpLogin(params))
+      .then((response) => {
+        console.log("OTP Login Response:", response?.payload?.error);
+        toast.error(response?.payload?.error, {
+          position: "top-right",
+          theme: "light",
+        });
+      })
+      .catch((error) => {
+        console.error("OTP Login Error:", error);
+      });
     setSubmitting(false); // Set submitting to false
   };
 
@@ -88,23 +101,7 @@ const page: React.FC = () => {
         });
       });
   };
-  // React.useEffect(() => {
-  //   if (otp_login) {
-  //     if (otp_login?.token) {
-  //       toast.success("Login successful!", {
-  //         position: "top-right",
-  //         theme: "light",
-  //       });
-  //       router.push("/");
-  //     }
-  //     if (err?.otp_login_err?.message) {
-  //       toast.error(err?.otp_login_err?.message, {
-  //         position: "top-right",
-  //         theme: "light",
-  //       });
-  //     }
-  //   }
-  // }, [otp_login, router]);
+
   React.useEffect(() => {
     if (auth) {
       if (auth?.token) {
@@ -114,14 +111,14 @@ const page: React.FC = () => {
         });
         router.push("/");
       }
-      if (err?.loginErr?.message) {
-        toast.error(err?.loginErr?.message, {
+      if (err?.loginErr?.error) {
+        toast.error(err?.loginErr?.error, {
           position: "top-right",
           theme: "light",
         });
       }
     }
-  }, [auth, router]);
+  }, [auth, router, err]);
 
   return (
     <div className={styles.twofactorContainer}>

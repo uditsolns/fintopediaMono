@@ -30,7 +30,7 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
   );
 
   const flattenedCourses = courseget_purchase.flat();
-  console.log("flattenedCourses", flattenedCourses);
+  // console.log("flattenedCourses", flattenedCourses);
 
   const isCoursePurchasedStatus = isCoursePurchased(
     flattenedCourses,

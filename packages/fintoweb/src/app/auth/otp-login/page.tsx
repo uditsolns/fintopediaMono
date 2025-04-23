@@ -28,7 +28,7 @@ const page: React.FC<LoginProps> = () => {
       router.push("/auth/verify-otp");
     }
 
-    if (err?.send_otp_err?.status_message) {
+    if (err?.send_otp_err?.error) {
       toast.error(err?.send_otp_err?.status_message, {
         position: "top-right",
         theme: "light",
