@@ -12,6 +12,7 @@ type SignupField = Pick<
   | "email"
   | "college"
   | "designation"
+  | "state_name"
 >;
 
 export const signupField: SignupField = {
@@ -50,6 +51,12 @@ export const signupField: SignupField = {
     label: "Designation",
     placeHolder: "Enter your Designation",
     requiredErr: "Designation is required",
+  },
+  state_name: {
+    name: "state_name",
+    label: "State Name",
+    placeHolder: "Select your state",
+    requiredErr: "State is required",
   },
   password: {
     name: "password",

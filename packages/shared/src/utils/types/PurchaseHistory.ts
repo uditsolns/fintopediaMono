@@ -19,7 +19,6 @@ export interface PurchaseHistoryFields {
   arn?: string;
   cardType?: string;
   brn?: string;
-  
   subtotal?: number | string;
   total_discount?: number | string;
   gst?: number | string;
@@ -28,6 +27,7 @@ export interface PurchaseHistoryFields {
 export interface PurchaseHistoryParams {
   params: PurchaseHistoryFields;
 }
+
 export interface PurchaseHistoryResponse {
   id: number;
   user_id: number;
@@ -43,9 +43,17 @@ export interface PurchaseHistoryResponse {
   accountType: string;
   pgTransactionId: string;
   pgServiceTransactionId: string;
-  receipt_no?: string;
   cardType: string;
-  grand_total?:number | string;
+  grand_total?: number | string;
+  invoice_no?: string;
+  receipt_no?: string;
+  subtotal: number | string;
+  total_discount: number | string;
+  cgst: number | string;
+  sgst: number | string;
+  igst: number | string;
+  gst: number | string;
+  download_invoice_url: number | string;
   user?: UserInfo | null;
   courses?: CoursesResponse[] | null;
 }

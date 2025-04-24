@@ -136,6 +136,7 @@ export interface SignupParams {
   email: string;
   college_id: string;
   designation: string;
+  state_name: string;
 }
 
 export interface ForgotPasswordParams {

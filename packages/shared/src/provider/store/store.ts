@@ -43,23 +43,16 @@ import contactReducer from "./reducers/contact.reducer";
 import completionPercentageReducer from "./reducers/completion-percentage.reducer";
 import coursesgetPurchaseReducer from "./reducers/coursesget-purchase.reducer";
 
-const isNative = Platform.OS !== "web";
-
 const persistConfig: any = {
   key: "fintopedia",
-  storage,
+  storage: storage, // Use platform-appropriate storage
   timeout: null,
-  whitelist: ["auth"],
+  // ⛔️ Remove whitelist if persisting all reducers
 };
 
-// const persistConfig: any = {
-//   key: "auth",
-//   storage,
-//   timeout: null,
-// };
-const reducers = combineReducers({
-  auth: persistReducer(persistConfig, authReducer),
-  users: persistReducer(persistConfig, usersReducer),
+const rootReducer = combineReducers({
+  auth: authReducer,
+  users: usersReducer,
   banner: bannerReducer,
   categories: categoriesReducer,
   college: collegesReducer,
@@ -68,12 +61,12 @@ const reducers = combineReducers({
   games: gamesReducer,
   gameUsers: gameusersReducer,
   news: newsReducer,
-  roundLevel: persistReducer(persistConfig, roundLevelReducer),
+  roundLevel: roundLevelReducer,
   stockData: stockdatasReducer,
   stocks: stocksReducer,
   transactions: transactionsReducer,
   userTransactions: userTransactionsReducer,
-  courseCart: persistReducer(persistConfig, courseCartReducer),
+  courseCart: courseCartReducer,
   purchaseHistory: purchaseHistoryReducer,
   userCertificate: userCertificateReducer,
   userCourseHistory: userCourseHistoryReducer,
@@ -97,18 +90,25 @@ const reducers = combineReducers({
   coursesgetPurchase: coursesgetPurchaseReducer,
 });
 
+// 👇 Apply persistReducer at the root level
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const middleware = (getDefaultMiddleware: any) => {
   if (
     process.env.NODE_ENV === "development" ||
     (typeof __DEV__ !== "undefined" && __DEV__)
   ) {
-    return getDefaultMiddleware().concat(errorMiddleware,logger);
+    return getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(errorMiddleware, logger);
   }
-  return getDefaultMiddleware().concat(errorMiddleware);
+  return getDefaultMiddleware({
+    serializableCheck: false,
+  }).concat(errorMiddleware);
 };
 
 export const store = configureStore({
-  reducer: reducers,
+  reducer: persistedReducer,
   middleware,
 });
 

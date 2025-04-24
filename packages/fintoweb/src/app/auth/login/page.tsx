@@ -78,18 +78,6 @@ const Login: React.FC<LoginProps> = () => {
     }
   }, []);
 
-  // const [mobileNumber, setMobileNumber] = useState<string>("9767169605");
-  // const [countryCode, setCountryCode] = useState<string>("+91");
-  // // Use useEffect to wait until OTPLESS SDK is loaded
-
-  // // Phone authentication function
-  // const phoneAuth2 = () => {
-  //   initiateLogin("9076049013", "+91");
-  // };
-  // const phoneAuth = () => {
-  //   initiateLogin(mobileNumber, countryCode);
-  // };
-
   useEffect(() => {
     const callback = (eventCallback: any) => {
       const EVENTS_MAP = {
@@ -212,7 +200,7 @@ const Login: React.FC<LoginProps> = () => {
                   </div>
                 </div>
                 <div className="text-center p-1">or</div>
-                <div className="mt-3 mb-3 row">
+                {/* <div className="mt-3 mb-3 row">
                   <div className="col-12">
                     <Button
                       type="submit"
@@ -225,7 +213,7 @@ const Login: React.FC<LoginProps> = () => {
                       Login with Google
                     </Button>
                   </div>
-                </div>
+                </div> */}
                 <div className="mt-3 mb-5 row">
                   <div className="col-12">
                     <Button
@@ -233,7 +221,7 @@ const Login: React.FC<LoginProps> = () => {
                       className={`${styles.guestButton} d-flex justify-content-center align-items-center`} // Added flex and centering classes
                       size="lg"
                       block
-                      onClick={() => handleSubmit()}
+                      onClick={() => router.push("/")}
                     >
                       Continue as guest
                     </Button>

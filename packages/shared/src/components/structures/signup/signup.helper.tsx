@@ -24,6 +24,7 @@ export const useSignupHelper = () => {
         role: "User",
         surname_name: values.surname_name,
         designation: values.designation,
+        state_name: values.state_name,
       };
       console.log("signup data ", data);
       dispatch(signUp(data));

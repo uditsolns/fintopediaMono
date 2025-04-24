@@ -17,6 +17,7 @@ import CircularLoading from "@src/components/loader/CircularLoading";
 import { getCollege } from "shared/src/provider/store/services/colleges.service";
 import GoogleIcon from "../../../assets/google.png";
 import Image from "next/image";
+import { SelectAtom } from "@src/components/atoms/select/SelectAtom";
 
 const Register: React.FC = () => {
   const router = useRouter();
@@ -34,7 +35,44 @@ const Register: React.FC = () => {
   useEffect(() => {
     dispatch(getCollege());
   }, []);
-
+  const IndianStates = [
+    { label: "Andhra Pradesh", value: "Andhra Pradesh" },
+    { label: "Arunachal Pradesh", value: "Arunachal Pradesh" },
+    { label: "Assam", value: "Assam" },
+    { label: "Bihar", value: "Bihar" },
+    { label: "Chhattisgarh", value: "Chhattisgarh" },
+    { label: "Goa", value: "Goa" },
+    { label: "Gujarat", value: "Gujarat" },
+    { label: "Haryana", value: "Haryana" },
+    { label: "Himachal Pradesh", value: "Himachal Pradesh" },
+    { label: "Jharkhand", value: "Jharkhand" },
+    { label: "Karnataka", value: "Karnataka" },
+    { label: "Kerala", value: "Kerala" },
+    { label: "Madhya Pradesh", value: "Madhya Pradesh" },
+    { label: "Maharashtra", value: "Maharashtra" },
+    { label: "Manipur", value: "Manipur" },
+    { label: "Meghalaya", value: "Meghalaya" },
+    { label: "Mizoram", value: "Mizoram" },
+    { label: "Nagaland", value: "Nagaland" },
+    { label: "Odisha", value: "Odisha" },
+    { label: "Punjab", value: "Punjab" },
+    { label: "Rajasthan", value: "Rajasthan" },
+    { label: "Sikkim", value: "Sikkim" },
+    { label: "Tamil Nadu", value: "Tamil Nadu" },
+    { label: "Telangana", value: "Telangana" },
+    { label: "Tripura", value: "Tripura" },
+    { label: "Uttar Pradesh", value: "Uttar Pradesh" },
+    { label: "Uttarakhand", value: "Uttarakhand" },
+    { label: "West Bengal", value: "West Bengal" },
+    { label: "Andaman and Nicobar Islands", value: "Andaman and Nicobar Islands" },
+    { label: "Chandigarh", value: "Chandigarh" },
+    { label: "Dadra and Nagar Haveli and Daman and Diu", value: "Dadra and Nagar Haveli and Daman and Diu" },
+    { label: "Delhi", value: "Delhi" },
+    { label: "Jammu and Kashmir", value: "Jammu and Kashmir" },
+    { label: "Ladakh", value: "Ladakh" },
+    { label: "Lakshadweep", value: "Lakshadweep" },
+    { label: "Puducherry", value: "Puducherry" },
+  ];
   useEffect(() => {
     if (signup?.token) {
       toast.success("Successfully Registered!", {
@@ -103,6 +141,16 @@ const Register: React.FC = () => {
                       label={signupField.phone.label}
                       placeholder={signupField.phone.placeHolder}
                       {...signupInputProps(signupField.phone.name)}
+                    />
+                  </Col>
+                </Row>
+                <Row className="form-group mt-3">
+                  <Col md={12}>
+                    <SelectAtom
+                      label={signupField.state_name.label}
+                      options={IndianStates}
+                      placeholder={signupField.state_name.placeHolder}
+                      {...signupInputProps(signupField.state_name.name)}
                     />
                   </Col>
                 </Row>

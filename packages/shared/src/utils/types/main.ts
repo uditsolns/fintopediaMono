@@ -95,6 +95,7 @@ export type Paramkeys =
   | "new_password"
   | "new_password_confirmation"
   | "device_id"
-  | "device_id_web";
+  | "device_id_web"
+  | "state_name";
 
 export type ModelParams = Record<Paramkeys, FormModel>;
