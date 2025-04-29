@@ -3,7 +3,7 @@ import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
 import { UserInfo, UserUpdateParams } from "../../../utils/types/auth";
 import { storeCurrentUser } from "../reducers/auth.reducer";
-import { signIn } from "./auth.service";
+import { clearUserData } from "../reducers/user.reducer";
 
 export const getUser = createAsyncThunk<UserInfo[], void, { state: RootState }>(
   "user/get",
@@ -45,6 +45,8 @@ export const getUserById = createAsyncThunk<
     });
     const data = (await response.json()) as UserInfo;
     thunkApi.dispatch(storeCurrentUser(data));
+    thunkApi.dispatch(clearUserData());
+
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);
@@ -66,16 +68,18 @@ export const updateUser = createAsyncThunk<
         Authorization: `Bearer ${token}`,
       },
       body: formData,
-    });
+    }); 
 
     const data = (await response.json()) as UserInfo;
     thunkApi.dispatch(storeCurrentUser(data));
     thunkApi.dispatch(getUserById({ id }));
+    thunkApi.dispatch(clearUserData());
     // const userData = {
     //   token: token,
     //   user: data,
     // };
     // thunkApi.dispatch(signIn(userData))
+    
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);

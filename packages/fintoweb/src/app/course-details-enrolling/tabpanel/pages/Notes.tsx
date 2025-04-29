@@ -167,7 +167,7 @@ const Notes: React.FC = () => {
         </div>
         <div className={styles.notesSection}>
           {course_notes && course_notes.length > 0 ? (
-            course_notes.map((note, index) => (
+            course_notes?.map((note, index) => (
               <div key={index}>
                 <div key={note.id} className={styles.notesPreview}>
                   <span>

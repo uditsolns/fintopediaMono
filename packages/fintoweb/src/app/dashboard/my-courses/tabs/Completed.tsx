@@ -9,9 +9,10 @@ import {
   CopyToClipboard,
   DownloadCertificate,
 } from "shared/src/components/certificate-dawnload/DownloadCertificate";
-import ViewCertiicate from "./ViewCertiicate";
+import { useRouter } from "next/navigation";
 
 const Completed = () => {
+  const router = useRouter();
   const { userCertificate } = useAppSelector((state) => state.userCertificate);
 
   const [modal, setModal] = React.useState(false);
@@ -67,7 +68,14 @@ const Completed = () => {
           return (
             <Card key={index} className={styles.card}>
               <div className="grid md:grid-cols-2">
-                <div className={styles.left}>
+                <div
+                  className={styles.left}
+                  onClick={() =>
+                    router.push(
+                      `/course-details-enrolling/${course?.course?.id}`
+                    )
+                  }
+                >
                   <Image
                     src={`${imageUrl}/uploads/course_images/${course?.course?.course_image}`}
                     alt={course?.course?.name}
@@ -77,7 +85,14 @@ const Completed = () => {
                   />
                 </div>
                 <div className={styles.right}>
-                  <div className="space-y-2">
+                  <div
+                    className="space-y-2"
+                    onClick={() =>
+                      router.push(
+                        `/course-details-enrolling/${course?.course?.id}`
+                      )
+                    }
+                  >
                     <h3 className={styles.title}>{course?.course?.name}</h3>
                   </div>
                   <div className={styles.certificateInput}>
