@@ -12,9 +12,8 @@ import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import * as React from 'react';
 import {View} from 'react-native';
-import {headlessModule} from './OtpLogin';
 import {colorPresets} from '@shared/src/theme/color';
-import { Toast } from 'react-native-toast-notifications';
+import {Toast} from 'react-native-toast-notifications';
 
 interface OTPProps extends NavType<'OTP'> {}
 
@@ -22,29 +21,6 @@ export const OTP: React.FC<OTPProps> = ({navigation}) => {
   const {otp, phoneNumber} = useOtplessContext();
   const [textInputValues, setTextInputValues] = React.useState('');
   const [time, setTime] = React.useState<number>(60);
-  // console.log(phoneNumber, otp);
-
-  const startPhoneAuth = (phoneNumber: string, countryCode: string) => {
-    const request = {
-      phone: phoneNumber,
-      countryCode,
-    };
-    headlessModule.start(request);
-  };
-
-  const verifyPhoneOtp = (
-    phoneNumber: string,
-    countryCode: string,
-    otp: string,
-  ) => {
-    const request = {
-      phone: phoneNumber,
-      countryCode,
-      otp,
-    };
-    console.log(request)
-    headlessModule.start(request);
-  };
 
   const handleValuesChange = (values: any) => {
     setTextInputValues(values);
@@ -80,12 +56,7 @@ export const OTP: React.FC<OTPProps> = ({navigation}) => {
           </View>
           <TextInputBox otp={otp ?? ''} onChange={handleValuesChange} />
           <View style={{marginTop: mScale.xxl2}}>
-            <ButtonAtom
-              title="Verify"
-              onPress={() => {
-                verifyPhoneOtp(`${phoneNumber}`, '+91', `${otp}`);
-              }}
-            />
+            <ButtonAtom title="Verify" onPress={() => {}} />
             <ButtonAtom
               title="Canecl"
               preset="secondary"
@@ -112,7 +83,6 @@ export const OTP: React.FC<OTPProps> = ({navigation}) => {
                 onPress={() => {
                   if (!time) {
                     console.log('resed');
-                    startPhoneAuth(`${phoneNumber}`, '+91');
                     Toast.show(
                       'OTP has been sent to the registered mobile number.',
                       {
