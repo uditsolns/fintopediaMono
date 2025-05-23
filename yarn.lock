@@ -7456,7 +7456,7 @@ __metadata:
     redux-persist: ^6.0.0
     shared: "*"
     typescript: 5.0.4
-    vdocipher-rn-bridge: ^1.21.2
+    vdocipher-rn-bridge: ^1.21.4
     yup: ^1.4.0
   languageName: unknown
   linkType: soft
@@ -13662,15 +13662,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vdocipher-rn-bridge@npm:^1.21.2":
-  version: 1.21.2
-  resolution: "vdocipher-rn-bridge@npm:1.21.2"
+"vdocipher-rn-bridge@npm:^1.21.4":
+  version: 1.21.4
+  resolution: "vdocipher-rn-bridge@npm:1.21.4"
   dependencies:
     deprecated-react-native-prop-types: ^2.3.0
     prop-types: ^15.6.2
   peerDependencies:
-    react-native: 0.68 - 0.76
-  checksum: 414a8991e4061a65a11de1bd8624bf64f6535cdbbab8fa2864cf1bace52307c5c0610599f37951e427058fe4011078daa49082460bc30b2bc08d96e291c86625
+    react-native: 0.68 - 0.79
+  checksum: db24cee91438c03eea68ae66208efe4b5d64c763da315bf556a7834784f9505630f1b1c0c5891185dcb547f372b86c83c5b49832df991e3461a8126fbb78bf94
   languageName: node
   linkType: hard
 
