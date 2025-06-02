@@ -208,7 +208,7 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
           <View style={{marginVertical: mScale.md, alignSelf: 'center'}}>
             <TextAtom text={'or'} preset="medium" />
           </View>
-          <ButtonAtom title="Continue as guest" preset="secondary" />
+          {/* <ButtonAtom title="Continue as guest" preset="secondary" /> */}
           <View style={{marginVertical: mScale.lg}}>
             <FollowUsMolecule />
           </View>

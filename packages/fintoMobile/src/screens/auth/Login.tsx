@@ -262,7 +262,7 @@ export const Login: React.FC<LoginProps> = ({navigation}) => {
             loading={loading.google_login ? true : false}
             loadingColor={colorPresets.CTA}
           />
-          <ButtonAtom title="Continue as guest" preset="secondary" />
+          {/* <ButtonAtom title="Continue as guest" preset="secondary" /> */}
           <View style={[commonStyle.flexCenter, {marginTop: mScale.base}]}>
             <TextAtom text={`Don't have an account ? `} preset="medium" />
             <LinkButton

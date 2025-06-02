@@ -26,6 +26,7 @@ export const OtpLogin: React.FC<OtpLoginProps> = ({navigation}) => {
   const {phoneVerifyFormik, phoneVerifyInputProps} = usePhoneVerifyHelper();
   const {handleSubmit} = phoneVerifyFormik;
   const {setOtp, setPhoneNumber} = useOtplessContext();
+  console.log(verify_mobile);
   React.useEffect(() => {
     if (verify_mobile) {
       if (verify_mobile?.message) {
