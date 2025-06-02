@@ -23,7 +23,7 @@ export const signIn = createAsyncThunk<
   AuthResponse,
   AuthParams,
   { state: RootState }
->("auth/signin", async (params, thunkApi) => { 
+>("auth/signin", async (params, thunkApi) => {
   try {
     const response = await fetch(apiUrl.AUTH.LOGIN, {
       method: "POST",
@@ -42,7 +42,7 @@ export const signIn = createAsyncThunk<
     return thunkApi.rejectWithValue(error);
   }
 });
- 
+
 export const googleSignIn = createAsyncThunk<
   AuthResponse,
   ForgotPasswordParams,
@@ -81,7 +81,7 @@ export const signUp = createAsyncThunk<
       return thunkApi.rejectWithValue(await response.json());
     }
     const data = (await response.json()) as AuthResponse;
- 
+
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);
@@ -90,7 +90,7 @@ export const signUp = createAsyncThunk<
 
 export const forgotPassword = createAsyncThunk<
   ForgotPasswordResponse,
-  { email: string },
+  { phone: string | number },
   { state: RootState }
 >("auth/forgot", async (params, thunkApi) => {
   try {
@@ -126,7 +126,6 @@ export const confirmPassword = createAsyncThunk<
       },
       body: JSON.stringify(params),
     });
-
     const data = (await response.json()) as UpdatePasswordResponse;
     onSuccess(data);
     return data;
@@ -186,7 +185,6 @@ export const phoneNumberOtpLogin = createAsyncThunk<
   { state: RootState }
 >("auth/phoneNumberOtpLogin", async (params, thunkApi) => {
   console.log("phoneNumberOtpLogin params", params);
-
   try {
     const response = await fetch(apiUrl.AUTH.OTPLOGIN, {
       method: "POST",
@@ -198,6 +196,33 @@ export const phoneNumberOtpLogin = createAsyncThunk<
 
     const data = (await response.json()) as any;
     console.log("phoneNumberOtpLogin response", data);
+    if (data?.user?.id) {
+      thunkApi.dispatch(storeCurrentUser(data?.user as UserInfo));
+    }
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
+export const sendOtpLogin = createAsyncThunk<
+  any,
+  OtpLoginParams,
+  { state: RootState }
+>("auth/sendOtpLogin", async (params, thunkApi) => {
+  console.log("sendOtpLogin payload", params);
+  try {
+    const response = await fetch(apiUrl.AUTH.SENDOTP, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    });
+    // if (response.status !== 200) {
+    //   return thunkApi.rejectWithValue(await response.json());
+    // }
+    const data = (await response.json()) as any;
 
     return data;
   } catch (error) {

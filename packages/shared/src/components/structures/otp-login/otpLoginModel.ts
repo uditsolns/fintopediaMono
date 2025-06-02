@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { ModelParams } from "../../../utils/types/main";
 
-type OtpLoginField = Pick<ModelParams, "phone" | "device_id">;
+type OtpLoginField = Pick<ModelParams, "phone" | "device_id" | "otp">;
 
 export const otpLoginField: OtpLoginField = {
   phone: {
@@ -12,11 +12,16 @@ export const otpLoginField: OtpLoginField = {
   },
   device_id: {
     name: "device_id",
-    label: "",
-    placeHolder: "",
-    requiredErr: "",
+    label: "otp",
+    placeHolder: "otp",
+    requiredErr: "otp",
   },
-  
+  otp: {
+    name: "otp",
+    label: "otp",
+    placeHolder: "otp",
+    requiredErr: "otp",
+  },
 };
 
 export type OtpLoginValues = {

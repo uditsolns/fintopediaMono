@@ -11,6 +11,7 @@ export interface AuthState {
     verifyOtp: boolean;
     verify_mobile: boolean;
     otp_login: boolean;
+    send_otp: boolean;
   };
   err: {
     loginErr: any;
@@ -22,6 +23,7 @@ export interface AuthState {
     verifyOtpErr: any;
     verify_mobile_err: any;
     otp_login_err: any;
+    send_otp_err: any;
   };
   token?: string | null;
   auth: AuthResponse | null;
@@ -32,6 +34,7 @@ export interface AuthState {
   verifyOtp: VerifyOtpResponse | null;
   verify_mobile: any;
   otp_login: AuthResponse | null;
+  send_otp: any;
 }
 
 export interface AuthParams {
@@ -45,9 +48,6 @@ export interface AuthResponse {
   user: UserInfo;
   token: string;
 }
-// export interface AuthErrorResponse {
-//   message: string;
-// }
 
 export interface UpdatePasswordResponse {
   code: number;
@@ -59,11 +59,11 @@ export interface ForgotPasswordResponse {
   code: number;
   status: string;
   status_message: string;
-  email: string;
-  otp: number;
+  phone: string;
+  otp?: number;
 }
 export interface VerifyOtpParams {
-  email: string;
+  phone: string | number;
   otp: string;
   new_password: string;
   new_password_confirmation: string;
@@ -136,7 +136,7 @@ export interface SignupParams {
 }
 
 export interface ForgotPasswordParams {
-  email: string;
+  phone: string | number;
 }
 export interface OtpLoginParams {
   phone: string | number;
@@ -145,6 +145,7 @@ export interface OtpLoginParams {
 export interface OtpLoginParams2 {
   phone: string | number;
   device_id: string | null;
+  otp: string | null;
 }
 export interface OnSuccessInterface {
   onSuccess: (data: any) => void;

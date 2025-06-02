@@ -4,6 +4,7 @@ import {
   forgotPassword,
   googleSignIn,
   phoneNumberOtpLogin,
+  sendOtpLogin,
   signIn,
   signUp,
   VerifyOtp,
@@ -22,6 +23,7 @@ const initialState: AuthState = {
     verifyOtp: false,
     verify_mobile: false,
     otp_login: false,
+    send_otp: false,
   },
   err: {
     loginErr: null,
@@ -33,6 +35,7 @@ const initialState: AuthState = {
     verifyOtpErr: null,
     verify_mobile_err: null,
     otp_login_err: null,
+    send_otp_err: null,
   },
   auth: null,
   signup: null,
@@ -42,6 +45,7 @@ const initialState: AuthState = {
   verifyOtp: null,
   verify_mobile: null,
   otp_login: null,
+  send_otp: null,
 };
 
 const authSlice = createSlice({
@@ -67,8 +71,8 @@ const authSlice = createSlice({
       })
       .addCase(signIn.fulfilled, (state, action) => {
         state.loading.login = false;
-        state.auth = action.payload;
         state.err.loginErr = null;
+        state.auth = action.payload;
         state.current_user = action.payload.user;
       })
       .addCase(signIn.rejected, (state, action) => {
@@ -152,6 +156,7 @@ const authSlice = createSlice({
       .addCase(verifyPhoneNumber.rejected, (state, action) => {
         state.loading.verify_mobile = false;
         state.err.verify_mobile_err = action?.payload;
+        state.verify_mobile = null;
       })
       .addCase(phoneNumberOtpLogin.pending, (state) => {
         state.loading.otp_login = true;
@@ -160,11 +165,30 @@ const authSlice = createSlice({
       .addCase(phoneNumberOtpLogin.fulfilled, (state, action) => {
         state.loading.otp_login = false;
         state.otp_login = action.payload;
+        if (action?.payload?.user?.id) {
+          state.auth = action.payload;
+          state.current_user = action.payload?.user;
+        }
         state.err.otp_login_err = null;
       })
       .addCase(phoneNumberOtpLogin.rejected, (state, action) => {
         state.loading.otp_login = false;
         state.err.otp_login_err = action?.payload;
+        state.otp_login = null;
+      })
+      .addCase(sendOtpLogin.pending, (state) => {
+        state.loading.send_otp = true;
+        state.err.send_otp_err = null;
+      })
+      .addCase(sendOtpLogin.fulfilled, (state, action) => {
+        state.loading.send_otp = false;
+        state.send_otp = action.payload;
+        state.err.send_otp_err = null;
+      })
+      .addCase(sendOtpLogin.rejected, (state, action) => {
+        state.loading.send_otp = false;
+        state.err.send_otp_err = action?.payload;
+        state.send_otp = null;
       });
   },
 });

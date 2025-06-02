@@ -3,15 +3,15 @@ import { ModelParams } from "../../../utils/types/main";
 
 type ResetField = Pick<
   ModelParams,
-  "email" | "otp" | "new_password" | "new_password_confirmation"
+  "phone" | "otp" | "new_password" | "new_password_confirmation"
 >;
 
 export const resetField: ResetField = {
-  email: {
-    name: "email",
-    label: "Email",
-    placeHolder: "Enter your email",
-    requiredErr: "Email is required",
+  phone: {
+    name: "phone",
+    label: "Phone",
+    placeHolder: "Enter your phone",
+    requiredErr: "Phone is required",
   },
   otp: {
     name: "otp",
@@ -38,7 +38,7 @@ export type ResetValues = {
 };
 
 export const RESET_VALUES = {
-  [resetField.email.name]: "",
+  [resetField.phone.name]: "",
   [resetField.otp.name]: "",
   [resetField.new_password.name]: "",
   [resetField.new_password_confirmation.name]: "",

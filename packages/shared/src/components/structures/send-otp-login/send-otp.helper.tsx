@@ -1,27 +1,27 @@
 import { useFormik } from "formik";
-import { ForgotPasswordParams } from "../../../utils/types/auth";
-import { FORGOT_VALUES, forgotValidation } from "./forgotModel";
+import { SENDOTP_VALUES, sendOtpValidation } from "./sendOtpModal";
 import { useAppDispatch } from "../../../provider/store/types/storeTypes";
-import { forgotPassword, } from "../../../provider/store/services/auth.service";
 import { InputAtomProps } from "../../atoms/Input/InputAtom";
+import { OtpLoginParams } from "../../../utils/types/auth";
+import { sendOtpLogin } from "../../../provider/store/services/auth.service";
 
-export const useForgotHelper = () => {
-  type dataType = keyof typeof FORGOT_VALUES;
+export const useSendOtpHelper = () => {
+  type dataType = keyof typeof SENDOTP_VALUES;
 
   const dispatch = useAppDispatch();
-  const forgotFormik = useFormik({
-    initialValues: FORGOT_VALUES,
-    validationSchema: forgotValidation,
+  const sendOtpFormik = useFormik({
+    initialValues: SENDOTP_VALUES,
+    validationSchema: sendOtpValidation,
     onSubmit: (values) => {
-      let data: ForgotPasswordParams = {
-        phone: values?.phone,
+      let params: OtpLoginParams = {
+        phone: values.phone,
       };
-      console.log("forgotPassword payload",data)
-      dispatch(forgotPassword(data));
+      dispatch(sendOtpLogin(params));
     },
   });
 
-  const { setFieldTouched, values, touched, errors, handleChange } = forgotFormik;
+  const { setFieldTouched, values, touched, errors, handleChange } =
+    sendOtpFormik;
 
   const _onBlur = (key: string) => {
     setFieldTouched(key);
@@ -30,7 +30,7 @@ export const useForgotHelper = () => {
     return touched[key] && errors[key] ? errors[key] : "";
   };
 
-  const forgotInputProps = (
+  const sendOtpInputProps = (
     key: dataType
   ): Partial<Record<keyof InputAtomProps, any>> => {
     return {
@@ -47,7 +47,7 @@ export const useForgotHelper = () => {
   };
 
   return {
-    forgotFormik,
-    forgotInputProps,
+    sendOtpFormik,
+    sendOtpInputProps,
   };
 };

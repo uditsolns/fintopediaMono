@@ -16,6 +16,7 @@ export const useOtpLoginHelper = () => {
       let params: OtpLoginParams2 = {
         phone: values.phone,
         device_id: values.device_id,
+        otp: values?.otp,
       };
       dispatch(phoneNumberOtpLogin(params));
     },

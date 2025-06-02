@@ -16,6 +16,7 @@ import {resetField} from '@shared/src/components/structures/reset-password/reset
 import {number} from 'yup';
 import {Toast} from 'react-native-toast-notifications';
 import {RouteKeys} from '@src/navigation/RouteKeys';
+import {useOtplessContext} from '@src/components/context/OtplessContextApi';
 
 interface ResetPasswordProps extends NavType<'ResetPassword'> {}
 
@@ -23,6 +24,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({
   navigation,
   route,
 }) => {
+  const {phoneNumber} = useOtplessContext();
   const {verifyOtp, loading} = useAppSelector(state => state.auth);
   const {resetFormik, resetInputProps} = useResetPasswordHelper();
   const {handleSubmit, setFieldValue} = resetFormik;
@@ -45,7 +47,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({
   }, [verifyOtp]);
 
   React.useEffect(() => {
-    setFieldValue(resetField.email.name, data?.email || '');
+    setFieldValue(resetField.phone.name, phoneNumber || '');
     setFieldValue(resetField.otp.name, `${data?.otp}` || '');
   }, []);
   return (

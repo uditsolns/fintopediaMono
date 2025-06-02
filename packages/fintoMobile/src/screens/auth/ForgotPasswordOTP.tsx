@@ -10,6 +10,7 @@ import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {colorPresets} from '@shared/src/theme/color';
 import {mScale} from '@shared/src/theme/metrics';
 import {LinkButton} from '@src/components/Button/LinkButton';
+import {useOtplessContext} from '@src/components/context/OtplessContextApi';
 import TextInputBox from '@src/components/Input/TextInputBox';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
@@ -24,13 +25,14 @@ export const ForgotPasswordOTP: React.FC<ForgotPasswordOTPProps> = ({
   navigation,
   route,
 }) => {
+  const {phoneNumber} = useOtplessContext();
   const data = route?.params?.data;
   const {forgotFormik} = useForgotHelper();
   const {handleSubmit, setFieldValue} = forgotFormik;
   const {forgot, loading} = useAppSelector(state => state.auth);
   const [textInputValues, setTextInputValues] = React.useState<string[]>([]);
   const [otpData, setOtpData] = React.useState(forgot ? forgot : data);
-  const [time, setTime] = React.useState<number>(10);
+  const [time, setTime] = React.useState<number>(60);
 
   const handleValuesChange = (values: string[]) => {
     setTextInputValues(values);
@@ -46,7 +48,7 @@ export const ForgotPasswordOTP: React.FC<ForgotPasswordOTPProps> = ({
   }, [time]);
 
   React.useEffect(() => {
-    setFieldValue(forgotField.email.name, otpData?.email || '');
+    setFieldValue(forgotField.phone.name, phoneNumber || '');
   }, []);
   return (
     <GradientTemplate>
@@ -67,8 +69,8 @@ export const ForgotPasswordOTP: React.FC<ForgotPasswordOTPProps> = ({
               style={{textAlign: 'center'}}
             />
             <TextAtom
-              text={`Enter the 6-digit code sent to your register email id ${
-                data?.email || ''
+              text={`Enter the 6-digit code sent to your registered phone number ${
+                phoneNumber || ''
               }`}
               preset="medium"
               style={{textAlign: 'center', marginTop: mScale.sm}}
@@ -123,8 +125,9 @@ export const ForgotPasswordOTP: React.FC<ForgotPasswordOTPProps> = ({
                 loading={time ? true : false}
                 linkColor={time ? colorPresets.GRAY3 : colorPresets.PRIMARY}
                 onPress={() => {
+                  setFieldValue(forgotField.phone.name, phoneNumber || '');
+                  setTime(60);
                   handleSubmit();
-                  forgotFormik.resetForm();
                 }}
               />
               <TextAtom

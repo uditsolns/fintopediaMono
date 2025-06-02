@@ -4,14 +4,13 @@ import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
 import {mScale} from '@shared/src/theme/metrics';
-import {LinkButton} from '@src/components/Button/LinkButton';
 import {InputAtom} from '@src/components/Input/InputAtom';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import * as React from 'react';
 import {Platform, View} from 'react-native';
-import {usePhoneVerifyHelper} from '@shared/src/components/structures/phone-verify/phone-verify.helper';
-import {phoneVerifyField} from '@shared/src/components/structures/phone-verify/phoneVerifyModel';
+import {useSendOtpHelper} from '@shared/src/components/structures/send-otp-login/send-otp.helper';
+import {sendOtpField} from '@shared/src/components/structures/send-otp-login/sendOtpModal';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {Toast} from 'react-native-toast-notifications';
 import LoaderAtom from '@src/components/LoaderAtom';
@@ -22,25 +21,26 @@ import {useOtplessContext} from '@src/components/context/OtplessContextApi';
 interface OtpLoginProps extends NavType<'OtpLogin'> {}
 
 export const OtpLogin: React.FC<OtpLoginProps> = ({navigation}) => {
-  const {verify_mobile, loading, err} = useAppSelector(state => state.auth);
-  const {phoneVerifyFormik, phoneVerifyInputProps} = usePhoneVerifyHelper();
-  const {handleSubmit} = phoneVerifyFormik;
-  const {setOtp, setPhoneNumber} = useOtplessContext();
-  console.log(verify_mobile);
+  const {send_otp, loading, err} = useAppSelector(state => state.auth);
+  const {sendOtpFormik, sendOtpInputProps} = useSendOtpHelper();
+  const {handleSubmit, isSubmitting} = sendOtpFormik;
+  const {setPhoneNumber} = useOtplessContext();
+
   React.useEffect(() => {
-    if (verify_mobile) {
-      if (verify_mobile?.message) {
-      } else {
-        Toast.show(verify_mobile?.error, {
-          type: 'error',
-        });
+    if (send_otp) {
+      Toast.show(send_otp?.status_message, {
+        type: send_otp?.status == 'success' ? 'success' : 'error',
+      });
+      if (send_otp?.code === 200 && send_otp?.status === 'success') {
+        setPhoneNumber(send_otp?.phone);
+        navigation.navigate(RouteKeys.OTPSCREEN);
       }
     }
-  }, [verify_mobile]);
+  }, [send_otp]); 
 
   return (
     <GradientTemplate>
-      {loading.verify_mobile ? (
+      {loading.send_otp ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>
@@ -65,9 +65,9 @@ export const OtpLogin: React.FC<OtpLoginProps> = ({navigation}) => {
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               shape="square"
-              {...phoneVerifyInputProps(phoneVerifyField.phone.name)}
-              label={phoneVerifyField.phone.label}
-              placeholder={phoneVerifyField.phone.placeHolder}
+              {...sendOtpInputProps(sendOtpField.phone.name)}
+              label={sendOtpField.phone.label}
+              placeholder={sendOtpField.phone.placeHolder}
               keyboardType="number-pad"
               maxLength={10}
             />
@@ -75,10 +75,10 @@ export const OtpLogin: React.FC<OtpLoginProps> = ({navigation}) => {
           <ButtonAtom
             title="Send OTP"
             onPress={() => {
-              setPhoneNumber(phoneVerifyFormik.values?.phone);
+              setPhoneNumber(sendOtpFormik.values?.phone);
               handleSubmit();
             }}
-            loading={loading?.forgot}
+            loading={loading?.send_otp ? true : false}
           />
         </View>
       </ScrollViewAtom>

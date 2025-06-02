@@ -15,8 +15,9 @@ export default {
     FORGOTCONFIRM: buildUrl("update-password"),
     GOOGLE: buildUrl("google-login"),
     VERIFYOTP: buildUrl("verifyOtp"),
-    VERIFYMOBILENUMBER:buildUrl("verify_mobileno"),
-    OTPLOGIN:buildUrl("login_otp"),
+    VERIFYMOBILENUMBER: buildUrl("verify_mobileno"),
+    SENDOTP: buildUrl("send_otp"),
+    OTPLOGIN: buildUrl("login_otp"),
   },
   USER: {
     GET: buildUrl("users"),
@@ -72,7 +73,10 @@ export default {
     DELETE: buildUrl("user_certificate"),
   },
   DOWNLOAD_CERTIFICATE: {
-    GET: buildUrl("downloadcertificate"),
+    GET: buildUrl("downloadcertificate_view"),
+  },
+  DOWNLOAD_RECEIPT: {
+    GET: buildUrl("receipt_view"),
   },
   COURSE_SAVE_LATER: {
     GET: buildUrl("courses_save_later"),

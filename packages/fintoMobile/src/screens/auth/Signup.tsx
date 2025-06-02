@@ -25,37 +25,7 @@ import {getCollege} from '@shared/src/provider/store/services/colleges.service';
 import {ScrollViewAtom} from 'shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
 interface SignupProps extends NavType<'Singup'> {}
-interface Category {
-  id: number;
-  name: string;
-}
-
-export const CategoriesArr: Category[] = [
-  {
-    id: 1,
-    name: 'Investment strategy',
-  },
-  {
-    id: 2,
-    name: 'Finance',
-  },
-  {
-    id: 3,
-    name: 'Mutual funds',
-  },
-  {
-    id: 4,
-    name: 'Stock trading',
-  },
-  {
-    id: 5,
-    name: 'Investment',
-  },
-  {
-    id: 6,
-    name: 'Money Market',
-  },
-];
+;
 
 export const Signup: React.FC<SignupProps> = ({navigation}) => {
   const dispatch = useAppDispatch();

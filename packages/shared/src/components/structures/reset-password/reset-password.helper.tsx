@@ -15,7 +15,7 @@ export const useResetPasswordHelper = () => {
     validationSchema: resetValidation,
     onSubmit: (values) => {
       let data: VerifyOtpParams = {
-        email: values.email,
+        phone: values.phone,
         otp: values.otp,
         new_password: values.new_password,
         new_password_confirmation: values.new_password_confirmation,
