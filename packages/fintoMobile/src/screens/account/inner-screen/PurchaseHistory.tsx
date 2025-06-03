@@ -1,6 +1,6 @@
 import {commonStyle} from '@shared/src/commonStyle';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import {getPurchaseHistory} from '@shared/src/provider/store/services/PurchaseHistory.service';
+import apiUrl from '@shared/src/config/apiUrl';
 import {getUserCourseHistory} from '@shared/src/provider/store/services/UserCourseHistory.service';
 import {
   useAppDispatch,
@@ -11,6 +11,7 @@ import {UserCourseHistoryResponse} from '@shared/src/utils/types/UserCourseHisto
 import {pdfPermission} from '@src/components/DownloadPdf/DownloadPdf';
 import LoaderAtom from '@src/components/LoaderAtom';
 import PurchaseHistoryMolecule from '@src/components/molecules/PurchaseHistoryMolecule/PurchaseHistoryMolecule';
+import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import React from 'react';
 import {FlatList, View} from 'react-native';
@@ -43,7 +44,16 @@ export const PurchaseHistory: React.FC<PurchaseHistoryProps> = ({
     let extensionType = url?.split('.')?.pop();
 
     const download = async () => {
-      await pdfPermission({mime, url, title, extensionType});
+      let receiptUrl =
+        // apiUrl.DOWNLOAD_RECEIPT + '/' + item?.purchase_history?.receipt_no;
+        'https://nivada.in/hiring-management-backend/public/api/v1/receipt_view/REC20250329FSP9EJ';
+      let body = {
+        upload_file: receiptUrl || '',
+        course_name: item?.course?.name || '',
+        user_name: item?.user?.first_name || '',
+      };
+      // navigation.navigate(RouteKeys.VIEWPDFSCREEN, {data: body});
+      // await pdfPermission({mime, url, title, extensionType});
     };
     return <PurchaseHistoryMolecule item={item} onPress={download} />;
   };
@@ -54,22 +64,21 @@ export const PurchaseHistory: React.FC<PurchaseHistoryProps> = ({
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
-      <View style={{marginTop:mScale.lg}}>
-
-      <FlatList
-        data={
-          user_course_history?.length
-            ? user_course_history?.filter(el => el?.user_id == auth?.user?.id)
-            : []
-        }
-        renderItem={renderItem}
-        contentContainerStyle={{
-          gap: mScale.lg1,
-        }}
-        refreshing={refreshLoading}
-        onRefresh={onRefresh}
-        showsVerticalScrollIndicator={false}
-      />
+      <View style={{marginTop: mScale.lg}}>
+        <FlatList
+          data={
+            user_course_history?.length
+              ? user_course_history?.filter(el => el?.user_id == auth?.user?.id)
+              : []
+          }
+          renderItem={renderItem}
+          contentContainerStyle={{
+            gap: mScale.lg1,
+          }}
+          refreshing={refreshLoading}
+          onRefresh={onRefresh}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
     </GradientTemplate>
   );

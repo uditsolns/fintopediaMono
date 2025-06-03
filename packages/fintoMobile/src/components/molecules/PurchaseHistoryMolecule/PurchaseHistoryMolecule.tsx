@@ -44,12 +44,7 @@ const PurchaseHistoryMolecule: React.FC<PurchaseHistoryMoleculeProps> = ({
               numberOfLines={2}
             />
           </View>
-          {/* <Pressable>
-            <GradientBorderBox linearColor={[colorPresets.GRAY,colorPresets.TRANSPARENT]} borderRadium={4}>
-              <TextAtom text='Receipt' style={{paddingVertical:mScale.md2,paddingHorizontal:mScale.lg}} />
-            </GradientBorderBox>
-          </Pressable> */}
-          <ButtonAtom
+                   <ButtonAtom
             title={'Receipt'}
             textPreset={'titleBold'}
             onPress={onPress}

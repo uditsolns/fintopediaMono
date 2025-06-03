@@ -78,6 +78,9 @@ export default {
   DOWNLOAD_RECEIPT: {
     GET: buildUrl("receipt_view"),
   },
+  DOWNLOAD_INVOICE: {
+    GET: buildUrl("invoice_view"),
+  },
   COURSE_SAVE_LATER: {
     GET: buildUrl("courses_save_later"),
     POST: buildUrl("courses_save_later"),
