@@ -66,8 +66,8 @@ export default function DashboardLayout({
           </a>
         </h1>
         <div className={styles.redeemCard}>
-          <h1>Fintopedia Credits: 500</h1>
-          <p>You can use your credits to buy your next course!</p>
+          <h1>Extra 5</h1>
+          <p>You can use this code on next purchase</p>
           <button className={styles.redeemButton}>Redeem now</button>
         </div>
         <nav className={`${styles.navBar} "flex-grow-1"}`}>

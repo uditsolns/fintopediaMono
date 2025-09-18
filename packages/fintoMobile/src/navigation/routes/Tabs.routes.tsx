@@ -75,7 +75,7 @@ export const TabsRoutes: React.FC<TabsRoutesProps> = ({}) => {
         name={TabKeys.MYCOURSESSCREEN}
         component={MyCourses as React.FC}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         options={{
           headerShown: false,
           tabBarIcon: props => (
@@ -85,7 +85,7 @@ export const TabsRoutes: React.FC<TabsRoutesProps> = ({}) => {
         }}
         name={TabKeys.MOCKTRADESCREEN}
         component={MockTrade as React.FC}
-      />
+      /> */}
       <Tabs.Screen
         options={{
           headerShown: false,

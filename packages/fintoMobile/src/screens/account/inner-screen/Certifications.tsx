@@ -1,4 +1,5 @@
 import {commonStyle} from '@shared/src/commonStyle';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {getUserCertificate} from '@shared/src/provider/store/services/UserCertificate.service';
 import {
@@ -55,6 +56,16 @@ export const Certifications: React.FC<CertificationsProps> = ({navigation}) => {
         }}
         refreshing={refreshLoading}
         onRefresh={onRefresh}
+        ListEmptyComponent={() => {
+          return (
+            <View style={[commonStyle.flexCenter, {flex: 1}]}>
+              <TextAtom
+                text={'You don’t have any certificates yet'}
+                preset="heading4"
+              />
+            </View>
+          );
+        }}
       />
     </GradientTemplate>
   );

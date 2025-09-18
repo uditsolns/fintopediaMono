@@ -44,7 +44,7 @@ const PurchaseHistory = () => {
       ) : (
         <div>
           <div className={styles.container}>
-            <h1 className={styles.title}>Fintopedia Credits: 500</h1>
+            <h1 className={styles.title}>Extra 5</h1>
             <Table className={styles.table}>
               <thead>
                 <tr>

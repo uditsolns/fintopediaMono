@@ -39,16 +39,16 @@ const profileItems = [
     name: 'Certifications',
     route: RouteKeys.CERTIFICATIONSSCREEN,
   },
-  {
-    component: <Images.SVG.ReferIcon />,
-    name: 'Refer and Earn',
-    route: RouteKeys.REFERANDEARNSCREEN,
-  },
-  {
-    component: <Images.SVG.MembershipIcon />,
-    name: 'Membership type',
-    route: RouteKeys.MEMBERSHIPTYPESCREEN,
-  },
+  // {
+  //   component: <Images.SVG.ReferIcon />,
+  //   name: 'Refer and Earn',
+  //   route: RouteKeys.REFERANDEARNSCREEN,
+  // },
+  // {
+  //   component: <Images.SVG.MembershipIcon />,
+  //   name: 'Membership type',
+  //   route: RouteKeys.MEMBERSHIPTYPESCREEN,
+  // },
   {
     component: <Images.SVG.ChangePasswordIcon />,
     name: 'Change password',

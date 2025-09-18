@@ -78,7 +78,7 @@ export const CourseDetailsRouteKeys = [
   {key: 'overview', title: 'Overview'},
   {key: 'notes', title: 'Notes'},
   {key: 'reviews', title: 'Reviews'},
-  {key: 'learningMode', title: 'Learning Mode'},
+  // {key: 'learningMode', title: 'Learning Mode'},
   {key: 'uploadProject', title: 'Upload Project'},
   {key: 'resources', title: 'Resources'},
 ];

@@ -329,7 +329,8 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
             />
           </View>
         </View>
-        <View style={[{marginVertical: mScale.xl, flex: 1}]}>
+
+        {/* <View style={[{marginVertical: mScale.xl, flex: 1}]}>
           <ImageBackground
             source={require('@shared/src/assets/img/quizBg.png')}
             style={{flex: 1, padding: mScale.xxl}}>
@@ -347,7 +348,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
             />
             <ButtonAtom title="Attempt quiz" />
           </ImageBackground>
-        </View>
+        </View> */}
         <View style={{marginVertical: mScale.xl}}>
           <ViewAll title="Popular Courses" visible={false} />
           <View style={{paddingLeft: mScale.base}}>

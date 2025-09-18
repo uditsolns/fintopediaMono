@@ -30,20 +30,39 @@ export const Notification: React.FC<NotificationInterface> = ({navigation}) => {
     return <NotificationsMolecule item={item} />;
   };
   return (
-    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70),padding:mScale.lg1}}>
+    <GradientTemplate
+      style={{
+        paddingBottom: 0,
+        paddingTop: moderateScale(70),
+        padding: mScale.lg1,
+      }}>
       {false ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
-      <View style={{marginTop:mScale.xl}}>
-
-      <FlatList
-        data={[...Array(10)]}
-        renderItem={renderItem}
-        contentContainerStyle={{rowGap: mScale.lg, paddingBottom: mScale.xxl}}
-        showsVerticalScrollIndicator={false}
-      />
+      <View style={{marginTop: mScale.xl}}>
+        <FlatList
+          data={[...Array(0)]}
+          renderItem={renderItem}
+          contentContainerStyle={{rowGap: mScale.lg, paddingBottom: mScale.xxl}}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => {
+            return (
+              <View>
+                <TextAtom
+                  text={'Your notification is empty'}
+                  preset="heading2"
+                  style={{
+                    color: colorPresets.CTA,
+                    textAlign: 'center',
+                    marginTop: mScale.md,
+                  }}
+                />
+              </View>
+            );
+          }}
+        />
       </View>
     </GradientTemplate>
   );

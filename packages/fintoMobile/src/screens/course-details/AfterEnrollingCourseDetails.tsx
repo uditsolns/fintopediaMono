@@ -163,8 +163,8 @@ export const AfterEnrollingCourseDetails: React.FC<
         return <Notes onLayout={handleTabLayout(2)} />;
       case 'reviews':
         return <Reviews onLayout={handleTabLayout(3)} />;
-      case 'learningMode':
-        return <LearningMode onLayout={handleTabLayout(4)} />;
+      // case 'learningMode':
+      //   return <LearningMode onLayout={handleTabLayout(4)} />;
       case 'uploadProject':
         return <UploadProject onLayout={handleTabLayout(5)} />;
       case 'resources':

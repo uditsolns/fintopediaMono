@@ -631,18 +631,20 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
         </View>
         <View style={{width: moderateScale(228), borderRadius: 4}}>
           <ButtonAtom
-            title={'Proceed to checkout'}
+            // title={'Proceed to checkout'}
+            title={'Pre-Registration'}
             onPress={() => {
-              if (courseCart?.length > 0) {
-                let cartData = {
-                  totalItem: courseCart?.length,
-                  totalPay: isCouponCodeApply ? totalPaymentAmount : totalPay,
-                  totalDiscount: totalDiscount,
-                };
-                navigation.navigate(RouteKeys.CHECKOUTSCREEN, {
-                  cartData: cartData,
-                });
-              }
+              // if (courseCart?.length > 0) {
+              //   let cartData = {
+              //     totalItem: courseCart?.length,
+              //     totalPay: isCouponCodeApply ? totalPaymentAmount : totalPay,
+              //     totalDiscount: totalDiscount,
+              //   };
+              //   navigation.navigate(RouteKeys.CHECKOUTSCREEN, {
+              //     cartData: cartData,
+              //   });
+              // }
+              navigation.navigate(RouteKeys.CONTACTUSSCREEN);
             }}
           />
         </View>

@@ -1,4 +1,5 @@
 import {commonStyle} from '@shared/src/commonStyle';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import apiUrl from '@shared/src/config/apiUrl';
 import {getUserCourseHistory} from '@shared/src/provider/store/services/UserCourseHistory.service';
@@ -78,6 +79,16 @@ export const PurchaseHistory: React.FC<PurchaseHistoryProps> = ({
           refreshing={refreshLoading}
           onRefresh={onRefresh}
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => {
+            return (
+              <View style={[commonStyle.flexCenter, {flex: 1}]}>
+                <TextAtom
+                  text={'You don’t have any purchase history yet'}
+                  preset="heading4"
+                />
+              </View>
+            );
+          }}
         />
       </View>
     </GradientTemplate>

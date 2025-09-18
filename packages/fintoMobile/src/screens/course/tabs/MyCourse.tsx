@@ -91,8 +91,8 @@ const MyCourse: React.FunctionComponent<MyCourseInterface> = () => {
                   navigation.navigate(RouteKeys.COUPONSCREEN);
                 }}
                 btnTitle={'Redeem now'}
-                title={'Fintopedia Credits: 500'}
-                titleDesc={'You can use your credits to buy your next course!'}
+                title={'Extra 5'}
+                titleDesc={'You can use this code on next purchase'}
               />
             </View>
           }
