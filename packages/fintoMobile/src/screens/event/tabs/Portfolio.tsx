@@ -112,6 +112,7 @@ export default function Portfolio() {
         p2={'Qty'}
         p3={'Buying Price'}
         p4={'Current Price'}
+        p5={'Action'}
       />
       <View>
         <FlatList

@@ -59,6 +59,16 @@ export default function GameHeaderMolecule({...params}) {
             color: colorPresets.GRAY,
           }}
         />
+        { params?.p5 ? 
+         <TextAtom
+          text={params?.p5}
+          preset="medium"
+          style={{
+            fontWeight: '500',
+            width: moderateScale(70),
+            color: colorPresets.GRAY,
+          }}
+        /> : null }
       </View>
     </View>
   );

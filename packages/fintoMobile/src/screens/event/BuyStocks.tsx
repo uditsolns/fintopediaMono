@@ -70,7 +70,10 @@ export const BuyStocks: React.FC<BuyStocksProps> = ({navigation}) => {
 
   const showMessgae = () => {
     if (create && create.id) {
-      Alert.alert('Buy Succeessfully');
+        Toast.show('Shares purchased successfully ', {
+              type: 'success',
+            });
+      // Alert.alert('Buy Succeessfully');
       let user_id = Number(auth?.user?.id);
       let game_id = Number(singleGame?.id);
       dispatch(

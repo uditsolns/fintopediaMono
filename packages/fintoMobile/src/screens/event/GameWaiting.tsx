@@ -25,7 +25,6 @@ export const GameWaiting: React.FC<GameWaitingProps> = ({navigation}) => {
   const [popupVisible, setPopupVisible] = React.useState(true);
   const {singleGame} = useAppSelector(state => state.games);
   const {check_navigate} = useAppSelector(state => state.checkNavigate);
-
   useFocusEffect(
     React.useCallback(() => {
       setPopupVisible(true);

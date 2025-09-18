@@ -84,7 +84,7 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
       el => el?.stock_id == singleStockData?.stock_id,
     );
     if (Number(values.order_qty) > filterOrderQty?.order_qty) {
-      Toast.show('Quantity is less than equal to total quantity', {
+      Toast.show('Sale quantity cannot exceed purchased quantity.', {
         type: 'error',
       });
     } else {
@@ -94,7 +94,9 @@ export const SellStocks: React.FC<SellStocksProps> = ({navigation}) => {
 
   const showMessgae = () => {
     if (create && create.id) {
-      Alert.alert('Sell Succeessfully');
+      Toast.show('Shares sold successfully ', {
+        type: 'success',
+      });
       let user_id = Number(auth?.user?.id);
       let game_id = Number(singleGame?.id);
       dispatch(
