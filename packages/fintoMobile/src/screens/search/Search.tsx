@@ -23,7 +23,7 @@ import {FilterModal} from '@src/components/Popup/FilterModal';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {getRandomItem, isInCart} from '@src/components/Calculate';
 import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
-import { createCourseCart } from '@shared/src/provider/store/services/CourseCart.service';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 
 interface SearchProps extends NavType<'Search'> {}
 
@@ -63,7 +63,7 @@ export const Search: React.FC<SearchProps> = ({navigation}) => {
       min_sale_price: '',
       max_sale_price: '',
       course_language: '',
-      sort_rating: '',
+      sort_rating: 'desc',
     };
     dispatch(
       postSeachCourses({
