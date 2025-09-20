@@ -14,7 +14,7 @@ const CoursePrice: React.FC<CoursePriceProps> = ({price, discount_price}) => {
     <View
       style={[
         commonStyle.flexStart,
-        {alignSelf: 'flex-start', flex: 1, marginBottom: mScale.base},
+        {alignSelf: 'flex-start', flex: 1, marginBottom: mScale.lg2},
       ]}>
       <TextAtom text={`₹ ${price}`} preset="heading3" />
       <TextAtom

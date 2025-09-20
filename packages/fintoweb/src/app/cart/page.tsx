@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, CardBody, Row, Col } from "reactstrap";
 import { FaChevronRight } from "react-icons/fa";
 import styles from "./Cart.module.css";
@@ -20,33 +20,41 @@ import CourseCartMolecule from "@src/components/molecules/CourseCartMolecule/Cou
 import LoadingAtom from "@src/components/loader/LoadingAtom";
 import {
   addTwoNumber,
-  API_ENDPOINT,
-  CALLBACK_URL,
   isInCart,
-  MERCHANT_ID,
-  PRODUCTION_HOST_URL,
-  REDIRECT_URL,
-  SALT_INDEX,
-  SALT_KEY,
   subtractTwoNumber,
   sumCalculate,
+  calculatePercetageAmount,
 } from "shared/src/components/atoms/Calculate";
 import {
   createCoursesSaveLater,
   getCoursesSaveLater,
 } from "shared/src/provider/store/services/coursesavelater.service";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import { toast } from "react-toastify";
 import sha256 from "crypto-js/sha256";
-import { Base64 } from "js-base64";
 import { CoursesSaveLaterResponse } from "shared/src/utils/types/courses-save-later";
 import CourseSaveLaterMolecule from "@src/components/molecules/CoursesMolecule/CourseSaveLaterMolecule";
 import { getLikeCourse } from "shared/src/provider/store/services/course-like.service";
+import { useCartContext } from "@src/app/context/CartContextApi";
+import {
+  PHONEPE_MERCHANT_ID,
+  PHONEPE_SALT_KEY,
+  PHONEPE_SALT_INDEX,
+  PHONEPE_API_URL,
+} from "shared/src/config/phonepeConfig";
 
 export default function Cart() {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const {
+    isCouponCodeApply,
+    totalPaymentAmount,
+    setTotalPaymentAmount,
+    setKeepTotalPaymentAmount,
+    couponCodePercentage,
+    keepTotalPaymentAmount,
+  } = useCartContext();
   const { courses, loading: coursesLoading } = useAppSelector(
     (state) => state.courses
   );
@@ -63,6 +71,13 @@ export default function Cart() {
     useAppSelector((state) => state.coursesSaveLater);
   const { auth } = useAppSelector((state) => state.auth);
 
+  // Save courseCart to localStorage
+  React.useEffect(() => {
+    if (courseCart && courseCart.length > 0) {
+      localStorage.setItem("courseCart", JSON.stringify(courseCart));
+    }
+  }, [courseCart]); // Re-run effect when courseCart changes
+
   const [subtotal, setSubtotal] = React.useState<number>(0);
   const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
   const [totalDiscount, setTotalDiscount] = React.useState<number>(0);
@@ -71,7 +86,30 @@ export default function Cart() {
   const [loadingCourseId, setLoadingCourseId] = React.useState<number | null>(
     null
   );
+  const totalDiscountAmount = isCouponCodeApply ? totalPaymentAmount : totalPay;
 
+  React.useEffect(() => {
+    const dataToStore = {
+      subtotal,
+      actualPricetotal,
+      totalDiscount,
+      totalPay: totalDiscountAmount,
+      gst,
+      loadingCourseId,
+      couponCodePercentage,
+    };
+    localStorage.setItem("courseCartState", JSON.stringify(dataToStore));
+  }, [
+    subtotal,
+    actualPricetotal,
+    totalDiscount,
+    totalPay,
+    gst,
+    loadingCourseId,
+    totalDiscountAmount,
+    isCouponCodeApply,
+    couponCodePercentage,
+  ]);
   React.useEffect(() => {
     if (courseCart) {
       let sale_price = sumCalculate(courseCart, "sale_price");
@@ -84,15 +122,46 @@ export default function Cart() {
       setActualPricetotal(actual_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
+      setKeepTotalPaymentAmount(totalPayAmount);
     }
   }, [courseCart, create, deleteCart]);
 
+  useEffect(() => {
+    if (couponCodePercentage) {
+      // Calculate the percentage amount based on couponCodePercentage
+      let amt = calculatePercetageAmount(
+        couponCodePercentage,
+        keepTotalPaymentAmount
+      );
+
+      // Subtract the calculated amount from the total payment
+      let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
+
+      // Update the total payment amount in the state
+      setTotalPaymentAmount(total2);
+
+      // Log the updated total payment amount
+      console.log("----------------------------------", total2);
+    }
+  }, [
+    couponCodePercentage,
+    courseCart,
+    create,
+    deleteCart,
+    totalPay,
+    keepTotalPaymentAmount,
+  ]);
+
   React.useEffect(() => {
-    dispatch(getCourses());
-    dispatch(getCourseCart());
-    dispatch(getCoursesSaveLater());
-    dispatch(getLikeCourse());
-  }, []);
+    if (auth?.token) {
+      dispatch(getCourses());
+      dispatch(getCourseCart());
+      dispatch(getCoursesSaveLater());
+      dispatch(getLikeCourse());
+    } else {
+      router.push("/auth/login");
+    }
+  }, [auth?.token, dispatch]);
 
   const handleCourseClick = async (course: CoursesResponse) => {
     setLoadingCourseId(course.id);
@@ -174,155 +243,78 @@ export default function Cart() {
       setLoadingCourseId(null);
     }
   };
-  const handlePayment = () => {
-    const requestBody = {
-      merchantId: MERCHANT_ID,
-      merchantTransactionId: `${new Date().getTime()}`,
-      merchantUserId: `${auth?.user?.id}`,
-      amount: totalPay * 100,
-      redirectUrl: REDIRECT_URL,
-      redirectMode: "REDIRECT",
-      callbackUrl: CALLBACK_URL,
-      // redirectUrl: "http://localhost:3000/cart",
-      // redirectMode: "REDIRECT",
-      // callbackUrl: "https://webhook.site/callback-url",
-      mobileNumber: `${auth?.user?.phone}`,
+  const handleDeliveryClick = () => {
+    router.push("/checkout/invoice-screen");
+  };
+  const handleCouponClick = () => {
+    router.push("/checkout/coupon-codes");
+  };
+
+  const handlePayment = async (e) => {
+    e.preventDefault();
+
+    const transactionid = `${new Date().getTime()}`;
+    localStorage.setItem("transactionId", transactionid);
+    const payload = {
+      merchantId: PHONEPE_MERCHANT_ID,
+      merchantTransactionId: transactionid,
+      merchantUserId: "MUID-" + transactionid,
+      amount: isCouponCodeApply ? totalPaymentAmount * 100 : totalPay * 100,
+      redirectUrl: `http://localhost:3000/api/status/${transactionid}`,
+      redirectMode: "POST",
+      callbackUrl: `http://localhost:3000/api/status/${transactionid}`,
+      mobileNumber: "9999999999",
       paymentInstrument: {
         type: "PAY_PAGE",
       },
     };
-    let requestJSONBody = JSON.stringify(requestBody);
-    let requestBase64Body = Base64.encode(requestJSONBody);
-    const input = requestBase64Body + API_ENDPOINT + SALT_KEY;
-    const sha256Res = sha256(requestBase64Body + API_ENDPOINT + SALT_KEY);
-    const finalXHeader = `${sha256Res}###${SALT_INDEX}`;
-    paymentForWeb(finalXHeader, requestBase64Body);
-  };
-  const paymentForWeb = (finalXHeader, requestBase64Body) => {
-    fetch("https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-VERIFY": finalXHeader,
-      },
-      body: JSON.stringify({ request: requestBase64Body }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(
-          "JSON.stringify(responseJson)",
-          JSON.stringify(responseJson)
-        );
-        const sha256Res2 = sha256(
-          `/pg/v1/status/${MERCHANT_ID}/${responseJson?.data?.merchantTransactionId}` +
-            SALT_KEY
-        );
-        const finalXHeader2 = `${sha256Res2}###${SALT_INDEX}`;
-        paymentCheckStaus(
-          finalXHeader2,
-          MERCHANT_ID,
-          responseJson?.data?.merchantTransactionId
-        );
-        let UrlData = responseJson?.data?.instrumentResponse?.redirectInfo?.url;
-        if (UrlData) {
-          window.open(UrlData, "_blank");
-        }
-        console.log("UrlData", UrlData);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
 
-  const paymentCheckStaus = (
-    finalXHeader2: string,
-    merchantId: string,
-    merchantTransactionId: string
-  ) => {
-    console.log(
-      "paymentCheckStaus",
-      finalXHeader2,
-      merchantId,
-      merchantTransactionId
-    );
-    fetch(
-      `${PRODUCTION_HOST_URL}/pg/v1/status/${merchantId}/${merchantTransactionId}`,
-      {
-        method: "GET",
+    const dataPayload = JSON.stringify(payload);
+    console.log(dataPayload);
+
+    const dataBase64 = Buffer.from(dataPayload).toString("base64");
+    console.log(dataBase64);
+
+    const fullURL = dataBase64 + "/pg/v1/pay" + PHONEPE_SALT_KEY;
+    const dataSha256 = sha256(fullURL);
+
+    const checksum = dataSha256 + "###" + PHONEPE_SALT_INDEX;
+    console.log("c====", checksum);
+
+    const UAT_PAY_API_URL =
+      "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
+
+    try {
+      const response = await fetch(UAT_PAY_API_URL, {
+        method: "POST",
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "X-VERIFY": finalXHeader2,
-          "X-MERCHANT-ID": merchantId,
+          "X-VERIFY": checksum,
         },
-      }
-    )
-      .then((response) => response.json())
-      .then(async (res) => {
-        console.log("payment success response", JSON.stringify(res));
-
-        const formData = new FormData();
-
-        // formData.append('user_id', auth?.user?.id);
-        // formData.append('course_id', auth?.user?.id);
-        // formData.append('purchase_date', currentPurchaseDate);
-        formData.append(
-          "status",
-          res?.code == "PAYMENT_SUCCESS" ? "paid" : "failed"
-        );
-        formData.append(
-          "payment_status",
-          res?.code == "PAYMENT_SUCCESS" ? "paid" : "failed"
-        );
-        formData.append(
-          "phone_pe_payment_id",
-          res?.data?.transactionId ||
-            res?.data?.paymentInstrument?.pgServiceTransactionId ||
-            ""
-        );
-        formData.append(
-          "payment_type",
-          res?.data?.paymentInstrument?.type || ""
-        );
-        formData.append("utr", res?.data?.paymentInstrument?.utr || "");
-        formData.append(
-          "upiTransactionId",
-          res?.data?.paymentInstrument?.upiTransactionId || ""
-        );
-        formData.append(
-          "accountHolderName",
-          res?.data?.paymentInstrument?.accountHolderName || ""
-        );
-        formData.append(
-          "accountType",
-          res?.data?.paymentInstrument?.accountType || ""
-        );
-        formData.append(
-          "pgTransactionId",
-          res?.data?.paymentInstrument?.pgTransactionId || ""
-        );
-        formData.append(
-          "pgServiceTransactionId",
-          res?.data?.paymentInstrument?.pgServiceTransactionId || ""
-        );
-        formData.append("arn", res?.data?.paymentInstrument?.arn || "");
-        formData.append(
-          "cardType",
-          res?.data?.paymentInstrument?.cardType || ""
-        );
-        formData.append("brn", res?.data?.paymentInstrument?.brn || "");
-
-        // await updateTransactionMethod(id, formData,res);
-        // await getAllTransactionsMethod(token, navigation);
-      })
-      .catch((error) => {
-        console.error(JSON.stringify(error));
+        body: JSON.stringify({
+          request: dataBase64,
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error("Payment request failed");
+      }
+
+      const responseData = await response.json();
+      const redirect = responseData.data.instrumentResponse.redirectInfo.url;
+      router.push(redirect);
+    } catch (error) {
+      console.error("Error during payment process:", error);
+    }
   };
+
   return (
     <>
       {courseCartLoading?.courseCart ||
       coursesLoading?.courses ||
-      coursesSaveLaterLoading?.courses_save_later || likeCourseLoading?.likeCourse ? (
+      coursesSaveLaterLoading?.courses_save_later ||
+      likeCourseLoading?.likeCourse ? (
         <div className="fullPageLoading">
           <LoadingAtom
             style={{
@@ -332,6 +324,7 @@ export default function Cart() {
           />
         </div>
       ) : null}
+
       <div className={styles.CartDetails}>
         <div className={styles.container}>
           <h1 className={styles.heading}>My Cart</h1>
@@ -428,6 +421,7 @@ export default function Cart() {
                         outline
                         color="secondary"
                         className={styles.couponButton}
+                        onClick={handleCouponClick}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -605,14 +599,24 @@ export default function Cart() {
                     </div>
                     <div className={styles.totalRow}>
                       <h4>Total</h4>
-                      <h5>₹{totalPay}</h5>
+                      {/* <h5>₹{totalPay}</h5> */}
+                      <h5>{`₹ ${
+                        isCouponCodeApply ? totalPaymentAmount : totalPay
+                      }`}</h5>
                     </div>
                     <div className={styles.buttons}>
                       <Button
                         className={styles.checkoutButton}
-                        onClick={handlePayment}
+                        // onClick={handlePayment}
+                        onClick={(e) => handlePayment(e)}
                       >
                         Proceed to checkout
+                      </Button>
+                      <Button
+                        className={styles.checkoutButton}
+                        onClick={handleDeliveryClick}
+                      >
+                        Cash on Delivery
                       </Button>
                       <Button className={styles.shoppingButton}>
                         Continue Shopping
@@ -628,31 +632,15 @@ export default function Cart() {
             </div>
           )}
         </div>
+        {/* <Pay /> */}
         <div className={styles.likeCourses}>
           <LikeCourses courses={likeCourse} />
         </div>
-        {/* <div className={styles.wishlist}>
-          <h1 className={styles.wishlistHeading}>Wishlist</h1>
-          <Row className="mt-3">
-            {courses_save_later.map((saveLater, index) => {
-              return (
-                <Col key={index} md={4}>
-                  <CourseSaveLaterMolecule
-                    key={saveLater.id}
-                    saveLater={saveLater}
-                    loading={loadingCourseId === saveLater.id}
-                    onClick={() => handleCourseSavelaterClick(saveLater)}
-                  />
-                </Col>
-              );
-            })}
-          </Row>
-        </div> */}
         <div className={styles.wishlist}>
           <h1 className={styles.wishlistHeading}>Wishlist</h1>
 
           {courses_save_later.length === 0 ? (
-            <p>No items found in your wishlist.</p> 
+            <p>No items found in your wishlist.</p>
           ) : (
             <Row className="mt-3">
               {courses_save_later.map((saveLater) => (

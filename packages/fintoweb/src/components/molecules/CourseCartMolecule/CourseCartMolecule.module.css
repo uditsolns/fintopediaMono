@@ -50,7 +50,6 @@
   font-weight: 700;
   line-height: 120%;
   cursor: pointer;
-
 }
 
 .courseTitle {
@@ -66,7 +65,7 @@
 
 .textGray {
   color: #fff;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 700;
   line-height: 120%;
 }
@@ -94,10 +93,15 @@
 
 /* Mobile View */
 @media (max-width: 768px) {
+  .image {
+    width: 100% !important;
+    height: 170px;
+  }
   .imageCol {
     order: -1;
   }
-  .price {
+  .price,.courseTitle {
     margin-top: 0.5rem;
+    margin-bottom: 20px;
   }
 }

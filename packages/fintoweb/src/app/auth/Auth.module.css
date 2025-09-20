@@ -60,7 +60,7 @@
   gap: 12px;
   align-self: stretch;
   border-radius: 6px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #222431;
   color: #fff;
 }
@@ -117,7 +117,7 @@
   gap: 10.697px;
   border-radius: 4px;
   background-color: #0c0c0c;
-  border: 1.07px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--Base-Base-White, #f4f5f5);
   font-size: 18px;
   font-style: normal;
@@ -141,7 +141,7 @@
 .modal-content {
   border-radius: 12px;
   border-radius: 12px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: var(
     --BG,
     linear-gradient(
@@ -154,6 +154,9 @@
     )
   );
   box-shadow: 0px 44px 49.9px 0px rgba(0, 0, 0, 0.25);
+}
+.login-card {
+  padding: 102px 0px;
 }
 .blur-background {
   position: fixed;
@@ -241,7 +244,7 @@
 .forgotLogo svg {
   padding: 10px;
   border-radius: 50%;
-  border: 1px solid #7a7fa2;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background-color: var(
     --BG,
     linear-gradient(
@@ -284,7 +287,7 @@
   color: #fff;
   align-self: stretch;
   border-radius: 6px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #222431;
 }
 .forgotTextfield::placeholder {

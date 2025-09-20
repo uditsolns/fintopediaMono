@@ -29,6 +29,7 @@ import { postSeachCourses } from "shared/src/provider/store/services/search-cour
 import Pagination from "@src/components/pagination/Pagination";
 import { getCourseReviews } from "shared/src/provider/store/services/course-review.service";
 import AchiveingSliderMolecule from "@src/components/molecules/AchiveingSliderMolecule/AchiveingSliderMolecule";
+import { getCoursesgetPurchase } from "shared/src/provider/store/services/coursesget-purchase.service";
 
 const CourseFilter: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -40,7 +41,6 @@ const CourseFilter: React.FC = () => {
   const { courseCart, loading: courseCartLoading } = useAppSelector(
     (state) => state.courseCart
   );
-  console.log("courseCart", courseCart);
   const { categories, loading: categoriesLoading } = useAppSelector(
     (state) => state.categories
   );
@@ -53,6 +53,9 @@ const CourseFilter: React.FC = () => {
   const { course_review, loading: coursesReviewLoading } = useAppSelector(
     (state) => state.courseReviews
   );
+  const { courseget_purchase, loading: coursesgetPurchaseLoading } =
+    useAppSelector((state) => state.coursesgetPurchase);
+  console.log("🚀 ~ page ~ courseget_purchase course:", courseget_purchase);
   const [searchTerm, setSearchTerm] = useState("");
   const [slideToShow, setSlideToShow] = useState(4);
   const [activeFilter, setActiveFilter] = useState("All");
@@ -60,16 +63,19 @@ const CourseFilter: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
+
   const setSlides = () => {
-    if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
-      setSlideToShow(3);
-    } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
-      setSlideToShow(2);
-    } else if (window.innerWidth <= 650) {
+    const width = window.innerWidth;
+    if (width <= 650) {
       setSlideToShow(1);
+    } else if (width <= 1000) {
+      setSlideToShow(4);
+    } else if (width <= 1280) {
+      setSlideToShow(4);
+    } else {
+      setSlideToShow(4);
     }
   };
-
   useEffect(() => {
     setSlides();
     window.addEventListener("resize", setSlides);
@@ -80,6 +86,7 @@ const CourseFilter: React.FC = () => {
   React.useEffect(() => {
     if (auth?.token) {
       dispatch(getCourseCart());
+      dispatch(getCoursesgetPurchase());
     }
     dispatch(getCourses());
     dispatch(getCategories());
@@ -95,19 +102,22 @@ const CourseFilter: React.FC = () => {
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
+    // autoplay: true,
+    // autoplaySpeed: 3000,
+    pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
       {
         breakpoint: 1280,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
         },
       },
       {
         breakpoint: 1000,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 4,
         },
       },
       {
@@ -300,7 +310,7 @@ const CourseFilter: React.FC = () => {
                       </div>
                     </Col>
                   </Row> */}
-                  <Row className="mt-3">
+                  <Row className="mt-5">
                     <Col md={12}>
                       <ButtonWithIcons
                         label="Let's Go"

@@ -1,7 +1,10 @@
 import {useNavigation} from '@react-navigation/native';
 import {commonStyle} from '@shared/src/commonStyle';
 import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
-import {getCoursesSaveLater} from '@shared/src/provider/store/services/coursesavelater.service';
+import {
+  deleteCoursesSaveLater,
+  getCoursesSaveLater,
+} from '@shared/src/provider/store/services/coursesavelater.service';
 import {
   useAppDispatch,
   useAppSelector,
@@ -16,6 +19,7 @@ import CourseMolecule from '@src/components/molecules/CourseMolecule/CourseMolec
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import React from 'react';
 import {FlatList, View} from 'react-native';
+import {Toast} from 'react-native-toast-notifications';
 
 interface SaveForLaterInterface {}
 const SaveForLater: React.FunctionComponent<SaveForLaterInterface> = () => {
@@ -55,7 +59,21 @@ const SaveForLater: React.FunctionComponent<SaveForLaterInterface> = () => {
                 createCourseCart({
                   params,
                   onSuccess: data => {
-                    navigation.navigate(RouteKeys.CARTSCREEN);
+                    console.log(item?.id);
+
+                    let id = Number(item?.id);
+                    dispatch(
+                      deleteCoursesSaveLater({
+                        id,
+                        onSuccess: data => {
+                          Toast.show('Course added to cart.', {
+                            type: 'success',
+                          });
+                          navigation.navigate(RouteKeys.CARTSCREEN);
+                        },
+                        onError: err => {},
+                      }),
+                    );
                   },
                   onError: err => {},
                 }),

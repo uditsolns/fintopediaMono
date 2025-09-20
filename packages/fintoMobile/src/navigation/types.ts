@@ -10,9 +10,10 @@ export interface StackParams extends ParamListBase {
   Login: undefined;
   Signup: undefined;
   ForgotPassword: undefined;
-  ResetPassword: undefined;
+  ResetPassword: {data: undefined};
   EmailVerification: undefined;
   TwoFAuth: undefined;
+  ForgotPasswordOTP:{data: undefined};
   Otp: undefined;
   Search: undefined;
   Notification: undefined;

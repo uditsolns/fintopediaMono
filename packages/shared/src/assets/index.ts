@@ -71,6 +71,12 @@ import { TwoFAuthIcon } from "./svg/TwoFAuthIcon";
 import { Upload } from "./svg/Upload";
 import { User } from "./svg/User";
 import { YearAccess } from "./svg/YearAccess";
+import { Clock } from "./svg/Clock";
+import { WorldIcon } from "./svg/WorldIcon";
+import { Fb3 } from "./svg/Fb3";
+import { LinkedLn3 } from "./svg/LinkedLn3";
+import { Insta3 } from "./svg/Insta3";
+import { RightArrow } from "./svg/RightArrow";
 
 export const Images = {
   SVG: {
@@ -147,5 +153,11 @@ export const Images = {
     LogoutIcon,
     CheckBoxIcon2,
     CameraIcon,
+    Clock,
+    WorldIcon,
+    Fb3,
+    LinkedLn3,
+    Insta3,
+    RightArrow
   },
 };

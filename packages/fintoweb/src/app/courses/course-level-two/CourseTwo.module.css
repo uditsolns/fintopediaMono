@@ -28,7 +28,7 @@
   align-items: center;
   gap: 8px;
   border-radius: 4px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #121622;
   color: #fff;
 }
@@ -60,7 +60,7 @@
 }
 .courseCard {
   border-radius: 12px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #121622;
   display: flex;
   padding-right: 29px;
@@ -216,8 +216,8 @@
   line-height: 22px;
   letter-spacing: -0.32px;
 }
-.rightCards{
-  border-left: 1px solid var(--Neutrals-Neutrals700, #40474F);
+.rightCards {
+  border-left: 1px solid var(--Neutrals-Neutrals700, #40474f);
 }
 .content {
   padding: 20px 30px;

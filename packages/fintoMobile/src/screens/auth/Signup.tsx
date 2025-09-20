@@ -137,7 +137,7 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
               keyboardType="numeric"
             />
           </View>
-          <View>
+          {/* <View>
             <Dropdown
               dropdownItemArr={college?.length ? college : []}
               itemLabelField="name"
@@ -150,7 +150,7 @@ export const Signup: React.FC<SignupProps> = ({navigation}) => {
               dropdownTextColor={colorPresets.CTA}
               textColor={colorPresets.CTA}
             />
-          </View>
+          </View> */}
           <View style={{marginBottom: mScale.lg}}>
             <InputAtom
               shape="square"

@@ -9,14 +9,6 @@
 }
 
 .button {
-  /* width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.25rem;
-  color: #9ca3af;  */
-
   display: flex;
   width: 51.467px;
   height: 51.467px;
@@ -26,7 +18,7 @@
   align-items: center;
   gap: 16.083px;
   border-radius: 12.867px;
-  border: 1.608px solid var(--Border, #7a7fa2);
+  border: 1.608px solid rgba(255, 255, 255, 0.1);
   background: #0e101d;
 }
 

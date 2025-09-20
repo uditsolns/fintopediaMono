@@ -56,6 +56,7 @@ import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {commonStyle} from '@shared/src/commonStyle';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 
 type RouteParams = {
   tab?: number;
@@ -69,6 +70,12 @@ export const AfterEnrollingCourseDetails: React.FC<
 > = () => {
   let route = useRoute<any>();
   const dispatch = useAppDispatch();
+  const {
+    videoPlayerUrl,
+    setVideoPlayerUrl,
+    playVideoStartLoading,
+    setPlayVideoStartLoading,
+  } = useVideoPlayerContext();
   const {auth} = useAppSelector(state => state.auth);
   const {
     courses,
@@ -79,11 +86,10 @@ export const AfterEnrollingCourseDetails: React.FC<
   const [index, setIndex] = React.useState(route.params?.tab ?? 0);
   const [routes] = React.useState(CourseDetailsRouteKeys);
   const [width, setWidth] = React.useState(WINDOW_WIDTH);
-  // const [height, setHeight] = React.useState(WINDOW_HEIGHT / 2);
   const [height2, setHeight2] = React.useState<string | number>(220);
   const [playVideoStart, setPlayVideoStart] = React.useState(false);
   const [embedInfo, setEmbedInfo] = React.useState<any>(video_url);
-  const videoPlayer = React.useRef<any>(null);
+  const videoPlayerRef = React.useRef<any>(null);
   const {course, id} = route.params || {};
 
   const [tabHeights, setTabHeights] = React.useState<number[]>([]);
@@ -120,9 +126,9 @@ export const AfterEnrollingCourseDetails: React.FC<
     dispatch(getCourseNotes());
     dispatch(getCourseUploadFile());
     dispatch(getCourseReviews());
-    Orientation.unlockAllOrientations();
+
     return () => {
-      // dispatch(clearVideoUrl());
+      dispatch(clearVideoUrl());
       Orientation.lockToPortrait();
     };
   }, []);
@@ -168,10 +174,6 @@ export const AfterEnrollingCourseDetails: React.FC<
     }
   };
 
-  const innerCategoriesRenderItem = ({item}: {item: CoursesResponse}) => {
-    return <PopularCourseMolecule item={item} />;
-  };
-
   return (
     <GradientTemplate
       style={{paddingHorizontal: 0, paddingTop: moderateScale(60)}}>
@@ -184,7 +186,10 @@ export const AfterEnrollingCourseDetails: React.FC<
             paddingVertical: mScale.lg,
             backgroundColor: '#060A18',
           }}>
-          <TextAtom text={`${singleCourse?.name}`} preset="heading2" />
+          <TextAtom
+            text={`${singleCourse?.name || 'Loading...'}`}
+            preset="heading2"
+          />
         </View>
         <View>
           <View
@@ -198,13 +203,20 @@ export const AfterEnrollingCourseDetails: React.FC<
             }}>
             <Images.SVG.ShareIcon />
           </View>
-          {playVideoStart && video_url ? (
+          {playVideoStartLoading && videoPlayerUrl ? (
             <>
               <VdoPlayerView
-                ref={videoPlayer}
+                ref={videoPlayerRef}
                 style={{height: height2, width: '100%'} as ViewStyle}
-                embedInfo={embedInfo ? embedInfo : video_url}
+                embedInfo={
+                  videoPlayerUrl
+                    ? videoPlayerUrl
+                    : embedInfo
+                    ? embedInfo
+                    : video_url
+                }
                 onLoaded={data => {
+                  Orientation.unlockAllOrientations();
                   console.log('on loaded :', data);
                 }}
                 onLoadError={e => {
@@ -214,9 +226,26 @@ export const AfterEnrollingCourseDetails: React.FC<
                   console.log('progress', time);
                 }}
                 onMediaEnded={data => {
+                  Orientation.lockToPortrait();
+                  setPlayVideoStartLoading(false);
                   console.log('onmediaended called', data);
                 }}
-                onEnterFullscreen={() => setHeight2('100%')}
+                onEnterFullscreen={() => {
+                  setHeight2('100%');
+                  Orientation.unlockAllOrientations();
+                }}
+                onVdoEnterFullscreen={() => {
+                  setHeight2('100%');
+                  Orientation.unlockAllOrientations();
+                }}
+                onExitFullscreen={() => {
+                  Orientation.lockToPortrait();
+                  setHeight2(220);
+                }}
+                onVdoExitFullscreen={() => {
+                  Orientation.lockToPortrait();
+                  setHeight2(220);
+                }}
                 onPlaybackProperties={data =>
                   console.log('onPlaybackProperties', data)
                 }
@@ -236,13 +265,8 @@ export const AfterEnrollingCourseDetails: React.FC<
               <PressableAtom
                 style={[commonStyle.play]}
                 onPress={() => {
-                  console.log(
-                    '--------',
-                    playVideoStart,
-                    data?.course_video_embed,
-                  );
                   if (data?.course_video_embed) {
-                    setPlayVideoStart(true);
+                    setPlayVideoStartLoading(true);
                   } else {
                     Alert.alert("This course doesn't contain any videos.");
                   }
@@ -265,30 +289,6 @@ export const AfterEnrollingCourseDetails: React.FC<
           />
         </View>
       </ScrollView>
-      {/* <View style={{marginVertical: mScale.xl}}>
-          <ViewAll title="Frequently Bought Together" visible={false} />
-          <View style={{paddingLeft: mScale.base}}>
-            <FlatList
-              data={
-                courses?.length
-                  ? courses?.filter(
-                      el =>
-                        el?.category_id == data?.category_id &&
-                        el.id != data?.id,
-                    )
-                  : []
-              }
-              renderItem={innerCategoriesRenderItem}
-              horizontal={true}
-              contentContainerStyle={{
-                columnGap: 20,
-                flexGrow: 1,
-                paddingEnd: mScale.lg,
-              }}
-              showsHorizontalScrollIndicator={false}
-            />
-          </View>
-        </View> */}
     </GradientTemplate>
   );
 };

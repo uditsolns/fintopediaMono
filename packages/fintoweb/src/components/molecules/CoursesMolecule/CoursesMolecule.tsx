@@ -5,9 +5,11 @@ import Image from "next/image";
 import { CoursesResponse } from "shared/src/utils/types/courses";
 import ProgressBar from "@src/components/progress/ProgressBar";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
-import { isInCart } from "shared/src/components/atoms/Calculate";
+import {
+  isCoursePurchased,
+  isInCart,
+} from "shared/src/components/atoms/Calculate";
 import { useRouter } from "next/navigation";
-import LoadingAtom from "@src/components/loader/LoadingAtom";
 
 interface CoursesMoleculeProps {
   course?: CoursesResponse;
@@ -21,10 +23,33 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
 }) => {
   const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);
+  const { auth } = useAppSelector((state) => state.auth);
+
+  const { courseget_purchase } = useAppSelector(
+    (state) => state.coursesgetPurchase
+  );
+
+  const flattenedCourses = courseget_purchase.flat();
+  console.log("flattenedCourses", flattenedCourses);
+
+  const isCoursePurchasedStatus = isCoursePurchased(
+    flattenedCourses,
+    course?.id
+  );
+
+  // console.log("isCoursePurchasedStatus", isCoursePurchasedStatus);
 
   const handleNavigation = async () => {
+    if (!auth?.token) {
+      await router.push("/auth/login");
+      return;
+    } 
     if (course?.id) {
-      await router.push(`/courses/course-details/${course.id}`);
+      if (isCoursePurchasedStatus) {
+        await router.push(`/course-details-enrolling/${course.id}`);
+      } else {
+        await router.push(`/courses/course-details/${course.id}`);
+      }
     }
   };
 
@@ -36,7 +61,7 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
             src={`${imageUrl}/uploads/course_images/${course.course_image}`}
             alt={course.name}
             width={350}
-            height={200}
+            height={242}
             className={styles.image}
           />
           <div className={styles.languageBadge}>
@@ -117,8 +142,8 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
             <span className={styles.star}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="19"
+                height="18"
                 viewBox="0 0 20 20"
                 fill="none"
               >
@@ -128,7 +153,9 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
                 />
               </svg>
             </span>
-            <span className={styles.reviewCount}>({course.reviews} reviews)</span>
+            <span className={styles.reviewCount}>
+              ({course.reviews} reviews)
+            </span>
           </div>
           <div className={styles.priceSection}>
             <div>
@@ -140,11 +167,21 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
 
             <button
               className={styles.button}
-              onClick={onClick}
+              onClick={() => {
+                if (isCoursePurchasedStatus) {
+                  handleNavigation();
+                } else if (isInCart(courseCart, course?.id)) {
+                  router.push("/cart");
+                } else {
+                  onClick && onClick();
+                }
+              }}
               disabled={loading}
             >
               {loading
                 ? "Loading..."
+                : isCoursePurchasedStatus
+                ? "Watch Now"
                 : isInCart(courseCart, course?.id)
                 ? "Go to cart"
                 : "Add to cart"}

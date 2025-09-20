@@ -34,6 +34,11 @@ import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import {clearVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
 import Orientation from 'react-native-orientation-locker';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import GradientBorderBox from '@src/components/Border/GradientBorderBox';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
+import {isInCart} from '@src/components/Calculate';
+import {RouteKeys} from '@src/navigation/RouteKeys';
+import {createCourseCart} from '@shared/src/provider/store/services/CourseCart.service';
 
 interface BeforeEnrollingCourseDetailsProps
   extends NavType<'BeforeEnrollingCourseDetails'> {}
@@ -49,11 +54,20 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
   const dispatch = useAppDispatch();
   const {course, id} = route.params || {};
   const {
+    videoPlayerBeforePurchaseUrl,
+    setVideoPlayerBeforePurchaseUrl,
+    playVideoStartBeforePurchaseLoading,
+    setPlayVideoStartBeforePurchaseLoading,
+  } = useVideoPlayerContext();
+  const {
     courses,
     singleCourse,
     video_url,
     loading: coursesLoading,
   } = useAppSelector(state => state.courses);
+  const {courseCart, loading: courseCartLoading} = useAppSelector(
+    state => state.courseCart,
+  );
   const {coursesSection, loading: coursesSectionLoading} = useAppSelector(
     state => state.coursesSection,
   );
@@ -61,11 +75,13 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
     state => state.courseReviews,
   );
 
+  const {auth} = useAppSelector(state => state.auth);
+
   const [refreshLoading, setRefreshLoading] = React.useState(false);
   const [playVideoStart, setPlayVideoStart] = React.useState(false);
-  const [height, setHeight] = React.useState<string | number>(220);
+  const [height2, setHeight2] = React.useState<string | number>(220);
   const [embedInfo, setEmbedInfo] = React.useState<any>(video_url);
-  const videoPlayer = React.useRef<any>(null);
+  const videoPlayerRef = React.useRef<any>(null);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -82,7 +98,6 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
 
   React.useEffect(() => {
     onRefresh();
-    Orientation.unlockAllOrientations();
     return () => {
       dispatch(clearVideoUrl());
       Orientation.lockToPortrait();
@@ -105,7 +120,41 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
   }: {
     item: CoursesResponse;
   }) => {
-    return <PopularCourseMolecule item={item} />;
+    return (
+      <PopularCourseMolecule
+        item={item}
+        onView={() => {
+          let params = {
+            id: Number(item?.id),
+          };
+          dispatch(getCoursesById(params));
+          if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+        }}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+            navigation.navigate(RouteKeys.CARTSCREEN);
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {
+                  navigation.navigate(RouteKeys.CARTSCREEN);
+                },
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
+        }}
+      />
+    );
   };
 
   return (
@@ -132,13 +181,21 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                 }}>
                 <Images.SVG.ShareIcon />
               </View>
-              {playVideoStart && video_url ? (
+              {playVideoStartBeforePurchaseLoading &&
+              videoPlayerBeforePurchaseUrl ? (
                 <>
                   <VdoPlayerView
-                    ref={videoPlayer}
-                    style={{height: height, width: '100%'} as ViewStyle}
-                    embedInfo={embedInfo ? embedInfo : video_url}
+                    ref={videoPlayerRef}
+                    style={{height: height2, width: '100%'} as ViewStyle}
+                    embedInfo={
+                      videoPlayerBeforePurchaseUrl
+                        ? videoPlayerBeforePurchaseUrl
+                        : embedInfo
+                        ? embedInfo
+                        : video_url
+                    }
                     onLoaded={data => {
+                      Orientation.unlockAllOrientations();
                       console.log('on loaded :', data);
                     }}
                     onLoadError={e => {
@@ -148,9 +205,26 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                       console.log('progress', time);
                     }}
                     onMediaEnded={data => {
+                      Orientation.lockToPortrait();
+                      setPlayVideoStartBeforePurchaseLoading(false);
                       console.log('onmediaended called', data);
                     }}
-                    onEnterFullscreen={() => setHeight('100%')}
+                    onEnterFullscreen={() => {
+                      setHeight2('100%');
+                      Orientation.unlockAllOrientations();
+                    }}
+                    onVdoEnterFullscreen={() => {
+                      setHeight2('100%');
+                      Orientation.unlockAllOrientations();
+                    }}
+                    onExitFullscreen={() => {
+                      Orientation.lockToPortrait();
+                      setHeight2(220);
+                    }}
+                    onVdoExitFullscreen={() => {
+                      Orientation.lockToPortrait();
+                      setHeight2(220);
+                    }}
                     onPlaybackProperties={data =>
                       console.log('onPlaybackProperties', data)
                     }
@@ -171,7 +245,10 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                     style={[commonStyle.play]}
                     onPress={() => {
                       if (data?.course_video_embed) {
-                        setPlayVideoStart(true);
+                        setVideoPlayerBeforePurchaseUrl(
+                          data?.course_video_embed,
+                        );
+                        setPlayVideoStartBeforePurchaseLoading(true);
                       } else {
                         Alert.alert("This course doesn't contain any videos.");
                       }
@@ -196,27 +273,37 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               style={{color: '#D5D5D9'}}
             />
 
-            <View>
+            <View
+              style={{
+                marginTop: mScale.md3,
+                marginBottom: mScale.lg1,
+              }}>
               <ProgressBar
                 level={data?.course_type?.toLowerCase()}
-                hours={data?.duration_time || ''}
-                mv={mScale.sm}
+                hours={data?.duration_time?.replace(/\D+/g, '') || ''}
+                textPreset="smallBold"
+                mv={5}
               />
-              {data?.rating ? (
-                <RatingReview
-                  rating={data?.rating || ''}
-                  review={data?.reviews || ''}
-                />
-              ) : null}
+              <View style={{position: 'absolute', right: 0}}>
+                {data?.rating ? (
+                  <RatingReview
+                    rating={data?.rating || ''}
+                    review={data?.reviews || ''}
+                    textPreset="smallBold"
+                    mb={0}
+                  />
+                ) : null}
+              </View>
             </View>
             <ButtonAtom
               title={`Course starts from  ₹ ${data?.sale_price}`}
               preset="fourthy"
             />
+
             <TextAtom
               text={'This course includes'}
               preset="heading3"
-              style={{marginVertical: mScale.md}}
+              style={{marginBottom: mScale.md, marginTop: moderateScale(60)}}
             />
             {data?.sections?.map((el, index) => {
               return (
@@ -244,7 +331,12 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
               );
             })}
           </View>
-          <View style={{padding: mScale.base, backgroundColor: '#0D0F1C'}}>
+          <View
+            style={{
+              padding: mScale.base,
+              paddingVertical: mScale.xxl,
+              backgroundColor: '#0D0F1C',
+            }}>
             <TextAtom
               text={'This course includes'}
               preset="heading3"
@@ -255,55 +347,76 @@ export const BeforeEnrollingCourseDetails: React.FunctionComponent<
                 commonStyle.flexSpaceBetween,
                 {flexWrap: 'wrap', rowGap: 20},
               ]}>
-              <Pressable
-                style={{
-                  backgroundColor: '#222431',
-                  padding: mScale.base,
-                  borderWidth: 1,
-                  borderColor: colorPresets.GRAY3,
-                  borderRadius: 9,
-                  width: moderateScale(150),
-                  height: moderateScale(150),
-                  marginEnd: mScale.md,
-                }}>
-                <Images.SVG.YearAccess width={24} height={24} />
-                <View style={{marginVertical: mScale.md}}>
-                  <TextAtom text={'1 Year Access'} preset="titleBold" />
-                  <TextAtom
-                    preset="small"
-                    text={
-                      'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
-                    }
-                    numberOfLines={2}
-                  />
-                </View>
-              </Pressable>
-              <Pressable
-                style={{
-                  backgroundColor: '#222431',
-                  padding: mScale.base,
-                  borderWidth: 1,
-                  borderColor: colorPresets.GRAY3,
-                  borderRadius: 9,
-                  width: moderateScale(150),
-                  height: moderateScale(150),
-                  marginEnd: mScale.md,
-                }}>
-                <Images.SVG.Certificate width={24} height={24} />
-                <View style={{marginVertical: mScale.md}}>
-                  <TextAtom
-                    text={'Certificate of completion'}
-                    preset="titleBold"
-                  />
-                  <TextAtom
-                    preset="small"
-                    text={
-                      'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
-                    }
-                    numberOfLines={2}
-                  />
-                </View>
-              </Pressable>
+              <GradientBorderBox
+                borderRadium={9}
+                linearColor={['#222431', '#222431']}
+                width={'47%'}>
+                <Pressable
+                  style={{
+                    backgroundColor: '#222431',
+                    padding: mScale.base,
+                    borderRadius: 9,
+                    width: moderateScale(150),
+                    height: moderateScale(150),
+                    marginEnd: mScale.md,
+                  }}>
+                  <Images.SVG.YearAccess width={24} height={24} />
+                  <View style={{marginVertical: mScale.md}}>
+                    <TextAtom
+                      text={'1 Year Access'}
+                      preset="titleBold"
+                      style={{marginTop: mScale.md}}
+                    />
+                    <TextAtom
+                      preset="small"
+                      text={
+                        'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
+                      }
+                      numberOfLines={2}
+                      style={{
+                        color: '#D5D5D9',
+                        fontWeight: '400',
+                        marginTop: mScale.md,
+                      }}
+                    />
+                  </View>
+                </Pressable>
+              </GradientBorderBox>
+              <GradientBorderBox
+                borderRadium={9}
+                linearColor={['#222431', '#222431']}
+                width={'47%'}>
+                <Pressable
+                  style={{
+                    backgroundColor: '#222431',
+                    padding: mScale.base,
+                    borderRadius: 9,
+                    width: moderateScale(150),
+                    height: moderateScale(150),
+                    marginEnd: mScale.md,
+                  }}>
+                  <Images.SVG.Certificate width={24} height={24} />
+                  <View style={{marginVertical: mScale.md}}>
+                    <TextAtom
+                      text={'Certificate of completion'}
+                      preset="titleBold"
+                      style={{marginTop: mScale.md}}
+                    />
+                    <TextAtom
+                      preset="small"
+                      text={
+                        'I bought a course on option trading by Jyoti Budhia jisme maine Option Trading ke regarding basic concept.'
+                      }
+                      numberOfLines={2}
+                      style={{
+                        color: '#D5D5D9',
+                        fontWeight: '400',
+                        marginTop: mScale.md,
+                      }}
+                    />
+                  </View>
+                </Pressable>
+              </GradientBorderBox>
             </View>
           </View>
           <View style={{paddingHorizontal: mScale.base, flex: 1}}>

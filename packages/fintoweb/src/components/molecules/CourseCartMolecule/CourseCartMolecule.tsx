@@ -15,7 +15,7 @@ interface CourseCartMoleculeProps {
   onRemove?: () => void;
 }
 const CourseCartMolecule: React.FC<CourseCartMoleculeProps> = ({
-  cart,
+  cart, 
   onClick,
   onSaveLater,
   onRemove,

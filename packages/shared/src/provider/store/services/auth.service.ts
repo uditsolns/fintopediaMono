@@ -6,20 +6,24 @@ import {
   AuthResponse,
   ForgotPasswordParams,
   ForgotPasswordResponse,
+  OnSuccessInterface,
+  OtpLoginParams,
+  OtpLoginParams2,
   SignupParams,
+  UpdatePasswordParameter,
   UpdatePasswordParams,
   UpdatePasswordResponse,
   UserInfo,
   VerifyOtpParams,
   VerifyOtpResponse,
 } from "../../../utils/types/auth";
-import { storeCurrentUser, logout } from "../reducers/auth.reducer"; 
+import { storeCurrentUser, logout } from "../reducers/auth.reducer";
 
 export const signIn = createAsyncThunk<
   AuthResponse,
   AuthParams,
   { state: RootState }
->("auth/signin", async (params, thunkApi) => {
+>("auth/signin", async (params, thunkApi) => { 
   try {
     const response = await fetch(apiUrl.AUTH.LOGIN, {
       method: "POST",
@@ -28,6 +32,9 @@ export const signIn = createAsyncThunk<
       },
       body: JSON.stringify(params),
     });
+    if (response.status !== 201) {
+      return thunkApi.rejectWithValue(await response.json());
+    }
     const data = (await response.json()) as AuthResponse;
     thunkApi.dispatch(storeCurrentUser(data?.user));
     return data;
@@ -70,9 +77,11 @@ export const signUp = createAsyncThunk<
       },
       body: JSON.stringify(params),
     });
-
+    if (response.status !== 201) {
+      return thunkApi.rejectWithValue(await response.json());
+    }
     const data = (await response.json()) as AuthResponse;
-
+ 
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);
@@ -91,7 +100,7 @@ export const forgotPassword = createAsyncThunk<
         "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
-    }); 
+    });
 
     const data = (await response.json()) as ForgotPasswordResponse;
 
@@ -103,9 +112,9 @@ export const forgotPassword = createAsyncThunk<
 
 export const confirmPassword = createAsyncThunk<
   UpdatePasswordResponse,
-  UpdatePasswordParams,
+  UpdatePasswordParameter & OnSuccessInterface,
   { state: RootState }
->("auth/confirm", async (params, thunkApi) => {
+>("auth/confirm", async ({ params, onSuccess }, thunkApi) => {
   try {
     const state = thunkApi.getState();
     const token = state.auth?.auth?.token;
@@ -119,7 +128,7 @@ export const confirmPassword = createAsyncThunk<
     });
 
     const data = (await response.json()) as UpdatePasswordResponse;
-    console.log("data---------", data);
+    onSuccess(data);
     if (data?.code === 200) {
       thunkApi.dispatch(logout());
     }
@@ -143,7 +152,55 @@ export const VerifyOtp = createAsyncThunk<
       body: JSON.stringify(params),
     });
 
-    const data = (await response.json()) as VerifyOtpResponse;
+    const data = (await response.json()) as any;
+
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
+export const verifyPhoneNumber = createAsyncThunk<
+  any,
+  OtpLoginParams,
+  { state: RootState }
+>("auth/verifyPhoneNumber", async (params, thunkApi) => {
+  console.log("verifyPhoneNumber params", params);
+  try {
+    const response = await fetch(apiUrl.AUTH.VERIFYMOBILENUMBER, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    });
+
+    const data = (await response.json()) as any;
+    console.log("verifyPhoneNumber response", data);
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(error);
+  }
+});
+
+export const phoneNumberOtpLogin = createAsyncThunk<
+  any,
+  OtpLoginParams2,
+  { state: RootState }
+>("auth/phoneNumberOtpLogin", async (params, thunkApi) => {
+  console.log("phoneNumberOtpLogin params", params);
+
+  try {
+    const response = await fetch(apiUrl.AUTH.OTPLOGIN, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    });
+
+    const data = (await response.json()) as any;
+    console.log("phoneNumberOtpLogin response", data);
 
     return data;
   } catch (error) {

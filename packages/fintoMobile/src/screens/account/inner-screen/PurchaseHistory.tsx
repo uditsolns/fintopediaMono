@@ -8,6 +8,7 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {UserCourseHistoryResponse} from '@shared/src/utils/types/UserCourseHistory';
+import {pdfPermission} from '@src/components/DownloadPdf/DownloadPdf';
 import LoaderAtom from '@src/components/LoaderAtom';
 import PurchaseHistoryMolecule from '@src/components/molecules/PurchaseHistoryMolecule/PurchaseHistoryMolecule';
 import {NavType} from '@src/navigation/types';
@@ -35,7 +36,16 @@ export const PurchaseHistory: React.FC<PurchaseHistoryProps> = ({
     setRefreshLoading(false);
   };
   const renderItem = ({item}: {item: UserCourseHistoryResponse}) => {
-    return <PurchaseHistoryMolecule item={item} />;
+    let mime = 'application/pdf';
+    let url =
+      'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+    let title = item?.course?.name;
+    let extensionType = url?.split('.')?.pop();
+
+    const download = async () => {
+      await pdfPermission({mime, url, title, extensionType});
+    };
+    return <PurchaseHistoryMolecule item={item} onPress={download} />;
   };
   return (
     <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70)}}>
@@ -44,22 +54,22 @@ export const PurchaseHistory: React.FC<PurchaseHistoryProps> = ({
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
-      <FlatList
-        data={
-          user_course_history?.length
-            ? // ? user_course_history?.filter(el => el?.user_id == auth?.user?.id)
-              user_course_history
-            : []
-        }
-        renderItem={renderItem}
-        contentContainerStyle={{
-          rowGap: mScale.base,
-          paddingBottom: mScale.base,
-        }}
-        refreshing={refreshLoading}
-        onRefresh={onRefresh}
-        showsVerticalScrollIndicator={false}
-      />
+      <View style={{marginTop: mScale.lg}}>
+        <FlatList
+          data={
+            user_course_history?.length
+              ? user_course_history?.filter(el => el?.user_id == auth?.user?.id)
+              : []
+          }
+          renderItem={renderItem}
+          contentContainerStyle={{
+            gap: mScale.lg1,
+          }}
+          refreshing={refreshLoading}
+          onRefresh={onRefresh}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
     </GradientTemplate>
   );
 };

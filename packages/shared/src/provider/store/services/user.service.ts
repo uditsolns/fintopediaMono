@@ -3,6 +3,7 @@ import { RootState } from "../types/storeTypes";
 import apiUrl from "../../../config/apiUrl";
 import { UserInfo, UserUpdateParams } from "../../../utils/types/auth";
 import { storeCurrentUser } from "../reducers/auth.reducer";
+import { signIn } from "./auth.service";
 
 export const getUser = createAsyncThunk<UserInfo[], void, { state: RootState }>(
   "user/get",
@@ -70,7 +71,11 @@ export const updateUser = createAsyncThunk<
     const data = (await response.json()) as UserInfo;
     thunkApi.dispatch(storeCurrentUser(data));
     thunkApi.dispatch(getUserById({ id }));
-
+    // const userData = {
+    //   token: token,
+    //   user: data,
+    // };
+    // thunkApi.dispatch(signIn(userData))
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue(error);

@@ -25,7 +25,7 @@ import {GrandTotalPrice} from '@src/components/GrandTotalPrice';
 import {RouteKeys} from '@src/navigation/RouteKeys';
 import {NavType} from '@src/navigation/types';
 import React from 'react';
-import {View} from 'react-native';
+import {BackHandler, View} from 'react-native';
 import PhonePePaymentSDK from 'react-native-phonepe-pg';
 import sha256 from 'crypto-js/sha256';
 import base64 from 'react-native-base64';
@@ -35,6 +35,7 @@ import {
 } from '@shared/src/provider/store/services/PurchaseHistory.service';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {useCartContext} from '@src/components/context/CartContextApi';
 
 interface BillingProps extends NavType<'Billing'> {}
 
@@ -45,138 +46,172 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
   const dispatch = useAppDispatch();
   let cartData = routes?.params?.cartData;
   const {current_user, auth} = useAppSelector(state => state.auth);
-  const {courseCart} = useAppSelector(state => state.courseCart);
-  const {loading} = useAppSelector(state => state.purchaseHistory);
+  const {courseCart} = useAppSelector(state => state?.courseCart);
+  const {loading} = useAppSelector(state => state?.purchaseHistory);
   const currentDate = new Date().toISOString().toString();
   const currentPurchaseDate = currentDate?.split('T')[0];
-  let course_id_arr = courseCart?.map(el => el?.course_id);
+  let course_id_arr = courseCart?.length
+    ? courseCart?.map(el => el?.course_id)
+    : [];
 
   React.useEffect(() => {
-    PhonePePaymentSDK.init(ENVIRONMENT, MERCHANT_ID, '', true)
-      .then(res =>
-        console.log(`PhonePePaymentSDK initilized of this ${MERCHANT_ID}`, res),
-      )
-      .catch(err => console.log('PhonePePaymentSDK initilized error', err));
+    const backAction = () => {
+      console.log('backAction');
+      navigation.goBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, [navigation]);
+
+  React.useEffect(() => {
+    try {
+      PhonePePaymentSDK.init(ENVIRONMENT, MERCHANT_ID, '', true)
+        .then(res =>
+          console.log(
+            `PhonePePaymentSDK initilized of this ${MERCHANT_ID}`,
+            res,
+          ),
+        )
+        .catch(err => console.log('PhonePePaymentSDK initilized error', err));
+    } catch (error) {
+      console.log('PhonePePaymentSDK initilized error', error);
+    }
   }, []);
 
   const handlePayment = () => {
-    const requestBody = {
-      merchantId: MERCHANT_ID,
-      merchantTransactionId: `${new Date().getTime()}`,
-      merchantUserId: `${auth?.user?.id}`,
-      amount: cartData?.totalPay * 100,
-      redirectUrl: REDIRECT_URL,
-      redirectMode: 'REDIRECT',
-      callbackUrl: CALLBACK_URL,
-      mobileNumber: `${auth?.user?.phone}`,
-      paymentInstrument: {
-        type: 'PAY_PAGE',
-      },
-    };
-    let requestJSONBody = JSON.stringify(requestBody);
-    let requestBase64Body = base64.encode(requestJSONBody);
-    const input = requestBase64Body + API_ENDPOINT + SALT_KEY;
-    const sha256Res = sha256(requestBase64Body + API_ENDPOINT + SALT_KEY);
-    const finalXHeader = `${sha256Res}###${SALT_INDEX}`;
-    PhonePePaymentSDK.startTransaction(
-      requestBase64Body,
-      finalXHeader,
-      'com.aurahealing',
-      null,
-    )
-      .then(res => {
-        console.log('startTransaction response ', JSON.stringify(res));
-        const sha256Res2 = sha256(
-          `/pg/v1/status/${MERCHANT_ID}/${requestBody?.merchantTransactionId}` +
-            SALT_KEY,
-        );
-        const finalXHeader2 = `${sha256Res2}###${SALT_INDEX}`;
-        paymentCheckStaus(
-          finalXHeader2,
-          MERCHANT_ID,
-          requestBody?.merchantTransactionId,
-        );
-      })
-      .catch(e => {
-        console.log('startTransaction err', e);
-      })
-      .finally(() => {
-        console.log('startTransaction finally block');
-      });
+    try {
+      const requestBody = {
+        merchantId: MERCHANT_ID,
+        merchantTransactionId: `${new Date().getTime()}`,
+        merchantUserId: `${auth?.user?.id}`,
+        amount: cartData?.totalPay * 100,
+        redirectUrl: REDIRECT_URL,
+        redirectMode: 'REDIRECT',
+        callbackUrl: CALLBACK_URL,
+        mobileNumber: `${auth?.user?.phone}`,
+        paymentInstrument: {
+          type: 'PAY_PAGE',
+        },
+      };
+      let requestJSONBody = JSON.stringify(requestBody);
+      let requestBase64Body = base64.encode(requestJSONBody);
+      const input = requestBase64Body + API_ENDPOINT + SALT_KEY;
+      const sha256Res = sha256(requestBase64Body + API_ENDPOINT + SALT_KEY);
+      const finalXHeader = `${sha256Res}###${SALT_INDEX}`;
+      PhonePePaymentSDK.startTransaction(
+        requestBase64Body,
+        finalXHeader,
+        'com.aurahealing',
+        null,
+      )
+        .then(res => {
+          console.log('startTransaction response ', JSON.stringify(res));
+          const sha256Res2 = sha256(
+            `/pg/v1/status/${MERCHANT_ID}/${requestBody?.merchantTransactionId}` +
+              SALT_KEY,
+          );
+          const finalXHeader2 = `${sha256Res2}###${SALT_INDEX}`;
+          paymentCheckStaus(
+            finalXHeader2,
+            MERCHANT_ID,
+            requestBody?.merchantTransactionId,
+          );
+        })
+        .catch(e => {
+          console.log('startTransaction err', e);
+        })
+        .finally(() => {
+          console.log('startTransaction finally block');
+        });
+    } catch (error) {
+      console.log('handlePayment error', error);
+    }
   };
 
   const paymentCheckStaus = (
-    finalXHeader2: string,
-    merchantId: string,
-    merchantTransactionId: string,
+    finalXHeader2?: string,
+    merchantId?: string,
+    merchantTransactionId?: string,
   ) => {
-    fetch(
-      `${PRODUCTION_HOST_URL}/pg/v1/status/${merchantId}/${merchantTransactionId}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-VERIFY': finalXHeader2,
-          'X-MERCHANT-ID': merchantId,
+    try {
+      fetch(
+        `${PRODUCTION_HOST_URL}/pg/v1/status/${merchantId}/${merchantTransactionId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-VERIFY': finalXHeader2,
+            'X-MERCHANT-ID': merchantId,
+          },
         },
-      },
-    )
-      .then(response => response.json())
-      .then(async res => {
-        const params = {
-          user_id: auth?.user?.id,
-          course_id: course_id_arr,
-          purchase_date: currentPurchaseDate,
-          status: res?.code === 'PAYMENT_SUCCESS' ? 'paid' : 'failed',
-          payment_status: res?.code === 'PAYMENT_SUCCESS' ? 'paid' : 'failed',
-          phone_pe_payment_id:
-            res?.data?.transactionId ||
-            res?.data?.paymentInstrument?.pgServiceTransactionId ||
-            '',
-          payment_type: res?.data?.paymentInstrument?.type || '',
-          utr: res?.data?.paymentInstrument?.utr || '',
-          upiTransactionId:
-            res?.data?.paymentInstrument?.upiTransactionId || '',
-          accountHolderName:
-            res?.data?.paymentInstrument?.accountHolderName || '',
-          accountType: res?.data?.paymentInstrument?.accountType || '',
-          pgTransactionId: res?.data?.paymentInstrument?.pgTransactionId || '',
-          pgServiceTransactionId:
-            res?.data?.paymentInstrument?.pgServiceTransactionId || '',
-          arn: res?.data?.paymentInstrument?.arn || '',
-          cardType: res?.data?.paymentInstrument?.cardType || '',
-          brn: res?.data?.paymentInstrument?.brn || '',
-          subtotal: cartData?.totalSubTotal || '',
-          total_discount: cartData?.totalDiscount || '',
-          gst: cartData?.gst || '',
-          grand_total: cartData?.totalPay || '',
-        };
-        dispatch(
-          createPurchaseHistory({
-            params,
-            onSuccess(data) {
-              let params = {
-                id: data?.data?.id,
-              };
-              dispatch(
-                getPurchaseHistoryById({
-                  params,
-                  onSuccess(data) {
-                    navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN);
-                  },
-                  onError(error) {},
-                }),
-              );
-            },
-            onError(error) {
-              console.log(error);
-            },
-          }),
-        );
-      })
-      .catch(error => {
-        console.error(JSON.stringify(error));
-      });
+      )
+        .then(response => response.json())
+        .then(async res => {
+          const params = {
+            user_id: auth?.user?.id,
+            course_id: course_id_arr,
+            purchase_date: currentPurchaseDate,
+            status: res?.code === 'PAYMENT_SUCCESS' ? 'paid' : 'failed',
+            payment_status: res?.code === 'PAYMENT_SUCCESS' ? 'paid' : 'failed',
+            phone_pe_payment_id:
+              res?.data?.transactionId ||
+              res?.data?.paymentInstrument?.pgServiceTransactionId ||
+              '',
+            payment_type: res?.data?.paymentInstrument?.type || '',
+            utr: res?.data?.paymentInstrument?.utr || '',
+            upiTransactionId:
+              res?.data?.paymentInstrument?.upiTransactionId || '',
+            accountHolderName:
+              res?.data?.paymentInstrument?.accountHolderName || '',
+            accountType: res?.data?.paymentInstrument?.accountType || '',
+            pgTransactionId:
+              res?.data?.paymentInstrument?.pgTransactionId || '',
+            pgServiceTransactionId:
+              res?.data?.paymentInstrument?.pgServiceTransactionId || '',
+            arn: res?.data?.paymentInstrument?.arn || '',
+            cardType: res?.data?.paymentInstrument?.cardType || '',
+            brn: res?.data?.paymentInstrument?.brn || '',
+            subtotal: cartData?.totalSubTotal || '',
+            total_discount: cartData?.totalDiscount || '',
+            gst: cartData?.gst || '',
+            grand_total: cartData?.totalPay || '',
+          };
+          dispatch(
+            createPurchaseHistory({
+              params,
+              onSuccess(data) {
+                let params = {
+                  id: data?.data?.id,
+                };
+                dispatch(
+                  getPurchaseHistoryById({
+                    params,
+                    onSuccess(data) {
+                      console.log(data);
+                      navigation.navigate(RouteKeys.PAYMENTSUCCESSSCREEN);
+                    },
+                    onError(error) {},
+                  }),
+                );
+              },
+              onError(error) {
+                console.log(error);
+              },
+            }),
+          );
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error));
+        });
+    } catch (error) {
+      console.log('paymentCheckStaus error', error);
+    }
   };
   return (
     <GradientTemplate
@@ -184,8 +219,9 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
         paddingBottom: 0,
         paddingHorizontal: 0,
         paddingTop: moderateScale(70),
+        padding: mScale.lg1,
       }}>
-      {loading?.singlePurchaseHistory || loading.create ? (
+      {loading?.singlePurchaseHistory || loading?.create ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>
@@ -239,7 +275,7 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
               style={[
                 commonStyle.flexStart,
                 {
-                  borderWidth: 1,
+                  borderWidth: 0.5,
                   borderColor: colorPresets.GRAY3,
                   marginTop: mScale.xxl,
                   padding: mScale.md2,
@@ -261,9 +297,9 @@ export const Billing: React.FunctionComponent<BillingProps> = ({
       </ScrollViewAtom>
       <GrandTotalPrice
         btnTitle="Pay now"
-        itemCount={cartData?.totalItem}
-        price={cartData?.totalPay}
-        discount_price={cartData?.actualPrice}
+        itemCount={cartData?.totalItem || ''}
+        price={cartData?.totalPay || ''}
+        discount_price={cartData?.actualPrice || ''}
         onPress={() => {
           handlePayment();
         }}

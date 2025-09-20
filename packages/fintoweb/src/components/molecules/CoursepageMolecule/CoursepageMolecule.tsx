@@ -7,7 +7,10 @@ import Image from "next/image";
 import { imageUrl } from "shared/src/config/imageUrl";
 import ProgressBar from "@src/components/progress/ProgressBar";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
-import { isInCart } from "shared/src/components/atoms/Calculate";
+import {
+  isCoursePurchased,
+  isInCart,
+} from "shared/src/components/atoms/Calculate";
 import { useRouter } from "next/navigation";
 
 interface CoursepageMoleculeProps {
@@ -22,21 +25,41 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
 }) => {
   const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);
+  const { auth } = useAppSelector((state) => state.auth);
 
+  const { courseget_purchase } = useAppSelector(
+    (state) => state.coursesgetPurchase
+  );
+
+  const flattenedCourses = courseget_purchase.flat();
+
+  const isCoursePurchasedStatus = isCoursePurchased(
+    flattenedCourses,
+    course?.id
+  );
   const handleNavigation = async () => {
+    if (!auth?.token) {
+      await router.push("/auth/login");
+      return;
+    }
     if (course?.id) {
-      await router.push(`/courses/course-details/${course.id}`);
+      if (isCoursePurchasedStatus) {
+        await router.push(`/course-details-enrolling/${course.id}`);
+      } else {
+        await router.push(`/courses/course-details/${course.id}`);
+      }
     }
   };
+
   return (
-    <div key={course.id}>
+    <div key={course.id} className={styles.coursepageMolecule}>
       <Card className={styles.card}>
         <div className={styles.cardImage} onClick={handleNavigation}>
           <Image
             src={`${imageUrl}/uploads/course_images/${course.course_image}`}
-            alt={course.name} 
+            alt={course.name}
             width={350}
-            height={200}
+            height={178}
             className={styles.image}
           />
           <div className={styles.languageBadge}>
@@ -79,7 +102,11 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
           </div>
         </div>
         <CardBody className={styles.cardContent}>
-          <CardTitle tag="h3" className={styles.cardTitle} onClick={handleNavigation}>
+          <CardTitle
+            tag="h3"
+            className={styles.cardTitle}
+            onClick={handleNavigation}
+          >
             {course.name}
           </CardTitle>
           <div className={styles.iconRow}>
@@ -90,7 +117,7 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
               <FaClock className={styles.icon} /> {course.duration_time}
             </div>
             <div className={styles.cardRating}>
-            {course.rating}
+              {course.rating}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="13"
@@ -116,6 +143,8 @@ const CoursepageMolecule: React.FC<CoursepageMoleculeProps> = ({
             >
               {loading
                 ? "Loading..."
+                : isCoursePurchasedStatus
+                ? "Watch Now"
                 : isInCart(courseCart, course?.id)
                 ? "Go to cart"
                 : "Add to cart"}

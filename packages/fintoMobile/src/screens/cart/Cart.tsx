@@ -1,5 +1,12 @@
 import React from 'react';
-import {Alert, FlatList, Pressable, RefreshControl, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  Pressable,
+  RefreshControl,
+  Text,
+  View,
+} from 'react-native';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
@@ -22,6 +29,7 @@ import {getCourses} from '@shared/src/provider/store/services/courses.service';
 import LoaderAtom from '@src/components/LoaderAtom';
 import {
   addTwoNumber,
+  calculatePercetageAmount,
   filteredCourses,
   isInCart,
   subtractTwoNumber,
@@ -32,14 +40,32 @@ import {
   deleteCourseCart,
   getCourseCart,
 } from '@shared/src/provider/store/services/CourseCart.service';
-import {createCoursesSaveLater} from '@shared/src/provider/store/services/coursesavelater.service';
+import {
+  createCoursesSaveLater,
+  getCoursesSaveLater,
+} from '@shared/src/provider/store/services/coursesavelater.service';
 import {CourseCartResponse} from '@shared/src/utils/types/CourseCart';
 import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {Toast} from 'react-native-toast-notifications';
+import {fontPresets} from '@shared/src/theme/typography';
+import GradientBorderBox from '@src/components/Border/GradientBorderBox';
+import BorderWithThickness from '@src/components/Border';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
+import {useCartContext} from '@src/components/context/CartContextApi';
+import {useFocusEffect} from '@react-navigation/native';
 
 interface CartProps extends NavType<'Cart'> {}
 
 export const Cart: React.FC<CartProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
+  const {
+    isCouponCodeApply,
+    totalPaymentAmount,
+    setTotalPaymentAmount,
+    setKeepTotalPaymentAmount,
+    couponCodePercentage,
+    keepTotalPaymentAmount,
+  } = useCartContext();
   const {auth} = useAppSelector(state => state.auth);
   const {courses, loading: coursesLoading} = useAppSelector(
     state => state.courses,
@@ -50,10 +76,13 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
     loading: courseCartLoading,
     create,
   } = useAppSelector(state => state.courseCart);
-  const {courses_save_later, loading} = useAppSelector(
-    state => state.coursesSaveLater,
-  );
+  const {courses_save_later, loading: courses_save_later_loading} =
+    useAppSelector(state => state.coursesSaveLater);
 
+  const {
+    setVideoPlayerBeforePurchaseUrl,
+    setPlayVideoStartBeforePurchaseLoading,
+  } = useVideoPlayerContext();
   const [refreshLoading, setRefreshLoading] = React.useState(false);
   const [subtotal, setSubtotal] = React.useState<number>(0);
   const [actualPricetotal, setActualPricetotal] = React.useState<number>(0);
@@ -62,7 +91,7 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
   const [gst, setGst] = React.useState<number>(0);
 
   React.useEffect(() => {
-    if (courseCart) {
+    if (courseCart?.length) {
       let sale_price = sumCalculate(courseCart, 'sale_price');
       let actual_price = sumCalculate(courseCart, 'actual_price');
       let totalDiscountAmount = subtractTwoNumber(sale_price, actual_price);
@@ -73,26 +102,64 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
       setActualPricetotal(actual_price);
       setTotalDiscount(totalDiscountAmount);
       setTotalPay(totalPayAmount);
+      setKeepTotalPaymentAmount(totalPayAmount);
     }
   }, [courseCart, create, deleteCart]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (couponCodePercentage) {
+        let amt = calculatePercetageAmount(
+          couponCodePercentage,
+          keepTotalPaymentAmount,
+        );
+        let total2 = subtractTwoNumber(amt, keepTotalPaymentAmount);
+        setTotalPaymentAmount(total2);
+        console.log('----------------------------------', total2);
+      }
+    }, [courseCart, create, deleteCart, totalPay, keepTotalPaymentAmount]),
+  );
 
   const onRefresh = () => {
     setRefreshLoading(true);
     dispatch(getCourses());
     dispatch(getCourseCart());
+    dispatch(getCoursesSaveLater());
     setRefreshLoading(false);
   };
 
   const renderItem = ({item}: {item: CourseCartResponse}) => {
+    const onRemove = () => {
+      let id = Number(item?.id);
+      dispatch(
+        deleteCourseCart({
+          id,
+          onSuccess: data => {
+            dispatch(getCourseCart());
+          },
+          onError: err => {},
+        }),
+      );
+    };
     return (
       <CartMolecule
         item={item?.course}
-        onPress={() => {}}
+        onPress={() => {
+          if (item?.course?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.course_id,
+          });
+        }}
         onSaveLater={() => {
           if (
             courses_save_later?.some(el => el?.course_id == item?.course_id)
           ) {
-            Alert.alert('You have already added to save for later.');
+            Toast.show('You have already added to save for later.', {
+              type: 'success',
+            });
           }
           let params = {
             user_id: Number(auth?.user?.id),
@@ -103,24 +170,20 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             createCoursesSaveLater({
               params,
               onSuccess(data) {
-                console.log('createCoursesSaveLater');
+                console.log('on save for later');
+                Toast.show('Your course added to save for later.', {
+                  type: 'success',
+                });
+                onRemove();
               },
               onError(error) {},
             }),
           );
         }}
         onRemove={() => {
-          let id = Number(item?.id);
-          dispatch(
-            deleteCourseCart({
-              id,
-              onSuccess: data => {
-                console.log('delete cart');
-              },
-              onError: err => {},
-            }),
-          );
+          onRemove();
         }}
+        saveForLaterBoolean={true}
       />
     );
   };
@@ -133,6 +196,49 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
     return (
       <PopularCourseMolecule
         item={item}
+        onView={() => {
+          if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.id,
+          });
+        }}
+        onPress={async () => {
+          let params = {
+            user_id: Number(auth?.user?.id),
+            course_id: Number(item?.id),
+            status: '1',
+          };
+          if (isInCart(courseCart, item?.id)) {
+          } else {
+            await dispatch(
+              createCourseCart({
+                params,
+                onSuccess: data => {},
+                onError: err => {},
+              }),
+            ).unwrap();
+          }
+        }}
+      />
+    );
+  };
+
+  const wishlistRenderItem = ({item}: {item: any}) => {
+    return (
+      <PopularCourseMolecule
+        item={item?.course}
+        onView={() => {
+          if (item?.course_video_embed) {
+            setVideoPlayerBeforePurchaseUrl(item?.course_video_embed);
+            setPlayVideoStartBeforePurchaseLoading(false);
+          }
+          navigation.navigate(RouteKeys.BEFOREENROLLINGCOURSEDETAILSSCREEN, {
+            id: item?.id,
+          });
+        }}
         onPress={async () => {
           let params = {
             user_id: Number(auth?.user?.id),
@@ -163,7 +269,8 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
       {coursesLoading?.courses ||
       courseCartLoading?.courseCart ||
       courseCartLoading?.create ||
-      courseCartLoading?.delete ? (
+      courseCartLoading?.delete ||
+      courses_save_later_loading?.create ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size="large" />
         </View>
@@ -173,12 +280,12 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
         refreshControl={
           <RefreshControl refreshing={refreshLoading} onRefresh={onRefresh} />
         }>
-        <View style={{paddingHorizontal: mScale.base}}>
+        <View style={{paddingHorizontal: mScale.base, marginTop: mScale.base}}>
           <FlatList
             data={courseCart?.length ? courseCart : []}
             renderItem={renderItem}
             contentContainerStyle={{
-              rowGap: mScale.base,
+              gap: mScale.xl,
               paddingBottom: mScale.lg,
             }}
             nestedScrollEnabled={true}
@@ -186,115 +293,140 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
           {courseCart?.length > 0 ? (
             <>
               <View>
-                <TextAtom
-                  text={`You have ${courseCart?.length} items in your cart`}
-                  preset="body"
-                  style={{marginBottom: mScale.md}}
-                />
-                <View
-                  style={[
-                    commonStyle.flexSpaceBetween,
-                    {
-                      padding: mScale.base,
-                      borderWidth: 1,
-                      borderColor: colorPresets.GRAY3,
-                      borderRadius: 12,
-                      backgroundColor: '#121622',
-                    },
-                  ]}>
-                  <View style={[commonStyle.flexStart]}>
-                    <Images.SVG.DiscountIcon />
-                    <TextAtom
-                      text={'Coupons and Bank offers'}
-                      preset="body"
-                      style={{marginStart: mScale.base}}
-                    />
-                  </View>
-                  <Pressable
-                    onPress={() => {
-                      navigation.navigate(RouteKeys.COUPONSCREEN);
-                    }}>
-                    <Images.SVG.ChevronRight />
-                  </Pressable>
-                </View>
-              </View>
-              <View
-                style={[
-                  {
-                    padding: mScale.lg,
-                    borderWidth: 1,
-                    borderColor: colorPresets.GRAY3,
-                    borderRadius: 12,
-                    backgroundColor: '#121622',
-                    marginVertical: mScale.base,
-                  },
-                ]}>
-                <View
-                  style={[
-                    commonStyle.flexSpaceBetween,
-                    {marginBottom: mScale.md},
-                  ]}>
-                  <TextAtom text={'Actual price'} preset="large" />
-                  <TextAtom text={`₹ ${actualPricetotal}`} preset="heading3" />
-                </View>
-                <View
-                  style={[
-                    commonStyle.flexSpaceBetween,
-                    {marginBottom: mScale.md},
-                  ]}>
-                  <TextAtom text={'Sale price'} preset="large" />
-                  <TextAtom text={`₹ ${subtotal}`} preset="heading3" />
-                </View>
-                <View style={[commonStyle.flexSpaceBetween, {}]}>
-                  <TextAtom
-                    text={'GST'}
-                    preset="body"
-                    style={{color: '#B5B5B5'}}
-                  />
-                  <TextAtom
-                    text={`+ ₹ ${gst}`}
-                    preset="body"
-                    style={{color: '#B5B5B5'}}
-                  />
-                </View>
-                <View
+                <Text
                   style={{
-                    borderWidth: 1,
-                    borderStyle: 'dotted',
-                    borderColor: '#282A37',
-                    marginVertical: mScale.lg,
-                  }}
-                />
-                <View
-                  style={[
-                    commonStyle.flexSpaceBetween,
-                    {marginBottom: mScale.md},
-                  ]}>
-                  <TextAtom text={'Grand total'} preset="heading3" />
-                  <TextAtom text={`₹ ${totalPay}`} preset="heading3" />
-                </View>
+                    ...fontPresets.body,
+                    marginBottom: mScale.md2,
+                    fontWeight: '300',
+                    color: colorPresets.GRAY,
+                  }}>
+                  You have{' '}
+                  <Text
+                    style={{
+                      ...fontPresets.heading4,
+                      fontWeight: '700',
+                      color: colorPresets.CTA,
+                    }}>
+                    {courseCart?.length} items
+                  </Text>{' '}
+                  in your cart
+                </Text>
+                <GradientBorderBox linearColor={['#121622', '#121622']}>
+                  <View
+                    style={[
+                      commonStyle.flexSpaceBetween,
+                      {
+                        padding: mScale.lg1,
+                        borderRadius: 12,
+                        backgroundColor: '#121622',
+                      },
+                    ]}>
+                    <View style={[commonStyle.flexStart]}>
+                      <Images.SVG.DiscountIcon />
+                      <TextAtom
+                        text={'Coupons and Bank offers'}
+                        preset="large"
+                        style={{marginStart: mScale.base, fontWeight: '500'}}
+                      />
+                    </View>
+                    <Pressable
+                      onPress={() => {
+                        navigation.navigate(RouteKeys.COUPONSCREEN);
+                      }}>
+                      <Images.SVG.ChevronRight />
+                    </Pressable>
+                  </View>
+                </GradientBorderBox>
+              </View>
+              <View style={{marginTop: mScale.lg}}>
+                <GradientBorderBox linearColor={['#121622', '#121622']}>
+                  <View
+                    style={[
+                      {
+                        paddingHorizontal: mScale.lg1,
+                        paddingVertical: mScale.lg2,
+                        borderRadius: 12,
+                        backgroundColor: '#121622',
+                      },
+                    ]}>
+                    <View
+                      style={[
+                        commonStyle.flexSpaceBetween,
+                        {marginBottom: mScale.md},
+                      ]}>
+                      <TextAtom text={'Actual price'} preset="large" />
+                      <TextAtom
+                        text={`₹ ${actualPricetotal}`}
+                        preset="heading3"
+                      />
+                    </View>
+                    <View
+                      style={[
+                        commonStyle.flexSpaceBetween,
+                        {marginBottom: mScale.md},
+                      ]}>
+                      <TextAtom text={'Sale price'} preset="large" />
+                      <TextAtom text={`₹ ${subtotal}`} preset="heading3" />
+                    </View>
+                    <View style={[commonStyle.flexSpaceBetween, {}]}>
+                      <TextAtom
+                        text={'GST'}
+                        preset="body"
+                        style={{color: '#B5B5B5'}}
+                      />
+                      <TextAtom
+                        text={`+ ₹ ${gst}`}
+                        preset="body"
+                        style={{color: '#B5B5B5'}}
+                      />
+                    </View>
+                    <View
+                      style={{
+                        borderWidth: 1,
+                        borderStyle: 'dotted',
+                        borderColor: '#282A37',
+                        marginVertical: mScale.lg,
+                      }}
+                    />
+                    <View
+                      style={[
+                        commonStyle.flexSpaceBetween,
+                        {marginBottom: mScale.md},
+                      ]}>
+                      <TextAtom text={'Grand total'} preset="heading3" />
+                      <TextAtom text={`₹ ${totalPay}`} preset="heading3" />
+                    </View>
+                  </View>
+                </GradientBorderBox>
               </View>
             </>
           ) : null}
         </View>
-        <View style={{marginVertical: mScale.xl}}>
-          <View style={{paddingLeft: mScale.base}}>
-            <FlatList
-              data={courses?.length ? filteredCourses(courses, courseCart) : []}
-              renderItem={innerCategoriesCoursesRenderItem}
-              horizontal={true}
-              contentContainerStyle={{
-                columnGap: 20,
-                // flexGrow: 1,
-                paddingEnd: mScale.lg,
-              }}
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item, index) => index.toString()}
-            />
+        <BorderWithThickness style={{marginTop: mScale.xxl}} />
+        {courses_save_later?.length ? (
+          <View style={{marginVertical: mScale.xl}}>
+            <ViewAll title="Wishlist" visible={false} preset="heading2" />
+            <View style={{paddingLeft: mScale.base}}>
+              <FlatList
+                data={courses_save_later?.length ? courses_save_later : []}
+                renderItem={wishlistRenderItem}
+                horizontal={true}
+                contentContainerStyle={{
+                  columnGap: mScale.lg1,
+                  paddingEnd: mScale.lg,
+                }}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
           </View>
-        </View>
+        ) : null}
         <View style={{marginVertical: mScale.xl}}>
-          <ViewAll title="Your might also like" visible={false} />
+          <ViewAll
+            title="Your might also like"
+            visible={false}
+            preset="heading2"
+          />
           <View style={{paddingLeft: mScale.base}}>
             <FlatList
               data={courses?.length ? filteredCourses(courses, courseCart) : []}
@@ -314,10 +446,10 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
       {totalDiscount ? (
         <View
           style={[
-            commonStyle.flexStart,
+            commonStyle.flexCenter,
             {
               backgroundColor: '#222431',
-              padding: mScale.base,
+              padding: mScale.md2,
             },
           ]}>
           <ImageAtom
@@ -338,14 +470,14 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
           </View>
         </View>
       ) : null}
+      {/* <BorderWithThickness mv={0} height={1.5} /> */}
+      <GradientBorderBox />
       <View
         style={[
           commonStyle.flexSpaceBetween,
           {
             paddingHorizontal: mScale.base,
             paddingVertical: mScale.lg,
-            borderTopWidth: 1,
-            borderColor: colorPresets.GRAY3,
           },
         ]}>
         <View>
@@ -354,15 +486,18 @@ export const Cart: React.FC<CartProps> = ({navigation}) => {
             preset="medium"
             style={{marginBottom: mScale.xxs, color: '#B5B5B5'}}
           />
-          <TextAtom text={`₹ ${totalPay}`} preset="heading3" />
+          <TextAtom
+            text={`₹ ${isCouponCodeApply ? totalPaymentAmount : totalPay}`}
+            preset="heading3"
+          />
         </View>
-        <View>
+        <View style={{width: moderateScale(228), borderRadius: 4}}>
           <ButtonAtom
             title={'Proceed to checkout'}
             onPress={() => {
               if (courseCart?.length > 0) {
                 let cartData = {
-                  totalItem: courses?.length,
+                  totalItem: courseCart?.length,
                   totalPay: totalPay,
                   totalDiscount: totalDiscount,
                 };

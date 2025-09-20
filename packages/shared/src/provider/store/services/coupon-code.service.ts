@@ -135,3 +135,31 @@ export const deleteCouponCode = createAsyncThunk<
     return thunkApi.rejectWithValue(error);
   }
 });
+
+export const applyCouponCode = createAsyncThunk<
+  CouponCodeResponse,
+  CouponCodeParams,
+  { state: RootState }
+>("applyCouponCode/post", async (params,thunkApi) => {
+  try {
+    const state = thunkApi.getState();
+    const token = state.auth?.auth?.token;
+    const response = await fetch(
+      apiUrl.COUPON_CODE.APPLY_COUPON_CODE,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+      }
+    );
+
+    const data = (await response.json()) as any;
+
+    return data;
+  } catch (error:any) {
+    return thunkApi.rejectWithValue(error?.message);
+  }
+});

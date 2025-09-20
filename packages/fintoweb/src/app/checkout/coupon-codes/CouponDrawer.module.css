@@ -100,7 +100,7 @@
   padding: 20px;
   margin-bottom: 15px;
   border-radius: 12px;
-  border: 1px solid var(--Border, #7a7fa2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #121622;
 }
 
@@ -132,9 +132,14 @@
   padding: 9px 21px;
   border-radius: 8px;
   background: #222431;
-  margin-top: 30px;
+  margin-top: 20px;
 }
-
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
 .copyIcon {
   cursor: pointer;
 }

@@ -56,6 +56,7 @@ export const TabsRoutes: React.FC<TabsRoutesProps> = ({}) => {
           header: () => {
             return <Header text={getCurrentGreeting()} visible={false} />;
           },
+          
         }}
         name={TabKeys.HOMETABSCREEN}
         component={Home as React.FC}

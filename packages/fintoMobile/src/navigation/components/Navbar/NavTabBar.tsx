@@ -1,10 +1,10 @@
-
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import {colorPresets} from '@shared/src/theme/color';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import * as React from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
+import BorderWithThickness from '@src/components/Border';
 
 export const NavTabBar: React.FC<BottomTabBarProps> = ({
   state,
@@ -18,10 +18,7 @@ export const NavTabBar: React.FC<BottomTabBarProps> = ({
         styles.container,
         {height: insets.bottom > 20 ? moderateScale(100) : moderateScale(80)},
       ]}>
-      {/* <NavBarOverlay
-        width={WINDOW_WIDTH}
-        height={insets.bottom > 20 ? moderateScale(80) : moderateScale(60)}
-      /> */}
+         <BorderWithThickness mv={0} />
       <View style={styles.tabContainer}>
         {state.routes.map((route, index) => {
           const {options} = descriptors[route.key];
@@ -83,6 +80,7 @@ export const NavTabBar: React.FC<BottomTabBarProps> = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colorPresets.BG,
+   
   },
   tabContainer: {
     flexDirection: 'row',

@@ -9,6 +9,8 @@ export interface AuthState {
     confirm: boolean;
     google_login: boolean;
     verifyOtp: boolean;
+    verify_mobile:boolean,
+    otp_login:boolean
   };
   err: {
     loginErr: any;
@@ -18,6 +20,8 @@ export interface AuthState {
     confirmErr: any;
     google_login_err: any;
     verifyOtpErr: any;
+    verify_mobile_err:any,
+    otp_login_err:any
   };
   token?: string | null;
   auth: AuthResponse | null;
@@ -26,6 +30,8 @@ export interface AuthState {
   confirm: any;
   current_user: UserInfo | null;
   verifyOtp: VerifyOtpResponse | null;
+  verify_mobile:any,
+  otp_login:AuthResponse | null;
 }
 
 export interface AuthParams {
@@ -37,6 +43,9 @@ export interface AuthResponse {
   user: UserInfo;
   token: string;
 }
+// export interface AuthErrorResponse {
+//   message: string;
+// }
 
 export interface UpdatePasswordResponse {
   code: number;
@@ -53,7 +62,7 @@ export interface ForgotPasswordResponse {
 }
 export interface VerifyOtpParams {
   email: string;
-  otp: number;
+  otp: string;
   new_password: string;
   new_password_confirmation: string;
 }
@@ -127,6 +136,14 @@ export interface SignupParams {
 export interface ForgotPasswordParams {
   email: string;
 }
+export interface OtpLoginParams {
+  phone: string | number;
+}
+
+export interface OtpLoginParams2 {
+  phone: string | number;
+  device_id:string | null;
+}
 export interface OnSuccessInterface {
   onSuccess: (data: any) => void;
 }
@@ -145,10 +162,13 @@ export interface ResetPasswordParams2 {
   new_password_confirmation: string;
 }
 export interface UpdatePasswordParams {
-  // old_password?: string;
   user_id: string;
   new_password?: string;
   new_password_confirmation?: string;
+}
+
+export interface UpdatePasswordParameter {
+  params: UpdatePasswordParams;
 }
 export interface UserUpdateParams {
   id?: number;

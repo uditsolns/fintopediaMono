@@ -31,7 +31,7 @@ const LearningMode: React.FC = () => {
   return (
     <div className={styles.LearningMode}>
       <Row>
-        <Col md={6}>
+        <Col md={6} className="mt-3">
           <div className={styles.scheduleTimer}>
             <h1 className={styles.LearningModeHeading}>Schedule Daily Timer</h1>
             <p className={styles.LearningModeSubHeading}>
@@ -58,7 +58,7 @@ const LearningMode: React.FC = () => {
             </button>
           </div>
         </Col>
-        <Col md={6}>
+        <Col md={6} className="mt-3">
           <div className={styles.mobileNotification}>
             <h1 className={styles.LearningModeHeading}>Mobile Notification</h1>
             <p className={styles.LearningModeSubHeading}>

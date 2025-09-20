@@ -62,13 +62,26 @@ const BlogsSlider: React.FC = () => {
   const [progress, setProgress] = useState(0);
   const [slideToShow, setSlideToShow] = useState(4);
 
+  // const setSlides = () => {
+  //   if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
+  //     setSlideToShow(4);
+  //   } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
+  //     setSlideToShow(2);
+  //   } else if (window.innerWidth <= 650) {
+  //     setSlideToShow(1);
+  //   }
+  // };
+
   const setSlides = () => {
-    if (window.innerWidth <= 1280 && window.innerWidth > 1000) {
-      setSlideToShow(4);
-    } else if (window.innerWidth <= 1000 && window.innerWidth > 650) {
-      setSlideToShow(2);
-    } else if (window.innerWidth <= 650) {
+    const width = window.innerWidth;
+    if (width <= 650) {
       setSlideToShow(1);
+    } else if (width <= 1000) {
+      setSlideToShow(2);
+    } else if (width <= 1280) {
+      setSlideToShow(4);
+    } else {
+      setSlideToShow(4);
     }
   };
 
@@ -87,6 +100,9 @@ const BlogsSlider: React.FC = () => {
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
+    // autoplay: true,
+    // autoplaySpeed: 3000,
+    pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     afterChange: (current: number) => {
@@ -126,16 +142,16 @@ const BlogsSlider: React.FC = () => {
         {stocks.map((stock) => (
           <div key={stock.id}>
             <Card className={styles.blogsCard}>
-              <Image 
-                src={stock.image}
+              <Image
+                src={stock.image}  
                 alt={stock.title}
                 className={styles.blogsCardImage}
               />
               <CardBody className={styles.blogsCardContent}>
-                <p>Options Trading</p>
+                <p>Options Trading</p> 
                 <CardTitle tag="h3" className={styles.blogsCardTitle}>
                   {stock.title}
-                </CardTitle>
+                </CardTitle> 
                 <div className={styles.blogsCardText}>
                   <p>{stock.description}</p>
                 </div>
@@ -154,11 +170,13 @@ const BlogsSlider: React.FC = () => {
         ></div>
       </div>
       <div className={styles.viewAllCourses}>
-        <Link href="/blogs" className={styles.blogButton}>View all Blogs</Link>
-        {/* <button>View all Blogs</button> */} 
+        <Link href="/blogs" className={styles.blogButton}>
+          View all Blogs
+        </Link>
+        {/* <button>View all Blogs</button> */}
       </div>
     </div>
-  ); 
+  );
 };
 
 export default BlogsSlider;

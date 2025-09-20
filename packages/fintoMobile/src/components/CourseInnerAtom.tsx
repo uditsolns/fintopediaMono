@@ -12,8 +12,13 @@ import {
   CourseSubSections,
 } from '@shared/src/utils/types/courses';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
-import {useAppDispatch} from '@shared/src/provider/store/types/storeTypes';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
 import {storeVideoUrl} from '@shared/src/provider/store/reducers/courses.reducer';
+import {updateOngoingCourse} from '@shared/src/provider/store/services/ongoing-course.service';
+import {useVideoPlayerContext} from './context/VideoPlayerContextApi';
 interface CourseInnerAtomProps {
   item: CourseSections;
 }
@@ -21,12 +26,22 @@ interface CourseInnerAtomProps {
 export interface CourseLessonItem {
   el?: CourseSubSections;
   onPress?: () => void;
+  courseChecked?: boolean | string;
 }
 export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
-  const [expanded, setExpanded] = React.useState<boolean>(false);
+  let section_id = item?.id;
   const dispatch = useAppDispatch();
+  const {
+    ongoing_courses,
+    single_ongoing_courses,
+    loading: ongoing_courses_loading,
+  } = useAppSelector(state => state.ongoingCourse);
+  const {auth} = useAppSelector(state => state.auth);
+  const {singleCourse} = useAppSelector(state => state.courses);
+  const [expanded, setExpanded] = React.useState<boolean>(false);
+  const {setVideoPlayerUrl, setPlayVideoStartLoading} = useVideoPlayerContext();
 
-  const LessonItem = ({el, onPress}: CourseLessonItem) => {
+  const LessonItem = ({el, onPress, courseChecked}: CourseLessonItem) => {
     return (
       <PressableAtom
         style={[
@@ -40,7 +55,7 @@ export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
           },
         ]}
         onPress={onPress}>
-        <CustomCheckbox isChecked={true} />
+        <CustomCheckbox isChecked={courseChecked} />
         <View style={{flex: 1}}>
           <TextAtom text={el?.subsection_heading || ''} preset="body" />
           <View style={[commonStyle.flexStart]}>
@@ -79,16 +94,62 @@ export const CourseInnerAtom: React.FC<CourseInnerAtomProps> = ({item}) => {
       {expanded && item?.subsections?.length > 0 && (
         <FlatList
           data={item?.subsections}
-          renderItem={({item, index}) => (
-            <LessonItem
-              el={item}
-              onPress={() => {
-                console.log(item);
-                dispatch(storeVideoUrl(item?.sub_video_embed));
-              }}
-            />
-          )}
-          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => {
+            const ongoingCourse = ongoing_courses?.find(
+              el =>
+                el?.user_id === auth?.user?.id &&
+                el?.course_id === single_ongoing_courses?.course_id &&
+                el?.section_id === section_id &&
+                el?.sub_section_id === item?.id,
+            );
+
+            const ongoingId = ongoingCourse?.id || null;
+            const check_icon_course_section = ongoing_courses?.some(
+              e2 =>
+                e2?.user_id === auth?.user?.id &&
+                e2?.course_id === single_ongoing_courses?.course_id &&
+                e2?.section_id === section_id &&
+                e2?.sub_section_id === item?.id &&
+                e2?.watching_status === 'true',
+            );
+            return (
+              <LessonItem
+                el={item}
+                onPress={() => {
+                  let params = {
+                    id: ongoingId,
+                    user_id: Number(auth?.user?.id),
+                    course_id: Number(singleCourse?.id),
+                    section_id: section_id,
+                    sub_section_id: item?.id,
+                    watching_status: 'true',
+                    course_percentage: '0',
+                  };
+                  if (ongoingId) {
+                    dispatch(
+                      updateOngoingCourse({
+                        params,
+                        onSuccess(data) {
+                          console.log(
+                            'succes of update ongoing copurses',
+                            data,
+                          );
+                        },
+                        onError(error) {},
+                      }),
+                    );
+                  }
+                  setVideoPlayerUrl(item?.sub_video_embed);
+                  setPlayVideoStartLoading(true);
+                  dispatch(storeVideoUrl(item?.sub_video_embed));
+                }}
+                courseChecked={check_icon_course_section ? true : false}
+              />
+            );
+          }}
+          keyExtractor={(item, index) =>
+            item?.id?.toString() || index.toString()
+          }
         />
       )}
     </View>

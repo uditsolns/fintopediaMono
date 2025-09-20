@@ -36,6 +36,7 @@ import {Images} from '@shared/src/assets';
 import {PressableAtom} from '@shared/src/components/atoms/Button/PressableAtom';
 import Header from '@src/components/Header/Header';
 import {ViewPdf} from '@src/screens/view-pdf/ViewPdf';
+import { View } from 'react-native';
 
 interface MainRoutesProps {}
 
@@ -174,9 +175,12 @@ export const MainRoutes: React.FC<MainRoutesProps> = ({}) => {
       <Stack.Screen
         options={({navigation}) => ({
           headerTitle: 'Profile details',
-          headerShown: true,
-          headerLeft: () =>
-            headerBack(() => navigation.navigate(RouteKeys.HOMESCREEN)),
+          headerShown: true,          
+          headerLeft: () => (
+            <View style={{ paddingLeft: mScale.sm }}>
+              {headerBack(() => navigation.navigate(RouteKeys.HOMESCREEN))}
+            </View>
+          ),
         })}
         name={RouteKeys.PROFILEDETAILSSCREEN}
         component={ProfileDetails as React.FC}

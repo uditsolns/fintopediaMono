@@ -8,6 +8,7 @@ import {
 } from '@shared/src/provider/store/types/storeTypes';
 import {mScale} from '@shared/src/theme/metrics';
 import {UserCourseHistoryResponse} from '@shared/src/utils/types/UserCourseHistory';
+import {useVideoPlayerContext} from '@src/components/context/VideoPlayerContextApi';
 import GetStarted from '@src/components/GetStarted';
 import LoaderAtom from '@src/components/LoaderAtom';
 import MyCourseMolecule from '@src/components/molecules/MyCourseMolecule/MyCourseMolecule';
@@ -24,6 +25,7 @@ const MyCourse: React.FunctionComponent<MyCourseInterface> = () => {
     state => state.userCourseHistory,
   );
   const [refreshLoading, setRefreshLoading] = React.useState<boolean>(false);
+  const {setVideoPlayerUrl, setPlayVideoStartLoading} = useVideoPlayerContext();
 
   React.useEffect(() => {
     onRefresh();
@@ -40,8 +42,12 @@ const MyCourse: React.FunctionComponent<MyCourseInterface> = () => {
         <MyCourseMolecule
           item={item?.course}
           onPress={() => {
-            if (item?.course?.course_video_embed) {
-              dispatch(storeVideoUrl(item?.course?.course_video_embed));
+            if (item?.course?.course_video_embed?.otp) {
+              setVideoPlayerUrl(item?.course?.course_video_embed);
+              setPlayVideoStartLoading(true);
+            } else {
+              setPlayVideoStartLoading(false);
+              setVideoPlayerUrl(null);
             }
             navigation.navigate(RouteKeys.AFTERENROLLINGCOURSEDETAILSSCREEN, {
               id: item?.course_id,
@@ -58,17 +64,21 @@ const MyCourse: React.FunctionComponent<MyCourseInterface> = () => {
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
-      <View style={{alignSelf: 'center', paddingLeft: mScale.base}}>
+      <View
+        style={{
+          alignSelf: 'center',
+          paddingLeft: mScale.base,
+          marginTop: mScale.base,
+        }}>
         <FlatList
           data={
             user_course_history?.length
-              ? // ? user_course_history?.filter(el => el?.user_id == auth?.user?.id)
-                user_course_history
+              ? user_course_history?.filter(el => el?.user_id == auth?.user?.id)
               : []
           }
           renderItem={renderItem}
           contentContainerStyle={{
-            rowGap: mScale.base,
+            gap: mScale.lg3,
             paddingBottom: mScale.base,
           }}
           ListFooterComponent={

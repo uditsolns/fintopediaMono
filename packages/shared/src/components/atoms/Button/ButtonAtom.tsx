@@ -13,6 +13,9 @@ interface ButtonAtomProps extends PressableProps {
   loading?: boolean;
   textPreset?: TextPresetType;
   loadingColor?: string;
+  numberOfLines?: number;
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
 }
 
 export const ButtonAtom = ({
@@ -21,6 +24,9 @@ export const ButtonAtom = ({
   textPreset = "smallBold",
   loading = false,
   loadingColor = colorPresets.BLACK,
+  numberOfLines = 1,
+  iconLeft,
+  iconRight,
   ...rest
 }: ButtonAtomProps) => {
   const [width, setWidth] = React.useState(WINDOW_WIDTH - mScale.lg3);
@@ -28,6 +34,7 @@ export const ButtonAtom = ({
   const presetData = rest.disabled ? Presets.disabled : Presets[preset];
 
   const textStyle = ButtonText[preset];
+
   return (
     <View
       onLayout={(event) => {
@@ -37,7 +44,7 @@ export const ButtonAtom = ({
       }}
       style={[
         preset === "tertiary"
-          ? { borderRadius: mScale.sm, marginVertical: mScale.md }
+          ? { borderRadius: 4, marginVertical: mScale.md }
           : undefined,
       ]}
     >
@@ -46,22 +53,32 @@ export const ButtonAtom = ({
           <LinearGradientMolecule
             width={width}
             height={height}
-            radius={mScale.sm}
+            radius={4}
             colors={[colorPresets.GRAY3, colorPresets.GRAY3]}
           />
         </View>
       ) : null}
       <Pressable
         disabled={loading}
-        style={({ pressed }) => [presetData, { opacity: pressed ? 0.7 : 1 }]}
+        style={({ pressed }) => [
+          presetData,
+          {
+            opacity: pressed ? 0.7 : 1,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+          },
+        ]}
         {...rest}
       >
+        {iconLeft && <View style={{ marginRight: 8 }}>{iconLeft}</View>}
         <TextAtom
-          style={textStyle}
+          style={[textStyle, { textAlign: "center" }]}
           preset={textPreset}
           text={title}
-          numberOfLines={1}
+          numberOfLines={numberOfLines}
         />
+        {iconRight && <View style={{ marginLeft: 8 }}>{iconRight}</View>}
       </Pressable>
     </View>
   );

@@ -3,7 +3,7 @@ import { CoursesResponse } from "./courses";
 export interface CoursesSectionParams {
   id?: number;
   course_id?: number;
-  section_number?: number;
+  section_number?: string | number
   section_heading?: string;
   section_topics?: string;
   section_time?: number;
@@ -14,7 +14,7 @@ export interface CoursesSectionParams {
 export interface CoursesSectionResponse {
   id: number;
   course_id: number;
-  section_number: number;
+  section_number: string | number
   section_heading: string;
   section_topics: string;
   section_time: number;

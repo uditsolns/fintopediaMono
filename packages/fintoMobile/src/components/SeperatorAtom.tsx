@@ -14,7 +14,7 @@ const SeparatorAtom: React.FC<SeparatorAtomProps> = ({
   height = 1,
   marginHorizontal = mScale.base,
   style,
-  bgColor,
+  bgColor = colorPresets.GRAY,
 }) => {
   return (
     <View

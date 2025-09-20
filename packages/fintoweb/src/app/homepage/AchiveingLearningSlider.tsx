@@ -51,6 +51,9 @@ const AchiveingLearningSlider = () => {
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
+    // autoplay: true,
+    // autoplaySpeed: 3000,
+    pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     afterChange: (current: number) => {
@@ -165,8 +168,8 @@ const AchiveingLearningSlider = () => {
                         <stop offset="1" stop-color="#0D0D0C" />
                       </linearGradient>
                     </defs>
-                  </svg>{" "}&nbsp;
-                  Enrolled in: <a href="">{card.courseLink}</a>
+                  </svg>{" "}
+                  &nbsp; Enrolled in: <a href="">{card.courseLink}</a>
                 </div>
               </div>
             </div>

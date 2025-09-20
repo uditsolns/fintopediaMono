@@ -30,18 +30,21 @@ export const Notification: React.FC<NotificationInterface> = ({navigation}) => {
     return <NotificationsMolecule item={item} />;
   };
   return (
-    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70)}}>
+    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70),padding:mScale.lg1}}>
       {false ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
+      <View style={{marginTop:mScale.xl}}>
+
       <FlatList
         data={[...Array(10)]}
         renderItem={renderItem}
         contentContainerStyle={{rowGap: mScale.lg, paddingBottom: mScale.xxl}}
         showsVerticalScrollIndicator={false}
       />
+      </View>
     </GradientTemplate>
   );
 };

@@ -8,13 +8,19 @@ import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import HorizontalProgressBar from '@src/components/HorizontalProgressBar';
 import {imageUrl} from '@shared/src/config/imageUrl';
 import {OngoingCoursesResponse} from '@shared/src/utils/types/ongoing-course';
+import { Images } from '@shared/src/assets';
 
 interface OngoingMoleculeProps {
   item: OngoingCoursesResponse;
   onPress?: () => void;
+  completionPercentage?: string | null | number;
 }
 
-const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({item, onPress}) => {
+const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({
+  item,
+  onPress,
+  completionPercentage,
+}) => {
   return (
     <View
       style={[
@@ -35,17 +41,21 @@ const OngoingMolecule: React.FC<OngoingMoleculeProps> = ({item, onPress}) => {
       />
       <View style={styles.content}>
         <TextAtom
-          text={item?.courses_section?.section_heading || ''}
+          text={item?.course?.name || ''}
           preset="heading4"
-          style={styles.boldText}
+          style={[styles.boldText,{fontWeight:'600',marginTop:mScale.sm}]}
           numberOfLines={2}
         />
-        <HorizontalProgressBar progress={Number(item?.course_percentage)} />
+        <HorizontalProgressBar progress={Number(completionPercentage)} />
+        <View style={{marginTop:mScale.xs}}>
+
         <ButtonAtom
           title={'Continue learning'}
           preset="primary"
           onPress={onPress}
+          iconRight={<Images.SVG.RightArrow />}
         />
+        </View>
       </View>
     </View>
   );
@@ -60,7 +70,9 @@ const styles = StyleSheet.create({
   },
   image: {
     width: moderateScale(115),
-    height: moderateScale(133),
+    height: moderateScale(145),
+    borderRadius:4,
+    overflow:'hidden'
   },
   content: {flex: 1},
   boldText: {
