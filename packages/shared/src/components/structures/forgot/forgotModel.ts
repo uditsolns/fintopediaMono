@@ -6,8 +6,8 @@ type ForgotField = Pick<ModelParams, "email">;
 export const forgotField: ForgotField = {
   email: {
     name: "email",
-    label: "Email",
-    placeHolder: "Email your email id",
+    label: "Email your email",
+    placeHolder: "Enter your email",
     requiredErr: "Email is required",
   }
 };

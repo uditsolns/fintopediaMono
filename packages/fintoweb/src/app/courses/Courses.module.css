@@ -3,7 +3,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 30px 100px;
-  background: var(
+  background-image: url("../../assets/courses/headingBanner.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -13,7 +16,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
 }
 .headerContentsCourseFilter h2 {
   color: var(--Base-Base-White, #f4f5f5);
@@ -34,6 +37,7 @@
   letter-spacing: -0.2px;
   width: 550px;
   margin-top: 15px;
+  text-align: justify;
 }
 .formContainer {
   display: flex;
@@ -62,24 +66,26 @@
   margin-top: 10px;
 }
 .textfield {
-  display: flex;
-  padding: 19px 26px;
-  align-items: center;
-  gap: 8px;
-  align-self: stretch;
-  border-radius: 4px;
-  border: 1px solid var(--Border, #7a7fa2);
-  background: #121622;
-  color: #fff;
+  display: flex !important;
+  padding: 9px 16px !important;
+  align-items: center !important;
+  margin-top: 10px;
+  gap: 8px !important;
+  align-self: stretch !important;
+  border-radius: 4px !important;
+  border: 1px solid var(--Border, #7a7fa2) !important;
+  background: #121622 !important;
+  color: #fff !important;
 }
 
 .textfield::placeholder {
-  color: #fff;
+  /* color: #fff; */
+  color: #a4a4a4;
 }
 
 .textfield:focus {
   background-color: #2d303d;
-  color: #fff;
+  color: #a4a4a4;
   outline: none;
 }
 
@@ -90,6 +96,38 @@
 .isInvalid {
   border-color: red;
 }
+/* filter */
+.filter {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.filter .form-control {
+  flex: 1;
+  min-width: 150px;
+}
+
+.searchButton {
+  display: flex;
+  width: 128px;
+  padding: 14px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: #fff;
+  color: #0c0c0c;
+  font-size: 12px;
+  font-style: normal;
+  margin-left: auto;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.12px;
+  margin-top: 4px;
+}
+
 .letsgoButton {
   display: flex;
   padding: 16px 24px;
@@ -110,14 +148,19 @@
 .courseContainer {
   padding: 50px;
   position: relative;
+  background: var(
+    --BG,
+    linear-gradient(
+      245deg,
+      #2d303d 0%,
+      #212330 28.6%,
+      #101320 65.15%,
+      #111521 78%,
+      #0d0f1b 100%
+    )
+  );
 }
-.card {
-  color: #fff !important;
-  overflow: hidden;
-  margin: 10px;
-  background-color: #000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+
 .slick-slide > div {
   margin: 0 30px;
 }
@@ -139,108 +182,13 @@
   transition: width 0.3s;
 }
 
-.cardImage {
-  height: auto;
-}
 .slick-list {
   margin-right: -30px;
   margin: 0 -10px;
 }
 
-.cardContent {
-  padding: 16px;
-}
-
-.cardTitle {
-  color: #fff;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 120%;
-  align-self: stretch;
-}
-
-.cardDescription {
-  font-size: 1rem;
-  color: #666;
-}
-.iconRow {
-  display: flex;
-  justify-content: space-between;
-  margin: 8px 0;
-  overflow: hidden;
-  color: #fff;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 120%;
-}
-
-.iconText {
-  display: flex;
-  align-items: center;
-}
-
-.icon {
-  margin-right: 8px;
-}
-.cardRating {
-  display: inline-flex;
-  align-items: center;
-}
-.cardRating svg {
-  color: #ffa11a;
-  gap: 5px;
-}
-.priceContainer {
-  display: flex;
-  align-items: center;
-  margin: 8px 0;
-}
-.priceContainer h3 {
-  color: #fff;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 120%;
-}
-.priceContainer s {
-  color: #71717a;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 120%;
-  text-decoration-line: strikethrough;
-  margin-left: 10px;
-}
-
-.addToCartButton {
-  display: flex;
-  width: 127.352px;
-  padding: 10.872px 18.637px;
-  justify-content: center;
-  align-items: center;
-  gap: 7.765px;
-  flex-shrink: 0;
-  border-radius: 3.106px;
-  background: #fff;
-  color: #0c0c0c;
-  font-size: 12px;
-  font-style: normal;
-  margin-left: auto;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.12px;
-}
-.addToCartButton:hover {
-  background-color: #ccc;
-}
-.featureCourses {
-  padding: 50px;
-  background: #0e121d;
-}
 /* ----Trading Courses-------- */
-.tradingCourses{
+.tradingCourses {
   padding: 50px;
 }
 .tradingCourses h1 {
@@ -249,6 +197,40 @@
   font-style: normal;
   font-weight: 700;
   line-height: 32px;
+  margin-bottom: 20px;
+}
+/* active style Course type */
+.filterButtons {
+  display: flex;
+  margin-bottom: 1rem;
+  gap: 8px;
+}
+
+.filterButton {
+  color: #a4a4a4;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  padding: 18px 24px;
+}
+
+.activeFilter {
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  border-bottom: 3px solid #fff;
+  padding: 18px 24px;
+}
+.featureCourses {
+  background-image: url("../../assets/courses/FeaturedCoursesbg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 40px;
 }
 @media screen and (max-width: 435px) {
   .headerCourseFilter {
@@ -271,8 +253,35 @@
   .formContainer {
     margin-top: 15px;
   }
-  .tradingCourses{
+  .tradingCourses {
     padding: 15px;
   }
+  .filterButtons {
+    margin-bottom: 30px;
+  }
+  .filterButton {
+    padding: 10px;
+  }
+  .headerContentsCourseFilter h2 {
+    font-size: 24px;
+  }
+  .headerContentsCourseFilter p {
+    font-size: 16px;
+  }
+  .formContainer {
+    width: 100%;
+    padding: 20px;
+  }
+  .formContainer h2 {
+    font-size: 25px;
+  }
+  .filter {
+    display: block;
+  }
+  .filter button {
+    width: 100%;
+  }
+  .textfield {
+    padding: 3px !important;
+  }
 }
-/* course Details CSS */

@@ -5,9 +5,10 @@ import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import {colorPresets} from '@shared/src/theme/color';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import { StockDatasResponse } from '@shared/src/utils/types/stockDatas';
 
 interface TradeMoleculeProps {
-  item?: any;
+  item?: StockDatasResponse;
   onBuyStcok?: () => void;
 }
 export default function TradeMolecule({item, onBuyStcok}: TradeMoleculeProps) {
@@ -22,14 +23,14 @@ export default function TradeMolecule({item, onBuyStcok}: TradeMoleculeProps) {
           }}
         />
         <TextAtom
-          text={'Bajaj Finance Stock'}
+          text={item?.stock?.name}
           preset="smallBold"
           style={{fontWeight: '600'}}
         />
       </View>
       <View style={[commonStyle.flexSpaceBetween, {width: '40%'}]}>
         <TextAtom
-          text={`₹ 10000`}
+          text={`₹ ${item?.stock_current_price}`}
           preset="smallBold"
           style={{fontWeight: '500'}}
         />

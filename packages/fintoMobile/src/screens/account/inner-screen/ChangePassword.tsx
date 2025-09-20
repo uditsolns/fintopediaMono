@@ -2,11 +2,10 @@ import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {colorPresets} from '@shared/src/theme/color';
-import {mScale} from '@shared/src/theme/metrics';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import LoaderAtom from '@src/components/LoaderAtom';
 import React from 'react';
 import {Text, View} from 'react-native';
@@ -18,13 +17,12 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({}) => {
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
   return (
-    <GradientTemplate style={{paddingBottom: 0}}>
+    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70)}}>
       {false ? (
         <View style={commonStyle.fullPageLoading}>
           <LoaderAtom size={'large'} />
         </View>
       ) : null}
-      <HeaderLeftMolecule text={'Change password'} />
       <ScrollViewAtom>
         <View style={{marginBottom: mScale.lg}}>
           <InputAtom

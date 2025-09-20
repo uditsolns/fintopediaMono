@@ -5,8 +5,9 @@ import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import { StockDatasResponse } from '@shared/src/utils/types/stockDatas';
 
-export default function PreviousRoundMolecule({item}: {item: any}) {
+export default function PreviousRoundMolecule({item}: {item: StockDatasResponse}) {
   return (
     <View style={[commonStyle.flexSpaceBetween, {width: '100%'}]}>
       <View
@@ -19,7 +20,7 @@ export default function PreviousRoundMolecule({item}: {item: any}) {
           }}
         />
         <TextAtom
-          text={'Bajaj Finance Stock'}
+          text={item?.stock?.name}
           preset="smallBold"
           style={{fontWeight: '600'}}
           numberOfLines={2}
@@ -27,7 +28,7 @@ export default function PreviousRoundMolecule({item}: {item: any}) {
       </View>
       <View style={[commonStyle.flexSpaceBetween]}>
         <TextAtom
-          text={`₹ 20,000`}
+          text={`₹ ${item?.stock_current_price}`}
           preset="smallBold"
           style={{fontWeight: '500'}}
           numberOfLines={1}

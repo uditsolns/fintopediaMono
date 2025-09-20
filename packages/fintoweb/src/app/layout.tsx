@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { interTight } from "shared/src/theme/typography.web";
 import "bootstrap/dist/css/bootstrap.css";
 import "./globals.css";
-import BootstrapClient from "@src/components/BootstrapClient";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import "slick-carousel/slick/slick.css";
@@ -10,6 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { AppProvider } from "shared/src/provider/AppProvider";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import ScrollToTop from "@src/components/scroll-top/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "Finto pedia",
@@ -27,10 +27,10 @@ export default function RootLayout({
         <AppProvider>
           <Navbar />
           {children}
+          <ScrollToTop/>
           <Footer />
         </AppProvider>
         <ToastContainer />
-        {/* <BootstrapClient /> */}
       </body>
     </html>
   );

@@ -1,0 +1,32 @@
+.cartContainer {
+  position: relative;
+}
+
+.cartIcon {
+  margin-right: 8px;
+  width: 23px;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -11px;
+  right: -4px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
+.browseLink {
+  width: 230px;
+}
+
+@media screen and (max-width: 435px) {
+  .browseLink {
+    width: auto;
+  }
+}

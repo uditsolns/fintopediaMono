@@ -4,7 +4,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 30px 130px;
-  background: var(
+  background-image: url("../../../assets/courses/Banner-bg-L1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -14,7 +17,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
 }
 .headerContent h1 {
   font-size: 45px;

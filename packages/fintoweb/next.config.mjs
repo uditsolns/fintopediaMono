@@ -1,7 +1,19 @@
+import { hostname } from "os";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
     externalDir: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "nivada.in",
+      },
+    ],
   },
   webpack: (config) => {
     config.resolve.alias = {

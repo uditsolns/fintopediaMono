@@ -2,23 +2,18 @@ import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
 import {ButtonAtom} from '@shared/src/components/atoms/Button/ButtonAtom';
 import {InputAtom} from '@shared/src/components/atoms/Input/InputAtom';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
 import {moderateScale, mScale} from '@shared/src/theme/metrics';
-import HeaderLeftMolecule from '@src/components/Header/HeaderLeftMolecule';
 import React from 'react';
 import {Pressable, View} from 'react-native';
 
 interface ReferFriendsProps {}
 
 export const ReferFriends: React.FC<ReferFriendsProps> = ({}) => {
-  const [oldPassword, setOldPassword] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
   return (
-    <GradientTemplate style={{paddingBottom: 0}}>
-      <HeaderLeftMolecule text={'Refer and earn'} />
+    <GradientTemplate style={{paddingBottom: 0, paddingTop: moderateScale(70)}}>
       <ScrollViewAtom>
         <View
           style={{

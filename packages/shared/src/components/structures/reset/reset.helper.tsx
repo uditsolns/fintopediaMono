@@ -3,7 +3,7 @@ import { useAppDispatch } from "../../../provider/store/types/storeTypes";
 import { confirmPassword } from "../../../provider/store/services/auth.service";
 import { InputAtomProps } from "../../atoms/Input/InputAtom";
 import { RESET_VALUES, resetValidation } from "./resetModel";
-import { UpdatePasswordParams } from "../../../utils/types/auth";
+import { ResetPasswordParams } from "../../../utils/types/auth";
 
 export const useResetHelper = () => {
   type dataType = keyof typeof RESET_VALUES;
@@ -14,12 +14,12 @@ export const useResetHelper = () => {
     initialValues: RESET_VALUES,
     validationSchema: resetValidation,
     onSubmit: (values) => {
-      let data: UpdatePasswordParams = {
+      let data: ResetPasswordParams = {
         token: values.token,
         password: values.password,
         confirmation_password: values.confirmation_password,
       };
-      dispatch(confirmPassword(data));
+      // dispatch(confirmPassword(data));
     },
   });
 

@@ -10,7 +10,12 @@
   background: #222431;
   color: #fff;
 }
-
+/* .form-control:disabled {
+  
+} */
+.textfield:disabled {
+  background-color: #121622 !important;
+}
 .textfield::placeholder {
   color: #7a7fa2;
 }

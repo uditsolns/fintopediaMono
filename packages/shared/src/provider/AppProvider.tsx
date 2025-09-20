@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -22,19 +23,20 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         <ToastContainer />
       </Provider>
     );
+  } else {
+    return (
+      <Provider store={store}>
+        <PersistGate persistor={persistor} loading={null}>
+          <ToastProvider
+            placement="bottom"
+            offsetTop={80}
+            offsetBottom={40}
+            renderToast={(toast: ToastProps) => <ToastMolecule {...toast} />}
+          >
+            {children}
+          </ToastProvider>
+        </PersistGate>
+      </Provider>
+    );
   }
-  return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor} loading={null}>
-        <ToastProvider
-          placement="bottom"
-          offsetTop={80}
-          offsetBottom={40}
-          renderToast={(toast: ToastProps) => <ToastMolecule {...toast} />}
-        >
-          {children}
-        </ToastProvider>
-      </PersistGate>
-    </Provider>
-  );
 };

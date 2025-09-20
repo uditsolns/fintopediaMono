@@ -1,25 +1,37 @@
-import { commonStyle } from '@shared/src/commonStyle';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { GradientTemplate } from '@shared/src/components/templates/GradientTemplate';
-import { moderateScale, mScale } from '@shared/src/theme/metrics';
+import {useRoute} from '@react-navigation/native';
+import {commonStyle} from '@shared/src/commonStyle';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {useAppSelector} from '@shared/src/provider/store/types/storeTypes';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import SeparatorAtom from '@src/components/SeperatorAtom';
 import React from 'react';
-import { View } from 'react-native';
-interface OverviewProps {}
+import {LayoutChangeEvent, View} from 'react-native';
 
-export const Overview: React.FunctionComponent<OverviewProps> = () => {
+interface OverviewProps {
+  onLayout: (event: LayoutChangeEvent) => void;
+}
+
+export const Overview: React.FunctionComponent<OverviewProps> = ({
+  onLayout,
+}) => {
+  const {
+    courses,
+    singleCourse,
+    loading: coursesLoading,
+  } = useAppSelector(state => state.courses);
+  let route = useRoute<any>();
+  const {course, id} = route.params || {};
+  const data = singleCourse ? singleCourse : course;
   return (
-    <View style={{flex:1,padding:mScale.base}} >
+    <View onLayout={onLayout} style={{flex: 1, padding: mScale.base}}>
       <View>
         <View style={{marginBottom: mScale.base}}>
           <TextAtom text={'About this course'} preset="heading3" />
           <View style={{marginTop: mScale.xs}}>
             <TextAtom
-              text={
-                'The most complete course available on Product Management. 13+ hours of videos, activities, interviews, &  more'
-              }
+              text={singleCourse?.description || ''}
               preset="body"
-              style={{color:'#C8C8CC'}}
+              style={{color: '#C8C8CC'}}
             />
           </View>
         </View>
@@ -39,7 +51,7 @@ export const Overview: React.FunctionComponent<OverviewProps> = () => {
             style={{marginEnd: mScale.base, width: moderateScale(176)}}
           />
           <TextAtom
-            text={'13 hours'}
+            text={singleCourse?.duration_time || ''}
             preset="body"
             style={{width: moderateScale(160)}}
           />
@@ -60,7 +72,7 @@ export const Overview: React.FunctionComponent<OverviewProps> = () => {
             style={{marginEnd: mScale.base, width: moderateScale(176)}}
           />
           <TextAtom
-            text={'English'}
+            text={singleCourse?.course_language || ''}
             preset="body"
             style={{width: moderateScale(160)}}
           />
@@ -94,13 +106,10 @@ export const Overview: React.FunctionComponent<OverviewProps> = () => {
           <TextAtom text={'About this course'} preset="heading3" />
           <View style={{marginTop: mScale.xs}}>
             <TextAtom
-              text={`Updated January 2024: Over 4,000 students who have taken this course have gotten jobs as Product Managers! Students now work at companies like Google, Zynga, Airbnb, Wal-Mart, Dell, Booking. com, Jet. com, Vodafone, HomeAway, Boeing, Freelancer. com, Wayfair, & more!
-
-The most updated and complete Product Management course on Udemy! You'll learn the skills that make up the entire Product Management job and process: from ideation to market research, to UX wireframing to prototyping, technology, metrics, and finally to building the product with user stories, project management, scoping, and leadership. We even have interviews with real life PMs, Q&A sessions with students, and a comprehensive guide to preparing and interviewing for a Product Management job. read less`}
+              text={`${singleCourse?.description}`}
               preset="body"
-              style={{color:'#C8C8CC'}}
+              style={{color: '#C8C8CC'}}
             />
-            
           </View>
         </View>
       </View>

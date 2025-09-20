@@ -1,9 +1,7 @@
 import {StyleSheet, View, ViewStyle, TextStyle, ImageStyle} from 'react-native';
 import React from 'react';
 import {RouteKeys} from '@src/navigation/RouteKeys';
-import {useNavigation} from '@react-navigation/native';
 import {GradientTemplate} from '@shared/src/components/templates/GradientTemplate';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import ProfileIcon from '@src/components/Profile/ProfileIcon';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import SeparatorAtom from '@src/components/SeperatorAtom';
@@ -12,8 +10,19 @@ import {moderateScale, mScale, WINDOW_WIDTH} from '@shared/src/theme/metrics';
 import {colorPresets} from '@shared/src/theme/color';
 import {Images} from '@shared/src/assets';
 import Popup from '@src/components/Popup/Popup';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '@shared/src/provider/store/types/storeTypes';
+import {NavType} from '@src/navigation/types';
+import {logout} from '@shared/src/provider/store/reducers/auth.reducer';
+import {PopupUpload} from '@src/components/Popup/PopupUpload';
+import {ImageType} from '@shared/src/utils/types/main';
+import {updateUser} from '@shared/src/provider/store/services/user.service';
+import {imageUrl} from '@shared/src/config/imageUrl';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 
-const avatarUrl =
+export const avatarUrl =
   'https://st4.depositphotos.com/4329009/19956/v/450/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg';
 
 const profileItems = [
@@ -54,43 +63,54 @@ const profileItems = [
   },
 ];
 
-interface AccountProps {}
+interface AccountProps extends NavType<'Account'> {}
 
-interface LoginState {
-  user: {
-    first_name: string;
-    surname_name: string;
-    email: string;
-    phone: string;
+export const Account: React.FC<AccountProps> = ({navigation}) => {
+  const dispatch = useAppDispatch();
+  const {current_user} = useAppSelector(state => state.auth);
+  const logoutUser = () => {
+    setPopupVisible(true);
   };
-}
-
-export const Account: React.FC<AccountProps> = ({}) => {
-  const navigation = useNavigation();
-  const logout = () => {};
   const [popupVisible, setPopupVisible] = React.useState(false);
+
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [photo, setPhoto] = React.useState<ImageType | null | undefined>(null);
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
 
   const navigateTo = (route: any) => {
     navigation.navigate(route);
   };
 
   return (
-    <GradientTemplate style={{paddingBottom: 0, paddingHorizontal: 0}}>
-      <ScrollViewAtom>
+    <GradientTemplate
+      style={{paddingBottom: 0, paddingHorizontal: 0, paddingTop: 0}}>
+      <ScrollViewAtom contentContainerStyle={{paddingTop: mScale.xxl1}}>
         <View style={styles.centeredView}>
-          <ProfileIcon avatarUrl={avatarUrl} />
+          <ProfileIcon
+            avatarUrl={
+              photo
+                ? photo?.uri
+                : current_user?.photo
+                ? `${imageUrl}/uploads/user_photo/${current_user?.photo}`
+                : avatarUrl
+            }
+            onPress={() => setModalVisible(true)}
+          />
           <TextAtom
-            text={`Sujeet Chauhan`}
+            text={`${current_user?.first_name} ${current_user?.surname_name}`}
             preset="heading3"
             style={styles.nameText}
           />
           <TextAtom
-            text={'sujeet@gmail.com'}
+            text={current_user?.email}
             preset="medium"
             style={styles.emailText}
           />
           <TextAtom
-            text={`+919076049013`}
+            text={`+91${current_user?.phone}`}
             preset="small"
             style={[styles.phoneText, {color: '#C8C8CC', marginTop: mScale.xs}]}
           />
@@ -112,20 +132,40 @@ export const Account: React.FC<AccountProps> = ({}) => {
             <ProfileItemAtom
               component={<Images.SVG.LogoutIcon />}
               name="Logout"
-              onPress={logout}
+              onPress={logoutUser}
             />
           </View>
         </View>
-        <Popup
-          visible={popupVisible}
-          title={'Logout Confirmation'}
-          desc={
-            'Are you sure you want to log out? Any unsaved changes will be lost.'
-          }
-          btnTitle1={'Logout'}
-          btnTitle2={'Back'}
-        />
       </ScrollViewAtom>
+      <Popup
+        visible={popupVisible}
+        title={'Logout Confirmation'}
+        desc={
+          'Are you sure you want to log out? Any unsaved changes will be lost.'
+        }
+        btnTitle1={'Logout'}
+        btnTitle2={'Back'}
+        onClose={() => {
+          setPopupVisible(false);
+        }}
+        onRetry={() => {
+          dispatch(logout());
+          // navigation.navigate('AuthRoutes', { screen: RouteKeys.LOGINSCREEN });
+          // navigation.navigate(RouteKeys.LOGINSCREEN);
+        }}
+      />
+      <PopupUpload
+        isVisible={modalVisible}
+        toggleModal={toggleModal}
+        onImagePick={(data: ImageType[]) => {
+          let res = data?.pop();
+          let formData = new FormData();
+          setPhoto(res);
+          formData.append('photo', res ? res : '');
+          let id = '' + current_user?.id;
+          dispatch(updateUser({formData, id}));
+        }}
+      />
     </GradientTemplate>
   );
 };

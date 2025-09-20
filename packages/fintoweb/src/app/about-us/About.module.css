@@ -3,7 +3,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 80px 120px;
-  background: var(
+  background-image: url("../../assets/about/About-us-banner-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -13,7 +16,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
 }
 .aboutContents {
   flex: 1;
@@ -49,7 +52,10 @@
 }
 .aboutStory {
   padding: 50px 120px;
-  background: var(
+  background-image: url("../../assets/about/Our-story.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background: var(
     --BG,
     linear-gradient(
       245deg,
@@ -59,7 +65,7 @@
       #111521 78%,
       #0d0f1b 100%
     )
-  );
+  ); */
 }
 .AboutStoryContent {
   display: flex;
@@ -86,7 +92,10 @@
 }
 /* -------Mission & vision ---------  */
 .aboutMissionVision {
-  background: #050a18;
+  /* background: #050a18; */
+  background-image: url("../../assets/about/Mission-vision-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 50px 230px;
 }
 .aboutMissionVisionContent {

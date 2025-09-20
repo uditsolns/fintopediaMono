@@ -1,16 +1,20 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { Card, CardImg, CardBody, CardTitle, CardText } from "reactstrap";
 import styles from "./Homepage.module.css";
 import Slider from "react-slick";
+import Link from "next/link";
 import NextArrow from "../components/NextArrow";
 import PrevArrow from "../components/PrevArrow";
+import Blog1 from "../../assets/blogs/Blog1.png";
+import Blog2 from "../../assets/blogs/Blog2.png";
+import Blog3 from "../../assets/blogs/Blog3.png";
+import Blog4 from "../../assets/blogs/Blog4.png";
+import Image from "next/image";
 
 const stocks = [
   {
     id: 1,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog1,
     title: "Mastering Option Trading",
     description:
       "Explore key strategies and concepts to enhance your option trading skills. Gain insights from expert Jyoti Budhia.Lorem ispum",
@@ -21,8 +25,8 @@ const stocks = [
   },
   {
     id: 2,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Decoding Market Trends",
+    image: Blog2,
+    title: "Decoding Market Trends in Market",
     description:
       "Stay ahead with the latest market analysis and trend predictions. Learn how to make informed trading decisions.",
     rating: 4.8,
@@ -32,7 +36,7 @@ const stocks = [
   },
   {
     id: 3,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog3,
     title: "Leveraging Trading Technology",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
@@ -43,19 +47,8 @@ const stocks = [
   },
   {
     id: 4,
-    imageSrc: "https://via.placeholder.com/300x200",
+    image: Blog4,
     title: "Fundamental Analysis for Traders",
-    description:
-      "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
-    rating: 4.2,
-    reviews: 800,
-    price: 4000,
-    originalPrice: 5000,
-  },
-  {
-    id: 5,
-    imageSrc: "https://via.placeholder.com/300x200",
-    title: "Basic of Stock Market",
     description:
       "Discover the tools and technologies that can give you an edge in the trading world. Learn to optimize your trades.",
     rating: 4.2,
@@ -102,7 +95,7 @@ const BlogsSlider: React.FC = () => {
       const progressPercentage =
         (100 / (totalSlides - totalSlidesToShow + 1)) * (current + 1);
       setProgress(progressPercentage);
-      console.log(totalSlidesToShow); // Ensure to use correct variable
+      console.log(totalSlidesToShow);
     },
     responsive: [
       {
@@ -133,10 +126,8 @@ const BlogsSlider: React.FC = () => {
         {stocks.map((stock) => (
           <div key={stock.id}>
             <Card className={styles.blogsCard}>
-              <CardImg
-                top
-                width="100%"
-                src={stock.imageSrc}
+              <Image 
+                src={stock.image}
                 alt={stock.title}
                 className={styles.blogsCardImage}
               />
@@ -163,10 +154,11 @@ const BlogsSlider: React.FC = () => {
         ></div>
       </div>
       <div className={styles.viewAllCourses}>
-        <button>View all Blogs</button>
+        <Link href="/blogs" className={styles.blogButton}>View all Blogs</Link>
+        {/* <button>View all Blogs</button> */} 
       </div>
     </div>
-  );
+  ); 
 };
 
 export default BlogsSlider;

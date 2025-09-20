@@ -1,6 +1,6 @@
 import {Images} from '@shared/src/assets';
 import {commonStyle} from '@shared/src/commonStyle';
-import ScrollViewAtom from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
+import {ScrollViewAtom} from '@shared/src/components/atoms/ScrollView/ScrollViewAtom';
 import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
 import {colorPresets} from '@shared/src/theme/color';
 import {mScale} from '@shared/src/theme/metrics';
@@ -97,7 +97,7 @@ export const CheckoutStep: React.FunctionComponent<CheckoutStepProps> = ({
                     <TextAtom
                       text={String(step)}
                       preset="xSmall"
-                      style={{color:styles.circleText.color}}
+                      style={{color: styles.circleText.color}}
                     />
                   )}
                 </View>
@@ -110,8 +110,7 @@ export const CheckoutStep: React.FunctionComponent<CheckoutStepProps> = ({
                       : 'Payment'
                   }
                   preset="title"
-
-                  style={{marginStart: mScale.md,color:styles.text.color}}
+                  style={{marginStart: mScale.md, color: styles.text.color}}
                 />
               </View>
               {step < 3 && (

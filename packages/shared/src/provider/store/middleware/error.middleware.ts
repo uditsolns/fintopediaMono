@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import { Toast } from "react-native-toast-notifications";
+// import { Toast } from "react-native-toast-notifications";
 import { toast } from "react-toastify";
 
 export const errorMiddleware =
@@ -9,22 +9,24 @@ export const errorMiddleware =
       if (action?.payload) {
         if (Platform.OS === "web") {
           toast.error(action.payload.message, {
-            position: "top-center",
+            position: "top-right",
+            theme: "light",
           });
         } else {
-          Toast.show(action.payload.message, {
-            type: "error",
-          });
+          // Toast.show(action.payload.message, {
+          //   type: "error",
+          // });
         }
       } else {
         if (Platform.OS === "web") {
           toast.error(action.error.message, {
-            position: "top-center",
+            position: "top-right",
+            theme: "light",
           });
         } else {
-          Toast.show(action.error.message, {
-            type: "error",
-          });
+          // Toast.show(action.error.message, {
+          //   type: "error",
+          // });
         }
       }
     }

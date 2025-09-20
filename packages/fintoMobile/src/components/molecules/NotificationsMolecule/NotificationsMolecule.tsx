@@ -1,15 +1,17 @@
-import { commonStyle } from '@shared/src/commonStyle';
+import {commonStyle} from '@shared/src/commonStyle';
 import ImageAtom from '@shared/src/components/atoms/Image/ImageAtom';
-import { TextAtom } from '@shared/src/components/atoms/Text/TextAtom';
-import { colorPresets } from '@shared/src/theme/color';
-import { moderateScale, mScale } from '@shared/src/theme/metrics';
+import {TextAtom} from '@shared/src/components/atoms/Text/TextAtom';
+import {colorPresets} from '@shared/src/theme/color';
+import {moderateScale, mScale} from '@shared/src/theme/metrics';
 import React from 'react';
-import {ImageStyle, TouchableOpacity, View, ViewStyle} from 'react-native';
-interface NotificationsMoleculeInterface {}
+import {ImageStyle, TouchableOpacity, View} from 'react-native';
+interface NotificationsMoleculeInterface {
+  item: any;
+}
 
 export const NotificationsMolecule: React.FC<
   NotificationsMoleculeInterface
-> = () => {
+> = ({item}) => {
   return (
     <View
       style={[
@@ -44,16 +46,16 @@ export const NotificationsMolecule: React.FC<
       </View>
       <View
         style={[commonStyle.flexSpaceBetween, {flex: 1, padding: mScale.base}]}>
-        <View style={{flex: 1,alignSelf:'flex-start'}}>
+        <View style={{flex: 1, alignSelf: 'flex-start'}}>
           <TextAtom text={'Flash Sale upto 30% Off'} preset="medium" />
           <TextAtom
             text={'Create screens directly in Method.'}
             preset="xSmall"
-            style={{color:'#C8C8CC'}}
+            style={{color: '#C8C8CC'}}
             numberOfLines={2}
           />
         </View>
-        <TouchableOpacity style={{marginLeft:10}}>
+        <TouchableOpacity style={{marginLeft: 10}}>
           <TextAtom
             text={'Start Course'}
             style={[commonStyle.underline, {}]}
