@@ -10,6 +10,8 @@
     "watch": "tsc --watch"
   },
   "devDependencies": {
+    "react-native-svg": "^15.13.0",
+    "react-toastify": "^11.0.5",
     "rimraf": "^5.0.7"
   },
   "peerDependencies": {

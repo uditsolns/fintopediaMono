@@ -27,7 +27,7 @@ export default function RootLayout({
         <AppProvider>
           <Navbar />
           {children}
-          <ScrollToTop/>
+          <ScrollToTop />
           <Footer />
         </AppProvider>
         <ToastContainer />
