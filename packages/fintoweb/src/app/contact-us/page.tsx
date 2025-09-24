@@ -43,29 +43,85 @@ const Contact: React.FC = () => {
 
   const items = [
     {
-      title: "Why opt for an online options trading course?",
-      content: "Content for section 1",
+      title: "What is your platform about?",
+      content: "Our platform is an e-learning solution designed to provide high-quality, accessible education in various fields, ranging from professional development. We focus on interactive and engaging content tailored to diverse learning needs."
     },
     {
-      title: "Is this Option Trading Course in Hindi language?",
-      content: "Content for section 2",
+      title: "How is your platform different from others?",
+      content: "We stand out through our personalized learning experience, robust analytics for tracking progress, industry-relevant course content, and a dedicated support system. Additionally, we offer a flexible learning environment accessible across devices, with both online learning options."
     },
     {
-      title: "Does this course cover advanced options trading strategy?",
-      content: "Content for section 3",
+      title: "What courses/programs do you offer?",
+      content: "We offer a wide range of courses in Technical, Fundamental & Python for Finance. Our programs include foundational courses, advanced specializations, and industry-specific training."
     },
     {
-      title: "Does this course cover advanced options trading strategy?",
-      content: "Content for section 3",
+      title: "Is there any certification provided?",
+      content: "Yes, we provide certifications upon successful completion of courses. These certifications are recognized by industry leaders and can enhance your professional profile."
     },
     {
-      title: "Does this course covers option buying and options selling?",
-      content: "Content for section 3",
+      title: "How much does it cost to use your platform?",
+      content: "Pricing varies based on the course or program selected. We offer both pay-per-course and subscription models, ensuring affordability and flexibility."
     },
     {
-      title: "Is this Option Trading Course in Hindi language?",
-      content: "Content for section 3",
+      title: "Do you offer free trials?",
+      content: "Yes, we provide free trials for select courses, allowing you to explore the content and learning experience before committing."
     },
+    {
+      title: "Are there discounts for students, colleges, or bulk purchases?",
+      content: "Yes, we offer discounts for students, educational institutions, and bulk purchases. Please contact our team."
+    },
+    {
+      title: "How are classes conducted?",
+      content: "Classes are conducted through recorded video lectures."
+    },
+    {
+      title: "Can I access courses offline?",
+      content: "No."
+    },
+    {
+      title: "What is the student-teacher ratio?",
+      content: "For live sessions, the ratio is optimized to ensure personalized attention, typically ranging from 1:10 to 1:30, depending on the course."
+    },
+    {
+      title: "How do I track my progress?",
+      content: "Our platform features a robust dashboard where you can monitor your progress, quiz scores, assignment submissions, and completion certificates."
+    },
+    {
+      title: "Do you offer personalized learning?",
+      content: "Yes, we use AI-driven tools to recommend content, customize learning paths, and provide tailored feedback based on individual performance."
+    },
+    {
+      title: "What if I face technical issues?",
+      content: "Our dedicated support team is available 9.00am to 8.00pm on working days i.e Monday to Saturday to assist you. You can reach us via chat, email, or phone for prompt resolution."
+    },
+    {
+      title: "Is your platform mobile-friendly?",
+      content: "Yes, our platform is optimized for both mobile and desktop devices, ensuring a seamless learning experience on the go."
+    },
+    {
+      title: "Will this help me get a job or admission?",
+      content: "Absolutely. Our courses are designed with practical applications in mind, and certifications are often valued by employers and academic institutions."
+    },
+    {
+      title: "Do you have industry collaborations?",
+      content: "Yes, we partner with leading companies and organizations to ensure our courses meet industry standards and provide opportunities for internships or placements."
+    },
+    {
+      title: "Is there a community or forum for students?",
+      content: "Yes, we host active student communities and discussion forums where you can connect, collaborate, and learn from peers and experts."
+    },
+    {
+      title: "Can I get a demo of the platform?",
+      content: "Yes, we offer free demos to showcase our platform’s features and learning experience."
+    },
+    {
+      title: "How do you ensure data security?",
+      content: "We prioritize user privacy and employ advanced encryption, secure servers, and regular audits to safeguard your data."
+    },
+    {
+      title: "What are the refund/cancellation policies?",
+      content: "No refund."
+    }
   ];
 
   React.useEffect(() => {
