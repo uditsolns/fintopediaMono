@@ -16,10 +16,10 @@ const CategoryBanner: React.FC<CategoryBannerProps> = ({ categories }) => {
       <div className={styles.mainRow}>
         <Row>
           <Col md={8}>
-            <h1>Don’t know where to start?</h1>
+            <h1>Don’t know where to begin?</h1>
             <p>
-              Create screens directly in Method or add your images from Sketch
-              or Figma. You can even sync designs from your cloud storage!
+              Sign up and explore our finance-focused courses. Pick the topic
+              you want to master, and let us kickstart your learning journey!
             </p>
           </Col>
           <Col md={4}>
