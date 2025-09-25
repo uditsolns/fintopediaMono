@@ -11,15 +11,16 @@ const Banner = () => {
       <div className={styles.headerContents}>
         <div className={styles.headerCount}>
           <h4 className={styles.count}>10,000+ </h4>
-          <span>Traders Trusted Us</span>
+          <span>Learners Enrolled</span>
         </div>
         <h2>
-          India&apos;s top experts
-          <br /> courses on Investing
+          Finest Financial Courses <br />
+          Designed by Certified Experts
         </h2>
         <p>
-          Discover a diverse range of online courses designed to cater to <br />
-          learners of all levels, interests and ambitions.
+          Discover a range of online courses on investing, the stock market, and
+          other trending topics. We cater to learners of all levels, interests,
+          and ambitions.
         </p>
         <ButtonWithIcons
           label="Explore All Courses"

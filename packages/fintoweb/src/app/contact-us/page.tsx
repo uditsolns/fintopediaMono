@@ -91,12 +91,12 @@ const Contact: React.FC = () => {
       <div>
         <div className={styles.contactSection}>
           <div className={styles.contactHeading}>
-            <h1>Get in Touch with Fintopedia</h1>
+            <h1>Have any doubts or queries?</h1>
             <p>
-              Reach out to us for inquiries, collaborations, or just to say
-              hello. We&apos;re here to listen,
-              <br /> collaborate, and transform your ideas into digital
-              realities.
+              Get in touch with our team and let us solve all your concerns.
+              Within 48 hours, <br />
+              we ensure that all your queries are resolved so you can focus on
+              learning freely.
             </p>
           </div>
           <div className={styles.contactForm}>
@@ -169,7 +169,7 @@ const Contact: React.FC = () => {
                       {contactLoading?.create ? (
                         <CircularLoading />
                       ) : (
-                        " Submit your message"
+                        "Submit your message"
                       )}
                     </Button>
                   </Col>

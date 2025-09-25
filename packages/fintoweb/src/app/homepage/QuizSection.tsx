@@ -8,19 +8,16 @@ const QuizSection = () => {
   return (
     <div className={styles.quizHeader}>
       <div className={styles.quizContents}>
-        <h2>
-          Navigate your financial journey,
-          <br /> take the finance quiz
-        </h2>
+        <h2>Discover your strengths and weaknesses in financial areas</h2>
         <p className="text-gray">
-          Join <span className="text-light">now</span> in discovering your
-          financial strengths through our interactive quiz
+          Join 6,000+ students in doing their SWOT analysis through our
+          interactive quiz.
         </p>
         <button>Attempt Quiz, It will only take 2 mins</button>
         <div className={styles.quizCount}>
           <div>
             <h2>10,000+</h2>
-            <h6>Students taken quiz</h6>
+            <h6>Learners Have Taken the Quiz</h6>
           </div>
           <div>
             <Image src={Subscribers} alt="Subscribers" />

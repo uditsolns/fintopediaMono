@@ -13,13 +13,9 @@ const About = () => {
     <>
       <div className={styles.aboutBanner}>
         <div className={styles.aboutContents}>
-          <h2>
-            Get to know more 
-            <br /> about us
-          </h2>
+          <h2>What is Fintopedia?</h2>
           <p className="text-gray">
-            Discover a diverse range of online courses designed to cater
-            <br /> to learners of all levels, interests, and ambitions.
+            Learn about our story, our values, and our mission to bring impact.
           </p>
         </div>
         <div className={styles.imageContainer}>
@@ -35,23 +31,25 @@ const About = () => {
             <div className={styles.AboutStoryContent}>
               <h1>Our Story</h1>
               <p>
-                At Fintopedia, we believe that education should have no
-                boundaries. Our mission is to make top-tier finance education
-                accessible to learners worldwide, regardless of their location
-                or background. Founded by a team of experts in teaching,
-                technology, and design, Fintopedia was created with a vision to
-                break down barriers and bring education to the fingertips of
-                aspiring finance professionals.
+                Nowadays, financial skills are a game-changer. Irrespective of
+                the background, most people have access to education, but do not
+                have access to the right financial knowledge. To break this
+                chain and fill the gap, we at Fintopedia came into the picture
+                in 2024. Backed by experts specialized in teaching, technology,
+                and design, we have curated finance courses under the umbrella
+                of Zivatech Edploy Ventures LLP.
               </p>
               <p>
-                Our journey began with a simple idea: to democratize finance
-                education and provide a platform where learners can gain the
-                knowledge and skills needed to excel in the finance industry. We
-                understand that the right education can transform lives, and we
-                are dedicated to making that transformation possible for
-                everyone.
+                These courses are not merely designed for aspiring finance
+                professionals, but also for students and professionals working
+                in different backgrounds. We believe that the right education is
+                a torchbearer to transform the nation. So, we aim to make
+                finance education accessible to learners globally.
               </p>
-              <p></p>
+              <p>
+                Our idea is to bring finance education to the fingertips and
+                thereby enhance the financial literacy of the country.
+              </p>
             </div>
           </div>
         </div>
@@ -66,14 +64,12 @@ const About = () => {
               <div className={styles.aboutMissionVisionText}>
                 <h1>Mission</h1>
                 <p>
-                  At Fintopedia, our mission is to revolutionize access to
-                  finance education by offering high-quality, accessible
-                  learning resources to individuals. We are dedicated to
-                  breaking down barriers to financial knowledge, leveraging our
-                  expertise in teaching, technology, and design to empower
-                  learners to excel in the finance industry. We strive to create
-                  transformative educational experiences that enable everyone to
-                  achieve financial proficiency and confidence.
+                  Our mission is to provide the right financial knowledge and
+                  accessibility to learners across the globe. Irrespective of
+                  the background, age, and region, we provide high-quality and
+                  up-to-date financial education through our valuable online
+                  courses. We want to create a transformative experience where
+                  every individual feels confident and empowered.
                 </p>
               </div>
             </div>
@@ -85,13 +81,11 @@ const About = () => {
               <div className={styles.aboutMissionVisionText}>
                 <h1>Vision</h1>
                 <p>
-                  Our vision is to lead the global advancement of financial
-                  literacy by fostering a culture of financial education. We aim
-                  to equip individuals with the understanding and skills
-                  necessary to navigate the financial world with expertise and
-                  assurance. By promoting financial literacy and inclusivity, we
-                  seek to empower every person to make informed financial
-                  decisions, build wealth, and attain financial independence.
+                  Our vision is to become a global leader in the area of finance
+                  education. By promoting financial literacy and inclusivity, we
+                  want to empower every person to make better financial
+                  decisions, build wealth, and attain financial independence in
+                  the right direction.
                 </p>
               </div>
             </div>
@@ -105,8 +99,8 @@ const About = () => {
         <div className={styles.guidePrincipleContent}>
           <h1>Guiding Principles</h1>
           <p>
-            What’s always been missing is the ability to see the same image
-            <br /> across an entire production.
+            With strong values and principles, we have led the foundation of
+            Fintopedia.
           </p>
         </div>
         <div className="row mt-3">
@@ -171,12 +165,12 @@ const About = () => {
                     </defs>
                   </svg>
                 </CardTitle>
-                <h2>Accessibility</h2>
+                <h2>Up-to-date Modules</h2>
                 <p>
-                  We are committed to providing top-tier finance education that
-                  is easily accessible to learners from diverse backgrounds and
-                  locations, ensuring that everyone has the opportunity 
-                 
+                  As the area of finance is evolving every day, we keep updating
+                  our course modules and overall structure. We keep an eye on
+                  the recent trends and the development areas, so ensure that
+                  our learners are future-ready.
                 </p>
               </CardBody>
             </Card>
@@ -209,12 +203,12 @@ const About = () => {
                     </defs>
                   </svg>
                 </CardTitle>
-                <h2>Empowerment</h2>
+                <h2>High-quality Learning</h2>
                 <p>
-                  Our focus is on empowering individuals through comprehensive
-                  education and practical resources, enabling them to make
-                  informed decisions and achieve financial success with
-                  confidence.
+                  We believe in practical learning and thus offer high-quality
+                  learning modules. We include case studies, real-world
+                  examples, and easy-to-follow frameworks so that you excel in
+                  today’s world.
                 </p>
               </CardBody>
             </Card>
@@ -271,11 +265,12 @@ const About = () => {
                     </defs>
                   </svg>
                 </CardTitle>
-                <h2>Innovation</h2>
+                <h2>Application-based Knowledge</h2>
                 <p>
-                  We embrace innovative approaches in teaching and technology to
-                  deliver engaging, high-quality content that adapts to the
-                  evolving needs of our learners and the financial landscape.
+                  We impart financial knowledge that can be applied across
+                  industries. Our goal is to create a lasting impact on the
+                  future as we help the learners make the right financial
+                  decisions.
                 </p>
               </CardBody>
             </Card>
