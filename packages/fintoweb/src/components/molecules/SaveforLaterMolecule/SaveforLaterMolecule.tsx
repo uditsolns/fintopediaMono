@@ -89,8 +89,8 @@ const SaveforLaterMolecule: React.FC<CartsliderProps> = ({
               {loading
                 ? "Loading..."
                 : isInCart(courseCart, course?.id)
-                ? "Go to cart"
-                : "Add to cart"}
+                ? "Pre register"
+                : "Pre register"}
             </button> */}
           </div>
         </div>

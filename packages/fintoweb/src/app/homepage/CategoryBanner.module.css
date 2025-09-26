@@ -4,6 +4,7 @@
 .mainRow {
   padding: 70px;
   flex-shrink: 0;
+  align-items:center;
   border-radius: 16px;
   background-image: url("../../assets/homepage/where-to-star.png");
   background-size: cover;

@@ -70,7 +70,7 @@ export default function CourseMolecule({item, onPress}: CourseMoleculeProps) {
           </View>
           <ButtonAtom
             title={
-              isInCart(courseCart, item?.id!) ? 'Go to cart' : 'Add to cart'
+              isInCart(courseCart, item?.id!) ? 'Pre register' : 'Pre register'
             }
             textPreset="xSmallBold"
             onPress={onPress}

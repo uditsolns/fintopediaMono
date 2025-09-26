@@ -128,7 +128,9 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
                 />
               </svg>
             </span>
-            <span className={styles.reviewCount}>({course.reviews} reviews)</span>
+            <span className={styles.reviewCount}>
+              ({course.reviews} reviews)
+            </span>
           </div>
           <div className={styles.priceSection}>
             <div>
@@ -146,8 +148,8 @@ const CoursesMolecule: React.FC<CoursesMoleculeProps> = ({
               {loading
                 ? "Loading..."
                 : isInCart(courseCart, course?.id)
-                ? "Go to cart"
-                : "Add to cart"}
+                ? "Pre register"
+                : "Pre register"}
             </button>
           </div>
         </div>

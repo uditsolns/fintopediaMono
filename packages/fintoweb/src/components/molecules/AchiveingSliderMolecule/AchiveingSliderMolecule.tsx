@@ -58,8 +58,8 @@ const AchiveingSliderMolecule = () => {
   return (
     <div className={styles.AchiveingLearningSlider}>
       <h1>
-        See what others are <br />
-        achieving through learning
+        Look what learners are saying <br />
+        about our courses
       </h1>
       <div className="mt-4">
         <Slider {...settings}>

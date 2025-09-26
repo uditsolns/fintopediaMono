@@ -146,8 +146,8 @@ const CourseSaveLaterMolecule: React.FC<CourseSaveLaterMoleculeProps> = ({
             {loading
               ? "Loading..."
               : isInCart(courseCart, saveLater?.course_id)
-              ? "Go to cart"
-              : "Add to cart"}
+              ? "Pre register"
+              : "Pre register"}
           </button>
         </div>
       </div>

@@ -68,11 +68,13 @@ export default function PopularCourseMolecule({
           discount_price={item?.actual_price}
         />
         <ButtonAtom
-          title={isInCart(courseCart, item?.id) ? 'Go to cart' : 'Add to cart'}
+          title={
+            isInCart(courseCart, item?.id) ? 'Pre register' : 'Pre register'
+          }
           onPress={onPress}
         />
       </View>
-    </Pressable> 
+    </Pressable>
   );
 }
 

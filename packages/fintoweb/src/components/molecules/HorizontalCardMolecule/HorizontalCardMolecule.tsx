@@ -20,7 +20,7 @@ const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
   course,
   onClick,
   loading = false,
-}) => { 
+}) => {
   const router = useRouter();
   const { courseCart } = useAppSelector((state) => state.courseCart);
 
@@ -91,8 +91,8 @@ const HorizontalCardMolecule: React.FC<CartsliderProps> = ({
               {loading
                 ? "Loading..."
                 : isInCart(courseCart, course?.id)
-                ? "Go to cart"
-                : "Add to cart"}
+                ? "Pre register"
+                : "Pre register"}
             </button>
           </div>
         </div>

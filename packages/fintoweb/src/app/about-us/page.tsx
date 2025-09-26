@@ -37,7 +37,7 @@ const About = () => {
                 chain and fill the gap, we at Fintopedia came into the picture
                 in 2024. Backed by experts specialized in teaching, technology,
                 and design, we have curated finance courses under the umbrella
-                of Zivatech Edploy Ventures LLP.
+                of Zivatech Edploy Ventures Pvt. Ltd.
               </p>
               <p>
                 These courses are not merely designed for aspiring finance

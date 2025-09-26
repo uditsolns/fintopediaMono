@@ -10,7 +10,7 @@ const QuizSection = () => {
       <div className={styles.quizContents}>
         <h2>Discover your strengths and weaknesses in financial areas</h2>
         <p className="text-gray">
-          Join 6,000+ students in doing their SWOT analysis through our
+          Join <b>10,000+</b> students in doing their SWOT analysis through our
           interactive quiz.
         </p>
         <button>Attempt Quiz, It will only take 2 mins</button>
