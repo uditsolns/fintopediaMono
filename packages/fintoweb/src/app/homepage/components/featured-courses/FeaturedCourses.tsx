@@ -120,7 +120,7 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
     if (isInCart(courseCart, course?.id)) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1500));
-        router.push("/cart");
+        router.push("/contact-us");
       } finally {
         setLoadingCourseId(null);
       }
@@ -131,23 +131,23 @@ const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({
       course_id: Number(course?.id),
       status: "1",
     };
-    try {
-      await dispatch(
-        createCourseCart({
-          params,
-          onSuccess: (data) => {
-            toast.success(data.message, {
-              position: "top-right",
-              theme: "light",
-            });
-            router.push("/cart");
-          },
-          onError: (err) => {},
-        })
-      ).unwrap();
-    } finally {
-      setLoadingCourseId(null);
-    }
+    // try {
+    //   await dispatch(
+    //     createCourseCart({
+    //       params,
+    //       onSuccess: (data) => {
+    //         toast.success(data.message, {
+    //           position: "top-right",
+    //           theme: "light",
+    //         });
+    //         router.push("/cart");
+    //       },
+    //       onError: (err) => {},
+    //     })
+    //   ).unwrap();
+    // } finally {
+    //   setLoadingCourseId(null);
+    // }
   };
 
   return (

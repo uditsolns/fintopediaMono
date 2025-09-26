@@ -101,7 +101,7 @@ const LikeCourses: React.FC<LikeCoursesProps> = ({ courses }) => {
     if (isInCart(courseCart, course?.course_id)) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1500));
-        router.push("/cart");
+        router.push("/contact-us");
       } finally {
         setLoadingCourseId(null);
       }
@@ -112,23 +112,23 @@ const LikeCourses: React.FC<LikeCoursesProps> = ({ courses }) => {
       course_id: Number(course?.course_id),
       status: "1",
     };
-    try {
-      await dispatch(
-        createCourseCart({
-          params,
-          onSuccess: (data) => {
-            toast.success(data.message, {
-              position: "top-right",
-              theme: "light",
-            });
-            router.push("/cart");
-          },
-          onError: (err) => {},
-        })
-      ).unwrap();
-    } finally {
-      setLoadingCourseId(null);
-    }
+    // try {
+    //   await dispatch(
+    //     createCourseCart({
+    //       params,
+    //       onSuccess: (data) => {
+    //         toast.success(data.message, {
+    //           position: "top-right",
+    //           theme: "light",
+    //         });
+    //         router.push("/cart");
+    //       },
+    //       onError: (err) => {},
+    //     })
+    //   ).unwrap();
+    // } finally {
+    //   setLoadingCourseId(null);
+    // }
   };
   return (
     <div className={styles.courseContainer}>

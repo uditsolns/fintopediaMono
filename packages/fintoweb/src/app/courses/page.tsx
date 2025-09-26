@@ -128,7 +128,7 @@ const CourseFilter: React.FC = () => {
     if (isInCart(courseCart, course?.id)) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1500));
-        router.push("/cart");
+        router.push("/contact-us");
       } finally {
         setLoadingCourseId(null);
       }
@@ -139,23 +139,23 @@ const CourseFilter: React.FC = () => {
       course_id: Number(course?.id),
       status: "1",
     };
-    try {
-      await dispatch(
-        createCourseCart({
-          params,
-          onSuccess: (data) => {
-            toast.success(data.message, {
-              position: "top-right",
-              theme: "light",
-            });
-            router.push("/cart");
-          },
-          onError: (err) => {},
-        })
-      ).unwrap();
-    } finally {
-      setLoadingCourseId(null);
-    }
+    // try {
+    //   await dispatch(
+    //     createCourseCart({
+    //       params,
+    //       onSuccess: (data) => {
+    //         toast.success(data.message, {
+    //           position: "top-right",
+    //           theme: "light",
+    //         });
+    //         router.push("/cart");
+    //       },
+    //       onError: (err) => {},
+    //     })
+    //   ).unwrap();
+    // } finally {
+    //   setLoadingCourseId(null);
+    // }
   };
 
   const [filter, setFilter] = useState({

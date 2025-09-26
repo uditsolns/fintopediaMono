@@ -145,7 +145,7 @@ export default function Cart() {
     if (isInCart(courseCart, saveLater?.course_id)) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1500));
-        router.push("/cart");
+        router.push("/contact-us");
       } finally {
         setLoadingCourseId(null);
       }
@@ -156,23 +156,23 @@ export default function Cart() {
       course_id: Number(saveLater.course_id),
       status: "1",
     };
-    try {
-      await dispatch(
-        createCourseCart({
-          params,
-          onSuccess: (data) => {
-            toast.success(data.message, {
-              position: "top-right",
-              theme: "light",
-            });
-            router.push("/cart");
-          },
-          onError: (err) => {},
-        })
-      ).unwrap();
-    } finally {
-      setLoadingCourseId(null);
-    }
+    // try {
+    //   await dispatch(
+    //     createCourseCart({
+    //       params,
+    //       onSuccess: (data) => {
+    //         toast.success(data.message, {
+    //           position: "top-right",
+    //           theme: "light",
+    //         });
+    //         router.push("/cart");
+    //       },
+    //       onError: (err) => {},
+    //     })
+    //   ).unwrap();
+    // } finally {
+    //   setLoadingCourseId(null);
+    // }
   };
   const handlePayment = () => {
     const requestBody = {
@@ -322,7 +322,8 @@ export default function Cart() {
     <>
       {courseCartLoading?.courseCart ||
       coursesLoading?.courses ||
-      coursesSaveLaterLoading?.courses_save_later || likeCourseLoading?.likeCourse ? (
+      coursesSaveLaterLoading?.courses_save_later ||
+      likeCourseLoading?.likeCourse ? (
         <div className="fullPageLoading">
           <LoadingAtom
             style={{
@@ -652,7 +653,7 @@ export default function Cart() {
           <h1 className={styles.wishlistHeading}>Wishlist</h1>
 
           {courses_save_later.length === 0 ? (
-            <p>No items found in your wishlist.</p> 
+            <p>No items found in your wishlist.</p>
           ) : (
             <Row className="mt-3">
               {courses_save_later.map((saveLater) => (

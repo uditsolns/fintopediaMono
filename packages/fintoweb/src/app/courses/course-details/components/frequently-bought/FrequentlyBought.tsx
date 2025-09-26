@@ -80,9 +80,9 @@ const FrequentlyBought: React.FC<FrequentlyBoughtProps> = ({
     speed: 500,
     slidesToShow: slideToShow,
     slidesToScroll: 1,
-    autoplay: true, 
-    autoplaySpeed: 3000, 
-    pauseOnHover: true, 
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     afterChange: (current: number) => {
@@ -124,7 +124,7 @@ const FrequentlyBought: React.FC<FrequentlyBoughtProps> = ({
     if (isInCart(courseCart, course?.id)) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1500));
-        router.push("/cart");
+        router.push("/contact-us");
       } finally {
         setLoadingCourseId(null);
       }
@@ -135,23 +135,23 @@ const FrequentlyBought: React.FC<FrequentlyBoughtProps> = ({
       course_id: Number(course?.id),
       status: "1",
     };
-    try {
-      await dispatch(
-        createCourseCart({
-          params,
-          onSuccess: (data) => {
-            toast.success(data.message, {
-              position: "top-right",
-              theme: "light",
-            });
-            router.push("/cart");
-          },
-          onError: (err) => {},
-        })
-      ).unwrap();
-    } finally {
-      setLoadingCourseId(null);
-    }
+    // try {
+    //   await dispatch(
+    //     createCourseCart({
+    //       params,
+    //       onSuccess: (data) => {
+    //         toast.success(data.message, {
+    //           position: "top-right",
+    //           theme: "light",
+    //         });
+    //         router.push("/cart");
+    //       },
+    //       onError: (err) => {},
+    //     })
+    //   ).unwrap();
+    // } finally {
+    //   setLoadingCourseId(null);
+    // }
   };
 
   return (
