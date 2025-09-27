@@ -70,7 +70,7 @@ export default function Home() {
       ) : null}
       <div>
         <Banner />
-        <StocksSlider />
+        {/* <StocksSlider /> */}
         <QuizSection />
         <div>
           <FeaturedCourses

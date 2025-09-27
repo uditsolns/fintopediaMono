@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px;
+  padding-block: 100px;
   background-image: url("../../assets/homepage/Banner-bg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
@@ -125,7 +126,7 @@
 }
 
 .imageContainer img {
-  max-width: 85%;
+  max-width: 65%;
   height: auto;
   border-radius: 10px;
 }

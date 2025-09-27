@@ -9,7 +9,7 @@ import CartIcon from "../../assets/Shopping-Cart-2.png";
 import UserIcon from "../../assets/mingcute_user-4-fill.png";
 import { FaUserCircle } from "react-icons/fa";
 import { useAppSelector } from "shared/src/provider/store/types/storeTypes";
-import styles from './Navbar.module.css';
+import styles from "./Navbar.module.css";
 
 export const Navbar = () => {
   const { auth, loading } = useAppSelector((state) => state.auth);
@@ -41,7 +41,7 @@ export const Navbar = () => {
   // Function to close the menu
   function closeMenu() {
     setIsOpen(false);
-  } 
+  }
 
   return (
     <nav className="background-gradient text-white p-4 sm:p-6 flex justify-between items-center border-b border-gray-400">
@@ -49,10 +49,16 @@ export const Navbar = () => {
         <span className="font-bold">Browse</span>
         <Image src={Arrow} alt="Arrow" className="ml-2 inline-block" />
       </div>
-      
+
       <div className="flex items-center">
         <a href="/" className="text-2xl font-bold">
-          <Image src={Logo} alt="Logo" width={150} height={50} className="ml-5 inline-block" />
+          <Image
+            src={Logo}
+            alt="Logo"
+            width={150}
+            height={50}
+            className="ml-5 inline-block"
+          />
         </a>
       </div>
 
@@ -109,7 +115,7 @@ export const Navbar = () => {
         </div>
 
         <div className={getMenuClasses()}>
-          {loading && auth?.token ? (
+          {/* {loading && auth?.token ? (
             <div className={styles.cartContainer}>
               <Link
                 href="/cart"
@@ -123,7 +129,7 @@ export const Navbar = () => {
                 
               </Link>
             </div>
-          ) : null}
+          ) : null} */}
 
           {loading && auth?.token ? (
             <>
